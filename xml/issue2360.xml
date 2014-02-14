@@ -97,7 +97,52 @@ users that benefit almost no iterators.
 reference, it refers to a bit that is unrelated to the iterator's lifetime.
 </p>
 
+<note>
+<b>Original resolution</b>:
+</note>
+<p>This wording is relative to N3797.</p>
+
+<ol>
+<li><p>Change class template <tt>reverse_iterator</tt> synopsis, <sref ref="[reverse.iterator]"/>, as indicated:</p>
+
+<blockquote><pre>
+[&hellip;]
+protected:
+  Iterator current;
+<del>private:
+  Iterator deref_tmp; // exposition only</del>
+};
+</pre></blockquote>
+</li>
+
+<li><p>Change <sref ref="[reverse.iter.op.star]"/> as indicated:</p>
+
+<blockquote><pre>
+reference operator*() const;
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects</i>:
+</p>
+<blockquote><pre>
+<del>deref_tmp = current;
+--deref_tmp;
+return *deref_tmp;</del>
+<ins>Iterator tmp = current;
+return *--tmp;</ins>
+</pre></blockquote>
+<p>
+-2- [<i>Note</i>: <del>This operation must use an auxiliary member variable rather than a temporary variable to
+avoid returning a reference that persists beyond the lifetime of its associated iterator. (See 24.2.)</del><ins>This
+returns a reference that persists beyond the lifetime of its associated iterator, and is incompatible
+with iterators that return references to their own data members.</ins> &mdash; <i>end note</i>]
+</p>
+</blockquote></blockquote>
+</li>
+</ol>
+
 </discussion>
+
 
 <resolution>
 <p>This wording is relative to N3797.</p>
@@ -133,8 +178,8 @@ return *--tmp;</ins>
 </pre></blockquote>
 <p>
 -2- [<i>Note</i>: <del>This operation must use an auxiliary member variable rather than a temporary variable to
-avoid returning a reference that persists beyond the lifetime of its associated iterator. (See 24.2.)</del><ins>This 
-returns a reference that persists beyond the lifetime of its associated iterator, and is incompatible 
+avoid returning a reference that persists beyond the lifetime of its associated iterator. (See 24.2.)</del><ins>Because the 
+returned reference must remain valid after <code>tmp</code> is destroyed this is incompatible 
 with iterators that return references to their own data members.</ins> &mdash; <i>end note</i>]
 </p>
 </blockquote></blockquote>
