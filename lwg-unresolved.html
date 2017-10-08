@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2017-10-08 at 14:08:41 UTC</p>
+<p><p>Revised 2017-10-08 at 14:57:49 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -30987,6 +30987,38 @@ point to a complete type, unless one is a pointer to
 <i>cv</i>-<tt>void</tt>. We may also want some weasel-wording to
 permit pointers to arrays-of-unknown-bound, and pointers
 to <i>cv</i>-qualified variants of the same incomplete type.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3023" href="#3023">3023</a><sup><a href="https://cplusplus.github.io/LWG/issue3023">(i)</a></sup>. Clarify <i>unspecified</i> call wrappers</h3>
+<p><b>Section:</b> 23.14.12 <a href="https://wg21.link/func.memfn">[func.memfn]</a>, 23.14.10 <a href="https://wg21.link/func.not_fn">[func.not_fn]</a>, 23.14.11 <a href="https://wg21.link/func.bind">[func.bind]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Detlef Vollmann <b>Opened:</b> 2017-10-07 <b>Last modified:</b> 2017-10-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#func.memfn">issues</a> in [func.memfn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Even after the discussion on the reflector, starting with
+<a href="http://lists.isocpp.org/lib-ext/2017/09/4880.php">this reflector message</a>
+it's not completely clear that <i>unspecified</i> as return type
+of <tt>mem_fn</tt> really means 'unspecified, but always the same'.
+The same problem exists for <tt>bind()</tt> and <tt>not_fn()</tt>.
+<p/>
+Possible solution:
+<p/>
+Specify in 23.14.2 <a href="https://wg21.link/func.def">[func.def]</a> or 23.14.3 <a href="https://wg21.link/func.require">[func.require]</a> that a call wrapper type
+is always the same for forwarding call wrappers if the object is returned by a function with 
+the same parameter types.
+And also put into 23.14.10 <a href="https://wg21.link/func.not_fn">[func.not_fn]</a> that a <tt>call_wrapper</tt> object is a
+simple call wrapper.
 </p>
 
 
