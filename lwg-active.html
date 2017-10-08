@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2017-09-13</td>
+  <td align="left">2017-10-08</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D106)</h1>
-<p><p>Revised 2017-09-13 at 19:19:59 UTC</p>
+<p><p>Revised 2017-10-08 at 12:53:50 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D106: 2017-10-16 2017 pre-Albuquerque mailing<ul>
 <li><b>Summary:</b><ul>
-<li>249 open issues, up by 14.</li>
+<li>250 open issues, up by 15.</li>
 <li>2229 closed issues, up by 0.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2540 issues total, up by 14.</li>
+<li>2541 issues total, up by 15.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 14 New issues: <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3006">3006</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3008">3008</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3011">3011</a>, <a href="lwg-active.html#3012">3012</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3016">3016</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3018">3018</a>.</li>
+<li>Added the following 15 New issues: <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3006">3006</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3008">3008</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3011">3011</a>, <a href="lwg-active.html#3012">3012</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3016">3016</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3018">3018</a>, <a href="lwg-active.html#3019">3019</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -32291,7 +32291,7 @@ the request to add an <tt>is_nothrow_convertible</tt> trait, as requested by LWG
 <hr>
 <h3><a name="3000" href="#3000">3000</a><sup><a href="https://cplusplus.github.io/LWG/issue3000">(i)</a></sup>. <tt>monotonic_memory_resource::do_is_equal</tt> uses <tt>dynamic_cast</tt> unnecessarily</h3>
 <p><b>Section:</b> 23.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2017-07-14 <b>Last modified:</b> 2017-07-16</p>
+ <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2017-07-14 <b>Last modified:</b> 2017-10-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -32310,21 +32310,61 @@ bool do_is_equal(const memory_resource&amp; other) const noexcept override;
 </blockquote>
 </blockquote>
 <p>
-The <tt>dynamic_cast</tt> adds nothing of value. It is an incorrect cut-and-paste from an example <tt>do_is_equal</tt> 
+The <tt>dynamic_cast</tt> adds nothing of value. It is an incorrect cut-and-paste from an example <tt>do_is_equal</tt>
 for a more complex resource.
 </p>
-  
+
 <p><i>[2017-07-16, Tim Song comments]</i></p>
 
 <p>
 The pool resource classes appear to also have this issue.
 </p>
 
+<p><i>[2017-09-18, Casey Carter expands PR to cover the pool resources.]</i></p>
+
+
+<strong>Previous resolution: [SUPERSEDED]</strong>
+
+<blockquote class="note">
+<ol>
+<li><p>Edit 23.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> as indicated:</p>
+
+<blockquote><pre>
+bool do_is_equal(const memory_resource&amp; other) const noexcept override;
+</pre>
+<blockquote>
+<p>
+<i>Returns:</i> <tt>this == <del>dynamic_cast&lt;const monotonic_buffer_resource*&gt;(</del>&amp;other<del>)</del></tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
 
 <p><b>Proposed resolution:</b></p>
-<p>This resolution is relative to <a href="http://wg21.link/n4659">N4659</a>.</p>
+<p>This resolution is relative to <a href="http://wg21.link/n4687">N4687</a>.</p>
 
 <ol>
+<li><p>Edit 23.12.5.4 <a href="https://wg21.link/mem.res.pool.mem">[mem.res.pool.mem]</a> as indicated:</p>
+
+<blockquote><pre>
+bool <del>synchronized_pool_resource::</del>do_is_equal(<ins>const memory_resource&amp; other) const noexcept override;</ins>
+    <del>const memory_resource&amp; other) const noexcept override;</del>
+</pre>
+<blockquote>
+<p>
+<i>Returns:</i> <tt>this == <del>dynamic_cast&lt;const synchronized_pool_resource*&gt;(</del>&amp;other<del>)</del></tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Strike 23.12.5.4 <a href="https://wg21.link/mem.res.pool.mem">[mem.res.pool.mem]</a> paragraph 10, and the immediately preceding declaration of <tt>unsynchronized_pool_resource::do_is_equal</tt>.</p>
+</li>
+
 <li><p>Edit 23.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> as indicated:</p>
 
 <blockquote><pre>
@@ -33643,6 +33683,104 @@ pointer type or a function pointer type.</ins>
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3019" href="#3019">3019</a><sup><a href="https://cplusplus.github.io/LWG/issue3019">(i)</a></sup>. Presentation of "program defined classes derived from <tt>error_category</tt>" [syserr.errcat.derived] unclear and contains mistakes</h3>
+<p><b>Section:</b> 22.5.2.4 <a href="https://wg21.link/syserr.errcat.derived">[syserr.errcat.derived]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2017-09-20 <b>Last modified:</b> 2017-10-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The presentation of section [syserr.errcat.derived] is currently somewhat problematic:
+</p>
+<ul>
+<li><p>
+It is not clear why this section exists and what it is specifying. Presumably, it is the subject of the phrase 
+"in this subclause" of the sibling section [syserr.errcat.overview], but that's confusing (because this would require the 
+interpretation of "this subclause" as the containing superclause). It would be an improvement to say "shall behave 
+as specified in [syserr.errcat.derived]" in the introduction.
+</p></li>
+<li><p>
+The current wording of [syserr.errcat.derived] requires that derived classes keep the <tt>name</tt> member function pure-virtual, 
+making it impossible to have non-abstract derived classes. This appears to be an editorial error. Surely <tt>name</tt> should 
+just not be required to be pure-virtual.
+</p></li>
+<li><p>
+There seems to be no requirement concerning the <tt>message</tt> virtual member function.
+</p></li>
+<li><p>
+We should use <tt>override</tt> rather than <tt>virtual</tt>.
+</p></li>
+<li><p>
+I would welcome a short, introductory paragraph in [syserr.errcat.derived] that states (non-redundantly) that the following 
+are requirements on users' derived classes.
+</p></li>
+</ul>
+<p>
+Partial wording proposal:
+</p>
+<ol>
+<li><p>In 22.5.2.1 <a href="https://wg21.link/syserr.errcat.overview">[syserr.errcat.overview]</a> p1, change:</p>
+<blockquote>
+<p>
+-1- The class <tt>error_category</tt> serves as a base class for types used to identify the source and encoding of a
+particular category of error code. Classes may be derived from <tt>error_category</tt> to support categories of
+errors in addition to those defined in this International Standard. Such classes shall behave as specified in
+<del>this subclause</del><ins>22.5.2.4 <a href="https://wg21.link/syserr.errcat.derived">[syserr.errcat.derived]</a></ins>. [<i>Note:</i> <tt>error_category</tt> objects 
+are passed by reference, and two such objects are equal if they have the same address. This means that applications 
+using custom <tt>error_category</tt> types should create a single object of each such type. &mdash; <i>end note</i>]
+</p>
+</blockquote>
+</li>
+
+<li><p>In 22.5.2.4 <a href="https://wg21.link/syserr.errcat.derived">[syserr.errcat.derived]</a>, change:</p>
+<blockquote>
+<pre>
+<del>virtual</del> const char* name() const noexcept <ins>override</ins> <del> = 0</del>;
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns:</i> A string naming the error category.
+</p>
+</blockquote>
+<pre>
+<del>virtual</del> error_condition default_error_condition(int ev) const noexcept <ins>override</ins>;
+</pre>
+<blockquote>
+<p>
+-2- <i>Returns:</i> An object of type <tt>error_condition</tt> that corresponds to <tt>ev</tt>.
+</p>
+</blockquote>
+<pre>
+<del>virtual</del> bool equivalent(int code, const error_condition&amp; condition) const noexcept <ins>override</ins>;
+</pre>
+<blockquote>
+<p>
+-3- <i>Returns:</i> <tt>true</tt> if, for the category of error represented by <tt>*this</tt>, <tt>code</tt> is considered 
+equivalent to <tt>condition</tt>; otherwise, <tt>false</tt>.
+</p>
+</blockquote>
+<pre>
+<del>virtual</del> bool equivalent(const error_code&amp; code, int condition) const noexcept <ins>override</ins>;
+</pre>
+<blockquote>
+<p>
+-4- <i>Returns:</i> <tt>true</tt> if, for the category of error represented by <tt>*this</tt>, <tt>code</tt> is considered 
+equivalent to condition; otherwise, <tt>false</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
