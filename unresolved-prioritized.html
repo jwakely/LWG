@@ -26,7 +26,7 @@
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>This document is the Table of Contents for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports List</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.</p>
-<p><p>Revised 2017-10-08 at 12:53:50 UTC</p>
+<p><p>Revised 2017-10-08 at 13:49:11 UTC</p>
 </p><h2><a name="Priority 1"</a>Priority 1 (2 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -993,10 +993,10 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2827">2827</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2827"></a></td>
+<td align="right"><a href="lwg-active.html#2116">2116</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2116"></a></td>
 <td align="left">23.15.4.3 [meta.unary.prop]</td>
-<td align="left"><tt>is_trivially_constructible</tt> and non-trivial destructors</td>
+<td align="left"><tt>is_nothrow_constructible</tt> and destructors</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1011,10 +1011,10 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2116">2116</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2116"></a></td>
+<td align="right"><a href="lwg-active.html#2827">2827</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2827"></a></td>
 <td align="left">23.15.4.3 [meta.unary.prop]</td>
-<td align="left"><tt>is_nothrow_constructible</tt> and destructors</td>
+<td align="left"><tt>is_trivially_constructible</tt> and non-trivial destructors</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1110,9 +1110,18 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#2117">2117</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2117"></a></td>
+<td align="left">25.4.2.2.2 [facet.num.put.virtuals]<a name="facet.num.put.virtuals"></a></td>
+<td align="left"><tt>ios_base</tt> manipulators should have <tt>showgrouping&#47;noshowgrouping</tt></td>
+<td align="center"><font color="red">No</font></td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#2703">2703</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2703"></a></td>
-<td align="left">25.4.2.2.2 [facet.num.put.virtuals]<a name="facet.num.put.virtuals"></a></td>
+<td align="left">25.4.2.2.2 [facet.num.put.virtuals]</td>
 <td align="left">No provision for fill-padding when <tt>boolalpha</tt> is set</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
@@ -1123,15 +1132,6 @@ the evaluation of type traits</td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2702"></a></td>
 <td align="left">25.4.2.2.2 [facet.num.put.virtuals]</td>
 <td align="left"><tt>num_put::do_put(..., bool)</tt> performs ill-formed <tt>do_put</tt> call</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#2117">2117</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2117"></a></td>
-<td align="left">25.4.2.2.2 [facet.num.put.virtuals]</td>
-<td align="left"><tt>ios_base</tt> manipulators should have <tt>showgrouping&#47;noshowgrouping</tt></td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1182,11 +1182,11 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2227">2227</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2227"></a></td>
+<td align="right"><a href="lwg-active.html#2215">2215</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2215"></a></td>
 <td align="left">26.2.6 [associative.reqmts]<a name="associative.reqmts"></a></td>
-<td align="left">Stateful comparison objects in associative containers</td>
-<td align="center"><font color="red">No</font></td>
+<td align="left">(unordered) associative container functors should be <tt>CopyConstructible</tt></td>
+<td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -1201,11 +1201,11 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2215">2215</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2215"></a></td>
+<td align="right"><a href="lwg-active.html#2227">2227</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2227"></a></td>
 <td align="left">26.2.6 [associative.reqmts]</td>
-<td align="left">(unordered) associative container functors should be <tt>CopyConstructible</tt></td>
-<td align="center">Yes</td>
+<td align="left">Stateful comparison objects in associative containers</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -2034,7 +2034,7 @@ regards to <tt>ClassAtomCollatingElement</tt></td>
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="Priority 99"</a>Not Prioritized (71 issues)</h2>
+<h2><a name="Priority 99"</a>Not Prioritized (73 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -2579,13 +2579,13 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#936">936</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
+<td align="right"><a href="lwg-active.html#1493">1493</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1493"></a></td>
 <td align="left">33.4.3 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
-<td align="left">Mutex type overspecified</td>
+<td align="left">Add <tt>mutex</tt>, <tt>recursive_mutex</tt>, <tt>is_locked</tt> function</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
-<td align="left"><a href="lwg-active.html#961">961</a></td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#961">961</a></td>
@@ -2597,13 +2597,13 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"><a href="lwg-active.html#936">936</a></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1493">1493</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1493"></a></td>
+<td align="right"><a href="lwg-active.html#936">936</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
 <td align="left">33.4.3 [thread.mutex.requirements]</td>
-<td align="left">Add <tt>mutex</tt>, <tt>recursive_mutex</tt>, <tt>is_locked</tt> function</td>
+<td align="left">Mutex type overspecified</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
-<td align="left"></td>
+<td align="left"><a href="lwg-active.html#961">961</a></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#1499">1499</a></td>
@@ -2615,19 +2615,19 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3003">3003</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3003"></a></td>
+<td align="right"><a href="lwg-active.html#2412">2412</a></td>
+<td align="left"><a href="lwg-active.html#Review">Review</a><a name="2412"></a></td>
 <td align="left">33.6.6 [futures.promise]<a name="futures.promise"></a></td>
-<td align="left"><tt>&lt;future&gt;</tt> still has type-erased allocators in <tt>promise</tt></td>
+<td align="left"><tt>promise::set_value()</tt> and <tt>promise::get_future()</tt> should not race</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2412">2412</a></td>
-<td align="left"><a href="lwg-active.html#Review">Review</a><a name="2412"></a></td>
+<td align="right"><a href="lwg-active.html#3003">3003</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3003"></a></td>
 <td align="left">33.6.6 [futures.promise]</td>
-<td align="left"><tt>promise::set_value()</tt> and <tt>promise::get_future()</tt> should not race</td>
+<td align="left"><tt>&lt;future&gt;</tt> still has type-erased allocators in <tt>promise</tt></td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -2673,6 +2673,24 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3010"></a></td>
 <td align="left">99 [networking.ts::async.uses.excecutor.trait]<a name="networking.ts::async.uses.excecutor.trait"></a></td>
 <td align="left">[networking.ts] <tt>uses_executor</tt> says "if a type <tt>T::executor_type</tt> exists"</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3020">3020</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3020"></a></td>
+<td align="left">99 [networking.ts::buffer.reqmts]<a name="networking.ts::buffer.reqmts"></a></td>
+<td align="left">[networking.ts] Remove spurious nested <tt>value_type</tt> buffer sequence requirement</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3021">3021</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3021"></a></td>
+<td align="left">99 [networking.ts::buffer.reqmts]</td>
+<td align="left">[networking.ts] Relax pointer equivalence requirement for <tt>ConstBufferSequence</tt></td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
