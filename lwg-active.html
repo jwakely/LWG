@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D106)</h1>
-<p><p>Revised 2017-10-15 at 14:29:59 UTC</p>
+<p><p>Revised 2017-10-15 at 14:34:22 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -164,7 +164,8 @@ ownership of it.
 <li>2547 issues total, up by 21.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 21 New issues: <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3006">3006</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3008">3008</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3011">3011</a>, <a href="lwg-active.html#3012">3012</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3016">3016</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3018">3018</a>, <a href="lwg-active.html#3019">3019</a>, <a href="lwg-active.html#3020">3020</a>, <a href="lwg-active.html#3021">3021</a>, <a href="lwg-active.html#3022">3022</a>, <a href="lwg-active.html#3023">3023</a>, <a href="lwg-active.html#3024">3024</a>, <a href="lwg-active.html#3025">3025</a>.</li>
+<li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3024">3024</a>.</li>
+<li>Added the following 20 New issues: <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3006">3006</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3008">3008</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3011">3011</a>, <a href="lwg-active.html#3012">3012</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3016">3016</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3018">3018</a>, <a href="lwg-active.html#3019">3019</a>, <a href="lwg-active.html#3020">3020</a>, <a href="lwg-active.html#3021">3021</a>, <a href="lwg-active.html#3022">3022</a>, <a href="lwg-active.html#3023">3023</a>, <a href="lwg-active.html#3025">3025</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -32397,6 +32398,7 @@ bool do_is_equal(const memory_resource&amp; other) const noexcept override;
 <p><b>Priority: </b>0
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#util.smartptr.weak">issues</a> in [util.smartptr.weak].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 C++17's <tt>shared_ptr&lt;T&gt;::element_type</tt> is <tt>remove_extent_t&lt;T&gt;</tt>, but <tt>weak_ptr&lt;T&gt;::element_type</tt> 
@@ -34125,13 +34127,13 @@ simple call wrapper.
 
 <hr>
 <h3><a name="3024" href="#3024">3024</a><sup><a href="https://cplusplus.github.io/LWG/issue3024">(i)</a></sup>. <tt>variant</tt>'s copies must be deleted instead of disabled via SFINAE</h3>
-<p><b>Section:</b> 23.7.3.1 <a href="https://wg21.link/variant.ctor">[variant.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2017-10-10 <b>Last modified:</b> 2017-10-10</p>
+<p><b>Section:</b> 23.7.3.1 <a href="https://wg21.link/variant.ctor">[variant.ctor]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2017-10-10 <b>Last modified:</b> 2017-10-15</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#variant.ctor">active issues</a> in [variant.ctor].</p>
 <p><b>View all other</b> <a href="lwg-index.html#variant.ctor">issues</a> in [variant.ctor].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The specification of <tt>variant</tt>'s copy constructor and copy assignment
@@ -34143,6 +34145,11 @@ to be defined as deleted unless the requisite conditions hold, as we did for the
 copy constructor and copy assignment operator of <tt>optional</tt> in LWG
 <a href="lwg-defects.html#2756">2756</a>.
 </p>
+
+<p><i>[
+2017-10-11 Moved to Tentatively Ready after 5 positive votes on c++std-lib.
+]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
