@@ -27,7 +27,7 @@
 <p>This document is the Index by Section for the <a href="lwg-active.html">Library Active Issues List</a>.</p>
 <h2>Index by Section (non-Ready active issues only)</h2>
 <p><a href="lwg-index.html">(view all issues)</a></p>
-<p><p>Revised 2017-10-16 at 05:33:01 UTC</p>
+<p><p>Revised 2017-10-16 at 19:47:54 UTC</p>
 </p><h2><a name="Section 4"></a>Section 4 (1 issues)</h2>
 <p><a href="lwg-index.html#Section 4">(view all issues)</a></p>
 <table border="1" cellpadding="4">
@@ -733,10 +733,10 @@
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3005">3005</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3005"></a></td>
+<td align="right"><a href="lwg-active.html#3008">3008</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3008"></a></td>
 <td align="left">23.11.2.2.6 [util.smartptr.shared.create]<a name="util.smartptr.shared.create"></a></td>
-<td align="left">Destruction order of arrays by <tt>make_shared/allocate_shared</tt> only recommended?</td>
+<td align="left"><tt>make_shared</tt> (sub)object destruction semantics are not specified</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -751,10 +751,10 @@
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3008">3008</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3008"></a></td>
+<td align="right"><a href="lwg-active.html#3005">3005</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3005"></a></td>
 <td align="left">23.11.2.2.6 [util.smartptr.shared.create]</td>
-<td align="left"><tt>make_shared</tt> (sub)object destruction semantics are not specified</td>
+<td align="left">Destruction order of arrays by <tt>make_shared/allocate_shared</tt> only recommended?</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -1396,16 +1396,6 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2362">2362</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2362"></a></td>
-<td align="left">26.2.6 [associative.reqmts]</td>
-<td align="left">unique, associative <tt>emplace()</tt> should not move/copy the <tt>mapped_type</tt> constructor 
-arguments when no insertion happens</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#2772">2772</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2772"></a></td>
 <td align="left">26.2.6 [associative.reqmts]</td>
@@ -1415,11 +1405,12 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2215">2215</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2215"></a></td>
+<td align="right"><a href="lwg-active.html#2362">2362</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2362"></a></td>
 <td align="left">26.2.6 [associative.reqmts]</td>
-<td align="left">(unordered) associative container functors should be <tt>CopyConstructible</tt></td>
-<td align="center">Yes</td>
+<td align="left">unique, associative <tt>emplace()</tt> should not move/copy the <tt>mapped_type</tt> constructor 
+arguments when no insertion happens</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -1433,10 +1424,10 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1175">1175</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="1175"></a></td>
-<td align="left">26.2.7 [unord.req]<a name="unord.req"></a></td>
-<td align="left"><tt>unordered</tt> complexity</td>
+<td align="right"><a href="lwg-active.html#2215">2215</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2215"></a></td>
+<td align="left">26.2.6 [associative.reqmts]</td>
+<td align="left">(unordered) associative container functors should be <tt>CopyConstructible</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1444,8 +1435,17 @@ arguments when no insertion happens</td>
 <tr>
 <td align="right"><a href="lwg-active.html#2198">2198</a></td>
 <td align="left"><a href="lwg-active.html#Open">Open</a><a name="2198"></a></td>
-<td align="left">26.2.7 [unord.req]</td>
+<td align="left">26.2.7 [unord.req]<a name="unord.req"></a></td>
 <td align="left"><tt>max_load_factor(z)</tt> makes no strong guarantees, but bans useful behavior</td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#1175">1175</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="1175"></a></td>
+<td align="left">26.2.7 [unord.req]</td>
+<td align="left"><tt>unordered</tt> complexity</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -2225,7 +2225,7 @@ arguments when no insertion happens</td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#3026">3026</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3026"></a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3026"></a></td>
 <td align="left">30.10.14.39 [fs.op.weakly_canonical]<a name="fs.op.weakly_canonical"></a></td>
 <td align="left"><tt>filesystem::weakly_canonical</tt> still defined in terms of <tt>canonical(p, base)</tt></td>
 <td align="center">Yes</td>
