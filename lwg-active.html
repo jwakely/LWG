@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2017-10-22</td>
+  <td align="left">2017-10-27</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D107)</h1>
-<p><p>Revised 2017-10-22 at 17:50:41 UTC</p>
+<p><p>Revised 2017-10-27 at 17:24:43 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -24217,7 +24217,7 @@ corresponding definitions.
 <hr>
 <h3><a name="2836" href="#2836">2836</a><sup><a href="https://cplusplus.github.io/LWG/issue2836">(i)</a></sup>. More string operations should be <tt>noexcept</tt></h3>
 <p><b>Section:</b> 24.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a>, 24.3.2.7.2 <a href="https://wg21.link/string.find">[string.find]</a>, 24.3.2.7.3 <a href="https://wg21.link/string.rfind">[string.rfind]</a>, 24.3.2.7.4 <a href="https://wg21.link/string.find.first.of">[string.find.first.of]</a>, 24.3.2.7.5 <a href="https://wg21.link/string.find.last.of">[string.find.last.of]</a>, 24.3.2.7.6 <a href="https://wg21.link/string.find.first.not.of">[string.find.first.not.of]</a>, 24.3.2.7.7 <a href="https://wg21.link/string.find.last.not.of">[string.find.last.not.of]</a>, 24.3.2.7.9 <a href="https://wg21.link/string.compare">[string.compare]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2016-12-05 <b>Last modified:</b> 2017-02-02</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2016-12-05 <b>Last modified:</b> 2017-10-27</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#basic.string">active issues</a> in [basic.string].</p>
@@ -24276,6 +24276,10 @@ int compare(const charT* s) const;
 <p><i>[2017-01-27 Telecon]</i></p>
 
 <p>Priority 2; Jonathan to provide updated wording</p>
+
+<p><i>[2017-10-22, Marshall comments]</i></p>
+
+<p>libc++ already has all of these member fns marked as <tt>noexcept</tt></p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -25622,7 +25626,7 @@ template &lt;class Iterator1, class Iterator2&gt;
 <hr>
 <h3><a name="2859" href="#2859">2859</a><sup><a href="https://cplusplus.github.io/LWG/issue2859">(i)</a></sup>. Definition of <em>reachable</em> in [ptr.launder] misses pointer arithmetic from pointer-interconvertible object</h3>
 <p><b>Section:</b> 21.6.4 <a href="https://wg21.link/ptr.launder">[ptr.launder]</a> <b>Status:</b> <a href="lwg-active.html#Core">Core</a>
- <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2017-01-31 <b>Last modified:</b> 2017-03-22</p>
+ <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2017-01-31 <b>Last modified:</b> 2017-10-27</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#ptr.launder">active issues</a> in [ptr.launder].</p>
@@ -25641,9 +25645,16 @@ The bytes which compose <tt>a[3]</tt> can be reached from <tt>&amp;a[2].x</tt>:
 <tt>reinterpret_cast&lt;A *&gt;(&amp;a[2].x) + 1</tt> points to <tt>a[3]</tt>,
 however, the definition of "reachable" in [ptr.launder] does not encompass this case.
 </p>
+
 <p><i>[2017-03-04, Kona]</i></p>
 
 <p>Set priority to 2. Assign this (and <a href="lwg-active.html#2860">2860</a>) to Core.</p>
+
+<p><i>[2017-08-14, CWG telecon note]</i></p>
+
+<p>
+CWG is fine with the proposed resolution.  
+</p>
 
 
 
@@ -25682,7 +25693,7 @@ pointer-interconvertible with <tt><i>Y</i></tt>,</del> or the immediately-enclos
 <hr>
 <h3><a name="2860" href="#2860">2860</a><sup><a href="https://cplusplus.github.io/LWG/issue2860">(i)</a></sup>. <tt>launder</tt> and base class subobjects</h3>
 <p><b>Section:</b> 21.6.4 <a href="https://wg21.link/ptr.launder">[ptr.launder]</a> <b>Status:</b> <a href="lwg-active.html#Core">Core</a>
- <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2017-01-31 <b>Last modified:</b> 2017-03-22</p>
+ <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2017-01-31 <b>Last modified:</b> 2017-10-27</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#ptr.launder">active issues</a> in [ptr.launder].</p>
@@ -25704,6 +25715,12 @@ This can be fixed by restricting <tt>launder</tt> from returning pointers to bas
 <p><i>[2017-03-04, Kona]</i></p>
 
 <p>Set priority to 2. This was discussed in EWG (via a paper). Assign this (and <a href="lwg-active.html#2859">2859</a>) to Core.</p>
+
+<p><i>[2017-08-14, CWG telecon note]</i></p>
+
+<p>
+Core recommends NAD after discussion in EWG.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
