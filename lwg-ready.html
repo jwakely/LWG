@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2017-11-01 at 17:49:58 UTC</p>
+<td align="left"><p>Revised 2017-11-01 at 18:02:04 UTC</p>
 </td>
 </tr>
 <tr>
@@ -89,6 +89,71 @@ bool is_open() const <ins>noexcept</ins>;
 <blockquote>
 <p>
 -10- <i>Returns:</i> A <tt>bool</tt> indicating whether this acceptor was opened by a previous call to <tt>open</tt> or <tt>assign</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3004" href="#3004">3004</a><sup><a href="https://cplusplus.github.io/LWG/issue3004">(i)</a></sup>. &sect;[string.capacity] and &sect;[vector.capacity] should specify time complexity for <tt>capacity()</tt></h3>
+<p><b>Section:</b> 24.3.2.4 <a href="https://wg21.link/string.capacity">[string.capacity]</a>, 26.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Andy Giese <b>Opened:</b> 2017-07-24 <b>Last modified:</b> 2017-11-01</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#string.capacity">active issues</a> in [string.capacity].</p>
+<p><b>View all other</b> <a href="lwg-index.html#string.capacity">issues</a> in [string.capacity].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>basic_string</tt> and <tt>vector</tt> both have a <tt>capacity</tt> function that returns the size of the internally 
+allocated buffer. This function does not specify a time complexity nor does it have an implied time complexity. However, 
+given the complexities for <tt>data()</tt> to be <tt>&#x1d4aa;(1)</tt> and <tt>size()</tt> to be <tt>&#x1d4aa;(1)</tt>, 
+we can imagine that it's reasonable to also require <tt>capacity()</tt> to be <tt>&#x1d4aa;(1)</tt>, since the 
+implementation will most likely be caching the size of the allocated buffer so as to check for the need to reallocate 
+on insertion.
+</p>
+
+<p><i>[
+2017-11-01 Moved to Tentatively Ready after 10 positive votes for P0 on c++std-lib.
+]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This resolution is relative to <a href="http://wg21.link/n4659">N4659</a>.</p>
+
+<ol>
+<li><p>Edit 24.3.2.4 <a href="https://wg21.link/string.capacity">[string.capacity]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+size_type capacity() const noexcept;
+</pre>
+<blockquote>
+<p>
+-9- <i>Returns:</i> The size of the allocated storage in the string.
+<p/>
+<ins>-?- <i>Complexity:</i> Constant time.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Edit 26.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+size_type capacity() const noexcept;
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns:</i> The total number of elements that the vector can hold without requiring reallocation.
+<p/>
+<ins>-?- <i>Complexity:</i> Constant time.</ins>
 </p>
 </blockquote>
 </blockquote>
