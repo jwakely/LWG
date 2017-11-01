@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2017-11-01 at 18:29:28 UTC</p>
+<p><p>Revised 2017-11-01 at 18:56:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -29421,8 +29421,8 @@ where <tt>j</tt> is an iterator in <tt>[begin(), end())</tt> such that <tt>next(
 <hr>
 <h3><a name="2999" href="#2999">2999</a><sup><a href="https://cplusplus.github.io/LWG/issue2999">(i)</a></sup>. &sect;[thread.decaycopy] issue</h3>
 <p><b>Section:</b> 33.2.6 <a href="https://wg21.link/thread.decaycopy">[thread.decaycopy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-07-11 <b>Last modified:</b> 2017-07-16</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-07-11 <b>Last modified:</b> 2017-11-01</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -29449,103 +29449,13 @@ Currently there exists no proper way to mark <tt>decay_copy</tt> as conditionall
 the request to add an <tt>is_nothrow_convertible</tt> trait, as requested by LWG <a href="lwg-active.html#2040">2040</a>.
 </p>
 
+<p><i>[
+2017-11-01 P3 as result of c++std-lib online vote.
+]</i></p>
 
-<p><b>Proposed resolution:</b></p>
-
-
-
-
-<hr>
-<h3><a name="3000" href="#3000">3000</a><sup><a href="https://cplusplus.github.io/LWG/issue3000">(i)</a></sup>. <tt>monotonic_memory_resource::do_is_equal</tt> uses <tt>dynamic_cast</tt> unnecessarily</h3>
-<p><b>Section:</b> 23.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2017-07-14 <b>Last modified:</b> 2017-10-03</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-Section [mem.res.monotonic.buffer.mem], paragraph 11 says
-</p>
-<blockquote>
-<pre>
-bool do_is_equal(const memory_resource&amp; other) const noexcept override;
-</pre>
-<blockquote>
-<p>
-<i>Returns:</i> <tt>this == dynamic_cast&lt;const monotonic_buffer_resource*&gt;(&amp;other)</tt>.
-</p>
-</blockquote>
-</blockquote>
-<p>
-The <tt>dynamic_cast</tt> adds nothing of value. It is an incorrect cut-and-paste from an example <tt>do_is_equal</tt>
-for a more complex resource.
-</p>
-
-<p><i>[2017-07-16, Tim Song comments]</i></p>
-
-<p>
-The pool resource classes appear to also have this issue.
-</p>
-
-<p><i>[2017-09-18, Casey Carter expands PR to cover the pool resources.]</i></p>
-
-
-<strong>Previous resolution: [SUPERSEDED]</strong>
-
-<blockquote class="note">
-<ol>
-<li><p>Edit 23.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> as indicated:</p>
-
-<blockquote><pre>
-bool do_is_equal(const memory_resource&amp; other) const noexcept override;
-</pre>
-<blockquote>
-<p>
-<i>Returns:</i> <tt>this == <del>dynamic_cast&lt;const monotonic_buffer_resource*&gt;(</del>&amp;other<del>)</del></tt>.
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
-</blockquote>
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This resolution is relative to <a href="http://wg21.link/n4687">N4687</a>.</p>
-
-<ol>
-<li><p>Edit 23.12.5.4 <a href="https://wg21.link/mem.res.pool.mem">[mem.res.pool.mem]</a> as indicated:</p>
-
-<blockquote><pre>
-bool <del>synchronized_pool_resource::</del>do_is_equal(<ins>const memory_resource&amp; other) const noexcept override;</ins>
-    <del>const memory_resource&amp; other) const noexcept override;</del>
-</pre>
-<blockquote>
-<p>
-<i>Returns:</i> <tt>this == <del>dynamic_cast&lt;const synchronized_pool_resource*&gt;(</del>&amp;other<del>)</del></tt>.
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Strike 23.12.5.4 <a href="https://wg21.link/mem.res.pool.mem">[mem.res.pool.mem]</a> paragraph 10, and the immediately preceding declaration of <tt>unsynchronized_pool_resource::do_is_equal</tt>.</p>
-</li>
-
-<li><p>Edit 23.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> as indicated:</p>
-
-<blockquote><pre>
-bool do_is_equal(const memory_resource&amp; other) const noexcept override;
-</pre>
-<blockquote>
-<p>
-<i>Returns:</i> <tt>this == <del>dynamic_cast&lt;const monotonic_buffer_resource*&gt;(</del>&amp;other<del>)</del></tt>.
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
 
 
 
