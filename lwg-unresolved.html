@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2017-10-27 at 17:24:43 UTC</p>
+<p><p>Revised 2017-11-01 at 17:49:58 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -17841,7 +17841,7 @@ Which means that the character class matching worked, but not the matching to th
 <hr>
 <h3><a name="2547" href="#2547">2547</a><sup><a href="https://cplusplus.github.io/LWG/issue2547">(i)</a></sup>. Container requirements (and other library text) should say "strict total order", not just "total order"</h3>
 <p><b>Section:</b> 23.14.7 <a href="https://wg21.link/comparisons">[comparisons]</a>, 26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>, 33.3.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Matt Austern <b>Opened:</b> 2015-10-08 <b>Last modified:</b> 2015-10-31</p>
+ <b>Submitter:</b> Matt Austern <b>Opened:</b> 2015-10-08 <b>Last modified:</b> 2015-10-30</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#comparisons">active issues</a> in [comparisons].</p>
@@ -18220,7 +18220,7 @@ of <tt>function f</tt>, or <tt>allocator&lt;char&gt;()</tt> if no allocator was 
 <hr>
 <h3><a name="2569" href="#2569">2569</a><sup><a href="https://cplusplus.github.io/LWG/issue2569">(i)</a></sup>. <tt>conjunction</tt> and <tt>disjunction</tt> requirements are too strict</h3>
 <p><b>Section:</b> 23.15.8 <a href="https://wg21.link/meta.logical">[meta.logical]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2015-12-11 <b>Last modified:</b> 2016-11-16</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2015-12-11 <b>Last modified:</b> 2016-11-15</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#meta.logical">active issues</a> in [meta.logical].</p>
@@ -29545,57 +29545,6 @@ bool do_is_equal(const memory_resource&amp; other) const noexcept override;
 </blockquote>
 </li>
 
-</ol>
-
-
-
-
-<hr>
-<h3><a name="3002" href="#3002">3002</a><sup><a href="https://cplusplus.github.io/LWG/issue3002">(i)</a></sup>. [networking.ts] <tt>basic_socket_acceptor::is_open()</tt> isn't <tt>noexcept</tt></h3>
-<p><b>Section:</b> 99 [networking.ts::socket.acceptor.ops] <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-07-14 <b>Last modified:</b> 2017-07-16</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p><b>Addresses: networking.ts</b></p>
-<p>
-<tt>basic_socket::is_open()</tt> is <tt>noexcept</tt>, but the corresponding function on
-<tt>basic_socket_acceptor</tt> is not. This is a simple observer with a wide contract and cannot fail.</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This resolution is relative to <a href="http://wg21.link/n4656">N4656</a>.</p>
-
-<ol>
-<li><p>Edit  [networking.ts::socket.acceptor], class template <tt>basic_socket_acceptor</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class AcceptableProtocol&gt; 
-class basic_socket_acceptor {
-public:
-  [&hellip;]
-  bool is_open() const <ins>noexcept</ins>;
-  [&hellip;]
-};
-</pre>
-</blockquote>
-</li>
-
-<li><p>Edit 99 [networking.ts::socket.acceptor.ops] as indicated:</p>
-
-<blockquote>
-<pre>
-bool is_open() const <ins>noexcept</ins>;
-</pre>
-<blockquote>
-<p>
--10- <i>Returns:</i> A <tt>bool</tt> indicating whether this acceptor was opened by a previous call to <tt>open</tt> or <tt>assign</tt>.
-</p>
-</blockquote>
-</blockquote>
-</li>
 </ol>
 
 
