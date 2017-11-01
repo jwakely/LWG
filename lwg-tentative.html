@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2017-11-01 at 18:02:04 UTC</p>
+<p><p>Revised 2017-11-01 at 18:08:03 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="3002" href="#3002">3002</a><sup><a href="https://cplusplus.github.io/LWG/issue3002">(i)</a></sup>. [networking.ts] <tt>basic_socket_acceptor::is_open()</tt> isn't <tt>noexcept</tt></h3>
@@ -139,6 +139,49 @@ size_type capacity() const noexcept;
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3010" href="#3010">3010</a><sup><a href="https://cplusplus.github.io/LWG/issue3010">(i)</a></sup>. [networking.ts] <tt>uses_executor</tt> says "if a type <tt>T::executor_type</tt> exists"</h3>
+<p><b>Section:</b> 99 [networking.ts::async.uses.excecutor.trait] <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-08-17 <b>Last modified:</b> 2017-11-01</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses: networking.ts</b></p>
+<p>
+[async.uses.executor.trait] p1 says "if a type <tt>T::executor_type</tt> exists" but we don't want it to be required 
+to detect private or ambiguous types.
+</p>
+
+<p><i>[
+2017-11-01 Moved to Tentatively Ready after 7 positive votes for P0 on c++std-lib.
+]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This resolution is relative to <a href="http://wg21.link/n4656">N4656</a>.</p>
+
+<ol>
+<li><p>Edit  [networking.ts::async.uses.executor.trait] as indicated:</p>
+
+<blockquote>
+<p>
+-1- Remark: Detects whether <tt>T</tt> has a nested <tt>executor_type</tt> that is convertible from
+<tt>Executor</tt>. Meets the <tt>BinaryTypeTrait</tt> requirements (C++Std [meta.rqmts]). The implementation 
+provides a definition that is derived from <tt>true_type</tt> if <del>a type</del><ins>the <em>qualified-id</em></ins> 
+<tt>T::executor_type</tt> <del>exists</del><ins>is valid and denotes a type</ins> and 
+<tt>is_convertible&lt;Executor, T::executor_type&gt;::value != false</tt>, otherwise it is derived from
+<tt>false_type</tt>. A program may specialize this template [&hellip;].
+</p>
+</blockquote>
+</li>
+
 </ol>
 
 
