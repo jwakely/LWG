@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2017-11-01 at 19:45:58 UTC</p>
+<p><p>Revised 2017-11-01 at 19:57:48 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -29643,7 +29643,7 @@ the reverse order of their construction.</p></li>
 <hr>
 <h3><a name="3006" href="#3006">3006</a><sup><a href="https://cplusplus.github.io/LWG/issue3006">(i)</a></sup>. Constructing a <tt>basic_stringbuf</tt> from a <tt>string</tt> &mdash; where does the allocator come from?</h3>
 <p><b>Section:</b> 30.8.2.1 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-08-02 <b>Last modified:</b> 2017-08-04</p>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-08-02 <b>Last modified:</b> 2017-11-01</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#stringbuf.cons">active issues</a> in [stringbuf.cons].</p>
@@ -29673,6 +29673,13 @@ But that requires that the allocator be default constructible.
 <a href="https://bugs.llvm.org/show_bug.cgi?id=33727">This bug</a> was filed against libc++ for this case.
 <p/>
 I think that the <tt>basic_stringbuf</tt> should be constructed with a copy of the allocator from the string.
+</p>
+
+<p><i>[2017-11-01, Marshall comments]</i></p>
+
+<p>
+There exist two related proposals, namely <a href="http://wg21.link/p0407r1">P0407R1</a> and 
+<a href="http://wg21.link/p0408r2">P0408R2</a>.
 </p>
 
 
