@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2017-11-08 at 20:51:24 UTC</p>
+<p><p>Revised 2017-11-08 at 21:08:59 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -30952,6 +30952,72 @@ called as <tt>as_const(*iter)</tt>.
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3032" href="#3032">3032</a><sup><a href="https://cplusplus.github.io/LWG/issue3032">(i)</a></sup>. <tt>ValueSwappable</tt> requirement missing for <tt>push_heap</tt> and <tt>make_heap</tt></h3>
+<p><b>Section:</b> 28.7.7 <a href="https://wg21.link/alg.heap.operations">[alg.heap.operations]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Robert Douglas <b>Opened:</b> 2017-11-08 <b>Last modified:</b> 2017-11-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#alg.heap.operations">issues</a> in [alg.heap.operations].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In discussion of D0202R3 in Albuquerque, it was observed that <tt>pop_heap</tt> and <tt>sort_heap</tt> had 
+<tt>constexpr</tt> removed for their requirement of <tt>ValueSwapapble</tt>. It was then observed that 
+<tt>push_heap</tt> and <tt>make_heap</tt> were not similarly marked as having the <tt>ValueSwappable</tt> requirement. 
+The room believed this was likely a specification error, and asked to open an issue to track it.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4700">N4700</a>.</p>
+
+<ol>
+<li><p>Change 28.7.7.1 <a href="https://wg21.link/push.heap">[push.heap]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class RandomAccessIterator&gt;
+  void push_heap(RandomAccessIterator first, RandomAccessIterator last);
+template&lt;class RandomAccessIterator, class Compare&gt;
+  void push_heap(RandomAccessIterator first, RandomAccessIterator last,
+                 Compare comp);
+</pre>
+<blockquote>
+<p>
+-1- <i>Requires:</i> The range <tt>[first, last - 1)</tt> shall be a valid heap. <ins><tt>RandomAccessIterator</tt> shall satisfy 
+the requirements of <tt>ValueSwappable</tt> (20.5.3.2 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>).</ins> The type of <tt>*first</tt> 
+shall satisfy the <tt>MoveConstructible</tt> requirements (Table 23) and the <tt>MoveAssignable</tt> requirements (Table 25).
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Change 28.7.7.3 <a href="https://wg21.link/make.heap">[make.heap]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class RandomAccessIterator&gt;
+  void make_heap(RandomAccessIterator first, RandomAccessIterator last);
+template&lt;class RandomAccessIterator, class Compare&gt;
+  void make_heap(RandomAccessIterator first, RandomAccessIterator last,
+                 Compare comp);
+</pre>
+<blockquote>
+<p>
+-1- <i>Requires:</i> <ins><tt>RandomAccessIterator</tt> shall satisfy the requirements of <tt>ValueSwappable</tt> 
+(20.5.3.2 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>).</ins> The type of <tt>*first</tt> shall satisfy the <tt>MoveConstructible</tt> 
+requirements (Table 23) and the <tt>MoveAssignable</tt> requirements (Table 25).
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
