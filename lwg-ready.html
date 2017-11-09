@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2017-11-09 at 04:43:23 UTC</p>
+<td align="left"><p>Revised 2017-11-09 at 15:08:38 UTC</p>
 </td>
 </tr>
 <tr>
@@ -590,7 +590,7 @@ provides a definition that is derived from <tt>true_type</tt> if <del>a type</de
 <hr>
 <h3><a name="3013" href="#3013">3013</a><sup><a href="https://cplusplus.github.io/LWG/issue3013">(i)</a></sup>. <tt>(recursive_)directory_iterator</tt> construction and traversal should not be <tt>noexcept</tt></h3>
 <p><b>Section:</b> 30.10.12.1 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a>, 30.10.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a>, 30.10.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a>, 30.10.14.19 <a href="https://wg21.link/fs.op.is_empty">[fs.op.is_empty]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-08-23 <b>Last modified:</b> 2017-11-03</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-08-23 <b>Last modified:</b> 2017-11-04</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#fs.dir.itr.members">active issues</a> in [fs.dir.itr.members].</p>
@@ -820,9 +820,146 @@ bool is_empty(const path&amp; p, error_code&amp; ec) <del>noexcept</del>;
 
 
 <hr>
+<h3><a name="3014" href="#3014">3014</a><sup><a href="https://cplusplus.github.io/LWG/issue3014">(i)</a></sup>. More <tt>noexcept</tt> issues with filesystem operations</h3>
+<p><b>Section:</b> 30.10.14.4 <a href="https://wg21.link/fs.op.copy_file">[fs.op.copy_file]</a>, 30.10.14.6 <a href="https://wg21.link/fs.op.create_directories">[fs.op.create_directories]</a>, 30.10.14.31 <a href="https://wg21.link/fs.op.remove_all">[fs.op.remove_all]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-08-23 <b>Last modified:</b> 2017-11-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#fs.op.copy_file">active issues</a> in [fs.op.copy_file].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fs.op.copy_file">issues</a> in [fs.op.copy_file].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>create_directories</tt> may need to create temporary <tt>path</tt>s, and <tt>remove_all</tt> may need to create temporary 
+<tt>path</tt>s and/or <tt>directory_iterator</tt>s. These operations may require a potentially throwing memory allocation.
+<p/>
+Implementations of <tt>copy_file</tt> may wish to dynamically allocate the buffer used for copying when the underlying OS 
+doesn't supply a copy API directly. This can happen indirectly, e.g., by using <tt>&lt;fstream&gt;</tt> facilities to 
+perform the copying without supplying a custom buffer. Unless LWG wishes to prohibit using a dynamically allocated buffer 
+in this manner, the <tt>noexcept</tt> should be removed.
+</p>
+
+<p><i>[2017-11 Albuquerque Wednesday night issues processing]</i></p>
+
+<p>Moved to Ready</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4687">N4687</a>.</p>
+
+<ol>
+<li><p>Edit 30.10.5 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header <tt>&lt;filesystem&gt;</tt> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+namespace std::filesystem {
+
+  [&hellip;]
+  
+  bool copy_file(const path&amp; from, const path&amp; to);
+  bool copy_file(const path&amp; from, const path&amp; to, error_code&amp; ec) <del>noexcept</del>;
+  bool copy_file(const path&amp; from, const path&amp; to, copy_options option);
+  bool copy_file(const path&amp; from, const path&amp; to, copy_options option,
+                 error_code&amp; ec) <del>noexcept</del>;
+
+  [&hellip;]
+
+  bool create_directories(const path&amp; p);
+  bool create_directories(const path&amp; p, error_code&amp; ec) <del>noexcept</del>;
+  
+  [&hellip;]
+  
+  uintmax_t remove_all(const path&amp; p);
+  uintmax_t remove_all(const path&amp; p, error_code&amp; ec) <del>noexcept</del>;
+  
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Edit 30.10.14.4 <a href="https://wg21.link/fs.op.copy_file">[fs.op.copy_file]</a> as indicated:</p>
+<blockquote>
+<pre>
+bool copy_file(const path&amp; from, const path&amp; to);
+bool copy_file(const path&amp; from, const path&amp; to, error_code&amp; ec) <del>noexcept</del>;
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns:</i> [&hellip;]
+<p/>
+-2- <i>Throws:</i> [&hellip;]
+</p>
+</blockquote>
+<pre>
+bool copy_file(const path&amp; from, const path&amp; to, copy_options options);
+bool copy_file(const path&amp; from, const path&amp; to, copy_options options,
+               error_code&amp; ec) <del>noexcept</del>;
+</pre>
+<blockquote>
+<p>
+-3- <i>Requires:</i> [&hellip;]
+<p/>
+-4- <i>Effects:</i> [&hellip;]
+<p/>
+-5- <i>Returns:</i> [&hellip;]
+<p/>
+-6- <i>Throws:</i> [&hellip;]
+<p/>
+-7- <i>Complexity:</i> [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Edit 30.10.14.6 <a href="https://wg21.link/fs.op.create_directories">[fs.op.create_directories]</a> as indicated:</p>
+<blockquote>
+<pre>
+bool create_directories(const path&amp; p);
+bool create_directories(const path&amp; p, error_code&amp; ec) <del>noexcept</del>;
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> [&hellip;]
+<p/>
+-2- <i>Postconditions:</i> [&hellip;]
+<p/>
+-3- <i>Returns:</i> [&hellip;]
+<p/>
+-4- <i>Throws:</i> [&hellip;]
+<p/>
+-5- <i>Complexity:</i> [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+<li><p>Edit 30.10.14.31 <a href="https://wg21.link/fs.op.remove_all">[fs.op.remove_all]</a> as indicated:</p>
+<blockquote>
+<pre>
+uintmax_t remove_all(const path&amp; p);
+uintmax_t remove_all(const path&amp; p, error_code&amp; ec) <del>noexcept</del>;
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> [&hellip;]
+<p/>
+-2- <i>Postconditions:</i> [&hellip;]
+<p/>
+-3- <i>Returns:</i> [&hellip;]
+<p/>
+-4- <i>Throws:</i> [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
 <h3><a name="3017" href="#3017">3017</a><sup><a href="https://cplusplus.github.io/LWG/issue3017">(i)</a></sup>. <tt>list splice</tt> functions should use <tt>addressof</tt></h3>
 <p><b>Section:</b> 26.3.9.6 <a href="https://wg21.link/forwardlist.ops">[forwardlist.ops]</a>, 26.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-09-05 <b>Last modified:</b> 2017-11-03</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-09-05 <b>Last modified:</b> 2017-11-04</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#forwardlist.ops">issues</a> in [forwardlist.ops].</p>
@@ -1195,6 +1332,77 @@ For the second form, <tt>canonical()</tt> is called with ec as an <tt>error_code
 at the first error occurrence, if any.
 <p/>
 [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3030" href="#3030">3030</a><sup><a href="https://cplusplus.github.io/LWG/issue3030">(i)</a></sup>. Who shall meet the requirements of <tt>try_lock</tt>?</h3>
+<p><b>Section:</b> 33.4.5 <a href="https://wg21.link/thread.lock.algorithm">[thread.lock.algorithm]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-11-07 <b>Last modified:</b> 2017-11-09</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#thread.lock.algorithm">issues</a> in [thread.lock.algorithm].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+33.4.5 <a href="https://wg21.link/thread.lock.algorithm">[thread.lock.algorithm]</a> says:
+</p>
+<blockquote><p>
+"If a call to <tt>try_lock()</tt> fails, <tt>unlock()</tt> shall be called for all prior
+arguments and there shall be no further calls to <tt>try_lock()</tt>."
+</p></blockquote>
+<p>
+We try to use "shall" for requirements on the user (e.g. as in the
+previous paragraph) which is absolutely not what is meant here.
+</p>
+
+<p><i>[2017-11 Albuquerque Wednesday night issues processing]</i></p>
+
+<p>Moved to Ready</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4700">N4700</a>.</p>
+
+<ol>
+<li><p>Change 33.4.5 <a href="https://wg21.link/thread.lock.algorithm">[thread.lock.algorithm]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template &lt;class L1, class L2, class... L3&gt; int try_lock(L1&amp;, L2&amp;, L3&amp;...);
+</pre>
+<blockquote>
+<p>
+-1- <i>Requires:</i> [&hellip;]
+<p/>
+-2- <i>Effects:</i> Calls <tt>try_lock()</tt> for each argument in order beginning with the first until all arguments have
+been processed or a call to <tt>try_lock()</tt> fails, either by returning <tt>false</tt> or by throwing an exception.
+If a call to <tt>try_lock()</tt> fails, <tt>unlock()</tt> <del>shall be</del><ins>is</ins> called for all prior arguments 
+<del>and there shall be</del><ins>with</ins> no further calls to <tt>try_lock()</tt>.
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template &lt;class L1, class L2, class... L3&gt; void lock(L1&amp;, L2&amp;, L3&amp;...);
+</pre>
+<blockquote>
+<p>
+-4- <i>Requires:</i> [&hellip;]
+<p/>
+-5- <i>Effects:</i> All arguments are locked via a sequence of calls to <tt>lock()</tt>, <tt>try_lock()</tt>, 
+or <tt>unlock()</tt> on each argument. The sequence of calls <del>shall</del><ins>does</ins> not result in deadlock, 
+but is otherwise unspecified. [<i>Note:</i> A deadlock avoidance algorithm such as try-and-back-off must be used, but the 
+specific algorithm is not specified to avoid over-constraining implementations. &mdash; <i>end note</i>] If a 
+call to <tt>lock()</tt> or <tt>try_lock()</tt> throws an exception, <tt>unlock()</tt> <del>shall be</del><ins>is</ins> 
+called for any argument that had been locked by a call to <tt>lock()</tt> or <tt>try_lock()</tt>.
 </p>
 </blockquote>
 </blockquote>
