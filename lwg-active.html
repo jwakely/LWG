@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D107)</h1>
-<p><p>Revised 2017-11-10 at 18:05:39 UTC</p>
+<p><p>Revised 2017-11-10 at 18:20:10 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -34599,7 +34599,7 @@ to <i>cv</i>-qualified variants of the same incomplete type.
 <hr>
 <h3><a name="3023" href="#3023">3023</a><sup><a href="https://cplusplus.github.io/LWG/issue3023">(i)</a></sup>. Clarify <i>unspecified</i> call wrappers</h3>
 <p><b>Section:</b> 23.14.12 <a href="https://wg21.link/func.memfn">[func.memfn]</a>, 23.14.10 <a href="https://wg21.link/func.not_fn">[func.not_fn]</a>, 23.14.11 <a href="https://wg21.link/func.bind">[func.bind]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Detlef Vollmann <b>Opened:</b> 2017-10-07 <b>Last modified:</b> 2017-11-09</p>
+ <b>Submitter:</b> Detlef Vollmann <b>Opened:</b> 2017-10-07 <b>Last modified:</b> 2017-11-10</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#func.memfn">issues</a> in [func.memfn].</p>
@@ -34625,8 +34625,43 @@ simple call wrapper.
 
 <p>Priority set to 3. Tomasz to write a paper that will address this issue. See also <a href="lwg-active.html#3015">3015</a></p>
 
+<p><i>[2017-11-10, Tomasz comments and provides wording]</i></p>
+
+<p>
+From the core language rules it is already required that same function
+template specialization have the same return type. Given that the
+invocation of <tt>mem_fn</tt>/<tt>bind</tt>/<tt>not_fn</tt> will always return 
+the same wrapper type, if they are instantiated (called with) same parameters type.
+However, the existence of this issue, shows that some library-wide
+clarification note would be welcomed.
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4700">N4700</a>.</p>
+
+<ol>
+<li><p>After section 20.4.2.1.2 <a href="https://wg21.link/expos.only.types">[expos.only.types]</a> "Exposition-only types" add the
+following new section:</p>
+
+<blockquote>
+<p>
+<ins>?.?.?.?.? <em>unspecified</em> types [unspecified.types]</ins>
+<p/>
+<ins>[<i>Note:</i> Whenever the return type of the function template component is
+declared an <em>unspecified</em>, the type of the returned object depends only on the 
+template arguments of the instantiation. [<i>Example:</i></ins>
+</p>
+<blockquote><pre>
+<ins>template&lt;class T&gt; <em>unspecified</em> f(T);</ins>
+</pre></blockquote>
+<p>
+<ins>&mdash; <i>end example</i>] The invocations of <code>f(0)</code> and <code>f(1)</code> 
+returns objects of the same type. &mdash; <i>end note</i>]</ins>
+</p>
+</blockquote>
+</li>
+</ol>
 
 
 
