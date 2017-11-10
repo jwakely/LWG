@@ -23,12 +23,12 @@
 <body>
 <hr>
 <h3><a name="3012" href="lwg-active.html#3012">3012</a>. <tt>atomic&lt;T&gt;</tt> is unimplementable for non-<tt>is_trivially_copy_constructible T</tt></h3>
-<p><b>Section:</b> 32.6 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-08-16 <b>Last modified:</b> 2017-11-03</p>
+<p><b>Section:</b> 32.6 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-08-16 <b>Last modified:</b> 2017-11-09</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#atomics.types.generic">issues</a> in [atomics.types.generic].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 32.6 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> requires that <tt>T</tt> for <tt>std::atomic</tt> is trivially copyable. 
@@ -67,6 +67,11 @@ All three standard libraries are happy as long as <tt>T</tt> is trivially copy c
 Casey Carter says that we might want to still require trivially copy assignable though, since what happens when you do an 
 <tt>atomic&lt;T&gt;::store</tt> is morally an "assignment" even if it doesn't use the user's assignment operator.
 </p>
+
+<p><i>[2017-11 Albuquerque Wednesday issue processing]</i></p>
+
+<p>Status to Open; Casey and STL to work with Billy for better wording.</p>
+<p>Should this include trivially copyable as well as trivially copy assignable?</p>
 
 
 <p><b>Proposed resolution:</b></p>
