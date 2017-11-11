@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2017-11-10 at 20:35:11 UTC</p>
+<td align="left"><p>Revised 2017-11-11 at 01:05:20 UTC</p>
 </td>
 </tr>
 <tr>
@@ -45,7 +45,7 @@
 <hr>
 <h3><a name="2843" href="#2843">2843</a><sup><a href="https://cplusplus.github.io/LWG/issue2843">(i)</a></sup>. Unclear behavior of <tt>std::pmr::memory_resource::do_allocate()</tt></h3>
 <p><b>Section:</b> 23.12.2.2 <a href="https://wg21.link/mem.res.private">[mem.res.private]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2016-12-13 <b>Last modified:</b> 2017-11-10</p>
+ <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2016-12-13 <b>Last modified:</b> 2017-11-09</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#mem.res.private">issues</a> in [mem.res.private].</p>
@@ -124,85 +124,9 @@ requested size and alignment.</p>
 
 
 <hr>
-<h3><a name="2958" href="#2958">2958</a><sup><a href="https://cplusplus.github.io/LWG/issue2958">(i)</a></sup>. Moves improperly defined as deleted</h3>
-<p><b>Section:</b> 23.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a>, 23.5.3.2 <a href="https://wg21.link/tuple.assign">[tuple.assign]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2017-05-05 <b>Last modified:</b> 2017-11-10</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#pairs.pair">active issues</a> in [pairs.pair].</p>
-<p><b>View all other</b> <a href="lwg-index.html#pairs.pair">issues</a> in [pairs.pair].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-LWG <a href="lwg-defects.html#2729">2729</a> constrained many <tt>pair</tt> &amp; <tt>tuple</tt> assignment operators to "not participate in overload resolution" and "be defined as deleted if." As discussed when LWG reviewed <a href="lwg-defects.html#2756">2756</a>, it is undesirable to require 
-that a move constructor or assignment operator be "defined as deleted," since it is unclear whether that operation should be 
-<em>implicitly</em> deleted, and therefore not participate in overload resolution, or <em>explicitly</em> deleted and therefore 
-impede overload resolution for usages that would otherwise find copies.
-</p>
-
-<p><i>[2017-07 Toronto Wed Issue Prioritization]</i></p>
-
-<p>Priority 2</p>
-
-<p><i>[2017-11 Albuquerque Wednesday issue processing]</i></p>
-
-<p>Move to Ready.</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4659">N4659</a>.</p>
-
-<ol>
-<li><p>Edit 23.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-pair&amp; operator=(pair&amp;&amp; p) noexcept(<i>see below</i>);
-</pre>
-<blockquote>
-<p>
--21- <i>Effects:</i> Assigns to <tt>first</tt> with <tt>std::forward&lt;first_type&gt;(p.first)</tt> and to 
-<tt>second</tt> with <tt>std::forward&lt;second_type&gt;(p.second)</tt>.
-<p/>
--22- <i>Remarks:</i> This operator shall <del>be defined as deleted</del><ins>not participate in overload resolution</ins> 
-unless <tt>is_move_assignable_v&lt;first_type&gt;</tt> is <tt>true</tt> and <tt>is_move_assignable_v&lt;second_type&gt;</tt> 
-is <tt>true</tt>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Edit 23.5.3.2 <a href="https://wg21.link/tuple.assign">[tuple.assign]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-tuple&amp; operator=(tuple&amp;&amp; u) noexcept(<i>see below</i>);
-</pre>
-<blockquote>
-<p>
--5- <i>Effects:</i> For all <tt><i>i</i></tt>, assigns <tt>std::forward&lt;T<sub><i>i</i></sub>&gt;(get&lt;<i>i</i>&gt;(u))</tt> 
-to <tt>get&lt;<i>i</i>&gt;(*this)</tt>.
-<p/>
--6- <i>Remarks:</i> This operator shall <del>be defined as deleted</del><ins>not participate in overload resolution</ins> unless 
-<tt>is_move_assignable_v&lt;T<sub><i>i</i></sub>&gt;</tt> is <tt>true</tt> for all <tt><i>i</i></tt>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="2969" href="#2969">2969</a><sup><a href="https://cplusplus.github.io/LWG/issue2969">(i)</a></sup>. <tt>polymorphic_allocator::construct()</tt> shouldn't pass <tt>resource()</tt></h3>
 <p><b>Section:</b> 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2017-05-30 <b>Last modified:</b> 2017-11-10</p>
+ <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2017-05-30 <b>Last modified:</b> 2017-11-09</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#mem.poly.allocator.mem">active issues</a> in [mem.poly.allocator.mem].</p>
@@ -390,7 +314,7 @@ then <tt>yprime</tt> is <tt>tuple_cat(std::move(y), make_tuple(<del>resource()</
 <hr>
 <h3><a name="2975" href="#2975">2975</a><sup><a href="https://cplusplus.github.io/LWG/issue2975">(i)</a></sup>. Missing case for <tt>pair</tt> construction in scoped and polymorphic allocators</h3>
 <p><b>Section:</b> 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a>, 23.13.4 <a href="https://wg21.link/allocator.adaptor.members">[allocator.adaptor.members]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2017-06-13 <b>Last modified:</b> 2017-11-10</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2017-06-13 <b>Last modified:</b> 2017-11-09</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#mem.poly.allocator.mem">active issues</a> in [mem.poly.allocator.mem].</p>
@@ -1098,7 +1022,7 @@ provides a definition that is derived from <tt>true_type</tt> if <del>a type</de
 <hr>
 <h3><a name="3013" href="#3013">3013</a><sup><a href="https://cplusplus.github.io/LWG/issue3013">(i)</a></sup>. <tt>(recursive_)directory_iterator</tt> construction and traversal should not be <tt>noexcept</tt></h3>
 <p><b>Section:</b> 30.10.12.1 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a>, 30.10.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a>, 30.10.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a>, 30.10.14.19 <a href="https://wg21.link/fs.op.is_empty">[fs.op.is_empty]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-08-23 <b>Last modified:</b> 2017-11-03</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-08-23 <b>Last modified:</b> 2017-11-04</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#fs.dir.itr.members">active issues</a> in [fs.dir.itr.members].</p>
@@ -1467,7 +1391,7 @@ uintmax_t remove_all(const path&amp; p, error_code&amp; ec) <del>noexcept</del>;
 <hr>
 <h3><a name="3017" href="#3017">3017</a><sup><a href="https://cplusplus.github.io/LWG/issue3017">(i)</a></sup>. <tt>list splice</tt> functions should use <tt>addressof</tt></h3>
 <p><b>Section:</b> 26.3.9.6 <a href="https://wg21.link/forwardlist.ops">[forwardlist.ops]</a>, 26.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-09-05 <b>Last modified:</b> 2017-11-03</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-09-05 <b>Last modified:</b> 2017-11-04</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#forwardlist.ops">issues</a> in [forwardlist.ops].</p>
