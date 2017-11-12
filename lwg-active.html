@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D107)</h1>
-<p><p>Revised 2017-11-12 at 17:42:39 UTC</p>
+<p><p>Revised 2017-11-12 at 20:03:07 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -33462,9 +33462,10 @@ implementation without heroic efforts.
 <blockquote>
 <p>
 -1- The template argument for <tt>T</tt> shall <ins>meet the <tt>CopyConstructible</tt> and <tt>CopyAssignable</tt>
-requirements. If <tt>is_trivially_copyable_v&lt;T&gt;</tt> is <tt>false</tt>, the program is ill-formed</ins><del>be 
-trivially copyable (6.9 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type arguments that are not also statically 
-initializable may be difficult to use. &mdash; <i>end note</i>]
+requirements. If <tt>is_trivially_copyable_v&lt;T&gt; &amp;&amp; is_copy_constructible_v&lt;T&gt; &amp;&amp; 
+is_move_constructible_v&lt;T&gt; &amp;&amp; is_copy_assignable_v&lt;T&gt; &amp;&amp; is_move_assignable_v&lt;T&gt;</tt> 
+is <tt>false</tt>, the program is ill-formed</ins><del>be trivially copyable (6.9 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. 
+[<i>Note:</i> Type arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
 </p>
 </blockquote>
 </li>
