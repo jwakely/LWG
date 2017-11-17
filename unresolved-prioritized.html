@@ -26,7 +26,7 @@
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>This document is the Table of Contents for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports List</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.</p>
-<p><p>Revised 2017-11-17 at 22:09:50 UTC</p>
+<p><p>Revised 2017-11-17 at 22:24:47 UTC</p>
 </p><h2><a name="Priority 1"</a>Priority 1 (1 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -2154,7 +2154,7 @@ regards to <tt>ClassAtomCollatingElement</tt></td>
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="Priority 99"</a>Not Prioritized (57 issues)</h2>
+<h2><a name="Priority 99"</a>Not Prioritized (58 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -2238,19 +2238,19 @@ regards to <tt>ClassAtomCollatingElement</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3037">3037</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3037"></a></td>
+<td align="right"><a href="lwg-active.html#3036">3036</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3036"></a></td>
 <td align="left">23.12.3 [mem.poly.allocator.class]<a name="mem.poly.allocator.class"></a></td>
-<td align="left"><tt>polymorphic_allocator</tt> and incomplete types</td>
+<td align="left"><tt>polymorphic_allocator::destroy</tt> is extraneous</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3036">3036</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3036"></a></td>
+<td align="right"><a href="lwg-active.html#3037">3037</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3037"></a></td>
 <td align="left">23.12.3 [mem.poly.allocator.class]</td>
-<td align="left">polymorphic_allocator::destroy is extraneous</td>
+<td align="left"><tt>polymorphic_allocator</tt> and incomplete types</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -2410,20 +2410,20 @@ regards to <tt>ClassAtomCollatingElement</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1217">1217</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1217"></a></td>
+<td align="right"><a href="lwg-active.html#1154">1154</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1154"></a></td>
 <td align="left">29.5 [complex.numbers]<a name="complex.numbers"></a></td>
-<td align="left">Quaternion support</td>
-<td align="center"><font color="red">No</font></td>
+<td align="left"><tt>complex</tt> should accept integral types</td>
+<td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1154">1154</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1154"></a></td>
+<td align="right"><a href="lwg-active.html#1217">1217</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1217"></a></td>
 <td align="left">29.5 [complex.numbers]</td>
-<td align="left"><tt>complex</tt> should accept integral types</td>
-<td align="center">Yes</td>
+<td align="left">Quaternion support</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
@@ -2509,6 +2509,15 @@ regards to <tt>ClassAtomCollatingElement</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3039">3039</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3039"></a></td>
+<td align="left">33.3.2.2 [thread.thread.constr]<a name="thread.thread.constr"></a></td>
+<td align="left">Unnecessary <tt>decay</tt> in <tt>thread</tt> and <tt>packaged_task</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#1488">1488</a></td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1488"></a></td>
 <td align="left">33.4 [thread.mutex]<a name="thread.mutex"></a></td>
@@ -2554,19 +2563,37 @@ regards to <tt>ClassAtomCollatingElement</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#2412">2412</a></td>
+<td align="left"><a href="lwg-active.html#Review">Review</a><a name="2412"></a></td>
+<td align="left">33.6.6 [futures.promise]<a name="futures.promise"></a></td>
+<td align="left"><tt>promise::set_value()</tt> and <tt>promise::get_future()</tt> should not race</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3003">3003</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3003"></a></td>
-<td align="left">33.6.6 [futures.promise]<a name="futures.promise"></a></td>
+<td align="left">33.6.6 [futures.promise]</td>
 <td align="left"><tt>&lt;future&gt;</tt> still has type-erased allocators in <tt>promise</tt></td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2412">2412</a></td>
-<td align="left"><a href="lwg-active.html#Review">Review</a><a name="2412"></a></td>
-<td align="left">33.6.6 [futures.promise]</td>
-<td align="left"><tt>promise::set_value()</tt> and <tt>promise::get_future()</tt> should not race</td>
+<td align="right"><a href="lwg-active.html#1238">1238</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1238"></a></td>
+<td align="left">99 [algorithms]<a name="algorithms"></a></td>
+<td align="left">defining algorithms taking iterator for range</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#1282">1282</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1282"></a></td>
+<td align="left">99 [algorithms]</td>
+<td align="left">A proposal to add <tt>std::split</tt> algorithm</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -2582,19 +2609,10 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1282">1282</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1282"></a></td>
-<td align="left">99 [algorithms]<a name="algorithms"></a></td>
-<td align="left">A proposal to add <tt>std::split</tt> algorithm</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#1238">1238</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1238"></a></td>
-<td align="left">99 [algorithms]</td>
-<td align="left">defining algorithms taking iterator for range</td>
+<td align="right"><a href="lwg-active.html#523">523</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="523"></a></td>
+<td align="left">99 [re]<a name="re"></a></td>
+<td align="left">regex case-insensitive character ranges are unimplementable as specified</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
@@ -2604,24 +2622,6 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2884"></a></td>
 <td align="left">99 [containers]<a name="containers"></a></td>
 <td align="left">Relational operators for containers should sfinae; if the underlying type is not comparable, neither should the container be</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#1242">1242</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1242"></a></td>
-<td align="left">99 [containers]</td>
-<td align="left">Enable SCARY iterators</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#523">523</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="523"></a></td>
-<td align="left">99 [re]<a name="re"></a></td>
-<td align="left">regex case-insensitive character ranges are unimplementable as specified</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
@@ -2640,6 +2640,15 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="423"></a></td>
 <td align="left">99 [input.output]<a name="input.output"></a></td>
 <td align="left">effects of negative streamsize in iostreams</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#1242">1242</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1242"></a></td>
+<td align="left">99 [containers]<a name="containers"></a></td>
+<td align="left">Enable SCARY iterators</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
