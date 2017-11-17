@@ -27,7 +27,7 @@
 <p>This document is the Index by Section for the <a href="lwg-active.html">Library Active Issues List</a>, <a href="lwg-defects.html">Library Defect Reports List</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.</p>
 <h2>Index by Section</h2>
 <p><a href="lwg-index-open.html">(view only non-Ready open issues)</a></p>
-<p><p>Revised 2017-11-14 at 13:58:40 UTC</p>
+<p><p>Revised 2017-11-17 at 21:21:26 UTC</p>
 </p><h2><a name="Section 4"></a>Section 4 (1 issues)</h2>
 <p><a href="lwg-index-open.html#Section 4">(view only non-Ready open issues)</a></p>
 <table border="1" cellpadding="4">
@@ -386,7 +386,7 @@
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="Section 23"></a>Section 23 (69 issues)</h2>
+<h2><a name="Section 23"></a>Section 23 (70 issues)</h2>
 <p><a href="lwg-index-open.html#Section 23">(view only non-Ready open issues)</a></p>
 <table border="1" cellpadding="4">
 <tr>
@@ -733,6 +733,24 @@
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3036">3036</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3036"></a></td>
+<td align="left">23.12.3 [mem.poly.allocator.class]<a name="mem.poly.allocator.class"></a></td>
+<td align="left">polymorphic_allocator::destroy is extraneous</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3037">3037</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3037"></a></td>
+<td align="left">23.12.3 [mem.poly.allocator.class]</td>
+<td align="left">polymorphic_allocator and incomplete types</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#2848">2848</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2848"></a></td>
 <td align="left">23.12.5.2 [mem.res.pool.options]<a name="mem.res.pool.options"></a></td>
@@ -957,15 +975,6 @@ the evaluation of type traits</td>
 <td align="left"><tt>is_convertible&lt;derived*, base*&gt;</tt> may lead to ODR</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3034">3034</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3034"></a></td>
-<td align="left">23.15.7.6 [meta.trans.other]<a name="meta.trans.other"></a></td>
-<td align="left">P0767R1 breaks previously-standard-layout types</td>
-<td align="center">Yes</td>
-<td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -1342,16 +1351,6 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2362">2362</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2362"></a></td>
-<td align="left">26.2.6 [associative.reqmts]</td>
-<td align="left">unique, associative <tt>emplace()</tt> should not move/copy the <tt>mapped_type</tt> constructor 
-arguments when no insertion happens</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#2772">2772</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2772"></a></td>
 <td align="left">26.2.6 [associative.reqmts]</td>
@@ -1361,11 +1360,12 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2215">2215</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2215"></a></td>
+<td align="right"><a href="lwg-active.html#2362">2362</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2362"></a></td>
 <td align="left">26.2.6 [associative.reqmts]</td>
-<td align="left">(unordered) associative container functors should be <tt>CopyConstructible</tt></td>
-<td align="center">Yes</td>
+<td align="left">unique, associative <tt>emplace()</tt> should not move/copy the <tt>mapped_type</tt> constructor 
+arguments when no insertion happens</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -1379,10 +1379,10 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1175">1175</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="1175"></a></td>
-<td align="left">26.2.7 [unord.req]<a name="unord.req"></a></td>
-<td align="left"><tt>unordered</tt> complexity</td>
+<td align="right"><a href="lwg-active.html#2215">2215</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2215"></a></td>
+<td align="left">26.2.6 [associative.reqmts]</td>
+<td align="left">(unordered) associative container functors should be <tt>CopyConstructible</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1390,8 +1390,17 @@ arguments when no insertion happens</td>
 <tr>
 <td align="right"><a href="lwg-active.html#2198">2198</a></td>
 <td align="left"><a href="lwg-active.html#Open">Open</a><a name="2198"></a></td>
-<td align="left">26.2.7 [unord.req]</td>
+<td align="left">26.2.7 [unord.req]<a name="unord.req"></a></td>
 <td align="left"><tt>max_load_factor(z)</tt> makes no strong guarantees, but bans useful behavior</td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#1175">1175</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="1175"></a></td>
+<td align="left">26.2.7 [unord.req]</td>
+<td align="left"><tt>unordered</tt> complexity</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
