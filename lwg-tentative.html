@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2017-11-29 at 03:09:17 UTC</p>
+<p><p>Revised 2017-11-29 at 04:03:01 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="3000" href="#3000">3000</a><sup><a href="https://cplusplus.github.io/LWG/issue3000">(i)</a></sup>. <tt>monotonic_memory_resource::do_is_equal</tt> uses <tt>dynamic_cast</tt> unnecessarily</h3>
@@ -246,7 +246,7 @@ size_type capacity() const noexcept;
 
 <hr>
 <h3><a name="3005" href="#3005">3005</a><sup><a href="https://cplusplus.github.io/LWG/issue3005">(i)</a></sup>. Destruction order of arrays by <tt>make_shared/allocate_shared</tt> only recommended?</h3>
-<p><b>Section:</b> 23.11.2.2.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 23.11.3.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Richard Smith <b>Opened:</b> 2017-08-01 <b>Last modified:</b> 2017-11-12</p>
 <p><b>Priority: </b>0
 </p>
@@ -274,7 +274,7 @@ implementation to destroy in reverse construction order in all cases?
 <p>This resolution is relative to <a href="http://wg21.link/n4687">N4687</a>.</p>
 
 <ol>
-<li><p>Edit 23.11.2.2.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
+<li><p>Edit 23.11.3.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -320,7 +320,7 @@ P0 to change "should be" to "are" though.
 <p>This resolution is relative to <a href="http://wg21.link/n4700">N4700</a>.</p>
 
 <ol>
-<li><p>Edit 23.11.2.2.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
+<li><p>Edit 23.11.3.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -374,7 +374,7 @@ would work?
 <p>This resolution is relative to <a href="http://wg21.link/n4700">N4700</a>.</p>
 
 <ol>
-<li><p>Edit 23.11.2.2.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
+<li><p>Edit 23.11.3.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -406,7 +406,7 @@ the reverse order of their <ins>original</ins> construction.</p></li>
 
 <hr>
 <h3><a name="3007" href="#3007">3007</a><sup><a href="https://cplusplus.github.io/LWG/issue3007">(i)</a></sup>. <tt>allocate_shared</tt> should rebind allocator to <i>cv</i>-unqualified <tt>value_type</tt> for construction</h3>
-<p><b>Section:</b> 23.11.2.2.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 23.11.3.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Glen Joseph Fernandes <b>Opened:</b> 2017-08-06 <b>Last modified:</b> 2017-11-12</p>
 <p><b>Priority: </b>0
 </p>
@@ -434,7 +434,7 @@ that the <tt>value_type</tt> must be <i>cv</i>-unqualified.
 <p>This resolution is relative to <a href="http://wg21.link/n4687">N4687</a>.</p>
 
 <ol>
-<li><p>Edit 23.11.2.2.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
+<li><p>Edit 23.11.3.6 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -570,7 +570,7 @@ provides a definition that is derived from <tt>true_type</tt> if <del>a type</de
 
 <hr>
 <h3><a name="3013" href="#3013">3013</a><sup><a href="https://cplusplus.github.io/LWG/issue3013">(i)</a></sup>. <tt>(recursive_)directory_iterator</tt> construction and traversal should not be <tt>noexcept</tt></h3>
-<p><b>Section:</b> 30.10.12.1 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a>, 30.10.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a>, 30.10.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a>, 30.10.14.19 <a href="https://wg21.link/fs.op.is_empty">[fs.op.is_empty]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 30.11.12.1 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a>, 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a>, 30.11.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a>, 30.11.14.19 <a href="https://wg21.link/fs.op.is_empty">[fs.op.is_empty]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-08-23 <b>Last modified:</b> 2017-11-12</p>
 <p><b>Priority: </b>0
 </p>
@@ -608,7 +608,7 @@ specification forms a <tt>path</tt> via <tt>operator/</tt> in two places (bullet
 <p>This wording is relative to <a href="http://wg21.link/n4700">N4700</a>.</p>
 
 <ol>
-<li><p>Edit 30.10.12 <a href="https://wg21.link/fs.class.directory_iterator">[fs.class.directory_iterator]</a>, class <tt>directory_iterator</tt> synopsis, as indicated:</p>
+<li><p>Edit 30.11.12 <a href="https://wg21.link/fs.class.directory_iterator">[fs.class.directory_iterator]</a>, class <tt>directory_iterator</tt> synopsis, as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -625,7 +625,7 @@ directory_iterator&amp; increment(error_code&amp; ec) <del>noexcept</del>;
 </blockquote>
 </li>
 
-<li><p>Edit 30.10.12.1 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a> before p2 as indicated:</p>
+<li><p>Edit 30.11.12.1 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a> before p2 as indicated:</p>
 <blockquote>
 <pre>
 explicit directory_iterator(const path&amp; p);
@@ -637,7 +637,7 @@ directory_iterator(const path&amp; p, directory_options options, error_code&amp;
 <p>
 -2- <i>Effects:</i> [&hellip;]
 <p/>
--3- <i>Throws:</i> As specified in 30.10.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
+-3- <i>Throws:</i> As specified in 30.11.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
 <p/>
 -4- [<i>Note:</i> [&hellip;] &mdash; <i>end note</i>]
 </p>
@@ -645,7 +645,7 @@ directory_iterator(const path&amp; p, directory_options options, error_code&amp;
 </blockquote>
 </li>
 
-<li><p>Edit 30.10.12.1 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a> before p10 as indicated:</p>
+<li><p>Edit 30.11.12.1 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a> before p10 as indicated:</p>
 <blockquote>
 <pre>
 directory_iterator&amp; operator++();
@@ -657,13 +657,13 @@ directory_iterator&amp; increment(error_code&amp; ec) <del>noexcept</del>;
 <p/>
 -11- <i>Returns:</i> <tt>*this</tt>.
 <p/>
--12- <i>Throws:</i> As specified in 30.10.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
+-12- <i>Throws:</i> As specified in 30.11.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
 </p>
 </blockquote>
 </blockquote>
 </li>
 
-<li><p>Edit 30.10.13 <a href="https://wg21.link/fs.class.rec.dir.itr">[fs.class.rec.dir.itr]</a>, class <tt>recursive_directory_iterator</tt> synopsis, as indicated:</p>
+<li><p>Edit 30.11.13 <a href="https://wg21.link/fs.class.rec.dir.itr">[fs.class.rec.dir.itr]</a>, class <tt>recursive_directory_iterator</tt> synopsis, as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -680,7 +680,7 @@ recursive_directory_iterator&amp; increment(error_code&amp; ec) <del>noexcept</d
 </blockquote>
 </li>
 
-<li><p>Edit 30.10.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> before p2 as indicated:</p>
+<li><p>Edit 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> before p2 as indicated:</p>
 <blockquote>
 <pre>
 explicit recursive_directory_iterator(const path&amp; p);
@@ -694,7 +694,7 @@ recursive_directory_iterator(const path&amp; p, error_code&amp; ec) <del>noexcep
 <p/>
 -3- <i>Postconditions:</i> [&hellip;]
 <p/>
--4- <i>Throws:</i> As specified in 30.10.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
+-4- <i>Throws:</i> As specified in 30.11.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
 <p/>
 -5- [<i>Note:</i> [&hellip;] &mdash; <i>end note</i>]
 <p/>
@@ -704,7 +704,7 @@ recursive_directory_iterator(const path&amp; p, error_code&amp; ec) <del>noexcep
 </blockquote>
 </li>
 
-<li><p>Edit 30.10.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> before p23 as indicated:</p>
+<li><p>Edit 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> before p23 as indicated:</p>
 <blockquote>
 <pre>
 recursive_directory_iterator&amp; operator++();
@@ -716,13 +716,13 @@ recursive_directory_iterator&amp; increment(error_code&amp; ec) <del>noexcept</d
 <p/>
 -24- <i>Returns:</i> <tt>*this</tt>.
 <p/>
--25- <i>Throws:</i> As specified 30.10.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
+-25- <i>Throws:</i> As specified 30.11.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
 </p>
 </blockquote>
 </blockquote>
 </li>
 
-<li><p>Edit 30.10.5 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header <tt>&lt;filesystem&gt;</tt> synopsis, as indicated:</p>
+<li><p>Edit 30.11.5 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header <tt>&lt;filesystem&gt;</tt> synopsis, as indicated:</p>
 <blockquote>
 <pre>
 namespace std::filesystem {
@@ -747,7 +747,7 @@ namespace std::filesystem {
 </blockquote>
 </li>
 
-<li><p>Edit 30.10.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> as indicated:</p>
+<li><p>Edit 30.11.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> as indicated:</p>
 <blockquote>
 <pre>
 void copy(const path&amp; from, const path&amp; to, error_code&amp; ec) <del>noexcept</del>;
@@ -779,7 +779,7 @@ void copy(const path&amp; from, const path&amp; to, copy_options options,
 </li>
 
 
-<li><p>Edit 30.10.14.19 <a href="https://wg21.link/fs.op.is_empty">[fs.op.is_empty]</a> as indicated:</p>
+<li><p>Edit 30.11.14.19 <a href="https://wg21.link/fs.op.is_empty">[fs.op.is_empty]</a> as indicated:</p>
 <blockquote>
 <pre>
 bool is_empty(const path&amp; p);
@@ -1127,7 +1127,7 @@ equal(
 
 <hr>
 <h3><a name="3026" href="#3026">3026</a><sup><a href="https://cplusplus.github.io/LWG/issue3026">(i)</a></sup>. <tt>filesystem::weakly_canonical</tt> still defined in terms of <tt>canonical(p, base)</tt></h3>
-<p><b>Section:</b> 30.10.14.39 <a href="https://wg21.link/fs.op.weakly_canonical">[fs.op.weakly_canonical]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 30.11.14.39 <a href="https://wg21.link/fs.op.weakly_canonical">[fs.op.weakly_canonical]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-10-14 <b>Last modified:</b> 2017-10-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -1157,7 +1157,7 @@ to talk about calling it without one.
 <p>This wording is relative to <a href="http://wg21.link/n4687">N4687</a>.</p>
 
 <ol>
-<li><p>Change 30.10.14.39 <a href="https://wg21.link/fs.op.weakly_canonical">[fs.op.weakly_canonical]</a> as indicated:</p>
+<li><p>Change 30.11.14.39 <a href="https://wg21.link/fs.op.weakly_canonical">[fs.op.weakly_canonical]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -1234,7 +1234,7 @@ This wording is relative to <a href="http://wg21.link/n4700">N4700</a> +
 <p>
 The type <tt>max_align_t</tt> is a trivial <ins>standard-layout</ins> type whose
 alignment requirement is at least as great as that of every scalar type, and whose
-alignment requirement is supported in every context (6.11 <a href="https://wg21.link/basic.align">[basic.align]</a>).
+alignment requirement is supported in every context (6.6.5 <a href="https://wg21.link/basic.align">[basic.align]</a>).
 </p>
 </li>
 <li><p>Change the table in 23.15.7.6 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a> as indicated:</p>
@@ -1254,7 +1254,7 @@ in <tt>Types</tt>; its size shall be at least <tt>Len</tt>.
 <li><p>Change 24.1 <a href="https://wg21.link/strings.general">[strings.general]</a> paragraph 1 as indicated:</p>
 <p>
 This Clause describes components for manipulating sequences of any non-array
-trivial <ins>standard-layout</ins> (6.9 <a href="https://wg21.link/basic.types">[basic.types]</a>) type. Such types
+trivial <ins>standard-layout</ins> (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>) type. Such types
 are called char-like types, and objects of char-like types are called char-like
 objects or simply characters.
 </p>
@@ -1267,7 +1267,7 @@ objects or simply characters.
 
 <hr>
 <h3><a name="3035" href="#3035">3035</a><sup><a href="https://cplusplus.github.io/LWG/issue3035">(i)</a></sup>. <tt>std::allocator</tt>'s constructors should be <tt>constexpr</tt></h3>
-<p><b>Section:</b> 23.10.9 <a href="https://wg21.link/default.allocator">[default.allocator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 23.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Geoffrey Romer <b>Opened:</b> 2017-11-11 <b>Last modified:</b> 2017-11-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -1291,7 +1291,7 @@ objects that need to hold a <tt>std::allocator</tt>, but don't have to actually 
 This wording is relative to <a href="http://wg21.link/n4700">N4700</a>.
 </p>
 <ol>
-<li><p>Change in 23.10.9 <a href="https://wg21.link/default.allocator">[default.allocator]</a> as indicated:</p>
+<li><p>Change in 23.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> as indicated:</p>
 <blockquote>
 <pre>
 namespace std {
