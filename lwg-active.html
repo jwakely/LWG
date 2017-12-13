@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D108)</h1>
-<p><p>Revised 2017-12-13 at 18:10:45 UTC</p>
+<p><p>Revised 2017-12-13 at 18:28:52 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -12669,7 +12669,7 @@ Leave as Open.
 <hr>
 <h3><a name="2243" href="#2243">2243</a><sup><a href="https://cplusplus.github.io/LWG/issue2243">(i)</a></sup>. <tt>istream::putback</tt> problem</h3>
 <p><b>Section:</b> 30.7.4.3 <a href="https://wg21.link/istream.unformatted">[istream.unformatted]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Juan Soulie <b>Opened:</b> 2013-03-01 <b>Last modified:</b> 2016-02-10</p>
+ <b>Submitter:</b> Juan Soulie <b>Opened:</b> 2013-03-01 <b>Last modified:</b> 2017-12-13</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#istream.unformatted">issues</a> in [istream.unformatted].</p>
@@ -12681,12 +12681,63 @@ is called. The problem are not the obvious typos in the expression, but the fact
 interpretations, since nowhere is specified what the required argument to <tt>sputbackc</tt> is.
 <p/>
 It can be guessed to be "<tt>rdbuf()-&gt;sputbackc(c)</tt>", but "<tt>rdbuf()-&gt;sputbackc(char_type())</tt>" or 
-just anything would be as conforming (or non-confoming) as the first guess.
+just anything would be as conforming (or non-conforming) as the first guess.
+</p>
+
+<p><i>[2017-12-12, Jonathan comments and provides wording]</i></p>
+
+<p>
+Fix the bogus expression, and change <tt>sputbackc()</tt> to just <tt>sputbackc</tt>
+since we're talking about the function, not an expression <tt>sputbackc()</tt> (which 
+isn't a valid expression any more than <tt>rdbuf-&gt;sputbackc()</tt> is). Make the 
+corresponding change to the equivalent wording in p36 too.
 </p>
 
 
-
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Change [istream.unformatted] as shown:</p>
+
+<blockquote>
+<pre>
+basic_istream&lt;charT, traits&gt;&amp; putback(char_type c);
+</pre>
+<blockquote>
+<p>
+-34- <i>Effects:</i> Behaves as an unformatted input function (as described above), except that the function
+first clears <tt>eofbit</tt>. After constructing a sentry object, if <tt>!good()</tt> calls 
+<tt>setstate(failbit)</tt> which may throw an exception, and return. If <tt>rdbuf()</tt> is not null, calls 
+<tt>rdbuf<ins>()</ins>-&gt;sputbackc(<ins>c</ins>)</tt>. If <tt>rdbuf()</tt> is null, or if 
+<tt>sputbackc<del>()</del></tt> returns <tt>traits::eof()</tt>, calls <tt>setstate(badbit)</tt> (which may throw 
+<tt>ios_base::failure</tt> (30.5.5.4 <a href="https://wg21.link/iostate.flags">[iostate.flags]</a>)). 
+[<i>Note:</i> This function extracts no characters, so the value returned by the next call to <tt>gcount()</tt> 
+is <tt>0</tt>. &mdash; <i>end note</i>]
+<p/>
+-35- <i>Returns:</i> <tt>*this</tt>.
+</p>
+</blockquote>
+<pre>
+basic_istream&lt;charT, traits&gt;&amp; unget();
+</pre>
+<blockquote>
+<p>
+-36- <i>Effects:</i> Behaves as an unformatted input function (as described above), except that the function
+first clears <tt>eofbit</tt>. After constructing a sentry object, if <tt>!good()</tt> calls 
+<tt>setstate(failbit)</tt> which may throw an exception, and return. If <tt>rdbuf()</tt> is not null, calls 
+<tt>rdbuf()-&gt;sungetc()</tt>. If <tt>rdbuf()</tt> is null, or if <tt>sungetc<del>()</del></tt> returns 
+<tt>traits::eof()</tt>, calls <tt>setstate(badbit)</tt> (which may throw <tt>ios_base::failure</tt> 
+(30.5.5.4 <a href="https://wg21.link/iostate.flags">[iostate.flags]</a>)). 
+[<i>Note:</i> This function extracts no characters, so the value returned by the next call to <tt>gcount()</tt> is 
+<tt>0</tt>. &mdash; <i>end note</i>]
+<p/>
+-37- <i>Returns:</i> <tt>*this</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
