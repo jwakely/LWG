@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2017-12-11 at 20:41:22 UTC</p>
+<p><p>Revised 2017-12-13 at 18:10:45 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -30377,74 +30377,6 @@ return static_cast&lt;Tp*&gt;(memory_rsrc-&gt;allocate(<ins>SIZE_MAX / sizeof(Tp
 
 
 <hr>
-<h3><a name="3040" href="#3040">3040</a><sup><a href="https://cplusplus.github.io/LWG/issue3040">(i)</a></sup>. <tt>basic_string_view::starts_with</tt> <i>Effects</i> are incorrect</h3>
-<p><b>Section:</b> 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-11-29 <b>Last modified:</b> 2017-12-02</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#string.view.ops">issues</a> in [string.view.ops].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The effects of <tt>starts_with</tt> are described as equivalent to <tt>return compare(0, npos, x) == 0</tt>.
-<p/>
-This is incorrect, because it returns <tt>false</tt> when you check to see if any sequence begins with the empty sequence. 
-(There are other failure cases, but that one's easy)
-<p/>
-As a drive-by fix, we can make the <i>Effects:</i> for <tt>starts_with</tt> and <tt>ends_with</tt> clearer.
-<p/>
-Those are the second and proposed third changes, and they are not required.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
-
-<ol>
-<li><p>Change 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> p20 as indicated:</p>
-
-<blockquote>
-<pre>constexpr bool starts_with(basic_string_view x) const noexcept;</pre>
-<blockquote>
-<p>
--20- <i>Effects:</i> Equivalent to: <tt>return <ins>size() &gt;= x.size() &amp;&amp;</ins> 
-compare(0, <del>npos</del><ins>x.size()</ins>, x) == 0;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Change 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> p21 as indicated:</p>
-<blockquote>
-<pre>constexpr bool starts_with(charT x) const noexcept;</pre>
-<blockquote>
-<p>
--21- <i>Effects:</i> Equivalent to: <tt>return <ins>!empty() &amp;&amp; 
-traits::eq(front(), x)</ins><del>starts_with(basic_string_view(&amp;x, 1))</del>;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Change 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> p24 as indicated:</p>
-
-<blockquote>
-<pre>constexpr bool ends_with(charT x) const noexcept;</pre>
-<blockquote>
-<p>
--24- <i>Effects:</i> Equivalent to: <tt>return <ins>!empty() &amp;&amp; traits::eq(back(), 
-x)</ins><del>ends_with(basic_string_view(&amp;x, 1))</del>;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="3041" href="#3041">3041</a><sup><a href="https://cplusplus.github.io/LWG/issue3041">(i)</a></sup>. Unnecessary <tt>decay</tt> in <tt>reference_wrapper</tt></h3>
 <p><b>Section:</b> 23.14.5.1 <a href="https://wg21.link/refwrap.const">[refwrap.const]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Agust&iacute;n K-ballo Berg&eacute; <b>Opened:</b> 2017-12-04 <b>Last modified:</b> 2017-12-05</p>
@@ -30653,6 +30585,42 @@ exceptions has not been added. IMO this position should be reconsidered to follo
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3045" href="#3045">3045</a><sup><a href="https://cplusplus.github.io/LWG/issue3045">(i)</a></sup>. <tt>atomic&lt;<i>floating-point</i>&gt;</tt> doesn't have <tt>value_type</tt> or <tt>difference_type</tt></h3>
+<p><b>Section:</b> 32.6.3 <a href="https://wg21.link/atomics.types.float">[atomics.types.float]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-12-11 <b>Last modified:</b> 2017-12-13</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>atomic&lt;<i>floating-point</i>&gt;</tt> specialization doesn't have the <tt>value_type</tt> and <tt>difference_type</tt> member typedefs, making it
+unusable with most of the nonmember function templates. This doesn't seem to be the intent.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Edit 32.6.3 <a href="https://wg21.link/atomics.types.float">[atomics.types.float]</a> after p1, class template specialization <tt>atomic&lt;<i>floating-point</i>&gt;</tt> synopsis, as indicated:</p>
+<pre>
+  namespace std {
+    template&lt;&gt; struct atomic&lt;<i>floating-point</i>&gt; {
+<ins>      using value_type = <i>floating-point</i>;
+      using difference_type = value_type;</ins>
+      static constexpr bool is_always_lock_free = <i>implementation-defined</i>;
+      [&hellip;]
+    };
+  }
+</pre>
+</li>
+</ol>
 
 
 

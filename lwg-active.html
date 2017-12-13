@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2017-12-11</td>
+  <td align="left">2017-12-13</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D108)</h1>
-<p><p>Revised 2017-12-11 at 20:41:22 UTC</p>
+<p><p>Revised 2017-12-13 at 18:10:45 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,14 @@ ownership of it.
 <ul>
 <li>D108: 2017-02-12 2018 pre-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>244 open issues, up by 3.</li>
+<li>245 open issues, up by 4.</li>
 <li>2260 closed issues, up by 2.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2566 issues total, up by 5.</li>
+<li>2567 issues total, up by 6.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 5 New issues: <a href="lwg-active.html#3040">3040</a>, <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3044">3044</a>.</li>
+<li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3040">3040</a>.</li>
+<li>Added the following 5 New issues: <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3044">3044</a>, <a href="lwg-active.html#3045">3045</a>.</li>
 <li>Changed the following 2 issues to C++17 (from Open): <a href="lwg-defects.html#2569">2569</a>, <a href="lwg-defects.html#2587">2587</a>.</li>
 </ul></li>
 </ul>
@@ -33266,12 +33267,12 @@ template &lt;class F&gt;
 
 <hr>
 <h3><a name="3040" href="#3040">3040</a><sup><a href="https://cplusplus.github.io/LWG/issue3040">(i)</a></sup>. <tt>basic_string_view::starts_with</tt> <i>Effects</i> are incorrect</h3>
-<p><b>Section:</b> 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-11-29 <b>Last modified:</b> 2017-12-02</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-11-29 <b>Last modified:</b> 2017-12-13</p>
+<p><b>Priority: </b>0
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#string.view.ops">issues</a> in [string.view.ops].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The effects of <tt>starts_with</tt> are described as equivalent to <tt>return compare(0, npos, x) == 0</tt>.
@@ -33283,6 +33284,11 @@ As a drive-by fix, we can make the <i>Effects:</i> for <tt>starts_with</tt> and 
 <p/>
 Those are the second and proposed third changes, and they are not required.
 </p>
+
+<p><i>[
+2017-12-13 Moved to Tentatively Ready after 8 positive votes for P0 on c++std-lib.
+]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -33541,6 +33547,42 @@ exceptions has not been added. IMO this position should be reconsidered to follo
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3045" href="#3045">3045</a><sup><a href="https://cplusplus.github.io/LWG/issue3045">(i)</a></sup>. <tt>atomic&lt;<i>floating-point</i>&gt;</tt> doesn't have <tt>value_type</tt> or <tt>difference_type</tt></h3>
+<p><b>Section:</b> 32.6.3 <a href="https://wg21.link/atomics.types.float">[atomics.types.float]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-12-11 <b>Last modified:</b> 2017-12-13</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>atomic&lt;<i>floating-point</i>&gt;</tt> specialization doesn't have the <tt>value_type</tt> and <tt>difference_type</tt> member typedefs, making it
+unusable with most of the nonmember function templates. This doesn't seem to be the intent.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Edit 32.6.3 <a href="https://wg21.link/atomics.types.float">[atomics.types.float]</a> after p1, class template specialization <tt>atomic&lt;<i>floating-point</i>&gt;</tt> synopsis, as indicated:</p>
+<pre>
+  namespace std {
+    template&lt;&gt; struct atomic&lt;<i>floating-point</i>&gt; {
+<ins>      using value_type = <i>floating-point</i>;
+      using difference_type = value_type;</ins>
+      static constexpr bool is_always_lock_free = <i>implementation-defined</i>;
+      [&hellip;]
+    };
+  }
+</pre>
+</li>
+</ol>
 
 
 
