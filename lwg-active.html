@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2017-12-14</td>
+  <td align="left">2017-12-16</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D108)</h1>
-<p><p>Revised 2017-12-14 at 04:21:49 UTC</p>
+<p><p>Revised 2017-12-16 at 10:18:14 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D108: 2017-02-12 2018 pre-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>245 open issues, up by 4.</li>
+<li>246 open issues, up by 5.</li>
 <li>2260 closed issues, up by 2.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2567 issues total, up by 6.</li>
+<li>2568 issues total, up by 7.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3040">3040</a>.</li>
-<li>Added the following 5 New issues: <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3044">3044</a>, <a href="lwg-active.html#3045">3045</a>.</li>
+<li>Added the following 6 New issues: <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3044">3044</a>, <a href="lwg-active.html#3045">3045</a>, <a href="lwg-active.html#3046">3046</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#2243">2243</a>.</li>
 <li>Changed the following 2 issues to C++17 (from Open): <a href="lwg-defects.html#2569">2569</a>, <a href="lwg-defects.html#2587">2587</a>.</li>
 </ul></li>
@@ -33707,6 +33707,46 @@ unusable with most of the nonmember function templates. This doesn't seem to be 
     };
   }
 </pre>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3046" href="#3046">3046</a><sup><a href="https://cplusplus.github.io/LWG/issue3046">(i)</a></sup>. Do not require <tt>reference_wrapper</tt> to support non-referenceable function types</h3>
+<p><b>Section:</b> 23.14.5 <a href="https://wg21.link/refwrap">[refwrap]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-12-14 <b>Last modified:</b> 2017-12-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#refwrap">issues</a> in [refwrap].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+[refwrap] says that <tt>reference_wrapper&lt;T&gt;</tt> is a "wrapper around a reference to an object or function of type <tt>T</tt>" 
+but this doesn't actually constrain it, and doesn't forbid non-referenceable function types like <tt>int() const</tt>.
+<p/>
+There is no way to construct a <tt>reference_wrapper&lt;int() const&gt;</tt> but implementations are required to provide partial 
+specializations for functions with <i>cv</i>-qualifiers and ref-qualifiers in order to define a nested <tt>result_type</tt>. 
+It should be undefined to instantiate <tt>reference_wrapper&lt;T&gt;</tt> with a non-referenceable type, or with a reference type 
+(since references to references are not possible). Making it undefined (rather than ill-formed or unspecified) means implementations 
+are not required to diagnose such invalid specializations, but also don't have to go to the effort of supporting weak result types etc.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Modify 23.14.5 <a href="https://wg21.link/refwrap">[refwrap]</a> as indicated:</p>
+<p>
+-1- <tt>reference_wrapper&lt;T&gt;</tt> is a <tt>CopyConstructible</tt> and <tt>CopyAssignable</tt> wrapper around a reference 
+to an object or function of type <tt>T</tt>. <ins><tt>T</tt> shall be a referenceable type (20.3.18 <a href="https://wg21.link/defns.referenceable">[defns.referenceable]</a>) that 
+is not a reference type.</ins>
+<p/>
+-2- <tt>reference_wrapper&lt;T&gt;</tt> shall be a trivially copyable type (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>).
+</p>
 </li>
 </ol>
 
