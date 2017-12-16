@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2017-12-16 at 10:33:57 UTC</p>
+<p><p>Revised 2017-12-16 at 11:18:53 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -30695,6 +30695,8 @@ are not required to diagnose such invalid specializations, but also don't have t
 
 <ol>
 <li><p>Modify 23.14.5 <a href="https://wg21.link/refwrap">[refwrap]</a> as indicated:</p>
+
+<blockquote>
 <p>
 -1- <tt>reference_wrapper&lt;T&gt;</tt> is a <tt>CopyConstructible</tt> and <tt>CopyAssignable</tt> wrapper around a reference 
 to an object or function of type <tt>T</tt>. <ins><tt>T</tt> shall be a referenceable type (20.3.18 <a href="https://wg21.link/defns.referenceable">[defns.referenceable]</a>) that 
@@ -30702,6 +30704,7 @@ is not a reference type.</ins>
 <p/>
 -2- <tt>reference_wrapper&lt;T&gt;</tt> shall be a trivially copyable type (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>).
 </p>
+</blockquote>
 </li>
 </ol>
 
@@ -30736,6 +30739,68 @@ A similar issue affects the <tt>atomic&lt;T*&gt;</tt> partial specialization for
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3048" href="#3048">3048</a><sup><a href="https://cplusplus.github.io/LWG/issue3048">(i)</a></sup>. <tt>transform_reduce(exec, first1, last1, first2, init)</tt> discards execution policy</h3>
+<p><b>Section:</b> 29.8.5 <a href="https://wg21.link/transform.reduce">[transform.reduce]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Billy Robert O'Neal III <b>Opened:</b> 2017-12-15 <b>Last modified:</b> 2017-12-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Since there exists only one common <i>Effects</i> element for both the parallel and the non-parallel form of
+<tt>transform_reduce</tt> without explicit operation parameters, the current specification of a function call 
+<tt>std::transform_reduce(exec, first1, last1, first2, init)</tt> has the same effect as if the 
+<tt>ExecutionPolicy</tt> would have been ignored. Presumably this effect is unintended.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Modify 29.8.5 <a href="https://wg21.link/transform.reduce">[transform.reduce]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class InputIterator1, class InputIterator2, class T&gt;
+  T transform_reduce(InputIterator1 first1, InputIterator1 last1,
+                     InputIterator2 first2,
+                     T init);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Effects:</i> Equivalent to:</ins> 
+</p>
+<blockquote><pre>
+<ins>return transform_reduce(first1, last1, first2, init, plus&lt;&gt;(), multiplies&lt;&gt;());</ins>
+</pre></blockquote>
+</blockquote>
+<pre>
+template&lt;class ExecutionPolicy,
+         class ForwardIterator1, class ForwardIterator2, class T&gt;
+  T transform_reduce(ExecutionPolicy&amp;&amp; exec,
+                     ForwardIterator1 first1, ForwardIterator1 last1,
+                     ForwardIterator2 first2,
+                     T init);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Equivalent to: 
+</p>
+<blockquote><pre>
+return transform_reduce(<ins>std::forward&lt;ExecutionPolicy&gt;(exec),</ins> first1, last1, first2, init, plus&lt;&gt;(), 
+multiplies&lt;&gt;());
+</pre></blockquote>
+</blockquote>
+</blockquote>
+
+</li>
+</ol>
 
 
 
