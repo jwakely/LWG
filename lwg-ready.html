@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2018-01-11 at 17:23:37 UTC</p>
+<td align="left"><p>Revised 2018-01-11 at 17:31:04 UTC</p>
 </td>
 </tr>
 <tr>
@@ -2297,6 +2297,47 @@ namespace std {
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3045" href="#3045">3045</a><sup><a href="https://cplusplus.github.io/LWG/issue3045">(i)</a></sup>. <tt>atomic&lt;<i>floating-point</i>&gt;</tt> doesn't have <tt>value_type</tt> or <tt>difference_type</tt></h3>
+<p><b>Section:</b> 32.6.3 <a href="https://wg21.link/atomics.types.float">[atomics.types.float]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-12-11 <b>Last modified:</b> 2018-01-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>atomic&lt;<i>floating-point</i>&gt;</tt> specialization doesn't have the <tt>value_type</tt> and <tt>difference_type</tt> member typedefs, making it
+unusable with most of the nonmember function templates. This doesn't seem to be the intent.
+</p>
+
+<p><i>[
+2018-01-09 Moved to Tentatively Ready after 6 positive votes on c++std-lib.
+]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Edit 32.6.3 <a href="https://wg21.link/atomics.types.float">[atomics.types.float]</a> after p1, class template specialization <tt>atomic&lt;<i>floating-point</i>&gt;</tt> synopsis, as indicated:</p>
+<pre>
+  namespace std {
+    template&lt;&gt; struct atomic&lt;<i>floating-point</i>&gt; {
+<ins>      using value_type = <i>floating-point</i>;
+      using difference_type = value_type;</ins>
+      static constexpr bool is_always_lock_free = <i>implementation-defined</i>;
+      [&hellip;]
+    };
+  }
+</pre>
+</li>
 </ol>
 
 
