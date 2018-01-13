@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-01-11 at 17:31:04 UTC</p>
+<p><p>Revised 2018-01-13 at 19:26:42 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -27408,6 +27408,8 @@ request. &mdash; <i>end note</i>]</del>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-05-31 <b>Last modified:</b> 2017-07-12</p>
 <p><b>Priority: </b>2
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#variant.visit">active issues</a> in [variant.visit].</p>
+<p><b>View all other</b> <a href="lwg-index.html#variant.visit">issues</a> in [variant.visit].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -30689,6 +30691,56 @@ template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Func
 <p/>
 -18- <i>Effects:</i> Applies <ins>the function object</ins> <tt>f</tt> to the result of dereferencing every iterator in the range 
 <tt>[first, first + n).</tt> [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3050" href="#3050">3050</a><sup><a href="https://cplusplus.github.io/LWG/issue3050">(i)</a></sup>. Return type of <tt>std::visit</tt> misspecified</h3>
+<p><b>Section:</b> 23.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2018-01-11 <b>Last modified:</b> 2018-01-13</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#variant.visit">active issues</a> in [variant.visit].</p>
+<p><b>View all other</b> <a href="lwg-index.html#variant.visit">issues</a> in [variant.visit].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The return type of <tt>std::visit</tt> (originating by <a href="http://wg21.link/p0088r3">P0088R3</a> accepted during the Oulo 
+2016 meeting) is currently misspecified and refers only to the common <em>type</em> of all the possible visitation calls, without 
+attention to the value category. This seems unintended, and we should preserve the value category.
+<p/>
+The proposed wording is relative to the <a href="https://github.com/cplusplus/draft/commit/b4d7e7406dfa7c59591743dca9b79f30fa8f15bd">current 
+draft sources on GitHub</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a> plus an 
+<a href="https://github.com/cplusplus/draft/commit/b4d7e7406dfa7c59591743dca9b79f30fa8f15bd">editorial edit</a>.</p>
+
+<ol>
+
+<li><p>Modify 23.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Visitor, class... Variants&gt;
+  constexpr <i>see below</i> visit(Visitor&amp;&amp; vis, Variants&amp;&amp;... vars);
+</pre>
+<blockquote>
+<p>
+<p/>
+-?- <i>Returns:</i> <tt><i>e</i>(<i>m</i>)</tt>, where <tt><i>m</i></tt> is the pack for which <tt><i>m<sub>i</sub></i></tt> is 
+<tt>vars<i><sub>i</sub></i>.index()</tt> for all <tt>0 &lt;= i &lt; n</tt>. The return type is <del>the type of 
+<tt><i>e</i>(<i>m</i>)</tt></del><ins><tt>decltype(<i>e</i>(<i>m</i>))</tt></ins>.
 <p/>
 [&hellip;]
 </p>
