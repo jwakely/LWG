@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-01-20 at 15:27:50 UTC</p>
+<p><p>Revised 2018-01-20 at 15:36:13 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -23775,7 +23775,7 @@ that is the intention.
 <hr>
 <h3><a name="2849" href="#2849">2849</a><sup><a href="https://cplusplus.github.io/LWG/issue2849">(i)</a></sup>. Why does <tt>!is_regular_file(from)</tt> cause <tt>copy_file</tt> to report a "file already exists" error?</h3>
 <p><b>Section:</b> 30.11.14.4 <a href="https://wg21.link/fs.op.copy_file">[fs.op.copy_file]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2016-12-17 <b>Last modified:</b> 2017-02-02</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2016-12-17 <b>Last modified:</b> 2018-01-20</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#fs.op.copy_file">active issues</a> in [fs.op.copy_file].</p>
@@ -23794,6 +23794,14 @@ further elaboration.
 <p><i>[2017-01-27 Telecon]</i></p>
 
 <p>Priority 2; Jonathan to provide updated wording.</p>
+
+<p><i>[2018-01-16, Jonathan comments]</i></p>
+
+<p>
+I said I'd provide updated wording because I wanted to preserve the requirement that the reported error is 
+"file already exists" for some of the error cases. I no longer think that's necessary, so I think the 
+current P/R is fine. Please note that I don't think new wording is needed.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
