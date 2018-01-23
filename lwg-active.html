@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D108)</h1>
-<p><p>Revised 2018-01-23 at 19:52:54 UTC</p>
+<p><p>Revised 2018-01-23 at 20:01:12 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -34022,7 +34022,7 @@ template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Func
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The converting constructor in <tt>std::chrono::duration</tt> is current specified as 
+The converting constructor in <tt>std::chrono::duration</tt> is currently specified as 
 (23.17.5.1 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> p1):
 </p>
 <blockquote>
@@ -34047,8 +34047,8 @@ struct X { operator int64_t() /* not const */; };
 </pre>
 </blockquote>
 <p>
-<tt>std::is_constructible_v&lt;std::chrono::seconds, X&gt;</tt> is <tt>true</tt>, but actual construction 
-will fail to compile.
+<tt>std::is_constructible_v&lt;std::chrono::seconds, X&gt;</tt> is <tt>true</tt>, but actual 
+construction will fail to compile.
 </p>
 
 
