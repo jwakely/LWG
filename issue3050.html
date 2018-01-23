@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3050: Return type of std::visit misspecified</title>
+<title>Issue 3050: Conversion specification problem in chrono::duration constructor</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -22,47 +22,69 @@
 </head>
 <body>
 <hr>
-<h3><a name="3050" href="lwg-active.html#3050">3050</a>. Return type of <tt>std::visit</tt> misspecified</h3>
-<p><b>Section:</b> 23.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2018-01-11 <b>Last modified:</b> 2018-01-13</p>
+<h3><a name="3050" href="lwg-active.html#3050">3050</a>. Conversion specification problem in <tt>chrono::duration</tt> constructor</h3>
+<p><b>Section:</b> 23.17.5.1 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2018-01-22 <b>Last modified:</b> 2018-01-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#variant.visit">active issues</a> in [variant.visit].</p>
-<p><b>View all other</b> <a href="lwg-index.html#variant.visit">issues</a> in [variant.visit].</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.duration.cons">issues</a> in [time.duration.cons].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The return type of <tt>std::visit</tt> (originating by <a href="http://wg21.link/p0088r3">P0088R3</a> accepted during the Oulo 
-2016 meeting) is currently misspecified and refers only to the common <em>type</em> of all the possible visitation calls, without 
-attention to the value category. This seems unintended, and we should preserve the value category.
-<p/>
-The proposed wording is relative to the <a href="https://github.com/cplusplus/draft/commit/b4d7e7406dfa7c59591743dca9b79f30fa8f15bd">current 
-draft sources on GitHub</a>.
+The converting constructor in <tt>std::chrono::duration</tt> is current specified as 
+(23.17.5.1 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> p1):
+</p>
+<blockquote>
+<pre>
+template&lt;class Rep2&gt;
+  constexpr explicit duration(const Rep2&amp; r); 
+</pre>
+<blockquote>
+<p>
+<i>Remarks:</i> This constructor shall not participate in overload resolution unless <tt>Rep2</tt> is 
+implicitly convertible to <tt>rep</tt> and [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+<p>
+But the parameter is of type <tt>Rep2 const</tt>, so we should check that <tt>Rep2 const</tt> is 
+implicitly convertible to <tt>rep</tt>, not just <tt>Rep2</tt>. This means that for a type like:
+</p>
+<blockquote>
+<pre>
+struct X { operator int64_t() /* not const */; };
+</pre>
+</blockquote>
+<p>
+<tt>std::is_constructible_v&lt;std::chrono::seconds, X&gt;</tt> is <tt>true</tt>, but actual construction 
+will fail to compile.
 </p>
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a> after an 
-<a href="https://github.com/cplusplus/draft/commit/b4d7e7406dfa7c59591743dca9b79f30fa8f15bd">editorial edit</a>.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
 
 <ol>
-
-<li><p>Modify 23.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> as indicated:</p>
+<li><p>Modify 23.17.5.1 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> as indicated:</p>
 
 <blockquote>
 <pre>
-template&lt;class Visitor, class... Variants&gt;
-  constexpr <i>see below</i> visit(Visitor&amp;&amp; vis, Variants&amp;&amp;... vars);
+template&lt;class Rep2&gt;
+  constexpr explicit duration(const Rep2&amp; r);
 </pre>
 <blockquote>
 <p>
+-1- <i>Remarks:</i> This constructor shall not participate in overload resolution unless 
+<tt><ins>const</ins> Rep2</tt> is implicitly convertible to <tt>rep</tt> and
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; <tt>treat_as_floating_point_v&lt;rep&gt;</tt> is <tt>true</tt> or</p></li>
+<li><p>(1.2) &mdash; <tt>treat_as_floating_point_v&lt;Rep2&gt;</tt> is <tt>false</tt>.</p></li>
+</ol>
 [&hellip;]
 <p/>
--3- <i>Returns:</i> <tt><i>e</i>(<i>m</i>)</tt>, where <tt><i>m</i></tt> is the pack for which <tt><i>m<sub>i</sub></i></tt> is 
-<tt>vars<i><sub>i</sub></i>.index()</tt> for all <tt>0 &lt;= i &lt; n</tt>. The return type is <del>the type of 
-<tt><i>e</i>(<i>m</i>)</tt></del><ins><tt>decltype(<i>e</i>(<i>m</i>))</tt></ins>.
+-2- <i>Effects:</i> Constructs an object of type <tt>duration</tt>.
 <p/>
-[&hellip;]
+-3- <i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.
 </p>
 </blockquote>
 </blockquote>
