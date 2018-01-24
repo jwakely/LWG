@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-01-24 at 20:27:26 UTC</p>
+<p><p>Revised 2018-01-24 at 20:40:12 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -30898,6 +30898,57 @@ template&lt;class Visitor, class... Variants&gt;
 for all <tt>0 &lt;= i &lt; n</tt>.</ins>
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3053" href="#3053">3053</a><sup><a href="https://cplusplus.github.io/LWG/issue3053">(i)</a></sup>. Prohibit <tt>error_code</tt> construction from rvalues of <tt>error_category</tt></h3>
+<p><b>Section:</b> 22.5.3.1 <a href="https://wg21.link/syserr.errcode.overview">[syserr.errcode.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Antony Polukhin <b>Opened:</b> 2018-01-24 <b>Last modified:</b> 2018-01-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#syserr.errcode.overview">issues</a> in [syserr.errcode.overview].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Constructor <tt>error_code(int val, const error_category&amp; cat)</tt> and
+member function <tt>void assign(int val, const error_category&amp; cat)</tt>
+could be misused if a custom <tt>error_category</tt> is provided:
+</p>
+<blockquote><pre>
+error_code ec{1, test_category{}}; // ec holds a pointer/reference to a temporary
+</pre></blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Modify 22.5.3.1 <a href="https://wg21.link/syserr.errcode.overview">[syserr.errcode.overview]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  class error_code {
+  public:
+    <i>// 22.5.3.2 <a href="https://wg21.link/syserr.errcode.constructors">[syserr.errcode.constructors]</a>, constructors</i>
+    [&hellip;]
+    error_code(int val, const error_category&amp; cat) noexcept;
+    <ins>error_code(int val, const error_category&amp;&amp; cat) = delete;</ins>
+    [&hellip;]
+    // 22.5.3.3 <a href="https://wg21.link/syserr.errcode.modifiers">[syserr.errcode.modifiers]</a>, modifiers
+    void assign(int val, const error_category&amp; cat) noexcept;
+    <ins>void assign(int val, const error_category&amp;&amp; cat) = delete;</ins>
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
 </blockquote>
 </li>
 </ol>
