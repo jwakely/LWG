@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-01-23 at 20:57:41 UTC</p>
+<p><p>Revised 2018-01-24 at 20:14:44 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -20372,89 +20372,6 @@ public:
 
 
 <hr>
-<h3><a name="2734" href="#2734">2734</a><sup><a href="https://cplusplus.github.io/LWG/issue2734">(i)</a></sup>. Questionable specification in [fs.path.concat]</h3>
-<p><b>Section:</b> 30.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2016-06-16 <b>Last modified:</b> 2017-03-19</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-30.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> specifies that the postcondition for
-</p>
-<blockquote>
-<pre>
-path&amp; operator+=(const path&amp; x);
-path&amp; operator+=(const string_type&amp; x);
-path&amp; operator+=(const value_type* x);
-path&amp; operator+=(value_type x);
-template&lt;class Source&gt;
-path&amp; operator+=(const Source&amp; x);
-template&lt;class EcharT&gt;
-path&amp; operator+=(EcharT x);
-template&lt;class Source&gt; 
-path&amp; concat(const Source&amp; x); 
-template&lt;class InputIterator>
-path&amp; concat(InputIterator first, InputIterator last);
-</pre>
-</blockquote>
-<p>
-is
-</p>
-<blockquote>
-<p>
-<tt>native() == prior_native</tt> + <i>effective-argument</i>
-</p>
-</blockquote>
-<p>
-where <i>effective-argument</i> is
-</p>
-<ol>
-<li>if <tt>x</tt> is present and is <tt>const path&amp;</tt>, <tt>x.native()</tt>; otherwise</li>
-<li>if <tt>source</tt> is present, the effective range of <tt>source</tt> (30.11.7.3 <a href="https://wg21.link/fs.path.req">[fs.path.req]</a>); otherwise,</li>
-<li>if <tt>first</tt> and <tt>last</tt> are present, the range <tt>[first, last)</tt>; otherwise,</li>
-<li><tt>x</tt></li>
-</ol>
-<p>
-It also says that
-</p>
-<blockquote>
-<p>
-If the value type of <i>effective-argument</i> would not be <tt>path::value_type</tt>, the actual argument or 
-argument range is first converted (30.11.7.2.2 <a href="https://wg21.link/fs.path.type.cvt">[fs.path.type.cvt]</a>) so that <i>effective-argument</i> has value 
-type <tt>path::value_type</tt>.
-</p>
-</blockquote>
-<p>
-There are several problems with this specification:
-<p/>
-First, there is no overload taking "<tt>source</tt>" (note the lower case); all single-argument overloads take 
-"<tt>x</tt>". Second, there's nothing that defines what it means to use <tt>operator+</tt> on a string and an 
-iterator range; clearly concatentation is intended but there is no wording to that effect.
-Third, the final portion uses "value type", but the "value type" of a single character is not a defined concept.
-<p/>
-Also, the reference only to 30.11.7.2.2 <a href="https://wg21.link/fs.path.type.cvt">[fs.path.type.cvt]</a> seems to imply that any format conversion specified in 
-30.11.7.2.1 <a href="https://wg21.link/fs.path.fmt.cvt">[fs.path.fmt.cvt]</a> will not be performed, in seeming contradiction to the rule that <tt>native()</tt> 
-is to return the native pathname format (30.11.7.4.6 <a href="https://wg21.link/fs.path.native.obs">[fs.path.native.obs]</a>/1). Is that intended?
-</p>
-
-<p><i>[2016-11-10, Billy suggests wording]</i></p>
-
-<p>
-The wording for LWG <a href="lwg-defects.html#2798">2798</a> resolves this issue as well.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-The wording for LWG <a href="lwg-defects.html#2798">2798</a> resolves this issue as well.
-</p>
-
-
-
-
-
-<hr>
 <h3><a name="2737" href="#2737">2737</a><sup><a href="https://cplusplus.github.io/LWG/issue2737">(i)</a></sup>. Consider relaxing object size restrictions for single-object allocation functions</h3>
 <p><b>Section:</b> 21.6.2.1 <a href="https://wg21.link/new.delete.single">[new.delete.single]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Clark Nelson <b>Opened:</b> 2016-06-21 <b>Last modified:</b> 2016-08-02</p>
@@ -30351,6 +30268,143 @@ Tp* allocate(size_t n);
 return static_cast&lt;Tp*&gt;(memory_rsrc-&gt;allocate(<ins>SIZE_MAX / sizeof(Tp) &lt; n ? SIZE_MAX :</ins> n * sizeof(Tp), alignof(Tp)));
 </pre>
 </blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3040" href="#3040">3040</a><sup><a href="https://cplusplus.github.io/LWG/issue3040">(i)</a></sup>. <tt>basic_string_view::starts_with</tt> <i>Effects</i> are incorrect</h3>
+<p><b>Section:</b> 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-11-29 <b>Last modified:</b> 2018-01-24</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#string.view.ops">issues</a> in [string.view.ops].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The effects of <tt>starts_with</tt> are described as equivalent to <tt>return compare(0, npos, x) == 0</tt>.
+<p/>
+This is incorrect, because it returns <tt>false</tt> when you check to see if any sequence begins with the empty sequence. 
+(There are other failure cases, but that one's easy)
+<p/>
+As a drive-by fix, we can make the <i>Effects:</i> for <tt>starts_with</tt> and <tt>ends_with</tt> clearer.
+<p/>
+Those are the second and proposed third changes, and they are not required.
+</p>
+
+<p><i>[
+2017-12-13 Moved to Tentatively Ready after 8 positive votes for P0 on c++std-lib.
+]</i></p>
+
+
+<strong>Previous resolution: [SUPERSEDED]</strong>
+
+<blockquote class="note">
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Change 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> p20 as indicated:</p>
+
+<blockquote>
+<pre>constexpr bool starts_with(basic_string_view x) const noexcept;</pre>
+<blockquote>
+<p>
+-20- <i>Effects:</i> Equivalent to: <tt>return <ins>size() &gt;= x.size() &amp;&amp;</ins> 
+compare(0, <del>npos</del><ins>x.size()</ins>, x) == 0;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Change 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> p21 as indicated:</p>
+<blockquote>
+<pre>constexpr bool starts_with(charT x) const noexcept;</pre>
+<blockquote>
+<p>
+-21- <i>Effects:</i> Equivalent to: <tt>return <ins>!empty() &amp;&amp; 
+traits::eq(front(), x)</ins><del>starts_with(basic_string_view(&amp;x, 1))</del>;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Change 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> p24 as indicated:</p>
+
+<blockquote>
+<pre>constexpr bool ends_with(charT x) const noexcept;</pre>
+<blockquote>
+<p>
+-24- <i>Effects:</i> Equivalent to: <tt>return <ins>!empty() &amp;&amp; traits::eq(back(), 
+x)</ins><del>ends_with(basic_string_view(&amp;x, 1))</del>;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2018-01-23, Reopening due to a comment of Billy Robert O'Neal III requesting a change of the proposed 
+wording]</i></p>
+
+<p>
+The currently suggested wording has:
+</p>
+<blockquote><p>
+<i>Effects:</i> Equivalent to: <tt>return size() &gt;= x.size() &amp;&amp; compare(0, x.size(), x) == 0;</tt>
+</p></blockquote>
+<p>
+but <tt>compare()</tt> already does the <tt>size() &gt;= x.size()</tt> check.
+<p/>
+It seems like it should say:
+</p>
+<blockquote><p>
+<i>Effects:</i> Equivalent to: <tt>return substr(0, x.size()) == x;</tt>
+</p></blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Change 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> p20 as indicated:</p>
+
+<blockquote>
+<pre>constexpr bool starts_with(basic_string_view x) const noexcept;</pre>
+<blockquote>
+<p>
+-20- <i>Effects:</i> Equivalent to: <tt>return <ins>substr(0, x.size()) == x</ins><del>compare(0, 
+npos, x) == 0</del>;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Change 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> p21 as indicated:</p>
+<blockquote>
+<pre>constexpr bool starts_with(charT x) const noexcept;</pre>
+<blockquote>
+<p>
+-21- <i>Effects:</i> Equivalent to: <tt>return <ins>!empty() &amp;&amp; 
+traits::eq(front(), x)</ins><del>starts_with(basic_string_view(&amp;x, 1))</del>;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Change 24.4.2.6 <a href="https://wg21.link/string.view.ops">[string.view.ops]</a> p24 as indicated:</p>
+
+<blockquote>
+<pre>constexpr bool ends_with(charT x) const noexcept;</pre>
+<blockquote>
+<p>
+-24- <i>Effects:</i> Equivalent to: <tt>return <ins>!empty() &amp;&amp; traits::eq(back(), 
+x)</ins><del>ends_with(basic_string_view(&amp;x, 1))</del>;</tt>
+</p>
 </blockquote>
 </blockquote>
 </li>
