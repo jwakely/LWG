@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D108)</h1>
-<p><p>Revised 2018-01-24 at 20:14:44 UTC</p>
+<p><p>Revised 2018-01-24 at 20:27:26 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D108: 2017-02-12 2018 pre-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>247 open issues, up by 6.</li>
+<li>248 open issues, up by 7.</li>
 <li>2264 closed issues, up by 6.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2573 issues total, up by 12.</li>
+<li>2574 issues total, up by 13.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 5 Tentatively Ready issues: <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3045">3045</a>, <a href="lwg-active.html#3048">3048</a>.</li>
-<li>Added the following 6 New issues: <a href="lwg-active.html#3044">3044</a>, <a href="lwg-active.html#3046">3046</a>, <a href="lwg-active.html#3047">3047</a>, <a href="lwg-active.html#3049">3049</a>, <a href="lwg-active.html#3050">3050</a>, <a href="lwg-active.html#3051">3051</a>.</li>
+<li>Added the following 7 New issues: <a href="lwg-active.html#3044">3044</a>, <a href="lwg-active.html#3046">3046</a>, <a href="lwg-active.html#3047">3047</a>, <a href="lwg-active.html#3049">3049</a>, <a href="lwg-active.html#3050">3050</a>, <a href="lwg-active.html#3051">3051</a>, <a href="lwg-active.html#3052">3052</a>.</li>
 <li>Added the following Open issue: <a href="lwg-active.html#3040">3040</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#2243">2243</a>, <a href="lwg-active.html#2849">2849</a>.</li>
 <li>Changed the following 2 issues to C++17 (from Open): <a href="lwg-defects.html#2569">2569</a>, <a href="lwg-defects.html#2587">2587</a>.</li>
@@ -28643,9 +28643,11 @@ then <tt>yprime</tt> is <tt>tuple_cat(std::move(y), make_tuple(<del>resource()</
 <hr>
 <h3><a name="2970" href="#2970">2970</a><sup><a href="https://cplusplus.github.io/LWG/issue2970">(i)</a></sup>. Return type of <tt>std::visit</tt> misspecified</h3>
 <p><b>Section:</b> 23.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-05-31 <b>Last modified:</b> 2018-01-14</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-05-31 <b>Last modified:</b> 2018-01-24</p>
 <p><b>Priority: </b>2
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#variant.visit">active issues</a> in [variant.visit].</p>
+<p><b>View all other</b> <a href="lwg-index.html#variant.visit">issues</a> in [variant.visit].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -28665,12 +28667,19 @@ presumably not the intent.
 <p><i>[2018-01-11, Thomas K&ouml;ppe comments and suggests wording]</i></p>
 
 <p>
-The return type of <tt>std::visit</tt> (originating by <a href="http://wg21.link/p0088r3">P0088R3</a> accepted during the Oulo 
-2016 meeting) is currently misspecified and refers only to the common <em>type</em> of all the possible visitation calls, without 
-attention to the value category. This seems unintended, and we should preserve the value category.
+The return type of <tt>std::visit</tt> (originating by <a href="http://wg21.link/p0088r3">P0088R3</a> 
+accepted during the Oulo 2016 meeting) is currently misspecified and refers only to the common 
+<em>type</em> of all the possible visitation calls, without attention to the value category. This 
+seems unintended, and we should preserve the value category.
 <p/>
 The proposed wording is relative to the <a href="https://github.com/cplusplus/draft/commit/b4d7e7406dfa7c59591743dca9b79f30fa8f15bd">current 
 draft sources on GitHub</a>.
+</p>
+
+<p><i>[2017-01-24, Daniel comments]</i></p>
+
+<p>
+This issue should be reviewed in common with LWG <a href="lwg-active.html#3052">3052</a>.
 </p>
 
 
@@ -34161,6 +34170,72 @@ namespace std {
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3052" href="#3052">3052</a><sup><a href="https://cplusplus.github.io/LWG/issue3052">(i)</a></sup>. <tt>visit</tt> is underconstrained</h3>
+<p><b>Section:</b> 23.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-01-23 <b>Last modified:</b> 2018-01-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#variant.visit">active issues</a> in [variant.visit].</p>
+<p><b>View all other</b> <a href="lwg-index.html#variant.visit">issues</a> in [variant.visit].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>std::visit</tt> accepts a parameter pack of forwarding references named
+<tt>vars</tt> whose types are the parameter pack <tt>Variants</tt>. Despite that:
+<ol>
+<li>the names of both packs are variants of "variant",</li>
+<li>para 1 passes the types in <tt>Variants</tt> (modified) to <tt>variant_size_v</tt>,</li>
+<li>para 3 uses the expression <tt>vars<sub><i>i</i></sub>.index()</tt>,</li>
+<li>para 4 says "...if any <tt>variant</tt> in <tt>vars</tt> is <tt>valueless_by_exception</tt>,
+and</li>
+<li>para 5 mentions "..the number of alternative types of <tt>Variants<sub>0</sub></tt>"</li>
+</ol>
+the <i>Requires</i> element imposes no explicit requirements on the types in <tt>Variants</tt>.
+Notably, the <tt>Variants</tt> are not required to be <tt>variant</tt>s. This lack of constraints
+appears to be simply an oversight.
+</p>
+
+<p><i>[2017-01-24, Daniel comments]</i></p>
+
+<p>
+This issue should be reviewed in common with LWG <a href="lwg-active.html#2970">2970</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a> after an
+<a href="https://github.com/cplusplus/draft/commit/b4d7e7406dfa7c59591743dca9b79f30fa8f15bd">
+editorial change</a>.</p>
+
+<ol>
+<li><p>Modify 23.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Visitor, class... Variants&gt;
+  constexpr <i>see below</i> visit(Visitor&amp;&amp; vis, Variants&amp;&amp;... vars);
+</pre>
+<blockquote>
+<p>[&hellip;]</p>
+<p>
+-4- <i>Throws:</i> <tt>bad_variant_access</tt> if <del>any <tt>variant</tt> in <tt>vars</tt> is
+<tt>valueless_by_exception()</tt></del><ins><tt>(vars.valueless_by_exception() || ...)</tt> is
+<tt>true</tt></ins>.
+</p><p>-5- <i>Complexity:</i> [&hellip;]</p><p>
+<ins>-?- <i>Remarks:</i> This function shall not participate in overload resolution unless
+<tt>remove_cvref_t&lt;Variants<sub><i>i</i></sub>&gt;</tt> is a specialization of <tt>variant</tt>
+for all <tt>0 &lt;= i &lt; n</tt>.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
 
 
 
