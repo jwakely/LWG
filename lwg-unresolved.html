@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-01-26 at 21:03:28 UTC</p>
+<p><p>Revised 2018-01-26 at 21:07:56 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -31263,6 +31263,16 @@ It is not stated which attributes are copied by <tt>copy_file()</tt>.
 <p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
 <ol>
 <li><p>Modify 30.11.14.4 <a href="https://wg21.link/fs.op.copy_file">[fs.op.copy_file]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+<b>Rationale:</b>
+<p/>
+The attributes specified are the useful subset of the attributes that can be queried in C++17.  
+Existing practice is complicated: POSIX "cp -p" attempts to preserve user/group IDs, for instance, 
+but cannot in general do so, and <tt>setuid/setgid</tt> permissions may be stripped.
+</p>
+</blockquote>
 
 <blockquote>
 <pre>
