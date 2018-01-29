@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D108)</h1>
-<p><p>Revised 2018-01-29 at 17:46:55 UTC</p>
+<p><p>Revised 2018-01-29 at 21:59:22 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -168,8 +168,8 @@ ownership of it.
 <li>Added the following 11 New issues: <a href="lwg-active.html#3044">3044</a>, <a href="lwg-active.html#3046">3046</a>, <a href="lwg-active.html#3047">3047</a>, <a href="lwg-active.html#3049">3049</a>, <a href="lwg-active.html#3050">3050</a>, <a href="lwg-active.html#3051">3051</a>, <a href="lwg-active.html#3052">3052</a>, <a href="lwg-active.html#3053">3053</a>, <a href="lwg-active.html#3054">3054</a>, <a href="lwg-active.html#3055">3055</a>, <a href="lwg-active.html#3056">3056</a>.</li>
 <li>Added the following Open issue: <a href="lwg-active.html#3040">3040</a>.</li>
 <li>Changed the following 6 issues to Tentatively Ready (from New): <a href="lwg-active.html#2243">2243</a>, <a href="lwg-active.html#2816">2816</a>, <a href="lwg-active.html#2849">2849</a>, <a href="lwg-active.html#2851">2851</a>, <a href="lwg-active.html#2989">2989</a>, <a href="lwg-active.html#3015">3015</a>.</li>
-<li>Changed the following 2 issues to Tentatively Ready (from Open): <a href="lwg-active.html#2164">2164</a>, <a href="lwg-active.html#2708">2708</a>.</li>
-<li>Changed the following 2 issues to Review (from Open): <a href="lwg-active.html#2682">2682</a>, <a href="lwg-active.html#2936">2936</a>.</li>
+<li>Changed the following issue to Tentatively Ready (from Open): <a href="lwg-active.html#2164">2164</a>.</li>
+<li>Changed the following 3 issues to Review (from Open): <a href="lwg-active.html#2682">2682</a>, <a href="lwg-active.html#2708">2708</a>, <a href="lwg-active.html#2936">2936</a>.</li>
 <li>Changed the following 4 issues to Open (from New): <a href="lwg-active.html#2839">2839</a>, <a href="lwg-active.html#2840">2840</a>, <a href="lwg-active.html#2990">2990</a>, <a href="lwg-active.html#3003">3003</a>.</li>
 <li>Changed the following 2 issues to C++17 (from Open): <a href="lwg-defects.html#2569">2569</a>, <a href="lwg-defects.html#2587">2587</a>.</li>
 <li>Changed the following 3 issues to Resolved (from New): <a href="lwg-defects.html#2734">2734</a>, <a href="lwg-defects.html#2821">2821</a>, <a href="lwg-defects.html#2856">2856</a>.</li>
@@ -19587,7 +19587,7 @@ So 3.6 catches <tt>create_symlinks | recursive</tt> but I believe we want 3.X to
 
 <p><i>[2018-1-29 Jonathan says]</i></p>
 
-<p>My proposed resolution for LWG 2682 has been in GCC's Filesystem TS implementation for more than a year. It's also in our std::filesystem implementation on the subversion trunk. (Aside: this refers to the SUPERSEDED resolution)</p>
+<p>The proposed resolution for LWG 2682 has been in GCC's Filesystem TS implementation for more than a year. It's also in our std::filesystem implementation on the subversion trunk.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -20363,23 +20363,23 @@ Replaces elements in <tt>a</tt> with <tt>n</tt> copies of <tt>t</tt>.
 
 <hr>
 <h3><a name="2708" href="#2708">2708</a><sup><a href="https://cplusplus.github.io/LWG/issue2708">(i)</a></sup>. <tt>recursive_directory_iterator::recursion_pending()</tt> is incorrectly specified</h3>
-<p><b>Section:</b> 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#Review">Review</a>
  <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-05-09 <b>Last modified:</b> 2018-01-29</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#fs.rec.dir.itr.members">issues</a> in [fs.rec.dir.itr.members].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Review">Review</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The current specification of <tt>recursion_pending()</tt> says (30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a>/24):
 </p>
 <blockquote><p>
-<i>Returns</i>: <tt>true</tt> if <tt>disable_recursion_pending()</tt> has not been called subsequent to the prior construction 
+<i>Returns</i>: <tt>true</tt> if <tt>disable_recursion_pending()</tt> has not been called subsequent to the prior construction
 or increment operation, otherwise <tt>false</tt>.
 </p></blockquote>
 <p>
-This language does not take into account cases where the prior construction was a copy construction from a iterator, 
-<tt>it</tt>, where <tt>it.recursion_pending() == false</tt>. 
+This language does not take into account cases where the prior construction was a copy construction from a iterator,
+<tt>it</tt>, where <tt>it.recursion_pending() == false</tt>.
 </p>
 
 <p><i>[2016-08 Chicago]</i></p>
@@ -20388,11 +20388,10 @@ This language does not take into account cases where the prior construction was 
 
 <p><i>[2018-1-26 issues processing telecon]</i></p>
 
-<p>Status to 'Tentatively Ready'; Casey will explore whether making <tt>recursion_pending</tt> a exposition only member makes this clearer.</p>
+<p>Status to 'Tentatively Ready'; Casey will explore whether making <tt>recursion_pending</tt> an exposition-only member makes this clearer.</p>
 
-
-
-<p><b>Proposed resolution:</b></p>
+<strong>Previous resolution from Eric [SUPERSEDED]:</strong>
+<blockquote class="note">
 <p>
 This wording is relative to N4582.
 </p>
@@ -20411,11 +20410,11 @@ recursive_directory_iterator(const path&amp; p, error_code&amp; ec) noexcept;
 <p>
 [&hellip;]
 <p/>
--3- <i>Postcondition</i>: <del><tt>options() == options</tt> for the signatures with a <tt>directory_options</tt> argument, 
+-3- <i>Postcondition</i>: <del><tt>options() == options</tt> for the signatures with a <tt>directory_options</tt> argument,
 otherwise <tt>options() == directory_options::none</tt>.</del>
 </p>
 <ul>
-<li><p><ins><tt>options() == options</tt> for the signatures with a <tt>directory_options</tt> argument, otherwise 
+<li><p><ins><tt>options() == options</tt> for the signatures with a <tt>directory_options</tt> argument, otherwise
 <tt>options() == directory_options::none</tt>.</ins></p></li>
 <li><p><ins><tt>recursion_pending() == true</tt>.</ins></p></li>
 </ul>
@@ -20425,8 +20424,8 @@ otherwise <tt>options() == directory_options::none</tt>.</del>
 </blockquote>
 <blockquote class="note">
 <p>
-[<i>Drafting note</i>: The following changes the specification of <tt>recursion_pending()</tt> seemingly recursive. 
-Perhaps it would be easier to specify <tt>recursion_pending()</tt> in terms of a exposition only member in 
+[<i>Drafting note</i>: The following changes the specification of <tt>recursion_pending()</tt> seemingly recursive.
+Perhaps it would be easier to specify <tt>recursion_pending()</tt> in terms of a exposition only member in
 <tt>recursive_directory_iterator</tt>.]
 </p>
 </blockquote>
@@ -20437,9 +20436,9 @@ bool recursion_pending() const;
 <p>
 [&hellip;]
 <p/>
--24- <i>Returns</i>: <del><tt>true</tt> if <tt>disable_recursion_pending()</tt> has not been called subsequent to the 
-prior construction or increment operation, otherwise <tt>false</tt></del><ins><tt>false</tt> if 
-<tt>disable_recursion_pending()</tt> has been called subsequent to the prior construction or increment operation, 
+-24- <i>Returns</i>: <del><tt>true</tt> if <tt>disable_recursion_pending()</tt> has not been called subsequent to the
+prior construction or increment operation, otherwise <tt>false</tt></del><ins><tt>false</tt> if
+<tt>disable_recursion_pending()</tt> has been called subsequent to the prior construction or increment operation,
 otherwise the value of <tt>recursion_pending()</tt> set by that operation</ins>.
 <p/>
 [&hellip;]
@@ -20456,6 +20455,162 @@ recursive_directory_iterator&amp; increment(error_code&amp; ec) noexcept;
 -27- <i>Effects</i>: As specified by Input iterators (24.2.3), except that: [&hellip;]
 <p/>
 <ins>-?- <i>Postcondition</i>: <tt>recursion_pending() == true</tt>.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2018-01-29: Casey provides a PR with an exposition-only member]</i></p>
+
+<p>Status to 'Review'.</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to N4713.
+</p>
+
+<ol>
+<li><p>Change  [fs.rec.dir.itr] as indicated:</p>
+<blockquote>
+<pre>
+    [&hellip;]
+
+    // other members as required by 27.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>, input iterators
+
+  <ins>private:</ins>
+    <ins>bool recurse_; // exposition-only</ins>
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Change 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+explicit recursive_directory_iterator(const path&amp; p);
+recursive_directory_iterator(const path&amp; p, directory_options options);
+recursive_directory_iterator(const path&amp; p, directory_options options, error_code&amp; ec) noexcept;
+recursive_directory_iterator(const path&amp; p, error_code&amp; ec) noexcept;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+</p><p>
+-3- <i>Postconditions</i>: <del><tt>options() == options</tt> for the signatures with a <tt>directory_options</tt> argument,
+otherwise <tt>options() == directory_options::none</tt>.</del>
+</p>
+<ul>
+<li><p><ins><tt>options() == options</tt> for the signatures with a <tt>directory_options</tt> argument, otherwise
+<tt>options() == directory_options::none</tt>.</ins></p></li>
+<li><p><ins><tt>recurse_ == true</tt>.</ins></p></li>
+</ul>
+<p>
+[&hellip;]
+</p>
+</blockquote>
+
+<pre>
+recursive_directory_iterator(const recursive_directory_iterator&amp; rhs);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+</p><p>
+-8- <i>Postconditions:</i>
+</p><p>
+[&hellip;]
+</p><p>
+(8.3) &mdash; <del><tt>recursion_pending() == rhs.recursion_pending()</tt></del><ins><tt>recurse_ == rhs.recurse_</tt></ins>
+</p>
+</blockquote>
+
+<pre>
+recursive_directory_iterator(recursive_directory_iterator&amp;&amp; rhs) noexcept;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+</p><p>
+-10- <i>Postconditions:</i> <tt>options()</tt>, <tt>depth()</tt>, and
+<del><tt>recursion_pending()</tt></del><ins><tt>recurse_</tt></ins> have the values that <tt>rhs.options()</tt>,
+<tt>rhs.depth()</tt>, and <del><tt>rhs.recursion_pending()</tt></del><ins><tt>rhs.recurse_</tt></ins>, respectively,
+had before the function call.
+</p>
+</blockquote>
+
+<pre>
+recursive_directory_iterator&amp; operator=(const recursive_directory_iterator&amp; rhs);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+</p><p>
+-12- <i>Postconditions:</i>
+</p><p>
+[&hellip;]
+</p><p>
+(12.3) &mdash; <del><tt>recursion_pending() == rhs.recursion_pending()</tt></del><ins><tt>recurse_ == rhs.recurse_</tt></ins>
+</p><p>
+[&hellip;]
+</p>
+</blockquote>
+
+<pre>
+recursive_directory_iterator&amp; operator=(recursive_directory_iterator&amp;&amp; rhs) noexcept;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+</p><p>
+-15- <i>Postconditions:</i> <tt>options()</tt>, <tt>depth()</tt>, and
+<del><tt>recursion_pending()</tt></del><ins><tt>recurse_</tt></ins> have the values that <tt>rhs.options()</tt>,
+<tt>rhs.depth()</tt>, and <del><tt>rhs.recursion_pending()</tt></del><ins><tt>rhs.recurse_</tt></ins>, respectively,
+had before the function call.
+</p><p>
+[&hellip;]
+</p>
+</blockquote>
+
+<pre>
+bool recursion_pending() const;
+</pre>
+<blockquote>
+<p>
+-21- <i>Returns</i>: <del><tt>true</tt> if <tt>disable_recursion_pending()</tt> has not been called subsequent to the
+prior construction or increment operation, otherwise <tt>false</tt></del><ins>recurse_</ins>.
+</p><p>
+[&hellip;]
+</p>
+</blockquote>
+
+<pre>
+recursive_directory_iterator&amp; operator++();
+recursive_directory_iterator&amp; increment(error_code&amp; ec) noexcept;
+</pre>
+<blockquote>
+<p>
+-23- <i>Effects</i>: As specified for the prefix increment operation of Input iterators
+( [iterators.input]), except that:
+</p><p>
+[&hellip;]
+</p><p>
+<ins>-?- <i>Postcondition</i>: <tt>recurse_ == true</tt>.</ins>
+</p>
+</blockquote>
+
+<pre>
+void disable_recursion_pending();
+</pre>
+<blockquote>
+<p>
+-28- <i>Postcondition<del>s</del>:</i> <tt><del>recursion_pending()</del><ins>recurse_</ins> == false</tt>.
+</p><p>
+[&hellip;]
 </p>
 </blockquote>
 </blockquote>
