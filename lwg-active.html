@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D108)</h1>
-<p><p>Revised 2018-02-08 at 19:22:38 UTC</p>
+<p><p>Revised 2018-02-08 at 20:09:05 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -35260,8 +35260,48 @@ I'm guessing the idea was actually that the above happens as if by four separate
 <tt>constexpr if</tt> / else. But I think you need to actually say that.
 </p>
 
+<p><i>[Tomasz suggests proposed wording]</i></p>
+
+
 
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+
+<ol>
+<li><p>Modify 28.2 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a>, header <tt>&lt;algorithm&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+<i>// 28.7.11 <a href="https://wg21.link/alg.3way">[alg.3way]</a>, three-way comparison algorithms</i>
+template&lt;class T, class U&gt;
+constexpr <del>auto</del><ins><i>see below</i></ins> compare_3way(const T&amp; a, const U&amp; b);
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 28.7.11 <a href="https://wg21.link/alg.3way">[alg.3way]</a> as indicated:</p>
+
+<blockquote><pre>
+template&lt;class T, class U&gt; constexpr <del>auto</del><ins><i>see below</i></ins> compare_3way(const T&amp; a, const U&amp; b);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Compares two values and produces a result of the strongest applicable comparison 
+category type:
+</p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; <del>Returns <tt>a &lt;=&gt; b</tt> if that expression is 
+well-formed</del><ins>If the expression <tt>a &lt;=&gt; b</tt> is well-formed, returns the 
+value of <tt>decay_t&lt;decltype(a &lt;=&gt; b)&gt;</tt> type initialized from 
+<tt>a &lt;=&gt; b</tt></ins>.</p></li>
+<li><p>(1.2) &mdash; [&hellip;]</p></li>
+<li><p>(1.3) &mdash; [&hellip;]</p></li>
+<li><p>(1.4) &mdash; [&hellip;]</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
