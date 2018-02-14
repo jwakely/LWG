@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-02-13 at 20:30:15 UTC</p>
+<p><p>Revised 2018-02-14 at 19:32:42 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -31021,7 +31021,7 @@ implementation shall have an <tt>error_code</tt> argument if applicable. <ins>If
 <hr>
 <h3><a name="3058" href="#3058">3058</a><sup><a href="https://cplusplus.github.io/LWG/issue3058">(i)</a></sup>. Parallel <tt>adjacent_difference</tt> shouldn't require creating temporaries</h3>
 <p><b>Section:</b> 29.8.11 <a href="https://wg21.link/adjacent.difference">[adjacent.difference]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-02-02 <b>Last modified:</b> 2018-02-13</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-02-02 <b>Last modified:</b> 2018-02-14</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#adjacent.difference">issues</a> in [adjacent.difference].</p>
@@ -31108,8 +31108,8 @@ creates an object whose type is <tt>ForwardIterator1</tt>'s value type, initiali
 <tt>ForwardIterator1</tt>'s value type, initializes it with <tt>*(first + d) - *(first + d - 1)</tt>
 or <tt>binary_op(*(first + d), *(first + d - 1))</tt>, and assigns the result to
 <tt>*(result + d)</tt></del><ins>performs <tt>*result = *first</tt>. Then, for every <tt>d</tt> in
-<tt>[1, last - first - 1]</tt>, performs <tt>*(result + d) = *(first + d) - *(first + d - 1)</tt>
-or <tt>*(result + d) = binary_op(*(first + d), *(first + d - 1))</tt></ins>.
+<tt>[1, last - first - 1]</tt>, performs
+<tt>*(result + d) = binary_op(*(first + d), *(first + (d - 1)))</tt></ins>.
 </p>
 </blockquote>
 </blockquote>
@@ -31123,8 +31123,8 @@ or <tt>*(result + d) = binary_op(*(first + d), *(first + d - 1))</tt></ins>.
 <hr>
 <h3><a name="3059" href="#3059">3059</a><sup><a href="https://cplusplus.github.io/LWG/issue3059">(i)</a></sup>. Wrong requirements for map-like associative container assignment?</h3>
 <p><b>Section:</b> 26.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2018-02-05 <b>Last modified:</b> 2018-02-07</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2018-02-05 <b>Last modified:</b> 2018-02-14</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#container.requirements">issues</a> in [container.requirements].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -31195,6 +31195,9 @@ I think, then, that the associative container requirements and unordered associa
 <p/>
 The "<tt>a = rv</tt>" problematic is already handled by LWG <a href="lwg-active.html#3028">3028</a>.
 </p>
+
+<p><i>[2018-02-13, Priority set to 3 after mailing list discussion]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
