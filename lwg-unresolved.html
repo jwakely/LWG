@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-02-14 at 19:46:10 UTC</p>
+<p><p>Revised 2018-02-15 at 18:37:23 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -31337,6 +31337,7 @@ as deleted.</p></li>
  <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2018-02-12 <b>Last modified:</b> 2018-02-14</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#specialized.algorithms">active issues</a> in [specialized.algorithms].</p>
 <p><b>View all other</b> <a href="lwg-index.html#specialized.algorithms">issues</a> in [specialized.algorithms].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -31354,6 +31355,49 @@ are totally unspecified. However, assuming that intent, all of the existing
 specifications use an as-if formulation with code that is explicitly serial in
 nature, so need a new specification that talks about the effects on each
 element without including the iteration order.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3064" href="#3064">3064</a><sup><a href="https://cplusplus.github.io/LWG/issue3064">(i)</a></sup>. How do uninitialized memory algorithms obtain pointer without undefined behavior?</h3>
+<p><b>Section:</b> 23.10.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2018-02-12 <b>Last modified:</b> 2018-02-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#specialized.algorithms">active issues</a> in [specialized.algorithms].</p>
+<p><b>View all other</b> <a href="lwg-index.html#specialized.algorithms">issues</a> in [specialized.algorithms].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+A typical specification of the algorithms for initializing raw memory in <tt>&lt;memory&gt;</tt> looks like:
+</p>
+<blockquote>
+<p>
+<i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+for (; first != last; ++first)
+  ::new (static_cast&lt;void*&gt;(addressof(*first)))
+    typename iterator_traits&lt;ForwardIterator&gt;::value_type;
+</pre></blockquote>
+</blockquote>
+<p>
+However, this hides a nasty question:
+<p/>
+How do we bind a reference to an uninitialized object when dereferencing our iterator,
+so that <tt>static_cast&lt;void*&gt;(addressor(*first))</tt> does not trigger undefined behavior on
+the call to <tt>*first</tt>?
+<p/>
+When pointers are the only iterators we cared about, we could simply cast the iterator
+value to <tt>void*</tt> without dereferencing. I don't see how to implement this spec safely
+without introducing another customization point for iterators that performs the same
+function as casting a pointer to <tt>void*</tt> in order to get the address of the element.
 </p>
 
 
