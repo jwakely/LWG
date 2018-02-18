@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-02-15 at 19:19:07 UTC</p>
+<p><p>Revised 2018-02-18 at 13:27:46 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -31524,6 +31524,45 @@ public:
 </li>
 </ol>
 
+
+
+
+
+
+<hr>
+<h3><a name="3066" href="#3066">3066</a><sup><a href="https://cplusplus.github.io/LWG/issue3066">(i)</a></sup>. "report a domain error" in [sf.cmath]/1 is underspecified</h3>
+<p><b>Section:</b> 29.9.5 <a href="https://wg21.link/sf.cmath">[sf.cmath]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-02-17 <b>Last modified:</b> 2018-02-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+29.9.5 <a href="https://wg21.link/sf.cmath">[sf.cmath]</a>/1 uses the phrase "report a domain error" (emphasis mine):
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+If any argument value to any of the functions specified in this subclause is a NaN (Not a Number), the
+function shall return a NaN but it shall not <b>report a domain error</b>. Otherwise, the function shall 
+<b>report a domain error</b> for just those argument values for which:
+</p>
+<ul>
+<li><p>the function description's <i>Returns:</i> clause explicitly specifies a domain and those argument 
+values fall outside the specified domain, or</p></li>
+<li><p>the corresponding mathematical function value has a nonzero imaginary component, or</p></li>
+<li><p>the corresponding mathematical function is not mathematically defined.</p></li>
+</ul>
+</blockquote>
+<p>
+The behavior this phrase is attempting to convey is unclear. A quick search through the text of the 
+standard for "domain error" finds only the <tt>domain_error</tt> exception type defined in 
+22.2.3 <a href="https://wg21.link/domain.error">[domain.error]</a>. Is the intent of "report a domain error" that the special math functions 
+throw an exception of type <tt>domain_error</tt>, or is it that they behave as specified in C11 
+7.12.1 "Treatment of error conditions" para 2 which defines the term "domain error"?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 

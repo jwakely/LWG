@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2018-02-15</td>
+  <td align="left">2018-02-18</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D109)</h1>
-<p><p>Revised 2018-02-15 at 19:19:07 UTC</p>
+<p><p>Revised 2018-02-18 at 13:27:46 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D109: 2018-04-02 2018 post-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>260 open issues, up by 3.</li>
+<li>261 open issues, up by 4.</li>
 <li>2265 closed issues, up by 0.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2587 issues total, up by 3.</li>
+<li>2588 issues total, up by 4.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 3 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>.</li>
+<li>Added the following 4 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>.</li>
 <li>Changed the following 5 issues to Voting (from Ready): <a href="lwg-active.html#2843">2843</a>, <a href="lwg-active.html#2969">2969</a>, <a href="lwg-active.html#2975">2975</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3030">3030</a>.</li>
 <li>Changed the following 27 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#2164">2164</a>, <a href="lwg-active.html#2243">2243</a>, <a href="lwg-active.html#2816">2816</a>, <a href="lwg-active.html#2849">2849</a>, <a href="lwg-active.html#2851">2851</a>, <a href="lwg-active.html#2989">2989</a>, <a href="lwg-active.html#3000">3000</a>, <a href="lwg-active.html#3002">3002</a>, <a href="lwg-active.html#3004">3004</a>, <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3020">3020</a>, <a href="lwg-active.html#3026">3026</a>, <a href="lwg-active.html#3034">3034</a>, <a href="lwg-active.html#3035">3035</a>, <a href="lwg-active.html#3039">3039</a>, <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3045">3045</a>, <a href="lwg-active.html#3048">3048</a>, <a href="lwg-active.html#3051">3051</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3062">3062</a>.</li>
@@ -35666,6 +35666,45 @@ public:
 </li>
 </ol>
 
+
+
+
+
+
+<hr>
+<h3><a name="3066" href="#3066">3066</a><sup><a href="https://cplusplus.github.io/LWG/issue3066">(i)</a></sup>. "report a domain error" in [sf.cmath]/1 is underspecified</h3>
+<p><b>Section:</b> 29.9.5 <a href="https://wg21.link/sf.cmath">[sf.cmath]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-02-17 <b>Last modified:</b> 2018-02-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+29.9.5 <a href="https://wg21.link/sf.cmath">[sf.cmath]</a>/1 uses the phrase "report a domain error" (emphasis mine):
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+If any argument value to any of the functions specified in this subclause is a NaN (Not a Number), the
+function shall return a NaN but it shall not <b>report a domain error</b>. Otherwise, the function shall 
+<b>report a domain error</b> for just those argument values for which:
+</p>
+<ul>
+<li><p>the function description's <i>Returns:</i> clause explicitly specifies a domain and those argument 
+values fall outside the specified domain, or</p></li>
+<li><p>the corresponding mathematical function value has a nonzero imaginary component, or</p></li>
+<li><p>the corresponding mathematical function is not mathematically defined.</p></li>
+</ul>
+</blockquote>
+<p>
+The behavior this phrase is attempting to convey is unclear. A quick search through the text of the 
+standard for "domain error" finds only the <tt>domain_error</tt> exception type defined in 
+22.2.3 <a href="https://wg21.link/domain.error">[domain.error]</a>. Is the intent of "report a domain error" that the special math functions 
+throw an exception of type <tt>domain_error</tt>, or is it that they behave as specified in C11 
+7.12.1 "Treatment of error conditions" para 2 which defines the term "domain error"?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
