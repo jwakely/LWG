@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-03-03 at 13:38:38 UTC</p>
+<p><p>Revised 2018-03-03 at 13:59:16 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -25066,6 +25066,8 @@ int compare(const value_type* s) const
  <b>Submitter:</b> Antony Polukhin <b>Opened:</b> 2017-03-01 <b>Last modified:</b> 2017-11-13</p>
 <p><b>Priority: </b>2
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#string.view.template">active issues</a> in [string.view.template].</p>
+<p><b>View all other</b> <a href="lwg-index.html#string.view.template">issues</a> in [string.view.template].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -31663,6 +31665,69 @@ required either to be dereferenceable or to be in the domain of <tt>==</tt>.</in
 -27- <i>Throws</i>: As specified in 30.11.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3068" href="#3068">3068</a><sup><a href="https://cplusplus.github.io/LWG/issue3068">(i)</a></sup>. Forbid assigning an rvalue <tt>basic_string</tt> to <tt>basic_string_view</tt></h3>
+<p><b>Section:</b> 24.4.2 <a href="https://wg21.link/string.view.template">[string.view.template]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Antony Polukhin  <b>Opened:</b> 2018-02-19 <b>Last modified:</b> 2018-03-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#string.view.template">active issues</a> in [string.view.template].</p>
+<p><b>View all other</b> <a href="lwg-index.html#string.view.template">issues</a> in [string.view.template].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It is known that we cannot disable move construction of
+<tt>basic_string_view</tt> from rvalues of <tt>basic_string</tt>, because it breaks a
+valid use case:
+</p>
+<blockquote><pre>
+string foo();
+void bar(string_view );
+bar(foo());
+</pre></blockquote>
+<p>
+Though it is still possible to disable an absolutely wrong case of
+assigning an rvalue <tt>basic_string</tt> to <tt>basic_string_view</tt>:
+</p>
+<blockquote><pre>
+string_view sw = "Hello";
+sw = foo();
+</pre></blockquote>
+<p>
+Some tests that make sure that other use cases are not affected are available 
+<a href="https://raw.githubusercontent.com/apolukhin/apolukhin.github.io/master/papers/misc/safer_string_view_tests.cpp">here</a>
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li><p>Change 24.4.2 <a href="https://wg21.link/string.view.template">[string.view.template]</a>, class template <tt>basic_string_view</tt> synopsis, 
+as indicated:</p>
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 24.4.2.1 <a href="https://wg21.link/string.view.cons">[string.view.cons]</a>, construction and assignment</i>
+constexpr basic_string_view() noexcept;
+constexpr basic_string_view(const basic_string_view&amp;) noexcept = default;
+constexpr basic_string_view&amp; operator=(const basic_string_view&amp;) noexcept = default;
+<ins>template &lt;class A&gt;
+basic_string_view&amp; operator=(const basic_string&lt;charT, traits, A&gt;&amp;&amp;) = delete;</ins>
+constexpr basic_string_view(const charT* str);
+constexpr basic_string_view(const charT* str, size_type len);
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 </ol>

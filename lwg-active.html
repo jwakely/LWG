@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D109)</h1>
-<p><p>Revised 2018-03-03 at 13:38:38 UTC</p>
+<p><p>Revised 2018-03-03 at 13:59:16 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D109: 2018-04-02 2018 post-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>262 open issues, up by 5.</li>
+<li>263 open issues, up by 6.</li>
 <li>2265 closed issues, up by 0.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2589 issues total, up by 5.</li>
+<li>2590 issues total, up by 6.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 5 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3067">3067</a>.</li>
+<li>Added the following 6 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3068">3068</a>.</li>
 <li>Changed the following 5 issues to Voting (from Ready): <a href="lwg-active.html#2843">2843</a>, <a href="lwg-active.html#2969">2969</a>, <a href="lwg-active.html#2975">2975</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3030">3030</a>.</li>
 <li>Changed the following 27 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#2164">2164</a>, <a href="lwg-active.html#2243">2243</a>, <a href="lwg-active.html#2816">2816</a>, <a href="lwg-active.html#2849">2849</a>, <a href="lwg-active.html#2851">2851</a>, <a href="lwg-active.html#2989">2989</a>, <a href="lwg-active.html#3000">3000</a>, <a href="lwg-active.html#3002">3002</a>, <a href="lwg-active.html#3004">3004</a>, <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3020">3020</a>, <a href="lwg-active.html#3026">3026</a>, <a href="lwg-active.html#3034">3034</a>, <a href="lwg-active.html#3035">3035</a>, <a href="lwg-active.html#3039">3039</a>, <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3045">3045</a>, <a href="lwg-active.html#3048">3048</a>, <a href="lwg-active.html#3051">3051</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3062">3062</a>.</li>
@@ -26599,6 +26599,8 @@ int compare(const value_type* s) const
  <b>Submitter:</b> Antony Polukhin <b>Opened:</b> 2017-03-01 <b>Last modified:</b> 2017-11-13</p>
 <p><b>Priority: </b>2
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#string.view.template">active issues</a> in [string.view.template].</p>
+<p><b>View all other</b> <a href="lwg-index.html#string.view.template">issues</a> in [string.view.template].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -35805,6 +35807,69 @@ required either to be dereferenceable or to be in the domain of <tt>==</tt>.</in
 -27- <i>Throws</i>: As specified in 30.11.6 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3068" href="#3068">3068</a><sup><a href="https://cplusplus.github.io/LWG/issue3068">(i)</a></sup>. Forbid assigning an rvalue <tt>basic_string</tt> to <tt>basic_string_view</tt></h3>
+<p><b>Section:</b> 24.4.2 <a href="https://wg21.link/string.view.template">[string.view.template]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Antony Polukhin  <b>Opened:</b> 2018-02-19 <b>Last modified:</b> 2018-03-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#string.view.template">active issues</a> in [string.view.template].</p>
+<p><b>View all other</b> <a href="lwg-index.html#string.view.template">issues</a> in [string.view.template].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It is known that we cannot disable move construction of
+<tt>basic_string_view</tt> from rvalues of <tt>basic_string</tt>, because it breaks a
+valid use case:
+</p>
+<blockquote><pre>
+string foo();
+void bar(string_view );
+bar(foo());
+</pre></blockquote>
+<p>
+Though it is still possible to disable an absolutely wrong case of
+assigning an rvalue <tt>basic_string</tt> to <tt>basic_string_view</tt>:
+</p>
+<blockquote><pre>
+string_view sw = "Hello";
+sw = foo();
+</pre></blockquote>
+<p>
+Some tests that make sure that other use cases are not affected are available 
+<a href="https://raw.githubusercontent.com/apolukhin/apolukhin.github.io/master/papers/misc/safer_string_view_tests.cpp">here</a>
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li><p>Change 24.4.2 <a href="https://wg21.link/string.view.template">[string.view.template]</a>, class template <tt>basic_string_view</tt> synopsis, 
+as indicated:</p>
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 24.4.2.1 <a href="https://wg21.link/string.view.cons">[string.view.cons]</a>, construction and assignment</i>
+constexpr basic_string_view() noexcept;
+constexpr basic_string_view(const basic_string_view&amp;) noexcept = default;
+constexpr basic_string_view&amp; operator=(const basic_string_view&amp;) noexcept = default;
+<ins>template &lt;class A&gt;
+basic_string_view&amp; operator=(const basic_string&lt;charT, traits, A&gt;&amp;&amp;) = delete;</ins>
+constexpr basic_string_view(const charT* str);
+constexpr basic_string_view(const charT* str, size_type len);
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 </ol>
