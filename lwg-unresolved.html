@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-03-03 at 15:20:10 UTC</p>
+<p><p>Revised 2018-03-03 at 16:58:38 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -31682,7 +31682,7 @@ required either to be dereferenceable or to be in the domain of <tt>==</tt>.</in
 <hr>
 <h3><a name="3068" href="#3068">3068</a><sup><a href="https://cplusplus.github.io/LWG/issue3068">(i)</a></sup>. Forbid assigning an rvalue <tt>basic_string</tt> to <tt>basic_string_view</tt></h3>
 <p><b>Section:</b> 24.4.2 <a href="https://wg21.link/string.view.template">[string.view.template]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Antony Polukhin  <b>Opened:</b> 2018-02-19 <b>Last modified:</b> 2018-03-03</p>
+ <b>Submitter:</b> Antony Polukhin <b>Opened:</b> 2018-02-19 <b>Last modified:</b> 2018-03-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#string.view.template">active issues</a> in [string.view.template].</p>
@@ -31745,7 +31745,7 @@ constexpr basic_string_view(const charT* str, size_type len);
 <hr>
 <h3><a name="3069" href="#3069">3069</a><sup><a href="https://cplusplus.github.io/LWG/issue3069">(i)</a></sup>. Move assigning <tt>variant</tt>'s subobject corrupts data</h3>
 <p><b>Section:</b> 23.7.3.3 <a href="https://wg21.link/variant.assign">[variant.assign]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Antony Polukhin  <b>Opened:</b> 2018-02-20 <b>Last modified:</b> 2018-03-03</p>
+ <b>Submitter:</b> Antony Polukhin <b>Opened:</b> 2018-02-20 <b>Last modified:</b> 2018-03-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#variant.assign">issues</a> in [variant.assign].</p>
@@ -31859,6 +31859,81 @@ type of the contained value after assignment.
 </ol>
 [&hellip;]
 </p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3070" href="#3070">3070</a><sup><a href="https://cplusplus.github.io/LWG/issue3070">(i)</a></sup>. <tt>path::lexically_relative</tt> causes suprising results if a filename can also be a root-name</h3>
+<p><b>Section:</b> 30.11.7.4.11 <a href="https://wg21.link/fs.path.gen">[fs.path.gen]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-02-23 <b>Last modified:</b> 2018-03-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>path::lexically_relative</tt> constructs the resulting path with <tt>operator/=</tt>. If any of 
+the filename elements from <tt>*this</tt> are themselves acceptable <i>root-name</i>s, <tt>operator/=</tt> 
+will destroy any previous value, and take that <tt>root_name()</tt>. For example:
+</p>
+<blockquote><pre>
+path("/a:/b:").lexically_relative("/a:/c:")
+</pre></blockquote>
+<p>
+On a POSIX implementation, this would return <tt>path("../b:")</tt>, but on a Windows implementation, the 
+<tt>"b:"</tt> element is interpreted as a <i>root-name</i>, and clobbers the entire result <tt>path</tt>, 
+giving <tt>path("b:")</tt>. We should detect this problematic condition and fail (by returning <tt>path()</tt>).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li><p>Change 30.11.7.4.11 <a href="https://wg21.link/fs.path.gen">[fs.path.gen]</a> as indicated:</p>
+<blockquote>
+<pre>
+path lexically_relative(const path&amp; base) const;
+</pre>
+<blockquote>
+<p>
+-3- [&hellip;]
+<p/>
+-4- <i>Effects:</i> If <tt>root_name() != base.root_name()</tt> is <tt>true</tt> or 
+<tt>is_absolute() != base.is_absolute()</tt> is <tt>true</tt> or <tt>!has_root_directory() 
+&amp;&amp; base.has_root_directory()</tt> is <tt>true</tt> <ins>or if any <i>filename</i> 
+in <tt>relative_path()</tt> or <tt>base.relative_path()</tt> can be interpreted as a 
+<i>root-name</i></ins>, returns <tt>path()</tt>. <ins>[<i>Note:</i> On a POSIX implementation, 
+no <i>filename</i> in a <i>relative-path</i> is acceptable as a <i>root-name</i> 
+&mdash; <i>end note</i>]</ins> Determines
+the first mismatched element of <tt>*this</tt> and <tt>base</tt> as if by:
+</p>
+<blockquote><pre>
+auto [a, b] = mismatch(begin(), end(), base.begin(), base.end());
+</pre></blockquote>
+<p>
+Then,
+</p>
+<ol style="list-style-type: none">
+<li><p>(4.1) &mdash; if <tt>a == end()</tt> and <tt>b == base.end()</tt>, returns <tt>path(".")</tt>; 
+otherwise</p></li>
+<li><p>(4.2) &mdash; let <tt>n</tt> be the number of <i>filename</i> elements in <tt>[b, base.end())</tt> that 
+are not dot or dot-dot minus
+the number that are dot-dot. If <tt>n &lt; 0</tt>, returns <tt>path()</tt>; otherwise</p></li>
+<li><p>(4.3) &mdash; returns an object of class <tt>path</tt> that is default-constructed, followed by</p>
+<ol style="list-style-type: none">
+<li><p>(4.3.1) &mdash; application of <tt>operator/=(path(".."))</tt> <tt>n</tt> times, and then</p></li>
+<li><p>(4.3.2) &mdash; application of <tt>operator/=</tt> for each element in <tt>[a, end())</tt>.</p></li>
+</ol>
+</li>
+</ol>
 </blockquote>
 </blockquote>
 </li>
