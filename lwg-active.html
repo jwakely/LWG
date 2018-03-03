@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D109)</h1>
-<p><p>Revised 2018-03-03 at 13:59:16 UTC</p>
+<p><p>Revised 2018-03-03 at 15:07:33 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D109: 2018-04-02 2018 post-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>263 open issues, up by 6.</li>
+<li>264 open issues, up by 7.</li>
 <li>2265 closed issues, up by 0.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2590 issues total, up by 6.</li>
+<li>2591 issues total, up by 7.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 6 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3068">3068</a>.</li>
+<li>Added the following 7 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>.</li>
 <li>Changed the following 5 issues to Voting (from Ready): <a href="lwg-active.html#2843">2843</a>, <a href="lwg-active.html#2969">2969</a>, <a href="lwg-active.html#2975">2975</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3030">3030</a>.</li>
 <li>Changed the following 27 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#2164">2164</a>, <a href="lwg-active.html#2243">2243</a>, <a href="lwg-active.html#2816">2816</a>, <a href="lwg-active.html#2849">2849</a>, <a href="lwg-active.html#2851">2851</a>, <a href="lwg-active.html#2989">2989</a>, <a href="lwg-active.html#3000">3000</a>, <a href="lwg-active.html#3002">3002</a>, <a href="lwg-active.html#3004">3004</a>, <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3020">3020</a>, <a href="lwg-active.html#3026">3026</a>, <a href="lwg-active.html#3034">3034</a>, <a href="lwg-active.html#3035">3035</a>, <a href="lwg-active.html#3039">3039</a>, <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3045">3045</a>, <a href="lwg-active.html#3048">3048</a>, <a href="lwg-active.html#3051">3051</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3062">3062</a>.</li>
@@ -35870,6 +35870,132 @@ constexpr basic_string_view(const charT* str);
 constexpr basic_string_view(const charT* str, size_type len);
 [&hellip;]
 </pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3069" href="#3069">3069</a><sup><a href="https://cplusplus.github.io/LWG/issue3069">(i)</a></sup>. Move assigning <tt>variant</tt>'s subobject corrupts data</h3>
+<p><b>Section:</b> 23.7.3.3 <a href="https://wg21.link/variant.assign">[variant.assign]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Antony Polukhin  <b>Opened:</b> 2018-02-20 <b>Last modified:</b> 2018-03-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#variant.assign">issues</a> in [variant.assign].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>variant::emplace</tt> functions in 23.7.3.4 <a href="https://wg21.link/variant.mod">[variant.mod]</a> destroy the currently
+contained value before initializing it to a new value. Assignments in 
+23.7.3.3 <a href="https://wg21.link/variant.assign">[variant.assign]</a> are described in terms on <tt>emplace</tt>.
+<p/>
+This leads to situation, when move/copy assigning subobject from <tt>variant</tt> into the same 
+<tt>variant</tt> corrupts data:
+</p>
+<blockquote><pre>
+#include &lt;variant&gt;
+#include &lt;memory&gt;
+#include &lt;iostream&gt;
+
+using str_t = std::string;
+using str_ptr_t = std::unique_ptr&lt;str_t&gt;;
+using var_t = std::variant&lt;str_t, str_ptr_t&gt;;
+
+int main() 
+{
+  var_t v = str_ptr_t{
+    new str_t{"Long string that does not fit into SS buffer and forces dynamic allocation"}
+  };
+
+  // Any of the following lines corrupt the variant's content:
+  v = *std::get&lt;str_ptr_t&gt;(v);
+  //v = std::move(*std::get&lt;str_ptr_t&gt;(v));
+
+  std::cout &lt;&lt; std::get&lt;str_t&gt;(v) &lt;&lt; std::endl; // SEGV - 'str_t' inside 'v' is invalid
+}
+</pre></blockquote>
+<p>
+Such behavior confuses users, especially those users who are used to
+<tt>boost::variant</tt>'s behavior. Consider making <tt>variant</tt> assignments safer
+by defining them close to copy-and-swap.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li><p>Change 23.7.3.3 <a href="https://wg21.link/variant.assign">[variant.assign]</a> as indicated:</p>
+<blockquote>
+<pre>
+variant&amp; operator=(const variant&amp; rhs);
+</pre>
+<blockquote>
+<p>
+-1- Let <tt><i>j</i></tt> be <tt>rhs.index()</tt>.
+<p/>
+-2- <i>Effects:</i>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; If neither <tt>*this</tt> nor <tt>rhs</tt> holds a value, there is no effect.</p></li>
+<li><p>(2.2) &mdash; Otherwise, if <tt>*this</tt> holds a value but <tt>rhs</tt> does not, 
+destroys the value contained in <tt>*this</tt> and sets <tt>*this</tt> to not hold a value.</p></li>
+<li><p>(2.3) &mdash; Otherwise, if <tt>index() == <i>j</i></tt>, assigns the value contained in <tt>rhs</tt> 
+to the value contained in <tt>*this</tt>.</p></li>
+<li><p><del>(2.4) &mdash; Otherwise, if either <tt>is_nothrow_copy_constructible_v&lt;T<sub><i>j</i></sub>&gt;</tt> 
+is <tt>true</tt> or <tt>is_nothrow_move_constructible_v&lt;T<sub><i>j</i></sub>&gt;</tt> is 
+<tt>false</tt>, equivalent to <tt>emplace&lt;<i>j</i>&gt;(get&lt;<i>j</i>&gt;(rhs))</tt>.</del></p></li>
+<li><p>(2.5) &mdash; Otherwise, equivalent to <ins><tt>emplace&lt;<i>j</i>&gt;(T<sub><i>j</i></sub>{get&lt;<i>j</i>&gt;(rhs)})</tt></ins><del><tt>operator=(variant(rhs))</tt></del>.</p></li>
+</ol>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+variant&amp; operator=(variant&amp;&amp; rhs) noexcept(<i>see below</i>);
+</pre>
+<blockquote>
+<p>
+-6- Let <tt><i>j</i></tt> be <tt>rhs.index()</tt>.
+<p/>
+-7- <i>Effects:</i>
+<ol style="list-style-type: none">
+<li><p>(7.1) &mdash; If neither <tt>*this</tt> nor <tt>rhs</tt> holds a value, there is no effect.</p></li>
+<li><p>(7.2) &mdash; Otherwise, if <tt>*this</tt> holds a value but <tt>rhs</tt> does not, 
+destroys the value contained in <tt>*this</tt> and sets <tt>*this</tt> to not hold a value.</p></li>
+<li><p>(7.3) &mdash; Otherwise, if <tt>index() == <i>j</i></tt>, assigns 
+<tt>get&lt;<i>j</i>&gt;(std::move(rhs))</tt> to the value contained in <tt>*this</tt>.</p></li>
+<li><p>(7.4) &mdash; Otherwise, equivalent to 
+<tt>emplace&lt;<i>j</i>&gt;(<ins>T<sub><i>j</i></sub>{</ins>get&lt;<i>j</i>&gt;(std::move(rhs))<ins>}</ins>)</tt>.</p></li>
+</ol>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+</pre>
+<blockquote>
+<p>
+-10- Let <tt>T<sub><i>j</i></sub></tt> be a type that is determined as follows: build an imaginary function 
+<tt><i>FUN</i>(T<sub><i>i</i></sub>)</tt> for each alternative type <tt>T<sub><i>i</i></sub></tt>. The overload 
+<tt><i>FUN</i>(T<sub><i>j</i></sub>)</tt> selected by overload resolution for the expression 
+<tt><i>FUN</i>(std::forward&lt;T&gt;(t))</tt> defines the alternative <tt>T<sub><i>j</i></sub></tt> which is the 
+type of the contained value after assignment.
+<p/>
+-11- <i>Effects:</i>
+<ol style="list-style-type: none">
+<li><p>(11.1) &mdash; If <tt>*this</tt> holds a <tt>T<sub><i>j</i></sub></tt>, assigns 
+<tt>std::forward&lt;T&gt;(t)</tt> to the value contained in <tt>*this</tt>.</p></li>
+<li><p><del>(11.2) &mdash; Otherwise, if <tt>is_nothrow_constructible_v&lt;T<sub><i>j</i></sub>, T&gt; || !is_nothrow_move_constructible_v&lt;T<sub><i>j</i></sub>&gt;</tt> is <tt>true</tt>, equivalent to 
+<tt>emplace&lt;<i>j</i>&gt;(std::forward&lt;T&gt;(t))</tt>.</del></p></li>
+<li><p>(11.3) &mdash; Otherwise, equivalent to 
+<tt><ins>emplace&lt;<i>j</i>&gt;(T<sub><i>j</i></sub>{std::forward&lt;T&gt;(t)})</ins><del>operator=(variant(std::forward&lt;T&gt;(t)))</del></tt>.</p></li>
+</ol>
+[&hellip;]
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ol>
