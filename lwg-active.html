@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D109)</h1>
-<p><p>Revised 2018-03-04 at 11:38:20 UTC</p>
+<p><p>Revised 2018-03-04 at 12:27:46 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D109: 2018-04-02 2018 post-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>268 open issues, up by 11.</li>
+<li>269 open issues, up by 12.</li>
 <li>2265 closed issues, up by 0.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2595 issues total, up by 11.</li>
+<li>2596 issues total, up by 12.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 11 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3071">3071</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>.</li>
+<li>Added the following 12 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3071">3071</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>, <a href="lwg-active.html#3074">3074</a>.</li>
 <li>Changed the following 5 issues to Voting (from Ready): <a href="lwg-active.html#2843">2843</a>, <a href="lwg-active.html#2969">2969</a>, <a href="lwg-active.html#2975">2975</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3030">3030</a>.</li>
 <li>Changed the following 27 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#2164">2164</a>, <a href="lwg-active.html#2243">2243</a>, <a href="lwg-active.html#2816">2816</a>, <a href="lwg-active.html#2849">2849</a>, <a href="lwg-active.html#2851">2851</a>, <a href="lwg-active.html#2989">2989</a>, <a href="lwg-active.html#3000">3000</a>, <a href="lwg-active.html#3002">3002</a>, <a href="lwg-active.html#3004">3004</a>, <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3020">3020</a>, <a href="lwg-active.html#3026">3026</a>, <a href="lwg-active.html#3034">3034</a>, <a href="lwg-active.html#3035">3035</a>, <a href="lwg-active.html#3039">3039</a>, <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3045">3045</a>, <a href="lwg-active.html#3048">3048</a>, <a href="lwg-active.html#3051">3051</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#2970">2970</a>, <a href="lwg-active.html#3062">3062</a>.</li>
@@ -36401,6 +36401,220 @@ This wording is relative to <a href="http://wg21.link/n4711">N4711</a>.
 <p>-16- <em>Remarks:</em> This function shall not participate in overload resolution unless 
 <code>is_dynamic_buffer_v&lt;<ins>decay_t&lt;</ins>DynamicBuffer<ins>&gt;</ins>&gt;</code> is 
 <code>true</code>.</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3074" href="#3074">3074</a><sup><a href="https://cplusplus.github.io/LWG/issue3074">(i)</a></sup>. Non-member functions for <tt>valarray</tt> should only deduce from the <tt>valarray</tt></h3>
+<p><b>Section:</b> 29.7.3 <a href="https://wg21.link/valarray.nonmembers">[valarray.nonmembers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-02-28 <b>Last modified:</b> 2018-03-04</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>The expression <tt>(std::valarray&lt;double&gt;{} * 2)</tt> is ill-formed, because argument deduction 
+fails for:</p>
+<blockquote><pre>
+template&lt;class T&gt;
+  valarray&lt;T&gt; operator*(const valarray&lt;T&gt;&amp;, const T&amp;);
+</pre></blockquote>
+<p>
+Is there any reason to try and deduce the argument from the scalar, instead of only deducing from the valarray and allowing implicit conversions to the scalar? i.e.
+</p>
+<blockquote><pre>
+template&lt;class T&gt; 
+  valarray&lt;T&gt; operator*(const valarray&lt;T&gt;&amp;, const typename valarray&lt;T&gt;::value_type&amp;);
+</pre></blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 29.7.1 <a href="https://wg21.link/valarray.syn">[valarray.syn]</a>, header <tt>&lt;valarray&gt;</tt> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class T&gt; valarray&lt;T&gt; operator* (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator* (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator* (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; operator/ (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator/ (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator/ (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; operator% (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator% (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator% (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; operator+ (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator+ (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator+ (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; operator- (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator- (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator- (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; operator^ (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator^ (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator^ (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; operator&amp; (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&amp; (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&amp; (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; operator| (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator| (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator| (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; operator&lt;&lt;(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&lt;&lt;(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&lt;&lt;(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; operator&gt;&gt;(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&gt;&gt;(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&gt;&gt;(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;bool&gt; operator&amp;&amp;(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&amp;&amp;(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&amp;&amp;(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;bool&gt; operator||(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator||(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator||(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;bool&gt; operator==(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator==(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator==(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;bool&gt; operator!=(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator!=(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator!=(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt; (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt; (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt; (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt; (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt; (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt; (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt;=(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt;=(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt;=(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt;=(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt;=(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt;=(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; abs (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; acos (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; asin (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; atan (const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; atan2(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; atan2(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; atan2(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; cos (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; cosh (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; exp (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; log (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; log10(const valarray&lt;T&gt;&amp;);
+
+template&lt;class T&gt; valarray&lt;T&gt; pow(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; pow(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; pow(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li>
+<p>Edit 29.7.3.1 <a href="https://wg21.link/valarray.binary">[valarray.binary]</a> as indicated:</p>
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class T&gt; valarray&lt;T&gt; operator* (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator* (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator/ (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator/ (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator% (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator% (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator+ (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator+ (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator- (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator- (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator^ (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator^ (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&amp; (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&amp; (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator| (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator| (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&lt;&lt;(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&lt;&lt;(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&gt;&gt;(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; operator&gt;&gt;(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li>
+<p>Edit 29.7.3.2 <a href="https://wg21.link/valarray.comparison">[valarray.comparison]</a> as indicated:</p>
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class T&gt; valarray&lt;bool&gt; operator==(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator==(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator!=(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator!=(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt; (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt; (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt; (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt; (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt;=(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&lt;=(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt;=(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&gt;=(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&amp;&amp;(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator&amp;&amp;(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator||(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;bool&gt; operator||(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li>
+<p>Edit 29.7.3.3 <a href="https://wg21.link/valarray.transcend">[valarray.transcend]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class T&gt; valarray&lt;T&gt; abs (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; acos (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; asin (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; atan (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; atan2(const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; atan2(const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; atan2(const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; cos (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; cosh (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; exp (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; log (const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; log10(const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; pow (const valarray&lt;T&gt;&amp;, const valarray&lt;T&gt;&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; pow (const valarray&lt;T&gt;&amp;, const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;);
+template&lt;class T&gt; valarray&lt;T&gt; pow (const <del>T</del><ins>typename valarray&lt;T&gt;::value_type</ins>&amp;, const valarray&lt;T&gt;&amp;);
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 </ol>
