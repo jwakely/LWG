@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2018-03-03</td>
+  <td align="left">2018-03-04</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D109)</h1>
-<p><p>Revised 2018-03-03 at 17:11:07 UTC</p>
+<p><p>Revised 2018-03-04 at 10:32:16 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D109: 2018-04-02 2018 post-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>265 open issues, up by 8.</li>
+<li>266 open issues, up by 9.</li>
 <li>2265 closed issues, up by 0.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2592 issues total, up by 8.</li>
+<li>2593 issues total, up by 9.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 8 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>.</li>
+<li>Added the following 9 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3071">3071</a>.</li>
 <li>Changed the following 5 issues to Voting (from Ready): <a href="lwg-active.html#2843">2843</a>, <a href="lwg-active.html#2969">2969</a>, <a href="lwg-active.html#2975">2975</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3030">3030</a>.</li>
 <li>Changed the following 27 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#2164">2164</a>, <a href="lwg-active.html#2243">2243</a>, <a href="lwg-active.html#2816">2816</a>, <a href="lwg-active.html#2849">2849</a>, <a href="lwg-active.html#2851">2851</a>, <a href="lwg-active.html#2989">2989</a>, <a href="lwg-active.html#3000">3000</a>, <a href="lwg-active.html#3002">3002</a>, <a href="lwg-active.html#3004">3004</a>, <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3020">3020</a>, <a href="lwg-active.html#3026">3026</a>, <a href="lwg-active.html#3034">3034</a>, <a href="lwg-active.html#3035">3035</a>, <a href="lwg-active.html#3039">3039</a>, <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3045">3045</a>, <a href="lwg-active.html#3048">3048</a>, <a href="lwg-active.html#3051">3051</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#2970">2970</a>, <a href="lwg-active.html#3062">3062</a>.</li>
@@ -36082,6 +36082,85 @@ the number that are dot-dot. If <tt>n &lt; 0</tt>, returns <tt>path()</tt>; othe
 </ol>
 </li>
 </ol>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3071" href="#3071">3071</a><sup><a href="https://cplusplus.github.io/LWG/issue3071">(i)</a></sup>. [networking.ts] <tt>read_until</tt> still refers to "input sequence"</h3>
+<p><b>Section:</b> 99 [networking.ts::buffer.read.until] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Christopher Kohlhoff <b>Opened:</b> 2018-02-26 <b>Last modified:</b> 2018-03-04</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<b>Addresses: networking.ts</b>
+<p>
+When specifying <tt>DynamicBuffers</tt> and their related operations, early drafts of the Networking TS described the buffers in terms of their "input sequence" and "output sequence". This was changed to "readable bytes" and "writable bytes" respectively. Unfortunately, some instances of "input sequence" were missed in section 
+99 [networking.ts::buffer.read.until].
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4711">N4711</a>.
+</p>
+
+<ol>
+<li><p>Change 99 [networking.ts::buffer.read.until] as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class SyncReadStream, class DynamicBuffer&gt;
+  size_t read_until(SyncReadStream&amp; s, DynamicBuffer&amp;&amp; b, char delim);
+template&lt;class SyncReadStream, class DynamicBuffer&gt;
+  size_t read_until(SyncReadStream&amp; s, DynamicBuffer&amp;&amp; b,
+                    char delim, error_code&amp; ec);
+template&lt;class SyncReadStream, class DynamicBuffer&gt;
+  size_t read_until(SyncReadStream&amp; s, DynamicBuffer&amp;&amp; b, string_view delim);
+template&lt;class SyncReadStream, class DynamicBuffer&gt;
+  size_t read_until(SyncReadStream&amp; s, DynamicBuffer&amp;&amp; b,
+                    string_view delim, error_code&amp; ec);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Reads data from the buffer-oriented synchronous read stream 
+( [networking.ts::buffer.stream.reqmts.syncreadstream]) object stream by performing zero or more 
+calls to the stream's <tt>read_some</tt> member function, until the 
+<del>input sequence</del><ins>readable bytes</ins> of the dynamic buffer 
+(99 [networking.ts::buffer.reqmts.dynamicbuffer]) object <tt>b</tt> contain<del>s</del> the specified 
+delimiter <tt>delim</tt>.
+<p/>
+-2- Data is placed into the dynamic buffer object b. A mutable buffer sequence (16.2.1) is obtained 
+prior to each <tt>read_some</tt> call using <tt>b.prepare(N)</tt>, where <tt>N</tt> is an unspecified 
+value such that <tt>N &lt;= max_size() - size()</tt>. [<i>Note:</i> Implementations are encouraged to use
+<tt>b.capacity()</tt> when determining <tt>N</tt>, to minimize the number of <tt>read_some</tt>
+calls performed on the stream. &mdash; <i>end note</i>] After each <tt>read_some</tt> call, 
+the implementation performs <tt>b.commit(n)</tt>, where <tt>n</tt> is the return value from
+<tt>read_some</tt>.
+<p/>
+-3- The synchronous <tt>read_until</tt> operation continues until:
+<ol style="list-style-type: none">
+<li><p>(3.1) &mdash; the <del>input sequence</del><ins>readable bytes</ins> of <tt>b</tt> contain<del>s</del> 
+the delimiter <tt>delim</tt>; or</p></li>
+<li><p>(3.2) &mdash; <tt>b.size() == b.max_size()</tt>; or</p></li>
+<li><p>(3.3) &mdash; an asynchronous <tt>read_some</tt> operation fails.</p></li>
+</ol>
+<p/>
+-4- On exit, if the <del>input sequence</del><ins>readable bytes</ins> of <tt>b</tt> contain<del>s</del> 
+the delimiter, <tt>ec</tt> is set such that <tt>!ec</tt> is <tt>true</tt>. Otherwise, if 
+<tt>b.size() == b.max_size()</tt>, <tt>ec</tt> is set such that <tt>ec == stream_errc::not_found</tt>. 
+If <tt>b.size() &lt; b.max_size()</tt>, <tt>ec</tt> contains the <tt>error_code</tt> from the most 
+recent <tt>read_some</tt> call.
+<p/>
+-5- <i>Returns:</i> The number of <del>bytes in the input sequence of</del><ins>readable bytes in</ins> 
+<tt>b</tt> up to and including the delimiter, if present. [<i>Note:</i> On completion, the buffer may 
+contain additional bytes following the delimiter. &mdash; <i>end note</i>] Otherwise returns <tt>0</tt>.
+</p>
 </blockquote>
 </blockquote>
 </li>
