@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-03-04 at 12:27:46 UTC</p>
+<p><p>Revised 2018-03-04 at 13:04:38 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -25265,7 +25265,7 @@ returned by calling <tt>fopen</tt></ins>).(footnote 330)
 <hr>
 <h3><a name="2946" href="#2946">2946</a><sup><a href="https://cplusplus.github.io/LWG/issue2946">(i)</a></sup>. LWG 2758's resolution missed further corrections</h3>
 <p><b>Section:</b> 24.3.2.2 <a href="https://wg21.link/string.cons">[string.cons]</a>, 24.3.2.6.2 <a href="https://wg21.link/string.append">[string.append]</a>, 24.3.2.6.3 <a href="https://wg21.link/string.assign">[string.assign]</a>, 24.3.2.7 <a href="https://wg21.link/string.ops">[string.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2017-03-17 <b>Last modified:</b> 2017-07-16</p>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2017-03-17 <b>Last modified:</b> 2018-03-04</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#string.cons">issues</a> in [string.cons].</p>
@@ -25860,6 +25860,9 @@ the local <tt>basic_string_view</tt> object. The existing P/R has been updated t
 <p><i>[2017-07 Toronto Wed Issue Prioritization]</i></p>
 
 <p>Priority ; Marshall to investigate and if OK, will propose Tentatively Ready on reflector.</p>
+
+<p><i>[2018-03-03: STL reported a related issue, LWG <a href="lwg-active.html#3075">3075</a>.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -32398,6 +32401,135 @@ template&lt;class T&gt; valarray&lt;T&gt; pow (const <del>T</del><ins>typename v
 </pre>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3075" href="#3075">3075</a><sup><a href="https://cplusplus.github.io/LWG/issue3075">(i)</a></sup>. <tt>basic_string</tt> needs deduction guides from <tt>basic_string_view</tt></h3>
+<p><b>Section:</b> 24.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a>, 24.3.2.2 <a href="https://wg21.link/string.cons">[string.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2018-03-03 <b>Last modified:</b> 2018-03-04</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#basic.string">active issues</a> in [basic.string].</p>
+<p><b>View all other</b> <a href="lwg-index.html#basic.string">issues</a> in [basic.string].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The Proposed Resolution for LWG <a href="lwg-active.html#2946">2946</a> appears to be correct and we've implemented it in MSVC, 
+but it worsens a pre-existing problem with basic_string class template argument deduction.
+<p/>
+The following <tt>s1</tt> and <tt>s2</tt> compiled in C++17 before LWG 2946's PR, fail 
+to compile after LWG 2946's PR, and are fixed by my PR:</p>
+<blockquote><pre>
+basic_string s1("cat"sv);
+basic_string s2("cat"sv, alloc);
+</pre></blockquote>
+<p>
+The following s4 failed to compile in C++17, and is fixed by my PR:
+</p>
+<blockquote><pre>
+// basic_string s3("cat"sv, 1, 1);
+basic_string s4("cat"sv, 1, 1, alloc);
+</pre></blockquote>
+<p>
+(s3 failed to compile in C++17, and would be fixed by my PR, but it is affected by a pre-existing and 
+unrelated ambiguity which I am not attempting to fix here.)
+<p/>
+As C++17 and LWG 2946's PR introduced templated constructors for <tt>basic_string</tt> from 
+<tt>basic_string_view</tt>, we need to add corresponding deduction guides.
+<p/>
+The constructors take <tt>const T&amp;</tt> that's convertible to <tt>basic_string_view</tt> (the 
+additional constraint about not converting to <tt>const charT*</tt> is irrelevant here). However, CTAD 
+can't deduce <tt>charT</tt> and <tt>traits</tt> from arbitrary user-defined types, so the deduction guides 
+need <tt>T</tt> to be exactly <tt>basic_string_view</tt>.
+<p/>
+Additionally, we need to handle the <tt>size_type</tt> parameters in the same way that the unordered 
+containers do. This PR has been implemented in MSVC.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 24.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a>, class template <tt>basic_string</tt> synopsis, as indicated:</p>
+<blockquote>
+<blockquote>
+<pre>
+[&hellip;]
+
+template&lt;class InputIterator,
+         class Allocator = allocator&lt;typename iterator_traits&lt;InputIterator&gt;::value_type&gt;&gt;
+  basic_string(InputIterator, InputIterator, Allocator = Allocator())
+    -&gt; basic_string&lt;typename iterator_traits&lt;InputIterator&gt;::value_type,
+                    char_traits&lt;typename iterator_traits&lt;InputIterator&gt;::value_type&gt;,
+                     Allocator&gt;;
+<ins>
+template&lt;class T,
+         class Allocator = allocator&lt;typename T::value_type&gt;&gt;
+  explicit basic_string(const T&amp;, const Allocator&amp; = Allocator())
+    -&gt; basic_string&lt;typename T::value_type, typename T::traits_type, Allocator&gt;;
+
+template&lt;class T,
+         class Allocator = allocator&lt;typename T::value_type&gt;&gt;
+  basic_string(const T&amp;, typename <i>see below</i>::size_type, typename <i>see below</i>::size_type, 
+               const Allocator&amp; = Allocator())
+    -&gt; basic_string&lt;typename T::value_type, typename T::traits_type, Allocator&gt;;
+</ins>                     
+}                     
+</pre></blockquote>
+<p>
+<ins>-?- A <tt>size_type</tt> parameter type in a <tt>basic_string</tt> deduction guide refers to the 
+<tt>size_type</tt> member type of the type deduced by the deduction guide.</ins>
+</p>
+</blockquote>
+</li>
+
+<li>
+<p>Edit 24.3.2.2 <a href="https://wg21.link/string.cons">[string.cons]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class InputIterator,
+         class Allocator = allocator&lt;typename iterator_traits&lt;InputIterator>::value_type&gt;&gt;
+  basic_string(InputIterator, InputIterator, Allocator = Allocator())
+    -&gt; basic_string&lt;typename iterator_traits&lt;InputIterator&gt;::value_type,
+                    char_traits&lt;typename iterator_traits&lt;InputIterator&gt;::value_type&gt;,
+                     Allocator&gt;;
+</pre>
+<blockquote>
+<p>
+-25- <i>Remarks:</i> Shall not participate in overload resolution if <tt>InputIterator</tt> is a type 
+that does not qualify as an input iterator, or if <tt>Allocator</tt> is a type that does not qualify as an allocator (26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>).
+</p>
+</blockquote>
+<pre>
+<ins>template&lt;class T,
+         class Allocator = allocator&lt;typename T::value_type&gt;&gt;
+  explicit basic_string(const T&amp;, const Allocator&amp; = Allocator())
+    -&gt; basic_string&lt;typename T::value_type, typename T::traits_type, Allocator&gt;;
+
+template&lt;class T,
+         class Allocator = allocator&lt;typename T::value_type&gt;&gt;
+  basic_string(const T&amp;, typename <i>see below</i>::size_type, typename <i>see below</i>::size_type, 
+               const Allocator&amp; = Allocator())
+    -&gt; basic_string&lt;typename T::value_type, typename T::traits_type, Allocator&gt;;</ins>                     
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Remarks:</i> Shall not participate in overload resolution if <tt>T</tt> is a type that is 
+not a specialization of <tt>basic_string_view</tt>, or if <tt>Allocator</tt> is a type that does not 
+qualify as an allocator (26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>).</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
 </ol>
 
 
