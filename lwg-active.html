@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D109)</h1>
-<p><p>Revised 2018-03-12 at 12:42:40 UTC</p>
+<p><p>Revised 2018-03-12 at 13:02:34 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D109: 2018-04-02 2018 post-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>272 open issues, up by 15.</li>
+<li>273 open issues, up by 16.</li>
 <li>2265 closed issues, up by 0.</li>
 <li>62 reassigned issues, up by 0.</li>
-<li>2599 issues total, up by 15.</li>
+<li>2600 issues total, up by 16.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3071">3071</a>, <a href="lwg-active.html#3074">3074</a>.</li>
-<li>Added the following 12 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>, <a href="lwg-active.html#3075">3075</a>, <a href="lwg-active.html#3076">3076</a>, <a href="lwg-active.html#3077">3077</a>.</li>
+<li>Added the following 13 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>, <a href="lwg-active.html#3075">3075</a>, <a href="lwg-active.html#3076">3076</a>, <a href="lwg-active.html#3077">3077</a>, <a href="lwg-active.html#3078">3078</a>.</li>
 <li>Changed the following 5 issues to Voting (from Ready): <a href="lwg-active.html#2843">2843</a>, <a href="lwg-active.html#2969">2969</a>, <a href="lwg-active.html#2975">2975</a>, <a href="lwg-active.html#3014">3014</a>, <a href="lwg-active.html#3030">3030</a>.</li>
 <li>Changed the following 27 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#2164">2164</a>, <a href="lwg-active.html#2243">2243</a>, <a href="lwg-active.html#2816">2816</a>, <a href="lwg-active.html#2849">2849</a>, <a href="lwg-active.html#2851">2851</a>, <a href="lwg-active.html#2989">2989</a>, <a href="lwg-active.html#3000">3000</a>, <a href="lwg-active.html#3002">3002</a>, <a href="lwg-active.html#3004">3004</a>, <a href="lwg-active.html#3005">3005</a>, <a href="lwg-active.html#3007">3007</a>, <a href="lwg-active.html#3009">3009</a>, <a href="lwg-active.html#3010">3010</a>, <a href="lwg-active.html#3013">3013</a>, <a href="lwg-active.html#3015">3015</a>, <a href="lwg-active.html#3017">3017</a>, <a href="lwg-active.html#3020">3020</a>, <a href="lwg-active.html#3026">3026</a>, <a href="lwg-active.html#3034">3034</a>, <a href="lwg-active.html#3035">3035</a>, <a href="lwg-active.html#3039">3039</a>, <a href="lwg-active.html#3041">3041</a>, <a href="lwg-active.html#3042">3042</a>, <a href="lwg-active.html#3043">3043</a>, <a href="lwg-active.html#3045">3045</a>, <a href="lwg-active.html#3048">3048</a>, <a href="lwg-active.html#3051">3051</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#2970">2970</a>, <a href="lwg-active.html#3062">3062</a>.</li>
@@ -36953,6 +36953,71 @@ valid.<ins>&mdash;<i>end note</i>]</ins> If an exception is thrown [&hellip;]
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3078" href="#3078">3078</a><sup><a href="https://cplusplus.github.io/LWG/issue3078">(i)</a></sup>. <tt>directory_entry</tt>, <tt>directory_iterator</tt> and <tt>recursive_directory_iterator</tt> perform needless path copies</h3>
+<p><b>Section:</b> 30.11.11 <a href="https://wg21.link/fs.class.directory_entry">[fs.class.directory_entry]</a>, 30.11.12 <a href="https://wg21.link/fs.class.directory_iterator">[fs.class.directory_iterator]</a>, 30.11.13 <a href="https://wg21.link/fs.class.rec.dir.itr">[fs.class.rec.dir.itr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Gor Nishanov <b>Opened:</b> 2018-03-05 <b>Last modified:</b> 2018-03-12</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+An implementation of <tt>directory_entry</tt> class is likely to store a <tt>filesystem::path</tt> as a member.
+Constructors and assign member functions take <tt>filesystem::path</tt> by <tt>const&amp;</tt> thus forcing 
+creation of a copy.
+<p/>
+An implementation of <tt>directory_iterator</tt> class is likely to store a <tt>directory_entry</tt> or a 
+<tt>path</tt> as a part of its state. Constructors take <tt>filesystem::path</tt> by <tt>const&amp;</tt> 
+thus forcing creation of a copy.
+<p/>
+An implementation of <tt>recursive_directory_iterator</tt> class is likely to store a <tt>directory_entry</tt> 
+or a <tt>path</tt> as a part of its state. Constructors take <tt>filesystem::path</tt> by <tt>const&amp;</tt> 
+thus forcing creation of a copy. 
+<p/>
+Suggested resolution:
+<p/>
+Add overloads to <tt>directory_entry</tt>, <tt>directory_iterator</tt>, and <tt>recursive_directory_iterator</tt>
+that take <tt>filesystem::path</tt> by <tt>&amp;&amp;</tt>.
+<p/>
+Make it unspecified in case an exception is thrown from those new members where an argument was moved from or not.
+</p>
+<blockquote><pre>
+explicit directory_entry(const filesystem::path&amp; p);
+<ins>explicit directory_entry(filesystem::path&amp;&amp; p);</ins>
+directory_entry(const filesystem::path&amp; p, error_code&amp; ec);
+<ins>directory_entry(filesystem::path&amp;&amp; p, error_code&amp; ec);</ins>
+
+void directory_entry::assign(const filesystem::path&amp; p);
+<ins>void directory_entry::assign(filesystem::path&amp;&amp; p);</ins>
+void directory_entry::assign(const filesystem::path&amp; p, error_code&amp; ec);
+<ins>void directory_entry::assign(filesystem::path&amp;&amp; p, error_code&amp; ec);</ins>
+
+explicit directory_iterator(const path&amp; p);
+<ins>explicit directory_iterator(path&amp;&amp; p);</ins>
+directory_iterator(const path&amp; p, directory_options options);
+<ins>directory_iterator(path&amp;&amp; p, directory_options options);</ins>
+directory_iterator(const path&amp; p, error_code&amp; ec) noexcept;
+<ins>directory_iterator(path&amp;&amp; p, error_code&amp; ec) noexcept;</ins>
+directory_iterator(const path&amp; p, directory_options options, error_code&amp; ec) noexcept;
+<ins>directory_iterator(path&amp;&amp; p, directory_options options, error_code&amp; ec) noexcept;</ins>
+
+explicit recursive_directory_iterator(const path&amp; p);
+<ins>explicit recursive_directory_iterator(path&amp;&amp; p);</ins>
+recursive_directory_iterator(const path&amp; p, directory_options options);
+<ins>recursive_directory_iterator(path&amp;&amp; p, directory_options options);</ins>
+recursive_directory_iterator(const path&amp; p, directory_options options, error_code&amp; ec) noexcept;
+<ins>recursive_directory_iterator(path&amp;&amp; p, directory_options options, error_code&amp; ec) noexcept;</ins>
+recursive_directory_iterator(const path&amp; p, error_code&amp; ec) noexcept;
+<ins>recursive_directory_iterator(path&amp;&amp; p, error_code&amp; ec) noexcept;</ins>
+</pre></blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
