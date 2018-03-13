@@ -26,8 +26,8 @@ don't support DynamicBuffer lvalues</title>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3073" href="lwg-active.html#3073">3073</a>. [networking.ts] (<tt>async_</tt>)<tt>read</tt> and (<tt>async_</tt>)<tt>write</tt> 
 don't support <tt>DynamicBuffer</tt> lvalues</h3>
-<p><b>Section:</b> 99 [networking.ts::buffer.stream] <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Christopher Kohlhoff <b>Opened:</b> 2018-02-27 <b>Last modified:</b> 2018-03-04</p>
+<p><b>Section:</b> 17 [networking.ts::buffer.stream] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Christopher Kohlhoff <b>Opened:</b> 2018-02-27 <b>Last modified:</b> 2018-03-13</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -62,7 +62,7 @@ This wording is relative to <a href="http://wg21.link/n4711">N4711</a>.
 <ol>
 
 <li>
-<p>Edit 17.5 [buffer.read] as indicated:</p>
+<p>Edit 17.5 [networking.ts::buffer.read] as indicated:</p>
 <blockquote>
 <p>-14- <em>Remarks:</em> This function shall not participate in overload resolution unless 
 <code>is_dynamic_buffer_v&lt;<ins>decay_t&lt;</ins>DynamicBuffer<ins>&gt;</ins>&gt;</code> is 
@@ -71,7 +71,7 @@ This wording is relative to <a href="http://wg21.link/n4711">N4711</a>.
 </li>
 
 <li>
-<p>Edit 17.6 [buffer.async.read] as indicated:</p>
+<p>Edit 17.6 [networking.ts::buffer.async.read] as indicated:</p>
 <blockquote>
 <p>-16- <em>Remarks:</em> This function shall not participate in overload resolution unless 
 <code>is_dynamic_buffer_v&lt;<ins>decay_t&lt;</ins>DynamicBuffer<ins>&gt;</ins>&gt;</code> is 
@@ -80,7 +80,7 @@ This wording is relative to <a href="http://wg21.link/n4711">N4711</a>.
 </li>
 
 <li>
-<p>Edit 17.7 [buffer.write] as indicated:</p>
+<p>Edit 17.7 [networking.ts::buffer.write] as indicated:</p>
 <blockquote>
 <p>-14- <em>Remarks:</em> This function shall not participate in overload resolution unless 
 <code>is_dynamic_buffer_v&lt;<ins>decay_t&lt;</ins>DynamicBuffer<ins>&gt;</ins>&gt;</code> is 
@@ -89,7 +89,7 @@ This wording is relative to <a href="http://wg21.link/n4711">N4711</a>.
 </li>
 
 <li>
-<p>Edit 17.8 [buffer.async.write] as indicated:</p>
+<p>Edit 17.8 [networking.ts::buffer.async.write] as indicated:</p>
 <blockquote>
 <p>-16- <em>Remarks:</em> This function shall not participate in overload resolution unless 
 <code>is_dynamic_buffer_v&lt;<ins>decay_t&lt;</ins>DynamicBuffer<ins>&gt;</ins>&gt;</code> is 
