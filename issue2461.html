@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="2461" href="lwg-active.html#2461">2461</a>. Interaction between allocators and container exception safety guarantees</h3>
 <p><b>Section:</b> 20.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a>, 26.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>, 26.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> dyp <b>Opened:</b> 2014-12-06 <b>Last modified:</b> 2015-09-07</p>
+ <b>Submitter:</b> dyp <b>Opened:</b> 2014-12-06 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#allocator.requirements">active issues</a> in [allocator.requirements].</p>
@@ -139,7 +139,7 @@ non-<tt>CopyInsertable</tt> <tt>T</tt>, the effects are unspecified.
 <p>
 The wording leads to the following problem:
 Copy and move assignment are invoked directly from <tt>vector</tt>.
-For intermediary objects (see <a href="lwg-active.html#2164">2164</a>),
+For intermediary objects (see <a href="lwg-defects.html#2164">2164</a>),
 <tt>vector</tt> also directly invokes the copy and move constructor of the value type.
 However, construction of the actual element within the buffer is invoked via the allocator abstraction.
 As discussed above, the allocator currently is not required to call a copy/move constructor.
@@ -248,7 +248,7 @@ Another problem arises for value types whose constructors are private,
 but may be called by the allocator e.g. via friendship.
 Those value types are not <tt>MoveConstructible</tt> 
 (<tt>is_move_constructible</tt> is false), yet they can be <tt>MoveInsertable</tt>.
-It is not possible for <tt>vector</tt> to create intermediary objects (see <a href="lwg-active.html#2164">2164</a>) of such a type
+It is not possible for <tt>vector</tt> to create intermediary objects (see <a href="lwg-defects.html#2164">2164</a>) of such a type
 by directly using the move constructor.
 Current implementations of the single-element forms of <tt>vector::insert</tt> and <tt>vector::emplace</tt>
 do create intermediary objects by directly calling one of the value type's constructors,
