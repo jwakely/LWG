@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D109)</h1>
-<p><p>Revised 2018-03-24 at 20:02:36 UTC</p>
+<p><p>Revised 2018-03-24 at 20:48:02 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,15 +158,15 @@ ownership of it.
 <ul>
 <li>D109: 2018-04-02 2018 post-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>239 open issues, down by 18.</li>
+<li>240 open issues, down by 17.</li>
 <li>2301 closed issues, up by 36.</li>
 <li>61 reassigned issues, down by 1.</li>
-<li>2601 issues total, up by 17.</li>
+<li>2602 issues total, up by 18.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Ready issue: <a href="lwg-active.html#3076">3076</a>.</li>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3071">3071</a>, <a href="lwg-active.html#3074">3074</a>.</li>
-<li>Added the following 12 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>, <a href="lwg-active.html#3077">3077</a>, <a href="lwg-active.html#3078">3078</a>, <a href="lwg-active.html#3079">3079</a>.</li>
+<li>Added the following 13 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>, <a href="lwg-active.html#3077">3077</a>, <a href="lwg-active.html#3078">3078</a>, <a href="lwg-active.html#3079">3079</a>, <a href="lwg-active.html#3080">3080</a>.</li>
 <li>Added the following WP issue: <a href="lwg-defects.html#3075">3075</a>.</li>
 <li>Changed the following issue to Ready (from New): <a href="lwg-active.html#3058">3058</a>.</li>
 <li>Changed the following issue to Ready (from Open): <a href="lwg-active.html#2139">2139</a>.</li>
@@ -32620,6 +32620,65 @@ are those copied by native API <tt>CreateDirectoryExW(existing_p.c_str(), p.c_st
 <p/>
 [&hellip;]
 </p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3080" href="#3080">3080</a><sup><a href="https://cplusplus.github.io/LWG/issue3080">(i)</a></sup>. Floating point <tt>from_chars</tt> pattern specification breaks round-tripping</h3>
+<p><b>Section:</b> 23.20.3 <a href="https://wg21.link/charconv.from.chars">[charconv.from.chars]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Greg Falcon <b>Opened:</b> 2018-03-12 <b>Last modified:</b> 2018-03-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>from_chars</tt> specifies that the <tt>'+'</tt> character is never matched, but <tt>to_chars</tt> 
+specifies its output format in terms of <tt>printf()</tt>, which puts a <tt>'+'</tt> sign before 
+positive exponents.
+<p/>
+Since <tt>strtod()</tt> matches <tt>'+'</tt> signs, it is also desirable to accept <tt>'+'</tt> in 
+exponents, so that code currently using <tt>strtod()</tt> can be migrated to <tt>from_chars()</tt> 
+without a breaking semantic change.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 30.11.14.7 <a href="https://wg21.link/fs.op.create_directory">[fs.op.create_directory]</a> as indicated:</p>
+<blockquote>
+<pre>
+from_chars_result from_chars(const char* first, const char* last, float&amp; value,
+                             chars_format fmt = chars_format::general);
+from_chars_result from_chars(const char* first, const char* last, double&amp; value,
+                             chars_format fmt = chars_format::general);
+from_chars_result from_chars(const char* first, const char* last, long double&amp; value,
+                             chars_format fmt = chars_format::general);
+</pre>
+<blockquote>
+<p>
+-6- <i>Requires:</i> <tt>fmt</tt> has the value of one of the enumerators of <tt>chars_format</tt>.
+<p/>
+-7- <i>Effects:</i> The pattern is the expected form of the subject sequence in the <tt>"C"</tt> 
+locale, as described for <tt>strtod</tt>, except that
+</p>
+<ol style="list-style-type: none">
+<li><p>(7.1) &mdash; the <del>only</del> sign <ins><tt>'+'</tt></ins> <del>that</del> may <ins>only</ins> 
+appear <del>is <tt>'-'</tt></del><ins>in the exponent part</ins>;</p></li>
+<li><p>(7.2) [&hellip;]</p></li>
+<li><p>(7.3) [&hellip;]</p></li>
+<li><p>(7.4) [&hellip;]</p></li>
+</ol>
 </blockquote>
 </blockquote>
 </li>
