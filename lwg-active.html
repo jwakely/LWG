@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D109)</h1>
-<p><p>Revised 2018-03-24 at 21:29:55 UTC</p>
+<p><p>Revised 2018-03-24 at 21:43:03 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,15 +158,15 @@ ownership of it.
 <ul>
 <li>D109: 2018-04-02 2018 post-Jacksonville mailing<ul>
 <li><b>Summary:</b><ul>
-<li>242 open issues, down by 15.</li>
+<li>243 open issues, down by 14.</li>
 <li>2301 closed issues, up by 36.</li>
 <li>61 reassigned issues, down by 1.</li>
-<li>2604 issues total, up by 20.</li>
+<li>2605 issues total, up by 21.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Ready issue: <a href="lwg-active.html#3076">3076</a>.</li>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3071">3071</a>, <a href="lwg-active.html#3074">3074</a>.</li>
-<li>Added the following 15 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>, <a href="lwg-active.html#3077">3077</a>, <a href="lwg-active.html#3078">3078</a>, <a href="lwg-active.html#3079">3079</a>, <a href="lwg-active.html#3080">3080</a>, <a href="lwg-active.html#3081">3081</a>, <a href="lwg-active.html#3082">3082</a>.</li>
+<li>Added the following 16 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>, <a href="lwg-active.html#3077">3077</a>, <a href="lwg-active.html#3078">3078</a>, <a href="lwg-active.html#3079">3079</a>, <a href="lwg-active.html#3080">3080</a>, <a href="lwg-active.html#3081">3081</a>, <a href="lwg-active.html#3082">3082</a>, <a href="lwg-active.html#3083">3083</a>.</li>
 <li>Added the following WP issue: <a href="lwg-defects.html#3075">3075</a>.</li>
 <li>Changed the following issue to Ready (from New): <a href="lwg-active.html#3058">3058</a>.</li>
 <li>Changed the following issue to Ready (from Open): <a href="lwg-active.html#2139">2139</a>.</li>
@@ -19163,6 +19163,7 @@ An incomplete type <tt>T</tt> may be used when instantiating <tt><i>LibraryTempl
  <b>Submitter:</b> David Krauss <b>Opened:</b> 2016-03-14 <b>Last modified:</b> 2016-05-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#ios.base.storage">active issues</a> in [ios.base.storage].</p>
 <p><b>View all other</b> <a href="lwg-index.html#ios.base.storage">issues</a> in [ios.base.storage].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -32849,6 +32850,73 @@ locale, as described for <tt>strtod</tt>, except that
 In any case, the resulting value is <del>one of at most two</del><ins>the</ins> floating-point 
 value<del>s</del> closest to the value of the string matching the pattern<ins>, with ties broken 
 according to <tt>round_to_nearest</tt></ins>.
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3083" href="#3083">3083</a><sup><a href="https://cplusplus.github.io/LWG/issue3083">(i)</a></sup>. What should <tt>ios::iword(-1)</tt> do?</h3>
+<p><b>Section:</b> 30.5.3.5 <a href="https://wg21.link/ios.base.storage">[ios.base.storage]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-03-16 <b>Last modified:</b> 2018-03-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#ios.base.storage">active issues</a> in [ios.base.storage].</p>
+<p><b>View all other</b> <a href="lwg-index.html#ios.base.storage">issues</a> in [ios.base.storage].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Is calling <tt>iword</tt> and <tt>pword</tt> with a negative argument undefined, or should it cause 
+a failure condition (and return a valid reference)? What about <tt>INT_MAX</tt>? What about <tt>0</tt>?
+<p/>
+Using arbitrary indices isn't safe, because the implementation could be already using them for 
+something else. Some replies on the reflector suggested the only reliable argument is one obtained from 
+<tt>ios_base::xalloc()</tt>. Others pointed out that the iwords and pwords could be stored in sparse 
+arrays, so that any value from <tt>INT_MIN</tt> to <tt>INT_MAX</tt> could be a valid key (which might 
+require the implementation to use keys outside that range for its own entries in the arrays).
+<p/>
+If it's undefined we should add a <i>Requires</i> element to the spec. If invalid indices are supposed 
+to cause a failure we need to define which indices are invalid (and ensure that's something the 
+implementation can check), and specify that it causes a failure.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 30.5.3.5 <a href="https://wg21.link/ios.base.storage">[ios.base.storage]</a> as indicated:</p>
+<blockquote>
+<pre>
+long&amp; iword(int idx);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Requires:</i> <tt>idx</tt> is a value obtained by a call to <tt>xalloc</tt>.</ins>
+<p/>
+-3- <i>Effects:</i> If <tt>iarray</tt> is a null pointer, [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+void*&amp; pword(int idx);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Requires:</i> <tt>idx</tt> is a value obtained by a call to <tt>xalloc</tt>.</ins>
+<p/>
+-5- <i>Effects:</i> If <tt>iarray</tt> is a null pointer, [&hellip;]
 <p/>
 [&hellip;]
 </p>
