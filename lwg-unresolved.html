@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-03-25 at 12:16:31 UTC</p>
+<p><p>Revised 2018-03-25 at 13:16:04 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -30993,7 +30993,7 @@ This is clearly not restricted to a single translation unit; should "no diagnost
 
 
 <hr>
-<h3><a name="3087" href="#3087">3087</a><sup><a href="https://cplusplus.github.io/LWG/issue3087">(i)</a></sup>. One final <tt>&amp;x</tt> in [list.ops]</h3>
+<h3><a name="3087" href="#3087">3087</a><sup><a href="https://cplusplus.github.io/LWG/issue3087">(i)</a></sup>. One final <tt>&amp;x</tt> in &sect;[list.ops]</h3>
 <p><b>Section:</b> 26.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-03-19 <b>Last modified:</b> 2018-03-25</p>
 <p><b>Priority: </b>Not Prioritized
@@ -31028,6 +31028,65 @@ void splice(const_iterator position, list&amp;&amp; x, const_iterator first,
 -13- <i>Throws:</i> Nothing.
 <p/>
 -14- <i>Complexity:</i> Constant time if <tt><del>&amp;</del><ins>addressof(</ins>x<ins>)</ins> == this</tt>; otherwise, linear time.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3088" href="#3088">3088</a><sup><a href="https://cplusplus.github.io/LWG/issue3088">(i)</a></sup>. <tt>forward_list::merge</tt> behavior unclear when passed <tt>*this</tt></h3>
+<p><b>Section:</b> 26.3.9.6 <a href="https://wg21.link/forwardlist.ops">[forwardlist.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-03-19 <b>Last modified:</b> 2018-03-25</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#forwardlist.ops">issues</a> in [forwardlist.ops].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-defects.html#300">300</a> changed <tt>list::merge</tt> to be a no-op when passed <tt>*this</tt>, but there's no equivalent rule for <tt>forward_list::merge</tt>.
+Presumably the <tt>forward_list</tt> proposal predated the adoption of LWG 300's PR and was never updated 
+for the change. Everything in the discussion of that issue applies mutatis mutandis to the current 
+specification of <tt>forward_list::merge</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.</p>
+
+<ol>
+<li><p>Edit 26.3.9.6 <a href="https://wg21.link/forwardlist.ops">[forwardlist.ops]</a> as indicated:</p>
+<blockquote>
+<pre>
+void merge(forward_list&amp; x);
+void merge(forward_list&amp;&amp; x);
+template&lt;class Compare&gt; void merge(forward_list&amp; x, Compare comp);
+template&lt;class Compare&gt; void merge(forward_list&amp;&amp; x, Compare comp);
+</pre>
+<blockquote>
+<p>
+-20- <i>Requires:</i> <tt>*this</tt> and <tt>x</tt> are both sorted with respect to the comparator 
+<tt>operator&lt;</tt> (for the first two overloads) or <tt>comp</tt> (for the last two overloads), 
+and <tt>get_allocator() == x.get_allocator()</tt> is <tt>true</tt>.
+<p/>
+-21- <i>Effects:</i> <ins>If <tt>addressof(x) == this</tt>, does nothing. Otherwise, 
+m</ins><del>M</del>erges the two sorted ranges <tt>[begin(), end())</tt> and <tt>[x.begin(), x.end())</tt>. 
+<ins>The result is a range that is sorted with respect to the comparator <tt>operator&lt;</tt> 
+(for the first two overloads) or <tt>comp</tt> (for the last two overloads).</ins> <tt>x</tt> is 
+empty after the merge. If an exception is thrown other than by a comparison there are no effects.
+Pointers and references to the moved elements of <tt>x</tt> now refer to those same elements but 
+as members of <tt>*this</tt>. Iterators referring to the moved elements will continue to refer to 
+their elements, but they now behave as iterators into <tt>*this</tt>, not into <tt>x</tt>.
+<p/>
+-22- <i>Remarks:</i> Stable (20.5.5.7 <a href="https://wg21.link/algorithm.stable">[algorithm.stable]</a>). The behavior is undefined if 
+<tt>get_allocator() != x.get_allocator()</tt>.
+<p/>
+-23- <i>Complexity:</i> At most <tt>distance(begin(), end()) + distance(x.begin(), x.end()) - 1</tt> 
+comparisons <ins>if <tt>addressof(x) != this</tt>; otherwise, no comparisons are performed</ins>.
 </p>
 </blockquote>
 </blockquote>
