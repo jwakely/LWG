@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-03-25 at 13:21:41 UTC</p>
+<p><p>Revised 2018-03-25 at 13:37:28 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -15801,6 +15801,7 @@ Will no longer hold for the <tt>std::allocator</tt>.
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2015-01-28 <b>Last modified:</b> 2016-08-06</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#alg.copy">active issues</a> in [alg.copy].</p>
 <p><b>View all other</b> <a href="lwg-index.html#alg.copy">issues</a> in [alg.copy].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -31090,6 +31091,94 @@ their elements, but they now behave as iterators into <tt>*this</tt>, not into <
 <p/>
 -23- <i>Complexity:</i> At most <tt>distance(begin(), end()) + distance(x.begin(), x.end()) - 1</tt> 
 comparisons <ins>if <tt>addressof(x) != this</tt>; otherwise, no comparisons are performed</ins>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3089" href="#3089">3089</a><sup><a href="https://cplusplus.github.io/LWG/issue3089">(i)</a></sup>. <tt>copy_n</tt> should require non-overlapping ranges</h3>
+<p><b>Section:</b> 28.6.1 <a href="https://wg21.link/alg.copy">[alg.copy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2018-03-21 <b>Last modified:</b> 2018-03-25</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#alg.copy">active issues</a> in [alg.copy].</p>
+<p><b>View all other</b> <a href="lwg-index.html#alg.copy">issues</a> in [alg.copy].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+All the copy algorithms have some kind of prohibition on having the input and output ranges overlap. 
+<p/>
+The serial version of <tt>copy</tt> says:
+</p>
+<blockquote><p>
+<i>Requires:</i> <tt>result</tt> shall not be in the range <tt>[first, last)</tt>.
+</p></blockquote>
+<p>
+The parallel version of <tt>copy</tt> says:
+</p>
+<blockquote><p>
+<i>Requires:</i> The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> 
+shall not overlap.
+</p></blockquote>
+<p>
+<tt>copy_if</tt> says: 
+</p>
+<blockquote><p>
+<i>Requires:</i> The ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> 
+shall not overlap.
+</p></blockquote>
+<p>
+<tt>copy_backwards</tt> says:
+</p>
+<blockquote><p>
+<i>Requires:</i> <tt>result</tt> shall not be in the range <tt>[first, last)</tt>.
+</p></blockquote>
+<p>
+But <tt>copy_n</tt> has no such requirement.
+<p/>
+I think it should. I checked the minutes of the LWG discussion from 2008 when this was added, and 
+there was no discussion of overlapping ranges.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.</p>
+
+<ol>
+<li><p>Edit 28.6.1 <a href="https://wg21.link/alg.copy">[alg.copy]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> I'm using the permission in 28.3 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>/10 to 
+do random-access arithmetic on (possibly) input iterators.]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+template&lt;class InputIterator, class Size, class OutputIterator&gt;
+  constexpr OutputIterator copy_n(InputIterator first, Size n,
+                                  OutputIterator result);
+template&lt;class ExecutionPolicy, class ForwardIterator1, class Size, class ForwardIterator2&gt;
+  ForwardIterator2 copy_n(ExecutionPolicy&amp;&amp; exec,
+                          ForwardIterator1 first, Size n,
+                          ForwardIterator2 result);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Requires:</i> <tt>result</tt> shall not be in the range <tt>[first, first + n)</tt>.</ins>
+<p/>
+-9- <i>Effects:</i> For each non-negative integer <tt>i &lt; n</tt>, performs <tt>*(result + i) = *(first + i)</tt>.
+<p/>
+-10- <i>Returns:</i> <tt>result + n</tt>.
+<p/>
+-11- <i>Complexity:</i> Exactly <tt>n</tt> assignments.
 </p>
 </blockquote>
 </blockquote>
