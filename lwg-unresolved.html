@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-03-25 at 11:59:04 UTC</p>
+<p><p>Revised 2018-03-25 at 12:09:19 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -19945,6 +19945,7 @@ public:
  <b>Submitter:</b> Clark Nelson <b>Opened:</b> 2016-06-21 <b>Last modified:</b> 2016-08-02</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#new.delete.single">active issues</a> in [new.delete.single].</p>
 <p><b>View all other</b> <a href="lwg-index.html#new.delete.single">issues</a> in [new.delete.single].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -30955,6 +30956,36 @@ Option B:
 <tt>char_traits::move</tt> might be equivalent).
 </p>
 </blockquote>
+
+
+
+
+
+<hr>
+<h3><a name="3086" href="#3086">3086</a><sup><a href="https://cplusplus.github.io/LWG/issue3086">(i)</a></sup>. Possible problem in &sect;[new.delete.single]</h3>
+<p><b>Section:</b> 21.6.2.1 <a href="https://wg21.link/new.delete.single">[new.delete.single]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> William M. Miller <b>Opened:</b> 2018-03-16 <b>Last modified:</b> 2018-03-25</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#new.delete.single">active issues</a> in [new.delete.single].</p>
+<p><b>View all other</b> <a href="lwg-index.html#new.delete.single">issues</a> in [new.delete.single].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In general requirements on a whole program, as opposed to a single translation unit, generally specify 
+"no diagnostic required", since we don't want to require implementations to do multi-translation-unit 
+analysis. However, 21.6.2.1 <a href="https://wg21.link/new.delete.single">[new.delete.single]</a> paragraph 11 says,
+</p>
+<blockquote><p>
+If a function with a <tt>size</tt> parameter is defined, the program shall also define the corresponding 
+version without the <tt>size</tt> parameter.
+</p></blockquote>
+<p>
+This is clearly not restricted to a single translation unit; should "no diagnostic required" be added?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
