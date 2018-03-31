@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2018-03-31 at 12:02:35 UTC</p>
+<td align="left"><p>Revised 2018-03-31 at 12:06:21 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1257,6 +1257,64 @@ affects class template argument deduction. &mdash; <i>end note</i>]</ins>
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3079" href="#3079">3079</a><sup><a href="https://cplusplus.github.io/LWG/issue3079">(i)</a></sup>. LWG 2935 forgot to fix the <tt>existing_p</tt> overloads of <tt>create_directory</tt></h3>
+<p><b>Section:</b> 30.11.14.7 <a href="https://wg21.link/fs.op.create_directory">[fs.op.create_directory]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-03-07 <b>Last modified:</b> 2018-03-31</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-defects.html#2935">2935</a> clarified that <tt>create_directory</tt> is not supposed to report an error if 
+<tt>exists(p)</tt>, even if <tt>p</tt> is not a directory. However, the P/R there missed the 
+<tt>existing_p</tt> overloads.
+</p>
+
+<p><i>[
+2018-03-27 Moved to Tentatively Ready after 6 positive votes on c++std-lib.
+]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 30.11.14.7 <a href="https://wg21.link/fs.op.create_directory">[fs.op.create_directory]</a> as indicated:</p>
+<blockquote>
+<pre>
+bool create_directory(const path&amp; p, const path&amp; existing_p);
+bool create_directory(const path&amp; p, const path&amp; existing_p, error_code&amp; ec) noexcept;
+</pre>
+<blockquote>
+<p>
+-4- <i>Effects:</i> <del>Establishes the postcondition by attempting to create</del><ins>Creates</ins> 
+the directory <tt>p</tt> resolves to, with attributes copied from directory <tt>existing_p</tt>. 
+The set of attributes copied is operating system dependent. Creation failure because <tt>p</tt> 
+<del>resolves to an existing directory shall not be treated as</del><ins>already exists is not</ins> 
+an error. [<i>Note:</i> For POSIX-based operating systems, the attributes 
+are those copied by native API <tt>stat(existing_p.c_str(), &amp;attributes_stat)</tt> followed by 
+<tt>mkdir(p.c_str(), attributes_stat.st_mode)</tt>. For Windows-based operating systems, the attributes 
+are those copied by native API <tt>CreateDirectoryExW(existing_p.c_str(), p.c_str(), 0)</tt>. &mdash;
+<i>end note</i>]
+<p/>
+<del>-5- <i>Postconditions:</i> <tt>is_directory(p)</tt>.</del>
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
 </ol>
 
 

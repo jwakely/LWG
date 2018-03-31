@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D109)</h1>
-<p><p>Revised 2018-03-31 at 12:02:35 UTC</p>
+<p><p>Revised 2018-03-31 at 12:06:21 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -165,8 +165,8 @@ ownership of it.
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Ready issue: <a href="lwg-active.html#3076">3076</a>.</li>
-<li>Added the following 5 Tentatively Ready issues: <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3071">3071</a>, <a href="lwg-active.html#3074">3074</a>, <a href="lwg-active.html#3080">3080</a>, <a href="lwg-active.html#3083">3083</a>.</li>
-<li>Added the following 23 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>, <a href="lwg-active.html#3077">3077</a>, <a href="lwg-active.html#3078">3078</a>, <a href="lwg-active.html#3079">3079</a>, <a href="lwg-active.html#3081">3081</a>, <a href="lwg-active.html#3082">3082</a>, <a href="lwg-active.html#3084">3084</a>, <a href="lwg-active.html#3085">3085</a>, <a href="lwg-active.html#3086">3086</a>, <a href="lwg-active.html#3087">3087</a>, <a href="lwg-active.html#3088">3088</a>, <a href="lwg-active.html#3089">3089</a>, <a href="lwg-active.html#3090">3090</a>, <a href="lwg-active.html#3091">3091</a>, <a href="lwg-active.html#3092">3092</a>.</li>
+<li>Added the following 6 Tentatively Ready issues: <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3071">3071</a>, <a href="lwg-active.html#3074">3074</a>, <a href="lwg-active.html#3079">3079</a>, <a href="lwg-active.html#3080">3080</a>, <a href="lwg-active.html#3083">3083</a>.</li>
+<li>Added the following 22 New issues: <a href="lwg-active.html#3063">3063</a>, <a href="lwg-active.html#3064">3064</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3066">3066</a>, <a href="lwg-active.html#3068">3068</a>, <a href="lwg-active.html#3069">3069</a>, <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3072">3072</a>, <a href="lwg-active.html#3073">3073</a>, <a href="lwg-active.html#3077">3077</a>, <a href="lwg-active.html#3078">3078</a>, <a href="lwg-active.html#3081">3081</a>, <a href="lwg-active.html#3082">3082</a>, <a href="lwg-active.html#3084">3084</a>, <a href="lwg-active.html#3085">3085</a>, <a href="lwg-active.html#3086">3086</a>, <a href="lwg-active.html#3087">3087</a>, <a href="lwg-active.html#3088">3088</a>, <a href="lwg-active.html#3089">3089</a>, <a href="lwg-active.html#3090">3090</a>, <a href="lwg-active.html#3091">3091</a>, <a href="lwg-active.html#3092">3092</a>.</li>
 <li>Added the following WP issue: <a href="lwg-defects.html#3075">3075</a>.</li>
 <li>Changed the following issue to Ready (from New): <a href="lwg-active.html#3058">3058</a>.</li>
 <li>Changed the following issue to Ready (from Open): <a href="lwg-active.html#2139">2139</a>.</li>
@@ -32587,17 +32587,22 @@ recursive_directory_iterator(const path&amp; p, error_code&amp; ec) noexcept;
 
 <hr>
 <h3><a name="3079" href="#3079">3079</a><sup><a href="https://cplusplus.github.io/LWG/issue3079">(i)</a></sup>. LWG 2935 forgot to fix the <tt>existing_p</tt> overloads of <tt>create_directory</tt></h3>
-<p><b>Section:</b> 30.11.14.7 <a href="https://wg21.link/fs.op.create_directory">[fs.op.create_directory]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-03-07 <b>Last modified:</b> 2018-03-24</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 30.11.14.7 <a href="https://wg21.link/fs.op.create_directory">[fs.op.create_directory]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-03-07 <b>Last modified:</b> 2018-03-31</p>
+<p><b>Priority: </b>0
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 LWG <a href="lwg-defects.html#2935">2935</a> clarified that <tt>create_directory</tt> is not supposed to report an error if 
 <tt>exists(p)</tt>, even if <tt>p</tt> is not a directory. However, the P/R there missed the 
 <tt>existing_p</tt> overloads.
 </p>
+
+<p><i>[
+2018-03-27 Moved to Tentatively Ready after 6 positive votes on c++std-lib.
+]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
