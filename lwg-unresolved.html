@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-03-31 at 10:58:28 UTC</p>
+<p><p>Revised 2018-03-31 at 11:15:27 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -31250,6 +31250,50 @@ is not representable as a (reduced) <tt>ratio&lt;N, D&gt;</tt>, then the constru
 <p>
 I would not have guessed that from the wording. Maybe replacing "no overflow is induced in the conversion" with "the result 
 of <tt>ratio_divide&lt;Period2, Period&gt;</tt> is representable as a <tt>ratio</tt>" or similar would help? 
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3091" href="#3091">3091</a><sup><a href="https://cplusplus.github.io/LWG/issue3091">(i)</a></sup>. subsecond-precision <tt>time_of_day</tt> and durations that <tt>seconds</tt> cannot convert to</h3>
+<p><b>Section:</b> 99 [time.tod.subsecond] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2018-03-24 <b>Last modified:</b> 2018-03-31</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+What should happen here:
+</p>
+<blockquote>
+<pre>
+const int bpm = 100;
+using beats = duration&lt;int, ratio&lt;60, 100&gt;&gt;;
+auto v = time_of_day&lt;beats&gt;(beats{2}).subseconds();
+</pre>
+</blockquote>
+<p>
+? 2 beats at 100bpm is <tt>1.2</tt> seconds. The <tt>time_of_day</tt> constructor specification says:
+</p>
+<blockquote><p>
+<tt>seconds()</tt> returns the integral number of seconds <tt>since_midnight</tt> is after <tt>(00:00:00 + hours() + minutes())</tt>.
+<tt>subseconds()</tt> returns the integral number of fractional precision seconds <tt>since_midnight</tt> is after 
+<tt>(00:00:00 + hours() + minutes() + seconds())</tt>.
+</p></blockquote>
+<p>
+But that's impossible. If <tt>seconds()</tt> returns 1, we need to return a <tt>subseconds()</tt> value representing <tt>0.2s</tt> 
+of type <tt>precision</tt>, but type <tt>precision</tt> can only represent multiples of <tt>0.6s</tt>.
+<p/>
+Should this <tt>time_of_day</tt> specialization only be available for the case where <tt>seconds</tt> is convertible to 
+<tt>precision</tt>? Or should the <tt>precision</tt> type used by this specialization be 
+<tt>common_type_t&lt;seconds, duration&lt;Rep, Period&gt;&gt;</tt> rather than merely <tt>duration&lt;Rep, Period&gt;</tt>?
+<p/>
+Either way I think we need a wording update to specify one of those two behaviors.
 </p>
 
 
