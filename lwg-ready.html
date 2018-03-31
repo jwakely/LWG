@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2018-03-31 at 11:57:33 UTC</p>
+<td align="left"><p>Revised 2018-03-31 at 12:02:35 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1320,6 +1320,78 @@ appear <del>is <tt>'-'</tt></del><ins>in the exponent part</ins>;</p></li>
 <li><p>(7.3) [&hellip;]</p></li>
 <li><p>(7.4) [&hellip;]</p></li>
 </ol>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3083" href="#3083">3083</a><sup><a href="https://cplusplus.github.io/LWG/issue3083">(i)</a></sup>. What should <tt>ios::iword(-1)</tt> do?</h3>
+<p><b>Section:</b> 30.5.3.5 <a href="https://wg21.link/ios.base.storage">[ios.base.storage]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-03-16 <b>Last modified:</b> 2018-03-31</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#ios.base.storage">active issues</a> in [ios.base.storage].</p>
+<p><b>View all other</b> <a href="lwg-index.html#ios.base.storage">issues</a> in [ios.base.storage].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Is calling <tt>iword</tt> and <tt>pword</tt> with a negative argument undefined, or should it cause 
+a failure condition (and return a valid reference)? What about <tt>INT_MAX</tt>? What about <tt>0</tt>?
+<p/>
+Using arbitrary indices isn't safe, because the implementation could be already using them for 
+something else. Some replies on the reflector suggested the only reliable argument is one obtained from 
+<tt>ios_base::xalloc()</tt>. Others pointed out that the iwords and pwords could be stored in sparse 
+arrays, so that any value from <tt>INT_MIN</tt> to <tt>INT_MAX</tt> could be a valid key (which might 
+require the implementation to use keys outside that range for its own entries in the arrays).
+<p/>
+If it's undefined we should add a <i>Requires</i> element to the spec. If invalid indices are supposed 
+to cause a failure we need to define which indices are invalid (and ensure that's something the 
+implementation can check), and specify that it causes a failure.
+</p>
+
+<p><i>[
+2018-03-27 Moved to Tentatively Ready after 5 positive votes on c++std-lib.
+]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 30.5.3.5 <a href="https://wg21.link/ios.base.storage">[ios.base.storage]</a> as indicated:</p>
+<blockquote>
+<pre>
+long&amp; iword(int idx);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Requires:</i> <tt>idx</tt> is a value obtained by a call to <tt>xalloc</tt>.</ins>
+<p/>
+-3- <i>Effects:</i> If <tt>iarray</tt> is a null pointer, [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+void*&amp; pword(int idx);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Requires:</i> <tt>idx</tt> is a value obtained by a call to <tt>xalloc</tt>.</ins>
+<p/>
+-5- <i>Effects:</i> If <tt>iarray</tt> is a null pointer, [&hellip;]
+<p/>
+[&hellip;]
+</p>
 </blockquote>
 </blockquote>
 </li>
