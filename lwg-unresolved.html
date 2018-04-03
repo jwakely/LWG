@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-04-03 at 18:46:57 UTC</p>
+<p><p>Revised 2018-04-03 at 18:55:41 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -25829,8 +25829,8 @@ and about 7x faster for <tt>unsigned long long</tt>s; and users don't actually c
 This issue should be resolved by <a href="https://wg21.link/p0551">P0551</a>, because it prohibits user specialization of  
 <tt>std::swap</tt> and <tt>std::iter_swap</tt>, which means the proposed vectorization optimization for 
 pointers-to-trivially-copyable is now implementable without changes to <tt>reverse</tt>'s specification (We can detect 
-if the user has provided an alternate swap in their own namespace, but not if they explicitly specialized <tt>swap</tt> or 
-<tt>iter_swap</tt>).
+if the user has provided an alternate <tt>swap</tt> in their own namespace, but not if they explicitly specialized 
+<tt>swap</tt> or <tt>iter_swap</tt>).
 </p>
 
 
@@ -30632,8 +30632,8 @@ according to <tt>round_to_nearest</tt></ins>.
 <hr>
 <h3><a name="3084" href="#3084">3084</a><sup><a href="https://cplusplus.github.io/LWG/issue3084">(i)</a></sup>. Termination in C++ is unclear</h3>
 <p><b>Section:</b> 21.5 <a href="https://wg21.link/support.start.term">[support.start.term]</a>, 21.8.4 <a href="https://wg21.link/exception.terminate">[exception.terminate]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> JF Bastien  <b>Opened:</b> 2018-03-15 <b>Last modified:</b> 2018-03-24</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> JF Bastien  <b>Opened:</b> 2018-03-15 <b>Last modified:</b> 2018-04-03</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#support.start.term">active issues</a> in [support.start.term].</p>
 <p><b>View all other</b> <a href="lwg-index.html#support.start.term">issues</a> in [support.start.term].</p>
@@ -30675,6 +30675,16 @@ What's unclear is:
 I've written a sample program which exercises some of this, see 
 <a href="https://github.com/jfbastien/terminator/blob/master/terminator.cc">here</a>.
 </p>
+
+<p><i>[2018-04-02, Jens comments]</i></p>
+
+<p>
+Any potential wording should carefully take [basic.start] into account, and maybe should actually be integrated 
+into the core wording, not the library wording.
+</p>
+
+<p><i>[2018-04-02 Priority set to 3 after discussion on the reflector.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
