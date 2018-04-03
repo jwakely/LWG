@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++17">C++17</a> status.</em></p>
 <h3><a name="2336" href="lwg-defects.html#2336">2336</a>. <tt>is_trivially_constructible/is_trivially_assignable</tt> traits are always false</h3>
 <p><b>Section:</b> 23.15.4.3 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2013-10-01 <b>Last modified:</b> 2017-08-01</p>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2013-10-01 <b>Last modified:</b> 2017-07-30</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#meta.unary.prop">active issues</a> in [meta.unary.prop].</p>
@@ -97,7 +97,7 @@ template with a template-argument that is a class template specialization may re
 template argument if and only if the semantics of <tt>X</tt> require that the argument must be a complete type.
 <p/>
 <ins>-?- For the purpose of defining the templates in this sub-clause, a function call expression 
-<tt>declval&lt;T&gt;()</tt> for any type <tt>T</tt> is considered to be a trivial (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>,  [special]) 
+<tt>declval&lt;T&gt;()</tt> for any type <tt>T</tt> is considered to be a trivial (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>, 15 <a href="https://wg21.link/special">[special]</a>) 
 function call that is not an odr-use (6.2 <a href="https://wg21.link/basic.def.odr">[basic.def.odr]</a>) of <tt>declval</tt> in the context of the corresponding definition 
 notwithstanding the restrictions of 23.2.6 <a href="https://wg21.link/declval">[declval]</a>.</ins>
 <p/>
@@ -140,7 +140,7 @@ consistent to have the exact same guarantee here as well]</em>
 -2- [&hellip;]
 <p/>
 <ins>-?- For the purpose of defining the templates in this sub-clause, a function call expression 
-<tt>declval&lt;T&gt;()</tt> for any type <tt>T</tt> is considered to be a trivial (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>,  [special]) 
+<tt>declval&lt;T&gt;()</tt> for any type <tt>T</tt> is considered to be a trivial (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>, 15 <a href="https://wg21.link/special">[special]</a>) 
 function call that is not an odr-use (6.2 <a href="https://wg21.link/basic.def.odr">[basic.def.odr]</a>) of <tt>declval</tt> in the context of the corresponding definition 
 notwithstanding the restrictions of 23.2.6 <a href="https://wg21.link/declval">[declval]</a>.</ins>
 <p/>
