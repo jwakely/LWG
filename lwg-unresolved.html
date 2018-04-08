@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-04-04 at 16:41:28 UTC</p>
+<p><p>Revised 2018-04-08 at 12:55:57 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -31425,6 +31425,32 @@ an <i>empty bitmask</i>, in which no bitmask elements are set.</del>
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3093" href="#3093">3093</a><sup><a href="https://cplusplus.github.io/LWG/issue3093">(i)</a></sup>. LWG 2294/2192 missed a <tt>std::abs</tt> overload</h3>
+<p><b>Section:</b> 29.9.2 <a href="https://wg21.link/c.math.abs">[c.math.abs]</a>, 21.2.2 <a href="https://wg21.link/cstdlib.syn">[cstdlib.syn]</a>, 30.12.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2018-03-30 <b>Last modified:</b> 2018-04-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-defects.html#2192">2192</a> changed the library specification so that you always get all the <tt>std::abs</tt> overloads for fundamental 
+types if you get any of them.
+<p/>
+Except that it missed one: <tt>&lt;cinttypes&gt;</tt> provides a <tt>std::abs</tt> (and <tt>std::div</tt>) overload for 
+<tt>intmax_t</tt> if it's not <tt>long long</tt> (since LWG <a href="lwg-defects.html#1449">1449</a>). Presumably that one should also follow the 
+<tt>&lt;cstdlib&gt;</tt>/<tt>&lt;cmath&gt;</tt> pattern and we should make the complete <tt>abs</tt> overload set available 
+whenever any of the three headers is included? (And likewise we should make the complete <tt>std::div</tt> overload set 
+available whenever either <tt>&lt;cstdlib&gt;</tt> or <tt>&lt;cinttypes&gt;</tt> is included.)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
