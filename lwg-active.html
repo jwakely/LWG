@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D110)</h1>
-<p><p>Revised 2018-04-08 at 14:49:16 UTC</p>
+<p><p>Revised 2018-04-08 at 15:07:00 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D110: 2018-05-07 2018 pre-Rapperswil mailing<ul>
 <li><b>Summary:</b><ul>
-<li>255 open issues, up by 3.</li>
+<li>256 open issues, up by 4.</li>
 <li>2301 closed issues, up by 0.</li>
 <li>61 reassigned issues, up by 0.</li>
-<li>2617 issues total, up by 3.</li>
+<li>2618 issues total, up by 4.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 3 New issues: <a href="lwg-active.html#3093">3093</a>, <a href="lwg-active.html#3094">3094</a>, <a href="lwg-active.html#3095">3095</a>.</li>
+<li>Added the following 4 New issues: <a href="lwg-active.html#3093">3093</a>, <a href="lwg-active.html#3094">3094</a>, <a href="lwg-active.html#3095">3095</a>, <a href="lwg-active.html#3096">3096</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -31911,6 +31911,8 @@ type of the contained value after assignment.
  <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-02-23 <b>Last modified:</b> 2018-03-04</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#fs.path.gen">active issues</a> in [fs.path.gen].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fs.path.gen">issues</a> in [fs.path.gen].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -33894,7 +33896,7 @@ in the encoding used for <tt>charT</tt>, the unit suffix <tt>"us"</tt> is used i
 <hr>
 <h3><a name="3095" href="#3095">3095</a><sup><a href="https://cplusplus.github.io/LWG/issue3095">(i)</a></sup>. <tt>strstreambuf</tt> refers to nonexistent member of <tt>fpos</tt>, <tt>fpos::offset</tt></h3>
 <p><b>Section:</b> D.7.2.3 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b>  Billy O'Neal III <b>Opened:</b> 2018-04-04 <b>Last modified:</b> 2018-04-08</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-04-04 <b>Last modified:</b> 2018-04-08</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#depr.strstreambuf.virtuals">issues</a> in [depr.strstreambuf.virtuals].</p>
@@ -33937,6 +33939,75 @@ Otherwise, the function determines <tt>newoff</tt> from <tt><ins>static_cast&lt;
 <p/>
 [&hellip;]
 </p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3096" href="#3096">3096</a><sup><a href="https://cplusplus.github.io/LWG/issue3096">(i)</a></sup>. <tt>path::lexically_relative</tt> is confused by trailing slashes</h3>
+<p><b>Section:</b> 30.11.7.4.11 <a href="https://wg21.link/fs.path.gen">[fs.path.gen]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-04-04 <b>Last modified:</b> 2018-04-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#fs.path.gen">active issues</a> in [fs.path.gen].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fs.path.gen">issues</a> in [fs.path.gen].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+filesystem::proximate("/dir", "/dir/") returns "." when "/dir" exists, and ".." otherwise. It should always be "." because whether it exists shouldn't matter.
+<p/>
+The problem is in filesystem::path::lexically_relative, as shown by:
+</p>
+<blockquote><pre>
+path("/dir").lexically_relative("/dir/.");  <i>// yields ""</i>
+path("/dir").lexically_relative("/dir/");   <i>// yields ".."</i>
+</pre></blockquote>
+<p>
+The two calls should yield the same result, and when iteration of a <tt>path</tt> with a trailing slash gave "." as the final 
+element they did yield the same result. In the final C++17 spec the trailing slash produces an empty filename in the 
+iteration sequence, and <tt>lexically_relative</tt> doesn't handle that correctly.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 30.11.7.4.11 <a href="https://wg21.link/fs.path.gen">[fs.path.gen]</a> as indicated:</p>
+<blockquote>
+<pre>
+path lexically_relative(const path&amp; base) const;
+</pre>
+<blockquote>
+<p>
+-3- <i>Returns:</i> <tt>*this</tt> made relative to <tt>base</tt>. Does not resolve (30.11.7 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a>) symlinks. 
+Does not first normalize (30.11.7.1 <a href="https://wg21.link/fs.path.generic">[fs.path.generic]</a>) <tt>*this</tt> or <tt>base</tt>.
+<p/>
+-4- <i>Effects:</i> If <tt>root_name() != base.root_name()</tt> is <tt>true</tt> or <tt>is_absolute() != base.is_absolute()</tt>
+is <tt>true</tt> or <tt>!has_root_directory() &amp;&amp; base.has_root_directory()</tt> is <tt>true</tt>, returns <tt>path()</tt>. 
+Determines the first mismatched element of <tt>*this</tt> and <tt>base</tt> as if by:
+</p>
+<blockquote><pre>
+auto [a, b] = mismatch(begin(), end(), base.begin(), base.end());
+</pre></blockquote>
+<p>
+Then,
+</p>
+<ol style="list-style-type: none">
+<li><p>(4.1) &mdash; if <tt>a == end()</tt> and <tt>b == base.end()</tt>, returns <tt>path(".")</tt>; otherwise</p></li>
+<li><p>(4.2) &mdash; let <tt>n</tt> be the number of <i>filename</i> elements in <tt>[b, base.end())</tt> that are not dot 
+or dot-dot <ins>or empty,</ins> minus the number that are dot-dot. If <tt>n&lt;0</tt>, returns <tt>path()</tt>; otherwise</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+
 </blockquote>
 </blockquote>
 </li>
