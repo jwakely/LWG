@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D110)</h1>
-<p><p>Revised 2018-04-08 at 15:07:00 UTC</p>
+<p><p>Revised 2018-04-08 at 15:11:15 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -33959,9 +33959,10 @@ Otherwise, the function determines <tt>newoff</tt> from <tt><ins>static_cast&lt;
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-filesystem::proximate("/dir", "/dir/") returns "." when "/dir" exists, and ".." otherwise. It should always be "." because whether it exists shouldn't matter.
+<tt>filesystem::proximate("/dir", "/dir/")</tt> returns <tt>"."</tt> when <tt>"/dir"</tt> exists, and <tt>".."</tt> 
+otherwise. It should always be <tt>"."</tt> because whether it exists shouldn't matter.
 <p/>
-The problem is in filesystem::path::lexically_relative, as shown by:
+The problem is in <tt>filesystem::path::lexically_relative</tt>, as shown by:
 </p>
 <blockquote><pre>
 path("/dir").lexically_relative("/dir/.");  <i>// yields ""</i>
