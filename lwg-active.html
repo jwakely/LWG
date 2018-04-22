@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D110)</h1>
-<p><p>Revised 2018-04-22 at 14:45:39 UTC</p>
+<p><p>Revised 2018-04-22 at 14:58:27 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D110: 2018-05-07 2018 pre-Rapperswil mailing<ul>
 <li><b>Summary:</b><ul>
-<li>261 open issues, up by 9.</li>
+<li>262 open issues, up by 10.</li>
 <li>2301 closed issues, up by 0.</li>
 <li>61 reassigned issues, up by 0.</li>
-<li>2623 issues total, up by 9.</li>
+<li>2624 issues total, up by 10.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 9 New issues: <a href="lwg-active.html#3093">3093</a>, <a href="lwg-active.html#3094">3094</a>, <a href="lwg-active.html#3095">3095</a>, <a href="lwg-active.html#3096">3096</a>, <a href="lwg-active.html#3097">3097</a>, <a href="lwg-active.html#3098">3098</a>, <a href="lwg-active.html#3099">3099</a>, <a href="lwg-active.html#3100">3100</a>, <a href="lwg-active.html#3101">3101</a>.</li>
+<li>Added the following 10 New issues: <a href="lwg-active.html#3093">3093</a>, <a href="lwg-active.html#3094">3094</a>, <a href="lwg-active.html#3095">3095</a>, <a href="lwg-active.html#3096">3096</a>, <a href="lwg-active.html#3097">3097</a>, <a href="lwg-active.html#3098">3098</a>, <a href="lwg-active.html#3099">3099</a>, <a href="lwg-active.html#3100">3100</a>, <a href="lwg-active.html#3101">3101</a>, <a href="lwg-active.html#3102">3102</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -34412,6 +34412,54 @@ not equal to <tt>dynamic_extent</tt>, then <tt>size(cont)</tt> shall be equal to
 <li><p>[&hellip;]</p></li>
 </ol>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+
+
+
+
+<hr>
+<h3><a name="3102" href="#3102">3102</a><sup><a href="https://cplusplus.github.io/LWG/issue3102">(i)</a></sup>. Clarify <tt>span iterator</tt> and <tt>const_iterator</tt> behavior</h3>
+<p><b>Section:</b> 26.7.3.1 <a href="https://wg21.link/span.overview">[span.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2018-04-12 <b>Last modified:</b> 2018-04-22</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+There are multiple issues with how span specifies its iterators:
+</p>
+<ul>
+<li><p><tt>const_iterator</tt> isn't mentioned.</p></li>
+<li><p>The relationship between <tt>iterator</tt> and <tt>const_iterator</tt> isn't specified. (<tt>span</tt> isn't 
+a container, so it doesn't receive this automatically.)</p></li>
+<li><p>The iterators should be specified to be constexpr.</p></li>
+</ul>
+<p>
+By imitating 24.4.2.2 <a href="https://wg21.link/string.view.iterators">[string.view.iterators]</a>/3 "All requirements on container iterators ([container.requirements]) 
+apply to <tt>basic_string_view::const_iterator</tt> as well.", we can specify that <tt>iterator</tt> is convertible to 
+<tt>const_iterator</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.</p>
+
+<blockquote>
+<ol>
+<li>
+<p>Edit 26.7.3.1 <a href="https://wg21.link/span.overview">[span.overview]</a> as indicated:</p>
+<blockquote>
+<p>
+-4- The iterator type<ins>s</ins> <del>for span is a random access iterator and a contiguous iterator</del><ins><tt>span::iterator</tt> 
+and <tt>span::const_iterator</tt> are random access iterators (27.2.7 <a href="https://wg21.link/random.access.iterators">[random.access.iterators]</a>), contiguous iterators
+(27.2.1 <a href="https://wg21.link/iterator.requirements.general">[iterator.requirements.general]</a>), and constexpr iterators (27.2.1 <a href="https://wg21.link/iterator.requirements.general">[iterator.requirements.general]</a>). 
+All requirements on container iterators (26.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>) apply to <tt>span::iterator</tt> and 
+<tt>span::const_iterator</tt> as well</ins>.
+</p>
 </blockquote>
 </li>
 </ol>

@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-04-22 at 14:45:39 UTC</p>
+<p><p>Revised 2018-04-22 at 14:58:27 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -32060,6 +32060,54 @@ not equal to <tt>dynamic_extent</tt>, then <tt>size(cont)</tt> shall be equal to
 <li><p>[&hellip;]</p></li>
 </ol>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+
+
+
+
+<hr>
+<h3><a name="3102" href="#3102">3102</a><sup><a href="https://cplusplus.github.io/LWG/issue3102">(i)</a></sup>. Clarify <tt>span iterator</tt> and <tt>const_iterator</tt> behavior</h3>
+<p><b>Section:</b> 26.7.3.1 <a href="https://wg21.link/span.overview">[span.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2018-04-12 <b>Last modified:</b> 2018-04-22</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+There are multiple issues with how span specifies its iterators:
+</p>
+<ul>
+<li><p><tt>const_iterator</tt> isn't mentioned.</p></li>
+<li><p>The relationship between <tt>iterator</tt> and <tt>const_iterator</tt> isn't specified. (<tt>span</tt> isn't 
+a container, so it doesn't receive this automatically.)</p></li>
+<li><p>The iterators should be specified to be constexpr.</p></li>
+</ul>
+<p>
+By imitating 24.4.2.2 <a href="https://wg21.link/string.view.iterators">[string.view.iterators]</a>/3 "All requirements on container iterators ([container.requirements]) 
+apply to <tt>basic_string_view::const_iterator</tt> as well.", we can specify that <tt>iterator</tt> is convertible to 
+<tt>const_iterator</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.</p>
+
+<blockquote>
+<ol>
+<li>
+<p>Edit 26.7.3.1 <a href="https://wg21.link/span.overview">[span.overview]</a> as indicated:</p>
+<blockquote>
+<p>
+-4- The iterator type<ins>s</ins> <del>for span is a random access iterator and a contiguous iterator</del><ins><tt>span::iterator</tt> 
+and <tt>span::const_iterator</tt> are random access iterators (27.2.7 <a href="https://wg21.link/random.access.iterators">[random.access.iterators]</a>), contiguous iterators
+(27.2.1 <a href="https://wg21.link/iterator.requirements.general">[iterator.requirements.general]</a>), and constexpr iterators (27.2.1 <a href="https://wg21.link/iterator.requirements.general">[iterator.requirements.general]</a>). 
+All requirements on container iterators (26.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>) apply to <tt>span::iterator</tt> and 
+<tt>span::const_iterator</tt> as well</ins>.
+</p>
 </blockquote>
 </li>
 </ol>
