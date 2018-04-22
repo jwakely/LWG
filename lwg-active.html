@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D110)</h1>
-<p><p>Revised 2018-04-22 at 14:04:36 UTC</p>
+<p><p>Revised 2018-04-22 at 14:30:43 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D110: 2018-05-07 2018 pre-Rapperswil mailing<ul>
 <li><b>Summary:</b><ul>
-<li>259 open issues, up by 7.</li>
+<li>260 open issues, up by 8.</li>
 <li>2301 closed issues, up by 0.</li>
 <li>61 reassigned issues, up by 0.</li>
-<li>2621 issues total, up by 7.</li>
+<li>2622 issues total, up by 8.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 7 New issues: <a href="lwg-active.html#3093">3093</a>, <a href="lwg-active.html#3094">3094</a>, <a href="lwg-active.html#3095">3095</a>, <a href="lwg-active.html#3096">3096</a>, <a href="lwg-active.html#3097">3097</a>, <a href="lwg-active.html#3098">3098</a>, <a href="lwg-active.html#3099">3099</a>.</li>
+<li>Added the following 8 New issues: <a href="lwg-active.html#3093">3093</a>, <a href="lwg-active.html#3094">3094</a>, <a href="lwg-active.html#3095">3095</a>, <a href="lwg-active.html#3096">3096</a>, <a href="lwg-active.html#3097">3097</a>, <a href="lwg-active.html#3098">3098</a>, <a href="lwg-active.html#3099">3099</a>, <a href="lwg-active.html#3100">3100</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -34263,6 +34263,87 @@ the referent type is complete when given a reference type parameter to be implem
 <blockquote>
 <ins><tt>remove_cvref_t&lt;</tt></ins><tt>T</tt><ins><tt>&gt;</tt></ins> shall be a complete type, <del><i>cv</i></del>
 <tt>void</tt>, or an array of unknown bound.
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+
+
+
+
+<hr>
+<h3><a name="3100" href="#3100">3100</a><sup><a href="https://cplusplus.github.io/LWG/issue3100">(i)</a></sup>. Unnecessary and confusing "empty <tt>span</tt>" wording</h3>
+<p><b>Section:</b> 26.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2018-04-12 <b>Last modified:</b> 2018-04-22</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>span</tt> constructors have wording relics that mention an "empty <tt>span</tt>". It's unnecessary (the 
+behavior is fully specified by the postconditions), but I left it there because I thought it was harmless. It was 
+later pointed out to me that this is actually confusing. Talking about an "empty <tt>span</tt>" implies that there's just 
+one such thing, but <tt>span</tt> permits <tt>empty()</tt> to be <tt>true</tt> while <tt>data()</tt> can vary 
+(being null or non-null). (This behavior is very useful; consider how <tt>equal_range()</tt> behaves.)
+<p/>
+To avoid confusion, the "empty <tt>span</tt>" wording should simply be removed, leaving the constructor behavior unchanged. 
+Editorially, there's also a missing paragraph number.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.</p>
+
+<blockquote>
+<ol>
+<li>
+<p>Edit 26.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> as indicated:</p>
+<blockquote>
+<pre>
+constexpr span() noexcept;
+</pre>
+<blockquote>
+<p>
+<del>-1- <i>Effects:</i> Constructs an empty <tt>span</tt>.</del>
+<p/>
+-2- <i>Postconditions:</i> <tt>size() == 0 &amp;&amp; data() == nullptr</tt>.
+<p/>
+-3- <i>Remarks:</i> This constructor shall not participate in overload resolution unless <tt>Extent &lt;= 0</tt> is <tt>true</tt>.
+</p>
+</blockquote>
+<pre>
+constexpr span(pointer ptr, index_type count);
+</pre>
+<blockquote>
+<p>
+-4- <i>Requires:</i> <tt>[ptr, ptr + count)</tt> shall be a valid range. If <tt>extent</tt> is not equal to 
+<tt>dynamic_extent</tt>, then <tt>count</tt> shall be equal to <tt>extent</tt>.
+<p/>
+-5- <i>Effects:</i> Constructs a <tt>span</tt> that is a view over the range <tt>[ptr, ptr + count)</tt>. <del>If 
+<tt>count</tt> is <tt>0</tt> then an empty span is constructed.</del>
+<p/>
+-6- <i>Postconditions:</i> <tt>size() == count &amp;&amp; data() == ptr</tt>.
+<p/>
+<ins>-?-</ins> <i>Throws:</i> Nothing.
+</p>
+</blockquote>
+<pre>
+constexpr span(pointer first, pointer last);
+</pre>
+<blockquote>
+<p>
+-7- <i>Requires:</i> <tt>[first, last)</tt> shall be a valid range. If <tt>extent</tt> is not equal to 
+<tt>dynamic_extent</tt>, then <tt>last - first</tt> shall be equal to <tt>extent</tt>.
+<p/>
+-8- <i>Effects:</i> Constructs a <tt>span</tt> that is a view over the range <tt>[first, last)</tt>. <del>If 
+<tt>last - first == 0</tt> then an empty <tt>span</tt> is constructed.</del>
+<p/>
+-9- <i>Postconditions:</i> <tt>size() == last - first &amp;&amp; data() == first</tt>.
+<p/>
+-10- <i>Throws:</i> Nothing.
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ol>
