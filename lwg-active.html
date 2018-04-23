@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2018-04-22</td>
+  <td align="left">2018-04-23</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D110)</h1>
-<p><p>Revised 2018-04-22 at 20:03:29 UTC</p>
+<p><p>Revised 2018-04-23 at 17:42:27 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -34475,7 +34475,7 @@ All requirements on container iterators (26.2 <a href="https://wg21.link/contain
 <hr>
 <h3><a name="3103" href="#3103">3103</a><sup><a href="https://cplusplus.github.io/LWG/issue3103">(i)</a></sup>. Errors in taking subview of <tt>span</tt> should be ill-formed where possible</h3>
 <p><b>Section:</b> 26.7.3.3 <a href="https://wg21.link/span.sub">[span.sub]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2018-04-13 <b>Last modified:</b> 2018-04-22</p>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2018-04-13 <b>Last modified:</b> 2018-04-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -34514,8 +34514,8 @@ In addition the following constructs should be made ill-formed for fixed size sp
 <ol>
 <li><p><tt>s.first&lt;C&gt;()</tt> with <tt>C &gt; N</tt></p></li>
 <li><p><tt>s.last&lt;C&gt;()</tt> with <tt>C &gt; N</tt></p></li>
-<li><p><tt>s.last&lt;O, dynamic_extent&gt;()</tt> with <tt>O &gt; N</tt></p></li>
-<li><p><tt>s.last&lt;O, C&gt;()</tt> with <tt>O + C &gt; N</tt></p></li>
+<li><p><tt>s.subspan&lt;O, dynamic_extent&gt;()</tt> with <tt>O &gt; N</tt></p></li>
+<li><p><tt>s.subspan&lt;O, C&gt;()</tt> with <tt>O + C &gt; N</tt></p></li>
 </ol>
 <p>
 This will match the <tt>span</tt> constructor that made construction of fixed size <tt>span&lt;T, N&gt;</tt> from fixed 
