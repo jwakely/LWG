@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-05-05 at 12:17:22 UTC</p>
+<p><p>Revised 2018-05-05 at 12:35:22 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -25019,6 +25019,7 @@ isn't clear about that. Maybe add a cross-reference to 30.11.9.2 <a href="https:
  <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2017-03-20 <b>Last modified:</b> 2017-07-16</p>
 <p><b>Priority: </b>4
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#library">active issues</a> in [library].</p>
 <p><b>View all other</b> <a href="lwg-index.html#library">issues</a> in [library].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -32118,6 +32119,53 @@ Count != dynamic_extent ? Count
 </li>
 </ol>
 </blockquote>
+
+
+
+
+
+<hr>
+<h3><a name="3105" href="#3105">3105</a><sup><a href="https://cplusplus.github.io/LWG/issue3105">(i)</a></sup>. <tt>T1</tt> is convertible to <tt>T2</tt></h3>
+<p><b>Section:</b> 20 <a href="https://wg21.link/library">[library]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2018-04-24 <b>Last modified:</b> 2018-05-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#library">active issues</a> in [library].</p>
+<p><b>View all other</b> <a href="lwg-index.html#library">issues</a> in [library].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The library wording frequently uses the construction "type <tt>T1</tt> is convertible to type <tt>T2</tt>", 
+but this is an undefined phrase.
+<p/>
+For requirements on user code (e.g. [tuple.rel]), it is unclear whether all expressions of type <tt>T1</tt> 
+must satisfy the convertibility requirement, regardless of value category, or whether a single
+value category is in view only.
+<p/>
+Consider:
+</p>
+<blockquote>
+<pre>
+struct C 
+{
+ operator int() &amp;&amp;;
+};
+
+int main()
+{
+  int x = C();  <i>// prvalue can be implicitly converted to int</i>
+  C c;
+  int y = c;    <i>// lvalue can't</i>
+}
+</pre>
+</blockquote>
+<p>
+The library has an "<tt>is_convertible&lt;T1, T2&gt;</tt>" trait, but that checks convertibility 
+only for a single value category, not all possible ones.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
