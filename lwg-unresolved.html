@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-05-05 at 12:35:22 UTC</p>
+<p><p>Revised 2018-05-05 at 12:46:11 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -31940,8 +31940,8 @@ the referent type is complete when given a reference type parameter to be implem
 <hr>
 <h3><a name="3101" href="#3101">3101</a><sup><a href="https://cplusplus.github.io/LWG/issue3101">(i)</a></sup>. <tt>span</tt>'s <tt>Container</tt> constructors need another constraint</h3>
 <p><b>Section:</b> 26.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2018-04-12 <b>Last modified:</b> 2018-04-22</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2018-04-12 <b>Last modified:</b> 2018-05-05</p>
+<p><b>Priority: </b>1
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#span.cons">active issues</a> in [span.cons].</p>
 <p><b>View all other</b> <a href="lwg-index.html#span.cons">issues</a> in [span.cons].</p>
@@ -31960,6 +31960,9 @@ from runtime-length ranges. Note that debug precondition checks are equally poss
 <tt>(ptr, count)</tt>/<tt>(first, last)</tt> constructors. The issue is that implicit conversions are notoriously 
 problematic, so they should be permitted only when they are absolutely known to be safe.)
 </p>
+
+<p><i>[2018-04-24 Priority set to 1 after discussion on the reflector.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -32006,8 +32009,8 @@ not equal to <tt>dynamic_extent</tt>, then <tt>size(cont)</tt> shall be equal to
 <hr>
 <h3><a name="3103" href="#3103">3103</a><sup><a href="https://cplusplus.github.io/LWG/issue3103">(i)</a></sup>. Errors in taking subview of <tt>span</tt> should be ill-formed where possible</h3>
 <p><b>Section:</b> 26.7.3.3 <a href="https://wg21.link/span.sub">[span.sub]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2018-04-13 <b>Last modified:</b> 2018-04-23</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2018-04-13 <b>Last modified:</b> 2018-05-05</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -32052,6 +32055,9 @@ In addition the following constructs should be made ill-formed for fixed size sp
 This will match the <tt>span</tt> constructor that made construction of fixed size <tt>span&lt;T, N&gt;</tt> from fixed 
 size <tt>span</tt> of different size ill-formed.
 </p>
+
+<p><i>[2018-04-24 Priority set to 3 after discussion on the reflector.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -32148,14 +32154,14 @@ Consider:
 <pre>
 struct C 
 {
- operator int() &amp;&amp;;
+  operator int() &amp;&amp;;
 };
 
 int main()
 {
-  int x = C();  <i>// prvalue can be implicitly converted to int</i>
+  int x = C(); <i>// prvalue can be implicitly converted to int</i>
   C c;
-  int y = c;    <i>// lvalue can't</i>
+  int y = c;   <i>// lvalue can't</i>
 }
 </pre>
 </blockquote>
