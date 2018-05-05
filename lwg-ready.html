@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2018-04-23 at 18:08:45 UTC</p>
+<td align="left"><p>Revised 2018-05-05 at 12:03:23 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1449,6 +1449,94 @@ void*&amp; pword(int idx);
 -5- <i>Effects:</i> If <tt>iarray</tt> is a null pointer, [&hellip;]
 <p/>
 [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3094" href="#3094">3094</a><sup><a href="https://cplusplus.github.io/LWG/issue3094">(i)</a></sup>. &sect;[time.duration.io]p4 makes surprising claims about encoding</h3>
+<p><b>Section:</b> 23.17.5.10 <a href="https://wg21.link/time.duration.io">[time.duration.io]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2018-04-02 <b>Last modified:</b> 2018-05-05</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+[time.duration.io]p4 says:
+</p>
+<blockquote><p>
+For streams where <tt>charT</tt> has an 8-bit representation, <tt>"&micro;s"</tt> should be encoded as UTF-8. Otherwise UTF-16 or 
+UTF-32 is encouraged. The implementation may substitute other encodings, including <tt>"us"</tt>.
+</p></blockquote>
+<p>
+This choice of encoding is not up to the <tt>&lt;chrono&gt;</tt> library to decide or encourage. The basic execution character 
+set determines how a mu should be encoded in type <tt>char</tt>, for instance, and it would be truly bizarre to use a UTF-8 
+encoding if that character set is, say, Latin-1 or EBCDIC.
+<p/>
+I suggest we strike at least the first two sentences of this paragraph, as the meaning of the prior wording is unambiguous 
+without them and confusing with them, and they do not providing any normative requirements (although they do provide 
+recommendations). The third sentence appears to have a normative impact, but it's hard to see how it's legitimate to call 
+<tt>"us"</tt> an "encoding" of <tt>"&micro;s"</tt>; it's really just an alternative unit suffix. So how about replacing that 
+paragraph with this:
+</p>
+<blockquote><p>
+If <tt>Period::type</tt> is <tt>micro</tt>, but the character U+00B5 cannot be represented in the encoding used for 
+<tt>charT</tt>, the unit suffix <tt>"us"</tt> is used instead of <tt>"&micro;s"</tt>.
+</p></blockquote>
+<p>
+(This also removes the permission for an implementation to choose an arbitrary alternative "encoding", which seems undesirable.)
+</p>
+
+<p><i>[
+2018-04-23 Moved to Tentatively Ready after 6 positive votes on c++std-lib.
+]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 23.17.5.10 <a href="https://wg21.link/time.duration.io">[time.duration.io]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class charT, class traits, class Rep, class Period&gt;
+  basic_ostream&lt;charT, traits&gt;&amp;
+    operator&lt;&lt;(basic_ostream&lt;charT, traits&gt;&amp; os, const duration&lt;Rep, Period&gt;&amp; d);
+</pre>
+<blockquote>
+<p>
+-1- <i>Requires:</i> [&hellip;]
+<p/>
+-2- <i>Effects:</i> [&hellip;]
+<p/>
+-3- The units suffix depends on the type <tt>Period::type</tt> as follows:
+</p>
+<ol style="list-style-type: none">
+<li><p>[&hellip;]</p></li>
+<li><p>(3.5) &mdash; Otherwise, if <tt>Period::type</tt> is <tt>micro</tt>, the suffix is <tt>"&micro;s"</tt> 
+(<tt>"\u00b5\u0073"</tt>).</p></li>
+<li><p>[&hellip;]</p></li>
+<li><p>(3.21) &mdash; Otherwise, the suffix is <tt>"[<i>num</i>/<i>den</i>]s"</tt>.</p></li>
+</ol>
+<p>
+[&hellip;]
+<p/>
+-4- <del>For streams where <tt>charT</tt> has an 8-bit representation, <tt>"&micro;s"</tt> should be encoded as UTF-8. 
+Otherwise UTF-16 or UTF-32 is encouraged. The implementation may substitute other encodings, including 
+<tt>"us"</tt></del><ins>If <tt>Period::type</tt> is <tt>micro</tt>, but the character U+00B5 cannot be represented 
+in the encoding used for <tt>charT</tt>, the unit suffix <tt>"us"</tt> is used instead of <tt>"&micro;s"</tt></ins>.
+<p/>
+-5- <i>Returns:</i> <tt>os</tt>.
 </p>
 </blockquote>
 </blockquote>
