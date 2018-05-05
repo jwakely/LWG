@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2018-05-05 at 12:13:32 UTC</p>
+<td align="left"><p>Revised 2018-05-05 at 12:17:22 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1679,6 +1679,82 @@ and <tt>span::const_iterator</tt> are random access iterators (27.2.7 <a href="h
 All requirements on container iterators (26.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>) apply to <tt>span::iterator</tt> and 
 <tt>span::const_iterator</tt> as well</ins>.
 </p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+
+
+
+
+<hr>
+<h3><a name="3104" href="#3104">3104</a><sup><a href="https://cplusplus.github.io/LWG/issue3104">(i)</a></sup>. Fixing <tt>duration</tt> division</h3>
+<p><b>Section:</b> 23.17.5.5 <a href="https://wg21.link/time.duration.nonmember">[time.duration.nonmember]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2018-04-17 <b>Last modified:</b> 2018-05-05</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.duration.nonmember">issues</a> in [time.duration.nonmember].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+[time.duration.nonmember]/1 states
+</p>
+<blockquote><p>
+In the function descriptions that follow, <tt>CD</tt> represents the return type of the function.
+</p></blockquote>
+<p>
+From what I could find, many definitions of <tt>CD</tt> in the paragraphs of [time.duration.nonmember] were lifted to 
+[time.duration.nonmember]/1 as cited above. That works for all other paragraphs, but not for [time.duration.nonmember]/10, 
+which the change rendered ill-formed:
+</p>
+<blockquote>
+<pre>
+template&lt;class Rep1, class Period1, class Rep2, class Period2&gt;
+  constexpr common_type_t&lt;Rep1, Rep2&gt;
+    operator/(const duration&lt;Rep1, Period1&gt;&amp; lhs, const duration&lt;Rep2, Period2&gt;&amp; rhs);
+</pre>
+<blockquote>
+<i>Returns:</i> <tt>CD(lhs).count() / CD(rhs).count()</tt>.
+</blockquote>
+</blockquote>
+<p>
+In this case, we want <tt>CD</tt> to mean <tt>common_type_t&lt;duration&lt;Rep1, Period1&gt;, duration&lt;Rep2, Period2&gt;&gt;</tt>. 
+That way, the division has the expected semantics of dividing two quantities of the same dimension.
+</p>
+
+<p><i>[
+2018-04-24 Moved to Tentatively Ready after 6 positive votes on c++std-lib.
+]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.</p>
+
+<blockquote>
+<ol>
+<li>
+<p>Edit 23.17.5.5 <a href="https://wg21.link/time.duration.nonmember">[time.duration.nonmember]</a> as indicated:</p>
+<blockquote>
+<p>
+-1- In the function descriptions that follow, <ins>unless stated otherwise, let</ins> <tt>CD</tt> represent<del>s</del> 
+the return type of the function.
+<p/>
+[&hellip;]
+</p>
+<pre>
+template&lt;class Rep1, class Period1, class Rep2, class Period2&gt;
+  constexpr common_type_t&lt;Rep1, Rep2&gt;
+    operator/(const duration&lt;Rep1, Period1&gt;&amp; lhs, const duration&lt;Rep2, Period2&gt;&amp; rhs);
+</pre>
+<blockquote>
+<p>
+<ins>Let <tt>CD</tt> be <tt>common_type_t&lt;duration&lt;Rep1, Period1&gt;, duration&lt;Rep2, Period2&gt;&gt;</tt>.</ins>
+<p/>
+-10- <i>Returns:</i> <tt>CD(lhs).count() / CD(rhs).count()</tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ol>
