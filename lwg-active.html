@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D110)</h1>
-<p><p>Revised 2018-05-05 at 13:15:47 UTC</p>
+<p><p>Revised 2018-05-05 at 13:23:55 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D110: 2018-05-07 2018 pre-Rapperswil mailing<ul>
 <li><b>Summary:</b><ul>
-<li>267 open issues, up by 15.</li>
+<li>268 open issues, up by 16.</li>
 <li>2301 closed issues, up by 0.</li>
 <li>61 reassigned issues, up by 0.</li>
-<li>2629 issues total, up by 15.</li>
+<li>2630 issues total, up by 16.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 4 Tentatively Ready issues: <a href="lwg-active.html#3094">3094</a>, <a href="lwg-active.html#3100">3100</a>, <a href="lwg-active.html#3102">3102</a>, <a href="lwg-active.html#3104">3104</a>.</li>
-<li>Added the following 11 New issues: <a href="lwg-active.html#3093">3093</a>, <a href="lwg-active.html#3095">3095</a>, <a href="lwg-active.html#3096">3096</a>, <a href="lwg-active.html#3097">3097</a>, <a href="lwg-active.html#3098">3098</a>, <a href="lwg-active.html#3099">3099</a>, <a href="lwg-active.html#3101">3101</a>, <a href="lwg-active.html#3103">3103</a>, <a href="lwg-active.html#3105">3105</a>, <a href="lwg-active.html#3106">3106</a>, <a href="lwg-active.html#3107">3107</a>.</li>
+<li>Added the following 12 New issues: <a href="lwg-active.html#3093">3093</a>, <a href="lwg-active.html#3095">3095</a>, <a href="lwg-active.html#3096">3096</a>, <a href="lwg-active.html#3097">3097</a>, <a href="lwg-active.html#3098">3098</a>, <a href="lwg-active.html#3099">3099</a>, <a href="lwg-active.html#3101">3101</a>, <a href="lwg-active.html#3103">3103</a>, <a href="lwg-active.html#3105">3105</a>, <a href="lwg-active.html#3106">3106</a>, <a href="lwg-active.html#3107">3107</a>, <a href="lwg-active.html#3108">3108</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -34899,21 +34899,67 @@ This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.
 <blockquote>
 <pre>
 namespace std {
-template&lt;class charT, class traits = char_traits&lt;charT&gt;&gt;
-class istreambuf_iterator {
-public:
+  template&lt;class charT, class traits = char_traits&lt;charT&gt;&gt;
+  class istreambuf_iterator {
+  public:
+    [&hellip;]
+    using istream_type = basic_istream&lt;charT,traits&gt;;
+  
+    <del>class proxy; <i>// exposition only</i></del>
+  
+    constexpr istreambuf_iterator() noexcept;
+    [&hellip;]
+  private:
+    <ins>class proxy; <i>// exposition only</i></ins>
+    streambuf_type* sbuf_; <i>// exposition only</i>
+  };
   [&hellip;]
-  using istream_type = basic_istream&lt;charT,traits&gt;;
+}
+</pre>
+</blockquote>
+</li>
+</ol>
 
-  <del>class proxy; <i>// exposition only</i></del>
 
-  constexpr istreambuf_iterator() noexcept;
-  [&hellip;]
-private:
-  <ins>class proxy; <i>// exposition only</i></ins>
-  streambuf_type* sbuf_; <i>// exposition only</i>
-};
-[&hellip;]
+
+
+
+<hr>
+<h3><a name="3108" href="#3108">3108</a><sup><a href="https://cplusplus.github.io/LWG/issue3108">(i)</a></sup>. <tt>istreambuf_iterator::proxy::operator*</tt> should be <tt>const</tt></h3>
+<p><b>Section:</b> 27.6.3.1 <a href="https://wg21.link/istreambuf.iterator.proxy">[istreambuf.iterator.proxy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-04-26 <b>Last modified:</b> 2018-05-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>operator*</tt> on iterators is usually intended to be <tt>const</tt>; see 27.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a> 
+Table 87, <tt>*a</tt>, where <tt>a</tt> is of type <tt>X</tt> or <tt>const X</tt>. (Technically, <tt>proxy</tt> 
+is implementing the <tt>*r++</tt> requirement in this table, and <tt>r</tt> doesn't imply a const iterator, 
+but there's no reason for the iterator's <tt>operator*</tt> to differ from the proxy)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 27.6.3.1 <a href="https://wg21.link/istreambuf.iterator.proxy">[istreambuf.iterator.proxy]</a> as indicated:</p>
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class charT, class traits = char_traits&lt;charT&gt;&gt;
+  class istreambuf_iterator&lt;charT, traits&gt;::proxy { <i>// exposition only</i>
+    charT keep_;
+    basic_streambuf&lt;charT,traits&gt;* sbuf_;
+    proxy(charT c, basic_streambuf&lt;charT,traits&gt;* sbuf)
+      : keep_(c), sbuf_(sbuf) { }
+    public:
+      charT operator*() <ins>const</ins> { return keep_; }
+  };
 }
 </pre>
 </blockquote>
