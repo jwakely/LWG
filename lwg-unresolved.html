@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-05-05 at 12:55:36 UTC</p>
+<p><p>Revised 2018-05-05 at 13:15:47 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -14118,6 +14118,7 @@ template &lt;class Rep, class Period&gt;
  <b>Submitter:</b> Hyman Rosen <b>Opened:</b> 2014-02-19 <b>Last modified:</b> 2014-06-24</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#istreambuf.iterator">active issues</a> in [istreambuf.iterator].</p>
 <p><b>View all other</b> <a href="lwg-index.html#istreambuf.iterator">issues</a> in [istreambuf.iterator].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -32204,6 +32205,58 @@ This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.
 <pre>
 struct nothrow_t { explicit nothrow_t() = default; };
 <del>extern const</del><ins>inline constexpr</ins> nothrow_t nothrow;
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3107" href="#3107">3107</a><sup><a href="https://cplusplus.github.io/LWG/issue3107">(i)</a></sup>. <tt>istreambuf_iterator</tt> has public <i>exposition-only</i> member</h3>
+<p><b>Section:</b> 27.6.3 <a href="https://wg21.link/istreambuf.iterator">[istreambuf.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-04-26 <b>Last modified:</b> 2018-05-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#istreambuf.iterator">active issues</a> in [istreambuf.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#istreambuf.iterator">issues</a> in [istreambuf.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG has said recently that we don't want public exposition-only things, as that may encourage users to try 
+to use those names (and some implementers to actually use those names).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.
+</p>
+
+<ol>
+<li>
+<p>Edit 27.6.3 <a href="https://wg21.link/istreambuf.iterator">[istreambuf.iterator]</a> as indicated:</p>
+<blockquote>
+<pre>
+namespace std {
+template&lt;class charT, class traits = char_traits&lt;charT&gt;&gt;
+class istreambuf_iterator {
+public:
+  [&hellip;]
+  using istream_type = basic_istream&lt;charT,traits&gt;;
+
+  <del>class proxy; <i>// exposition only</i></del>
+
+  constexpr istreambuf_iterator() noexcept;
+  [&hellip;]
+private:
+  <ins>class proxy; <i>// exposition only</i></ins>
+  streambuf_type* sbuf_; <i>// exposition only</i>
+};
+[&hellip;]
+}
 </pre>
 </blockquote>
 </li>
