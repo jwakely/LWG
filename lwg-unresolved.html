@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-05-05 at 13:23:55 UTC</p>
+<p><p>Revised 2018-05-06 at 08:17:35 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -32307,6 +32307,32 @@ namespace std {
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3109" href="#3109">3109</a><sup><a href="https://cplusplus.github.io/LWG/issue3109">(i)</a></sup>. <tt>strstreambuf</tt> is copyable</h3>
+<p><b>Section:</b> D.7.2 <a href="https://wg21.link/depr.strstreambuf">[depr.strstreambuf]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-05-02 <b>Last modified:</b> 2018-05-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In C++03 <tt>strstreambuf</tt> was not copyable, because <tt>basic_streambuf</tt> wasn't copyable. 
+In C++11 we made <tt>basic_streambuf</tt> copyable by derived classes, and <tt>strstreambuf</tt> 
+doesn't define any special members, so it (unintentionally?) became copyable, with completely 
+unspecified semantics.
+<p/>
+VC++ and libc++ make it movable not copyable, and libstdc++ still follows C++03, so it's neither 
+movable nor copyable. Making it movable seems to be the sane option, and consistent with 
+<tt>filebuf</tt> and <tt>stringbuf</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
