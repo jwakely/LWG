@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-05-14 at 10:54:46 UTC</p>
+<p><p>Revised 2018-05-19 at 19:48:49 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -18724,7 +18724,7 @@ Replaces elements in <tt>a</tt> with <tt>n</tt> copies of <tt>t</tt>.
 <hr>
 <h3><a name="2708" href="#2708">2708</a><sup><a href="https://cplusplus.github.io/LWG/issue2708">(i)</a></sup>. <tt>recursive_directory_iterator::recursion_pending()</tt> is incorrectly specified</h3>
 <p><b>Section:</b> 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#Review">Review</a>
- <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-05-09 <b>Last modified:</b> 2018-01-30</p>
+ <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-05-09 <b>Last modified:</b> 2018-05-19</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#fs.rec.dir.itr.members">active issues</a> in [fs.rec.dir.itr.members].</p>
@@ -18826,9 +18826,8 @@ recursive_directory_iterator&amp; increment(error_code&amp; ec) noexcept;
 <p><i>[2018-01-29: Casey provides a PR with an exposition-only member]</i></p>
 
 <p>Status to 'Review'.</p>
-
-
-<p><b>Proposed resolution:</b></p>
+<strong>Previous resolution from Casey [SUPERSEDED]:</strong>
+<blockquote class="note">
 <p>
 This wording is relative to N4713.
 </p>
@@ -18970,6 +18969,135 @@ void disable_recursion_pending();
 <blockquote>
 <p>
 -28- <i>Postcondition<del>s</del>:</i> <tt><del>recursion_pending()</del><ins>recurse_</ins> == false</tt>.
+</p><p>
+[&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2018-05-17: Casey restores the intended design with an expansion of the original PR]</i></p>
+
+<p>The intended design is that all copies of a single <tt>recursive_directory_iterator</tt> share a common block of state which includes the values returned by <tt>options</tt>, <tt>depth</tt>, and <tt>recursion_pending</tt> - hence the mandate that those functions not be called on a non-dereferenceable iterator in 30.11.13 <a href="https://wg21.link/fs.class.rec.dir.itr">[fs.class.rec.dir.itr]</a> para 2. To allow an implementation with such shared state, it's necessary to make changes to the value returned by <tt>recursion_pending()</tt> visible to <em>all copies</em> of the same dereferenceable iterator.</p>
+<p>Also:</p>
+<ul>
+<li><p><tt>options</tt> is not valid for all constructor signatures described by 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> para 2</p></li>
+<li><p>the copies and moves don't specify what they actually <i>do</i></p></li>
+<li><p>it's not quite kosher for the copies and moves to have postconditions on the value of expressions that have UB if the iterator copied/moved from is not dereferenceable.</p></li>
+</ul>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to N4750.
+</p>
+
+<ol>
+<li><p>Change 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+explicit recursive_directory_iterator(const path&amp; p);
+recursive_directory_iterator(const path&amp; p, directory_options options);
+recursive_directory_iterator(const path&amp; p, directory_options options, error_code&amp; ec) noexcept;
+recursive_directory_iterator(const path&amp; p, error_code&amp; ec) noexcept;
+</pre>
+<blockquote>
+<p>
+<ins>-?- For the signatures with no parameter <tt>options</tt>, let <tt>options</tt> be <tt>directory_options::none</tt>.</ins>
+</p><p>
+-2- <i>Effects</i>: [&hellip;]
+</p><p>
+-3- <i>Postconditions</i>: <del><tt>options() == options</tt> for the signatures with a <tt>directory_options</tt> argument, otherwise <tt>options() == directory_options::none</tt>.</del>
+</p>
+<ul>
+<li><p><ins><tt>options() == options</tt></ins></p></li>
+<li><p><ins><tt>recursion_pending() == true</tt></ins></p></li>
+</ul>
+<p>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+recursive_directory_iterator(const recursive_directory_iterator&amp; rhs);
+</pre>
+<blockquote>
+<p>
+-7- <i>Effects</i>: Constructs an <del>object of class <tt>recursive_directory_iterator</tt></del> <ins>iterator that denotes the same directory entry as <tt>rhs</tt>, if any.</ins>.
+</p><p>
+-8- <i>Postconditions</i>: <ins>If <tt>rhs</tt> is dereferenceable,</ins>
+</p><p>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+recursive_directory_iterator(recursive_directory_iterator&amp;&amp; rhs) noexcept;
+</pre>
+<blockquote>
+<p>
+-9- <i>Effects</i>: Constructs an <del>object of class <tt>recursive_directory_iterator</tt></del> <ins>iterator that denotes the directory entry denoted by <tt>rhs</tt> before the function call, if any.</ins>.
+</p><p>
+-10- <i>Postconditions</i>: <ins>If <tt>rhs</tt> is dereferenceable,</ins>  [&hellip;]
+</p>
+</blockquote>
+<pre>
+recursive_directory_iterator&amp; operator=(const recursive_directory_iterator&amp; rhs);
+</pre>
+<blockquote>
+<p>
+-11- <i>Effects</i>: <del>If <tt>*this</tt> and <tt>rhs</tt> are the same object, the member has no effect.</del> <ins>Causes <tt>*this</tt> to denote the same directory entry denoted by <tt>rhs</tt>, if any.</ins>
+</p><p>
+-12- <i>Postconditions</i>: <ins>If <tt>rhs</tt> is dereferenceable,</ins>
+</p><p>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+recursive_directory_iterator&amp; operator=(recursive_directory_iterator&amp;&amp; rhs) noexcept;
+</pre>
+<blockquote>
+<p>
+-14- <i>Effects</i>: <del>If <tt>*this</tt> and <tt>rhs</tt> are the same object, the member has no effect.</del> <ins>Causes <tt>*this</tt> to denote the directory entry denoted by <tt>rhs</tt> before the function call, if any.</ins>
+</p><p>
+-15- <i>Postconditions</i>: <ins>If <tt>rhs</tt> was dereferenceable before the function call,</ins> [&hellip;]
+</p><p>
+-16- <i>Returns</i>: <tt>*this</tt>.
+</p><p>
+<ins>-x- <i>Remarks</i>: If <tt>*this</tt> and <tt>rhs</tt> do not refer to the same object, the resulting state of <tt>rhs</tt> is unspecified (20.5.5.15 <a href="https://wg21.link/lib.types.movedfrom">[lib.types.movedfrom]</a>).</ins>
+</p>
+</blockquote>
+<pre>
+directory_options options() const;
+</pre>
+<blockquote>
+<p>
+-17- <i>Returns</i>: The value <del>of the argument passed to the constructor for the <tt>options</tt> parameter, if present,
+otherwise <tt>directory_options::none</tt></del> <ins>established by the most recently called member that has a postcondition for <tt>options()</tt></ins>.
+</p><p>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+bool recursion_pending() const;
+</pre>
+<blockquote>
+<p>
+-21- <i>Returns</i>: <del><tt>true</tt> if <tt>disable_recursion_pending()</tt> has not been called subsequent to the prior construction or increment operation, otherwise <tt>false</tt>.</del> <ins>If <tt>disable_recursion_pending()</tt> has been called on a copy of <tt>*this</tt>, an unspecified value. Otherwise, the value established for <tt>recursion_pending()</tt> by the postcondition of the most recent construction, assignment, increment, or <tt>disable_recursion_pending</tt> operation.</ins>
+</p><p>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+recursive_directory_iterator&amp; operator++();
+recursive_directory_iterator&amp; increment(error_code&amp; ec);
+</pre>
+<blockquote>
+<p>
+-23- <i>Effects</i>: As specified for the prefix increment operation of Input iterators (27.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>), except that: [&hellip;]
+</p><p>
+<ins>-?- <i>Postconditions</i>: <tt>recursion_pending() == true</tt>.</ins>
 </p><p>
 [&hellip;]
 </p>
@@ -28454,6 +28582,7 @@ satisfy the allocator completeness requirements (20.5.3.5.1 <a href="https://wg2
  <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-11-16 <b>Last modified:</b> 2017-11-25</p>
 <p><b>Priority: </b>2
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#mem.poly.allocator.mem">active issues</a> in [mem.poly.allocator.mem].</p>
 <p><b>View all other</b> <a href="lwg-index.html#mem.poly.allocator.mem">issues</a> in [mem.poly.allocator.mem].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -32594,6 +32723,100 @@ filesystem_error(const string&amp; what_arg, const path&amp; p1, const path&amp;
 <li> <tt>path2()</tt> returns a reference to the stored copy of <tt>p2</tt>,</li>
 <li> <tt>string_view(what()).find(what_arg<ins>.c_str()</ins>) != string_view::npos</tt>.</li>
 </ul>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3113" href="#3113">3113</a><sup><a href="https://cplusplus.github.io/LWG/issue3113">(i)</a></sup>. <tt>polymorphic_allocator::construct()</tt> should more closely match <tt>scoped_allocator_adaptor::construct()</tt></h3>
+<p><b>Section:</b> 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2018-05-14 <b>Last modified:</b> 2018-05-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#mem.poly.allocator.mem">active issues</a> in [mem.poly.allocator.mem].</p>
+<p><b>View all other</b> <a href="lwg-index.html#mem.poly.allocator.mem">issues</a> in [mem.poly.allocator.mem].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Based on my new understanding of how <tt>uses_allocator</tt> and <tt>is_constructible</tt> are supposed to play together, 
+I think there was a minor defect in the resolution of LWG <a href="lwg-defects.html#2969">2969</a> "<tt>polymorphic_allocator::construct()</tt> 
+shouldn't pass <tt>resource()</tt>".
+<p/>
+The calls to <tt>is_constructible</tt> in 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> (10.2), which were added to resolve LWG 
+<a href="lwg-defects.html#2969">2969</a>, are missing an lvalue-qualification to match the lvalue-qualification of the parallel calls in 
+ [llocator.adaptor.member] (9.2).
+<p/>
+The latter talks about constructibility from <tt>inner_allocator_type&amp;</tt>; the former (after LWG 2969) talks about 
+constructibility from <tt>polymorphic_allocator</tt> with no ref-qualification. But since we are perfect-forwarding 
+<tt>*this</tt> through a tuple of references, we definitely <em>are</em> going to try to construct the target object from 
+a <tt>polymorphic_allocator&amp;</tt> and not from a <tt>polymorphic_allocator</tt>. I believe that the wording in
+23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> (10.2) needs to be updated to make the program ill-formed in cases where
+that construction is going to fail.
+<p/>
+Orthogonally, I believe we need additional <tt>std::move</tt>'s in the sentence following 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> (10.8)
+for two reasons:
+</p>
+<ul>
+<li><p>We don't want to copy-construct the user's arguments that came in
+  by-value as part of <tt>x</tt> and/or <tt>y</tt>.</p></li>
+<li><p>The value category of the argument to <tt>pair</tt>'s constructor is currently
+  unspecified; it could reasonably be either an xvalue or a prvalue. Adding the <tt>std::move</tt> makes it clearer 
+  that we really want it to be an xvalue.</p></li>
+</ul>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.</p>
+
+<ol>
+<li><p>Edit 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class T1, class T2, class... Args1, class... Args2&gt;
+  void construct(pair&lt;T1, T2&gt;* p, piecewise_construct_t, tuple&lt;Args1...&gt; x, tuple&lt;Args2...&gt; y);
+</pre>
+<blockquote>
+<p>
+-9- [&hellip;]
+<p/>
+-10- <i>Effects::</i> [&hellip;]
+</p>
+<ol style="list-style-type: none">
+<li><p>(10.1) &mdash; [&hellip;]</p></li>
+<li><p>(10.2) &mdash; Otherwise, if <tt>uses_allocator_v&lt;T1,polymorphic_allocator&gt;</tt> is <tt>true</tt>
+and <tt>is_constructible_v&lt;T1, allocator_arg_t, polymorphic_allocator<ins>&amp;</ins>, Args1...&gt;</tt> is <tt>true</tt>,
+then <tt>xprime</tt> is <tt>tuple_cat(<del>make_tuple</del><ins>tuple&lt;allocator_arg_t, 
+polymorphic_allocator&amp;&gt;</ins>(allocator_arg, *this), std::move(x))</tt>.</p></li>
+<li><p>(10.3) &mdash; Otherwise, if <tt>uses_allocator_v&lt;T1, polymorphic_allocator&gt;</tt> is <tt>true</tt>
+and <tt>is_constructible_v&lt;T1, Args1..., polymorphic_allocator<ins>&amp;</ins>&gt;</tt> is <tt>true</tt>, then 
+<tt>xprime</tt> is <tt>tuple_cat(std::move(x), <del>make_tuple</del><ins>tuple&lt;polymorphic_allocator&amp;&gt;</ins>(*this))</tt>.</p></li>
+<li><p>(10.4) &mdash; Otherwise the program is ill formed.</p></li>
+</ol>
+<p>
+Let <tt>yprime</tt> be a tuple constructed from <tt>y</tt> according to the appropriate rule from the following list:
+</p>
+<ol style="list-style-type: none">
+<li><p>(10.5) &mdash; [&hellip;]</p></li>
+<li><p>(10.6) &mdash; Otherwise, if <tt>uses_allocator_v&lt;T2, polymorphic_allocator&gt;</tt> is <tt>true</tt>
+and <tt>is_constructible_v&lt;T2, allocator_arg_t, polymorphic_allocator<ins>&amp;</ins>, Args2...&gt;</tt> is <tt>true</tt>,
+then <tt>yprime</tt> is <tt>tuple_cat(<del>make_tuple</del><ins>tuple&lt;allocator_arg_t, 
+polymorphic_allocator&amp;&gt;</ins>(allocator_arg, *this), std::move(y))</tt>.</p></li>
+<li><p>(10.7) &mdash; Otherwise, if <tt>uses_allocator_v&lt;T2, polymorphic_allocator&gt;</tt> is <tt>true</tt>
+and <tt>is_constructible_v&lt;T2, Args2..., polymorphic_allocator<ins>&amp;</ins>&gt;</tt> is <tt>true</tt>, then <tt>yprime</tt> 
+is <tt>tuple_cat(std::move(y), <del>make_tuple</del><ins>tuple&lt;polymorphic_allocator&amp;&gt;</ins>(*this))</tt>.</p></li>
+<li><p>(10.8) &mdash; Otherwise the program is ill formed.</p></li>
+</ol>
+<p>
+Then, using <tt>piecewise_construct</tt>, <tt><ins>std::move(</ins>xprime<ins>)</ins></tt>, and 
+<tt><ins>std::move(</ins>yprime<ins>)</ins></tt> as the constructor arguments, this function
+constructs a <tt>pair&lt;T1, T2&gt;</tt> object in the storage whose address is represented by <tt>p</tt>.
+</p>
 </blockquote>
 </blockquote>
 </li>
