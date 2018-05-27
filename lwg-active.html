@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2018-05-20</td>
+  <td align="left">2018-05-27</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D111)</h1>
-<p><p>Revised 2018-05-20 at 15:55:45 UTC</p>
+<p><p>Revised 2018-05-27 at 13:53:50 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D111: 2018-07-02 2018 post-Rapperswil mailing<ul>
 <li><b>Summary:</b><ul>
-<li>274 open issues, up by 5.</li>
+<li>275 open issues, up by 6.</li>
 <li>2301 closed issues, up by 0.</li>
 <li>61 reassigned issues, up by 0.</li>
-<li>2636 issues total, up by 5.</li>
+<li>2637 issues total, up by 6.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 5 New issues: <a href="lwg-active.html#3110">3110</a>, <a href="lwg-active.html#3111">3111</a>, <a href="lwg-active.html#3112">3112</a>, <a href="lwg-active.html#3113">3113</a>, <a href="lwg-active.html#3114">3114</a>.</li>
+<li>Added the following 6 New issues: <a href="lwg-active.html#3110">3110</a>, <a href="lwg-active.html#3111">3111</a>, <a href="lwg-active.html#3112">3112</a>, <a href="lwg-active.html#3113">3113</a>, <a href="lwg-active.html#3114">3114</a>, <a href="lwg-active.html#3115">3115</a>.</li>
 <li>Changed the following 3 issues to Voting (from Ready): <a href="lwg-active.html#2139">2139</a>, <a href="lwg-active.html#3058">3058</a>, <a href="lwg-active.html#3076">3076</a>.</li>
 <li>Changed the following 12 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#2970">2970</a>, <a href="lwg-active.html#3062">3062</a>, <a href="lwg-active.html#3067">3067</a>, <a href="lwg-active.html#3071">3071</a>, <a href="lwg-active.html#3074">3074</a>, <a href="lwg-active.html#3079">3079</a>, <a href="lwg-active.html#3080">3080</a>, <a href="lwg-active.html#3083">3083</a>, <a href="lwg-active.html#3094">3094</a>, <a href="lwg-active.html#3100">3100</a>, <a href="lwg-active.html#3102">3102</a>, <a href="lwg-active.html#3104">3104</a>.</li>
 </ul></li>
@@ -3408,7 +3408,7 @@ template&lt;typename... Types&gt;
 <hr>
 <h3><a name="1203" href="#1203">1203</a><sup><a href="https://cplusplus.github.io/LWG/issue1203">(i)</a></sup>. More useful rvalue stream insertion</h3>
 <p><b>Section:</b> 30.7.5.5 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>, 30.7.4.5 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
- <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2009-09-06 <b>Last modified:</b> 2016-02-10</p>
+ <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2009-09-06 <b>Last modified:</b> 2018-05-27</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#ostream.rvalue">issues</a> in [ostream.rvalue].</p>
@@ -3491,9 +3491,19 @@ implemented and tested.
 NAD Future.  No concensus for change.
 </p></blockquote>
 
+<p><i>[
+2018-05-25, Billy O'Neal requests this issue be reopened and provides P/R
+rebased against N4750
+]</i></p>
 
 
-<p><b>Proposed resolution:</b></p>
+<p>Billy O'Neal requests this issue be reopened, as changing operator&gt;&gt;
+and operator&lt;&lt; to use perfect forwarding as described here is necessary to
+implement LWG 2534 which was accepted. Moreover, this P/R also resolves
+LWG 2498.</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 Change 30.7.4.5 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a>:
 </p>
@@ -3539,6 +3549,58 @@ template &lt;class <del>charT, class traits</del> <ins>Ostream</ins>, class T&gt
 and only if <tt>Ostream</tt> is not an lvalue reference type and is derived from
 <tt>ios_base</tt>.
 </ins></p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This resolution is relative to N4750.</p>
+<p>
+Change 30.7.4.5 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> as follows:
+</p>
+
+<blockquote><pre>
+template &lt;class <del>charT, class traits</del> <ins>Istream</ins>, class T&gt;
+  <del>basic_istream&lt;charT, traits&gt;&amp;</del> <ins>Istream&amp;&amp;</ins>
+  operator&gt;&gt;(<del>basic_istream&lt;charT, traits&gt;</del> <ins>Istream</ins>&amp;&amp; is, T&amp;&amp; x);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Equivalent to:
+</p>
+<pre>
+<tt>is &gt;&gt; std::forward&lt;T&gt;(x)</tt>
+return <ins>std::move(</ins>is<ins>)</ins>;
+</pre>
+<p>-2- <i>Remarks:</i> This function shall not participate in overload
+resolution unless the expression <tt>is &gt;&gt; std::forward&lt;T&gt;(x)</tt> is
+well-formed<ins>, <tt>Istream</tt> is not an lvalue reference type, and
+<tt>Istream</tt> is derived from <tt>ios_base</tt></ins>.</p>
+</blockquote>
+</blockquote>
+
+<p>
+Change 30.7.5.5 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>:
+</p>
+
+<blockquote><pre>
+template &lt;class <del>charT, class traits</del> <ins>Ostream</ins>, class T&gt;
+  <del>basic_ostream&lt;charT, traits&gt;&amp;</del> <ins>Ostream&amp;&amp;</ins>
+  operator&lt;&lt;(<del>basic_ostream&lt;charT, traits&gt;</del> <ins>Ostream</ins>&amp;&amp; os, const T&amp; x);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> As if by: <tt>os &lt;&lt; x;</tt>
+</p>
+<p>
+-2- <i>Returns:</i> <tt><ins>std::move(</ins>os<ins>)</ins></tt>
+</p>
+<p>
+-3- <i>Remarks:</i> This signature shall not participate in overload resolution
+unless the expression <tt>os &lt;&lt; x</tt> is well-formed<ins>,
+<tt>Ostream</tt> is not an lvalue reference type, and <tt>Ostream</tt> is
+derived from <tt>ios_base</tt></ins>.</p>
 </blockquote>
 </blockquote>
 
@@ -20117,7 +20179,7 @@ Replaces elements in <tt>a</tt> with <tt>n</tt> copies of <tt>t</tt>.
 <hr>
 <h3><a name="2708" href="#2708">2708</a><sup><a href="https://cplusplus.github.io/LWG/issue2708">(i)</a></sup>. <tt>recursive_directory_iterator::recursion_pending()</tt> is incorrectly specified</h3>
 <p><b>Section:</b> 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#Review">Review</a>
- <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-05-09 <b>Last modified:</b> 2018-05-19</p>
+ <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-05-09 <b>Last modified:</b> 2018-05-27</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#fs.rec.dir.itr.members">active issues</a> in [fs.rec.dir.itr.members].</p>
@@ -20371,14 +20433,27 @@ void disable_recursion_pending();
 </ol>
 </blockquote>
 
-<p><i>[2018-05-17: Casey restores the intended design with an expansion of the original PR]</i></p>
+<p><i>[2018-05-23: Casey restores the intended design with an expansion of the original PR]</i></p>
 
-<p>The intended design is that all copies of a single <tt>recursive_directory_iterator</tt> share a common block of state which includes the values returned by <tt>options</tt>, <tt>depth</tt>, and <tt>recursion_pending</tt> - hence the mandate that those functions not be called on a non-dereferenceable iterator in 30.11.13 <a href="https://wg21.link/fs.class.rec.dir.itr">[fs.class.rec.dir.itr]</a> para 2. To allow an implementation with such shared state, it's necessary to make changes to the value returned by <tt>recursion_pending()</tt> visible to <em>all copies</em> of the same dereferenceable iterator.</p>
-<p>Also:</p>
+<p>
+The intended design is that all copies of a single <tt>recursive_directory_iterator</tt> share a
+common block of state which includes the values returned by <tt>options</tt>, <tt>depth</tt>, and
+<tt>recursion_pending</tt> - hence the mandate that those functions not be called on a
+non-dereferenceable iterator in 30.11.13 <a href="https://wg21.link/fs.class.rec.dir.itr">[fs.class.rec.dir.itr]</a> para 2. To allow an
+implementation with such shared state, it's necessary to make changes to the value returned by
+<tt>recursion_pending()</tt> visible to <em>all copies</em> of the same dereferenceable iterator.
+</p><p>
+Also:
+</p>
 <ul>
-<li><p><tt>options</tt> is not valid for all constructor signatures described by 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> para 2</p></li>
+<li><p><tt>pop</tt> notionally calls <tt>increment</tt> repeatedly until the current directory is
+exhausted, <tt>pop</tt> should affect the value of <tt>recursion_pending</tt> similarly to
+<tt>increment</tt>.</p></li>
+<li><p><tt>options</tt> is not valid for all constructor signatures described by
+30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> para 2.</p></li>
 <li><p>the copies and moves don't specify what they actually <i>do</i></p></li>
-<li><p>it's not quite kosher for the copies and moves to have postconditions on the value of expressions that have UB if the iterator copied/moved from is not dereferenceable.</p></li>
+<li><p>it's not quite kosher for the copies and moves to have postconditions on the value of
+expressions that have UB if the iterator copied/moved from is not dereferenceable.</p></li>
 </ul>
 
 
@@ -20399,14 +20474,16 @@ recursive_directory_iterator(const path&amp; p, error_code&amp; ec) noexcept;
 </pre>
 <blockquote>
 <p>
-<ins>-?- For the signatures with no parameter <tt>options</tt>, let <tt>options</tt> be <tt>directory_options::none</tt>.</ins>
+<ins>-?- For the signatures with no parameter <tt>options</tt>, let <tt>options</tt> be
+<tt>directory_options::none</tt>.</ins>
 </p><p>
 -2- <i>Effects</i>: [&hellip;]
 </p><p>
--3- <i>Postconditions</i>: <del><tt>options() == options</tt> for the signatures with a <tt>directory_options</tt> argument, otherwise <tt>options() == directory_options::none</tt>.</del>
+-3- <i>Postconditions</i>: <del><tt>options() == options</tt> for the signatures with a
+<tt>directory_options</tt> argument, otherwise <tt>options() == directory_options::none</tt>.</del>
 </p>
 <ul>
-<li><p><ins><tt>options() == options</tt></ins></p></li>
+<li><p><ins><tt>this->options() == options</tt></ins></p></li>
 <li><p><ins><tt>recursion_pending() == true</tt></ins></p></li>
 </ul>
 <p>
@@ -20418,7 +20495,8 @@ recursive_directory_iterator(const recursive_directory_iterator&amp; rhs);
 </pre>
 <blockquote>
 <p>
--7- <i>Effects</i>: Constructs an <del>object of class <tt>recursive_directory_iterator</tt></del> <ins>iterator that denotes the same directory entry as <tt>rhs</tt>, if any.</ins>.
+-7- <i>Effects</i>: Constructs an <del>object of class <tt>recursive_directory_iterator</tt></del>
+<ins>iterator that denotes the same directory entry as <tt>rhs</tt>, if any.</ins>.
 </p><p>
 -8- <i>Postconditions</i>: <ins>If <tt>rhs</tt> is dereferenceable,</ins>
 </p><p>
@@ -20430,7 +20508,9 @@ recursive_directory_iterator(recursive_directory_iterator&amp;&amp; rhs) noexcep
 </pre>
 <blockquote>
 <p>
--9- <i>Effects</i>: Constructs an <del>object of class <tt>recursive_directory_iterator</tt></del> <ins>iterator that denotes the directory entry denoted by <tt>rhs</tt> before the function call, if any.</ins>.
+-9- <i>Effects</i>: Constructs an <del>object of class <tt>recursive_directory_iterator</tt></del>
+<ins>iterator that denotes the directory entry denoted by <tt>rhs</tt> before the function call, if
+any.</ins>.
 </p><p>
 -10- <i>Postconditions</i>: <ins>If <tt>rhs</tt> is dereferenceable,</ins>  [&hellip;]
 </p>
@@ -20440,7 +20520,9 @@ recursive_directory_iterator&amp; operator=(const recursive_directory_iterator&a
 </pre>
 <blockquote>
 <p>
--11- <i>Effects</i>: <del>If <tt>*this</tt> and <tt>rhs</tt> are the same object, the member has no effect.</del> <ins>Causes <tt>*this</tt> to denote the same directory entry denoted by <tt>rhs</tt>, if any.</ins>
+-11- <i>Effects</i>: <del>If <tt>*this</tt> and <tt>rhs</tt> are the same object, the member has no
+effect.</del> <ins>Causes <tt>*this</tt> to denote the same directory entry denoted by <tt>rhs</tt>,
+if any.</ins>
 </p><p>
 -12- <i>Postconditions</i>: <ins>If <tt>rhs</tt> is dereferenceable,</ins>
 </p><p>
@@ -20452,13 +20534,17 @@ recursive_directory_iterator&amp; operator=(recursive_directory_iterator&amp;&am
 </pre>
 <blockquote>
 <p>
--14- <i>Effects</i>: <del>If <tt>*this</tt> and <tt>rhs</tt> are the same object, the member has no effect.</del> <ins>Causes <tt>*this</tt> to denote the directory entry denoted by <tt>rhs</tt> before the function call, if any.</ins>
+-14- <i>Effects</i>: <del>If <tt>*this</tt> and <tt>rhs</tt> are the same object, the member has no
+effect.</del> <ins>Causes <tt>*this</tt> to denote the directory entry denoted by <tt>rhs</tt>
+before the function call, if any.</ins>
 </p><p>
--15- <i>Postconditions</i>: <ins>If <tt>rhs</tt> was dereferenceable before the function call,</ins> [&hellip;]
+-15- <i>Postconditions</i>: <ins>If <tt>rhs</tt> was dereferenceable before the function call,</ins>
+[&hellip;]
 </p><p>
 -16- <i>Returns</i>: <tt>*this</tt>.
 </p><p>
-<ins>-x- <i>Remarks</i>: If <tt>*this</tt> and <tt>rhs</tt> do not refer to the same object, the resulting state of <tt>rhs</tt> is unspecified (20.5.5.15 <a href="https://wg21.link/lib.types.movedfrom">[lib.types.movedfrom]</a>).</ins>
+<ins>-x- <i>Remarks</i>: If <tt>*this</tt> and <tt>rhs</tt> do not refer to the same object, the
+resulting state of <tt>rhs</tt> is unspecified (20.5.5.15 <a href="https://wg21.link/lib.types.movedfrom">[lib.types.movedfrom]</a>).</ins>
 </p>
 </blockquote>
 <pre>
@@ -20466,8 +20552,9 @@ directory_options options() const;
 </pre>
 <blockquote>
 <p>
--17- <i>Returns</i>: The value <del>of the argument passed to the constructor for the <tt>options</tt> parameter, if present,
-otherwise <tt>directory_options::none</tt></del> <ins>established by the most recently called member that has a postcondition for <tt>options()</tt></ins>.
+-17- <i>Returns</i>: The value <del>of the argument passed to the constructor for the <tt>options</tt>
+parameter, if present, otherwise <tt>directory_options::none</tt></del> <ins>established by the most
+recently called member that has a postcondition for <tt>options()</tt></ins>.
 </p><p>
 [&hellip;]
 </p>
@@ -20477,7 +20564,11 @@ bool recursion_pending() const;
 </pre>
 <blockquote>
 <p>
--21- <i>Returns</i>: <del><tt>true</tt> if <tt>disable_recursion_pending()</tt> has not been called subsequent to the prior construction or increment operation, otherwise <tt>false</tt>.</del> <ins>If <tt>disable_recursion_pending()</tt> has been called on a copy of <tt>*this</tt>, an unspecified value. Otherwise, the value established for <tt>recursion_pending()</tt> by the postcondition of the most recent construction, assignment, increment, or <tt>disable_recursion_pending</tt> operation.</ins>
+-21- <i>Returns</i>: <del><tt>true</tt> if <tt>disable_recursion_pending()</tt> has not been called
+subsequent to the prior construction or increment operation, otherwise <tt>false</tt>.</del> <ins>If
+<tt>disable_recursion_pending()</tt> has been called on a copy of <tt>*this</tt>, an unspecified
+value. Otherwise, the value established for <tt>recursion_pending()</tt> by the postcondition of the
+most recent construction, assignment, increment, or <tt>disable_recursion_pending</tt> operation.</ins>
 </p><p>
 [&hellip;]
 </p>
@@ -20488,9 +20579,26 @@ recursive_directory_iterator&amp; increment(error_code&amp; ec);
 </pre>
 <blockquote>
 <p>
--23- <i>Effects</i>: As specified for the prefix increment operation of Input iterators (27.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>), except that: [&hellip;]
+-23- <i>Effects</i>: As specified for the prefix increment operation of Input iterators
+(27.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>), except that: [&hellip;]
 </p><p>
-<ins>-?- <i>Postconditions</i>: <tt>recursion_pending() == true</tt>.</ins>
+<ins>-?- <i>Postconditions</i>: If <tt>*this</tt> is dereferenceable,
+<tt>recursion_pending() == true</tt>.</ins>
+</p><p>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+void pop();
+void pop(error_code&amp; ec);
+</pre>
+<blockquote>
+<p>
+-26- <i>Effects</i>: If <tt>depth() == 0</tt>, set <tt>*this</tt> to
+<tt>recursive_directory_iterator()</tt>. [&hellip;]
+</p><p>
+<ins>-?- <i>Postconditions</i>: If <tt>*this</tt> is dereferenceable,
+<tt>recursion_pending() == true</tt>.</ins>
 </p><p>
 [&hellip;]
 </p>
@@ -36215,6 +36323,75 @@ template&lt;class AsyncReadStream, class DynamicBuffer, class CompletionToken&gt
 are</ins><del> is</del> valid until the completion handler for the
 asynchronous operation is invoked.
 </p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3115" href="#3115">3115</a><sup><a href="https://cplusplus.github.io/LWG/issue3115">(i)</a></sup>. Unclear description for algorithm <tt>includes</tt></h3>
+<p><b>Section:</b> 28.7.6.1 <a href="https://wg21.link/includes">[includes]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-05-24 <b>Last modified:</b> 2018-05-27</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#includes">issues</a> in [includes].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+28.7.6.1 <a href="https://wg21.link/includes">[includes]</a>/1 states:
+</p>
+<blockquote><p>
+<i>Returns:</i> <tt>true</tt> if <tt>[first2, last2)</tt> is empty or if every element in the range <tt>[first2, last2)</tt> 
+is contained in the range <tt>[first1, last1)</tt>. Returns <tt>false</tt> otherwise.
+</p></blockquote>
+<p>
+but this program:
+</p>
+<blockquote><pre>
+#include &lt;algorithm&gt;
+#include &lt;array&gt;
+
+int main() {
+  std::array&lt;int, 1&gt; a{1};
+  std::array&lt;int, 3&gt; b{1,1,1};
+  return std::includes(a.begin(), a.end(), b.begin(), b.end());
+}
+</pre></blockquote>
+<p>
+<a href="https://wandbox.org/permlink/tClRFr7VquXQNB4x">returns <tt>0</tt></a> on every implementation I can find, despite 
+that every element in the range <tt>b</tt> is contained in the range <tt>a</tt>. The design intent of the algorithm is 
+actually to determine if the sorted intersection of the elements from the two ranges &mdash; as would be computed by the 
+<tt>set_intersection</tt> algorithm &mdash; is the same sequence as the range <tt>[first2, last2)</tt>. 
+The specification should say so.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.</p>
+
+<ol>
+<li><p>Modify 28.7.6.1 <a href="https://wg21.link/includes">[includes]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class InputIterator1, class InputIterator2&gt;
+  constexpr bool includes(InputIterator1 first1, InputIterator1 last1,
+                          InputIterator2 first2, InputIterator2 last2);
+[&hellip;]
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns:</i> <tt>true</tt> if <ins>and only if</ins> <tt>[first2, last2)</tt> is <del>empty or if every element 
+in the range <tt>[first2, last2)</tt> is contained in the range <tt>[first1, last1)</tt>. Returns <tt>false</tt> 
+otherwise</del><ins>a subsequence of <tt>[first1, last1)</tt></ins>.
+<p/>
+-2- <i>Complexity:</i> At most <tt>2 * ((last1 - first1) + (last2 - first2)) - 1</tt> comparisons.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
