@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2018-05-27</td>
+  <td align="left">2018-05-28</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D111)</h1>
-<p><p>Revised 2018-05-27 at 13:53:50 UTC</p>
+<p><p>Revised 2018-05-28 at 20:00:15 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -36335,7 +36335,7 @@ asynchronous operation is invoked.
 <hr>
 <h3><a name="3115" href="#3115">3115</a><sup><a href="https://cplusplus.github.io/LWG/issue3115">(i)</a></sup>. Unclear description for algorithm <tt>includes</tt></h3>
 <p><b>Section:</b> 28.7.6.1 <a href="https://wg21.link/includes">[includes]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-05-24 <b>Last modified:</b> 2018-05-27</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-05-24 <b>Last modified:</b> 2018-05-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#includes">issues</a> in [includes].</p>
@@ -36345,7 +36345,7 @@ asynchronous operation is invoked.
 28.7.6.1 <a href="https://wg21.link/includes">[includes]</a>/1 states:
 </p>
 <blockquote><p>
-<i>Returns:</i> <tt>true</tt> if <tt>[first2, last2)</tt> is empty or if every element in the range <tt>[first2, last2)</tt> 
+<i>Returns:</i> <tt>true</tt> if <tt>[first2, last2)</tt> is empty or if every element in the range <tt>[first2, last2)</tt>
 is contained in the range <tt>[first1, last1)</tt>. Returns <tt>false</tt> otherwise.
 </p></blockquote>
 <p>
@@ -36362,11 +36362,14 @@ int main() {
 }
 </pre></blockquote>
 <p>
-<a href="https://wandbox.org/permlink/tClRFr7VquXQNB4x">returns <tt>0</tt></a> on every implementation I can find, despite 
-that every element in the range <tt>b</tt> is contained in the range <tt>a</tt>. The design intent of the algorithm is 
-actually to determine if the sorted intersection of the elements from the two ranges &mdash; as would be computed by the 
-<tt>set_intersection</tt> algorithm &mdash; is the same sequence as the range <tt>[first2, last2)</tt>. 
+<a href="https://wandbox.org/permlink/tClRFr7VquXQNB4x">returns <tt>0</tt></a> on every implementation I can find, despite
+that every element in the range <tt>b</tt> is contained in the range <tt>a</tt>. The design intent of the algorithm is
+actually to determine if the sorted intersection of the elements from the two ranges &mdash; as would be computed by the
+<tt>set_intersection</tt> algorithm &mdash; is the same sequence as the range <tt>[first2, last2)</tt>.
 The specification should say so.
+</p><p>
+The complexity bound in 28.7.6.1 <a href="https://wg21.link/includes">[includes]</a>/2 is also unnecessarily high: straightforward implementations perform
+at most <tt>2 * (last1 - first1)</tt> comparisons.
 </p>
 
 
@@ -36385,11 +36388,11 @@ template&lt;class InputIterator1, class InputIterator2&gt;
 </pre>
 <blockquote>
 <p>
--1- <i>Returns:</i> <tt>true</tt> if <ins>and only if</ins> <tt>[first2, last2)</tt> is <del>empty or if every element 
-in the range <tt>[first2, last2)</tt> is contained in the range <tt>[first1, last1)</tt>. Returns <tt>false</tt> 
+-1- <i>Returns:</i> <tt>true</tt> if <ins>and only if</ins> <tt>[first2, last2)</tt> is <del>empty or if every element
+in the range <tt>[first2, last2)</tt> is contained in the range <tt>[first1, last1)</tt>. Returns <tt>false</tt>
 otherwise</del><ins>a subsequence of <tt>[first1, last1)</tt></ins>.
 <p/>
--2- <i>Complexity:</i> At most <tt>2 * ((last1 - first1) + (last2 - first2)) - 1</tt> comparisons.
+-2- <i>Complexity:</i> At most <tt>2 * <del>(</del>(last1 - first1)<del> + (last2 - first2)) - 1</del></tt> comparisons.
 </p>
 </blockquote>
 </blockquote>
