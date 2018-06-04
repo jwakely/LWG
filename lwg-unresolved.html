@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-06-04 at 17:53:40 UTC</p>
+<p><p>Revised 2018-06-04 at 19:30:26 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -9063,7 +9063,7 @@ performed by the constructor or member functions during the lifetime of the obje
 <hr>
 <h3><a name="2184" href="#2184">2184</a><sup><a href="https://cplusplus.github.io/LWG/issue2184">(i)</a></sup>. Muddled allocator requirements for <tt>match_results</tt> assignments</h3>
 <p><b>Section:</b> 31.10.1 <a href="https://wg21.link/re.results.const">[re.results.const]</a>, 31.10.6 <a href="https://wg21.link/re.results.all">[re.results.all]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Pete Becker <b>Opened:</b> 2012-08-29 <b>Last modified:</b> 2018-06-03</p>
+ <b>Submitter:</b> Pete Becker <b>Opened:</b> 2012-08-29 <b>Last modified:</b> 2018-06-04</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#re.results.const">active issues</a> in [re.results.const].</p>
@@ -9079,65 +9079,9 @@ object's constructor or, if that allocator has been replaced, a copy of the most
 doesn't replace the allocator, how can the allocator be replaced?
 </p>
 
-<p><i>[2018-06-03, Daniel comments and provides wording]</i></p>
-
-<p>
-Similar to the 2018-06-02 comment of LWG <a href="lwg-active.html#2183">2183</a> we can refer to 31.10 <a href="https://wg21.link/re.results">[re.results]</a> p2:
-</p>
-<blockquote><p>
-The class template <tt>match_results</tt> satisfies the requirements of an allocator-aware container and of a sequence
-container (26.2.1, 26.2.3) except that only operations defined for const-qualified sequence containers are
-supported and that the semantics of comparison functions are different from those required for a container.
-</p></blockquote>
-<p>
-As explained in said comment, 26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> p8 specifies the allocator semantics
-also for <tt>match_results</tt>, in this case the wording that species it is given by this part:
-</p>
-<blockquote><p>
-[&hellip;] The allocator may be replaced only via assignment or <tt>swap()</tt>. Allocator replacement is 
-performed by copy assignment, move assignment, or swapping of the allocator only if 
-<tt>allocator_traits&lt;allocator_type&gt;::propagate_on_container_copy_assignment::value</tt>,
-<tt>allocator_traits&lt;allocator_type&gt;::propagate_on_container_move_assignment::value</tt>, or 
-<tt>allocator_traits&lt;allocator_type&gt;::propagate_on_container_swap::value</tt> is <tt>true</tt> within 
-the implementation of the corresponding container operation. [&hellip;]
-</p></blockquote>
-<p>
-There is only one problem here that prevents the current wording state to answer the questions raised by 
-this issue here: 31.10 <a href="https://wg21.link/re.results">[re.results]</a> p2 specifically constraints the specification in terms of 
-allocator-aware container and of a sequence container requirements as follows: "except that only operations 
-defined for const-qualified sequence containers are supported", but the discussed copy-assignment and 
-move-assignment operators are clearly not operations allowed for a const-qualified container. Before providing
-concrete wording the committee should answer the question whether the intention of <tt>match_results</tt>'s
-specification was to support copy/move-assignment allocator-related semantics still to be defined by
-26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> and 26.2.3 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>. If so, the wording of
-31.10 <a href="https://wg21.link/re.results">[re.results]</a> p2 could be updated to ensure that these assignments are specified as well, e.g. 
-as follows:
-</p>
-<blockquote><p>
-The class template <tt>match_results</tt> satisfies the requirements of an allocator-aware container and 
-of a sequence container (26.2.1, 26.2.3) except that <ins>besides copy and move assignment</ins> only 
-operations defined for const-qualified sequence containers are supported and that the semantics 
-of comparison functions are different from those required for a container.
-</p></blockquote>
-
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.</p>
-
-<ol>
-<li><p>Edit 31.10 <a href="https://wg21.link/re.results">[re.results]</a> as indicated:</p>
-<blockquote>
-<p>
--2- The class template <tt>match_results</tt> satisfies the requirements of an allocator-aware container 
-and of a sequence container (26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>, 26.2.3 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>) 
-except that <ins>besides copy and move assignment</ins> only operations defined for const-qualified 
-sequence containers are supported and that the semantics of comparison functions are different from 
-those required for a container.
-</p>
-</blockquote>
-</li>
-</ol>
 
 
 
@@ -26896,219 +26840,6 @@ explicit basic_stringbuf(
 
 
 <hr>
-<h3><a name="2996" href="#2996">2996</a><sup><a href="https://cplusplus.github.io/LWG/issue2996">(i)</a></sup>. Missing rvalue overloads for <tt>shared_ptr</tt> operations</h3>
-<p><b>Section:</b> 23.11.3 <a href="https://wg21.link/util.smartptr.shared">[util.smartptr.shared]</a>, 23.11.3.9 <a href="https://wg21.link/util.smartptr.shared.cast">[util.smartptr.shared.cast]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
- <b>Submitter:</b> Geoffrey Romer <b>Opened:</b> 2017-07-07 <b>Last modified:</b> 2018-06-04</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#util.smartptr.shared">active issues</a> in [util.smartptr.shared].</p>
-<p><b>View all other</b> <a href="lwg-index.html#util.smartptr.shared">issues</a> in [util.smartptr.shared].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The <tt>shared_ptr</tt> aliasing constructor and the <tt>shared_ptr</tt> casts are specified to take a <tt>shared_ptr</tt> 
-by <tt>const</tt> reference and construct a new <tt>shared_ptr</tt> that shares ownership with it, and yet they have no 
-corresponding rvalue reference overloads. That results in an unnecessary refcount increment/decrement when those operations 
-are given an rvalue. Rvalue overloads can't be added as a conforming extension because they observably change semantics 
-(but mostly only for code that does unreasonable things like pass an argument by move and then rely on the fact that it's 
-unchanged), and [res.on.arguments]/p1.3 doesn't help because it only applies to rvalue reference parameters.
-<p/>
-This issue is related to <a href="https://wg21.link/p0390r0">P0390R0</a>.
-</p>
-
-<p><i>[2017-07 Toronto Tuesday PM issue prioritization]</i></p>
-
-<p>Status LEWG</p>
-
-<p><i>[2018-06 Rapperswil, Daniel rebases wording to most recent working draft]</i></p>
-
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/n4750">N4750</a>.
-</p>
-
-<ol>
-<li><p>Edit 23.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
-<blockquote>
-<pre>
-[&hellip;]
-<i>// 23.11.3.9 <a href="https://wg21.link/util.smartptr.shared.cast">[util.smartptr.shared.cast]</a>,</i> shared_ptr <i>casts</i>
-template&lt;class T, class U&gt;
-shared_ptr&lt;T&gt; static_pointer_cast(const shared_ptr&lt;U&gt;&amp; r) noexcept;
-<ins>template&lt;class T, class U&gt;
-shared_ptr&lt;T&gt; static_pointer_cast(shared_ptr&lt;U&gt;&amp;&amp; r) noexcept;</ins>
-template&lt;class T, class U&gt;
-shared_ptr&lt;T&gt; dynamic_pointer_cast(const shared_ptr&lt;U&gt;&amp; r) noexcept;
-<ins>template&lt;class T, class U&gt;
-shared_ptr&lt;T&gt; dynamic_pointer_cast(shared_ptr&lt;U&gt;&amp;&amp; r) noexcept;</ins>
-template&lt;class T, class U&gt;
-shared_ptr&lt;T&gt; const_pointer_cast(const shared_ptr&lt;U&gt;&amp; r) noexcept;
-<ins>template&lt;class T, class U&gt;
-shared_ptr&lt;T&gt; const_pointer_cast(shared_ptr&lt;U&gt;&amp;&amp; r) noexcept;</ins>
-template&lt;class T, class U&gt;
-shared_ptr&lt;T&gt; reinterpret_pointer_cast(const shared_ptr&lt;U&gt;&amp; r) noexcept;
-<ins>template&lt;class T, class U&gt;
-shared_ptr&lt;T&gt; reinterpret_pointer_cast(shared_ptr&lt;U&gt;&amp;&amp; r) noexcept;</ins>
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-
-<li><p>Edit 23.11.3 <a href="https://wg21.link/util.smartptr.shared">[util.smartptr.shared]</a>, class template <tt>shared_ptr</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class T&gt; class shared_ptr {
-public:
-  [&hellip;]
-  <i>// 23.11.3.1 <a href="https://wg21.link/util.smartptr.shared.const">[util.smartptr.shared.const]</a>, constructors</i>
-  [&hellip;]
-  template &lt;class D, class A&gt; shared_ptr(nullptr_t p, D d, A a);
-  template&lt;class Y&gt; shared_ptr(const shared_ptr&lt;Y&gt;&amp; r, element_type* p) noexcept;
-  <ins>template&lt;class Y&gt; shared_ptr(shared_ptr&lt;Y&gt;&amp;&amp; r, element_type* p) noexcept;</ins>
-  shared_ptr(const shared_ptr&amp; r) noexcept;
-  [&hellip;]
-};
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-
-<li><p>Edit 23.11.3.1 <a href="https://wg21.link/util.smartptr.shared.const">[util.smartptr.shared.const]</a> as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note:</i> the <tt>use_count()</tt> postcondition can safely be deleted because it is redundant with 
-the "shares ownership" wording in the <i>Effects</i>. &mdash; <i>end drafting note</i>]
-</p>
-</blockquote>
-
-<blockquote>
-<pre>
-template&lt;class Y&gt; shared_ptr(const shared_ptr&lt;Y&gt;&amp; r, element_type* p) noexcept;
-<ins>template&lt;class Y&gt; shared_ptr(shared_ptr&lt;Y&gt;&amp;&amp; r, element_type* p) noexcept;</ins>
-</pre>
-<blockquote>
-<p>
--14- <i>Effects:</i> Constructs a <tt>shared_ptr</tt> instance that stores <tt>p</tt> and shares ownership with 
-<ins>the initial value of</ins> <tt>r</tt>.
-<p/>
--15- <i>Postconditions:</i> <tt>get() == p <del>&amp;&amp; use_count() == r.use_count()</del></tt>. <ins>For the 
-second overload, <tt>r</tt> is empty and <tt>r.get() == nullptr</tt>.</ins>
-<p/>
--16- [<i>Note:</i> To avoid the possibility of a dangling pointer, the user of this constructor must ensure that <tt>p</tt>
-remains valid at least until the ownership group of <tt>r</tt> is destroyed. &mdash; <i>end note</i>]
-<p/>
--17- [<i>Note:</i> This constructor allows creation of an empty <tt>shared_ptr</tt> instance with a non-null stored pointer.
-&mdash; <i>end note</i>]
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Edit 23.11.3.9 <a href="https://wg21.link/util.smartptr.shared.cast">[util.smartptr.shared.cast]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class T, class U&gt;
-  shared_ptr&lt;T&gt; static_pointer_cast(const shared_ptr&lt;U&gt;&amp; r) noexcept;
-<ins>template&lt;class T, class U&gt;
-  shared_ptr&lt;T&gt; static_pointer_cast(shared_ptr&lt;U&gt;&amp;&amp; r) noexcept;</ins>
-</pre>
-<blockquote>
-<p>
--1- <i>Requires:</i> The expression <tt>static_cast&lt;T*&gt;((U*)nullptr)</tt> shall be well-formed.
-<p/>
--2- <i>Returns:</i> 
-<blockquote>
-<tt>shared_ptr&lt;T&gt;(<del>r</del><ins><i>R</i></ins>, static_cast&lt;typename 
-  shared_ptr&lt;T&gt;::element_type*&gt;(r.get()))</tt>
-</blockquote>
-<ins>, where <tt><i>R</i></tt> 
-is <tt>r</tt> for the first overload, and <tt>std::move(r)</tt> for the second.</ins>
-<p/>
--3- [<i>Note:</i> The seemingly equivalent expression <tt>shared_ptr&lt;T&gt;(static_cast&lt;T*&gt;(r.get()))</tt> 
-will eventually result in undefined behavior, attempting to delete the same object twice. &mdash; <i>end note</i>]
-</p>
-</blockquote>
-<pre>
-template&lt;class T, class U&gt;
-  shared_ptr&lt;T&gt; dynamic_pointer_cast(const shared_ptr&lt;U&gt;&amp; r) noexcept;
-<ins>template&lt;class T, class U&gt;
-  shared_ptr&lt;T&gt; dynamic_pointer_cast(shared_ptr&lt;U&gt;&amp;&amp; r) noexcept;</ins>
-</pre>
-<blockquote>
-<p>
--4- <i>Requires:</i> The expression <tt>dynamic_cast&lt;T*&gt;((U*)nullptr)</tt> shall be well-formed. The 
-expression <tt>dynamic_cast&lt;typename shared_ptr&lt;T&gt;::element_type*&gt;(r.get())</tt> shall be well formed 
-and shall have well-defined behavior.
-<p/>
--5- <i>Returns:</i>
-</p>
-<ol style="list-style-type: none">
-<li><p>(5.1) &mdash; When <tt>dynamic_cast&lt;typename shared_ptr&lt;T&gt;::element_type*&gt;(r.get())</tt> returns 
-a non-null value <tt>p</tt>, <tt>shared_ptr&lt;T&gt;(<del>r</del><ins><i>R</i></ins>, p)</tt><ins>, where 
-<tt><i>R</i></tt> is <tt>r</tt> for the first overload, and <tt>std::move(r)</tt> for the second</ins>.</p></li>
-<li><p>(5.2) &mdash; Otherwise, <tt>shared_ptr&lt;T&gt;()</tt>.</p></li>
-</ol>
-<p>
--6- [<i>Note:</i> The seemingly equivalent expression <tt>shared_ptr&lt;T&gt;(dynamic_cast&lt;T*&gt;(r.get()))</tt> 
-will eventually result in undefined behavior, attempting to delete the same object twice. &mdash; <i>end note</i>]
-</p>
-</blockquote>
-<pre>
-template&lt;class T, class U&gt;
-  shared_ptr&lt;T&gt; const_pointer_cast(const shared_ptr&lt;U&gt;&amp; r) noexcept;
-<ins>template&lt;class T, class U&gt;
-  shared_ptr&lt;T&gt; const_pointer_cast(shared_ptr&lt;U&gt;&amp;&amp; r) noexcept;</ins>
-</pre>
-<blockquote>
-<p>
--7- <i>Requires:</i> The expression <tt>const_cast&lt;T*&gt;((U*)nullptr)</tt> shall be well-formed.
-<p/>
--8- <i>Returns:</i> 
-<blockquote>
-<tt>shared_ptr&lt;T&gt;(<del>r</del><ins><i>R</i></ins>, const_cast&lt;typename shared_ptr&lt;T&gt;::element_type*&gt;(r.get()))</tt>
-</blockquote>
-<ins>, where <tt><i>R</i></tt> is <tt>r</tt> for the first overload, and <tt>std::move(r)</tt> 
-for the second.</ins>
-<p/>
--9- [<i>Note:</i> The seemingly equivalent expression <tt>shared_ptr&lt;T&gt;(const_cast&lt;T*&gt;(r.get()))</tt> 
-will eventually result in undefined behavior, attempting to delete the same object twice. &mdash; <i>end note</i>]
-</p>
-</blockquote>
-<pre>
-template&lt;class T, class U&gt;
-  shared_ptr&lt;T&gt; reinterpret_pointer_cast(const shared_ptr&lt;U&gt;&amp; r) noexcept;
-<ins>template&lt;class T, class U&gt;
-  shared_ptr&lt;T&gt; reinterpret_pointer_cast(shared_ptr&lt;U&gt;&amp;&amp; r) noexcept;</ins>
-</pre>
-<blockquote>
-<p>
--10- <i>Requires:</i> The expression <tt>reinterpret_cast&lt;T*&gt;((U*)nullptr)</tt> shall be well-formed.
-<p/>
--11- <i>Returns:</i> 
-<blockquote>
-<tt>shared_ptr&lt;T&gt;(<del>r</del><ins><i>R</i></ins>, reinterpret_cast&lt;typename shared_ptr&lt;T&gt;::element_type*&gt;(r.get()))</tt>
-</blockquote>
-<ins>, where <tt><i>R</i></tt> is <tt>r</tt> for the first overload, and <tt>std::move(r)</tt> 
-for the second.</ins>
-<p/>
--12- [<i>Note:</i> The seemingly equivalent expression <tt>shared_ptr&lt;T&gt;(reinterpret_cast&lt;T*&gt;(r.get()))</tt> 
-will eventually result in undefined behavior, attempting to delete the same object twice. &mdash; <i>end note</i>]
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-<hr>
 <h3><a name="2997" href="#2997">2997</a><sup><a href="https://cplusplus.github.io/LWG/issue2997">(i)</a></sup>. LWG 491 and the specification of <tt>{forward_,}list::unique</tt></h3>
 <p><b>Section:</b> 26.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, 26.3.9.6 <a href="https://wg21.link/forwardlist.ops">[forwardlist.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-07-07 <b>Last modified:</b> 2018-05-20</p>
@@ -32747,13 +32478,13 @@ addressof(*a) + (b - a))</tt>; <tt>b</tt> might not be dereferenceable. &mdash; 
 
 <hr>
 <h3><a name="3111" href="#3111">3111</a><sup><a href="https://cplusplus.github.io/LWG/issue3111">(i)</a></sup>. Too strong precondition on <code>basic_string</code> constructor</h3>
-<p><b>Section:</b> 24.3.2.2 <a href="https://wg21.link/string.cons">[string.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Andrzej Krzemienski <b>Opened:</b> 2018-05-09 <b>Last modified:</b> 2018-05-20</p>
+<p><b>Section:</b> 24.3.2.2 <a href="https://wg21.link/string.cons">[string.cons]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Andrzej Krzemienski <b>Opened:</b> 2018-05-09 <b>Last modified:</b> 2018-06-04</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#string.cons">active issues</a> in [string.cons].</p>
 <p><b>View all other</b> <a href="lwg-index.html#string.cons">issues</a> in [string.cons].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The following is the spec for <code>basic_string</code> constructor taking a pointer and a size in 
@@ -32796,8 +32527,8 @@ This has been already acknowledged as a defect in issue <a href="lwg-defects.htm
 a too strong precondition.
 </p>
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.
 </p>
@@ -32826,6 +32557,44 @@ copy of the array whose first element is pointed at by <tt>s</tt><del>,</del><in
 </blockquote>
 </li>
 </ol>
+</blockquote>
+
+<p><i>[
+2016-06-04 Marshall provides alternate resolution
+]</i></p>
+
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.</p>
+
+<ol>
+<li>
+<p>Edit 24.3.2.2 <a href="https://wg21.link/string.cons">[string.cons]</a> as indicated:</p>
+<blockquote>
+<pre>
+basic_string(const charT* s, size_type n, const Allocator&amp; a = Allocator());
+</pre>
+<blockquote>
+<p>
+-12- <i>Requires:</i> <ins><tt>[s, s + n)</tt> is a valid range</ins><del><tt>s</tt> points to an array of at least <tt>n</tt> elements of <tt>charT</tt></del>.
+</p>
+<p>
+-13- <i>Effects:</i> Constructs an object of class <tt>basic_string</tt> and determines 
+its initial string value from the <ins>range <tt>[s, s + n)</tt></ins><del>array of <tt>charT</tt> of length <tt>n</tt> whose first element is designated by <tt>s</tt></del>.
+</p>
+-14- <i>Postconditions:</i> <tt>data()</tt> points at the first element of an allocated 
+copy of the <ins>range <tt>[s, s + n)</tt></ins><del>array whose first element is pointed at by <tt>s</tt></del>, <tt>size()</tt> is equal to 
+<tt>n</tt>, and <tt>capacity()</tt> is a value at least as large as <tt>size()</tt>.
+<p>
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+</ol>
+
 
 
 
