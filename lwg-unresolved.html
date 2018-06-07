@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-06-07 at 21:22:40 UTC</p>
+<p><p>Revised 2018-06-07 at 21:30:00 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -7790,65 +7790,6 @@ generates a decimal-point character unconditionally in generated floatingpoint o
 </ol>
 
 </blockquote>
-
-
-<p><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
-<h3><a name="2121" href="#2121">2121</a><sup><a href="https://cplusplus.github.io/LWG/issue2121">(i)</a></sup>. <tt>app</tt> for string streams</h3>
-<p><b>Section:</b> 30.8.5.1 <a href="https://wg21.link/stringstream.cons">[stringstream.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Nicolai Josuttis <b>Opened:</b> 2012-01-15 <b>Last modified:</b> 2018-05-20</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-
-<p>
-This issue was raised while discussing issue <a href="lwg-defects.html#1448">1448</a>.
-<p/>
-Note the following program:
-</p>
-<blockquote><pre>
-string s("s1: 123456789");
-ostringstream s1(s, ios_base::out|ios_base::app);
-s1 &lt;&lt; "hello";
-cout &lt;&lt; s1.str() &lt;&lt; endl;
-</pre></blockquote>
-<p>
-With g++4.x it prints:
-</p>
-<blockquote><pre>
-s1: 123456789hello
-</pre></blockquote>
-<p>
-With VisualC++10 it prints:
-</p>
-<blockquote><pre>
-hello23456789
-</pre></blockquote>
-<p>
-From my intuitive understanding the flag "app" should result in the output of g++4.x.
-I also would read that from 30.5.3.1.4 <a href="https://wg21.link/ios::openmode">[ios::openmode]</a> claiming:
-</p>
-<blockquote><p>
-<tt>app</tt>&nbsp;&nbsp;&nbsp;seek to end before each write
-</p></blockquote>
-<p>
-However in issue <a href="lwg-defects.html#1448">1448</a> P.J.Plauger comments:
-</p>
-<blockquote><p>
-I think we should say nothing special about <tt>app</tt> at construction time (thus leaving the write pointer at the beginning of the buffer).
-Leave implementers wiggle room to ensure subsequent append writes as they see fit, but don't change existing rules for initial seek
-position.
-</p></blockquote>
-<p>
-Note that the flag <tt>ate</tt> on both platforms appends "hello" to <tt>s</tt>.
-</p>
-
 
 
 <p><b>Proposed resolution:</b></p>
