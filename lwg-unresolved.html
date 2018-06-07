@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-06-07 at 11:18:54 UTC</p>
+<p><p>Revised 2018-06-07 at 11:27:26 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -18729,13 +18729,13 @@ Replaces elements in <tt>a</tt> with <tt>n</tt> copies of <tt>t</tt>.
 
 <hr>
 <h3><a name="2708" href="#2708">2708</a><sup><a href="https://cplusplus.github.io/LWG/issue2708">(i)</a></sup>. <tt>recursive_directory_iterator::recursion_pending()</tt> is incorrectly specified</h3>
-<p><b>Section:</b> 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#Review">Review</a>
- <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-05-09 <b>Last modified:</b> 2018-06-02</p>
+<p><b>Section:</b> 30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-05-09 <b>Last modified:</b> 2018-06-07</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#fs.rec.dir.itr.members">active issues</a> in [fs.rec.dir.itr.members].</p>
 <p><b>View all other</b> <a href="lwg-index.html#fs.rec.dir.itr.members">issues</a> in [fs.rec.dir.itr.members].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Review">Review</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The current specification of <tt>recursion_pending()</tt> says (30.11.13.1 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a>/24):
@@ -19006,6 +19006,17 @@ exhausted, <tt>pop</tt> should affect the value of <tt>recursion_pending</tt> si
 <li><p>it's not quite kosher for the copies and moves to have postconditions on the value of
 expressions that have UB if the iterator copied/moved from is not dereferenceable.</p></li>
 </ul>
+
+<p><i>[2018-06, Rapperswil, Wednesday evening]</i></p>
+
+<p>
+JW: p21 currently can just say "unspecified"<br/>
+BO: if we are OK with only remote implementations we can remove the unspecifiedness<br/>
+BO: the problematic business is the "recursion pending" bit<br/>
+JW: I want time to work on this
+<p/>
+Move to open and note that Jonathan is reviewing and making recommendations.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
