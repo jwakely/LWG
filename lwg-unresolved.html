@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-06-07 at 20:44:05 UTC</p>
+<p><p>Revised 2018-06-07 at 21:22:40 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -17630,155 +17630,6 @@ This is really a request for an (feature) API. Passing to LEWG.
 
 
 <hr>
-<h3><a name="2682" href="#2682">2682</a><sup><a href="https://cplusplus.github.io/LWG/issue2682">(i)</a></sup>. <code>filesystem::copy()</code> won't create a symlink to a directory</h3>
-<p><b>Section:</b> 30.11.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> <b>Status:</b> <a href="lwg-active.html#Review">Review</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2016-04-19 <b>Last modified:</b> 2018-05-20</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#fs.op.copy">active issues</a> in [fs.op.copy].</p>
-<p><b>View all other</b> <a href="lwg-index.html#fs.op.copy">issues</a> in [fs.op.copy].</p>
-<p><b>Discussion:</b></p>
-<p>(First raised in c++std-lib-38544)</p>
-
-<p><code>filesystem::copy</code> doesn't create a symlink to a directory in this case:</p>
-
-<blockquote>
-<code>copy("/", "root", copy_options::create_symlinks);</code>
-</blockquote>
-
-<p>
-If the first path is a file then a symlink is created, but I think my
-implementation is correct to do nothing for a directory. We get to
-bullet 30.11.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> (3.6) where <code>is_directory(f)</code> is true, but <code>options
-== create_symlinks</code>, so we go to the next bullet (3.7) which says
-"Otherwise, no effects."
-<p/>
-I think the case above should either create a symlink, or should
-report an error. GNU cp -s gives an error in this case, printing
-"omitting directory '/'". An error seems reasonable, you can use
-<code>create_symlink</code> to create a symlink to a directory.
-</p>
-
-<p><i>[2016-05 Issues Telecon]</i></p>
-
-<p>
-This is related to <a href="lwg-defects.html#2681">2681</a>; and should be considered together.
-</p>
-
-<p><i>[2016-08 Chicago]</i></p>
-
-<p>Wed AM: Move to Tentatively Ready</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>Add a new bullet following (3.6) in 30.11.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> as shown:</p>
-
-<blockquote>
-<ul>
-<li><p>If <code>!exists(t)</code>, then <code>create_directory(to, from)</code>.</p></li>
-<li><p>Then, iterate over the files in <code>from</code>, as if by <code>for (directory_entry&amp; x :
- directory_iterator(from))</code>, and for each iteration
-  <code>copy(x.path(), to/x.path().filename(), options | copy_options::unspecified )</code></p></li>
-<li><p><ins>Otherwise, if <code>is_directory(f) &amp;&amp; (options &amp;
-copy_options::create_symlinks) != copy_options::none</code>, then report an
-error with an <code>error_code</code> argument equal to
-<code>make_error_code(errc::is_a_directory)</code>.</ins></p></li>
-<li><p>Otherwise, no effects.</p></li>
-</ul>
-</blockquote>
-</blockquote>
-
-<p><i>[2016-10-16, Eric reopens and provides improved wording]</i></p>
-
-<p>
-The current PR makes using <tt>copy(...)</tt> to copy/create a directory symlink an error. For example, the following 
-is now an error:
-</p>
-<blockquote><pre>
-copy("/", "root", copy_options::create_symlinks);
-</pre></blockquote>
-<p>
-However the current PR doesn't handle the case where both <tt>copy_options::create_symlinks</tt> and 
-<tt>copy_options::recursive</tt> are specified. This case is still incorrectly handled by bullet (3.6) [fs.op.copy].
-<p/>
-I suggest we move the PR before this bullet so that it catches the recursive copy case, since currently the conditions 
-are ordered:
-</p>
-<blockquote>
-<p>
-3.6 Otherwise if <tt>is_directory(f) &amp;&amp; (bool(options &amp; copy_options::recursive) || ...)</tt><br/>
-3.X Otherwise if <tt>is_directory(f) &amp;&amp; bool(options &amp; copy_options::create_symlinks)</tt>
-</p>
-</blockquote>
-<p>
-So 3.6 catches <tt>create_symlinks | recursive</tt> but I believe we want 3.X to handle it instead.
-</p>
-
-<p><i>[2018-1-26 issues processing telecon]</i></p>
-
-<p>Status to 'Review'; we think this is OK but want some implementation experience before adopting it.</p>
-
-<p><i>[2018-1-29 Jonathan says]</i></p>
-
-<p>The proposed resolution for LWG 2682 has been in GCC's Filesystem TS implementation for more than a year. It's also in our std::filesystem implementation on the subversion trunk.</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to N4606.</p>
-
-<ol>
-<li><p>Add a new bullet before (3.6) in 30.11.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> as shown:</p>
-
-<blockquote>
-<ol style="list-style-type: none">
-<li><p>(3.5) &mdash; Otherwise, if <tt>is_regular_file(f)</tt>, then:</p>
-<blockquote>
-[&hellip;]
-</blockquote>
-</li>
-<li><p><ins>(3.?) &mdash; Otherwise, if</ins></p>
-<blockquote>
-<blockquote><pre>
-<ins>is_directory(f) &amp;&amp; 
-(options &amp; copy_options::create_symlinks) != copy_options::none</ins>
-</pre></blockquote>
-<p> 
-<ins>then report an error with an <code>error_code</code> argument equal to
-<code>make_error_code(errc::is_a_directory)</code>.</ins></p></blockquote></li>
-<li><p>(3.6) &mdash; Otherwise, if</p>
-<blockquote>
-<blockquote><pre>
-is_directory(f) &amp;&amp;
-((options &amp; copy_options::recursive) != copy_options::none ||
-options == copy_options::none)
-</pre></blockquote>
-<p>
-then:
-</p>
-</blockquote>
-<ol style="list-style-type: none">
-<li><p>(3.6.1) &mdash; If <code>!exists(t)</code>, then <code>create_directory(to, from)</code>.</p></li>
-<li><p>(3.6.2) &mdash; Then, iterate over the files in <code>from</code>, as if by <code>for (directory_entry&amp; x :
- directory_iterator(from))</code>, and for each iteration</p>
-<blockquote><pre>
-copy(x.path(), to/x.path().filename(), options | copy_options::<i>unspecified</i>)
-</pre></blockquote>
-</li>
-</ol>
-</li>
-<li><p>(3.7) &mdash; Otherwise, for the signature with argument <tt>ec</tt>, <tt>ec.clear()</tt>.</p></li>
-<li><p>(3.8) &mdash; Otherwise, no effects.</p></li>
-</ol>
-</blockquote>
-
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="2690" href="#2690">2690</a><sup><a href="https://cplusplus.github.io/LWG/issue2690">(i)</a></sup>. <tt>invoke&lt;R&gt;</tt></h3>
 <p><b>Section:</b> 23.14.4 <a href="https://wg21.link/func.invoke">[func.invoke]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
  <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2016-03-25 <b>Last modified:</b> 2018-05-20</p>
@@ -28755,8 +28606,8 @@ is not an error.</ins>
 <hr>
 <h3><a name="3057" href="#3057">3057</a><sup><a href="https://cplusplus.github.io/LWG/issue3057">(i)</a></sup>. Correct <tt>copy_options</tt> handling</h3>
 <p><b>Section:</b> 30.11.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Davis Herring <b>Opened:</b> 2018-01-29 <b>Last modified:</b> 2018-05-20</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Davis Herring <b>Opened:</b> 2018-01-29 <b>Last modified:</b> 2018-06-07</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#fs.op.copy">active issues</a> in [fs.op.copy].</p>
 <p><b>View all other</b> <a href="lwg-index.html#fs.op.copy">issues</a> in [fs.op.copy].</p>
@@ -28801,12 +28652,22 @@ This also addresses the same issue as LWG <a href="lwg-active.html#2682">2682</a
 (based on the fact that the Example successfully copies directories to new, non-existent names).
 </p>
 
+<p><i>[2018-06; Rapperswil Wednesday evening, discussing LWG <a href="lwg-active.html#2682">2682</a>]</i></p>
+
+<p>
+JW: can we use the words we are shipping already since two years?<br/>
+BO: what we got is better than what we had before<br/>
+no objection to moving to Ready<br/>
+ACTION move to Ready<br/>
+ACTION link LWG <a href="lwg-active.html#2682">2682</a> and LWG 3057 and set a priority 2 and look at 3057 in San Diego 
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.</p>
 
 <ol>
-<li><p>Modify Table 124 &mdash; "Enum class <tt>copy_options</tt>" as indicated:</p>
+<li><p>Modify Table 115 &mdash; "Enum class <tt>copy_options</tt>" as indicated:</p>
 
 <blockquote>
  <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse">
