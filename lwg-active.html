@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2018-06-07</td>
+  <td align="left">2018-06-08</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D111)</h1>
-<p><p>Revised 2018-06-07 at 23:02:34 UTC</p>
+<p><p>Revised 2018-06-08 at 06:25:04 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -19934,7 +19934,7 @@ This is related to issue <a href="lwg-active.html#2563">2563</a>.
 <hr>
 <h3><a name="2697" href="#2697">2697</a><sup><a href="https://cplusplus.github.io/LWG/issue2697">(i)</a></sup>. [concurr.ts] Behavior of <tt>future/shared_future</tt> unwrapping constructor when given an invalid <tt>future</tt></h3>
 <p><b>Section:</b> 99 [concurr.ts::futures.unique_future], 99 [concurr.ts::futures.shared_future] <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2016-04-22 <b>Last modified:</b> 2018-06-07</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2016-04-22 <b>Last modified:</b> 2018-06-08</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#concurr.ts::futures.unique_future">active issues</a> in [concurr.ts::futures.unique_future].</p>
@@ -20007,7 +20007,7 @@ future(future&lt;future&lt;R&gt;&gt;&amp;&amp; rhs) noexcept;
 <p>
 -3- <i>Effects</i>: <ins>If <tt>rhs.valid() == false</tt>, constructs an empty <tt>future</tt> object that does not 
 refer to a shared state. Otherwise, c</ins><del>C</del>onstructs a <tt>future</tt> object from the shared state 
-referred to by <tt>rhs</tt>. The <tt>future</tt> becomes ready when one of the following occurs:
+referred to by <tt>rhs</tt><del>. T</del><ins>; t</ins>he <tt>future</tt> becomes ready when one of the following occurs:
 </p>
 <ul>
 <li><p>Both the <tt>rhs</tt> and <tt>rhs.get()</tt> are ready. The value or the exception from
@@ -20037,7 +20037,7 @@ shared_future(future&lt;shared_future&lt;R&gt;&gt;&amp;&amp; rhs) noexcept;
 <p>
 -3- <i>Effects</i>: <ins>If <tt>rhs.valid() == false</tt>, constructs an empty <tt>shared_future</tt> object that does not 
 refer to a shared state. Otherwise, c</ins><del>C</del>onstructs a <tt>shared_future</tt> object from the shared state 
-referred to by <tt>rhs</tt>. The <tt>shared_future</tt> becomes ready when one of the following occurs:
+referred to by <tt>rhs</tt><del>. T</del><ins>; t</ins>he <tt>shared_future</tt> becomes ready when one of the following occurs:
 </p>
 <ul>
 <li><p>Both the <tt>rhs</tt> and <tt>rhs.get()</tt> are ready. The value or the exception from
