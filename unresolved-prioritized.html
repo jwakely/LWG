@@ -26,7 +26,7 @@
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>This document is the Table of Contents for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports List</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.</p>
-<p><p>Revised 2018-06-12 at 19:28:52 UTC</p>
+<p><p>Revised 2018-06-16 at 14:59:04 UTC</p>
 </p><h2><a name="Priority 0"</a>Priority 0 (1 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -2110,7 +2110,7 @@ regards to <tt>ClassAtomCollatingElement</tt></td>
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="Priority 99"</a>Not Prioritized (80 issues)</h2>
+<h2><a name="Priority 99"</a>Not Prioritized (81 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -2258,20 +2258,20 @@ to meet their postconditions</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1025">1025</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1025"></a></td>
+<td align="right"><a href="lwg-active.html#1317">1317</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1317"></a></td>
 <td align="left">23.14.15 [unord.hash]<a name="unord.hash"></a></td>
-<td align="left">The library should provide more specializations for <tt>std::hash</tt></td>
-<td align="center"><font color="red">No</font></td>
+<td align="left">make_hash</td>
+<td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1317">1317</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1317"></a></td>
+<td align="right"><a href="lwg-active.html#1025">1025</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1025"></a></td>
 <td align="left">23.14.15 [unord.hash]</td>
-<td align="left">make_hash</td>
-<td align="center">Yes</td>
+<td align="left">The library should provide more specializations for <tt>std::hash</tt></td>
+<td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
@@ -2285,20 +2285,20 @@ to meet their postconditions</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2922">2922</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2922"></a></td>
+<td align="right"><a href="lwg-active.html#3099">3099</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3099"></a></td>
 <td align="left">23.15.2 [meta.type.synop]<a name="meta.type.synop"></a></td>
-<td align="left">The <tt>*_constant&lt;&gt;</tt> templates do not make use of <tt>template&lt;auto&gt;</tt></td>
-<td align="center"><font color="red">No</font></td>
+<td align="left"><tt>is_assignable&lt;Incomplete&amp;, Incomplete&amp;&gt;</tt></td>
+<td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3099">3099</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3099"></a></td>
+<td align="right"><a href="lwg-active.html#2922">2922</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2922"></a></td>
 <td align="left">23.15.2 [meta.type.synop]</td>
-<td align="left"><tt>is_assignable&lt;Incomplete&amp;, Incomplete&amp;&gt;</tt></td>
-<td align="center">Yes</td>
+<td align="left">The <tt>*_constant&lt;&gt;</tt> templates do not make use of <tt>template&lt;auto&gt;</tt></td>
+<td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
@@ -2376,9 +2376,18 @@ to meet their postconditions</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#1242">1242</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1242"></a></td>
+<td align="left">26 [containers]<a name="containers"></a></td>
+<td align="left">Enable SCARY iterators</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#2885">2885</a></td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2885"></a></td>
-<td align="left">26 [containers]<a name="containers"></a></td>
+<td align="left">26 [containers]</td>
 <td align="left">The relational operators of <tt>optional</tt> and <tt>variant</tt> completely reflect the semantics of the element 
 types &mdash; this is inconsistent with other types in the library</td>
 <td align="center"><font color="red">No</font></td>
@@ -2391,15 +2400,6 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left">26 [containers]</td>
 <td align="left">Relational operators for containers should sfinae; if the underlying type is not comparable, neither should the container be</td>
 <td align="center"><font color="red">No</font></td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#1242">1242</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1242"></a></td>
-<td align="left">26 [containers]</td>
-<td align="left">Enable SCARY iterators</td>
-<td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
@@ -2539,20 +2539,20 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1154">1154</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1154"></a></td>
+<td align="right"><a href="lwg-active.html#1217">1217</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1217"></a></td>
 <td align="left">29.5 [complex.numbers]<a name="complex.numbers"></a></td>
-<td align="left"><tt>complex</tt> should accept integral types</td>
-<td align="center">Yes</td>
+<td align="left">Quaternion support</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1217">1217</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1217"></a></td>
+<td align="right"><a href="lwg-active.html#1154">1154</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1154"></a></td>
 <td align="left">29.5 [complex.numbers]</td>
-<td align="left">Quaternion support</td>
-<td align="center"><font color="red">No</font></td>
+<td align="left"><tt>complex</tt> should accept integral types</td>
+<td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
@@ -2739,15 +2739,6 @@ specified to make <tt><i>N</i></tt> copies of <tt>T</tt> into the destination ra
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#936">936</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
-<td align="left">33.4.3 [thread.mutex.requirements]</td>
-<td align="left">Mutex type overspecified</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center"></td>
-<td align="left"><a href="lwg-active.html#961">961</a></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#961">961</a></td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="961"></a></td>
 <td align="left">33.4.3 [thread.mutex.requirements]</td>
@@ -2757,11 +2748,29 @@ specified to make <tt><i>N</i></tt> copies of <tt>T</tt> into the destination ra
 <td align="left"><a href="lwg-active.html#936">936</a></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#936">936</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
+<td align="left">33.4.3 [thread.mutex.requirements]</td>
+<td align="left">Mutex type overspecified</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center"></td>
+<td align="left"><a href="lwg-active.html#961">961</a></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#1499">1499</a></td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1499"></a></td>
 <td align="left">33.5 [thread.condition]<a name="thread.condition"></a></td>
 <td align="left">Condition variables preclude wakeup optimization</td>
 <td align="center"><font color="red">No</font></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3117">3117</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3117"></a></td>
+<td align="left">33.6.10 [futures.task]<a name="futures.task"></a></td>
+<td align="left">Missing <tt>packaged_task</tt> deduction guides</td>
+<td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>

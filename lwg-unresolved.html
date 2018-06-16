@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-06-12 at 19:28:52 UTC</p>
+<p><p>Revised 2018-06-16 at 14:59:04 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -8488,7 +8488,7 @@ LWG agrees. Jonathan provides wording.
 <hr>
 <h3><a name="2157" href="#2157">2157</a><sup><a href="https://cplusplus.github.io/LWG/issue2157">(i)</a></sup>. How does <tt>std::array&lt;T,0&gt;</tt> initialization work when <tt>T</tt> is not default-constructible?</h3>
 <p><b>Section:</b> 26.3.7.5 <a href="https://wg21.link/array.zero">[array.zero]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Daryle Walker <b>Opened:</b> 2012-05-08 <b>Last modified:</b> 2018-03-24</p>
+ <b>Submitter:</b> Daryle Walker <b>Opened:</b> 2012-05-08 <b>Last modified:</b> 2018-06-12</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#array.zero">issues</a> in [array.zero].</p>
@@ -8565,13 +8565,14 @@ Conclusion: Update wording, revisit later.
 <p>STL: Double braces must also work: <tt>array&lt;T, 0&gt; a = {{}};</tt>.</p>
 <p>Jonathan to reword.</p>
 
-<p><i>[2018-3-14 Wednesday evening issues processing]</i></p>
+<p><i>[2018-03-14 Wednesday evening issues processing]</i></p>
 
-<p>Jens suggested that we remove the requirement that <tt>begin() == end() == </tt><i>unique-value</i>, specifically the unique value part.</p>
+<p>Jens suggested that we remove the requirement that <tt>begin() == end() == </tt><i>unique-value</i>, 
+specifically the unique value part.</p>
 
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to N3376.</p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>This wording is relative to <a href="http://wg21.link/n3376">N3376</a>.</p>
 
 <p>Add the following new paragraph between the current 26.3.7.5 <a href="https://wg21.link/array.zero">[array.zero]</a> p1 and p2:</p>
 
@@ -8593,6 +8594,36 @@ Conclusion: Update wording, revisit later.
 <p/>
 -4- Member function <tt>swap()</tt> shall have a <em>noexcept-specification</em> which is equivalent to 
 <tt>noexcept(true)</tt>.
+</p></blockquote>
+</blockquote>
+
+<p><i>[2018-06-12, Daniel comments and provides revised wording]</i></p>
+
+<p>
+The revised wording follows Jens' suggestion and also performs some wording cleanup when
+implementation requirements are expressed via shall instead of specifying them as a matter of fact.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.
+</p>
+
+<p>Modify 26.3.7.5 <a href="https://wg21.link/array.zero">[array.zero]</a> as indicated:</p>
+
+<blockquote><p>
+-1- <tt>array</tt> <del>shall</del> provide<ins>s</ins> support for the special case <tt>N == 0</tt>.
+<p/>
+<ins>-?- The unspecified internal structure of <tt>array</tt> for this case allows list-initialization with an
+empty initializer list even when <tt>is_default_constructible_v&lt;T&gt;</tt> is <tt>false</tt>.</ins>
+<p/>
+-2- In the case that <tt>N == 0</tt>, <tt>begin() == end() <del>==</del></tt><del> unique value</del>. 
+The return value of <tt>data()</tt> is unspecified.
+<p/>
+-3- The effect of calling <tt>front()</tt> or <tt>back()</tt> for a zero-sized array is undefined.
+<p/>
+-4- Member function <tt>swap()</tt> <del>shall have</del><ins>has</ins> a non-throwing exception specification.
 </p></blockquote>
 
 
@@ -32229,6 +32260,79 @@ otherwise</del><ins>a subsequence of <tt>[first1, last1)</tt></ins>.
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3117" href="#3117">3117</a><sup><a href="https://cplusplus.github.io/LWG/issue3117">(i)</a></sup>. Missing <tt>packaged_task</tt> deduction guides</h3>
+<p><b>Section:</b> 33.6.10 <a href="https://wg21.link/futures.task">[futures.task]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Marc Mutz <b>Opened:</b> 2018-06-08 <b>Last modified:</b> 2018-06-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#futures.task">issues</a> in [futures.task].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>std::function</tt> has deduction guides, but <tt>std::packaged_task</tt>, which is otherwise very
+similar, does not. This is surprising to users and I can think of no reason for the former
+to be treated differently from the latter. I therefore propose to add deduction guides for
+packaged task with the same semantics as the existing ones for function.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.</p>
+
+<ol>
+<li><p>Modify 33.6.10 <a href="https://wg21.link/futures.task">[futures.task]</a>, class template <tt>packaged_task</tt> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  template&lt;class R, class... ArgTypes&gt;
+  class packaged_task&lt;R(ArgTypes...)&gt; {
+    [&hellip;]
+  };
+  
+  <ins>template&lt;class R, class... ArgTypes&gt;
+  packaged_task(R (*)( ArgTypes ...)) -&gt; packaged_task&lt;R( ArgTypes...)&gt;;
+
+  template&lt;class F&gt; packaged_task(F) -&gt; packaged_task&lt;<i>see below</i>&gt;;</ins>
+  
+  template&lt;class R, class... ArgTypes&gt;
+    void swap(packaged_task&lt;R(ArgTypes...)&gt;&amp; x, packaged_task&lt;R(ArgTypes...)&gt;&amp; y) noexcept;
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 33.6.10.1 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class F&gt;
+  packaged_task(F&amp;&amp; f);
+</pre>
+[&hellip;]
+<pre>
+<ins>template&lt;class F&gt; packaged_task(F) -&gt; packaged_task&lt;<i>see below</i>&gt;;</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Remarks:</i> This deduction guide participates in overload resolution only if <tt>&amp;F::operator()</tt> 
+is well-formed when treated as an unevaluated operand. In that case, if <tt>decltype(&amp;F::operator())</tt> is of the 
+form <tt>R(G::*)(A...) <i>cv</i> &amp;<sub><i>opt</i></sub> noexcept<sub><i>opt</i></sub></tt> for a class type <tt>G</tt>, 
+then the deduced type is <tt>packaged_task&lt;R(A...)&gt;</tt>.</ins>
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+packaged_task(packaged_task&amp;&amp; rhs) noexcept;
+</pre>
+</blockquote>
+</li>
 </ol>
 
 

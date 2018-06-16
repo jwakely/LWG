@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2157" href="lwg-active.html#2157">2157</a>. How does <tt>std::array&lt;T,0&gt;</tt> initialization work when <tt>T</tt> is not default-constructible?</h3>
 <p><b>Section:</b> 26.3.7.5 <a href="https://wg21.link/array.zero">[array.zero]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Daryle Walker <b>Opened:</b> 2012-05-08 <b>Last modified:</b> 2018-03-24</p>
+ <b>Submitter:</b> Daryle Walker <b>Opened:</b> 2012-05-08 <b>Last modified:</b> 2018-06-12</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#array.zero">issues</a> in [array.zero].</p>
@@ -102,13 +102,14 @@ Conclusion: Update wording, revisit later.
 <p>STL: Double braces must also work: <tt>array&lt;T, 0&gt; a = {{}};</tt>.</p>
 <p>Jonathan to reword.</p>
 
-<p><i>[2018-3-14 Wednesday evening issues processing]</i></p>
+<p><i>[2018-03-14 Wednesday evening issues processing]</i></p>
 
-<p>Jens suggested that we remove the requirement that <tt>begin() == end() == </tt><i>unique-value</i>, specifically the unique value part.</p>
+<p>Jens suggested that we remove the requirement that <tt>begin() == end() == </tt><i>unique-value</i>, 
+specifically the unique value part.</p>
 
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to N3376.</p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>This wording is relative to <a href="http://wg21.link/n3376">N3376</a>.</p>
 
 <p>Add the following new paragraph between the current 26.3.7.5 <a href="https://wg21.link/array.zero">[array.zero]</a> p1 and p2:</p>
 
@@ -130,6 +131,36 @@ Conclusion: Update wording, revisit later.
 <p/>
 -4- Member function <tt>swap()</tt> shall have a <em>noexcept-specification</em> which is equivalent to 
 <tt>noexcept(true)</tt>.
+</p></blockquote>
+</blockquote>
+
+<p><i>[2018-06-12, Daniel comments and provides revised wording]</i></p>
+
+<p>
+The revised wording follows Jens' suggestion and also performs some wording cleanup when
+implementation requirements are expressed via shall instead of specifying them as a matter of fact.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.
+</p>
+
+<p>Modify 26.3.7.5 <a href="https://wg21.link/array.zero">[array.zero]</a> as indicated:</p>
+
+<blockquote><p>
+-1- <tt>array</tt> <del>shall</del> provide<ins>s</ins> support for the special case <tt>N == 0</tt>.
+<p/>
+<ins>-?- The unspecified internal structure of <tt>array</tt> for this case allows list-initialization with an
+empty initializer list even when <tt>is_default_constructible_v&lt;T&gt;</tt> is <tt>false</tt>.</ins>
+<p/>
+-2- In the case that <tt>N == 0</tt>, <tt>begin() == end() <del>==</del></tt><del> unique value</del>. 
+The return value of <tt>data()</tt> is unspecified.
+<p/>
+-3- The effect of calling <tt>front()</tt> or <tt>back()</tt> for a zero-sized array is undefined.
+<p/>
+-4- Member function <tt>swap()</tt> <del>shall have</del><ins>has</ins> a non-throwing exception specification.
 </p></blockquote>
 
 
