@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D111)</h1>
-<p><p>Revised 2018-06-16 at 16:31:31 UTC</p>
+<p><p>Revised 2018-06-16 at 17:20:08 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D111: 2018-07-02 2018 post-Rapperswil mailing<ul>
 <li><b>Summary:</b><ul>
-<li>257 open issues, down by 12.</li>
+<li>258 open issues, down by 11.</li>
 <li>2324 closed issues, up by 23.</li>
 <li>61 reassigned issues, up by 0.</li>
-<li>2642 issues total, up by 11.</li>
+<li>2643 issues total, up by 12.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Ready issue: <a href="lwg-active.html#3116">3116</a>.</li>
-<li>Added the following 9 New issues: <a href="lwg-active.html#3110">3110</a>, <a href="lwg-active.html#3112">3112</a>, <a href="lwg-active.html#3113">3113</a>, <a href="lwg-active.html#3114">3114</a>, <a href="lwg-active.html#3115">3115</a>, <a href="lwg-active.html#3117">3117</a>, <a href="lwg-active.html#3118">3118</a>, <a href="lwg-active.html#3119">3119</a>, <a href="lwg-active.html#3120">3120</a>.</li>
+<li>Added the following 10 New issues: <a href="lwg-active.html#3110">3110</a>, <a href="lwg-active.html#3112">3112</a>, <a href="lwg-active.html#3113">3113</a>, <a href="lwg-active.html#3114">3114</a>, <a href="lwg-active.html#3115">3115</a>, <a href="lwg-active.html#3117">3117</a>, <a href="lwg-active.html#3118">3118</a>, <a href="lwg-active.html#3119">3119</a>, <a href="lwg-active.html#3120">3120</a>, <a href="lwg-active.html#3121">3121</a>.</li>
 <li>Added the following Open issue: <a href="lwg-active.html#3111">3111</a>.</li>
 <li>Changed the following 4 issues to Ready (from Review): <a href="lwg-active.html#2412">2412</a>, <a href="lwg-active.html#2682">2682</a>, <a href="lwg-active.html#2697">2697</a>, <a href="lwg-active.html#2936">2936</a>.</li>
 <li>Changed the following 4 issues to Ready (from New): <a href="lwg-active.html#2183">2183</a>, <a href="lwg-active.html#2184">2184</a>, <a href="lwg-active.html#2995">2995</a>, <a href="lwg-active.html#3054">3054</a>.</li>
@@ -34991,6 +34991,57 @@ this have not been deallocated from this. <ins>This function has no effect on <t
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3121" href="#3121">3121</a><sup><a href="https://cplusplus.github.io/LWG/issue3121">(i)</a></sup>. <tt>tuple</tt> constructor constraints for <tt>UTypes&amp;&amp;...</tt> overloads</h3>
+<p><b>Section:</b> 23.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Matt Calabrese <b>Opened:</b> 2018-06-12 <b>Last modified:</b> 2018-06-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
+<p><b>View all other</b> <a href="lwg-index.html#tuple.cnstr">issues</a> in [tuple.cnstr].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently the <tt>tuple</tt> constructors of the form:
+</p>
+<blockquote>
+<pre>
+template&lt;class... UTypes&gt;
+<i>EXPLICIT</i> constexpr tuple(UTypes&amp;&amp;...);
+</pre>
+</blockquote>
+<p>
+are not properly constrained in that in the 1-element <tt>tuple</tt> case, the constraints do no short-circuit when 
+the constructor would be (incorrectly) considered as a possible copy/move constructor candidate. libc++ has a 
+workaround for this, but the additional short-circuiting does not actually appear in the working draft.
+<p/>
+As an example of why this lack of short circuiting is a problem in practice, consider the following line:
+</p>
+<blockquote>
+<pre>
+bool a = std::is_copy_constructible_v&lt;std::tuple&lt;any&gt;&gt;;
+</pre>
+</blockquote>
+<p>
+The above code will cause a compile error because of a recursive trait definition. The copy constructibility 
+check implies doing substitution into the <tt>UTypes&amp;&amp;...</tt> constructor overloads, which in turn 
+will check if <tt>tuple&lt;any&gt;</tt> is convertible to any, which in turn will check if <tt>tuple&lt;any&gt;</tt> 
+is copy constructible (and so the trait is dependent on itself).
+<p/>
+I do not provide wording for the proposed fix in anticipation of requires clauses potentially changing how we 
+do the specification, however, the basic solution should be similar to what we've done for other standard library 
+types, which is to say that the very first constraint should be to check that if <tt>sizeof...(UTypes) == 1</tt> 
+and the type, after applying <tt>remove_cvref_t</tt>, is the <tt>tuple</tt> type itself, then we should force 
+substitution failure rather than checking any further constraints.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
