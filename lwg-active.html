@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D111)</h1>
-<p><p>Revised 2018-06-16 at 14:59:04 UTC</p>
+<p><p>Revised 2018-06-16 at 15:37:37 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D111: 2018-07-02 2018 post-Rapperswil mailing<ul>
 <li><b>Summary:</b><ul>
-<li>254 open issues, down by 15.</li>
+<li>255 open issues, down by 14.</li>
 <li>2324 closed issues, up by 23.</li>
 <li>61 reassigned issues, up by 0.</li>
-<li>2639 issues total, up by 8.</li>
+<li>2640 issues total, up by 9.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Ready issue: <a href="lwg-active.html#3116">3116</a>.</li>
-<li>Added the following 6 New issues: <a href="lwg-active.html#3110">3110</a>, <a href="lwg-active.html#3112">3112</a>, <a href="lwg-active.html#3113">3113</a>, <a href="lwg-active.html#3114">3114</a>, <a href="lwg-active.html#3115">3115</a>, <a href="lwg-active.html#3117">3117</a>.</li>
+<li>Added the following 7 New issues: <a href="lwg-active.html#3110">3110</a>, <a href="lwg-active.html#3112">3112</a>, <a href="lwg-active.html#3113">3113</a>, <a href="lwg-active.html#3114">3114</a>, <a href="lwg-active.html#3115">3115</a>, <a href="lwg-active.html#3117">3117</a>, <a href="lwg-active.html#3118">3118</a>.</li>
 <li>Added the following Open issue: <a href="lwg-active.html#3111">3111</a>.</li>
 <li>Changed the following 4 issues to Ready (from Review): <a href="lwg-active.html#2412">2412</a>, <a href="lwg-active.html#2682">2682</a>, <a href="lwg-active.html#2697">2697</a>, <a href="lwg-active.html#2936">2936</a>.</li>
 <li>Changed the following 4 issues to Ready (from New): <a href="lwg-active.html#2183">2183</a>, <a href="lwg-active.html#2184">2184</a>, <a href="lwg-active.html#2995">2995</a>, <a href="lwg-active.html#3054">3054</a>.</li>
@@ -34834,6 +34834,32 @@ packaged_task(packaged_task&amp;&amp; rhs) noexcept;
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3118" href="#3118">3118</a><sup><a href="https://cplusplus.github.io/LWG/issue3118">(i)</a></sup>. <tt>fpos</tt> equality comparison unspecified</h3>
+<p><b>Section:</b> 30.5.4.2 <a href="https://wg21.link/fpos.operations">[fpos.operations]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-06-04 <b>Last modified:</b> 2018-06-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#fpos.operations">active issues</a> in [fpos.operations].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fpos.operations">issues</a> in [fpos.operations].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>fpos</tt> requirements do not give any idea what is compared by <tt>operator==</tt> (even after Daniel's 
+<a href="http://wg21.link/p0759r1">P0759R1</a> paper). I'd like something to make it clear that <tt>return true;</tt> 
+is not a valid implementation of <tt>operator==(const fpos&lt;T&gt;&amp;, const fpos&lt;T&gt;&amp;)</tt>. Maybe in the 
+<tt>P(o)</tt> row state that "<tt>p == P(o)</tt>" and "<tt>p != P(o + 1)</tt>", i.e. two <tt>fpos</tt> objects 
+constructed from the same <tt>streamoff</tt> values are equal, and two <tt>fpos</tt> objects constructed from two 
+different <tt>streamoff</tt> values are not equal.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 

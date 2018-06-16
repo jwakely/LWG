@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-06-16 at 14:59:04 UTC</p>
+<p><p>Revised 2018-06-16 at 15:37:37 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -32334,6 +32334,32 @@ packaged_task(packaged_task&amp;&amp; rhs) noexcept;
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3118" href="#3118">3118</a><sup><a href="https://cplusplus.github.io/LWG/issue3118">(i)</a></sup>. <tt>fpos</tt> equality comparison unspecified</h3>
+<p><b>Section:</b> 30.5.4.2 <a href="https://wg21.link/fpos.operations">[fpos.operations]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-06-04 <b>Last modified:</b> 2018-06-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#fpos.operations">active issues</a> in [fpos.operations].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fpos.operations">issues</a> in [fpos.operations].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>fpos</tt> requirements do not give any idea what is compared by <tt>operator==</tt> (even after Daniel's 
+<a href="http://wg21.link/p0759r1">P0759R1</a> paper). I'd like something to make it clear that <tt>return true;</tt> 
+is not a valid implementation of <tt>operator==(const fpos&lt;T&gt;&amp;, const fpos&lt;T&gt;&amp;)</tt>. Maybe in the 
+<tt>P(o)</tt> row state that "<tt>p == P(o)</tt>" and "<tt>p != P(o + 1)</tt>", i.e. two <tt>fpos</tt> objects 
+constructed from the same <tt>streamoff</tt> values are equal, and two <tt>fpos</tt> objects constructed from two 
+different <tt>streamoff</tt> values are not equal.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
