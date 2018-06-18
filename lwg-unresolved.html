@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-06-18 at 11:48:28 UTC</p>
+<p><p>Revised 2018-06-18 at 12:22:34 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. effects of negative streamsize in iostreams</h3>
@@ -32563,6 +32563,61 @@ substitution failure rather than checking any further constraints.
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3122" href="#3122">3122</a><sup><a href="https://cplusplus.github.io/LWG/issue3122">(i)</a></sup>. <tt>__cpp_lib_chrono_udls</tt> was accidentally dropped</h3>
+<p><b>Section:</b> 21.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2018-06-14 <b>Last modified:</b> 2018-06-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Between <a href="http://wg21.link/p0941r0">P0941R0</a> and 
+<a href="http://wg21.link/p0941r1">P0941R1</a>/<a href="http://wg21.link/p0941r2">P0941R2</a>, the feature-test macro 
+<tt>__cpp_lib_chrono_udls</tt> was dropped. It wasn't mentioned in the changelog, and Jonathan Wakely and I 
+believe that this was unintentional.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to the post-Rapperswil 2018 working draft.
+</p>
+
+<p>In 21.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a>, "Table ??? - Standard library feature-test macros", add the following row:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table ??? &mdash; Standard library feature-test macros</caption>
+<tr style="text-align:center">
+<th>Macro name</th>
+<th>Value</th>
+<th>Headers</th>
+</tr>
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><ins><tt>__cpp_lib_chrono_udls</tt></ins></td>
+<td><ins><tt>201304L</tt></ins></td>
+<td><ins><tt>&lt;chrono&gt;</tt></ins></td>
+</tr>
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
+</blockquote>
 
 
 
