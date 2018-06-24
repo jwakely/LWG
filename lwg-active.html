@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D111)</h1>
-<p><p>Revised 2018-06-24 at 10:51:01 UTC</p>
+<p><p>Revised 2018-06-24 at 11:11:03 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D111: 2018-07-02 2018 post-Rapperswil mailing<ul>
 <li><b>Summary:</b><ul>
-<li>283 open issues, up by 14.</li>
+<li>284 open issues, up by 15.</li>
 <li>2326 closed issues, up by 25.</li>
 <li>35 reassigned issues, down by 26.</li>
-<li>2644 issues total, up by 13.</li>
+<li>2645 issues total, up by 14.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Ready issue: <a href="lwg-active.html#3116">3116</a>.</li>
-<li>Added the following 10 New issues: <a href="lwg-active.html#3110">3110</a>, <a href="lwg-active.html#3112">3112</a>, <a href="lwg-active.html#3113">3113</a>, <a href="lwg-active.html#3115">3115</a>, <a href="lwg-active.html#3117">3117</a>, <a href="lwg-active.html#3118">3118</a>, <a href="lwg-active.html#3119">3119</a>, <a href="lwg-active.html#3120">3120</a>, <a href="lwg-active.html#3121">3121</a>, <a href="lwg-active.html#3122">3122</a>.</li>
+<li>Added the following 11 New issues: <a href="lwg-active.html#3110">3110</a>, <a href="lwg-active.html#3112">3112</a>, <a href="lwg-active.html#3113">3113</a>, <a href="lwg-active.html#3115">3115</a>, <a href="lwg-active.html#3117">3117</a>, <a href="lwg-active.html#3118">3118</a>, <a href="lwg-active.html#3119">3119</a>, <a href="lwg-active.html#3120">3120</a>, <a href="lwg-active.html#3121">3121</a>, <a href="lwg-active.html#3122">3122</a>, <a href="lwg-active.html#3123">3123</a>.</li>
 <li>Added the following Open issue: <a href="lwg-active.html#3111">3111</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3114">3114</a>.</li>
 <li>Changed the following 4 issues to Ready (from Review): <a href="lwg-active.html#2412">2412</a>, <a href="lwg-active.html#2682">2682</a>, <a href="lwg-active.html#2697">2697</a>, <a href="lwg-active.html#2936">2936</a>.</li>
@@ -35011,6 +35011,78 @@ This wording is relative to the post-Rapperswil 2018 working draft.
 </tr>
 </table>
 
+</blockquote>
+
+
+
+
+
+<hr>
+<h3><a name="3123" href="#3123">3123</a><sup><a href="https://cplusplus.github.io/LWG/issue3123">(i)</a></sup>. <tt>duration</tt> constructor from representation shouldn't be effectively non-throwing</h3>
+<p><b>Section:</b> 23.17.5 <a href="https://wg21.link/time.duration">[time.duration]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2018-06-22 <b>Last modified:</b> 2018-06-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.duration">issues</a> in [time.duration].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+[time.duration]/4 states:
+</p>
+<blockquote><p>
+Members of duration shall not throw exceptions other than those thrown by the indicated operations on their representations.
+</p></blockquote>
+<p>
+Where representation is defined in the non-normative, brief description at [time.duration]/1:
+</p>
+<blockquote><p>
+[&hellip;] A duration has a representation which holds a count of ticks and a tick period. [&hellip;]
+</p></blockquote>
+<p>
+[time.duration.cons]/2 doesn't indicate the operation undergone by its representation, merely stating a postcondition in [time.duration.cons]/3:
+</p>
+<blockquote>
+<p>
+<i>Effects:</i> Constructs an object of type <tt>duration</tt>.
+<p/>
+<i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.
+</p>
+</blockquote>
+<p>
+I suggest this reformulation that follows the format of [time.duration.cons]/5.
+</p>
+<blockquote>
+<p>
+<i>Effects:</i> Constructs an object of type duration, constructing <tt>rep_</tt> from <tt>r</tt>.
+</p>
+</blockquote>
+<p>
+Now it is clear why the constructor would throw.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.
+</p>
+
+
+<p>Change 23.17.5.1 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Rep2&gt;
+  constexpr explicit duration(const Rep2&amp; r);
+</pre>
+<blockquote>
+<p>
+-1- <i>Remarks:</i> This constructor shall not participate in overload resolution unless [&hellip;]
+<p/>
+-2- <i>Effects:</i> Constructs an object of type <tt>duration</tt><ins>, constructing <tt>rep_</tt> from <tt>r</tt></ins>.
+<p/>
+-3- <i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.
+</p>
+</blockquote>
 </blockquote>
 
 

@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-06-24 at 10:51:01 UTC</p>
+<p><p>Revised 2018-06-24 at 11:11:03 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -30433,6 +30433,78 @@ This wording is relative to the post-Rapperswil 2018 working draft.
 </tr>
 </table>
 
+</blockquote>
+
+
+
+
+
+<hr>
+<h3><a name="3123" href="#3123">3123</a><sup><a href="https://cplusplus.github.io/LWG/issue3123">(i)</a></sup>. <tt>duration</tt> constructor from representation shouldn't be effectively non-throwing</h3>
+<p><b>Section:</b> 23.17.5 <a href="https://wg21.link/time.duration">[time.duration]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2018-06-22 <b>Last modified:</b> 2018-06-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.duration">issues</a> in [time.duration].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+[time.duration]/4 states:
+</p>
+<blockquote><p>
+Members of duration shall not throw exceptions other than those thrown by the indicated operations on their representations.
+</p></blockquote>
+<p>
+Where representation is defined in the non-normative, brief description at [time.duration]/1:
+</p>
+<blockquote><p>
+[&hellip;] A duration has a representation which holds a count of ticks and a tick period. [&hellip;]
+</p></blockquote>
+<p>
+[time.duration.cons]/2 doesn't indicate the operation undergone by its representation, merely stating a postcondition in [time.duration.cons]/3:
+</p>
+<blockquote>
+<p>
+<i>Effects:</i> Constructs an object of type <tt>duration</tt>.
+<p/>
+<i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.
+</p>
+</blockquote>
+<p>
+I suggest this reformulation that follows the format of [time.duration.cons]/5.
+</p>
+<blockquote>
+<p>
+<i>Effects:</i> Constructs an object of type duration, constructing <tt>rep_</tt> from <tt>r</tt>.
+</p>
+</blockquote>
+<p>
+Now it is clear why the constructor would throw.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.
+</p>
+
+
+<p>Change 23.17.5.1 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Rep2&gt;
+  constexpr explicit duration(const Rep2&amp; r);
+</pre>
+<blockquote>
+<p>
+-1- <i>Remarks:</i> This constructor shall not participate in overload resolution unless [&hellip;]
+<p/>
+-2- <i>Effects:</i> Constructs an object of type <tt>duration</tt><ins>, constructing <tt>rep_</tt> from <tt>r</tt></ins>.
+<p/>
+-3- <i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.
+</p>
+</blockquote>
 </blockquote>
 
 
