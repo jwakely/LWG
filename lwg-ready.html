@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2018-06-24 at 18:59:08 UTC</p>
+<td align="left"><p>Revised 2018-06-25 at 00:46:58 UTC</p>
 </td>
 </tr>
 <tr>
@@ -289,7 +289,7 @@ different from those required for a container.
 <hr>
 <h3><a name="2412" href="#2412">2412</a><sup><a href="https://cplusplus.github.io/LWG/issue2412">(i)</a></sup>. <tt>promise::set_value()</tt> and <tt>promise::get_future()</tt> should not race</h3>
 <p><b>Section:</b> 33.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>, 33.6.10.1 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2014-06-23 <b>Last modified:</b> 2018-06-12</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2014-06-23 <b>Last modified:</b> 2018-06-11</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#futures.promise">active issues</a> in [futures.promise].</p>
@@ -1104,7 +1104,7 @@ int compare(const value_type* s) const
 <hr>
 <h3><a name="2995" href="#2995">2995</a><sup><a href="https://cplusplus.github.io/LWG/issue2995">(i)</a></sup>. <tt>basic_stringbuf</tt> default constructor forbids it from using SSO capacity</h3>
 <p><b>Section:</b> 30.8.2.1 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-07-07 <b>Last modified:</b> 2018-06-12</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-07-07 <b>Last modified:</b> 2018-06-11</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#stringbuf.cons">active issues</a> in [stringbuf.cons].</p>
@@ -1409,7 +1409,7 @@ will eventually result in undefined behavior, attempting to delete the same obje
 <hr>
 <h3><a name="3054" href="#3054">3054</a><sup><a href="https://cplusplus.github.io/LWG/issue3054">(i)</a></sup>. <tt>uninitialized_copy</tt> appears to not be able to meet its exception-safety guarantee</h3>
 <p><b>Section:</b> 23.10.11.4 <a href="https://wg21.link/uninitialized.copy">[uninitialized.copy]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Jon Cohen <b>Opened:</b> 2018-01-24 <b>Last modified:</b> 2018-06-12</p>
+ <b>Submitter:</b> Jon Cohen <b>Opened:</b> 2018-01-24 <b>Last modified:</b> 2018-06-11</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#uninitialized.copy">issues</a> in [uninitialized.copy].</p>
@@ -1529,7 +1529,7 @@ std::next(first, n))</tt> are left in a valid but unspecified state.</del>
 <hr>
 <h3><a name="3116" href="#3116">3116</a><sup><a href="https://cplusplus.github.io/LWG/issue3116">(i)</a></sup>. <tt><i>OUTERMOST_ALLOC_TRAITS</i></tt> needs <tt>remove_reference_t</tt></h3>
 <p><b>Section:</b> 23.13.4 <a href="https://wg21.link/allocator.adaptor.members">[allocator.adaptor.members]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-06-04 <b>Last modified:</b> 2018-06-12</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-06-04 <b>Last modified:</b> 2018-06-11</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#allocator.adaptor.members">issues</a> in [allocator.adaptor.members].</p>
@@ -1574,6 +1574,63 @@ to further remove cv-qualification. &mdash; <i>end drafting note</i>]
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3122" href="#3122">3122</a><sup><a href="https://cplusplus.github.io/LWG/issue3122">(i)</a></sup>. <tt>__cpp_lib_chrono_udls</tt> was accidentally dropped</h3>
+<p><b>Section:</b> 21.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2018-06-14 <b>Last modified:</b> 2018-06-24</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>Discussion:</b></p>
+<p>
+Between <a href="http://wg21.link/p0941r0">P0941R0</a> and 
+<a href="http://wg21.link/p0941r1">P0941R1</a>/<a href="http://wg21.link/p0941r2">P0941R2</a>, the feature-test macro 
+<tt>__cpp_lib_chrono_udls</tt> was dropped. It wasn't mentioned in the changelog, and Jonathan Wakely and I 
+believe that this was unintentional.
+</p>
+
+<p><i>[2018-06-23 Moved to Tentatively Ready after 5 positive votes on c++std-lib.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to the post-Rapperswil 2018 working draft.
+</p>
+
+<p>In 21.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a>, "Table ??? - Standard library feature-test macros", add the following row:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table ??? &mdash; Standard library feature-test macros</caption>
+<tr style="text-align:center">
+<th>Macro name</th>
+<th>Value</th>
+<th>Headers</th>
+</tr>
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><ins><tt>__cpp_lib_chrono_udls</tt></ins></td>
+<td><ins><tt>201304L</tt></ins></td>
+<td><ins><tt>&lt;chrono&gt;</tt></ins></td>
+</tr>
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
+</blockquote>
 
 
 
