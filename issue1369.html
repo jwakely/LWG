@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
 <h3><a name="1369" href="lwg-closed.html#1369">1369</a>. <tt>rethrow_exception</tt> may introduce data races</h3>
-<p><b>Section:</b> 21.8.6 <a href="https://wg21.link/propagation">[propagation]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+<p><b>Section:</b> 21.9.6 <a href="https://wg21.link/propagation">[propagation]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> BSI <b>Opened:</b> 2010-08-25 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -81,7 +81,7 @@ or a move constructor used to construct the exception object.</ins>
 </p></blockquote>
 </li>
 
-<li><p>Alter 21.8.6 <a href="https://wg21.link/propagation">[propagation]</a> p. 7 as follows:</p>
+<li><p>Alter 21.9.6 <a href="https://wg21.link/propagation">[propagation]</a> p. 7 as follows:</p>
 
 <blockquote><pre>
 exception_ptr current_exception() noexcept;
@@ -104,7 +104,7 @@ infinite recursion. &mdash; <i>end note</i> ]
 </blockquote></blockquote>
 </li>
 
-<li><p>Alter 21.8.6 <a href="https://wg21.link/propagation">[propagation]</a> p. 9 and add a new paragraph after p. 9 as follows:</p>
+<li><p>Alter 21.9.6 <a href="https://wg21.link/propagation">[propagation]</a> p. 9 and add a new paragraph after p. 9 as follows:</p>
 
 <blockquote><pre>
 [[noreturn]] void rethrow_exception(exception_ptr p);
