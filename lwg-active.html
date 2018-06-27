@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D112)</h1>
-<p><p>Revised 2018-06-27 at 17:55:43 UTC</p>
+<p><p>Revised 2018-06-27 at 18:24:04 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D112: 2018-10-08 2018 pre-San Diego mailing<ul>
 <li><b>Summary:</b><ul>
-<li>286 open issues, up by 2.</li>
+<li>287 open issues, up by 3.</li>
 <li>2326 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2647 issues total, up by 2.</li>
+<li>2648 issues total, up by 3.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 2 New issues: <a href="lwg-active.html#3124">3124</a>, <a href="lwg-active.html#3125">3125</a>.</li>
+<li>Added the following 3 New issues: <a href="lwg-active.html#3124">3124</a>, <a href="lwg-active.html#3125">3125</a>, <a href="lwg-active.html#3126">3126</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -35209,9 +35209,89 @@ unless</ins> <tt>Rep</tt> is an integral type whose integer conversion rank (6.7
 greater than or equal to that of <tt>short</tt>, or a floating point type<del>.</del><ins>, and</ins> <tt>charT</tt> 
 is <tt>char</tt> or <tt>wchar_t</tt>.
 <p/>
+[&hellip;]
 </p>
 </blockquote>
 </blockquote>
+
+
+
+
+
+<hr>
+<h3><a name="3126" href="#3126">3126</a><sup><a href="https://cplusplus.github.io/LWG/issue3126">(i)</a></sup>. There's no <tt>std::sub_match::compare(string_view)</tt> overload</h3>
+<p><b>Section:</b> 31.9 <a href="https://wg21.link/re.submatch">[re.submatch]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-06-26 <b>Last modified:</b> 2018-06-27</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>std::sub_match::compare</tt> can be called with a <tt>basic_string</tt> or a pointer to a null-terminated 
+character sequence, but can't be called with a <tt>basic_string_view</tt>. To compare to a <tt>string_view</tt> 
+requires either conversion to <tt>basic_string</tt> (with a potential allocation) or a redundant call to 
+<tt>traits_type::length</tt> to calculate a length that is already known.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.
+</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> the P/R is incomplete, as we should really overload all the comparison operators 
+for <tt>sub_match</tt> to work with <tt>basic_string_view</tt>.]
+</p>
+</blockquote>
+
+<ol>
+<li>
+<p>Change 31.9 <a href="https://wg21.link/re.submatch">[re.submatch]</a>, class template <tt>sub_match</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class BidirectionalIterator&gt;
+  class sub_match : public pair&lt;BidirectionalIterator, BidirectionalIterator&gt; {
+  public:
+    using value_type =
+      typename iterator_traits&lt;BidirectionalIterator&gt;::value_type;
+    [&hellip;]
+    int compare(const sub_match&amp; s) const;
+    int compare(const string_type&amp; s) const;
+    int compare(const value_type* s) const;
+    <ins>int compare(basic_string_view&lt;value_type&gt; s) const;</ins>
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+<li>
+<p>Change 31.9.1 <a href="https://wg21.link/re.submatch.members">[re.submatch.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+int compare(const value_type* s) const;
+</pre>
+<blockquote>
+<p>
+-7- <i>Returns:</i> <tt>str().compare(s)</tt>.
+</p>
+</blockquote>
+<pre>
+<ins>int compare(basic_string_view&lt;value_type&gt; s) const;</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Returns:</i> <tt>str().compare(s)</tt>.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
