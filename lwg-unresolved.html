@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-06-27 at 19:01:01 UTC</p>
+<p><p>Revised 2018-06-29 at 19:00:06 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -30571,7 +30571,7 @@ on type <tt>Service</tt> intended to be used?
 <hr>
 <h3><a name="3125" href="#3125">3125</a><sup><a href="https://cplusplus.github.io/LWG/issue3125">(i)</a></sup>. <tt>duration</tt> streaming precondition should be a SFINAE condition</h3>
 <p><b>Section:</b> 23.17.5.10 <a href="https://wg21.link/time.duration.io">[time.duration.io]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2018-06-23 <b>Last modified:</b> 2018-06-27</p>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2018-06-23 <b>Last modified:</b> 2018-06-29</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#time.duration.io">issues</a> in [time.duration.io].</p>
@@ -30594,9 +30594,14 @@ than or equal to that of <tt>short</tt>, or a floating point type. <tt>charT</tt
 </blockquote>
 </blockquote>
 <p>
-Since the function's description lacks a <i>Throws:</i> element, it is UB to call it if its precondition isn't met. 
 I think the intention was to make this a compile-time error, since all the information to make it so is available 
-at compile-time.
+at compile-time. But the wording doesn't suggest that.
+</p>
+<p><i>[2018-06-29; Daniel comments]</i></p>
+
+<p>
+The wording will be significantly simplified by the application of the new Library element <i>Constraints:</i> 
+introduced by <a href="http://wg21.link/p0788r3">P0788R3</a> and available with the post-Rapperswil working draft.
 </p>
 
 
@@ -30605,8 +30610,14 @@ at compile-time.
 This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.
 </p>
 
-
 <p>Change 23.17.5.10 <a href="https://wg21.link/time.duration.io">[time.duration.io]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The suggested wording changes include the insertion of two bullets into the existing running text
+to improve clarification of the logic arm of the "unless"].
+</p>
+</blockquote>
 
 <blockquote>
 <pre>
@@ -30617,10 +30628,14 @@ template&lt;class charT, class traits, class Rep, class Period&gt;
 <blockquote>
 <p>
 -1- <i><del>Requires</del><ins>Remarks</ins>:</i> <ins>This function shall not participate in overload resolution 
-unless</ins> <tt>Rep</tt> is an integral type whose integer conversion rank (6.7.4 <a href="https://wg21.link/conv.rank">[conv.rank]</a>) is 
-greater than or equal to that of <tt>short</tt>, or a floating point type<del>.</del><ins>, and</ins> <tt>charT</tt> 
-is <tt>char</tt> or <tt>wchar_t</tt>.
-<p/>
+unless:</ins>
+</p>
+<ul>
+<li><p><tt>Rep</tt> is an integral type whose integer conversion rank (6.7.4 <a href="https://wg21.link/conv.rank">[conv.rank]</a>) is 
+greater than or equal to that of <tt>short</tt>, or a floating point type<del>.</del><ins>, and</ins></p></li>
+<li><p><tt>charT</tt> is <tt>char</tt> or <tt>wchar_t</tt></p></li>
+</ul>
+<p>
 [&hellip;]
 </p>
 </blockquote>
