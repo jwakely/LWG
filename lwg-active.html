@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D112)</h1>
-<p><p>Revised 2018-07-07 at 17:17:39 UTC</p>
+<p><p>Revised 2018-07-07 at 17:26:42 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D112: 2018-10-08 2018 pre-San Diego mailing<ul>
 <li><b>Summary:</b><ul>
-<li>294 open issues, up by 10.</li>
+<li>295 open issues, up by 11.</li>
 <li>2327 closed issues, up by 1.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2656 issues total, up by 11.</li>
+<li>2657 issues total, up by 12.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 11 New issues: <a href="lwg-active.html#3124">3124</a>, <a href="lwg-active.html#3125">3125</a>, <a href="lwg-active.html#3126">3126</a>, <a href="lwg-active.html#3127">3127</a>, <a href="lwg-active.html#3128">3128</a>, <a href="lwg-active.html#3129">3129</a>, <a href="lwg-active.html#3130">3130</a>, <a href="lwg-active.html#3131">3131</a>, <a href="lwg-active.html#3132">3132</a>, <a href="lwg-active.html#3133">3133</a>, <a href="lwg-active.html#3134">3134</a>.</li>
+<li>Added the following 12 New issues: <a href="lwg-active.html#3124">3124</a>, <a href="lwg-active.html#3125">3125</a>, <a href="lwg-active.html#3126">3126</a>, <a href="lwg-active.html#3127">3127</a>, <a href="lwg-active.html#3128">3128</a>, <a href="lwg-active.html#3129">3129</a>, <a href="lwg-active.html#3130">3130</a>, <a href="lwg-active.html#3131">3131</a>, <a href="lwg-active.html#3132">3132</a>, <a href="lwg-active.html#3133">3133</a>, <a href="lwg-active.html#3134">3134</a>, <a href="lwg-active.html#3135">3135</a>.</li>
 <li>Changed the following issue to Resolved (from Tentatively NAD): <a href="lwg-defects.html#1150">1150</a>.</li>
 </ul></li>
 </ul>
@@ -36730,6 +36730,8 @@ T&amp; operator[](size_t n);
  <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2018-07-02 <b>Last modified:</b> 2018-07-07</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#fund.ts.v3::meta.type.synop">active issues</a> in [fund.ts.v3::meta.type.synop].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fund.ts.v3::meta.type.synop">issues</a> in [fund.ts.v3::meta.type.synop].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p><b>Addresses: fund.ts.v3</b></p>
@@ -36774,6 +36776,43 @@ inline namespace fundamentals_v3 {
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3135" href="#3135">3135</a><sup><a href="https://cplusplus.github.io/LWG/issue3135">(i)</a></sup>. [fund.ts.v3] LFTSv3 contains two redundant alias templates</h3>
+<p><b>Section:</b> 99 [fund.ts.v3::meta.type.synop], 99 [fund.ts.v3::header.memory.synop] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2018-07-02 <b>Last modified:</b> 2018-07-07</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#fund.ts.v3::meta.type.synop">active issues</a> in [fund.ts.v3::meta.type.synop].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fund.ts.v3::meta.type.synop">issues</a> in [fund.ts.v3::meta.type.synop].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses: fund.ts.v3</b></p>
+<p>
+The LFTSv3 prospective-working-paper <a href="http://wg21.link/n4758">N4758</a> contains two aliases 
+that are already in C++17:
+</p>
+<ul>
+<li><p><tt>void_t</tt> in 99 [fund.ts.v3::meta.type.synop]</p></li>
+<li><p><tt>uses_allocator_v</tt> in 99 [fund.ts.v3::header.memory.synop]</p></li>
+</ul>
+<p>
+I'd like to propose deleting both, but separate discussion is warranted:
+<p/>
+<tt>void_t</tt> belongs with the larger "detection idiom", which has not been merged into C++17. We may prefer 
+to keep our own local version of the alias.
+<p/>
+<tt>uses_allocator_v</tt> aliases a version of <tt>uses_allocator</tt> that is modified by this TS. However, 
+as specified the alias may actually end up referring to <tt>std::uses_allocator</tt> (because 
+<tt>&lt;memory&gt;</tt> is included), not to <tt>std::experimental::uses_allocator</tt>, as may have been intended.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
