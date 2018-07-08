@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D112)</h1>
-<p><p>Revised 2018-07-08 at 09:54:53 UTC</p>
+<p><p>Revised 2018-07-08 at 09:56:22 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -15997,7 +15997,7 @@ member functions called on a single object)</ins> in the Standard C++ library ma
 
 <hr>
 <h3><a name="2417" href="#2417">2417</a><sup><a href="https://cplusplus.github.io/LWG/issue2417">(i)</a></sup>. [fund.ts.v2] <tt>std::experimental::optional::operator&lt;</tt> and <tt>LessThanComparable</tt> requirement</h3>
-<p><b>Section:</b> 99 [fund.ts.v2::optional.relops], 99 [fund.ts.v2::optional.comp_with_t] <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+<p><b>Section:</b> 5.7 [fund.ts.v2::optional.relops], 5.9 [fund.ts.v2::optional.comp_with_t] <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2014-06-20 <b>Last modified:</b> 2018-06-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -18155,7 +18155,7 @@ that we always mean strict total order whenever we say total order.
 
 <hr>
 <h3><a name="2561" href="#2561">2561</a><sup><a href="https://cplusplus.github.io/LWG/issue2561">(i)</a></sup>. [fund.ts.v2] Incorrect exception specifications for 'swap' in C++ Extensions for Library Fundamentals</h3>
-<p><b>Section:</b> 99 [fund.ts.v2::optional.object.swap], 99 [fund.ts.v2::propagate_const.modifiers] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 5.3.4 [fund.ts.v2::optional.object.swap], 3.7.8 [fund.ts.v2::propagate_const.modifiers] <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2015-11-14 <b>Last modified:</b> 2016-11-23</p>
 <p><b>Priority: </b>3
 </p>
@@ -18165,7 +18165,7 @@ that we always mean strict total order whenever we say total order.
 <p>
 As pointed out in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4511.html#Related_Issues">N4511</a>,
 the Library fundamentals are affected by a similar problem as described in LWG <a href="lwg-defects.html#2456">2456</a>. First, it is caused
-by <tt>optional</tt>'s member <tt>swap</tt> (99 [fund.ts.v2::optional.object.swap]):
+by <tt>optional</tt>'s member <tt>swap</tt> (5.3.4 [fund.ts.v2::optional.object.swap]):
 </p>
 <blockquote><pre>
 void swap(optional&lt;T&gt;&amp; rhs) noexcept(<i>see below</i>);
@@ -18186,7 +18186,7 @@ Again, the unqualified lookup for <tt>swap</tt> finds the member <tt>swap</tt> i
 lookup, making this ill-formed.
 <p/>
 A second example of such a problem recently entered the arena with the addition of the <tt>propagate_const</tt> template
-with another member <tt>swap</tt> (99 [fund.ts.v2::propagate_const.modifiers]):
+with another member <tt>swap</tt> (3.7.8 [fund.ts.v2::propagate_const.modifiers]):
 </p>
 <blockquote>
 <pre>
@@ -18335,7 +18335,7 @@ This is related to issue <a href="lwg-active.html#2695">2695</a>.
 
 <hr>
 <h3><a name="2564" href="#2564">2564</a><sup><a href="https://cplusplus.github.io/LWG/issue2564">(i)</a></sup>. [fund.ts.v2] <tt>std::experimental::function</tt> constructors taking allocator arguments may throw exceptions</h3>
-<p><b>Section:</b> 99 [fund.ts.v2::func.wrap.func] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 4.2 [fund.ts.v2::func.wrap.func] <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Tim Song  <b>Opened:</b> 2015-12-05 <b>Last modified:</b> 2016-11-23</p>
 <p><b>Priority: </b>3
 </p>
@@ -18346,7 +18346,7 @@ This is related to issue <a href="lwg-active.html#2695">2695</a>.
 <p>
 [This is essentially LWG <a href="lwg-defects.html#2370">2370</a>, but deals with the fundamentals TS version rather than the one in the standard]
 <p/>
-In 99 [fund.ts.v2::func.wrap.func] of library fundamentals TS, the constructors
+In 4.2 [fund.ts.v2::func.wrap.func] of library fundamentals TS, the constructors
 </p>
 <blockquote><pre>
 template&lt;class A&gt; function(allocator_arg_t, const A&amp;) noexcept;
@@ -18378,7 +18378,7 @@ This wording is relative to <a href="http://www.open-std.org/jtc1/sc22/wg21/docs
 </p>
 
 <ol>
-<li><p> Edit 99 [fund.ts.v2::func.wrap.func], class template <tt>function</tt> synopsis, as follows:</p>
+<li><p> Edit 4.2 [fund.ts.v2::func.wrap.func], class template <tt>function</tt> synopsis, as follows:</p>
 
 <blockquote>
 <pre>
@@ -18410,7 +18410,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Insert the following paragraphs after 99 [fund.ts.v2::func.wrap.func.con]/1:</p>
+<li><p>Insert the following paragraphs after 4.2.1 [fund.ts.v2::func.wrap.func.con]/1:</p>
 <blockquote class="note">
 <p>
 [<i>Drafting note</i>: This just reproduces the wording from C++14 with the "shall not throw exceptions for 
@@ -22306,7 +22306,7 @@ reference-related to <tt>U</tt></ins>.</p></li>
 
 <hr>
 <h3><a name="2814" href="#2814">2814</a><sup><a href="https://cplusplus.github.io/LWG/issue2814">(i)</a></sup>. [fund.ts.v2] <tt>to_array</tt> should take rvalue reference as well</h3>
-<p><b>Section:</b> 99 [fund.ts.v2::func.wrap.func.con] <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
+<p><b>Section:</b> 4.2.1 [fund.ts.v2::func.wrap.func.con] <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
  <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2016-11-07 <b>Last modified:</b> 2017-06-10</p>
 <p><b>Priority: </b>3
 </p>
@@ -22355,7 +22355,7 @@ We should just add rvalue reference support to <tt>to_array</tt>.
 
 <ol>
 <li>
-<p>Add the following signature to  [fund.ts.v2::header.array.synop]:</p>
+<p>Add the following signature to 9.2.1 [fund.ts.v2::header.array.synop]:</p>
 
 <blockquote>
 <pre>
@@ -22371,7 +22371,7 @@ template &lt;class T, size_t N&gt;
 </li>
 
 <li>
-<p>Modify  [fund.ts.v2::container.array.creation] as follows:</p>
+<p>Modify 9.2.2 [fund.ts.v2::container.array.creation] as follows:</p>
 
 <blockquote>
 <pre>
@@ -26159,7 +26159,7 @@ conflicts with Unicode.
 
 <hr>
 <h3><a name="2960" href="#2960">2960</a><sup><a href="https://cplusplus.github.io/LWG/issue2960">(i)</a></sup>. [fund.ts.v2] <tt>nonesuch</tt> is insufficiently useless</h3>
-<p><b>Section:</b> 99 [fund.ts.v2::meta] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 3.3 [fund.ts.v2::meta] <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-05-08 <b>Last modified:</b> 2017-11-24</p>
 <p><b>Priority: </b>2
 </p>
@@ -26205,12 +26205,12 @@ than a deleted one), and it shouldn't be an aggregate.
 
 <ol>
 <li>
-<p>Edit 23.15.2 <a href="https://wg21.link/meta.type.synop">[meta.type.synop]</a> as indicated, moving the definition of
-<tt>nonesuch</tt> to  [fund.ts.v2::meta.detect]:</p>
+<p>Edit 3.3.1 [fund.ts.v2::meta.type.synop] as indicated, moving the definition of
+<tt>nonesuch</tt> to 3.3.4 [fund.ts.v2::meta.detect]:</p>
 
 <blockquote>
 <pre>
-<i>// [fund.ts.v2::meta.detect], Detection idiom</i>
+<i>//3.3.4 [fund.ts.v2::meta.detect], Detection idiom</i>
 [&hellip;]
 
 struct nonesuch<del>{
@@ -26229,7 +26229,7 @@ struct nonesuch<del>{
 </li>
 
 <li>
-<p>Insert at the beginning of  [fund.ts.v2::meta.detect] the following paragraphs:</p>
+<p>Insert at the beginning of 3.3.4 [fund.ts.v2::meta.detect] the following paragraphs:</p>
  
 <blockquote class="note">
 <p>
