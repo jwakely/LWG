@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
 <h3><a name="1009" href="lwg-closed.html#1009">1009</a>. <tt>InputIterator</tt> post-increment dangerous</h3>
-<p><b>Section:</b> 27.2.2 <a href="https://wg21.link/iterator.iterators">[iterator.iterators]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+<p><b>Section:</b> 22.2.2 <a href="https://wg21.link/iterator.iterators">[iterator.iterators]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2009-03-11 <b>Last modified:</b> 2016-02-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -70,7 +70,7 @@ is broken.
 
 <p><b>Proposed resolution:</b></p>
 <p>
-Change 27.2.2 <a href="https://wg21.link/iterator.iterators">[iterator.iterators]</a>:
+Change 22.2.2 <a href="https://wg21.link/iterator.iterators">[iterator.iterators]</a>:
 </p>
 
 <blockquote><pre>
@@ -98,7 +98,7 @@ concept Iterator&lt;typename X&gt; : Semiregular&lt;X&gt; {
 </blockquote>
 
 <p>
-Change 27.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>:
+Change 22.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>:
 </p>
 
 <blockquote>
@@ -121,7 +121,7 @@ concept InputIterator&lt;typename X&gt; : Iterator&lt;X&gt;, EqualityComparable&
 </blockquote>
 
 <p>
-Change 27.2.4 <a href="https://wg21.link/output.iterators">[output.iterators]</a>:
+Change 22.2.4 <a href="https://wg21.link/output.iterators">[output.iterators]</a>:
 </p>
 
 <blockquote>
@@ -141,7 +141,7 @@ auto concept OutputIterator&lt;typename X, typename Value&gt; {
 </blockquote>
 
 <p>
-Change 27.2.5 <a href="https://wg21.link/forward.iterators">[forward.iterators]</a>:
+Change 22.2.5 <a href="https://wg21.link/forward.iterators">[forward.iterators]</a>:
 </p>
 
 <p><i>[
