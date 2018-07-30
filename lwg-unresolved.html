@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-07-29 at 11:04:10 UTC</p>
+<p><p>Revised 2018-07-30 at 20:45:10 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -31604,6 +31604,67 @@ such as <tt>std::filesystem</tt>. &mdash; <i>end note</i>]</ins>
 <p/>
 -2- The class <del><tt>file_clock</tt> shall</del><ins>type denoted by <tt>file_clock</tt></ins> provide<ins>s</ins> 
 precisely one of the following two sets of static member functions: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3146" href="#3146">3146</a><sup><a href="https://cplusplus.github.io/LWG/issue3146">(i)</a></sup>. Excessive unwrapping in <tt>std::ref</tt>/<tt>cref</tt></h3>
+<p><b>Section:</b> 19.14.5.5 <a href="https://wg21.link/refwrap.helpers">[refwrap.helpers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Agust&iacute;n K-ballo Berg&eacute; <b>Opened:</b> 2018-07-10 <b>Last modified:</b> 2018-07-30</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The overloads of <tt>std::ref</tt>/<tt>cref</tt> that take a <tt>reference_wrapper</tt> as argument are 
+defined as calling <tt>std::ref</tt>/<tt>cref</tt> recursively, whereas the return type is defined as 
+unwrapping just one level. Calling these functions with arguments of multiple level of wrapping leads 
+to ill-formed programs:
+</p>
+<blockquote><pre>
+int i = 0;
+std::reference_wrapper&lt;int&gt; ri(i);
+std::reference_wrapper&lt;std::reference_wrapper&lt;int&gt;&gt; rri(ri);
+std::ref(rri); <i>// error within 'std::ref'</i>
+</pre></blockquote>
+<p>
+[Note: these overloads were added by issue resolution 10.29 for TR1, which can be found at 
+<a href="http://wg21.link/n1688">N1688</a>, at Redmond 2004]
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4762">N4762</a>.
+</p>
+
+<ol>
+<li>
+<p>Change 19.14.5.5 <a href="https://wg21.link/refwrap.helpers">[refwrap.helpers]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt; reference_wrapper&lt;T&gt; ref(reference_wrapper&lt;T&gt; t) noexcept;
+</pre>
+<blockquote>
+<p>
+-2- <i>Returns:</i> <tt><del>ref(t.get())</del><ins>t</ins></tt>.
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class T&gt; reference_wrapper&lt;const T&gt; cref(reference_wrapper&lt;T&gt; t) noexcept;
+</pre>
+<blockquote>
+<p>
+-4- <i>Returns:</i> <tt><del>cref(t.get())</del><ins>t</ins></tt>.
 </p>
 </blockquote>
 </blockquote>
