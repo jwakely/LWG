@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-08-04 at 14:46:29 UTC</p>
+<p><p>Revised 2018-08-04 at 14:50:20 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -31763,14 +31763,16 @@ template&lt;class T&gt; reference_wrapper&lt;const T&gt; cref(reference_wrapper&
 
 <hr>
 <h3><a name="3147" href="#3147">3147</a><sup><a href="https://cplusplus.github.io/LWG/issue3147">(i)</a></sup>. Definitions of "likely" and "unlikely" are likely to cause problems</h3>
-<p><b>Section:</b> 99 [macro.name] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 15.5.4.3.2 <a href="https://wg21.link/macro.names">[macro.names]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-01 <b>Last modified:</b> 2018-08-04</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#macro.names">active issues</a> in [macro.names].</p>
+<p><b>View all other</b> <a href="lwg-index.html#macro.names">issues</a> in [macro.names].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-99 [macro.name]/2 forbids a translation unit to define names "lexically identical to [&hellip;] the 
+15.5.4.3.2 <a href="https://wg21.link/macro.names">[macro.names]</a>/2 forbids a translation unit to define names "lexically identical to [&hellip;] the 
 <i>attribute-token</i>s described in 9.11 <a href="https://wg21.link/dcl.attr">[dcl.attr]</a>." We recently added the attribute-tokens <tt>likely</tt> 
 and <tt>unlikely</tt> (9.11.7 <a href="https://wg21.link/dcl.attr.likelihood">[dcl.attr.likelihood]</a>). These names are in extremely wide use as function-like 
 macros in the open source community, forbidding users to define them breaks large amounts of code. (Reportedly 
@@ -31791,7 +31793,7 @@ This wording is relative to <a href="http://wg21.link/n4762">N4762</a>.
 
 <ol>
 <li>
-<p>Change 99 [macro.name] as indicated:</p>
+<p>Change 15.5.4.3.2 <a href="https://wg21.link/macro.names">[macro.names]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>
