@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-08-10 at 16:36:13 UTC</p>
+<p><p>Revised 2018-08-13 at 20:08:21 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -25021,7 +25021,7 @@ satisfy the allocator completeness requirements (15.5.3.5.1 <a href="https://wg2
 <hr>
 <h3><a name="3038" href="#3038">3038</a><sup><a href="https://cplusplus.github.io/LWG/issue3038">(i)</a></sup>. <tt>polymorphic_allocator::allocate</tt> should not allow integer overflow to create vulnerabilities</h3>
 <p><b>Section:</b> 19.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-11-16 <b>Last modified:</b> 2018-06-12</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-11-16 <b>Last modified:</b> 2018-08-13</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#mem.poly.allocator.mem">active issues</a> in [mem.poly.allocator.mem].</p>
@@ -25046,8 +25046,8 @@ of <tt>SIZE_MAX</tt>.
 <p>Consensus was that the overflow should be detected and an exception thrown rather than leaving that to the 
 underlying memory resource. Billy to reword, and then get feedback on the reflector. Status to Open.</p>
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 Wording relative to <a href="http://wg21.link/n4700">N4700</a>.
 </p>
@@ -25068,6 +25068,37 @@ Tp* allocate(size_t n);
 <blockquote>
 <pre>
 return static_cast&lt;Tp*&gt;(memory_rsrc-&gt;allocate(<ins>SIZE_MAX / sizeof(Tp) &lt; n ? SIZE_MAX :</ins> n * sizeof(Tp), alignof(Tp)));
+</pre>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+Wording relative to <a href="http://wg21.link/n4750">N4750</a>.
+</p>
+
+<ol>
+<li>
+<p>
+Edit 19.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> as indicated:
+</p>
+<blockquote>
+<pre>
+Tp* allocate(size_t n);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects: </i><ins>If <tt>SIZE_MAX / sizeof(Tp) &lt; n</tt>, throws <tt>length_error</tt>, then</ins> <del>E</del><ins>e</ins>quivalent to:
+</p>
+<blockquote>
+<pre>
+return static_cast&lt;Tp*&gt;(memory_rsrc-&gt;allocate(n * sizeof(Tp), alignof(Tp)));
 </pre>
 </blockquote>
 </blockquote>
