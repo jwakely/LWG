@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-08-17 at 18:52:13 UTC</p>
+<p><p>Revised 2018-08-18 at 16:54:50 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -19955,7 +19955,7 @@ int compare(const charT* s) const <ins>noexcept</ins>;
 <hr>
 <h3><a name="2839" href="#2839">2839</a><sup><a href="https://cplusplus.github.io/LWG/issue2839">(i)</a></sup>. Self-move-assignment of library types, again</h3>
 <p><b>Section:</b> 15.5.5.15 <a href="https://wg21.link/lib.types.movedfrom">[lib.types.movedfrom]</a>, 15.5.4.9 <a href="https://wg21.link/res.on.arguments">[res.on.arguments]</a>, 21.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2016-12-09 <b>Last modified:</b> 2018-08-17</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2016-12-09 <b>Last modified:</b> 2018-08-18</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
@@ -20119,13 +20119,13 @@ this is that <tt>MoveAssignable</tt> specifies the self-assignment case, thus we
 <li><p>Add a new subsection to 15.5.5 <a href="https://wg21.link/conforming">[conforming]</a> after 15.5.5.5 <a href="https://wg21.link/member.functions">[member.functions]</a>:</p>
 <blockquote>
 <p>
-<b>Special members [conforming.special]</b>
+<ins><b>Special members [conforming.special]</b></ins>
 <p/>
-Class types defined by the C++ standard library and specified to be default constructible, move constructible, 
+<ins>Class types defined by the C++ standard library and specified to be default constructible, move constructible, 
 copy constructible, move assignable, copy assignable, or destructible, shall meet the associated requirements  
 <i>Cpp17DefaultConstructible</i>, <i>Cpp17MoveConstructible</i>, <i>Cpp17CopyConstructible</i>, 
 <i>Cpp17MoveAssignable</i>, <i>Cpp17CopyAssignable</i>, and <i>Cpp17Destructible</i>, respectively 
-(15.5.3.1 <a href="https://wg21.link/utility.arg.requirements">[utility.arg.requirements]</a>).
+(15.5.3.1 <a href="https://wg21.link/utility.arg.requirements">[utility.arg.requirements]</a>).</ins>
 </p>
 </blockquote>
 </li>
@@ -32570,6 +32570,98 @@ satisfied</del> only if:
 <tt>u<ins>1</ins><del>()</del></tt> <ins>equals <tt>u2</tt></ins>
 <del>is an equality-preserving expression (17.2 <a href="https://wg21.link/concepts.equality">[concepts.equality]</a>)</del>.
 </p>
+</blockquote>
+</li>
+</ul>
+
+
+
+
+
+<hr>
+<h3><a name="3155" href="#3155">3155</a><sup><a href="https://cplusplus.github.io/LWG/issue3155">(i)</a></sup>. <tt>tuple&lt;any, any&gt;{allocator_arg_t, an_allocator}</tt></h3>
+<p><b>Section:</b> 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-18 <b>Last modified:</b> 2018-08-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
+<p><b>View all other</b> <a href="lwg-index.html#tuple.cnstr">issues</a> in [tuple.cnstr].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For a 2-element <tt>std::tuple</tt>, attempting to call the "allocator-extended default constructor" might actually 
+pass the <tt>allocator_arg</tt> tag and the allocator to the tuple element constructors:
+</p>
+<blockquote>
+<pre>
+tuple&lt;any, any&gt; t{allocator_arg, allocator&lt;int&gt;{}};
+assert(std::get&lt;0&gt;(t).has_value());
+</pre>
+</blockquote>
+<p>
+This assertion should pass according to the standard, but users might expect the elements to be default constructed. 
+If you really wanted to construct the elements with the tag and the allocator, you could do:
+</p>
+<blockquote>
+<pre>
+tuple&lt;any, any&gt; t{{allocator_arg}, {allocator&lt;int&gt;{}}};
+</pre>
+</blockquote>
+<p>
+or
+</p>
+<blockquote>
+<pre>
+tuple&lt;any, any&gt; t{tuple&lt;allocator_arg_t, allocator&lt;int&gt;&gt;{allocator_arg, allocator&lt;int&gt;{}}};
+</pre>
+</blockquote>
+<p>
+The deduction guides for <tt>std::tuple</tt> always treat <tt>{allocator_arg_t, <i>an_allocator</i>}</tt> as the 
+allocator-extended default constructor, so this creates an empty tuple:
+</p>
+<blockquote>
+<pre>
+tuple t{allocator_arg, allocator&lt;int&gt;{}};
+</pre>
+</blockquote>
+<p>
+And this is needed to create <tt>tuple&lt;any, any&gt;</tt>:
+</p>
+<blockquote>
+<pre>
+tuple t{allocator_arg, allocator&lt;int&gt;{}, any{}, any{}};
+</pre>
+</blockquote>
+<p>
+The proposed resolution seems consistent with that, always calling an allocator-extended constructor for 
+<tt>{allocator_arg_t, <i>a</i>}</tt>, instead of the <tt>tuple(UTypes&amp;&amp;...)</tt> constructor.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+<p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
+
+<ul>
+<li><p>Modify 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class... UTypes&gt; explicit(<i>see below</i>) constexpr tuple(UTypes&amp;&amp;... u);
+</pre>
+<blockquote>
+<p>
+-9- <i>Effects:</i> Initializes the elements in the tuple with the corresponding value in 
+<tt>std::forward&lt;UTypes&gt;(u)</tt>.
+<p/>
+-10- <i>Remarks:</i> This constructor shall not participate in overload resolution unless 
+<tt>sizeof...(Types) == sizeof...(UTypes)</tt> and <tt>sizeof...(Types) &gt;= 1</tt> and 
+<tt>is_constructible_v&lt;T<sub><i>i</i></sub>, U<sub><i>i</i></sub>&amp;&amp;&gt;</tt> is <tt>true</tt> 
+for all <tt><i>i</i></tt> <ins>and <tt>(sizeof...(Types) != 2 || !is_same_v&lt;remove_cvref_t&lt;U0&gt;, 
+allocator_arg_t&gt;)</tt></ins>. The expression inside <tt>explicit</tt> is equivalent to:
+<p/>
+<tt>!conjunction_v&lt;is_convertible&lt;UTypes, Types&gt;...&gt;</tt>
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ul>
