@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-08-21 at 18:31:16 UTC</p>
+<p><p>Revised 2018-08-21 at 18:36:00 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -25376,7 +25376,7 @@ exceptions has not been added. IMO this position should be reconsidered to follo
 The phrase "the largest value that can meaningfully be passed to <tt>X::allocate()</tt>" is meaningless. Is it a 
 requirement on the caller, so that larger values must not be passed? Or a hint from the allocator implementor that larger 
 values will produce a <tt>bad_alloc exception</tt>? Can the return value change dynamically, based on the free memory 
-available to the allocator?! &mdash; LWG <a href="lwg-closed.html#97">97</a> says it can't change.
+available to the allocator?! &mdash; LWG <a href="lwg-closed.html#197">197</a> says it can't change.
 <p/>
 As noted in the LWG <a href="lwg-defects.html#2162">2162</a> comments, we don't currently guarantee it can be called on a <tt>const</tt> object 
 (so <tt>allocator_traits</tt> will not use the allocator's <tt>max_size()</tt> if it's non-<tt>const</tt>, although that was 
