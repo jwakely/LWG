@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2018-09-08</td>
+  <td align="left">2018-09-09</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D112)</h1>
-<p><p>Revised 2018-09-08 at 11:59:06 UTC</p>
+<p><p>Revised 2018-09-09 at 11:55:38 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D112: 2018-10-08 2018 pre-San Diego mailing<ul>
 <li><b>Summary:</b><ul>
-<li>315 open issues, up by 31.</li>
+<li>316 open issues, up by 32.</li>
 <li>2328 closed issues, up by 2.</li>
 <li>36 reassigned issues, up by 1.</li>
-<li>2679 issues total, up by 34.</li>
+<li>2680 issues total, up by 35.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 13 Tentatively Ready issues: <a href="lwg-active.html#3127">3127</a>, <a href="lwg-active.html#3128">3128</a>, <a href="lwg-active.html#3129">3129</a>, <a href="lwg-active.html#3130">3130</a>, <a href="lwg-active.html#3131">3131</a>, <a href="lwg-active.html#3132">3132</a>, <a href="lwg-active.html#3134">3134</a>, <a href="lwg-active.html#3137">3137</a>, <a href="lwg-active.html#3145">3145</a>, <a href="lwg-active.html#3147">3147</a>, <a href="lwg-active.html#3148">3148</a>, <a href="lwg-active.html#3153">3153</a>, <a href="lwg-active.html#3154">3154</a>.</li>
-<li>Added the following 19 New issues: <a href="lwg-active.html#3124">3124</a>, <a href="lwg-active.html#3126">3126</a>, <a href="lwg-active.html#3133">3133</a>, <a href="lwg-active.html#3135">3135</a>, <a href="lwg-active.html#3136">3136</a>, <a href="lwg-active.html#3138">3138</a>, <a href="lwg-active.html#3139">3139</a>, <a href="lwg-active.html#3140">3140</a>, <a href="lwg-active.html#3141">3141</a>, <a href="lwg-active.html#3142">3142</a>, <a href="lwg-active.html#3143">3143</a>, <a href="lwg-active.html#3144">3144</a>, <a href="lwg-active.html#3146">3146</a>, <a href="lwg-active.html#3149">3149</a>, <a href="lwg-active.html#3150">3150</a>, <a href="lwg-active.html#3151">3151</a>, <a href="lwg-active.html#3152">3152</a>, <a href="lwg-active.html#3156">3156</a>, <a href="lwg-active.html#3157">3157</a>.</li>
+<li>Added the following 20 New issues: <a href="lwg-active.html#3124">3124</a>, <a href="lwg-active.html#3126">3126</a>, <a href="lwg-active.html#3133">3133</a>, <a href="lwg-active.html#3135">3135</a>, <a href="lwg-active.html#3136">3136</a>, <a href="lwg-active.html#3138">3138</a>, <a href="lwg-active.html#3139">3139</a>, <a href="lwg-active.html#3140">3140</a>, <a href="lwg-active.html#3141">3141</a>, <a href="lwg-active.html#3142">3142</a>, <a href="lwg-active.html#3143">3143</a>, <a href="lwg-active.html#3144">3144</a>, <a href="lwg-active.html#3146">3146</a>, <a href="lwg-active.html#3149">3149</a>, <a href="lwg-active.html#3150">3150</a>, <a href="lwg-active.html#3151">3151</a>, <a href="lwg-active.html#3152">3152</a>, <a href="lwg-active.html#3156">3156</a>, <a href="lwg-active.html#3157">3157</a>, <a href="lwg-active.html#3158">3158</a>.</li>
 <li>Added the following 2 Open issues: <a href="lwg-active.html#3125">3125</a>, <a href="lwg-active.html#3155">3155</a>.</li>
 <li>Changed the following 6 issues to Tentatively Ready (from New): <a href="lwg-active.html#2960">2960</a>, <a href="lwg-active.html#3025">3025</a>, <a href="lwg-active.html#3031">3031</a>, <a href="lwg-active.html#3037">3037</a>, <a href="lwg-active.html#3065">3065</a>, <a href="lwg-active.html#3096">3096</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from Open): <a href="lwg-active.html#2943">2943</a>, <a href="lwg-active.html#3008">3008</a>, <a href="lwg-active.html#3038">3038</a>.</li>
@@ -39568,6 +39568,101 @@ template&lt;class T&gt;
 -6- <i>Effects:</i> Calls <tt>a.destroy(p)</tt> if that call is well-formed; otherwise, invokes <tt>p-&gt;~T()</tt>.
 <p/>
 <ins>-?- <i>Throws:</i> Nothing.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ul>
+
+
+
+
+
+<hr>
+<h3><a name="3158" href="#3158">3158</a><sup><a href="https://cplusplus.github.io/LWG/issue3158">(i)</a></sup>. <tt>tuple(allocator_arg_t, const Alloc&amp;)</tt> should be conditionally explicit</h3>
+<p><b>Section:</b> 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-21 <b>Last modified:</b> 2018-09-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
+<p><b>View all other</b> <a href="lwg-index.html#tuple.cnstr">issues</a> in [tuple.cnstr].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>std::tuple</tt>'s allocator-extended constructors say "<i>Effects:</i> Equivalent to the preceding constructors except 
+that each element is constructed with uses-allocator construction". That's not true for the first one, as shown by:
+</p>
+<blockquote><pre>
+#include &lt;tuple&gt;
+
+struct X { explicit X() { } };
+
+std::tuple&lt;X&gt; f() { return {}; }
+std::tuple&lt;X&gt; g() { return { std::allocator_arg, std::allocator&lt;int&gt;{} }; }
+</pre></blockquote>
+<p>
+The function <tt>f()</tt> doesn't compile because of the explicit constructor, but <tt>g()</tt> does, despite using the 
+same constructor for <tt>X</tt>. The conditional explicit-ness is not equivalent.
+<p/>
+Also, the editor requested that we change "implicitly default-constructible" to use words that mean something. He suggested "copy-list-initializable from an empty list".
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+<p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
+
+<ul>
+<li><p>Modify 19.5.3 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a>, class template <tt>tuple</tt> synopsis, as indicated:</p>
+<blockquote><pre>
+[&hellip;]
+<i>// allocator-extended constructors</i>
+template&lt;class Alloc&gt;
+  <ins>explicit(<i>see below</i>)</ins> tuple(allocator_arg_t, const Alloc&amp; a);
+template&lt;class Alloc&gt;
+  explicit(<i>see below</i>) tuple(allocator_arg_t, const Alloc&amp; a, const Types&amp;...);
+[&hellip;]
+</pre></blockquote>
+</li>
+
+<li><p>Modify 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a>, as indicated:</p>
+
+<blockquote>
+<pre>
+explicit(<i>see below</i>) constexpr tuple();
+</pre>
+<blockquote>
+<p>
+-5- <i>Effects:</i> Value-initializes each element.
+<p/>
+-6- <i>Remarks:</i> This constructor shall not participate in overload resolution unless 
+<tt>is_default_constructible_v&lt;T<sub><i>i</i></sub>&gt;</tt> is <tt>true</tt> for all 
+<tt><i>i</i></tt>. [<i>Note:</i> This behavior can be implemented by a constructor template with default template 
+arguments. &mdash; <i>end note</i>] The expression inside <tt>explicit</tt> evaluates to <tt>true</tt> if
+and only if <tt>T<sub><i>i</i></sub></tt> is not <del>implicitly default-constructible</del>
+<ins>copy-list-initializable from an empty list</ins> for at least one <tt><i>i</i></tt>. 
+[<i>Note:</i> This behavior can be implemented with a trait that checks whether a 
+<tt>const T<sub><i>i</i></sub>&amp;</tt> can be initialized with <tt>{}</tt>. &mdash; <i>end note</i>]
+</p>
+</blockquote>
+<p>
+[&hellip;]
+</p>
+<pre>
+template&lt;class Alloc&gt;
+  <ins>explicit(<i>see below</i>)</ins> tuple(allocator_arg_t, const Alloc&amp; a);
+template&lt;class Alloc&gt;
+  explicit(<i>see below</i>) tuple(allocator_arg_t, const Alloc&amp; a, const Types&amp;...);
+[&hellip;]
+template&lt;class Alloc, class U1, class U2&gt;
+  explicit(<i>see below</i>) tuple(allocator_arg_t, const Alloc&amp; a, pair&lt;U1, U2&gt;&amp;&amp;);
+</pre>
+<blockquote>
+<p>
+-25- <i>Requires:</i> <tt>Alloc</tt> shall satisfy the <tt><i>Cpp17Allocator</i></tt> requirements (Table 33).
+<p/>
+[&hellip;]
 </p>
 </blockquote>
 </blockquote>
