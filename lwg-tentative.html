@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-09-09 at 11:55:38 UTC</p>
+<p><p>Revised 2018-09-11 at 18:25:35 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="708" href="#708">708</a><sup><a href="https://cplusplus.github.io/LWG/issue708">(i)</a></sup>. Locales need to be per thread and updated for POSIX changes</h3>
@@ -4515,6 +4515,61 @@ and SD-6 reflected that. Somewhere along the way, they was put into their own he
 <tr><th>Macro name</th><th>Value</th><th>Header(s)</th></tr>
 <tr><td><tt>__cpp_lib_to_chars</tt></td><td><tt>201611L</tt></td><td><tt>&lt;<ins>charconv</ins><del>utility</del>&gt;</tt></td></tr>
 </table>
+
+
+
+
+
+
+<hr>
+<h3><a name="3140" href="#3140">3140</a><sup><a href="https://cplusplus.github.io/LWG/issue3140">(i)</a></sup>. <tt><i>COMMON_REF</i></tt> is unimplementable as specified</h3>
+<p><b>Section:</b> 19.15.7.6 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-07-07 <b>Last modified:</b> 2018-09-11</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#meta.trans.other">active issues</a> in [meta.trans.other].</p>
+<p><b>View all other</b> <a href="lwg-index.html#meta.trans.other">issues</a> in [meta.trans.other].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+
+<p>
+19.15.7.6 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a>/3.2 states:
+<blockquote>
+[Let] <tt><i>XREF</i>(A)</tt> denote a unary class template <tt>T</tt> such that <tt>T&lt;U&gt;</tt>
+denotes the same type as <tt>U</tt> with the addition of <tt>A</tt>’s cv and reference qualifiers,
+for a non-reference cv-unqualified type <tt>U</tt>,
+</blockquote>
+which is nonsensical: a specialization of a <em>class</em> template cannot possibly be a cv-qualified
+type or reference type. <tt><i>XREF</i>(A)</tt> must be a unary alias template.
+</p>
+
+<p><i>[2018-09-11; Status set to Tentatively Ready after five positive votes on the reflector]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+
+<p>This wording is relative to <a href="http://wg21.link/n4762">N4762</a>.</p>
+
+<p>Change 19.15.7.6 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a> as indicated:</p>
+<blockquote>
+<p>
+-3- Let:
+</p>
+<blockquote>
+<p>
+(3.1) &mdash; <tt><i>CREF</i>(A)</tt> be <tt>add_lvalue_reference_t&lt;const remove_reference_t&lt;A&gt;&gt;</tt>,
+</p><p>
+(3.2) &mdash; <tt><i>XREF</i>(A)</tt> denote a unary <del>class</del><ins>alias</ins> template <tt>T</tt>
+such that <tt>T&lt;U&gt;</tt> denotes the same type as <tt>U</tt> with the addition of <tt>A</tt>’s
+cv and reference qualifiers, for a non-reference cv-unqualified type <tt>U</tt>,
+</p><p>
+(3.3) &mdash; <tt><i>COPYCV</i>(FROM, TO)</tt> be an alias for type <tt>TO</tt> with the addition of
+<tt>FROM</tt>’s top-level cv-qualifiers. [<i>Example</i>: <tt><i>COPYCV</i>(const int, volatile short)</tt>
+is an alias for <tt>const volatile short</tt>. &mdash;<i>end example</i>]
+</p>
+</blockquote>
+</blockquote>
 
 
 
