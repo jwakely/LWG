@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-09-11 at 18:25:35 UTC</p>
+<p><p>Revised 2018-09-18 at 16:32:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -9228,6 +9228,7 @@ and that it's been superseded by IEEE-754.
  <b>Submitter:</b> Rob Desbois <b>Opened:</b> 2013-05-15 <b>Last modified:</b> 2017-03-22</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#unique.ptr.single">active issues</a> in [unique.ptr.single].</p>
 <p><b>View all other</b> <a href="lwg-index.html#unique.ptr.single">issues</a> in [unique.ptr.single].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -31961,6 +31962,69 @@ template&lt;class Alloc, class U1, class U2&gt;
 </li>
 
 </ul>
+
+
+
+
+
+<hr>
+<h3><a name="3159" href="#3159">3159</a><sup><a href="https://cplusplus.github.io/LWG/issue3159">(i)</a></sup>. &sect;[unique.ptr.single] requirements on deleter may be too strict</h3>
+<p><b>Section:</b> 19.11.1.2 <a href="https://wg21.link/unique.ptr.single">[unique.ptr.single]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-09-17 <b>Last modified:</b> 2018-09-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#unique.ptr.single">active issues</a> in [unique.ptr.single].</p>
+<p><b>View all other</b> <a href="lwg-index.html#unique.ptr.single">issues</a> in [unique.ptr.single].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+19.11.1.2 <a href="https://wg21.link/unique.ptr.single">[unique.ptr.single]</a> p1 says:
+</p>
+<blockquote><p>
+The default type for the template parameter <tt>D</tt> is <tt>default_delete</tt>. A client-supplied template argument 
+<tt>D</tt> shall be a function object type (19.14), lvalue reference to function, or lvalue reference to function object 
+type for which, given a value <tt>d</tt> of type <tt>D</tt> and a value ptr of type <tt>unique_ptr&lt;T, D&gt;::pointer</tt>, 
+the expression <tt>d(ptr)</tt> is valid and has the effect of disposing of the pointer as appropriate for that deleter.
+</p></blockquote>
+<p>
+That means this is undefined:
+</p>
+<blockquote><pre>
+#include &lt;memory&gt;
+
+struct IncompleteBase;
+
+struct Deleter {
+  void operator()(IncompleteBase*) const;
+};
+
+struct IncompleteDerived;
+
+struct X {
+  std::unique_ptr&lt;IncompleteDerived, Deleter&gt; p;
+  ~X();
+};
+</pre></blockquote>
+<p>
+<tt>unique_ptr::pointer</tt> is <tt>IncompleteDerived*</tt>, but <tt>is_invocable&lt;Deleter, IncompleteDerived*&gt;</tt> 
+is unknowable until the type is complete (see LWG <a href="lwg-active.html#3099">3099</a> etc).
+<p/>
+The intention is that <tt>IncompleteDerived</tt> only needs to be complete when the deleter is invoked, which is in the 
+definition of <tt>X::~X()</tt> for this example. But the requirement for <tt>d(ptr)</tt> to be valid requires a complete type. 
+If the <tt>unique_ptr</tt> implementation adds <tt>static_assert(is_invocable_v&lt;D, pointer&gt;)</tt> to enforce the 
+requirement, the example above fails to compile. GCC recently added that assertion.
+<p/>
+Do we want to relax that requirement, or do we want to force the code above to define <tt>Deleter::pointer</tt> as 
+<tt>IncompleteBase*</tt> so that the <tt>is_invocable</tt> condition can be checked?
+<p/>
+The destructor and <tt>reset</tt> member function already require that the deleter can be invoked (and that <i>Requires:</i> 
+element will be turned into a <i>Mandates:</i> one soon). We can just remove that requirement from the preamble for the 
+class template, or say that the expression only needs to be valid when the destructor and <tt>reset</tt> member are 
+instantiated. We could also rephrase it in terms of <tt>is_invocable_v&lt;D, unique_ptr&lt;T, D&gt;::pointer&gt;</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
