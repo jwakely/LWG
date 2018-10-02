@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-10-02 at 17:24:25 UTC</p>
+<p><p>Revised 2018-10-02 at 20:41:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -32121,7 +32121,7 @@ atomic_ref&amp; operator=(const atomic_ref&amp;) = delete;
 <hr>
 <h3><a name="3161" href="#3161">3161</a><sup><a href="https://cplusplus.github.io/LWG/issue3161">(i)</a></sup>. Container adapters mandate use of <tt>emplace_back</tt> but don't require it</h3>
 <p><b>Section:</b> 21.6.6 <a href="https://wg21.link/stack">[stack]</a>, 21.6.4 <a href="https://wg21.link/queue">[queue]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Your name <b>Opened:</b> 2018-10-02 <b>Last modified:</b> 2018-10-02</p>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2018-10-02 <b>Last modified:</b> 2018-10-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#stack">issues</a> in [stack].</p>
@@ -32140,13 +32140,34 @@ template&lt;class... Args&gt;
 </pre>
 
 <p>The same pattern appears in 21.6.4 <a href="https://wg21.link/queue">[queue]</a>.</p>
-<p>I believe the calls to <tt>c.emplace_back(std::forward&lt;Args&gt;(args)...)</tt> should be replaced with <tt>c.emplace(c.end(), std::forward&lt;Args&gt;(args)...)</tt>.</p>
-<p>We can do this because <tt>emplace</tt> is part of the sequence container requirements, while <tt>emplace_back</tt> is not.</p>
+
+<p>I see two ways to resolve this:</p>
+<p>The first is to add <tt>emplace_back()</tt> to the list of requirements for underlying containers for <tt>stack</tt> and <tt>queue</tt></p>
+
+<p>The second is to replace the calls to <tt>c.emplace_back(std::forward&lt;Args&gt;(args)...)</tt> with <tt>c.emplace(c.end(), std::forward&lt;Args&gt;(args)...)</tt>. We can do this w/o messing with the list above because <tt>emplace</tt> is part of the sequence container requirements, while <tt>emplace_back</tt> is not. I checked the libc++ implementation of <tt>vector</tt>, <tt>deque</tt>, and <tt>list</tt>, and they all do the same thing for <tt>emplace(end(), ...)</tt> and <tt>emplace_back(...)</tt>.</p>
 
 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
+<blockquote class=note>
+I have prepared two mutually exclusive options.
+<br/>Option A a requirement for <tt>emplace_back</tt> to the underlying container.
+<br/>Option B one replaces the calls to <tt>emplace_back</tt> with calls to <tt>emplace</tt>.
+</blockquote>
+
+<p><b>Option A</b></p>
+<ul>
+<li><p>Edit 21.6.6 <a href="https://wg21.link/stack">[stack]</a>, as indicated:</p>
+<p>Any sequence container supporting operations <tt>back()</tt>, <tt>push_back()</tt>,  <ins><tt>emplace_back()</tt></ins> and <tt>pop_back()</tt> can be used to instantiate <tt>stack</tt>. </p>
+</li>
+
+<li><p>Edit 21.6.4.1 <a href="https://wg21.link/queue.defn">[queue.defn]</a>, as indicated:</p>
+<p>Any sequence container supporting operations <tt>front()</tt>, <tt>back()</tt>, <tt>push_back()</tt>,  <ins><tt>emplace_back()</tt></ins> and <tt>pop_front()</tt> can be used to instantiate <tt>queue</tt>. </p>
+</li>
+</ul>
+
+<p><b>Option B</b></p>
 <ul>
 <li><p>Edit 21.6.6.1 <a href="https://wg21.link/stack.defn">[stack.defn]</a>, class template <tt>stack</tt> definition, as indicated:</p>
 <blockquote><pre>
