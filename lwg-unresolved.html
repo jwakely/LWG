@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-10-06 at 10:56:27 UTC</p>
+<p><p>Revised 2018-10-06 at 11:23:20 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -28233,6 +28233,7 @@ to meet their postconditions</h3>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-05-10 <b>Last modified:</b> 2018-05-14</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#syserr.syserr.members">active issues</a> in [syserr.syserr.members].</p>
 <p><b>View all other</b> <a href="lwg-index.html#syserr.syserr.members">issues</a> in [syserr.syserr.members].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -31872,9 +31873,12 @@ instantiated. We could also rephrase it in terms of <tt>is_invocable_v&lt;D, uni
 <p><b>View all other</b> <a href="lwg-index.html#stack">issues</a> in [stack].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
+<p>
 21.6.6 <a href="https://wg21.link/stack">[stack]</a> p1 says:
+</p>
 <blockquote>
-Any sequence container supporting operations <tt>back()</tt>, <tt>push_back()</tt> and <tt>pop_back()</tt> can be used to instantiate <tt>stack</tt>. 
+Any sequence container supporting operations <tt>back()</tt>, <tt>push_back()</tt> and <tt>pop_back()</tt> can be used to 
+instantiate <tt>stack</tt>. 
 </blockquote>
 
 <p>but then in 21.6.6.1 <a href="https://wg21.link/stack.defn">[stack.defn]</a> we have the following code:</p>
@@ -31895,7 +31899,7 @@ template&lt;class... Args&gt;
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
-<blockquote class=note>
+<blockquote class="note">
 I have prepared two mutually exclusive options.
 <br/>Option A a requirement for <tt>emplace_back</tt> to the underlying container.
 <br/>Option B one replaces the calls to <tt>emplace_back</tt> with calls to <tt>emplace</tt>.
@@ -31930,6 +31934,66 @@ template&lt;class... Args&gt;
 </pre></blockquote>
 </li>
 </ul>
+
+
+
+
+
+
+<hr>
+<h3><a name="3162" href="#3162">3162</a><sup><a href="https://cplusplus.github.io/LWG/issue3162">(i)</a></sup>. <tt>system_error::system_error(error_code ec)</tt> not explicit</h3>
+<p><b>Section:</b> 18.5.7.2 <a href="https://wg21.link/syserr.syserr.members">[syserr.syserr.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Peter Dimov <b>Opened:</b> 2018-10-02 <b>Last modified:</b> 2018-10-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#syserr.syserr.members">active issues</a> in [syserr.syserr.members].</p>
+<p><b>View all other</b> <a href="lwg-index.html#syserr.syserr.members">issues</a> in [syserr.syserr.members].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The constructor for <tt>std::system_error</tt> taking a single argument of type <tt>std::error_code</tt> is 
+not marked explicit, which allows implicit conversions from <tt>error_code</tt> to <tt>system_error</tt>. I 
+think that this is an oversight and not intentional, and that we should make this constructor explicit.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
+
+<ol>
+<li><p>Change 18.5.7.1 <a href="https://wg21.link/syserr.syserr.overview">[syserr.syserr.overview]</a> p2, class <tt>system_error</tt> synopsis, as indicated</p>
+<blockquote><pre>
+namespace std {
+  class system_error : public runtime_error {
+  public:
+    system_error(error_code ec, const string&amp; what_arg);
+    system_error(error_code ec, const char* what_arg);
+    <ins>explicit</ins> system_error(error_code ec);
+    system_error(int ev, const error_category&amp; ecat, const string&amp; what_arg);
+    system_error(int ev, const error_category&amp; ecat, const char* what_arg);
+    system_error(int ev, const error_category&amp; ecat);
+    const error_code&amp; code() const noexcept;
+    const char* what() const noexcept override;
+  };
+}
+</pre></blockquote>
+</li>
+
+<li><p>Change 18.5.7.2 <a href="https://wg21.link/syserr.syserr.members">[syserr.syserr.members]</a> as indicated</p>
+<blockquote>
+<pre>
+<ins>explicit</ins> system_error(error_code ec);
+</pre>
+<blockquote>
+<p>
+-5- <i>Effects:</i> [&hellip;]
+<p/>
+-6- <i>Ensures:</i> [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
