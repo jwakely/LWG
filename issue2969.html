@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="2969" href="lwg-defects.html#2969">2969</a>. <tt>polymorphic_allocator::construct()</tt> shouldn't pass <tt>resource()</tt></h3>
-<p><b>Section:</b> 19.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2017-05-30 <b>Last modified:</b> 2018-03-24</p>
+<p><b>Section:</b> 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2017-05-30 <b>Last modified:</b> 2018-03-18</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#mem.poly.allocator.mem">active issues</a> in [mem.poly.allocator.mem].</p>
@@ -33,7 +33,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Section 19.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> defines the effect of <tt>polymorphic_allocator&lt;T&gt;::construct</tt> as:
+Section 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> defines the effect of <tt>polymorphic_allocator&lt;T&gt;::construct</tt> as:
 </p>
 <blockquote>
 <p>
@@ -51,7 +51,7 @@ The use of <tt>resource()</tt> is a hold-over from the LFTS, which contains a mo
 
 <ol>
 <li>
-<p>Edit 19.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> as indicated:</p>
+<p>Edit 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -61,7 +61,7 @@ template &lt;class T, class... Args&gt;
 <blockquote>
 <p>
 -5- <i>Requires:</i> Uses-allocator construction of <tt>T</tt> with allocator <tt><del>resource()</del><ins>*this</ins></tt> (see 
-19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>) and constructor arguments <tt>std::forward&lt;Args&gt;(args)...</tt> 
+23.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>) and constructor arguments <tt>std::forward&lt;Args&gt;(args)...</tt> 
 is well-formed. [<i>Note:</i> Uses-allocator construction is always well formed for types that do not use 
 allocators. &mdash; <i>end note</i>]
 <p/>
@@ -80,13 +80,13 @@ template &lt;class T1, class T2, class... Args1, class... Args2&gt;
 <blockquote>
 <p>
 -8- [<i>Note:</i> This method and the <tt>construct</tt> methods that follow are overloads for piecewise construction
-of pairs (19.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a>). &mdash; <i>end note</i>]
+of pairs (23.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a>). &mdash; <i>end note</i>]
 <p/>
 -9- <i>Effects:</i> Let <tt>xprime</tt> be a <tt>tuple</tt> constructed from <tt>x</tt> according to the appropriate rule 
 from the following list. [<i>Note:</i> The following description can be summarized as constructing a 
 <tt>pair&lt;T1, T2&gt;</tt> object in the storage whose address is represented by <tt>p</tt>, as if by separate 
 uses-allocator construction with allocator <tt><del>resource()</del><ins>*this</ins></tt> 
-(19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>) of <tt>p-&gt;first</tt> using the elements of <tt>x</tt> and 
+(23.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>) of <tt>p-&gt;first</tt> using the elements of <tt>x</tt> and 
 <tt>p-&gt;second</tt> using the elements of <tt>y</tt>. &mdash; <i>end note</i>]
 <p/>
 [&hellip;]
@@ -138,7 +138,7 @@ rather than a <tt>memory_resource*</tt>.
 
 <ol>
 <li>
-<p>Edit 19.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> as indicated:</p>
+<p>Edit 23.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -148,7 +148,7 @@ template &lt;class T, class... Args&gt;
 <blockquote>
 <p>
 -5- <i>Requires:</i> Uses-allocator construction of <tt>T</tt> with allocator <tt><del>resource()</del><ins>*this</ins></tt> (see 
-19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>) and constructor arguments <tt>std::forward&lt;Args&gt;(args)...</tt> 
+23.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>) and constructor arguments <tt>std::forward&lt;Args&gt;(args)...</tt> 
 is well-formed. [<i>Note:</i> Uses-allocator construction is always well formed for types that do not use 
 allocators. &mdash; <i>end note</i>]
 <p/>
@@ -167,13 +167,13 @@ template &lt;class T1, class T2, class... Args1, class... Args2&gt;
 <blockquote>
 <p>
 -8- [<i>Note:</i> This method and the <tt>construct</tt> methods that follow are overloads for piecewise construction
-of pairs (19.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a>). &mdash; <i>end note</i>]
+of pairs (23.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a>). &mdash; <i>end note</i>]
 <p/>
 -9- <i>Effects:</i> Let <tt>xprime</tt> be a <tt>tuple</tt> constructed from <tt>x</tt> according to the appropriate rule 
 from the following list. [<i>Note:</i> The following description can be summarized as constructing a 
 <tt>pair&lt;T1, T2&gt;</tt> object in the storage whose address is represented by <tt>p</tt>, as if by separate 
 uses-allocator construction with allocator <tt><del>resource()</del><ins>*this</ins></tt> 
-(19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>) of <tt>p-&gt;first</tt> using the elements of <tt>x</tt> and 
+(23.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>) of <tt>p-&gt;first</tt> using the elements of <tt>x</tt> and 
 <tt>p-&gt;second</tt> using the elements of <tt>y</tt>. &mdash; <i>end note</i>]
 </p>
 <ol style="list-style-type: none">

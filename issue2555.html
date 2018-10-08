@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#TS">TS</a> status.</em></p>
 <h3><a name="2555" href="lwg-defects.html#2555">2555</a>. [fund.ts.v2] No handling for over-aligned types in <tt>optional</tt></h3>
 <p><b>Section:</b> 5.3 [fund.ts.v2::optional.object] <b>Status:</b> <a href="lwg-active.html#TS">TS</a>
- <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2015-11-03 <b>Last modified:</b> 2018-07-08</p>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2015-11-03 <b>Last modified:</b> 2018-07-20</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#fund.ts.v2::optional.object">issues</a> in [fund.ts.v2::optional.object].</p>
@@ -33,9 +33,9 @@
 <p><b>Discussion:</b></p>
 <p><b>Addresses: fund.ts.v2</b></p>
 <p>
-19.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a> does not specify whether over-aligned types are supported. In other places where we specify 
+23.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a> does not specify whether over-aligned types are supported. In other places where we specify 
 allocation of user-supplied types, we state that "It is implementation-defined whether over-aligned types are supported (3.11)." 
-(Examples: 7.6.2.4 <a href="https://wg21.link/expr.new">[expr.new]</a>/p1, 19.10.10.1 <a href="https://wg21.link/allocator.members">[allocator.members]</a>/p5,  [temporary.buffer]/p1). We 
+(Examples: 8.5.2.4 <a href="https://wg21.link/expr.new">[expr.new]</a>/p1, 23.10.10.1 <a href="https://wg21.link/allocator.members">[allocator.members]</a>/p5,  [temporary.buffer]/p1). We 
 should presumably do the same thing here.
 </p>
 
@@ -46,7 +46,7 @@ This wording is relative to <a href="http://www.open-std.org/jtc1/sc22/wg21/docs
 </p>
 
 <ol>
-<li><p>Edit 19.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a>/p1 as follows::</p>
+<li><p>Edit 23.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a>/p1 as follows::</p>
 
 <blockquote>
 <p>

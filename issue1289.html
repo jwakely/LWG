@@ -24,15 +24,15 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">Tentatively NAD</a> status.</em></p>
 <h3><a name="1289" href="lwg-active.html#1289">1289</a>. Generic casting requirements for smart pointers</h3>
-<p><b>Section:</b> 19.2 <a href="https://wg21.link/utility">[utility]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Ion Gazta&ntilde;aga <b>Opened:</b> 2009-12-14 <b>Last modified:</b> 2018-06-23</p>
+<p><b>Section:</b> 23.2 <a href="https://wg21.link/utility">[utility]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Ion Gazta&ntilde;aga <b>Opened:</b> 2009-12-14 <b>Last modified:</b> 2018-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#utility">issues</a> in [utility].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-In section 15.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a>, Table 40 &mdash; Allocator requirements,
+In section 20.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a>, Table 40 &mdash; Allocator requirements,
 the following expression is required for allocator pointers:
 </p>
 
@@ -70,7 +70,7 @@ smart_ptr&lt;T&gt; smart_t(smart_v);
 
 <p>
 On the other hand, <tt>shared_ptr</tt> also defines its own casting functions in
-19.11.3.9 <a href="https://wg21.link/util.smartptr.shared.cast">[util.smartptr.shared.cast]</a>, and although it's unlikely that a
+23.11.3.9 <a href="https://wg21.link/util.smartptr.shared.cast">[util.smartptr.shared.cast]</a>, and although it's unlikely that a
 programmer will use <tt>shared_ptr</tt> as <tt>allocator::pointer</tt>, having
 two different ways to do the same cast operation does not seem reasonable. A
 possible solution would be to replace <tt>static_cast&lt;X::pointer&gt;(w)</tt>
@@ -86,7 +86,7 @@ Unfortunately, we've experienced problems in Boost when trying to establish
 href="http://objectmix.com/c/40424-adl-lookup-explicit-template-parameters.html"
 >http://objectmix.com/c/40424-adl-lookup-explicit-template-parameters.html</a>)
 because these casting functions are called with explicit template parameters and
-the standard says in 12.9.1 <a href="https://wg21.link/temp.arg.explicit">[temp.arg.explicit]</a> p.8 "Explicit template
+the standard says in 17.9.1 <a href="https://wg21.link/temp.arg.explicit">[temp.arg.explicit]</a> p.8 "Explicit template
 argument specification":
 </p>
 
@@ -187,7 +187,7 @@ It can be added later: "this is such a hairy area that people will put up with c
 
 <p><b>Proposed resolution:</b></p>
 <p>
-Add to section 19.2 <a href="https://wg21.link/utility">[utility]</a> Utility components, Header
+Add to section 23.2 <a href="https://wg21.link/utility">[utility]</a> Utility components, Header
 <tt>&lt;utility&gt;</tt> synopsis:
 </p>
 
@@ -218,7 +218,7 @@ auto const_pointer_cast(T* t) -&gt; decltype(const_cast&lt;U*&gt;(t));
 </pre></blockquote>
 
 <p>
-Add to section 19.2 <a href="https://wg21.link/utility">[utility]</a> Utility components, a new subclause
+Add to section 23.2 <a href="https://wg21.link/utility">[utility]</a> Utility components, a new subclause
 20.3.X Pointer cast utilities [pointer.cast]:
 </p>
 
@@ -310,7 +310,7 @@ void generic_pointer_code(BasePtr b)
 </blockquote>
 
 <p>
-Replace in section 15.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a> Table 40 &mdash; Allocator
+Replace in section 20.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a> Table 40 &mdash; Allocator
 requirements, the following table entries for allocator pointers:
 </p>
 

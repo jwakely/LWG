@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD Arrays">NAD Arrays</a> status.</em></p>
 <h3><a name="2255" href="lwg-closed.html#2255">2255</a>. [arrays.ts] <tt>dynarray</tt> constructor ambiguity</h3>
 <p><b>Section:</b> 99 [arrays.ts::dynarray.cons] <b>Status:</b> <a href="lwg-active.html#NAD Arrays">NAD Arrays</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2013-04-23 <b>Last modified:</b> 2016-03-09</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2013-04-23 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#NAD Arrays">NAD Arrays</a> status.</p>
@@ -119,10 +119,10 @@ template &lt;class Alloc&gt;
   dynarray(initializer_list&lt;T&gt;, const Alloc&amp; alloc);
 </pre><blockquote>
 <p>
--9- <i>Requires</i>: <tt>Alloc</tt> shall meet the requirements for an Allocator (15.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a>).
+-9- <i>Requires</i>: <tt>Alloc</tt> shall meet the requirements for an Allocator (20.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a>).
 <p/>
 -10- <i>Effects</i>: Equivalent to the preceding constructors except that each element is constructed with uses-allocator
-construction (19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
+construction (23.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
 <p/>
 <ins>-?- <i>Remarks</i>: The first constructor shall not participate in overload resolution unless <tt>Alloc</tt> is not 
 implicitly convertible to <tt>T</tt>.</ins>

@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="3011" href="lwg-active.html#3011">3011</a>. Requirements for <tt>assert(<em>E</em>)</tt> inconsistent with C</h3>
-<p><b>Section:</b> 18.3 <a href="https://wg21.link/assertions">[assertions]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-08-18 <b>Last modified:</b> 2018-08-20</p>
+<p><b>Section:</b> 22.3 <a href="https://wg21.link/assertions">[assertions]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-08-18 <b>Last modified:</b> 2018-08-27</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#assertions">active issues</a> in [assertions].</p>
@@ -58,7 +58,7 @@ constexpr bool f(const X&amp; x) {
 <p>
 C++ says that <tt>assert(x)</tt> is a constant subexpression, but as it doesn't have scalar type it's not even a valid expression.
 <p/>
-I think either 18.3.1 <a href="https://wg21.link/cassert.syn">[cassert.syn]</a> or 18.3.2 <a href="https://wg21.link/assertions.assert">[assertions.assert]</a> should repeat the requirement from C that 
+I think either 22.3.1 <a href="https://wg21.link/cassert.syn">[cassert.syn]</a> or 22.3.2 <a href="https://wg21.link/assertions.assert">[assertions.assert]</a> should repeat the requirement from C that 
 <em>E</em> has scalar type, either normatively or in a note. We should also consider whether "contextually converted to <tt>bool</tt>" 
 is the right condition, or if we should use comparison to zero instead.
 </p>

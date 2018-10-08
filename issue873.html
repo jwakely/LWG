@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD Editorial">NAD Editorial</a> status.</em></p>
 <h3><a name="873" href="lwg-closed.html#873">873</a>. signed integral type and unsigned integral type are not clearly defined</h3>
 <p><b>Section:</b> 6.7.1 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a> <b>Status:</b> <a href="lwg-active.html#NAD Editorial">NAD Editorial</a>
- <b>Submitter:</b> Travis Vitek <b>Opened:</b> 2008-06-30 <b>Last modified:</b> 2016-02-10</p>
+ <b>Submitter:</b> Travis Vitek <b>Opened:</b> 2008-06-30 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#NAD Editorial">NAD Editorial</a> status.</p>
@@ -97,7 +97,7 @@ concepts.
       The proposed change makes it absolutely clear that the difference
       between two pointers cannot be <tt>char</tt> or <tt>wchar_t</tt>,
       but could be any of the signed integer types.
-      7.6.6 <a href="https://wg21.link/expr.add">[expr.add]</a> paragraph 6...
+      8.5.6 <a href="https://wg21.link/expr.add">[expr.add]</a> paragraph 6...
     </p>
     <blockquote>
       <p>
@@ -120,7 +120,7 @@ concepts.
       <tt>X::difference_type</tt> cannot be <tt>char</tt> or
       <tt>wchar_t</tt>, but could be one of the signed or unsigned integer
       types as appropriate.
-      15.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a> table 40...
+      20.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a> table 40...
     </p>
     <blockquote><p>
       Table 40: Allocator requirements
@@ -160,7 +160,7 @@ concepts.
       The proposed change makes it clear that <tt>make_signed&lt;T&gt;::type</tt>
       must be one of the signed integer types as defined in 3.9.1. Ditto for
       <tt>make_unsigned&lt;T&gt;type</tt> and unsigned integer types.
-      19.15.7.3 <a href="https://wg21.link/meta.trans.sign">[meta.trans.sign]</a> table 48...
+      23.15.7.3 <a href="https://wg21.link/meta.trans.sign">[meta.trans.sign]</a> table 48...
     </p>
     <blockquote><p>
       Table 48: Sign modifications
@@ -228,12 +228,12 @@ concepts.
 
     <p>
       Note: I believe that the basefield values should probably be
-      prefixed with <tt>ios_base::</tt> as they are in 26.4.2.2.2 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a>
+      prefixed with <tt>ios_base::</tt> as they are in 25.4.2.2.2 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a>
 
       The listed virtuals are all overloaded on signed and unsigned integer
       types, the new wording just maintains consistency.
 
-      26.4.2.1.2 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a> table 78...
+      25.4.2.1.2 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a> table 78...
     </p>
     <blockquote><p>
       Table 78: Integer Conversions
@@ -276,7 +276,7 @@ concepts.
     
     <p>
       Rationale is same as above.
-      26.4.2.2.2 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> table 80...
+      25.4.2.2.2 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> table 80...
     </p>
     <blockquote><p>
       Table 80: Integer Conversions
@@ -322,7 +322,7 @@ concepts.
 
     
     <p>
-      21.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> table 80...
+      26.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> table 80...
     </p>
     <blockquote><p>
       Table 89: Container requirements
@@ -387,7 +387,7 @@ concepts.
       allow instantiations of <tt>linear_congruential_engine</tt> on
       <tt>char</tt>, <tt>wchar_t</tt>, <tt>bool</tt>, and other types. The
       new wording prohibits this.
-      24.7.3.1 <a href="https://wg21.link/rand.eng.lcong">[rand.eng.lcong]</a> paragraph 2...
+      29.7.3.1 <a href="https://wg21.link/rand.eng.lcong">[rand.eng.lcong]</a> paragraph 2...
     </p>
     <blockquote><p>
       The template parameter <code>UIntType</code> shall denote an
@@ -416,7 +416,7 @@ concepts.
     </p></blockquote>
     
     <p>
-      24.7.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> paragraph 7...
+      29.7.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> paragraph 7...
     </p>
     <blockquote><p>
       <i>Requires:</i><code>RandomAccessIterator</code> shall meet the
@@ -431,7 +431,7 @@ concepts.
       representation, but are not signed integer types, would no longer be
       required to use a two's complement representation. This may go against
       the original intent, and should be reviewed.
-      29.7.1 <a href="https://wg21.link/atomics.types.operations">[atomics.types.operations]</a> paragraph 24...
+      32.7.1 <a href="https://wg21.link/atomics.types.operations">[atomics.types.operations]</a> paragraph 24...
     </p>
     <blockquote><p>
       <i>Remark:</i> For <del>signed integral types</del><ins>signed integer

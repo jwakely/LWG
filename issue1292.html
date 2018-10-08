@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3><a name="1292" href="lwg-defects.html#1292">1292</a>. <tt>std::function</tt> should support all callable types</h3>
-<p><b>Section:</b> 19.14.14.2.1 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2009-12-19 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 23.14.13.2.1 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2009-12-19 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#func.wrap.func.con">active issues</a> in [func.wrap.func.con].</p>
@@ -34,8 +34,8 @@
 <p><b>Discussion:</b></p>
 <p>
 Some parts of the specification of <tt>std::function</tt> is unnecessarily
-restricted to a subset of all callable types (as defined in 19.14.2 <a href="https://wg21.link/func.def">[func.def]</a>/3), even though the intent clearly is to be usable for
-<em>all</em> of them as described in 19.14.14.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a>/1. This
+restricted to a subset of all callable types (as defined in 23.14.2 <a href="https://wg21.link/func.def">[func.def]</a>/3), even though the intent clearly is to be usable for
+<em>all</em> of them as described in 23.14.13.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a>/1. This
 argument becomes strengthened by the fact that current C++0x-compatible
 compilers work fine with them:
 </p>
@@ -74,7 +74,7 @@ int main()
 </pre></blockquote>
 
 <p>
-The problematic passages are 19.14.14.2.1 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a>/10:
+The problematic passages are 23.14.13.2.1 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a>/10:
 </p>
 
 <blockquote><pre>
@@ -102,7 +102,7 @@ template &lt;class F, class A&gt; function(allocator_arg_t, const A&amp; a, F f)
 
 <p>
 because it does not consider pointer to data member and all constraints based on
-<em>function objects</em> which like 19.14.14.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a>/2 or 19.14.14.2.5 <a href="https://wg21.link/func.wrap.func.targ">[func.wrap.func.targ]</a>/3. The latter two will be resolved by the proposed
+<em>function objects</em> which like 23.14.13.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a>/2 or 23.14.13.2.5 <a href="https://wg21.link/func.wrap.func.targ">[func.wrap.func.targ]</a>/3. The latter two will be resolved by the proposed
 resolution of <a href="lwg-defects.html#870">870</a> and are therefore not handled here.
 </p>
 
@@ -124,7 +124,7 @@ Adopted at 2010-11 Batavia
 
 <p><b>Proposed resolution:</b></p>
 <p>
-Change 19.14.14.2.1 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a>/10+11 as indicated:
+Change 23.14.13.2.1 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a>/10+11 as indicated:
 </p>
 
 <blockquote><pre>

@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++14">C++14</a> status.</em></p>
 <h3><a name="2268" href="lwg-defects.html#2268">2268</a>. Setting a default argument in the declaration of a member function <tt>assign</tt> of <tt>std::basic_string</tt></h3>
-<p><b>Section:</b> 20.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
- <b>Submitter:</b> Vladimir Grigoriev <b>Opened:</b> 2013-06-26 <b>Last modified:</b> 2016-11-12</p>
+<p><b>Section:</b> 24.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
+ <b>Submitter:</b> Vladimir Grigoriev <b>Opened:</b> 2013-06-26 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#basic.string">active issues</a> in [basic.string].</p>
@@ -274,7 +274,7 @@ Alisdair: Ok, move to Ready.
 <p><b>Proposed resolution:</b></p>
 
 <ol>
-<li><p>Change class template <tt>basic_string</tt> synopsis, 20.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a> p5, as indicated:</p>
+<li><p>Change class template <tt>basic_string</tt> synopsis, 24.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a> p5, as indicated:</p>
 
 <blockquote><pre>
 namespace std {
@@ -298,35 +298,35 @@ namespace std {
 </pre></blockquote>
 </li>
 
-<li><p>Change 20.3.2.6.2 <a href="https://wg21.link/string.append">[string.append]</a> before p3 as indicated:</p>
+<li><p>Change 24.3.2.6.2 <a href="https://wg21.link/string.append">[string.append]</a> before p3 as indicated:</p>
 
 <blockquote><pre>
 basic_string&amp; append(const basic_string&amp; str, size_type pos, size_type n <ins>= npos</ins>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 20.3.2.6.3 <a href="https://wg21.link/string.assign">[string.assign]</a> before p4 as indicated:</p>
+<li><p>Change 24.3.2.6.3 <a href="https://wg21.link/string.assign">[string.assign]</a> before p4 as indicated:</p>
 
 <blockquote><pre>
 basic_string&amp; assign(const basic_string&amp; str, size_type pos, size_type n <ins>= npos</ins>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 20.3.2.6.4 <a href="https://wg21.link/string.insert">[string.insert]</a> before p5 as indicated:</p>
+<li><p>Change 24.3.2.6.4 <a href="https://wg21.link/string.insert">[string.insert]</a> before p5 as indicated:</p>
 
 <blockquote><pre>
 basic_string&amp; insert(size_type pos1, const basic_string&amp; str, size_type pos2, size_type n <ins>= npos</ins>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 20.3.2.6.6 <a href="https://wg21.link/string.replace">[string.replace]</a> before p5 as indicated:</p>
+<li><p>Change 24.3.2.6.6 <a href="https://wg21.link/string.replace">[string.replace]</a> before p5 as indicated:</p>
 
 <blockquote><pre>
 basic_string&amp; replace(size_type pos1, size_type n1, const basic_string&amp; str, size_type pos2, size_type n2 <ins>= npos</ins>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 20.3.2.7.9 <a href="https://wg21.link/string.compare">[string.compare]</a> before p4 as indicated:</p>
+<li><p>Change 24.3.2.7.9 <a href="https://wg21.link/string.compare">[string.compare]</a> before p4 as indicated:</p>
 
 <blockquote><pre>
 int compare(size_type pos1, size_type n1, const basic_string&amp; str, size_type pos2, size_type n2 <ins>= npos</ins>) const;

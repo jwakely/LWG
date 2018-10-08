@@ -24,15 +24,15 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++14">C++14</a> status.</em></p>
 <h3><a name="2150" href="lwg-defects.html#2150">2150</a>. Unclear specification of <tt>find_end</tt></h3>
-<p><b>Section:</b> 23.5.6 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
- <b>Submitter:</b> Andrew Koenig <b>Opened:</b> 2012-03-28 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 28.5.6 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
+ <b>Submitter:</b> Andrew Koenig <b>Opened:</b> 2012-03-28 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++14">C++14</a> status.</p>
 <p><b>Discussion:</b></p>
 
 <p>
-23.5.6 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> describes the behavior of find_end as returning:
+28.5.6 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> describes the behavior of find_end as returning:
 </p>
 <blockquote><p>
 The last iterator <tt>i</tt> in the range <tt>[first1,last1 - (last2 - first2))</tt> such that for any 
@@ -43,17 +43,17 @@ nonnegative integer <tt>n &lt; (last2 - first2)</tt>, the following correspondin
 Does "for any" here mean "for every" or "there exists a"?  I think it means the former, but it could be 
 interpreted either way.
 <p/>
-Daniel: The same problem exists for the following specifications from Clause 23 <a href="https://wg21.link/algorithms">[algorithms]</a>:
+Daniel: The same problem exists for the following specifications from Clause 28 <a href="https://wg21.link/algorithms">[algorithms]</a>:
 </p>
 <ol>
-<li>23.5.13 <a href="https://wg21.link/alg.search">[alg.search]</a> p2 and p6</li>
-<li>23.6.10 <a href="https://wg21.link/alg.reverse">[alg.reverse]</a> p4</li>
-<li>23.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> p5 and p9</li>
-<li>23.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p5</li>
-<li>23.7.2 <a href="https://wg21.link/alg.nth.element">[alg.nth.element]</a> p1</li>
-<li>23.7.3.1 <a href="https://wg21.link/lower.bound">[lower.bound]</a> p2</li>
-<li>23.7.3.2 <a href="https://wg21.link/upper.bound">[upper.bound]</a> p2</li>
-<li>23.7.8 <a href="https://wg21.link/alg.min.max">[alg.min.max]</a> p21 and p23</li>
+<li>28.5.13 <a href="https://wg21.link/alg.search">[alg.search]</a> p2 and p6</li>
+<li>28.6.10 <a href="https://wg21.link/alg.reverse">[alg.reverse]</a> p4</li>
+<li>28.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> p5 and p9</li>
+<li>28.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p5</li>
+<li>28.7.2 <a href="https://wg21.link/alg.nth.element">[alg.nth.element]</a> p1</li>
+<li>28.7.3.1 <a href="https://wg21.link/lower.bound">[lower.bound]</a> p2</li>
+<li>28.7.3.2 <a href="https://wg21.link/upper.bound">[upper.bound]</a> p2</li>
+<li>28.7.8 <a href="https://wg21.link/alg.min.max">[alg.min.max]</a> p21 and p23</li>
 </ol>
 
 <p><i>[2013-04-20, Bristol]</i></p>
@@ -78,7 +78,7 @@ Apply to Working Paper
 
 <ol>
 <li>
-<p>Change 23.5.6 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> p2 as indicated:</p>
+<p>Change 28.5.6 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> p2 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class ForwardIterator1, class ForwardIterator2&gt;
@@ -102,7 +102,7 @@ Returns <tt>last1</tt> if <tt>[first2,last2)</tt> is empty or if no such iterato
 </li>
 
 <li>
-<p>Change 23.5.13 <a href="https://wg21.link/alg.search">[alg.search]</a> p2 and p6 as indicated:</p>
+<p>Change 28.5.13 <a href="https://wg21.link/alg.search">[alg.search]</a> p2 and p6 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class ForwardIterator1, class ForwardIterator2&gt;
@@ -148,7 +148,7 @@ if no such iterator is found.
 </li>
 
 <li>
-<p>Change 23.6.10 <a href="https://wg21.link/alg.reverse">[alg.reverse]</a> p4 as indicated:</p>
+<p>Change 28.6.10 <a href="https://wg21.link/alg.reverse">[alg.reverse]</a> p4 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class BidirectionalIterator, class OutputIterator&gt;
@@ -165,7 +165,7 @@ assignment takes place: <tt>*(result + (last - first) - i) = *(first + i)</tt>.
 </li>
 
 <li>
-<p>Change 23.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> p5 and p9 as indicated:</p>
+<p>Change 28.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> p5 and p9 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class ForwardIterator, class Predicate&gt;
@@ -197,7 +197,7 @@ in the range <tt>[i,last), pred(*k) == false</tt>. The relative order of the ele
 </li>
 
 <li>
-<p>Change 23.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p5 as indicated:</p>
+<p>Change 28.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p5 as indicated:</p>
 
 <blockquote><p>
 -5- A sequence is sorted with respect to a comparator <tt>comp</tt> if for <del>any</del><ins>every</ins> iterator 
@@ -207,7 +207,7 @@ in the range <tt>[i,last), pred(*k) == false</tt>. The relative order of the ele
 </li>
 
 <li>
-<p>Change 23.7.2 <a href="https://wg21.link/alg.nth.element">[alg.nth.element]</a> p1 as indicated:</p>
+<p>Change 28.7.2 <a href="https://wg21.link/alg.nth.element">[alg.nth.element]</a> p1 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class RandomAccessIterator&gt;
@@ -225,7 +225,7 @@ in the range <tt>[first,nth)</tt> and <del>any</del><ins>every</ins> iterator <t
 </li>
 
 <li>
-<p>Change 23.7.3.1 <a href="https://wg21.link/lower.bound">[lower.bound]</a> p2 as indicated:</p>
+<p>Change 28.7.3.1 <a href="https://wg21.link/lower.bound">[lower.bound]</a> p2 as indicated:</p>
 
 <blockquote><pre>
 template&lt;lass ForwardIterator, class T&gt;
@@ -246,7 +246,7 @@ conditions hold: <tt>*j &lt; value</tt> or <tt>comp(*j, value) != false</tt>.
 </li>
 
 <li>
-<p>Change 23.7.3.2 <a href="https://wg21.link/upper.bound">[upper.bound]</a> p2 as indicated:</p>
+<p>Change 28.7.3.2 <a href="https://wg21.link/upper.bound">[upper.bound]</a> p2 as indicated:</p>
 
 <blockquote><pre>
 template&lt;lass ForwardIterator, class T&gt;
@@ -267,7 +267,7 @@ conditions hold: <tt>!(value &lt; *j)</tt> or <tt>comp(value, *j) == false</tt>.
 </li>
 
 <li>
-<p>Change 23.7.8 <a href="https://wg21.link/alg.min.max">[alg.min.max]</a> p21 and p23 as indicated:</p>
+<p>Change 28.7.8 <a href="https://wg21.link/alg.min.max">[alg.min.max]</a> p21 and p23 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class ForwardIterator&gt;
