@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3150" href="lwg-active.html#3150">3150</a>. <tt>UniformRandomBitGenerator</tt> should validate <tt>min</tt> and <tt>max</tt></h3>
-<p><b>Section:</b> 29.7.1.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 24.7.2.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2018-08-27</p>
 <p><b>Priority: </b>3
 </p>
@@ -33,7 +33,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-29.7.1.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a>
+24.7.2.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a>
 <a href="https://wg21.link/rand.req.urng#2">paragraph 2</a> specifies axioms for
 the <tt>UniformRandomBitGenerator</tt> concept:
 </p>
@@ -43,7 +43,7 @@ the <tt>UniformRandomBitGenerator</tt> concept:
 <tt>UniformRandomBitGenerator</tt> only if
 </p><p>
 (2.1) &mdash; both <tt>G::min()</tt> and <tt>G::max()</tt> are constant
-expressions (8.6 <a href="https://wg21.link/expr.const">[expr.const]</a>),
+expressions (7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>),
 </p><p>
 (2.2) &mdash; <tt>G::min() &lt; G::max()</tt>,
 </p><p>
@@ -67,7 +67,7 @@ validated by the concept.
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
 <ul>
-<li><p>Modify 29.7.1.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> as follows:</p>
+<li><p>Modify 24.7.2.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> as follows:</p>
 
 <blockquote>
 <p>1 A <i>uniform random bit generator</i> <tt>g</tt> of type <tt>G</tt> is a
@@ -97,7 +97,7 @@ template&lt;class G&gt;
 <tt>UniformRandomBitGenerator</tt> only if
 </p><p>
 <del>(2.1) &mdash; both <tt>G​::​min()</tt> and <tt>G​::​max()</tt> are constant
-expressions (8.6 <a href="https://wg21.link/expr.const">[expr.const]</a>),</del>
+expressions (7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>),</del>
 </p><p>
 <del>(2.2) &mdash; <tt>G​::​min() &lt; G​::​max()</tt>,</del>
 </p><p>

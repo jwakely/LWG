@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3><a name="1123" href="lwg-defects.html#1123">1123</a>. No requirement that standard streams be flushed</h3>
-<p><b>Section:</b> 30.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
+<p><b>Section:</b> 27.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
  <b>Submitter:</b> James Kanze <b>Opened:</b> 2009-05-14 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -42,7 +42,7 @@ be constructed before <tt>main</tt>, and before the dynamic
 initialization of any non-local objects defined after the 
 inclusion of <tt>&lt;iostream&gt;</tt> in the same translation unit.  The only 
 requirement that I can find concerning flushing, however, is in 
-30.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a>, where the destructor of the last 
+27.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a>, where the destructor of the last 
 <tt>std::ios_base::Init</tt> object flushes.  But there is, as far as I 
 can see, no guarantee that such an object ever exists. 
 </p>
@@ -57,7 +57,7 @@ time prior to or during the first time an object of class
 of main begins execution.
 </p></blockquote>
 <p>
-In 30.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a>, however, as an 
+In 27.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a>, however, as an 
 effect of the constructor, it says that
 </p>
 <blockquote><p>
@@ -111,7 +111,7 @@ proposed wording) to remove <tt>init_cnt</tt> from <tt>Init</tt>.
 
 <p><b>Proposed resolution:</b></p>
 <p>
-Change 30.4 <a href="https://wg21.link/iostream.objects">[iostream.objects]</a>/2:
+Change 27.4 <a href="https://wg21.link/iostream.objects">[iostream.objects]</a>/2:
 </p>
 
 <blockquote><p>
@@ -133,7 +133,7 @@ program shall behave as if there were at least one instance of
 </p></blockquote>
 
 <p>
-Change 30.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a>/3:
+Change 27.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a>/3:
 </p>
 
 <blockquote>
@@ -156,7 +156,7 @@ constructed and initialized.</ins>
 </blockquote>
 
 <p>
-Change 30.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a>/4:
+Change 27.5.3.1.6 <a href="https://wg21.link/ios::Init">[ios::Init]</a>/4:
 </p>
 
 <blockquote>

@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Voting">Voting</a> status.</em></p>
 <h3><a name="3160" href="lwg-active.html#3160">3160</a>. <tt>atomic_ref() = delete;</tt> should be deleted</h3>
-<p><b>Section:</b> 32.6 <a href="https://wg21.link/atomics.ref.generic">[atomics.ref.generic]</a> <b>Status:</b> <a href="lwg-active.html#Voting">Voting</a>
+<p><b>Section:</b> 29.6 <a href="https://wg21.link/atomics.ref.generic">[atomics.ref.generic]</a> <b>Status:</b> <a href="lwg-active.html#Voting">Voting</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-10-01 <b>Last modified:</b> 2018-10-07</p>
 <p><b>Priority: </b>0
 </p>
@@ -56,7 +56,7 @@ and so cannot be an aggregate under any definition.)
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
 <ul>
-<li><p>Edit 32.6 <a href="https://wg21.link/atomics.ref.generic">[atomics.ref.generic]</a>, class template <tt>atomic_ref</tt> synopsis, as indicated:</p>
+<li><p>Edit 29.6 <a href="https://wg21.link/atomics.ref.generic">[atomics.ref.generic]</a>, class template <tt>atomic_ref</tt> synopsis, as indicated:</p>
 <blockquote><pre>
 [&hellip;]
 <del>atomic_ref() = delete;</del>
@@ -65,7 +65,7 @@ atomic_ref&amp; operator=(const atomic_ref&amp;) = delete;
 </pre></blockquote>
 </li>
 
-<li><p>Edit 32.6.2 <a href="https://wg21.link/atomics.ref.int">[atomics.ref.int]</a>, class template specialization <tt>atomic_ref&lt;<i>integral</i>&gt;</tt> synopsis, as indicated:</p>
+<li><p>Edit 29.6.2 <a href="https://wg21.link/atomics.ref.int">[atomics.ref.int]</a>, class template specialization <tt>atomic_ref&lt;<i>integral</i>&gt;</tt> synopsis, as indicated:</p>
 <blockquote><pre>
 [&hellip;]
 <del>atomic_ref() = delete;</del>
@@ -74,7 +74,7 @@ atomic_ref&amp; operator=(const atomic_ref&amp;) = delete;
 </pre></blockquote>
 </li>
 
-<li><p>Edit 32.6.3 <a href="https://wg21.link/atomics.ref.float">[atomics.ref.float]</a>, class template specialization <tt>atomic_ref&lt;<i>floating-point</i>&gt;</tt> synopsis, as indicated:</p>
+<li><p>Edit 29.6.3 <a href="https://wg21.link/atomics.ref.float">[atomics.ref.float]</a>, class template specialization <tt>atomic_ref&lt;<i>floating-point</i>&gt;</tt> synopsis, as indicated:</p>
 <blockquote><pre>
 [&hellip;]
 <del>atomic_ref() = delete;</del>
@@ -83,7 +83,7 @@ atomic_ref&amp; operator=(const atomic_ref&amp;) = delete;
 </pre></blockquote>
 </li>
 
-<li><p>Edit 32.6.4 <a href="https://wg21.link/atomics.ref.pointer">[atomics.ref.pointer]</a>, class template specialization <tt>atomic_ref&lt;T*&gt;</tt> synopsis, as indicated:</p>
+<li><p>Edit 29.6.4 <a href="https://wg21.link/atomics.ref.pointer">[atomics.ref.pointer]</a>, class template specialization <tt>atomic_ref&lt;T*&gt;</tt> synopsis, as indicated:</p>
 <blockquote><pre>
 [&hellip;]
 <del>atomic_ref() = delete;</del>

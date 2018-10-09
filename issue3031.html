@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Voting">Voting</a> status.</em></p>
 <h3><a name="3031" href="lwg-active.html#3031">3031</a>. Algorithms and predicates with non-const reference arguments</h3>
-<p><b>Section:</b> 28.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> <b>Status:</b> <a href="lwg-active.html#Voting">Voting</a>
+<p><b>Section:</b> 23.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> <b>Status:</b> <a href="lwg-active.html#Voting">Voting</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-11-08 <b>Last modified:</b> 2018-10-07</p>
 <p><b>Priority: </b>2
 </p>
@@ -123,15 +123,15 @@ Similar to the Ranges TS design, the P/R below requires <tt>Predicate</tt>,
 <p> This wording is relative to <a href="https://wg21.link/N4762">N4762</a>.</p>
 <ol>
 <li>
-<p>Edit 28.3 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> p6-7 as indicated: </p>
+<p>Edit 23.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> p6-7 as indicated: </p>
 <blockquote>
 <p>
 -6- The <tt>Predicate</tt> parameter is used whenever an algorithm expects a function object
-(23.14 <a href="https://wg21.link/function.objects">[function.objects]</a>) that, when applied to the result of dereferencing the
+(19.14 <a href="https://wg21.link/function.objects">[function.objects]</a>) that, when applied to the result of dereferencing the
 corresponding iterator, returns a value testable as <tt>true</tt>. In other words, if an
 algorithm takes <tt>Predicate pred</tt> as its argument and <tt>first</tt> as its iterator
 argument<ins> with value type <tt>T</tt></ins>, it should work correctly in the construct
-<tt>pred(*first)</tt> contextually converted to <tt>bool</tt> (7 <a href="https://wg21.link/conv">[conv]</a>). The
+<tt>pred(*first)</tt> contextually converted to <tt>bool</tt> (7.3 <a href="https://wg21.link/conv">[conv]</a>). The
 function object <tt>pred</tt> shall not apply any non-constant function through the
 dereferenced iterator.<ins> Given a glvalue <tt>u</tt> of type (possibly <tt>const</tt>)
 <tt>T</tt> that designates the same object as <tt>*first</tt>, <tt>pred(u)</tt> shall be a
@@ -144,11 +144,11 @@ returns a value testable as <tt>true</tt>. In other words, if an algorithm takes
 <tt>BinaryPredicate binary_pred</tt> as its argument and <tt>first1</tt> and <tt>first2</tt>
 as its iterator arguments<ins> with respective value types <tt>T1</tt> and <tt>T2</tt></ins>,
 it should work correctly in the construct <tt>binary_pred(*first1, *first2)</tt>
-contextually converted to <tt>bool</tt> (7 <a href="https://wg21.link/conv">[conv]</a>).
+contextually converted to <tt>bool</tt> (7.3 <a href="https://wg21.link/conv">[conv]</a>).
 <ins>Unless otherwise specified, </ins><tt>BinaryPredicate</tt> always takes the first iterator's
 <tt>value_type</tt> as its first argument, that is, in those cases when <tt>T value</tt> is part
 of the signature, it should work correctly in the construct <tt>binary_pred(*first1, value)</tt>
-contextually converted to <tt>bool</tt> (7 <a href="https://wg21.link/conv">[conv]</a>). <tt>binary_pred</tt> shall not
+contextually converted to <tt>bool</tt> (7.3 <a href="https://wg21.link/conv">[conv]</a>). <tt>binary_pred</tt> shall not
 apply any non-constant function through the dereferenced iterators. <ins>Given a glvalue <tt>u</tt>
 of type (possibly <tt>const</tt>) <tt>T1</tt> that designates the same object as <tt>*first1</tt>,
 and a glvalue <tt>v</tt> of type (possibly <tt>const</tt>) <tt>T2</tt> that designates the
@@ -160,14 +160,14 @@ be a valid expression that is equal to <tt>binary_pred(*first1, value)</tt>.</in
 </blockquote>
 </li>
 <li>
-<p>Edit 28.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p2 as indicated: </p>
+<p>Edit 23.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p2 as indicated: </p>
 <blockquote>
 <p>
-<tt>Compare</tt> is a function object type (23.14 <a href="https://wg21.link/function.objects">[function.objects]</a>)<ins> that meets the
+<tt>Compare</tt> is a function object type (19.14 <a href="https://wg21.link/function.objects">[function.objects]</a>)<ins> that meets the
 requirements for a template parameter named <tt>BinaryPredicate</tt>
-(28.3 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>)</ins>. The return value of the function call operation
+(23.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>)</ins>. The return value of the function call operation
 applied to an object of type <tt>Compare</tt>, when contextually converted to <tt>bool</tt>
-(7 <a href="https://wg21.link/conv">[conv]</a>), yields <tt>true</tt> if the first argument of the call is less than the second,
+(7.3 <a href="https://wg21.link/conv">[conv]</a>), yields <tt>true</tt> if the first argument of the call is less than the second,
 and <tt>false</tt> otherwise. <tt>Compare comp</tt> is used throughout for algorithms assuming an
 ordering relation. <del>It is assumed that <tt>comp</tt> will not apply any non-constant function
 through the dereferenced iterator.</del>

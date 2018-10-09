@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3><a name="774" href="lwg-defects.html#774">774</a>. Member <tt>swap</tt> undefined for most containers</h3>
-<p><b>Section:</b> 26 <a href="https://wg21.link/containers">[containers]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
+<p><b>Section:</b> 21 <a href="https://wg21.link/containers">[containers]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
  <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2008-01-14 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -206,7 +206,7 @@ swap does never propagate an exception
 
 <li>
 <p>
-Change 26.2.6.1 <a href="https://wg21.link/associative.reqmts.except">[associative.reqmts.except]</a>/3 as indicated:
+Change 21.2.6.1 <a href="https://wg21.link/associative.reqmts.except">[associative.reqmts.except]</a>/3 as indicated:
 </p>
 
 <blockquote><p>
@@ -219,7 +219,7 @@ operator</del>
 
 <li>
 <p>
-Change 26.2.7.1 <a href="https://wg21.link/unord.req.except">[unord.req.except]</a>/3 as indicated:
+Change 21.2.7.1 <a href="https://wg21.link/unord.req.except">[unord.req.except]</a>/3 as indicated:
 </p>
 
 <blockquote><p>
@@ -234,12 +234,12 @@ respectively</ins><del> (if any)</del>.
 
 <li>
 <p>
-Insert a new paragraph just after 26.3 <a href="https://wg21.link/sequences">[sequences]</a>/1:
+Insert a new paragraph just after 21.3 <a href="https://wg21.link/sequences">[sequences]</a>/1:
 </p>
 
 <blockquote><p>
 <ins>In addition to being available via inclusion of the <tt>&lt;algorithm&gt;</tt> header,
-the <tt>swap</tt> function templates in 28.6.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a> are also available when the
+the <tt>swap</tt> function templates in 23.6.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a> are also available when the
 header <tt>&lt;queue&gt;</tt> is included.</ins>
 </p></blockquote>
 
@@ -254,11 +254,11 @@ dependency should be added to <tt>&lt;queue&gt;</tt>
 
 <li>
 <p>
-Add one further clause at the end of 26.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a>:
+Add one further clause at the end of 21.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a>:
 </p>
 <p><i>[This part is added, because otherwise <tt>array::swap</tt> would otherwise
 contradict the
-general contract of 26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> p. 10 b. 5]</i></p>
+general contract of 21.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> p. 10 b. 5]</i></p>
 
 
 <blockquote><p>
@@ -271,7 +271,7 @@ an exception.</ins>
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 26.3.8 <a href="https://wg21.link/deque">[deque]</a>, class template <tt>deque</tt> synopsis change as indicated:
+In 21.3.8 <a href="https://wg21.link/deque">[deque]</a>, class template <tt>deque</tt> synopsis change as indicated:
 </p>
 <blockquote><pre>
 void swap(deque<del>&lt;T,Alloc&gt;</del>&amp;);
@@ -280,7 +280,7 @@ void swap(deque<del>&lt;T,Alloc&gt;</del>&amp;);
 
 <li>
 <p>
-At the end of 26.3.8.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a> add as indicated:
+At the end of 21.3.8.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a> add as indicated:
 </p>
 
 <blockquote><pre>
@@ -304,7 +304,7 @@ with that of <tt>x</tt>.</ins>
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 26.3.9 <a href="https://wg21.link/forwardlist">[forwardlist]</a>, class template <tt>forward_list</tt> synopsis change as indicated:
+In 21.3.9 <a href="https://wg21.link/forwardlist">[forwardlist]</a>, class template <tt>forward_list</tt> synopsis change as indicated:
 </p>
 
 <blockquote><pre>
@@ -314,7 +314,7 @@ void swap(forward_list<del>&lt;T,Allocator&gt;</del>&amp;);
 
 <li>
 <p>
-At the end of 26.3.9.5 <a href="https://wg21.link/forwardlist.modifiers">[forwardlist.modifiers]</a> add as indicated:
+At the end of 21.3.9.5 <a href="https://wg21.link/forwardlist.modifiers">[forwardlist.modifiers]</a> add as indicated:
 </p>
 
 <blockquote><pre>
@@ -338,7 +338,7 @@ with that of <tt>x</tt>.</ins>
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 26.3.10 <a href="https://wg21.link/list">[list]</a>, class template <tt>list</tt> synopsis change as indicated:
+In 21.3.10 <a href="https://wg21.link/list">[list]</a>, class template <tt>list</tt> synopsis change as indicated:
 </p>
 
 <blockquote><pre>
@@ -348,7 +348,7 @@ void swap(list<del>&lt;T,Allocator&gt;</del>&amp;);
 
 <li>
 <p>
-At the end of 26.3.10.4 <a href="https://wg21.link/list.modifiers">[list.modifiers]</a> add as indicated:
+At the end of 21.3.10.4 <a href="https://wg21.link/list.modifiers">[list.modifiers]</a> add as indicated:
 </p>
 
 <blockquote><pre>
@@ -372,7 +372,7 @@ with that of <tt>x</tt>.</ins>
 
 <li>
 <p>
-At the end of 26.6.5.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a> add a new prototype description:
+At the end of 21.6.5.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a> add a new prototype description:
 </p>
 
 <blockquote><pre>
@@ -400,7 +400,7 @@ which is found by ADL for <tt>Compare</tt> satisfies the <tt>Swappable</tt> requ
 </blockquote>
 <p><i>[
 This part is added, because otherwise <tt>priority_queue::swap</tt> would otherwise
-contradict the general contract of 26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> p. 10 b. 5
+contradict the general contract of 21.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> p. 10 b. 5
 ]</i></p>
 
 </li>
@@ -409,7 +409,7 @@ contradict the general contract of 26.2.1 <a href="https://wg21.link/container.r
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 26.3.11 <a href="https://wg21.link/vector">[vector]</a>, class template <tt>vector</tt> synopsis change as indicated:
+In 21.3.11 <a href="https://wg21.link/vector">[vector]</a>, class template <tt>vector</tt> synopsis change as indicated:
 </p>
 
 <blockquote><pre>
@@ -419,7 +419,7 @@ void swap(vector<del>&lt;T,Allocator&gt;</del>&amp;);
 
 <li>
 <p>
-Change 26.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> p. 8 as indicated:
+Change 21.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> p. 8 as indicated:
 </p>
 
 <blockquote><pre>
@@ -437,12 +437,12 @@ allocators</ins> of <tt>*this</tt> with that of <tt>x</tt>.
 
 <li>
 <p>
-Insert a new paragraph just before 26.4 <a href="https://wg21.link/associative">[associative]</a>/1:
+Insert a new paragraph just before 21.4 <a href="https://wg21.link/associative">[associative]</a>/1:
 </p>
 
 <blockquote><p>
 <ins>In addition to being available via inclusion of the <tt>&lt;algorithm&gt;</tt> header,
-the <tt>swap</tt> function templates in 28.6.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a> are also available when any of the
+the <tt>swap</tt> function templates in 23.6.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a> are also available when any of the
 headers <tt>&lt;map&gt;</tt> or <tt>&lt;set&gt;</tt> are included.</ins>
 </p></blockquote>
 </li>
@@ -451,7 +451,7 @@ headers <tt>&lt;map&gt;</tt> or <tt>&lt;set&gt;</tt> are included.</ins>
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 26.4.4 <a href="https://wg21.link/map">[map]</a>, class template <tt>map</tt> synopsis change as indicated:
+In 21.4.4 <a href="https://wg21.link/map">[map]</a>, class template <tt>map</tt> synopsis change as indicated:
 </p>
 
 <blockquote><pre>
@@ -461,7 +461,7 @@ void swap(map<del>&lt;Key,T,Compare,Allocator&gt;</del>&amp;);
 
 <li>
 <p>
-At the end of 26.4.4.4 <a href="https://wg21.link/map.modifiers">[map.modifiers]</a> add as indicated:
+At the end of 21.4.4.4 <a href="https://wg21.link/map.modifiers">[map.modifiers]</a> add as indicated:
 </p>
 
 <blockquote><pre>
@@ -500,7 +500,7 @@ of <tt>*this</tt> and <tt>x</tt>.</ins>
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 26.4.5 <a href="https://wg21.link/multimap">[multimap]</a>, class template <tt>multimap</tt> synopsis change as indicated:
+In 21.4.5 <a href="https://wg21.link/multimap">[multimap]</a>, class template <tt>multimap</tt> synopsis change as indicated:
 </p>
 
 <blockquote><pre>
@@ -510,7 +510,7 @@ void swap(multimap<del>&lt;Key,T,Compare,Allocator&gt;</del>&amp;);
 
 <li>
 <p>
-At the end of 26.4.5.3 <a href="https://wg21.link/multimap.modifiers">[multimap.modifiers]</a> add as indicated:
+At the end of 21.4.5.3 <a href="https://wg21.link/multimap.modifiers">[multimap.modifiers]</a> add as indicated:
 </p>
 
 <blockquote><pre>
@@ -540,7 +540,7 @@ of <tt>*this</tt> and <tt>x</tt>.</ins>
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 26.4.6 <a href="https://wg21.link/set">[set]</a>, class template <tt>set</tt> synopsis change as indicated:
+In 21.4.6 <a href="https://wg21.link/set">[set]</a>, class template <tt>set</tt> synopsis change as indicated:
 </p>
 
 <blockquote><pre>
@@ -550,7 +550,7 @@ void swap(set<del>&lt;Key,Compare,Allocator&gt;</del>&amp;);
 
 <li>
 <p>
-After section 26.4.6.2 <a href="https://wg21.link/set.cons">[set.cons]</a> add a new section <ins><tt>set</tt> modifiers
+After section 21.4.6.2 <a href="https://wg21.link/set.cons">[set.cons]</a> add a new section <ins><tt>set</tt> modifiers
  [set.modifiers]</ins>
 and add the following paragraphs:
 </p>
@@ -584,7 +584,7 @@ of <tt>*this</tt> and <tt>x</tt>.</ins>
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 26.4.7 <a href="https://wg21.link/multiset">[multiset]</a>, class template <tt>multiset</tt> synosis, change as indicated:
+In 21.4.7 <a href="https://wg21.link/multiset">[multiset]</a>, class template <tt>multiset</tt> synosis, change as indicated:
 </p>
 
 <blockquote><pre>
@@ -594,7 +594,7 @@ void swap(multiset<del>&lt;Key,Compare,Allocator&gt;</del>&amp;);
 
 <li>
 <p>
-After section 26.4.7.2 <a href="https://wg21.link/multiset.cons">[multiset.cons]</a> add a new section <ins><tt>multiset</tt> modifiers
+After section 21.4.7.2 <a href="https://wg21.link/multiset.cons">[multiset.cons]</a> add a new section <ins><tt>multiset</tt> modifiers
  [multiset.modifiers]</ins> and add the following paragraphs:
 </p>
 
@@ -625,12 +625,12 @@ of <tt>*this</tt> and <tt>x</tt>.</ins>
 
 <li>
 <p>
-Insert a new paragraph just before 26.5 <a href="https://wg21.link/unord">[unord]</a> p. 1:
+Insert a new paragraph just before 21.5 <a href="https://wg21.link/unord">[unord]</a> p. 1:
 </p>
 
 <blockquote><p>
 <ins>In addition to being available via inclusion of the <tt>&lt;algorithm&gt;</tt> header,
-the <tt>swap</tt> function templates in 28.6.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a> are also available when any of the
+the <tt>swap</tt> function templates in 23.6.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a> are also available when any of the
 headers <tt>&lt;unordered_map&gt;</tt> or <tt>&lt;unordered_set&gt;</tt> are included.</ins>
 </p></blockquote>
 
@@ -638,8 +638,8 @@ headers <tt>&lt;unordered_map&gt;</tt> or <tt>&lt;unordered_set&gt;</tt> are inc
 
 <li>
 <p>
-After section 26.5.4.3 <a href="https://wg21.link/unord.map.elem">[unord.map.elem]</a> add a new section <ins>unordered_map
-modifiers 26.5.4.4 <a href="https://wg21.link/unord.map.modifiers">[unord.map.modifiers]</a></ins> and add the following paragraphs:
+After section 21.5.4.3 <a href="https://wg21.link/unord.map.elem">[unord.map.elem]</a> add a new section <ins>unordered_map
+modifiers 21.5.4.4 <a href="https://wg21.link/unord.map.modifiers">[unord.map.modifiers]</a></ins> and add the following paragraphs:
 </p>
 
 <blockquote><pre>
@@ -674,9 +674,9 @@ and an unqualified <tt>swap</tt> of the <tt>Hash</tt> objects of <tt>*this</tt> 
 
 <li>
 <p>
-After section 26.5.5.2 <a href="https://wg21.link/unord.multimap.cnstr">[unord.multimap.cnstr]</a> add a new section
+After section 21.5.5.2 <a href="https://wg21.link/unord.multimap.cnstr">[unord.multimap.cnstr]</a> add a new section
 <ins>unordered_multimap
-modifiers 26.5.5.3 <a href="https://wg21.link/unord.multimap.modifiers">[unord.multimap.modifiers]</a></ins> and add the following paragraphs:
+modifiers 21.5.5.3 <a href="https://wg21.link/unord.multimap.modifiers">[unord.multimap.modifiers]</a></ins> and add the following paragraphs:
 </p>
 
 <blockquote><pre>
@@ -704,7 +704,7 @@ and an unqualified <tt>swap</tt> of the <tt>Hash</tt> objects of <tt>*this</tt> 
 
 <li>
 <p>
-After section 26.5.6.2 <a href="https://wg21.link/unord.set.cnstr">[unord.set.cnstr]</a> add a new section
+After section 21.5.6.2 <a href="https://wg21.link/unord.set.cnstr">[unord.set.cnstr]</a> add a new section
 <ins>unordered_set modifiers
  [unord.set.modifiers]</ins> and add the following paragraphs:
 </p>
@@ -735,7 +735,7 @@ and an unqualified <tt>swap</tt> of the <tt>Hash</tt> objects of <tt>*this</tt> 
 
 <li>
 <p>
-After section 26.5.7.2 <a href="https://wg21.link/unord.multiset.cnstr">[unord.multiset.cnstr]</a> add a new section
+After section 21.5.7.2 <a href="https://wg21.link/unord.multiset.cnstr">[unord.multiset.cnstr]</a> add a new section
 <ins>unordered_multiset
 modifiers  [unord.multiset.modifiers]</ins> and add the following paragraphs:
 </p>
@@ -795,7 +795,7 @@ removed the old Table 90.  This resolution also addresses issue <a href="lwg-def
 ]</i></p>
 
 <p>
-In 26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>, replace the a.swap(b) row in table 90,
+In 21.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>, replace the a.swap(b) row in table 90,
 "container requirements" (was table 91 before the application of 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2982.pdf">N2982</a> 
 to the WP):
@@ -820,7 +820,7 @@ to the WP):
 </blockquote>
 <p>
 Modify the notes immediately following Table 90 in
-26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> as follows (The wording below is after the
+21.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> as follows (The wording below is after the
 application of <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2982.pdf">N2982</a> 
 to <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2960.pdf">N2960</a>.  The 
 editor might also want to combine Notes A and B into one.):
@@ -832,7 +832,7 @@ are defined in Clause 25.  Those entries marked "(Note A)" or "(Note B)"
 complexity <ins>for all other standard containers</ins>.
 </p></blockquote>
 <p>
-In 26.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>, before paragraph 8, add:
+In 21.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>, before paragraph 8, add:
 </p>
 <blockquote><p><ins>
 The expression <code>a.swap(b)</code>, for containers <code>a</code>
@@ -853,7 +853,7 @@ container after the swap.  It is unspecified whether an iterator with
 value <code>a.end()</code> before the swap will have
 value <code>b.end()</code> after the swap.  In addition to being available via
 inclusion of the <code>&lt;utility&gt;</code> header, the <code>swap</code>
-function template in 28.6.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a> is also available within the definition of
+function template in 23.6.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a> is also available within the definition of
 every standard container's <code>swap</code> function.
 </ins></p></blockquote>
 <p><i>[
@@ -862,11 +862,11 @@ clearly from an editing or source-control error.
 ]</i></p>
 
 <p>
-Modify 26.2.6.1 <a href="https://wg21.link/associative.reqmts.except">[associative.reqmts.except]</a> as follows:
+Modify 21.2.6.1 <a href="https://wg21.link/associative.reqmts.except">[associative.reqmts.except]</a> as follows:
 </p>
 <blockquote>
 <p>
-<b>23.2.4.1 Exception safety guarantees 26.2.6.1 <a href="https://wg21.link/associative.reqmts.except">[associative.reqmts.except]</a></b>
+<b>23.2.4.1 Exception safety guarantees 21.2.6.1 <a href="https://wg21.link/associative.reqmts.except">[associative.reqmts.except]</a></b>
 </p>
 <p>
 For associative containers, no <code>clear()</code> function throws an
@@ -886,7 +886,7 @@ or copy assignment operator</del><ins>swap</ins> of the
 container's <code><del>Pred</del><ins>Compare</ins></code> object (if any).
 </p></blockquote>
 <p>
-Modify 26.2.7.1 <a href="https://wg21.link/unord.req.except">[unord.req.except]</a>, paragraph 3 as follows:
+Modify 21.2.7.1 <a href="https://wg21.link/unord.req.except">[unord.req.except]</a>, paragraph 3 as follows:
 </p>
 <blockquote><p>
 For unordered associative containers, no <code>swap</code> function throws an
@@ -895,11 +895,11 @@ assignment operator</del><ins>swap</ins> of the container's <code>Hash</code>
 or <code>Pred</code> object (if any).
 </p></blockquote>
 <p>
-Modify section 26.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a>:
+Modify section 21.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a>:
 </p>
 <blockquote>
 <p>
-<b>array specialized algorithms 26.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a></b>
+<b>array specialized algorithms 21.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a></b>
 </p>
 <p>
 <code>template &lt;class T, size_t N&gt; void swap(array&lt;T,N&gt;&amp; x,array&lt;T,N&gt;&amp; y);</code>
@@ -939,7 +939,7 @@ container. &mdash; <i>end note</i>]
 </blockquote>
 
 <p>
-Insert a new paragraph just after 26.6 <a href="https://wg21.link/container.adaptors">[container.adaptors]</a>/1:
+Insert a new paragraph just after 21.6 <a href="https://wg21.link/container.adaptors">[container.adaptors]</a>/1:
 </p>
 <blockquote><p><ins>
 For container adaptors, no <code>swap</code> function throws an exception

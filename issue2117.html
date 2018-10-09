@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2117" href="lwg-active.html#2117">2117</a>. <tt>ios_base</tt> manipulators should have <tt>showgrouping&#47;noshowgrouping</tt></h3>
-<p><b>Section:</b> 25.4.2.2.2 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a>, 30.5.3.1.2 <a href="https://wg21.link/ios::fmtflags">[ios::fmtflags]</a>, 30.5.6.1 <a href="https://wg21.link/fmtflags.manip">[fmtflags.manip]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+<p><b>Section:</b> 26.4.2.2.2 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a>, 27.5.3.1.2 <a href="https://wg21.link/ios::fmtflags">[ios::fmtflags]</a>, 27.5.6.1 <a href="https://wg21.link/fmtflags.manip">[fmtflags.manip]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
  <b>Submitter:</b> Benjamin Kosnik <b>Opened:</b> 2011-12-15 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>3
 </p>
@@ -116,7 +116,7 @@ mitigated by putting the data into an iword instead of a flag.</p>
 
 <ol>
 <li>
-<p>Insert in 25.4.2.2.2 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> paragraph 5:</p>
+<p>Insert in 26.4.2.2.2 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> paragraph 5:</p>
 
 <blockquote><p>
 <strong>Stage 1</strong>: The first action of stage 1 is to determine a conversion specifier. The tables that describe
@@ -154,7 +154,7 @@ namespace std {
 </pre></blockquote>
 </li>
 
-<li><p>Change class <tt>ios_base</tt> synopsis, 30.5.3 <a href="https://wg21.link/ios.base">[ios.base]</a> as indicated:</p>
+<li><p>Change class <tt>ios_base</tt> synopsis, 27.5.3 <a href="https://wg21.link/ios.base">[ios.base]</a> as indicated:</p>
 
 <blockquote><pre>
 namespace std {
@@ -216,7 +216,7 @@ generates a decimal-point character unconditionally in generated floatingpoint o
  
 </li>
 
-<li><p>After 30.5.3.1.2 <a href="https://wg21.link/ios::fmtflags">[ios::fmtflags]</a> p12 insert the following:</p>
+<li><p>After 27.5.3.1.2 <a href="https://wg21.link/ios::fmtflags">[ios::fmtflags]</a> p12 insert the following:</p>
 <blockquote><pre>
 <ins>ios_base&amp; showgrouping(ios_base&amp; str);</ins>
 </pre><blockquote>

@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3><a name="909" href="lwg-defects.html#909">909</a>. <tt>regex_token_iterator</tt> should use <tt>initializer_list</tt></h3>
-<p><b>Section:</b> 31.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
+<p><b>Section:</b> 28.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2008-09-26 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -34,7 +34,7 @@
 
 <p><b>Addresses UK 319</b></p>
 <p>
-Construction of a <tt>regex_token_iterator</tt> (31.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a>/6+) usually
+Construction of a <tt>regex_token_iterator</tt> (28.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a>/6+) usually
 requires the provision of a sequence of integer values, which
 can currently be done via a <tt>std::vector&lt;int&gt;</tt> or
 a C array of <tt>int</tt>. Since the introduction of <tt>initializer_list</tt> in the
@@ -64,7 +64,7 @@ With that understanding, move to Tentatively Ready.
 <ol>
 <li>
 <p>
-In 31.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a>/6 and the list 31.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/10-11 change the
+In 28.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a>/6 and the list 28.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/10-11 change the
 constructor declaration:
 </p>
 
@@ -80,7 +80,7 @@ regex_token_iterator(BidirectionalIterator a, BidirectionalIterator b,
 
 <li>
 <p>
-In 31.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/12 change the last sentence
+In 28.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/12 change the last sentence
 </p>
 
 <blockquote><p>
@@ -97,7 +97,7 @@ iterator range <tt>[<del>&amp;</del>submatches<ins>.begin()</ins>,
 <ol>
 <li>
 <p>
-In 31.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a>/6 and the list 31.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/10-11 <em>insert</em> the
+In 28.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a>/6 and the list 28.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/10-11 <em>insert</em> the
 following constructor declaration between the already existing ones
 accepting a <tt>std::vector</tt> and a C array of <tt>int</tt>, resp.:
 </p>
@@ -112,7 +112,7 @@ regex_token_iterator(BidirectionalIterator a, BidirectionalIterator b,
 </li>
 <li>
 <p>
-In 31.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/12 change the last sentence
+In 28.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/12 change the last sentence
 </p>
 
 <blockquote><p>
@@ -137,7 +137,7 @@ by the iterator range <tt>[&amp;submatches,&amp;submatches + N)</tt>
 <ol>
 <li>
 <p>
-In 31.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a>/6 and the list 31.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/10-11 <em>insert</em> the
+In 28.12.2 <a href="https://wg21.link/re.tokiter">[re.tokiter]</a>/6 and the list 28.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/10-11 <em>insert</em> the
 following constructor declaration between the already existing ones
 accepting a <tt>std::vector</tt> and a C array of <tt>int</tt>, resp.:
 </p>
@@ -152,7 +152,7 @@ regex_token_iterator(BidirectionalIterator a, BidirectionalIterator b,
 </li>
 <li>
 <p>
-In 31.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/12 change the last sentence
+In 28.12.2.1 <a href="https://wg21.link/re.tokiter.cnstr">[re.tokiter.cnstr]</a>/12 change the last sentence
 </p>
 
 <blockquote><p>

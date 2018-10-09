@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
 <h3><a name="955" href="lwg-closed.html#955">955</a>. Various threading bugs #5</h3>
-<p><b>Section:</b> 23.17.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+<p><b>Section:</b> 25.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Pete Becker <b>Opened:</b> 2009-01-07 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -32,7 +32,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#NAD">NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-23.17.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a> requires that a clock type have a member
+25.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a> requires that a clock type have a member
 typedef named <tt>time_point</tt> that names an instantiation of the
 template <tt>time_point</tt>, and a member named <tt>duration</tt> that
 names an instantiation of the template <tt>duration</tt>. This mixing of
@@ -237,7 +237,7 @@ Mark as NAD.  No concensus for changing the WP.
 
 <p><b>Proposed resolution:</b></p>
 <p>
-Change 23.17 <a href="https://wg21.link/time">[time]</a>:
+Change 25 <a href="https://wg21.link/time">[time]</a>:
 </p>
 
 <blockquote><pre>
@@ -247,7 +247,7 @@ template &lt;class Clock, class Duration = typename Clock::duration<ins>_type</i
 </pre></blockquote>
 
 <p>
-Change 23.17.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a>:
+Change 25.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a>:
 </p>
 
 <blockquote>
@@ -295,7 +295,7 @@ in time.
 </blockquote>
 
 <p>
-Change 23.17.7.1 <a href="https://wg21.link/time.clock.system">[time.clock.system]</a>:
+Change 25.7.1 <a href="https://wg21.link/time.clock.system">[time.clock.system]</a>:
 </p>
 
 <blockquote>
@@ -363,7 +363,7 @@ public:
 </pre></blockquote>
 
 <p>
-Change 23.17.7.7 <a href="https://wg21.link/time.clock.hires">[time.clock.hires]</a>:
+Change 25.7.7 <a href="https://wg21.link/time.clock.hires">[time.clock.hires]</a>:
 </p>
 
 <blockquote><pre>
