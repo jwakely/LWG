@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-11-12 at 04:37:27 UTC</p>
+<p><p>Revised 2018-11-12 at 05:19:27 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -2118,43 +2118,6 @@ Moved to Tentatively NAD Future after 5 positive votes on c++std-lib.
 Does not have sufficient support at this time. May wish to reconsider for a
 future standard.
 </p>
-
-
-<p><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
-<h3><a name="1242" href="#1242">1242</a><sup><a href="https://cplusplus.github.io/LWG/issue1242">(i)</a></sup>. Enable SCARY iterators</h3>
-<p><b>Section:</b> 21 <a href="https://wg21.link/containers">[containers]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Herb Sutter <b>Opened:</b> 2009-10-21 <b>Last modified:</b> 2018-06-24</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#containers">active issues</a> in [containers].</p>
-<p><b>View all other</b> <a href="lwg-index.html#containers">issues</a> in [containers].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-See <a href="http://wg21.link/n2980.pdf">N2980</a>.
-</p>
-
-<p><i>[
-2009-10 Santa Cruz
-]</i></p>
-
-<blockquote>
-<p>
-The paper was lengthy discussed but considerable concern remained to add this feature to C++0x. 
-The LWG does not wish to make a change at this time. Strong consensus was found to consider 
-it for C++1x, though.
-</p>
-</blockquote>
-
-<p><i>[LEWG Kona 2017]</i></p>
-
-<p>Recommend Open: seems to be existing practice now</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -10298,13 +10261,13 @@ as indicated in this issue here.
 
 <hr>
 <h3><a name="2307" href="#2307">2307</a><sup><a href="https://cplusplus.github.io/LWG/issue2307">(i)</a></sup>. Should the Standard Library use <tt>explicit</tt> only when necessary?</h3>
-<p><b>Section:</b> 21 <a href="https://wg21.link/containers">[containers]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2013-09-26 <b>Last modified:</b> 2018-08-27</p>
+<p><b>Section:</b> 21 <a href="https://wg21.link/containers">[containers]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
+ <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2013-09-26 <b>Last modified:</b> 2018-11-11</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#containers">active issues</a> in [containers].</p>
 <p><b>View all other</b> <a href="lwg-index.html#containers">issues</a> in [containers].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 LWG <a href="lwg-defects.html#2193">2193</a> yields <tt>explicit</tt> for default ctors to allow <tt>{}</tt>, but not for
@@ -10328,6 +10291,9 @@ vector(size_type count, const T&amp; value, const Allocator&amp; alloc = Allocat
 
 <p>This really needs a paper; splitting a lot of constructors. Nevin to write paper.</p>
 
+<p><i>[2018-11 San Diego Thursday night issue processing]</i></p>
+
+<p>LEWG has rejected Nevin's paper, so they need to formulate a policy.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -14697,88 +14663,6 @@ Add a link to <a href="lwg-defects.html#2456">2456</a>
 
 
 <hr>
-<h3><a name="2563" href="#2563">2563</a><sup><a href="https://cplusplus.github.io/LWG/issue2563">(i)</a></sup>. LWG 2259 relaxes requirements, perhaps unintentionally</h3>
-<p><b>Section:</b> 15.5.5.5 <a href="https://wg21.link/member.functions">[member.functions]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Ville Voutilainen <b>Opened:</b> 2015-11-29 <b>Last modified:</b> 2018-08-27</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#member.functions">active issues</a> in [member.functions].</p>
-<p><b>View all other</b> <a href="lwg-index.html#member.functions">issues</a> in [member.functions].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The combination of 15.5.5.5 <a href="https://wg21.link/member.functions">[member.functions]</a>, paragraphs 2 and 3 that LWG 
-<a href="lwg-defects.html#2259">2259</a> does seems to drop a requirement that any call behaves as if 
-no overloads were added. Paragraph 3 used to say
-"A call to a member function signature described in the C ++ standard
-library behaves as if the implementation
-declares no additional member function signatures."
-whereas the new wording says
-"provided that any call to the member function that would select an
-overload from the set of declarations described in this standard
-behaves as if that overload were selected."
-<p/>
-This can be read as meaning that if there's no default constructor
-specified, like for instance for <tt>std::ostream</tt>, an implementation is free to
-add it. It can also be read as meaning that an implementation is free to
-add any overloads that wouldn't change the overload resolution result
-of any call expression that would select a specified overload. That's
-vastly different from allowing extensions that add new functions rather
-than new overloads.
-<p/>
-Was this relaxation intentional?
-</p>
-<p><i>[2016-04, Issues Telecon]</i></p>
-
-<p>
-Ville provides a motivating example.
-</p>
-
-<p>
-<blockquote>
-<pre>
-#include &lt;iostream&gt;
-
-class my_stream : std::ostream
-{
-};
-
-int main()
-{
-    my_stream ms;
-}
-</pre>
-</blockquote>
-</p>
-
-<p>This example is accepted by libstdc++, msvc rejects it, and clang+libc++
-segfault on melpon.org/wandbox o_O. An earlier clang+libc++ just accepts
-it. I don't think the implementation divergence is caused by the acceptance
-of the referred-to <a href="lwg-defects.html#2259">2259</a>, but it certainly seems to increasingly bless
-the implementation divergence.
-</p>
-
-<p><i>[2016-05 Issues Telecon]</i></p>
-
-<p>
-This is related to issue <a href="lwg-active.html#2695">2695</a>.
-</p>
-
-<p><i>[2018-08 Batavia Monday issue discussion]</i></p>
-
-<p>Ville to provide wording.</p>
-<p><i>[2018-08 Batavia Monday issue discussion]</i></p>
-
-<p>Ville recommends NAD; because closing this would outlaw conforming extensions.</p>
-
-
-<p><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
 <h3><a name="2564" href="#2564">2564</a><sup><a href="https://cplusplus.github.io/LWG/issue2564">(i)</a></sup>. [fund.ts.v2] <tt>std::experimental::function</tt> constructors taking allocator arguments may throw exceptions</h3>
 <p><b>Section:</b> 4.2 [fund.ts.v2::func.wrap.func] <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Tim Song  <b>Opened:</b> 2015-12-05 <b>Last modified:</b> 2017-02-03</p>
@@ -15522,7 +15406,6 @@ other format components. Where <tt>value</tt> appears, the absolute numeric mone
  <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2016-04-15 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>3
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#member.functions">active issues</a> in [member.functions].</p>
 <p><b>View all other</b> <a href="lwg-index.html#member.functions">issues</a> in [member.functions].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -15556,7 +15439,7 @@ Clarification (even if just a note) would be appreciated.
 <p><i>[2016-05 Issues Telecon]</i></p>
 
 <p>
-This is related to issue <a href="lwg-active.html#2563">2563</a>.
+This is related to issue <a href="lwg-closed.html#2563">2563</a>.
 </p>
 
 
@@ -17120,7 +17003,7 @@ is specified to be the same for each of the simpler extractions. &mdash; <i>end 
 <hr>
 <h3><a name="2730" href="#2730">2730</a><sup><a href="https://cplusplus.github.io/LWG/issue2730">(i)</a></sup>. <tt>numeric_limits</tt> primary template definition</h3>
 <p><b>Section:</b> 16.3.4 <a href="https://wg21.link/numeric.limits">[numeric.limits]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-06-09 <b>Last modified:</b> 2017-03-05</p>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-06-09 <b>Last modified:</b> 2018-11-11</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#numeric.limits">active issues</a> in [numeric.limits].</p>
@@ -17165,6 +17048,10 @@ be defined to nonsense values for integer types.
 <p><i>[2016-11-12, Issaquah]</i></p>
 
 <p>Sat PM: This looks like a good idea. Jonathan and Marshall will do post C++17 implementations and report back.</p>
+
+<p><i>[2018-11 San Diego Thursday night issue processing]</i></p>
+
+<p>See Walter's paper P0437 for ideas and/or future directions.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -21642,13 +21529,13 @@ conflicts with Unicode.
 
 <hr>
 <h3><a name="2962" href="#2962">2962</a><sup><a href="https://cplusplus.github.io/LWG/issue2962">(i)</a></sup>. Iterators of Containers of move-only types do not model <tt>InputIterator</tt></h3>
-<p><b>Section:</b> 22.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Ga&scaron;per A&zcaron;man <b>Opened:</b> 2017-05-10 <b>Last modified:</b> 2018-04-26</p>
+<p><b>Section:</b> 22.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Ga&scaron;per A&zcaron;man <b>Opened:</b> 2017-05-10 <b>Last modified:</b> 2018-11-11</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#input.iterators">active issues</a> in [input.iterators].</p>
 <p><b>View all other</b> <a href="lwg-index.html#input.iterators">issues</a> in [input.iterators].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 In Table 95 in 22.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>, it is specified that the expression <tt>*a</tt> returns <tt>reference</tt>, 
@@ -21802,6 +21689,10 @@ considered an iterator? I don't think that's what we want to say. Perhaps these 
 "binds to <tt>const volatile T&amp;</tt> instead, except that has the problem for InputIterators 
 that return prvalues that a prvalue is not bindable to a volatile reference.
 </p>
+
+<p><i>[2018-11 San Diego Thursday night issue processing]</i></p>
+
+<p>Look at Ranges; EricWF to investigate. Status to Open</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -22981,129 +22872,6 @@ This was reported to WG14 as <a href="http://www.open-std.org/jtc1/sc22/wg14/www
 
 
 <p><b>Proposed resolution:</b></p>
-
-
-
-
-<hr>
-<h3><a name="3012" href="#3012">3012</a><sup><a href="https://cplusplus.github.io/LWG/issue3012">(i)</a></sup>. <tt>atomic&lt;T&gt;</tt> is unimplementable for non-<tt>is_trivially_copy_constructible T</tt></h3>
-<p><b>Section:</b> 29.7 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-08-16 <b>Last modified:</b> 2017-11-12</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#atomics.types.generic">issues</a> in [atomics.types.generic].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-29.7 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> requires that <tt>T</tt> for <tt>std::atomic</tt> is trivially copyable. 
-Unfortunately, that's not sufficient to implement <tt>atomic</tt>. Consider <tt>atomic&lt;T&gt;::load</tt>, which 
-wants to look something like this:
-</p>
-<blockquote><pre>
-template&lt;class T&gt;
-struct atomic {
-  __compiler_magic_storage_for_t storage;
-
-  T load(memory_order = memory_order_seq_cst) const {
-    return __magic_intrinsic(storage);
-  }
-
-};
-</pre></blockquote>
-<p>
-Forming this return statement, though, requires that <tt>T</tt> is copy constructible &mdash; trivially copyable things 
-aren't necessarily copyable! For example, the following is trivially copyable but breaks libc++, libstdc++, and msvc++:
-</p>
-<blockquote><pre>
-struct NonAssignable {
-  int i;
-  NonAssignable() = delete;
-  NonAssignable(int) : i(0) {}
-  NonAssignable(const NonAssignable&amp;) = delete;
-  NonAssignable(NonAssignable&amp;&amp;) = default;
-  NonAssignable&amp; operator=(const NonAssignable&amp;) = delete;
-  NonAssignable&amp; operator=(NonAssignable&amp;&amp;) = delete;
-  ~NonAssignable() = default;
-};
-</pre></blockquote>
-<p>
-All three standard libraries are happy as long as <tt>T</tt> is trivially copy constructible, assignability is not required. 
-Casey Carter says that we might want to still require trivially copy assignable though, since what happens when you do an 
-<tt>atomic&lt;T&gt;::store</tt> is morally an "assignment" even if it doesn't use the user's assignment operator.
-</p>
-
-<p><i>[2017-11 Albuquerque Wednesday issue processing]</i></p>
-
-<p>Status to Open; Casey and STL to work with Billy for better wording.</p>
-<p>Should this include trivially copyable as well as trivially copy assignable?</p>
-
-<p>2017-11-09, Billy O'Neal provides updated wording.</p>
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>This resolution is relative to <a href="http://wg21.link/n4687">N4687</a>.</p>
-
-<ol>
-<li><p>Edit 29.7 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> as indicated:</p>
-
-<blockquote>
-<p>
--1- <ins>If <tt>is_trivially_copy_constructible_v&lt;T&gt;</tt> is <tt>false</tt>, the program is ill-formed</ins><del>The
-template argument for <tt>T</tt> shall be trivially copyable (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
-arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
-</p>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>This resolution is relative to <a href="http://wg21.link/n4687">N4687</a>.</p>
-
-<ol>
-<li><p>Edit 29.7 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> as indicated:</p>
-
-<blockquote>
-<p>
--1- <ins>If <tt>is_copy_constructible_v&lt;T&gt;</tt> is <tt>false</tt> or if
-<tt>is_trivially_copyable_v&lt;T&gt;</tt> is <tt>false</tt>, the program is ill-formed</ins><del>The
-template argument for <tt>T</tt> shall be trivially copyable (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
-arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
-</p>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2017-11-12, Tomasz comments and suggests alternative wording]</i></p>
-
-<p>
-According to my understanding during Albuquerque Saturday issue processing we agreed that we want the type used 
-with the atomics to have non-deleted and trivial copy/move construction and assignment.
-<p/>
-Wording note: <tt>CopyConstructible</tt> and <tt>CopyAssignable</tt> include semantic requirements that are not 
-checkable at compile time, so these are requirements imposed on the user and cannot be validated by an
-implementation without heroic efforts.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This resolution is relative to <a href="http://wg21.link/n4700">N4700</a>.</p>
-
-<ol>
-<li><p>Edit 29.7 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> as indicated:</p>
-
-<blockquote>
-<p>
--1- The template argument for <tt>T</tt> shall <ins>meet the <tt>CopyConstructible</tt> and <tt>CopyAssignable</tt>
-requirements. If <tt>is_trivially_copyable_v&lt;T&gt; &amp;&amp; is_copy_constructible_v&lt;T&gt; &amp;&amp; 
-is_move_constructible_v&lt;T&gt; &amp;&amp; is_copy_assignable_v&lt;T&gt; &amp;&amp; is_move_assignable_v&lt;T&gt;</tt> 
-is <tt>false</tt>, the program is ill-formed</ins><del>be trivially copyable (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. 
-[<i>Note:</i> Type arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
-</p>
-</blockquote>
-</li>
-</ol>
 
 
 
@@ -24351,7 +24119,7 @@ template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Func
 <hr>
 <h3><a name="3050" href="#3050">3050</a><sup><a href="https://cplusplus.github.io/LWG/issue3050">(i)</a></sup>. Conversion specification problem in <tt>chrono::duration</tt> constructor</h3>
 <p><b>Section:</b> 25.5.1 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a>, 25.5.5 <a href="https://wg21.link/time.duration.nonmember">[time.duration.nonmember]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2018-01-22 <b>Last modified:</b> 2018-06-11</p>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2018-01-22 <b>Last modified:</b> 2018-11-11</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#time.duration.cons">active issues</a> in [time.duration.cons].</p>
@@ -24394,6 +24162,10 @@ some other functions.
 <p><i>[2018-06 Rapperswil Thursday issues processing]</i></p>
 
 <p>P3; Status to Open</p>
+
+<p><i>[2018-11 San Diego Thursday night issue processing]</i></p>
+
+<p>Jonathan to provide updated wording; the underlying text has changed.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -24800,12 +24572,12 @@ is not an error.</ins>
 
 <hr>
 <h3><a name="3057" href="#3057">3057</a><sup><a href="https://cplusplus.github.io/LWG/issue3057">(i)</a></sup>. Correct <tt>copy_options</tt> handling</h3>
-<p><b>Section:</b> 27.11.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Davis Herring <b>Opened:</b> 2018-01-29 <b>Last modified:</b> 2018-06-11</p>
+<p><b>Section:</b> 27.11.14.3 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Davis Herring <b>Opened:</b> 2018-01-29 <b>Last modified:</b> 2018-11-11</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#fs.op.copy">issues</a> in [fs.op.copy].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 (The resolution of #3 resolves part of <a href="http://wg21.link/p0488r0#page=10">C++17 NB comment US 36</a>.) 
@@ -24855,6 +24627,10 @@ no objection to moving to Ready<br/>
 ACTION move to Ready<br/>
 ACTION link LWG <a href="lwg-defects.html#2682">2682</a> and LWG 3057 and set a priority 2 and look at 3057 in San Diego 
 </p>
+
+<p><i>[2018-11 San Diego Thursday night issue processing]</i></p>
+
+<p>Need to gather implementation experience; revisit in Kona. Status to Open.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -25138,11 +24914,11 @@ need to specify the type used to store intermediate calculations.
 
 <hr>
 <h3><a name="3061" href="#3061">3061</a><sup><a href="https://cplusplus.github.io/LWG/issue3061">(i)</a></sup>. What is the return type of <tt>compare_3way</tt>?</h3>
-<p><b>Section:</b> 23.7.11 <a href="https://wg21.link/alg.3way">[alg.3way]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2018-02-07 <b>Last modified:</b> 2018-06-18</p>
+<p><b>Section:</b> 23.7.11 <a href="https://wg21.link/alg.3way">[alg.3way]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2018-02-07 <b>Last modified:</b> 2018-11-11</p>
 <p><b>Priority: </b>2
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The <a href="http://wiki.edg.com/pub/Wg21albuquerque/StrawPolls/p0768r1_spaceship_library.pdf">P0768R1 
@@ -25184,6 +24960,10 @@ I'm guessing the idea was actually that the above happens as if by four separate
 <p><i>[2018-06-18 after reflector discussion]</i></p>
 
 <p>Priority set to 2</p>
+
+<p><i>[2018-11 San Diego Thursday night issue processing]</i></p>
+
+<p>Spaceship is still in flux; revisit in Kona. Status to Open</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -27153,85 +26933,12 @@ the referent type is complete when given a reference type parameter to be implem
 
 
 <hr>
-<h3><a name="3101" href="#3101">3101</a><sup><a href="https://cplusplus.github.io/LWG/issue3101">(i)</a></sup>. <tt>span</tt>'s <tt>Container</tt> constructors need another constraint</h3>
-<p><b>Section:</b> 21.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
- <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2018-04-12 <b>Last modified:</b> 2018-06-12</p>
-<p><b>Priority: </b>1
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#span.cons">issues</a> in [span.cons].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-When I overhauled <tt>span</tt>'s constructor constraints, I was careful about the built-in array, <tt>std::array</tt>, 
-and converting <tt>span</tt> constructors. These types contain bounds information, so we can achieve safety at 
-compile-time by permitting implicit conversions if and only if the destination extent is dynamic (this accepts 
-anything by recording the size at runtime) or the source and destination extents are identical. However, I missed 
-the fact that the <tt>Container</tt> constructors are the opposite case. A <tt>Container</tt> (e.g. a <tt>vector</tt>) 
-has a size that's known only at runtime. It's safe to convert this to a <tt>span</tt> with <tt>dynamic_extent</tt>, 
-but for consistency and safety, this shouldn't implicitly convert to a <tt>span</tt> with fixed extent. (The more 
-verbose <tt>(ptr, count)</tt> and <tt>(first, last)</tt> constructors are available to construct fixed extent spans 
-from runtime-length ranges. Note that debug precondition checks are equally possible with the <tt>Container</tt> and 
-<tt>(ptr, count)</tt>/<tt>(first, last)</tt> constructors. The issue is that implicit conversions are notoriously 
-problematic, so they should be permitted only when they are absolutely known to be safe.)
-</p>
-
-<p><i>[2018-04-24 Priority set to 1 after discussion on the reflector.]</i></p>
-
-
-<p><i>[2018-06 Rapperswil Thursday issues processing]</i></p>
-
-<p>Status to LEWG. Should this be ill-formed, or fail at runtime if the container is too small?
-Discussion on the reflector <a href="http://lists.isocpp.org/lib/2018/04/6719.php">here</a>.</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.</p>
-
-<blockquote>
-<ol>
-<li>
-<p>Edit 21.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> as indicated:</p>
-<blockquote>
-<pre>
-template&lt;class Container&gt; constexpr span(Container&amp; cont);
-template&lt;class Container&gt; constexpr span(const Container&amp; cont);
-</pre>
-<blockquote>
-<p>
--14- <i>Requires:</i> <tt>[data(cont), data(cont) + size(cont))</tt> shall be a valid range. <del>If <tt>extent</tt> is 
-not equal to <tt>dynamic_extent</tt>, then <tt>size(cont)</tt> shall be equal to <tt>extent</tt>.</del>
-<p/>
--15- <i>Effects:</i> Constructs a <tt>span</tt> that is a view over the range <tt>[data(cont), data(cont) + size(cont))</tt>.
-<p/>
--16- <i>Postconditions:</i> <tt>size() == size(cont) &amp;&amp; data() == data(cont)</tt>.
-<p/>
--17- <i>Throws:</i> What and when <tt>data(cont)</tt> and <tt>size(cont)</tt> throw.
-<p/>
--18- <i>Remarks:</i> These constructors shall not participate in overload resolution unless:
-</p>
-<ol style="list-style-type: none">
-<li><p><ins>(18.?) &mdash; <tt>extent == dynamic_extent</tt>,</ins></p></li>
-<li><p>(18.1) &mdash; <tt>Container</tt> is not a specialization of <tt>span</tt>,</p></li>
-<li><p>(18.2) &mdash; <tt>Container</tt> is not a specialization of <tt>array</tt>,</p></li>
-<li><p>[&hellip;]</p></li>
-</ol>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-
-
-
-
-<hr>
 <h3><a name="3103" href="#3103">3103</a><sup><a href="https://cplusplus.github.io/LWG/issue3103">(i)</a></sup>. Errors in taking subview of <tt>span</tt> should be ill-formed where possible</h3>
-<p><b>Section:</b> 21.7.3.3 <a href="https://wg21.link/span.sub">[span.sub]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2018-04-13 <b>Last modified:</b> 2018-06-11</p>
+<p><b>Section:</b> 21.7.3.3 <a href="https://wg21.link/span.sub">[span.sub]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2018-04-13 <b>Last modified:</b> 2018-11-11</p>
 <p><b>Priority: </b>3
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Currently all out-of-bound/inputs errors in the functions taking an subview of <tt>span</tt> lead to undefined behavior, 
@@ -27277,6 +26984,10 @@ size <tt>span</tt> of different size ill-formed.
 
 <p><i>[2018-04-24 Priority set to 3 after discussion on the reflector.]</i></p>
 
+
+<p><i>[2018-11 San Diego Thursday night issue processing]</i></p>
+
+<p>Tomasz to provide updated wording.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -28884,101 +28595,6 @@ different <tt>streamoff</tt> values are not equal.
 
 
 <hr>
-<h3><a name="3119" href="#3119">3119</a><sup><a href="https://cplusplus.github.io/LWG/issue3119">(i)</a></sup>. Program-definedness of closure types</h3>
-<p><b>Section:</b> 99 [defns.program.defined.spec] <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2018-06-09 <b>Last modified:</b> 2018-08-27</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The description of closure types in 7.5.5.1 <a href="https://wg21.link/expr.prim.lambda.closure">[expr.prim.lambda.closure]</a> says:
-</p>
-<blockquote>
-<p>
-An implementation may define the closure type differently [&hellip;]
-</p>
-</blockquote>
-<p>
-The proposed resolution to LWG <a href="lwg-defects.html#2139">2139</a> defines a "program-defined type" to be a
-</p>
-<blockquote>
-<p>
-class type or enumeration type that is not part of the C++ standard library and not defined by the implementation,
-or an instantiation of a program-defined specialization
-</p>
-</blockquote>
-<p>
-I am not sure that the intent of whether closure types are or are not program-defined types is clearly
-conveyed by the wording.
-</p>
-
-<p><i>[2018-06-23 after reflector discussion]</i></p>
-
-<p>Priority set to 2</p>
-
-<p><i>[2018-08-14 Casey provides additional discussion and a Proposed Resolution]</i></p>
-
-<p>
-We use the term "program-defined" in the library specification to ensure that
-two users cannot create conflicts in a component in namespace <tt>std</tt> by
-specifying different behaviors for the same type. For example, we allow users to
-specialize <tt>common_type</tt> when at least one of the parameters is a
-program-defined type. Since two users cannot define the same program-defined
-type, this rule prevents two users (or libraries) defining the same
-specialization of <tt>std::common_type</tt>.
-</p><p>
-Since it's guaranteed that even distinct utterances of identical lambda
-expressions produce closures with distinct types
-(7.5.5.1 <a href="https://wg21.link/expr.prim.lambda.closure">[expr.prim.lambda.closure]</a>), adding closure types to our term
-"program-defined type" is consistent with the intended use despite that such
-types are technically defined by the implementation.
-</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
-
-<ul>
-<li><p>Modify 15.3.20 <a href="https://wg21.link/defns.prog.def.type">[defns.prog.def.type]</a> as follows:</p>
-<blockquote>
-<b>program-defined type</b><br/>
-class type or enumeration type that is not part of the C++ standard library and
-not defined by the implementation <ins>(except for closure types
-(7.5.5.1 <a href="https://wg21.link/expr.prim.lambda.closure">[expr.prim.lambda.closure]</a>) for program-defined lambda
-expressions)</ins>, or an instantiation of a program-defined specialization
-</blockquote>
-</li>
-</ul>
-</blockquote>
-
-<p><i>[2018-08-23 Batavia Issues processing]</i></p>
-
-<p>Updated wording</p>
-
-
-<p><b>Proposed resolution:</b></p>
-
-<p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
-
-<ul>
-<li><p>Modify 15.3.20 <a href="https://wg21.link/defns.prog.def.type">[defns.prog.def.type]</a> as follows:</p>
-<blockquote>
-<b>program-defined type</b><br/>
-<ins>non-closure </ins>class type or enumeration type that is not part of the 
-C++ standard library and not defined by the implementation, 
-<ins>or a closure type of a non-implementation-provided lambda expression, </ins>
-or an instantiation of a program-defined specialization
-</blockquote>
-</li>
-</ul>
-
-
-
-
-
-
-<hr>
 <h3><a name="3120" href="#3120">3120</a><sup><a href="https://cplusplus.github.io/LWG/issue3120">(i)</a></sup>. Unclear behavior of <tt>monotonic_buffer_resource::release()</tt></h3>
 <p><b>Section:</b> 19.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
  <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2018-06-10 <b>Last modified:</b> 2018-08-27</p>
@@ -29124,13 +28740,13 @@ void release();
 
 <hr>
 <h3><a name="3121" href="#3121">3121</a><sup><a href="https://cplusplus.github.io/LWG/issue3121">(i)</a></sup>. <tt>tuple</tt> constructor constraints for <tt>UTypes&amp;&amp;...</tt> overloads</h3>
-<p><b>Section:</b> 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Matt Calabrese <b>Opened:</b> 2018-06-12 <b>Last modified:</b> 2018-08-27</p>
-<p><b>Priority: </b>3
+<p><b>Section:</b> 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Matt Calabrese <b>Opened:</b> 2018-06-12 <b>Last modified:</b> 2018-11-11</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
 <p><b>View all other</b> <a href="lwg-index.html#tuple.cnstr">issues</a> in [tuple.cnstr].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Currently the <tt>tuple</tt> constructors of the form:
@@ -29178,6 +28794,10 @@ substitution failure rather than checking any further constraints.
 <p>
 The wording changes by this issue are very near to those suggested for LWG <a href="lwg-active.html#3155">3155</a>.
 </p>
+
+<p><i>[2018-11 San Diego Thursday night issue processing]</i></p>
+
+<p>Jonathan to update wording - using conjunction. Priority set to 2</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -30691,7 +30311,7 @@ Moreover, [&hellip;]
 <hr>
 <h3><a name="3155" href="#3155">3155</a><sup><a href="https://cplusplus.github.io/LWG/issue3155">(i)</a></sup>. <tt>tuple&lt;any, any&gt;{allocator_arg_t, an_allocator}</tt></h3>
 <p><b>Section:</b> 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-18 <b>Last modified:</b> 2018-10-07</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-18 <b>Last modified:</b> 2018-11-11</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
@@ -30766,6 +30386,7 @@ SFINAE constraints on the Allocator-aware tuple constructors.</p>
 <p><i>[2018-08 Batavia Friday]</i></p>
 
 <p>Tim Song found a 3-element case of this issue. Status back to 'Open'</p> 
+<p><tt>tuple&lt;any,any,any&gt;(allocator_arg_t, a, tuple)</tt></p>
 
 <p><i>[2018-09 Reflector prioritization]</i></p>
 
