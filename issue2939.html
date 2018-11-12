@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="2939" href="lwg-active.html#2939">2939</a>. Some type-completeness constraints of traits are overspecified</h3>
 <p><b>Section:</b> 19.15.2 <a href="https://wg21.link/meta.type.synop">[meta.type.synop]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2017-03-02 <b>Last modified:</b> 2018-08-22</p>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2017-03-02 <b>Last modified:</b> 2018-08-27</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#meta.type.synop">active issues</a> in [meta.type.synop].</p>
@@ -33,7 +33,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-active.html#2797">2797</a> (RU 2) suggests that certain type-traits should be required to
+LWG <a href="lwg-defects.html#2797">2797</a> (RU 2) suggests that certain type-traits should be required to
 diagnose violations of their pre-conditions. The basic idea is founded and I see no problems for
 requiring this for the mentioned traits <tt>alignment_of</tt> or <tt>is_base_of</tt>,
 for example. But if we want to require this diagnostics for some other traits, such as <tt>is_convertible</tt>,
@@ -56,7 +56,7 @@ require a complete type, so <em>generally</em> relaxing the current restrictions
 The core language has a solution for this "small" gap of situations, where the response of the compiler <em>might</em>
 depend on type completeness: Undefined behaviour. So, I believe we need a somewhat more detailled form to express the
 intend here. Informally, I would suggest that the program should only be ill-formed in the situation described by 
-LWG <a href="lwg-active.html#2797">2797</a>, if there exists the <em>possibility</em> that the compiler would require complete types for the
+LWG <a href="lwg-defects.html#2797">2797</a>, if there exists the <em>possibility</em> that the compiler would require complete types for the
 considered operation. The example shown above, <tt>std::is_convertible_v&lt;X, const X&amp;&gt;</tt>, would <b>never</b>
 require the need to complete <tt>X</tt>, so here no violation should exist.
 <p/>
@@ -69,11 +69,11 @@ this issue suggests to fix the current situation <em>before</em> enforcing a dia
 
 <p><i>[2017-03-04, Kona]</i></p>
 
-<p>Set priority to 2. Is related to <a href="lwg-active.html#2797">2797</a>, but really needs an audit of the type traits.</p>
+<p>Set priority to 2. Is related to <a href="lwg-defects.html#2797">2797</a>, but really needs an audit of the type traits.</p>
 
 <p><i>[2018-08 Batavia Monday issue discussion]</i></p>
 
-<p>Issues <a href="lwg-active.html#2797">2797</a>, <a href="lwg-active.html#2939">2939</a>, <a href="lwg-active.html#3022">3022</a>, and <a href="lwg-active.html#3099">3099</a> are all closely related. Walter to write a paper resolving them.</p>
+<p>Issues <a href="lwg-defects.html#2797">2797</a>, <a href="lwg-active.html#2939">2939</a>, <a href="lwg-defects.html#3022">3022</a>, and <a href="lwg-active.html#3099">3099</a> are all closely related. Walter to write a paper resolving them.</p>
 
 
 <p><b>Proposed resolution:</b></p>
