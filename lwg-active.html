@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D113)</h1>
-<p><p>Revised 2018-11-14 at 18:13:57 UTC</p>
+<p><p>Revised 2018-11-14 at 18:43:56 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -1913,7 +1913,7 @@ standard containers.
 <hr>
 <h3><a name="1052" href="#1052">1052</a><sup><a href="https://cplusplus.github.io/LWG/issue1052">(i)</a></sup>. <tt>reverse_iterator::operator-&gt;</tt> should also support smart pointers</h3>
 <p><b>Section:</b> 99 [reverse.iter.opref] <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2009-03-12 <b>Last modified:</b> 2018-08-06</p>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2009-03-12 <b>Last modified:</b> 2018-11-14</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#reverse.iter.opref">issues</a> in [reverse.iter.opref].</p>
@@ -1976,7 +1976,7 @@ Here is the proposed wording that was replaced:
 <blockquote><pre>
 template &lt;class Iterator&gt; 
 class reverse_iterator { 
-  ...
+  [&hellip;]
   typedef <del>typename iterator_traits&lt;</del>Iterator<del>&gt;::pointer</del> pointer;
 </pre></blockquote>
 
@@ -2402,6 +2402,13 @@ return tmp.operator-&gt;();</ins>
 
 <p><i>[2018-08-06; Daniel rebases to current working draft and reduces the proposed wording to that preferred by LEWG]</i></p>
 
+
+<p><i>[2018-11-13; Casey Carter comments]</i></p>
+
+<p>
+The acceptance of <a href="http://wg21.link/p0896r4">P0896R4</a> during the San Diego meeting resolves this 
+issue: The wording in [reverse.iter.elem] for <tt>operator-&gt;</tt> is equivalent to the PR for LWG 1052.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -31968,7 +31975,7 @@ asynchronous operation is invoked.
 <hr>
 <h3><a name="3115" href="#3115">3115</a><sup><a href="https://cplusplus.github.io/LWG/issue3115">(i)</a></sup>. Unclear description for algorithm <tt>includes</tt></h3>
 <p><b>Section:</b> 23.7.6.1 <a href="https://wg21.link/includes">[includes]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-05-24 <b>Last modified:</b> 2018-08-10</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-05-24 <b>Last modified:</b> 2018-11-14</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#includes">issues</a> in [includes].</p>
@@ -32037,6 +32044,13 @@ otherwise</del><ins>a subsequence of <tt>[first1, last1)</tt></ins>.
 <p><i>[2018-06-27 after reflector discussion]</i></p>
 
 <p>Priority set to 3. Improved wording as result of that discussion.</p>
+
+<p><i>[2018-11-13; Casey Carter comments]</i></p>
+
+<p>
+The acceptance of <a href="http://wg21.link/p0896r4">P0896R4</a> during the San Diego meeting resolves this 
+issue: The wording in [includes] includes the PR for LWG 3115.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
