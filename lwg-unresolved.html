@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-11-14 at 19:13:19 UTC</p>
+<p><p>Revised 2018-11-15 at 18:27:41 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -31575,6 +31575,42 @@ and 21.3.7.6 <a href="https://wg21.link/array.tuple">[array.tuple]</a>, are part
 <p/>
 Let's invent such a <i>Value:</i> element and properly document it within 15.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a>, 
 or else let's respecify the offending uses.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3167" href="#3167">3167</a><sup><a href="https://cplusplus.github.io/LWG/issue3167">(i)</a></sup>. [fund.ts.v3] Does <tt>observer_ptr</tt> support function types?</h3>
+<p><b>Section:</b> 5.2 [fund.ts.v3::memory.observer.ptr] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2018-11-14 <b>Last modified:</b> 2018-11-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses: fund.ts.v3</b></p>
+<p>
+From the wording, function pointers are never clearly considered. P1 infers
+support for only objects, but it is not clear that wording is intended to be a
+deliberate restriction, or is casual wording.
+<p/>
+Paragraph 2 mandates that we cannot instantiate for reference types, and do
+support incomplete types, but still does not consider function types. Calling
+out references specifically, as they are not object types, suggests the inferred
+support for only objects in p1 is more a case of casual phrasing, than deliberate
+intent.
+<p/>
+However, if we did intend to support function pointers, we may want to consider
+adding a function-call operator, constrained to supporting pointer-to function types.
+One other possibility is that the explicit conversion to <tt>pointer</tt> already serves that
+purpose, although I need to double-check the core language that contextual
+conversions to function pointer are considered when invoking the function call
+operator.  If this <em>is</em> the case, then I suggest a note to that effect in
+[memory.observer.ptr.conv] instead.
 </p>
 
 
