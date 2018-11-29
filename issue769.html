@@ -24,15 +24,15 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#CD1">CD1</a> status.</em></p>
 <h3><a name="769" href="lwg-defects.html#769">769</a>. std::function should use nullptr_t instead of "unspecified-null-pointer-type"</h3>
-<p><b>Section:</b> 19.14.14.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a> <b>Status:</b> <a href="lwg-active.html#CD1">CD1</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2008-01-10 <b>Last modified:</b> 2016-12-23</p>
+<p><b>Section:</b> 19.14.16.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a> <b>Status:</b> <a href="lwg-active.html#CD1">CD1</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2008-01-10 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#func.wrap.func">issues</a> in [func.wrap.func].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#CD1">CD1</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-N2461 already replaced in 19.14.14.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a> it's originally proposed
+N2461 already replaced in 19.14.16.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a> it's originally proposed
 (implicit) conversion operator to "unspecified-bool-type" by the new
 explicit bool conversion, but the inverse conversion should also
 use the new <tt>std::nullptr_t</tt> type instead of "unspecified-null-pointer-
@@ -58,7 +58,7 @@ template&lt;class R, class... ArgTypes&gt;
 </pre></blockquote>
 
 <p>
-In the class function synopsis of 19.14.14.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a> replace
+In the class function synopsis of 19.14.16.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a> replace
 </p>
 
 <blockquote><pre>
@@ -68,7 +68,7 @@ function&amp; operator=(<del>unspecified-null-pointer-type</del> <ins>nullptr_t<
 </pre></blockquote>
 
 <p>
-In 19.14.14.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a>, "Null pointer comparisons" replace:
+In 19.14.16.2 <a href="https://wg21.link/func.wrap.func">[func.wrap.func]</a>, "Null pointer comparisons" replace:
 </p>
 
 <blockquote><pre>
@@ -83,7 +83,7 @@ template &lt;class R, class... ArgTypes&gt;
 </pre></blockquote>
 
 <p>
-In 19.14.14.2.1 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a>, replace
+In 19.14.16.2.1 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a>, replace
 </p>
 
 <blockquote><pre>
@@ -93,7 +93,7 @@ function&amp; operator=(<del>unspecified-null-pointer-type</del> <ins>nullptr_t<
 </pre></blockquote>
 
 <p>
-In 19.14.14.2.6 <a href="https://wg21.link/func.wrap.func.nullptr">[func.wrap.func.nullptr]</a>, replace
+In 19.14.16.2.6 <a href="https://wg21.link/func.wrap.func.nullptr">[func.wrap.func.nullptr]</a>, replace
 </p>
 
 <blockquote><pre>

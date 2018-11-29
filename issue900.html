@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3><a name="900" href="lwg-defects.html#900">900</a>. Stream move-assignment</h3>
-<p><b>Section:</b> 27.9.3.2 <a href="https://wg21.link/ifstream.assign">[ifstream.assign]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
- <b>Submitter:</b> Niels Dekker <b>Opened:</b> 2008-09-20 <b>Last modified:</b> 2016-12-23</p>
+<p><b>Section:</b> 28.9.3.2 <a href="https://wg21.link/ifstream.assign">[ifstream.assign]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
+ <b>Submitter:</b> Niels Dekker <b>Opened:</b> 2008-09-20 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++11">C++11</a> status.</p>
@@ -49,7 +49,7 @@ same effect as a swap:
 
 <blockquote>
 <p>
-Assign and swap 27.9.3.2 <a href="https://wg21.link/ifstream.assign">[ifstream.assign]</a>
+Assign and swap 28.9.3.2 <a href="https://wg21.link/ifstream.assign">[ifstream.assign]</a>
 </p>
 <pre>
 basic_ifstream&amp; operator=(basic_ifstream&amp;&amp; rhs); 
@@ -92,7 +92,7 @@ Howard is going to write wording.
 
 
 <blockquote><p>
-Note: The proposed change of 27.9.2.2 <a href="https://wg21.link/filebuf.assign">[filebuf.assign]</a> p1 depends on the
+Note: The proposed change of 28.9.2.2 <a href="https://wg21.link/filebuf.assign">[filebuf.assign]</a> p1 depends on the
 resolution of LWG <a href="lwg-defects.html#1204">1204</a>, which allows implementations to assume that
 <tt>*this</tt> and <tt>rhs</tt> refer to different objects.
 </p></blockquote>
@@ -120,7 +120,7 @@ Moved to Ready for Pittsburgh.
 <p><b>Proposed resolution:</b></p>
 
 <p>
-Change 27.8.2.2 <a href="https://wg21.link/stringbuf.assign">[stringbuf.assign]</a>/1:
+Change 28.8.2.2 <a href="https://wg21.link/stringbuf.assign">[stringbuf.assign]</a>/1:
 </p>
 
 <blockquote><pre>
@@ -130,13 +130,13 @@ basic_stringbuf&amp; operator=(basic_stringbuf&amp;&amp; rhs);
 -1- <i>Effects:</i> <del><tt>swap(rhs)</tt>.</del>
 <ins>After the move assignment <tt>*this</tt> reflects the same observable
 state it would have if it had been move constructed from <tt>rhs</tt>
-(27.8.2.1 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
+(28.8.2.1 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
 </ins>
 </p></blockquote>
 </blockquote>
 
 <p>
-Change 27.8.3.2 <a href="https://wg21.link/istringstream.assign">[istringstream.assign]</a>/1:
+Change 28.8.3.2 <a href="https://wg21.link/istringstream.assign">[istringstream.assign]</a>/1:
 </p>
 
 <blockquote><pre>
@@ -151,7 +151,7 @@ base and members of <tt>rhs</tt>.
 </blockquote>
 
 <p>
-Change 27.8.4.2 <a href="https://wg21.link/ostringstream.assign">[ostringstream.assign]</a>/1:
+Change 28.8.4.2 <a href="https://wg21.link/ostringstream.assign">[ostringstream.assign]</a>/1:
 </p>
 
 <blockquote><pre>
@@ -166,7 +166,7 @@ base and members of <tt>rhs</tt>.
 </blockquote>
 
 <p>
-Change 27.8.5.2 <a href="https://wg21.link/stringstream.assign">[stringstream.assign]</a>/1:
+Change 28.8.5.2 <a href="https://wg21.link/stringstream.assign">[stringstream.assign]</a>/1:
 </p>
 
 <blockquote><pre>
@@ -181,7 +181,7 @@ base and members of <tt>rhs</tt>.
 </blockquote>
 
 <p>
-Change 27.9.2.2 <a href="https://wg21.link/filebuf.assign">[filebuf.assign]</a>/1:
+Change 28.9.2.2 <a href="https://wg21.link/filebuf.assign">[filebuf.assign]</a>/1:
 </p>
 
 <blockquote><pre>
@@ -192,13 +192,13 @@ basic_filebuf&amp; operator=(basic_filebuf&amp;&amp; rhs);
 <ins>Begins by calling <tt>this-&gt;close()</tt>.
 After the move assignment <tt>*this</tt> reflects the same observable
 state it would have if it had been move constructed from <tt>rhs</tt>
-(27.9.2.1 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>).
+(28.9.2.1 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>).
 </ins>
 </p></blockquote>
 </blockquote>
 
 <p>
-Change 27.9.3.2 <a href="https://wg21.link/ifstream.assign">[ifstream.assign]</a>/1:
+Change 28.9.3.2 <a href="https://wg21.link/ifstream.assign">[ifstream.assign]</a>/1:
 </p>
 
 <blockquote><pre>
@@ -212,7 +212,7 @@ base and members of <tt>rhs</tt>.</ins>
 </blockquote>
 
 <p>
-Change 27.9.4.2 <a href="https://wg21.link/ofstream.assign">[ofstream.assign]</a>/1:
+Change 28.9.4.2 <a href="https://wg21.link/ofstream.assign">[ofstream.assign]</a>/1:
 </p>
 
 <blockquote><pre>
@@ -226,7 +226,7 @@ base and members of <tt>rhs</tt>.</ins>
 </blockquote>
 
 <p>
-Change 27.9.5.2 <a href="https://wg21.link/fstream.assign">[fstream.assign]</a>/1:
+Change 28.9.5.2 <a href="https://wg21.link/fstream.assign">[fstream.assign]</a>/1:
 </p>
 
 <blockquote><pre>

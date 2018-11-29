@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#TC1">TC1</a> status.</em></p>
 <h3><a name="173" href="lwg-defects.html#173">173</a>. Inconsistent types for <tt>basic_filebuf::setbuf()</tt></h3>
-<p><b>Section:</b> 27.9.2.4 <a href="https://wg21.link/filebuf.virtuals">[filebuf.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#TC1">TC1</a>
- <b>Submitter:</b> Greg Comeau, Dietmar K&uuml;hl <b>Opened:</b> 1999-07-23 <b>Last modified:</b> 2016-12-23</p>
+<p><b>Section:</b> 28.9.2.4 <a href="https://wg21.link/filebuf.virtuals">[filebuf.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#TC1">TC1</a>
+ <b>Submitter:</b> Greg Comeau, Dietmar K&uuml;hl <b>Opened:</b> 1999-07-23 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#filebuf.virtuals">issues</a> in [filebuf.virtuals].</p>
@@ -33,9 +33,9 @@
 <p><b>Discussion:</b></p>
 
 <p>
-In 27.9.2 <a href="https://wg21.link/filebuf">[filebuf]</a> the function <tt>setbuf()</tt> gets an
+In 28.9.2 <a href="https://wg21.link/filebuf">[filebuf]</a> the function <tt>setbuf()</tt> gets an
 object of type <tt>streamsize</tt> as second argument. However, in
-27.9.2.4 <a href="https://wg21.link/filebuf.virtuals">[filebuf.virtuals]</a> paragraph 9 the second argument is of type
+28.9.2.4 <a href="https://wg21.link/filebuf.virtuals">[filebuf.virtuals]</a> paragraph 9 the second argument is of type
 <tt>int</tt>.
 </p>
 
@@ -50,7 +50,7 @@ as described in issue <a href="lwg-defects.html#172">172</a>.
 
 
 <p><b>Proposed resolution:</b></p>
-<p>In 27.9.2.4 <a href="https://wg21.link/filebuf.virtuals">[filebuf.virtuals]</a> paragraph 9, change all uses of
+<p>In 28.9.2.4 <a href="https://wg21.link/filebuf.virtuals">[filebuf.virtuals]</a> paragraph 9, change all uses of
 <tt>int</tt> in the description of <tt>setbuf()</tt> to
 <tt>streamsize</tt>.</p>
 

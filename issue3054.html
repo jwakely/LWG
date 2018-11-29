@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3054" href="lwg-defects.html#3054">3054</a>. <tt>uninitialized_copy</tt> appears to not be able to meet its exception-safety guarantee</h3>
-<p><b>Section:</b> 19.10.11.4 <a href="https://wg21.link/uninitialized.copy">[uninitialized.copy]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> Jon Cohen <b>Opened:</b> 2018-01-24 <b>Last modified:</b> 2018-11-26</p>
+<p><b>Section:</b> 19.10.11.5 <a href="https://wg21.link/uninitialized.copy">[uninitialized.copy]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Jon Cohen <b>Opened:</b> 2018-01-24 <b>Last modified:</b> 2018-11-11</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#uninitialized.copy">issues</a> in [uninitialized.copy].</p>
@@ -39,14 +39,14 @@ presence of throwing move constructors:
 as <tt>uninitialized_copy</tt>:
 <p/>
 <ul>
-<li><p>the provided iterators satisfy the <tt>InputIterator</tt> requirements (22.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>)</p></li>
+<li><p>the provided iterators satisfy the <tt>InputIterator</tt> requirements (22.3.5.2 <a href="https://wg21.link/input.iterators">[input.iterators]</a>)</p></li>
 <li><p>if an exception is thrown during the algorithm then there are no effects</p></li>
 </ul>
 <p/>
 Suppose we have an input iterator <tt>Iter</tt>. Then <tt>std::move_iterator&lt;Iter&gt;</tt> appears
 to also be an input iterator. Notably, it still satisfies that <tt>(void)*a, *a</tt> is equivalent to
 <tt>*a</tt> for move iterator <tt>a</tt> since the dereference only forms an rvalue reference, it
-doesn't actually perform the move operation (22.2.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a> Table 95 &mdash; "Input iterator requirements").
+doesn't actually perform the move operation (22.3.5.2 <a href="https://wg21.link/input.iterators">[input.iterators]</a> Table 95 &mdash; "Input iterator requirements").
 <p/>
 Suppose also that we have a type <tt>T</tt> whose move constructor can throw, a range of <tt>T</tt>'s
 <tt>[t<sub>begin</sub>, t<sub>end</sub>)</tt>, and a pointer to an uninitialized buffer of <tt>T</tt>'s
@@ -106,7 +106,7 @@ unspecified order before allowing the exception to propagate</ins><del>there are
 </blockquote>
 </li>
 
-<li><p>Modify 19.10.11.5 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated (The removed paragraphs are now
+<li><p>Modify 19.10.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated (The removed paragraphs are now
 unnecessary):</p>
 
 <blockquote>
