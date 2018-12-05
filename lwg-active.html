@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2018-12-03</td>
+  <td align="left">2018-12-05</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D114)</h1>
-<p><p>Revised 2018-12-03 at 18:59:16 UTC</p>
+<p><p>Revised 2018-12-05 at 19:58:08 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D114: 2019-01-21 2019 pre-Kona mailing<ul>
 <li><b>Summary:</b><ul>
-<li>276 open issues, up by 1.</li>
+<li>277 open issues, up by 2.</li>
 <li>2381 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2692 issues total, up by 1.</li>
+<li>2693 issues total, up by 2.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following New issue: <a href="lwg-active.html#3170">3170</a>.</li>
+<li>Added the following 2 New issues: <a href="lwg-active.html#3170">3170</a>, <a href="lwg-active.html#3171">3171</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3077">3077</a>.</li>
 </ul></li>
 </ul>
@@ -2784,7 +2784,7 @@ In 21.5.4.2 <a href="https://wg21.link/unord.map.cnstr">[unord.map.cnstr]</a>, 2
 <hr>
 <h3><a name="1203" href="#1203">1203</a><sup><a href="https://cplusplus.github.io/LWG/issue1203">(i)</a></sup>. More useful rvalue stream insertion</h3>
 <p><b>Section:</b> 28.7.5.5 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>, 28.7.4.5 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2009-09-06 <b>Last modified:</b> 2018-12-03</p>
+ <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2009-09-06 <b>Last modified:</b> 2018-12-05</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#ostream.rvalue">issues</a> in [ostream.rvalue].</p>
@@ -2935,11 +2935,19 @@ and only if <tt>Ostream</tt> is not an lvalue reference type and is derived from
 <p><i>[2018-12-03, Ville comments]</i></p>
 
 <p>
-The implementation in libstdc++ doesn't require derivation from <tt>ios_base</tt>, it requires 
-convertibility to <tt>basic_istream/basic_ostream</tt>. The inserter/extractor also don't return a 
-reference to the template parameter, they return a reference to the <tt>basic_istream/basic_ostream</tt> 
-the template parameter converts to. This has been found to be important to avoid regressions with
-existing stream wrappers.
+The implementation in libstdc++ doesn't require derivation from <tt>ios_base</tt>, it 
+requires convertibility to <tt>basic_istream/basic_ostream</tt>. This has been found to be 
+important to avoid regressions with existing stream wrappers.
+<p/>
+In libstdc++, the inserter/extractor also don't return a reference to the template parameter, 
+they return a reference to the <tt>basic_istream/basic_ostream</tt> <em>specialization</em>
+the template parameter converts to. This was done in order to try and be closer to the earlier 
+specification's return type, which specified <tt>basic_ostream&lt;charT, traits&gt;&amp;</tt>
+and <tt>basic_istream&lt;charT, traits&gt;&amp;</tt>. So we detected convertibility to
+(a type convertible to) those, and returned the result of that conversion. That doesn't seem to 
+be necessary, and probably bothers certain chaining cases. Based on recent experiments, it seems
+that this return-type dance (as opposed to just returning what the p/r suggests) is unnecessary, 
+and doesn't trigger any regressions.
 </p>
 
 
@@ -8584,7 +8592,7 @@ LWG agrees. Jonathan provides wording.
 <hr>
 <h3><a name="2157" href="#2157">2157</a><sup><a href="https://cplusplus.github.io/LWG/issue2157">(i)</a></sup>. How does <tt>std::array&lt;T,0&gt;</tt> initialization work when <tt>T</tt> is not default-constructible?</h3>
 <p><b>Section:</b> 21.3.7.5 <a href="https://wg21.link/array.zero">[array.zero]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Daryle Walker <b>Opened:</b> 2012-05-08 <b>Last modified:</b> 2018-09-08</p>
+ <b>Submitter:</b> Daryle Walker <b>Opened:</b> 2012-05-08 <b>Last modified:</b> 2018-12-05</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#array.zero">issues</a> in [array.zero].</p>
@@ -8735,7 +8743,7 @@ are distinct objects of the same zero-sized <tt>array</tt> type</ins>. The retur
 Daniel noted that it's undefined to compare iterators from different containers,
 so <tt>a.begin() != b.begin()</tt> can't be used. That means whether the iterators
 from different containers are unique is unobservable anyway.
-We can say they don't share the same underlying sequence, which users they can't compare them
+We can say they don't share the same underlying sequence, which tells users they can't compare them
 and tells implementors they can't return value-initialized iterators.
 <br/>
 Tim noted that it's not sufficient to say the unspecified type in a zero-sized array is DefaultConstructible,
@@ -26189,7 +26197,7 @@ template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Func
 <hr>
 <h3><a name="3050" href="#3050">3050</a><sup><a href="https://cplusplus.github.io/LWG/issue3050">(i)</a></sup>. Conversion specification problem in <tt>chrono::duration</tt> constructor</h3>
 <p><b>Section:</b> 26.5.1 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a>, 26.5.5 <a href="https://wg21.link/time.duration.nonmember">[time.duration.nonmember]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2018-01-22 <b>Last modified:</b> 2018-11-13</p>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2018-01-22 <b>Last modified:</b> 2018-12-05</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#time.duration.cons">active issues</a> in [time.duration.cons].</p>
@@ -26237,8 +26245,16 @@ some other functions.
 
 <p>Jonathan to provide updated wording; the underlying text has changed.</p>
 
+<p><i>[2018-12-05 Jonathan provides new wording]</i></p>
 
-<p><b>Proposed resolution:</b></p>
+<p>In San Diego Geoff noticed that the current WP does not use <tt>CR</tt>.
+Jonathan provides new wording consistent with the
+<a href="https://github.com/cplusplus/draft/pull/1985">editorial changes</a>
+that removed <tt>CR</tt>.</p>
+
+<strong>Previous resolution [SUPERSEDED]:</strong>
+
+<blockquote class="note">
 <p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
 
 <ol>
@@ -26331,6 +26347,103 @@ and <tt>Rep2</tt> is not a specialization of <tt>duration</tt>.
 </blockquote>
 </li>
 </ol>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4788">N4788</a>.</p>
+
+<ol>
+<li><p>Modify 26.5.1 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Rep2&gt;
+  constexpr explicit duration(const Rep2&amp; r);
+</pre>
+<blockquote>
+<p>
+-1- <i>Remarks:</i> This constructor shall not participate in overload resolution unless 
+<ins><tt>is_convertible_v&lt;const Rep2&amp;, rep&gt;</tt> is <tt>true</tt></ins><del><tt>Rep2</tt> 
+is implicitly convertible to <tt>rep</tt></del> and
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; <tt>treat_as_floating_point_v&lt;rep&gt;</tt> is <tt>true</tt> or</p></li>
+<li><p>(1.2) &mdash; <tt>treat_as_floating_point_v&lt;Rep2&gt;</tt> is <tt>false</tt>.</p></li>
+</ol>
+[&hellip;]
+<p/>
+-2- <i>Effects:</i> Constructs an object of type <tt>duration</tt>.
+<p/>
+-3- <i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 26.5.5 <a href="https://wg21.link/time.duration.nonmember">[time.duration.nonmember]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Rep1, class Period, class Rep2&gt;
+  constexpr duration&lt;common_type_t&lt;Rep1, Rep2&gt;, Period&gt;
+    operator*(const duration&lt;Rep1, Period&gt;&amp; d, const Rep2&amp; s);
+</pre>
+<blockquote>
+<p>
+-4- <i>Remarks:</i> This operator shall not participate in overload resolution unless 
+<ins><tt>is_convertible_v&lt;const Rep2&amp;, common_type_t&lt;Rep1, Rep2&gt;&gt;</tt> is 
+<tt>true</tt></ins><del><tt>Rep2</tt> is implicitly convertible to <tt>common_type_t&lt;Rep1, Rep2&gt;</tt></del>.
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template&lt;class Rep1, class Rep2, class Period&gt;
+  constexpr duration&lt;common_type_t&lt;Rep1, Rep2&gt;, Period&gt;
+    operator*(const Rep1&amp; s, const duration&lt;Rep2, Period&gt;&amp; d);
+</pre>
+<blockquote>
+<p>
+-6- <i>Remarks:</i> This operator shall not participate in overload resolution unless 
+<ins><tt>is_convertible_v&lt;const Rep1&amp;, common_type_t&lt;Rep1, Rep2&gt;&gt;</tt> is 
+<tt>true</tt></ins><del><tt>Rep1</tt> is implicitly convertible to <tt>common_type_t&lt;Rep1, Rep2&gt;</tt></del>.
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template&lt;class Rep1, class Period, class Rep2&gt;
+  constexpr duration&lt;common_type_t&lt;Rep1, Rep2&gt;, Period&gt;
+    operator/(const duration&lt;Rep1, Period&gt;&amp; d, const Rep2&amp; s);
+</pre>
+<blockquote>
+<p>
+-8- <i>Remarks:</i> This operator shall not participate in overload resolution unless 
+<ins><tt>is_convertible_v&lt;const Rep2&amp;, common_type_t&lt;Rep1, Rep2&gt;&gt;</tt> is 
+<tt>true</tt></ins><del><tt>Rep2</tt> is implicitly convertible to <tt>common_type_t&lt;Rep1, Rep2&gt;</tt></del> 
+and <tt>Rep2</tt> is not a specialization of <tt>duration</tt>.
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class Rep1, class Period, class Rep2&gt;
+  constexpr duration&lt;common_type_t&lt;Rep1, Rep2&gt;, Period&gt;
+    operator%(const duration&lt;Rep1, Period&gt;&amp; d, const Rep2&amp; s);
+</pre>
+<blockquote>
+<p>
+-11- <i>Remarks:</i> This operator shall not participate in overload resolution unless 
+<ins><tt>is_convertible_v&lt;const Rep2&amp;, common_type_t&lt;Rep1, Rep2&gt;&gt;</tt> is 
+<tt>true</tt></ins><del><tt>Rep2</tt> is implicitly convertible to <tt>common_type_t&lt;Rep1, Rep2&gt;</tt></del> 
+and <tt>Rep2</tt> is not a specialization of <tt>duration</tt>.
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
 
 
 
@@ -27938,6 +28051,8 @@ the end of the vector.
  <b>Submitter:</b> Gor Nishanov <b>Opened:</b> 2018-03-05 <b>Last modified:</b> 2018-03-25</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#fs.class.directory_entry">active issues</a> in [fs.class.directory_entry].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fs.class.directory_entry">issues</a> in [fs.class.directory_entry].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -34000,6 +34115,72 @@ namespace std {
 </blockquote>
 </li>
 </ul>
+
+
+
+
+
+<hr>
+<h3><a name="3171" href="#3171">3171</a><sup><a href="https://cplusplus.github.io/LWG/issue3171">(i)</a></sup>. LWG 2989 breaks <tt>directory_entry</tt> stream insertion</h3>
+<p><b>Section:</b> 28.11.11 <a href="https://wg21.link/fs.class.directory_entry">[fs.class.directory_entry]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-12-03 <b>Last modified:</b> 2018-12-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#fs.class.directory_entry">active issues</a> in [fs.class.directory_entry].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fs.class.directory_entry">issues</a> in [fs.class.directory_entry].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>directory_entry</tt> has a conversion function to <tt>const path&amp;</tt> and depends on <tt>path</tt>'s stream insertion 
+operator for stream insertion support, which is now broken after LWG <a href="lwg-defects.html#2989">2989</a> made it a hidden friend.
+<p/>
+This does not appear to be intended.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4778">N4778</a>.</p>
+
+<ol>
+<li><p>Modify 28.11.11 <a href="https://wg21.link/fs.class.directory_entry">[fs.class.directory_entry]</a>, class <tt>directory_entry</tt> synopsis, as follows:</p>
+
+<blockquote>
+<pre>
+namespace std::filesystem {
+  class directory_entry {
+  public:
+    [&hellip;]
+  private:
+    filesystem::path pathobject;     // exposition only
+    friend class directory_iterator; // exposition only
+
+<ins>    template&lt;class charT, class traits&gt;
+      friend basic_ostream&lt;charT, traits&gt;&amp;
+        operator&lt;&lt;(basic_ostream&lt;charT, traits&gt;&amp; os, const directory_entry&amp; d);</ins>
+  };
+}
+</pre>
+</blockquote>
+</li>
+<li>
+<p>Add a new subclause at the end of 28.11.11 <a href="https://wg21.link/fs.class.directory_entry">[fs.class.directory_entry]</a>, as follows:</p>
+<blockquote>
+<p><strong>28.11.11.4 Inserter [fs.dir.entry.io]</strong></p>
+<blockquote>
+<pre>
+template&lt;class charT, class traits&gt;
+  friend basic_ostream&lt;charT, traits&gt;&amp;
+    operator&lt;&lt;(basic_ostream&lt;charT, traits&gt;&amp; os, const directory_entry&amp; d);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Equivalent to: <tt> return os &lt;&lt; d.path(); </tt>
+</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
