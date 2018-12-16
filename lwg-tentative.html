@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-12-16 at 11:17:07 UTC</p>
+<p><p>Revised 2018-12-16 at 11:27:27 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="708" href="#708">708</a><sup><a href="https://cplusplus.github.io/LWG/issue708">(i)</a></sup>. Locales need to be per thread and updated for POSIX changes</h3>
@@ -2541,6 +2541,64 @@ This wording is relative to <a href="http://wg21.link/n4741">N4741</a>.
 <pre>
 struct nothrow_t { explicit nothrow_t() = default; };
 <del>extern const</del><ins>inline constexpr</ins> nothrow_t nothrow;
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3173" href="#3173">3173</a><sup><a href="https://cplusplus.github.io/LWG/issue3173">(i)</a></sup>. Enable CTAD for <i><tt>ref-view</tt></i></h3>
+<p><b>Section:</b> 23.7.3.1 <a href="https://wg21.link/range.view.ref">[range.view.ref]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-12-09 <b>Last modified:</b> 2018-12-16</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In the specification of <tt>view::all</tt> in 23.7.3 <a href="https://wg21.link/range.all">[range.all]</a>,
+<a href="https://wg21.link/range.all#2.2">paragraph 2.2</a> states that
+<tt>view::all(E)</tt> is sometimes expression-equivalent to
+"<tt><i>ref-view</i>{E}</tt> if that expression is well-formed". Unfortunately,
+the expression <tt><i>ref-view</i>{E}</tt> is <strong>never</strong> well-formed:
+<tt><i>ref-view</i></tt>'s only non-default constructor is a
+perfect-forwarding-ish constructor template that accepts only arguments that
+convert to lvalues of the <tt><i>ref-view</i></tt>'s template argument type, and
+either do not convert to rvalues or have a better lvalue conversion (similar to
+the <tt>reference_wrapper</tt> converting constructor
+(19.14.5.1 <a href="https://wg21.link/refwrap.const">[refwrap.const]</a>) after issue <a href="lwg-defects.html#2993">2993</a>).
+</p><p>
+Presumably this breakage was not intentional, and we should add a deduction
+guide to enable class template argument deduction to function as intended by
+<a href="https://wg21.link/range.all#2.2">paragraph 2.2</a>.
+</p>
+
+<p><i>[2018-12-16 Status to Tentatively Ready after six positive votes on the reflector.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4791">N4791</a>.</p>
+
+<ol>
+<li><p>Modify the <tt><i>ref-view</i></tt> class synopsis
+in  [ranges.view.ref] as follows:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;Range R&gt;
+    requires is_object_v&lt;R&gt;
+  class <i>ref-view</i> : public view_interface&lt;<i>ref-view</i>&lt;R&gt;&gt; {
+    [&hellip;]
+  };
+
+  <ins>template&lt;class R&gt;</ins>
+    <ins><i>ref_view</i>(R&amp;) -> <i>ref_view</i>&lt;R&gt;;</ins>
+}
 </pre>
 </blockquote>
 </li>
