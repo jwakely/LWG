@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-12-15 at 21:28:40 UTC</p>
+<p><p>Revised 2018-12-16 at 11:17:07 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -28605,7 +28605,7 @@ template&lt;class T&gt; reference_wrapper&lt;const T&gt; cref(reference_wrapper&
 <hr>
 <h3><a name="3149" href="#3149">3149</a><sup><a href="https://cplusplus.github.io/LWG/issue3149">(i)</a></sup>. <tt>DefaultConstructible</tt> should require default initialization</h3>
 <p><b>Section:</b> 17.4.12 <a href="https://wg21.link/concept.defaultconstructible">[concept.defaultconstructible]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2018-10-29</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
@@ -28655,7 +28655,7 @@ feasible.
 
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
 <blockquote class="note">
-<ul>
+<ol>
 <li><p>Modify 17.4.12 <a href="https://wg21.link/concept.defaultconstructible">[concept.defaultconstructible]</a> as follows:</p>
 
 <blockquote>
@@ -28677,7 +28677,7 @@ immediate context of the variable initialization is considered.</ins>
 </p>
 </blockquote>
 </li>
-</ul>
+</ol>
 </blockquote>
 
 <p><i>[2018-08-23 Tim provides updated P/R based on Batavia discussion]</i></p>
@@ -28708,7 +28708,7 @@ by requiring that initialization form to be valid.
 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
-<ul>
+<ol>
 <li><p>Modify 17.4.12 <a href="https://wg21.link/concept.defaultconstructible">[concept.defaultconstructible]</a> as follows:</p>
 
 <blockquote>
@@ -28733,7 +28733,7 @@ immediate context of the variable initialization is considered.</ins>
 </p>
 </blockquote>
 </li>
-</ul>
+</ol>
 
 
 
@@ -28742,7 +28742,7 @@ immediate context of the variable initialization is considered.</ins>
 <hr>
 <h3><a name="3150" href="#3150">3150</a><sup><a href="https://cplusplus.github.io/LWG/issue3150">(i)</a></sup>. <tt>UniformRandomBitGenerator</tt> should validate <tt>min</tt> and <tt>max</tt></h3>
 <p><b>Section:</b> 25.6.2.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2018-08-20</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#rand.req.urng">active issues</a> in [rand.req.urng].</p>
@@ -28783,7 +28783,7 @@ validated by the concept.
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify 25.6.2.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> as follows:</p>
 
 <blockquote>
@@ -28833,7 +28833,7 @@ if <tt>G</tt> models <tt>UniformRandomBitGenerator</tt>,
 </p>
 </blockquote>
 </li>
-</ul>
+</ol>
 
 
 
@@ -28842,7 +28842,7 @@ if <tt>G</tt> models <tt>UniformRandomBitGenerator</tt>,
 <hr>
 <h3><a name="3151" href="#3151">3151</a><sup><a href="https://cplusplus.github.io/LWG/issue3151">(i)</a></sup>. <tt>ConvertibleTo</tt> rejects conversions from array and function types</h3>
 <p><b>Section:</b> 17.4.4 <a href="https://wg21.link/concept.convertibleto">[concept.convertibleto]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2018-08-20</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -28894,7 +28894,7 @@ requires(add_rvalue_reference_t&lt;From&gt; (&amp;f)()) {
 
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify 17.4.4 <a href="https://wg21.link/concept.convertibleto">[concept.convertibleto]</a> as follows:</p>
 
 <blockquote>
@@ -28908,7 +28908,7 @@ template&lt;class From, class To&gt;
 </pre>
 </blockquote>
 </li>
-</ul>
+</ol>
 
 
 
@@ -28917,7 +28917,7 @@ template&lt;class From, class To&gt;
 <hr>
 <h3><a name="3152" href="#3152">3152</a><sup><a href="https://cplusplus.github.io/LWG/issue3152">(i)</a></sup>. <tt>common_type</tt> and <tt>common_reference</tt> have flaws in common</h3>
 <p><b>Section:</b> 19.15.7.6 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-10 <b>Last modified:</b> 2018-08-22</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-10 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#meta.trans.other">issues</a> in [meta.trans.other].</p>
@@ -28957,7 +28957,7 @@ both Note B and Note D define for the type denoted by <tt>type</tt>.</p>
 
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify 19.15.7.6 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a> p5 as follows:</p>
 <blockquote>
 <p>
@@ -28993,7 +28993,7 @@ Moreover, [&hellip;]
 </p>
 </blockquote>
 </li>
-</ul>
+</ol>
 
 
 
@@ -29002,7 +29002,7 @@ Moreover, [&hellip;]
 <hr>
 <h3><a name="3155" href="#3155">3155</a><sup><a href="https://cplusplus.github.io/LWG/issue3155">(i)</a></sup>. <tt>tuple&lt;any, any&gt;{allocator_arg_t, an_allocator}</tt></h3>
 <p><b>Section:</b> 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-18 <b>Last modified:</b> 2018-11-13</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-18 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
@@ -29088,7 +29088,7 @@ SFINAE constraints on the Allocator-aware tuple constructors.</p>
 
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> as indicated:</p>
 <blockquote>
 <pre>
@@ -29110,7 +29110,7 @@ allocator_arg_t&gt;)</tt></ins>. The expression inside <tt>explicit</tt> is equi
 </blockquote>
 </blockquote>
 </li>
-</ul>
+</ol>
 
 
 
@@ -29119,7 +29119,7 @@ allocator_arg_t&gt;)</tt></ins>. The expression inside <tt>explicit</tt> is equi
 <hr>
 <h3><a name="3156" href="#3156">3156</a><sup><a href="https://cplusplus.github.io/LWG/issue3156">(i)</a></sup>. <tt>ForwardIterator</tt> should only mean forward iterator</h3>
 <p><b>Section:</b> 19.10.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-09-06 <b>Last modified:</b> 2018-10-06</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-09-06 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#specialized.algorithms">active issues</a> in [specialized.algorithms].</p>
@@ -29153,7 +29153,7 @@ clarification of the existing wording.
 
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify 19.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a> as indicated:</p>
 <blockquote>
 <pre>
@@ -29260,7 +29260,7 @@ through valid iterators.
 19.10.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> to agree with the proposed changes to
 19.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a> above.</p>
 </li>
-</ul>
+</ol>
 
 
 
@@ -29269,7 +29269,7 @@ through valid iterators.
 <hr>
 <h3><a name="3157" href="#3157">3157</a><sup><a href="https://cplusplus.github.io/LWG/issue3157">(i)</a></sup>. Allocator <tt>destroy</tt> and fancy pointer operations must be non-throwing</h3>
 <p><b>Section:</b> 15.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-09-07 <b>Last modified:</b> 2018-10-06</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-09-07 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#allocator.requirements">active issues</a> in [allocator.requirements].</p>
@@ -29301,7 +29301,7 @@ nodes needs to be able to form pointers to said sentinel nodes; that operation m
 
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify 15.5.3.5 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a>, Table 32 "Descriptive variable definitions" as indicated:</p>
 <blockquote>
 <table border="1">
@@ -29507,7 +29507,7 @@ template&lt;class T&gt;
 </blockquote>
 </li>
 
-</ul>
+</ol>
 
 
 
@@ -29516,7 +29516,7 @@ template&lt;class T&gt;
 <hr>
 <h3><a name="3158" href="#3158">3158</a><sup><a href="https://cplusplus.github.io/LWG/issue3158">(i)</a></sup>. <tt>tuple(allocator_arg_t, const Alloc&amp;)</tt> should be conditionally explicit</h3>
 <p><b>Section:</b> 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-21 <b>Last modified:</b> 2018-10-06</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-21 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
@@ -29551,7 +29551,7 @@ Also, the editor requested that we change "implicitly default-constructible" to 
 
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify 19.5.3 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a>, class template <tt>tuple</tt> synopsis, as indicated:</p>
 <blockquote><pre>
 [&hellip;]
@@ -29606,7 +29606,7 @@ template&lt;class Alloc, class U1, class U2&gt;
 </blockquote>
 </li>
 
-</ul>
+</ol>
 
 
 
@@ -29682,7 +29682,7 @@ instantiated. We could also rephrase it in terms of <tt>is_invocable_v&lt;D, uni
 <hr>
 <h3><a name="3161" href="#3161">3161</a><sup><a href="https://cplusplus.github.io/LWG/issue3161">(i)</a></sup>. Container adapters mandate use of <tt>emplace_back</tt> but don't require it</h3>
 <p><b>Section:</b> 21.6.6 <a href="https://wg21.link/stack">[stack]</a>, 21.6.4 <a href="https://wg21.link/queue">[queue]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2018-10-02 <b>Last modified:</b> 2018-10-06</p>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2018-10-02 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#stack">issues</a> in [stack].</p>
@@ -29721,7 +29721,7 @@ I have prepared two mutually exclusive options.
 </blockquote>
 
 <p><b>Option A</b></p>
-<ul>
+<ol>
 <li><p>Edit 21.6.6 <a href="https://wg21.link/stack">[stack]</a>, as indicated:</p>
 <p>Any sequence container supporting operations <tt>back()</tt>, <tt>push_back()</tt>,  <ins><tt>emplace_back()</tt></ins> and <tt>pop_back()</tt> can be used to instantiate <tt>stack</tt>. </p>
 </li>
@@ -29729,10 +29729,10 @@ I have prepared two mutually exclusive options.
 <li><p>Edit 21.6.4.1 <a href="https://wg21.link/queue.defn">[queue.defn]</a>, as indicated:</p>
 <p>Any sequence container supporting operations <tt>front()</tt>, <tt>back()</tt>, <tt>push_back()</tt>,  <ins><tt>emplace_back()</tt></ins> and <tt>pop_front()</tt> can be used to instantiate <tt>queue</tt>. </p>
 </li>
-</ul>
+</ol>
 
 <p><b>Option B</b></p>
-<ul>
+<ol>
 <li><p>Edit 21.6.6.1 <a href="https://wg21.link/stack.defn">[stack.defn]</a>, class template <tt>stack</tt> definition, as indicated:</p>
 <blockquote><pre>
 template&lt;class... Args&gt;
@@ -29748,7 +29748,7 @@ template&lt;class... Args&gt;
     { return c.emplace<del>_back</del>(<ins>c.end(), </ins>std::forward&lt;Args&gt;(args)...); }
 </pre></blockquote>
 </li>
-</ul>
+</ol>
 
 
 
@@ -30097,7 +30097,7 @@ the function's <i>Throws:</i> element specifies throwing an exception when the p
 <hr>
 <h3><a name="3169" href="#3169">3169</a><sup><a href="https://cplusplus.github.io/LWG/issue3169">(i)</a></sup>. <tt>ranges</tt> permutation generators discard useful information</h3>
 <p><b>Section:</b> 24.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-11-26 <b>Last modified:</b> 2018-12-01</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-11-26 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -30121,7 +30121,7 @@ that <tt>bool</tt> and the end iterator value to be consistent with the other
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to the post-San Diego working draft.</p>
 
-<ul>
+<ol>
 <li><p>Modify 24.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a> as follows:</p>
 
 <blockquote>
@@ -30253,7 +30253,7 @@ namespace ranges {
 <p>10 <i>Complexity:</i> [&hellip;]</p>
 </blockquote>
 </li>
-</ul>
+</ol>
 
 
 
@@ -30263,7 +30263,7 @@ namespace ranges {
 <h3><a name="3170" href="#3170">3170</a><sup><a href="https://cplusplus.github.io/LWG/issue3170">(i)</a></sup>. <tt>is_always_equal</tt> added to <tt>std::allocator</tt> makes the standard library treat 
 derived types as always equal</h3>
 <p><b>Section:</b> 19.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-11-29 <b>Last modified:</b> 2018-12-01</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-11-29 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#default.allocator">issues</a> in [default.allocator].</p>
@@ -30293,7 +30293,7 @@ the default answer provided by <tt>allocator_traits</tt>.
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4778">N4778</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify 19.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> as follows:</p>
 
 <blockquote>
@@ -30324,7 +30324,7 @@ namespace std {
 </p>
 </blockquote>
 </li>
-</ul>
+</ol>
 
 
 
@@ -30481,7 +30481,7 @@ special values are given.</p>
 <hr>
 <h3><a name="3173" href="#3173">3173</a><sup><a href="https://cplusplus.github.io/LWG/issue3173">(i)</a></sup>. Enable CTAD for <i><tt>ref-view</tt></i></h3>
 <p><b>Section:</b> 23.7.3.1 <a href="https://wg21.link/range.view.ref">[range.view.ref]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-12-09 <b>Last modified:</b> 2018-12-10</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-12-09 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -30508,7 +30508,7 @@ guide to enable class template argument deduction to function as intended by
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4791">N4791</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify the <tt><i>ref-view</i></tt> class synopsis
 in  [ranges.view.ref] as follows:</p>
 
@@ -30527,7 +30527,7 @@ namespace std::ranges {
 </pre>
 </blockquote>
 </li>
-</ul>
+</ol>
 
 
 
@@ -30536,7 +30536,7 @@ namespace std::ranges {
 <hr>
 <h3><a name="3174" href="#3174">3174</a><sup><a href="https://cplusplus.github.io/LWG/issue3174">(i)</a></sup>. Precondition on <tt>is_convertible</tt> is too strong</h3>
 <p><b>Section:</b> 19.15.6 <a href="https://wg21.link/meta.rel">[meta.rel]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-12-09 <b>Last modified:</b> 2018-12-10</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-12-09 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#meta.rel">issues</a> in [meta.rel].</p>
@@ -30597,7 +30597,7 @@ object type" wording in
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4788">N4788</a>.</p>
 
-<ul>
+<ol>
 <li><p>Modify Table 49 in 19.15.6 <a href="https://wg21.link/meta.rel">[meta.rel]</a> as follows:</p>
 <table border="1">
 <caption>Table 49 &mdash; Type relationship predicates</caption>
@@ -30655,7 +30655,7 @@ or <i>cv</i> <tt>void</tt> <del>types</del>.
 </tr>
 </table>
 </li>
-</ul>
+</ol>
 
 
 
@@ -30664,7 +30664,7 @@ or <i>cv</i> <tt>void</tt> <del>types</del>.
 <hr>
 <h3><a name="3175" href="#3175">3175</a><sup><a href="https://cplusplus.github.io/LWG/issue3175">(i)</a></sup>. The <tt>CommonReference</tt> requirement of concept <tt>SwappableWith</tt> is not satisfied in the example</h3>
 <p><b>Section:</b> 99 [concepts.swappable] <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Kostas Kyrimis <b>Opened:</b> 2018-12-14 <b>Last modified:</b> 2018-12-15</p>
+ <b>Submitter:</b> Kostas Kyrimis <b>Opened:</b> 2018-12-14 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -30716,7 +30716,7 @@ from the example that there is no common reference for [<tt>T</tt> = <tt>N::A&am
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4791">N4791</a>.</p>
 
-<ul>
+<ol>
 <li><p>Change 99 [concepts.swappable] as indicated:</p>
 
 <blockquote>
@@ -30791,7 +30791,67 @@ int main() {
 </blockquote>
 </blockquote>
 </li>
-</ul>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3176" href="#3176">3176</a><sup><a href="https://cplusplus.github.io/LWG/issue3176">(i)</a></sup>. Underspecified behavior of unordered containers when <tt>Container::key_equal</tt> differs from <tt>Pred</tt></h3>
+<p><b>Section:</b> 21.2.7 <a href="https://wg21.link/unord.req">[unord.req]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2018-11-27 <b>Last modified:</b> 2018-12-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#unord.req">active issues</a> in [unord.req].</p>
+<p><b>View all other</b> <a href="lwg-index.html#unord.req">issues</a> in [unord.req].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+After acceptance of <a href="https://wg21.link/p0919r3">P0919R3</a> into the new working draft (<a href="https://wg21.link/n4791">N4791</a>), 
+it is possible that an unordered container's member type <tt>key_equal</tt> is different from its template argument for <tt>Pred</tt> 
+(the former being <tt>Hash::transparent_key_equal</tt> while the latter being <tt>std::equal_to&lt;Key&gt;</tt>). However, it is 
+unclear which is stored in the container and used as the predicate in this case.
+<p/>
+In particular, [unord.req]/4 says:
+</p>
+<blockquote>
+<p>
+[&hellip;] The container's object of type <tt>Pred</tt> &mdash; denoted by <tt>pred</tt> &mdash; is called the <i>key equality 
+predicate</i> of the container.
+</p>
+</blockquote>
+<p>
+In Table 70, the row for <tt>X::key_equal</tt> places requirements to <tt>Pred</tt> and not to <tt>Hash::transparent_key_equal</tt>:
+</p>
+<blockquote>
+<p>
+<i>Requires:</i> <tt>Pred</tt> is <i>Cpp17CopyConstructible</i>. <tt>Pred</tt> shall be a binary predicate that takes two arguments 
+of type <tt>Key</tt>. <tt>Pred</tt> is an equivalence relation.
+</p>
+</blockquote>
+<p>
+The specification of <tt>operator==</tt> and <tt>operator!=</tt> in [unord.req]/12 uses <tt>Pred</tt>:
+</p>
+<blockquote>
+<p>
+[&hellip;] The behavior of a program that uses <tt>operator==</tt> or operator!= on unordered containers is undefined unless
+the <tt>Pred</tt> function object has the same behavior for both containers and the equality comparison function for <tt>Key</tt> 
+is a refinement(footnote 227) of the partition into equivalent-key groups produced by <tt>Pred</tt>.
+</p>
+</blockquote>
+<p>
+The exception safety guarantees in [unord.req.except] mentions "the container's <tt>Pred</tt> object" twice.
+<p/>
+The <i>noexcept-specifier</i>s of unordered containers' move assignment operator and <tt>swap</tt> member function are all in 
+terms of <tt>Pred</tt>.
+<p/>
+I think the intent is to make <tt>Hash::transparent_key_equal</tt> override <tt>Pred</tt>. If that's true, then all the 
+abovementioned uses of <tt>Pred</tt> in the specification should probably be changed to uses <tt>key_equal</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
