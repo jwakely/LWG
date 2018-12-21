@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D114)</h1>
-<p><p>Revised 2018-12-21 at 16:26:50 UTC</p>
+<p><p>Revised 2018-12-21 at 18:31:03 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D114: 2019-01-21 2019 pre-Kona mailing<ul>
 <li><b>Summary:</b><ul>
-<li>284 open issues, up by 9.</li>
+<li>285 open issues, up by 10.</li>
 <li>2381 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2700 issues total, up by 9.</li>
+<li>2701 issues total, up by 10.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3173">3173</a>.</li>
-<li>Added the following 8 New issues: <a href="lwg-active.html#3170">3170</a>, <a href="lwg-active.html#3171">3171</a>, <a href="lwg-active.html#3172">3172</a>, <a href="lwg-active.html#3174">3174</a>, <a href="lwg-active.html#3175">3175</a>, <a href="lwg-active.html#3176">3176</a>, <a href="lwg-active.html#3177">3177</a>, <a href="lwg-active.html#3178">3178</a>.</li>
+<li>Added the following 9 New issues: <a href="lwg-active.html#3170">3170</a>, <a href="lwg-active.html#3171">3171</a>, <a href="lwg-active.html#3172">3172</a>, <a href="lwg-active.html#3174">3174</a>, <a href="lwg-active.html#3175">3175</a>, <a href="lwg-active.html#3176">3176</a>, <a href="lwg-active.html#3177">3177</a>, <a href="lwg-active.html#3178">3178</a>, <a href="lwg-active.html#3179">3179</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3077">3077</a>.</li>
 </ul></li>
 </ul>
@@ -34796,6 +34796,64 @@ exists.
 corresponding predicate and any projections.
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3179" href="#3179">3179</a><sup><a href="https://cplusplus.github.io/LWG/issue3179">(i)</a></sup>. <tt>subrange</tt> should always model <tt>Range</tt></h3>
+<p><b>Section:</b> 23.6.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-12-21 <b>Last modified:</b> 2018-12-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The constructors of <tt>subrange</tt> place no requirements on the iterator and
+sentinel values from which a <tt>subrange</tt> is constructed. They allow
+constructions like <tt>subrange{myvec.end(), myvec.begin()}</tt> in which the
+resulting <tt>subrange</tt> isn't in the domain of the <tt>Range</tt> concept
+which requires that "<tt>[ranges::begin(r), ranges::end(r))</tt> denotes a
+range" (<a href="https://wg21.link/range.range#3.1">[range.range]/3.1</a>).
+We should forbid the construction of abominable values like this to enforce the
+useful semantic that values of <tt>subrange</tt> are always in the domain of
+<tt>Range</tt>.
+</p><p>
+(From <a href="https://github.com/ericniebler/stl2/issues/597">ericniebler/stl2#597</a>.)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4791">N4791</a>.</p>
+
+<ol>
+<li><p>Change 23.6.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a> as indicated:</p>
+<blockquote>
+<blockquote>
+<pre>
+constexpr subrange(I i, S s) requires (!StoreSize);
+</pre>
+</blockquote>
+<p>
+<ins>-?- <i>Expects:</i> <tt>[i, s)</tt> is a valid range.</ins>
+</p><p>
+-1- <i>Effects:</i> Initializes <tt>begin_</tt> with <tt>i</tt> and
+<tt>end_</tt> with <tt>s</tt>.
+</p>
+<blockquote>
+<pre>
+constexpr subrange(I i, S s, iter_difference_t&lt;I&gt; n)
+  requires (K == subrange_kind::sized);
+</pre>
+</blockquote>
+<p>
+-2- <i>Expects:</i> <ins><tt>[i, s)</tt> is a valid range, and</ins>
+<tt>n == ranges::distance(i, s)</tt>.
+</p>
 </blockquote>
 </li>
 </ol>

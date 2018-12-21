@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2018-12-21 at 16:26:50 UTC</p>
+<p><p>Revised 2018-12-21 at 18:31:03 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -30945,6 +30945,64 @@ exists.
 corresponding predicate and any projections.
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3179" href="#3179">3179</a><sup><a href="https://cplusplus.github.io/LWG/issue3179">(i)</a></sup>. <tt>subrange</tt> should always model <tt>Range</tt></h3>
+<p><b>Section:</b> 23.6.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-12-21 <b>Last modified:</b> 2018-12-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The constructors of <tt>subrange</tt> place no requirements on the iterator and
+sentinel values from which a <tt>subrange</tt> is constructed. They allow
+constructions like <tt>subrange{myvec.end(), myvec.begin()}</tt> in which the
+resulting <tt>subrange</tt> isn't in the domain of the <tt>Range</tt> concept
+which requires that "<tt>[ranges::begin(r), ranges::end(r))</tt> denotes a
+range" (<a href="https://wg21.link/range.range#3.1">[range.range]/3.1</a>).
+We should forbid the construction of abominable values like this to enforce the
+useful semantic that values of <tt>subrange</tt> are always in the domain of
+<tt>Range</tt>.
+</p><p>
+(From <a href="https://github.com/ericniebler/stl2/issues/597">ericniebler/stl2#597</a>.)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4791">N4791</a>.</p>
+
+<ol>
+<li><p>Change 23.6.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a> as indicated:</p>
+<blockquote>
+<blockquote>
+<pre>
+constexpr subrange(I i, S s) requires (!StoreSize);
+</pre>
+</blockquote>
+<p>
+<ins>-?- <i>Expects:</i> <tt>[i, s)</tt> is a valid range.</ins>
+</p><p>
+-1- <i>Effects:</i> Initializes <tt>begin_</tt> with <tt>i</tt> and
+<tt>end_</tt> with <tt>s</tt>.
+</p>
+<blockquote>
+<pre>
+constexpr subrange(I i, S s, iter_difference_t&lt;I&gt; n)
+  requires (K == subrange_kind::sized);
+</pre>
+</blockquote>
+<p>
+-2- <i>Expects:</i> <ins><tt>[i, s)</tt> is a valid range, and</ins>
+<tt>n == ranges::distance(i, s)</tt>.
+</p>
 </blockquote>
 </li>
 </ol>
