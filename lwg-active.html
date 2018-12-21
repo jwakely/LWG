@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D114)</h1>
-<p><p>Revised 2018-12-21 at 18:55:23 UTC</p>
+<p><p>Revised 2018-12-21 at 21:32:43 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D114: 2019-01-21 2019 pre-Kona mailing<ul>
 <li><b>Summary:</b><ul>
-<li>285 open issues, up by 10.</li>
+<li>286 open issues, up by 11.</li>
 <li>2381 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2701 issues total, up by 10.</li>
+<li>2702 issues total, up by 11.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3173">3173</a>.</li>
-<li>Added the following 9 New issues: <a href="lwg-active.html#3170">3170</a>, <a href="lwg-active.html#3171">3171</a>, <a href="lwg-active.html#3172">3172</a>, <a href="lwg-active.html#3174">3174</a>, <a href="lwg-active.html#3175">3175</a>, <a href="lwg-active.html#3176">3176</a>, <a href="lwg-active.html#3177">3177</a>, <a href="lwg-active.html#3178">3178</a>, <a href="lwg-active.html#3179">3179</a>.</li>
+<li>Added the following 10 New issues: <a href="lwg-active.html#3170">3170</a>, <a href="lwg-active.html#3171">3171</a>, <a href="lwg-active.html#3172">3172</a>, <a href="lwg-active.html#3174">3174</a>, <a href="lwg-active.html#3175">3175</a>, <a href="lwg-active.html#3176">3176</a>, <a href="lwg-active.html#3177">3177</a>, <a href="lwg-active.html#3178">3178</a>, <a href="lwg-active.html#3179">3179</a>, <a href="lwg-active.html#3180">3180</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3077">3077</a>.</li>
 </ul></li>
 </ul>
@@ -34854,6 +34854,65 @@ constexpr subrange(I i, S s, iter_difference_t&lt;I&gt; n)
 -2- <i>Expects:</i> <ins><tt>[i, s)</tt> is a valid range, and</ins>
 <tt>n == ranges::distance(i, s)</tt>.
 </p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3180" href="#3180">3180</a><sup><a href="https://cplusplus.github.io/LWG/issue3180">(i)</a></sup>. Inconsistently named return type for <tt>ranges::minmax_element</tt></h3>
+<p><b>Section:</b> 24.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-12-21 <b>Last modified:</b> 2018-12-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The overloads of <tt>std::ranges::minmax_element</tt> are specified to return
+<tt>std::ranges::minmax_result</tt>, which is inconsistent with the intended
+design. When an algorithm <tt>foo</tt> returns an aggregate of multiple results,
+the return type should be named <tt>foo_result</tt>.
+The spec should introduce an alias <tt>minmax_element_result</tt> for
+<tt>minmax_result</tt> and use that alias as the return type of the
+<tt>std::ranges::minmax_element</tt> overloads.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4791">N4791</a>.</p>
+
+<ol>
+<li><p>Change 24.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a> as indicated, and adjust the
+declarations of <tt>std::ranges::minmax_element</tt>
+in 24.7.8 <a href="https://wg21.link/alg.min.max">[alg.min.max]</a> to agree:</p>
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class ExecutionPolicy, class ForwardIterator, class Compare&gt;
+  pair&lt;ForwardIterator, ForwardIterator&gt;
+    minmax_element(ExecutionPolicy&amp;&amp; exec, // see 24.3.5 <a href="https://wg21.link/algorithms.parallel.overloads">[algorithms.parallel.overloads]</a>
+                   ForwardIterator first, ForwardIterator last, Compare comp);
+
+namespace ranges {
+  <ins>template&lt;class I&gt;</ins>
+  <ins>using minmax_element_result = minmax_result&lt;I&gt;;</ins>
+
+  template&lt;ForwardIterator I, Sentinel&lt;I&gt; S, class Proj = identity,
+           IndirectStrictWeakOrder&lt;projected&lt;I, Proj&gt;&gt; Comp = ranges::less&lt;&gt;&gt;
+    constexpr minmax_<ins>element_</ins>result&lt;I&gt;
+      minmax_element(I first, S last, Comp comp = {}, Proj proj = {});
+  template&lt;ForwardRange R, class Proj = identity,
+           IndirectStrictWeakOrder&lt;projected&lt;iterator_t&lt;R&gt;, Proj&gt;&gt; Comp = ranges::less&lt;&gt;&gt;
+    constexpr minmax_<ins>element_</ins>result&lt;safe_iterator_t&lt;R&gt;&gt;
+      minmax_element(R&amp;&amp; r, Comp comp = {}, Proj proj = {});
+}
+
+// 24.7.9 <a href="https://wg21.link/alg.clamp">[alg.clamp]</a>, bounded value
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 </ol>
