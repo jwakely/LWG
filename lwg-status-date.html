@@ -21,14 +21,14 @@
 </style>
 </head>
 <body>
-<h1>C++ Standard Library Issues List (Revision D114)</h1>
+<h1>C++ Standard Library Issues List (Revision D115)</h1>
 <h1>Index by Status and Date</h1>
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>
 This document is the Index by Status and Date for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports List</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.
 </p>
-<p><p>Revised 2019-01-20 at 16:17:57 UTC</p>
+<p><p>Revised 2019-01-21 at 04:46:29 UTC</p>
 </p><h2><a name="Ready"</a>Ready (2 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -110,7 +110,7 @@ to meet their postconditions</td>
 <tr>
 <td align="right"><a href="lwg-active.html#3173">3173</a></td>
 <td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3173"></a></td>
-<td align="left">23.7.3.1 [range.view.ref]<a name="range.view.ref"></a></td>
+<td align="left">23.8.3.1 [range.view.ref]<a name="range.view.ref"></a></td>
 <td align="left">Enable CTAD for <i><tt>ref-view</tt></i></td>
 <td align="center">Yes</td>
 <td align="center">0</td>
@@ -517,6 +517,15 @@ specified to make <tt><i>N</i></tt> copies of <tt>T</tt> into the destination ra
 <td align="left">25.8.3 [c.math.hypot3]<a name="c.math.hypot3"></a></td>
 <td align="left">3-arg <tt>std::hypot</tt> is underspecified compared to the 2-arg overload</td>
 <td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#2497">2497</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2497"></a></td>
+<td align="left">28.7.5.1.3 [ostream.sentry]<a name="ostream.sentry"></a></td>
+<td align="left">Use of <tt>uncaught_exception()</tt></td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -1084,7 +1093,7 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <tr>
 <td align="right"><a href="lwg-active.html#2999">2999</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2999"></a></td>
-<td align="left">31.2.6 [thread.decaycopy]<a name="thread.decaycopy"></a></td>
+<td align="left">99 [thread.decaycopy]<a name="thread.decaycopy"></a></td>
 <td align="left">&sect;[thread.decaycopy] issue</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
@@ -1790,15 +1799,6 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2497">2497</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2497"></a></td>
-<td align="left">28.7.5.1.3 [ostream::sentry]<a name="ostream::sentry"></a></td>
-<td align="left">Use of <tt>uncaught_exception()</tt></td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#2490">2490</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2490"></a></td>
 <td align="left">29 [re]<a name="re"></a></td>
@@ -2056,7 +2056,7 @@ arguments when no insertion happens</td>
 <tr>
 <td align="right"><a href="lwg-active.html#3092">3092</a></td>
 <td align="left"><a href="lwg-active.html#Open">Open</a><a name="3092"></a></td>
-<td align="left">15.4.2.1.4 [bitmask.types]<a name="bitmask.types"></a></td>
+<td align="left">15.4.2.2.4 [bitmask.types]<a name="bitmask.types"></a></td>
 <td align="left">Unclear semantics of <tt>enum class</tt> bitmask types</td>
 <td align="center">Yes</td>
 <td align="center">2</td>
@@ -6303,15 +6303,6 @@ cleaner interoperation with legacy APIs</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-defects.html#2765">2765</a></td>
-<td align="left"><a href="lwg-active.html#C++17">C++17</a><a name="2765"></a></td>
-<td align="left">28.5.3.1.6 [ios::Init]<a name="ios::Init"></a></td>
-<td align="left">Did LWG 1123 go too far?</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-defects.html#2244">2244</a></td>
 <td align="left"><a href="lwg-active.html#C++17">C++17</a><a name="2244"></a></td>
 <td align="left">28.7.4.3 [istream.unformatted]<a name="istream.unformatted"></a></td>
@@ -6815,6 +6806,15 @@ is very expensive</td>
 <td align="left">99 [fs.op.system_complete]<a name="fs.op.system_complete"></a></td>
 <td align="left"><code>system_complete</code> refers to undefined variable 'base'
 </td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2765">2765</a></td>
+<td align="left"><a href="lwg-active.html#C++17">C++17</a><a name="2765"></a></td>
+<td align="left">99 [ios::Init]<a name="ios::Init"></a></td>
+<td align="left">Did LWG 1123 go too far?</td>
 <td align="center">Yes</td>
 <td align="center">0</td>
 <td align="left"></td>
@@ -10396,15 +10396,6 @@ is very expensive</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-defects.html#1123">1123</a></td>
-<td align="left"><a href="lwg-active.html#C++11">C++11</a><a name="1123"></a></td>
-<td align="left">28.5.3.1.6 [ios::Init]<a name="ios::Init"></a></td>
-<td align="left">No requirement that standard streams be flushed</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-defects.html#1249">1249</a></td>
 <td align="left"><a href="lwg-active.html#C++11">C++11</a><a name="1249"></a></td>
 <td align="left">28.5.5.2 [basic.ios.cons]<a name="basic.ios.cons"></a></td>
@@ -10463,15 +10454,6 @@ is very expensive</td>
 <td align="left"><a href="lwg-active.html#C++11">C++11</a><a name="911"></a></td>
 <td align="left">28.7.4 [input.streams]<a name="input.streams"></a></td>
 <td align="left">I&#47;O streams and <tt>move&#47;swap</tt> semantic</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#419">419</a></td>
-<td align="left"><a href="lwg-active.html#C++11">C++11</a><a name="419"></a></td>
-<td align="left">28.7.4.1.3 [istream::sentry]<a name="istream::sentry"></a></td>
-<td align="left">istream extractors not setting <tt>failbit</tt> if <tt>eofbit</tt> is already set</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -11080,6 +11062,24 @@ is very expensive</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-defects.html#1123">1123</a></td>
+<td align="left"><a href="lwg-active.html#C++11">C++11</a><a name="1123"></a></td>
+<td align="left">99 [ios::Init]<a name="ios::Init"></a></td>
+<td align="left">No requirement that standard streams be flushed</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#419">419</a></td>
+<td align="left"><a href="lwg-active.html#C++11">C++11</a><a name="419"></a></td>
+<td align="left">99 [istream::sentry]<a name="istream::sentry"></a></td>
+<td align="left">istream extractors not setting <tt>failbit</tt> if <tt>eofbit</tt> is already set</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-defects.html#872">872</a></td>
 <td align="left"><a href="lwg-active.html#C++11">C++11</a><a name="872"></a></td>
 <td align="left">99 [move.iter.op.index]<a name="move.iter.op.index"></a></td>
@@ -11265,7 +11265,7 @@ is very expensive</td>
 <tr>
 <td align="right"><a href="lwg-defects.html#262">262</a></td>
 <td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="262"></a></td>
-<td align="left">15.4.2.1.4 [bitmask.types]<a name="bitmask.types"></a></td>
+<td align="left">15.4.2.2.4 [bitmask.types]<a name="bitmask.types"></a></td>
 <td align="left">Bitmask operator ~ specified incorrectly</td>
 <td align="center">Yes</td>
 <td align="center"></td>
@@ -13783,24 +13783,6 @@ is very expensive</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-defects.html#331">331</a></td>
-<td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="331"></a></td>
-<td align="left">28.5.3.1.1 [ios::failure]<a name="ios::failure"></a></td>
-<td align="left">bad declaration of destructor for ios_base::failure</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#363">363</a></td>
-<td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="363"></a></td>
-<td align="left">28.5.3.1.1 [ios::failure]</td>
-<td align="left">Missing exception specification in 27.4.2.1.1</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-defects.html#49">49</a></td>
 <td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="49"></a></td>
 <td align="left">28.5.3.4 [ios.members.static]<a name="ios.members.static"></a></td>
@@ -13994,15 +13976,6 @@ is very expensive</td>
 <td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="311"></a></td>
 <td align="left">28.7.5.1 [ostream]</td>
 <td align="left">Incorrect wording in basic_ostream class synopsis</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#442">442</a></td>
-<td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="442"></a></td>
-<td align="left">28.7.5.1.3 [ostream::sentry]<a name="ostream::sentry"></a></td>
-<td align="left">sentry::operator bool() inconsistent signature</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -14381,6 +14354,33 @@ is very expensive</td>
 <td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="843"></a></td>
 <td align="left">99 [func.referenceclosure.cons]<a name="func.referenceclosure.cons"></a></td>
 <td align="left"> Reference Closure</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#331">331</a></td>
+<td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="331"></a></td>
+<td align="left">99 [ios::failure]<a name="ios::failure"></a></td>
+<td align="left">bad declaration of destructor for ios_base::failure</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#363">363</a></td>
+<td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="363"></a></td>
+<td align="left">99 [ios::failure]</td>
+<td align="left">Missing exception specification in 27.4.2.1.1</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#442">442</a></td>
+<td align="left"><a href="lwg-active.html#CD1">CD1</a><a name="442"></a></td>
+<td align="left">99 [ostream::sentry]<a name="ostream::sentry"></a></td>
+<td align="left">sentry::operator bool() inconsistent signature</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -15190,15 +15190,6 @@ is very expensive</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-defects.html#48">48</a></td>
-<td align="left"><a href="lwg-active.html#TC1">TC1</a><a name="48"></a></td>
-<td align="left">28.5.3.1.1 [ios::failure]<a name="ios::failure"></a></td>
-<td align="left">Use of non-existent exception constructor</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-defects.html#189">189</a></td>
 <td align="left"><a href="lwg-active.html#TC1">TC1</a><a name="189"></a></td>
 <td align="left">28.5.3.2 [fmtflags.state]<a name="fmtflags.state"></a></td>
@@ -15329,24 +15320,6 @@ is very expensive</td>
 <td align="left"><a href="lwg-active.html#TC1">TC1</a><a name="160"></a></td>
 <td align="left">28.7.4.1 [istream]<a name="istream"></a></td>
 <td align="left">Typo: Use of non-existing function <tt>exception()</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#26">26</a></td>
-<td align="left"><a href="lwg-active.html#TC1">TC1</a><a name="26"></a></td>
-<td align="left">28.7.4.1.3 [istream::sentry]<a name="istream::sentry"></a></td>
-<td align="left">Bad sentry example</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#195">195</a></td>
-<td align="left"><a href="lwg-active.html#TC1">TC1</a><a name="195"></a></td>
-<td align="left">28.7.4.1.3 [istream::sentry]</td>
-<td align="left">Should <tt>basic_istream::sentry</tt>'s constructor ever set eofbit?</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -15518,6 +15491,33 @@ is very expensive</td>
 <td align="left"><a href="lwg-active.html#TC1">TC1</a><a name="217"></a></td>
 <td align="left">99 [facets.examples]</td>
 <td align="left">Facets example (Classifying Japanese characters) contains errors</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#48">48</a></td>
+<td align="left"><a href="lwg-active.html#TC1">TC1</a><a name="48"></a></td>
+<td align="left">99 [ios::failure]<a name="ios::failure"></a></td>
+<td align="left">Use of non-existent exception constructor</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#26">26</a></td>
+<td align="left"><a href="lwg-active.html#TC1">TC1</a><a name="26"></a></td>
+<td align="left">99 [istream::sentry]<a name="istream::sentry"></a></td>
+<td align="left">Bad sentry example</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#195">195</a></td>
+<td align="left"><a href="lwg-active.html#TC1">TC1</a><a name="195"></a></td>
+<td align="left">99 [istream::sentry]</td>
+<td align="left">Should <tt>basic_istream::sentry</tt>'s constructor ever set eofbit?</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -16512,7 +16512,7 @@ correctly and regresses key functionality</td>
 <tr>
 <td align="right"><a href="lwg-defects.html#1357">1357</a></td>
 <td align="left"><a href="lwg-active.html#Resolved">Resolved</a><a name="1357"></a></td>
-<td align="left">15.4.2.1.4 [bitmask.types]<a name="bitmask.types"></a></td>
+<td align="left">15.4.2.2.4 [bitmask.types]<a name="bitmask.types"></a></td>
 <td align="left">Library bitmask types to not satisfy the bimask type requirements</td>
 <td align="center">Yes</td>
 <td align="center"></td>
@@ -17493,15 +17493,6 @@ use <tt>allocator_traits</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-defects.html#1328">1328</a></td>
-<td align="left"><a href="lwg-active.html#Resolved">Resolved</a><a name="1328"></a></td>
-<td align="left">28.7.4.1.3 [istream::sentry]<a name="istream::sentry"></a></td>
-<td align="left">istream extractors not setting <tt>failbit</tt> if <tt>eofbit</tt> is already set</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-defects.html#2249">2249</a></td>
 <td align="left"><a href="lwg-active.html#Resolved">Resolved</a><a name="2249"></a></td>
 <td align="left">28.12 [c.files]<a name="c.files"></a></td>
@@ -18224,6 +18215,15 @@ synchronization requirements</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-defects.html#1328">1328</a></td>
+<td align="left"><a href="lwg-active.html#Resolved">Resolved</a><a name="1328"></a></td>
+<td align="left">99 [istream::sentry]<a name="istream::sentry"></a></td>
+<td align="left">istream extractors not setting <tt>failbit</tt> if <tt>eofbit</tt> is already set</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-defects.html#732">732</a></td>
 <td align="left"><a href="lwg-active.html#Resolved">Resolved</a><a name="732"></a></td>
 <td align="left">99 [rand.dist.samp.genpdf]<a name="rand.dist.samp.genpdf"></a></td>
@@ -18493,7 +18493,7 @@ synchronization requirements</td>
 <tr>
 <td align="right"><a href="lwg-closed.html#1060">1060</a></td>
 <td align="left"><a href="lwg-active.html#NAD Editorial">NAD Editorial</a><a name="1060"></a></td>
-<td align="left">15.4.2.1.5.1 [byte.strings]<a name="byte.strings"></a></td>
+<td align="left">15.4.2.2.5.1 [byte.strings]<a name="byte.strings"></a></td>
 <td align="left">Embedded nulls in NTBS</td>
 <td align="center">Yes</td>
 <td align="center"></td>
@@ -19106,15 +19106,6 @@ synchronization requirements</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-closed.html#397">397</a></td>
-<td align="left"><a href="lwg-active.html#NAD Editorial">NAD Editorial</a><a name="397"></a></td>
-<td align="left">28.7.5.1.3 [ostream::sentry]<a name="ostream::sentry"></a></td>
-<td align="left"><tt>ostream::sentry</tt> dtor throws exceptions</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-closed.html#641">641</a></td>
 <td align="left"><a href="lwg-active.html#NAD Editorial">NAD Editorial</a><a name="641"></a></td>
 <td align="left">28.7.7 [ext.manip]<a name="ext.manip"></a></td>
@@ -19385,6 +19376,15 @@ synchronization requirements</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-closed.html#397">397</a></td>
+<td align="left"><a href="lwg-active.html#NAD Editorial">NAD Editorial</a><a name="397"></a></td>
+<td align="left">99 [ostream::sentry]<a name="ostream::sentry"></a></td>
+<td align="left"><tt>ostream::sentry</tt> dtor throws exceptions</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-closed.html#544">544</a></td>
 <td align="left"><a href="lwg-active.html#NAD Editorial">NAD Editorial</a><a name="544"></a></td>
 <td align="left">C.6 [diff.library]<a name="diff.library"></a></td>
@@ -19471,7 +19471,7 @@ synchronization requirements</td>
 <tr>
 <td align="right"><a href="lwg-closed.html#3181">3181</a></td>
 <td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="3181"></a></td>
-<td align="left">23.7.11.3 [range.split.outer]<a name="range.split.outer"></a></td>
+<td align="left">23.8.8.3 [range.split.outer]<a name="range.split.outer"></a></td>
 <td align="left"><tt>split_view::outer_iterator</tt> converting constructor is misconstrained</td>
 <td align="center">Yes</td>
 <td align="center"></td>
@@ -19652,7 +19652,7 @@ synchronization requirements</td>
 <tr>
 <td align="right"><a href="lwg-closed.html#2692">2692</a></td>
 <td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="2692"></a></td>
-<td align="left">15.4.2.1.4 [bitmask.types]<a name="bitmask.types"></a></td>
+<td align="left">15.4.2.2.4 [bitmask.types]<a name="bitmask.types"></a></td>
 <td align="left">Overspecification of lvalueness of bitmask elements</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
@@ -20122,7 +20122,7 @@ explicit to avoid treatment as initializer-list constructor</td>
 <tr>
 <td align="right"><a href="lwg-closed.html#1156">1156</a></td>
 <td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="1156"></a></td>
-<td align="left">15.4.2.1.3 [enumerated.types]<a name="enumerated.types"></a></td>
+<td align="left">15.4.2.2.3 [enumerated.types]<a name="enumerated.types"></a></td>
 <td align="left">Constraints on bitmask and enumeration types to be tightened</td>
 <td align="center">Yes</td>
 <td align="center"></td>
@@ -22128,15 +22128,6 @@ freestanding implementations</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-closed.html#418">418</a></td>
-<td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="418"></a></td>
-<td align="left">28.5.3.1.6 [ios::Init]<a name="ios::Init"></a></td>
-<td align="left">exceptions thrown during iostream cleanup</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-closed.html#287">287</a></td>
 <td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="287"></a></td>
 <td align="left">28.5.3.2 [fmtflags.state]<a name="fmtflags.state"></a></td>
@@ -22246,15 +22237,6 @@ and <tt>setw()</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-closed.html#203">203</a></td>
-<td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="203"></a></td>
-<td align="left">28.7.4.1.3 [istream::sentry]<a name="istream::sentry"></a></td>
-<td align="left">basic_istream::sentry::sentry() is uninstantiable with ctype&lt;user-defined type&gt;</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-closed.html#342">342</a></td>
 <td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="342"></a></td>
 <td align="left">28.7.4.3 [istream.unformatted]<a name="istream.unformatted"></a></td>
@@ -22286,15 +22268,6 @@ and <tt>setw()</tt></td>
 <td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="135"></a></td>
 <td align="left">28.7.4.6.1 [iostream.cons]<a name="iostream.cons"></a></td>
 <td align="left">basic_iostream doubly initialized</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-closed.html#398">398</a></td>
-<td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="398"></a></td>
-<td align="left">28.7.5.1.3 [ostream::sentry]<a name="ostream::sentry"></a></td>
-<td align="left">effects of end-of-file on unformatted input functions</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -22601,6 +22574,33 @@ and <tt>setw()</tt></td>
 <td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="501"></a></td>
 <td align="left">99 [depr.base]</td>
 <td align="left">Proposal: strengthen guarantees of lib.comparisons</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-closed.html#418">418</a></td>
+<td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="418"></a></td>
+<td align="left">99 [ios::Init]<a name="ios::Init"></a></td>
+<td align="left">exceptions thrown during iostream cleanup</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-closed.html#203">203</a></td>
+<td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="203"></a></td>
+<td align="left">99 [istream::sentry]<a name="istream::sentry"></a></td>
+<td align="left">basic_istream::sentry::sentry() is uninstantiable with ctype&lt;user-defined type&gt;</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-closed.html#398">398</a></td>
+<td align="left"><a href="lwg-active.html#NAD">NAD</a><a name="398"></a></td>
+<td align="left">99 [ostream::sentry]<a name="ostream::sentry"></a></td>
+<td align="left">effects of end-of-file on unformatted input functions</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
