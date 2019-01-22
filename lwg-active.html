@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D115)</h1>
-<p><p>Revised 2019-01-22 at 17:31:06 UTC</p>
+<p><p>Revised 2019-01-22 at 18:19:40 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -33976,7 +33976,8 @@ that <tt>bool</tt> and the end iterator value to be consistent with the other
 <p>
 During the reflector discussion it had been noticed that an additional update of
 24.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> p.16 is necessary for the new type
-<tt>next_permutation_result</tt> and therefore the proposed wording has been updated.
+<tt>next_permutation_result</tt> and two missing occurrences of <tt>iterator_t&lt;&gt;</tt> where
+added. The proposed wording has been updated.
 </p>
 
 
@@ -34023,7 +34024,7 @@ and special members specified above. They have no base classes or members other 
     template&lt;BidirectionalRange R, class Comp = ranges::less&lt;&gt;,
              class Proj = identity&gt;
       requires Sortable&lt;iterator_t&lt;R&gt;, Comp, Proj&gt;
-      constexpr <del>bool</del><ins>next_permutation_result&lt;I&gt;</ins>
+      constexpr <del>bool</del><ins>next_permutation_result&lt;iterator_t&lt;R&gt;&gt;</ins>
         next_permutation(R&amp;&amp; r, Comp comp = {}, Proj proj = {});
   }
 
@@ -34046,7 +34047,7 @@ and special members specified above. They have no base classes or members other 
     template&lt;BidirectionalRange R, class Comp = ranges::less&lt;&gt;,
              class Proj = identity&gt;
       requires Sortable&lt;iterator_t&lt;R&gt;, Comp, Proj&gt;
-      constexpr <del>bool</del><ins>prev_permutation_result&lt;I&gt;</ins>
+      constexpr <del>bool</del><ins>prev_permutation_result&lt;iterator_t&lt;R&gt;&gt;</ins>
         prev_permutation(R&amp;&amp; r, Comp comp = {}, Proj proj = {});
   }
 }
@@ -34075,7 +34076,7 @@ namespace ranges {
   template&lt;BidirectionalRange R, class Comp = ranges::less&lt;&gt;,
            class Proj = identity&gt;
     requires Sortable&lt;iterator_t&lt;R&gt;, Comp, Proj&gt;
-    constexpr <del>bool</del><ins>next_permutation_result&lt;I&gt;</ins>
+    constexpr <del>bool</del><ins>next_permutation_result&lt;iterator_t&lt;R&gt;&gt;</ins>
       next_permutation(R&amp;&amp; r, Comp comp = {}, Proj proj = {});
 }
 </pre>
@@ -34109,7 +34110,7 @@ namespace ranges {
   template&lt;BidirectionalRange R, class Comp = ranges::less&lt;&gt;,
            class Proj = identity&gt;
     requires Sortable&lt;iterator_t&lt;R&gt;, Comp, Proj&gt;
-    constexpr <del>bool</del><ins>prev_permutation_result&lt;I&gt;</ins>
+    constexpr <del>bool</del><ins>prev_permutation_result&lt;iterator_t&lt;R&gt;&gt;</ins>
       prev_permutation(R&amp;&amp; r, Comp comp = {}, Proj proj = {});
 }
 </pre>
