@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-02-11 at 17:13:44 UTC</p>
+<p><p>Revised 2019-02-12 at 17:15:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -30724,140 +30724,6 @@ template<ins>, provided that the added declaration depends on at least one progr
 </li>
 </ol>
 
-
-
-
-
-<hr>
-<h3><a name="3185" href="#3185">3185</a><sup><a href="https://cplusplus.github.io/LWG/issue3185">(i)</a></sup>. Uses-allocator construction functions missing <tt>constexpr</tt> and <tt>noexcept</tt></h3>
-<p><b>Section:</b> 19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2019-01-29 <b>Last modified:</b> 2019-02-06</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The uses-allocator construction functions introduced into WP when <a href="https://wg21.link/p0591r4">P0591r4</a> 
-was accepted (Nov 2018, San Diego) should all be <tt>constexpr</tt>. All but two should also be <tt>noexcept</tt>. 
-Getting this right is an important part of correctly adding <tt>constexpr</tt> memory allocation into the WP.
-<p/>
-The minimal change is to add the <tt>constexpr</tt> to all of the new functions except 
-<tt>uninitialized_construct_using_allocator</tt> and <tt>noexcept</tt> to all 
-of the overloads of <tt>uses_allocator_construction_args</tt>. Optionally, we could consider adding conditional 
-<tt>noexcept</tt> to the remaining two functions. If <a href="https://wg21.link/p0784">p0784</a> is accepted, 
-then also add <tt>constexpr</tt> to <tt>uninitialized_construct_using_allocator</tt>.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4800">N4800</a>.</p>
-
-<ol>
-<li><p>Change header <tt>&lt;memory&gt;</tt> synopsis, 19.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, as indicated:</p>
-<blockquote>
-<pre>
-[&hellip;]
-<i>// 19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>, uses-allocator construction</i>
-template &lt;class T, class Alloc, class... Args&gt;
-<ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, Args&amp;&amp;... args) <ins>noexcept</ins> -&gt; <i>see below</i>;
-template &lt;class T, class Alloc, class Tuple1, class Tuple2&gt;
-<ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, piecewise_construct_t,
-                                      Tuple1&amp;&amp; x, Tuple2&amp;&amp; y) <ins>noexcept</ins> -&gt; <i>see below</i>;
-template &lt;class T, class Alloc&gt;
-<ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc) <ins>noexcept</ins> -&gt; <i>see below</i>;
-template &lt;class T, class Alloc, class U, class V&gt;
-<ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, U&amp;&amp; u, V&amp;&amp; v) <ins>noexcept</ins> -&gt; <i>see below</i>;
-template &lt;class T, class Alloc, class U, class V&gt;
-<ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, const pair&lt;U,V&gt;&amp; pr) <ins>noexcept</ins> -&gt; <i>see below</i>;
-template &lt;class T, class Alloc, class U, class V&gt;
-<ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, pair&lt;U,V&gt;&amp;&amp; pr) <ins>noexcept</ins> -&gt; <i>see below</i>;
-template &lt;class T, class Alloc, class... Args&gt;
-<ins>constexpr</ins> T make_obj_using_allocator(const Alloc&amp; alloc, Args&amp;&amp;... args);
-template &lt;class T, class Alloc, class... Args&gt;
-T* uninitialized_construct_using_allocator(T* p, const Alloc&amp; alloc, Args&amp;&amp;... args);
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-
-<li><p>Change 19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated:</p>
-<blockquote>
-<pre>
-template &lt;class T, class Alloc, class... Args&gt;
-  <ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, Args&amp;&amp;... args) <ins>noexcept</ins> -&gt; <i>see below</i>;
-</pre>
-<blockquote>
-<p>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template &lt;class T, class Alloc, class Tuple1, class Tuple2&gt;
-  <ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, piecewise_construct_t,
-                                        Tuple1&amp;&amp; x, Tuple2&amp;&amp; y) <ins>noexcept</ins> -&gt; <i>see below</i>;
-</pre>
-<blockquote>
-<p>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template &lt;class T, class Alloc&gt;
-  <ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc) <ins>noexcept</ins> -&gt; <i>see below</i>;
-</pre>
-<blockquote>
-<p>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template &lt;class T, class Alloc, class U, class V&gt;
-  <ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, U&amp;&amp; u, V&amp;&amp; v) <ins>noexcept</ins> -&gt; <i>see below</i>;
-</pre>
-<blockquote>
-<p>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template &lt;class T, class Alloc, class U, class V&gt;
-  <ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, const pair&lt;U,V&gt;&amp; pr) <ins>noexcept</ins> -&gt; <i>see below</i>;
-</pre>
-<blockquote>
-<p>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template &lt;class T, class Alloc, class U, class V&gt;
-  <ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, pair&lt;U,V&gt;&amp;&amp; pr) <ins>noexcept</ins> -&gt; <i>see below</i>;
-</pre>
-<blockquote>
-<p>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template &lt;class T, class Alloc, class... Args&gt;
-  <ins>constexpr</ins> T make_obj_using_allocator(const Alloc&amp; alloc, Args&amp;&amp;... args);
-</pre>
-<blockquote>
-<p>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template &lt;class T, class Alloc, class... Args&gt;
-  T* uninitialized_construct_using_allocator(T* p, const Alloc&amp; alloc, Args&amp;&amp;... args);
-</pre>
-<blockquote>
-<p>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
 
 
 
