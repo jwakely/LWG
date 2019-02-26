@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Closed Issues List (Revision D115)</h1>
-<p><p>Revised 2019-02-26 at 17:50:03 UTC</p>
+<p><p>Revised 2019-02-26 at 17:56:58 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -37999,6 +37999,24 @@ NAD Future.  No time to add this feature for C++0X.
 <p><i>[LEWG Kona 2017]</i></p>
 
 <p>Recommend NAD: The standard has changed enough that the issue doesn't make sense anymore. Write a paper proposing a way to get this performance as changes to the current library.</p>
+
+<p><i>[Kona 2019: Jonathan notes:]</i></p>
+
+<p>Libstdc++ has the following non-standard extensions for more efficient generation of large numbers of random numbers:</p>
+
+<blockquote><pre>
+template&lt;typename ForwardIterator, typename UniformRandomNumberGenerator&gt;
+void __generate(ForwardIterator, ForwardIterator, 
+                UniformRandomNumberGenerator&amp;);
+
+template&lt;typename ForwardIterator, typename UniformRandomNumberGenerator&gt;
+void __generate(ForwardIterator, ForwardIterator, 
+                UniformRandomNumberGenerator&amp;, const param_type&amp;);
+
+template&lt;typename UniformRandomNumberGenerator&gt;
+void __generate(result_type*, result_type*,
+                UniformRandomNumberGenerator&amp;, const param_type&amp;);
+</pre></blockquote>
 
 
 <p><b>Proposed resolution:</b></p>
