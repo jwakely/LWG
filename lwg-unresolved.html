@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-03-03 at 16:31:00 UTC</p>
+<p><p>Revised 2019-03-03 at 16:45:17 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -29864,6 +29864,30 @@ public:
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3189" href="#3189">3189</a><sup><a href="https://cplusplus.github.io/LWG/issue3189">(i)</a></sup>. Missing requirement for <tt>std::priority_queue</tt></h3>
+<p><b>Section:</b> 21.6.5 <a href="https://wg21.link/priority.queue">[priority.queue]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-21 <b>Last modified:</b> 2019-03-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#priority.queue">issues</a> in [priority.queue].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+We don't require that the <tt>Compare</tt> template parameter can be invoked with arguments of the queue's value type. 
+It seems like something we can use <i>Mandates:</i> for, since it'll be ill-formed otherwise. Something like 
+<tt>is_invocable_r_v&lt;bool, Compare&amp;, value_type&amp;, value_type&amp;&gt;</tt>.
+<p/>
+This might also apply to the <tt>Compare</tt> parameter for the <tt>merge</tt> and <tt>sort</tt> functions of 
+<tt>forward_list</tt> and <tt>list</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
