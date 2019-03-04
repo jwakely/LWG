@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2019-03-03</td>
+  <td align="left">2019-03-04</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D115)</h1>
-<p><p>Revised 2019-03-03 at 22:11:31 UTC</p>
+<p><p>Revised 2019-03-04 at 17:07:01 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -32802,7 +32802,7 @@ namespace ranges {
 <hr>
 <h3><a name="3192" href="#3192">3192</a><sup><a href="https://cplusplus.github.io/LWG/issue3192">(i)</a></sup>. &sect;[allocator.uses.construction] functions misbehave for <tt>const</tt> types</h3>
 <p><b>Section:</b> 19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-28 <b>Last modified:</b> 2019-03-03</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-28 <b>Last modified:</b> 2019-03-04</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
@@ -32885,7 +32885,7 @@ template &lt;class T, class Alloc, class... Args&gt;
 -17- <i>Effects:</i> Equivalent to:
 </p>
 <blockquote><pre>
-return ::new(<del>static_cast&lt;void*&gt;</del><ins><i>voidify</i></ins>(p))
+return ::new(<del>static_cast&lt;void*&gt;</del><ins><i>voidify</i></ins>(<ins>*</ins>p))
   T(make_obj_using_allocator&lt;T&gt;(alloc, std::forward&lt;Args&gt;(args)...));
 </pre></blockquote>
 </blockquote>
