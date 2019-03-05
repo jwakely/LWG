@@ -46,6 +46,15 @@ from <tt>istreambuf_iterator</tt> via LWG <a href="lwg-defects.html#2790">2790</
 <p><i>[2019-03-05 Priority set to 3 after reflector discussion]</i></p>
 
 
+<p><i>[2019-03-05, Daniel comments]</i></p>
+
+<p>
+With the acceptance of <a href="https://wg21.link/p1252r2">P1252R2</a> the committee decided to deprecate <tt>operator-&gt;</tt> 
+of <tt>move_iterator</tt>, interestingly without mentioning what should happen with its current <tt>pointer</tt> typedef (which
+is equal to the template parameter <tt>Iterator</tt> and thus never <tt>void</tt>). Effectively this is a very similar situation 
+as for the here discussed <tt>istreambuf_iterator</tt> case and it seems attractive to me to solve both cases similarly. 
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4800">N4800</a>.</p>

@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D115)</h1>
-<p><p>Revised 2019-03-05 at 19:23:57 UTC</p>
+<p><p>Revised 2019-03-05 at 22:24:36 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -32615,6 +32615,15 @@ from <tt>istreambuf_iterator</tt> via LWG <a href="lwg-defects.html#2790">2790</
 
 <p><i>[2019-03-05 Priority set to 3 after reflector discussion]</i></p>
 
+
+<p><i>[2019-03-05, Daniel comments]</i></p>
+
+<p>
+With the acceptance of <a href="https://wg21.link/p1252r2">P1252R2</a> the committee decided to deprecate <tt>operator-&gt;</tt> 
+of <tt>move_iterator</tt>, interestingly without mentioning what should happen with its current <tt>pointer</tt> typedef (which
+is equal to the template parameter <tt>Iterator</tt> and thus never <tt>void</tt>). Effectively this is a very similar situation 
+as for the here discussed <tt>istreambuf_iterator</tt> case and it seems attractive to me to solve both cases similarly. 
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
