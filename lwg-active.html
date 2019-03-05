@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D115)</h1>
-<p><p>Revised 2019-03-05 at 18:53:38 UTC</p>
+<p><p>Revised 2019-03-05 at 19:23:57 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -32788,8 +32788,8 @@ that all integral types are convertible to all other integral types. We don't ne
 language in the associated constraints of <tt>ranges::shuffle</tt>.
 </p>
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>This wording is relative to <a href="https://wg21.link/n4800">N4800</a>.</p>
 
 <ol>
@@ -32810,6 +32810,40 @@ namespace ranges {
              ConvertibleTo&lt;invoke_result_t&lt;Gen&amp;&gt;, iter_difference_t&lt;iterator_t&lt;R&gt;&gt;&gt;</ins>
     safe_iterator_t&lt;R&gt; shuffle(R&amp;&amp; r, Gen&amp;&amp; g);
 }
+</pre>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2019-03-05 Updated proposed wording according to Casey's suggestion]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4800">N4800</a>.</p>
+
+<ol>
+<li><p>Change 24.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+<i>// 24.6.13 <a href="https://wg21.link/alg.random.shuffle">[alg.random.shuffle]</a>, shuffle</i>
+[&hellip;]
+namespace ranges {
+  template&lt;RandomAccessIterator I, Sentinel&lt;I&gt; S, class Gen&gt;
+    requires Permutable&lt;I&gt; &amp;&amp;
+             UniformRandomBitGenerator&lt;remove_reference_t&lt;Gen&gt;&gt; <del>&amp;&amp;
+             ConvertibleTo&lt;invoke_result_t&lt;Gen&amp;&gt;, iter_difference_t&lt;I&gt;&gt;</del>
+  I shuffle(I first, S last, Gen&amp;&amp; g);
+
+  template&lt;RandomAccessRange R, class Gen&gt;
+    requires Permutable&lt;iterator_t&lt;R&gt; &amp;&amp;
+             UniformRandomBitGenerator&lt;remove_reference_t&lt;Gen&gt;&gt; <del>&amp;&amp;
+             ConvertibleTo&lt;invoke_result_t&lt;Gen&amp;&gt;, iter_difference_t&lt;iterator_t&lt;R&gt;&gt;&gt;</del>
+  safe_iterator_t&lt;R&gt; shuffle(R&amp;&amp; r, Gen&amp;&amp; g);
+}
+[&hellip;]
 </pre>
 </blockquote>
 </li>
