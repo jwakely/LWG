@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-03-05 at 22:24:36 UTC</p>
+<p><p>Revised 2019-03-10 at 15:46:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -28057,6 +28057,8 @@ if <tt>G</tt> models <tt>UniformRandomBitGenerator</tt>,
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2018-12-16</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#concept.convertibleto">active issues</a> in [concept.convertibleto].</p>
+<p><b>View all other</b> <a href="lwg-index.html#concept.convertibleto">issues</a> in [concept.convertibleto].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -30234,6 +30236,42 @@ According to  the submitters knowledge there are currently no known examples for
 constraint on types, therefore I'm suggesting to restrict this extension to <i>Mandates:</i>, <i>Expects:</i>, 
 and <i>Requires:</i> alone.
 </p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3194" href="#3194">3194</a><sup><a href="https://cplusplus.github.io/LWG/issue3194">(i)</a></sup>. <tt>ConvertibleTo</tt> prose does not match code</h3>
+<p><b>Section:</b> 17.4.4 <a href="https://wg21.link/concept.convertibleto">[concept.convertibleto]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hubert Tong  <b>Opened:</b> 2019-03-05 <b>Last modified:</b> 2019-03-10</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#concept.convertibleto">active issues</a> in [concept.convertibleto].</p>
+<p><b>View all other</b> <a href="lwg-index.html#concept.convertibleto">issues</a> in [concept.convertibleto].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The prose in <a href="https://wg21.link/n4800">N4800</a> subclause 17.4.4 <a href="https://wg21.link/concept.convertibleto">[concept.convertibleto]</a> indicates 
+that the requirement is for an expression of a particular type and value category to be both implicitly and explicitly 
+convertible to some other type. However, for a type
+</p>
+<blockquote><pre>
+struct A { A(const A&amp;) = delete; };
+</pre></blockquote>
+<p>
+<tt>ConvertibleTo&lt;const A, A&gt;</tt> would be <tt>false</tt> despite the following being okay:
+</p>
+<blockquote><pre>
+const A f();
+
+A test() {
+  static_cast&lt;A&gt;(f());
+  return f();
+}
+</pre></blockquote>
 
 
 <p><b>Proposed resolution:</b></p>
