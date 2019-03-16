@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D115)</h1>
-<p><p>Revised 2019-03-16 at 21:03:06 UTC</p>
+<p><p>Revised 2019-03-16 at 22:01:09 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -19240,15 +19240,50 @@ redundancies and applying some typo fixes in macro names.
 
 <p>
 Hubert Tong pointed out that we do not have a statement about <tt>[U]INTPTR_{MIN|MAX}</tt> being optional.
-It is interesting, that the C11 Standard does not say directly, that <tt>[U]INTPTR_{MIN|MAX}</tt> are optional,
+Interestingly, the C11 Standard does not say directly that the <tt>[U]INTPTR_{MIN|MAX}</tt> macros are optional,
 but this follows indirectly from the fact that <tt>intptr_t</tt> and <tt>uintptr_t</tt> are indeed optional. 
 The updated wording therefore realizes Hubert's suggestion.
+<p/>
+In addition, the reference document has been rebased to <a href="http://wg21.link/n4810">N4810</a>, because
+that draft version contains as <a href="https://github.com/cplusplus/draft/pull/2638">editorial change</a>, 
+which renames the term "range exponent" of integer types to "width", which is the vocabulary used below and
+also matches C's use.
+<p/>
+Finally, Hubert Tong suggested the following rewording replacements of
+</p>
+<blockquote><p>
+If and only if the implementation defines such a typedef name, it also defines the corresponding macros.
+</p></blockquote>
+<p>
+to:
+</p>
+<blockquote><p>
+Each of the macros listed in this subclause is defined if and only if the implementation defines the corresponding typedef name.
+</p></blockquote>
+<p>
+and of
+</p>
+<blockquote><p>
+<tt>PRI</tt> macros that use the placeholder N are defined if and only if the implementation actually defines the 
+corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>. <tt>SCN</tt> macros that use the placeholder <tt><i>N</i></tt> 
+are defined if and only if the implementation actually defines the corresponding typedef name and the implementation 
+has a suitable <tt>fscanf</tt> length modifier for the type.
+</p></blockquote>
+<p>
+to:
+</p>
+<blockquote><p>
+Each of the macros listed in this subclause is defined if and only if the implementation actually defines the corresponding 
+typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>.
+</p></blockquote>
+<p>
+Those changes have been applied as well.
 </p>
 
 
 <p><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="http://wg21.link/n4800">N4800</a>.
+This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.
 </p>
 
 <ol>
@@ -19340,8 +19375,8 @@ SIZE_MAX</del>
 <ins>-?- All types that use the placeholder <tt><i>N</i></tt> are optional when <tt><i>N</i></tt> is not 8, 
 16, 32 or 64. The exact-width types <tt>int<i>N</i>_t</tt> and <tt>uint<i>N</i>_t</tt> for <tt><i>N</i></tt> = 8, 16, 32, 64 
 are also optional; however, if an implementation defines integer types with the corresponding width and no padding bits, 
-it defines the corresponding typedef names. If and only if the implementation defines such a typedef name, it also 
-defines the corresponding macros. [<i>Note:</i> The macros <tt>INT<i>N</i>_C</tt> and 
+it defines the corresponding typedef names. Each of the macros listed in this subclause is defined if and only if 
+the implementation defines the corresponding typedef name. [<i>Note:</i> The macros <tt>INT<i>N</i>_C</tt> and 
 <tt>UINT<i>N</i>_C</tt> correspond to the typedef names <tt>int_least<i>N</i>_t</tt> and <tt>uint_least<i>N</i>_t</tt>, 
 respectively. &mdash; <i>end note</i>]</ins>
 </p>
@@ -19389,10 +19424,8 @@ respectively. &mdash; <i>end note</i>]</ins>
 <p>
 -1- The contents and meaning of the header <tt>&lt;cinttypes&gt;</tt> [&hellip;]
 <p/>
-<ins>-?- <tt>PRI</tt> macros that use the placeholder <tt><i>N</i></tt> are defined if and only if the implementation actually 
-defines the corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>. <tt>SCN</tt> macros that use the placeholder 
-<tt><i>N</i></tt> are defined if and only if the implementation actually defines the corresponding typedef name 
-and the implementation has a suitable <tt>fscanf</tt> length modifier for the type.</ins>
+<ins>-?- Each of the macros listed in this subclause is defined if and only if the implementation actually defines the 
+corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>.</ins>
 </p>
 </blockquote>
 </li>
@@ -20049,18 +20082,34 @@ I decided to use the form "converted" and to refer to 7.3 <a href="https://wg21.
 <p>
 -2- The additional overloads shall be sufficient to ensure:
 <blockquote>
-<ol>
-<li><p>If any argument of arithmetic type corresponding to a <tt>double</tt> parameter has type <tt>long double</tt>, then
-all arguments of arithmetic type (6.7.1 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>) corresponding to <tt>double</tt> parameters are 
-<del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to <tt>long double</tt>.</p></li>
-<li><p>Otherwise, if any argument of arithmetic type corresponding to a <tt>double</tt> parameter has type <tt>double</tt>
-or an integer type, then all arguments of arithmetic type corresponding to <tt>double</tt> parameters are
-<del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to <tt>double</tt>.</p></li>
-<li><p>Otherwise, all arguments of arithmetic type corresponding to <tt>double</tt> parameters have type <tt>float</tt>.</p></li>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; If the argument has type <tt>long double</tt>, then it is 
+<del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to <tt>complex&lt;long double&gt;</tt>.</p></li>
+<li><p>(2.2) &mdash; Otherwise, if the argument has type <tt>double</tt> or an integer type, then it is 
+<del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to <tt>complex&lt;double&gt;</tt>.</p></li>
+<li><p>(2.3) &mdash; Otherwise, if the argument has type <tt>float</tt>, then it is 
+<del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to <tt>complex&lt;float&gt;</tt>.</p></li>
+</ol>
+</blockquote>
+<p/>
+-3 Function template <tt>pow</tt> shall have additional overloads sufficient to ensure, for a call with at least one argument
+of type <tt>complex&lt;T&gt;</tt>:
+<blockquote>
+<ol style="list-style-type: none">
+<li><p>(3.1) &mdash; If either argument has type <tt>complex&lt;long double&gt;</tt> or type <tt>long double</tt>, 
+then both arguments are <del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to 
+<tt>complex&lt;long double&gt;</tt>.</p></li>
+<li><p>(3.2) &mdash; Otherwise, if either argument has type <tt>complex&lt;double&gt;</tt>, <tt>double</tt>, 
+or an integer type, then both arguments are <del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> 
+to <tt>complex&lt;double&gt;</tt>.</p></li>
+<li><p>(3.3) &mdash; Otherwise, if either argument has type <tt>complex&lt;float&gt;</tt> or <tt>float</tt>, 
+then both arguments are <del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to 
+<tt>complex&lt;float&gt;</tt>.</p></li>
 </ol>
 </blockquote>
 </p>
 </blockquote>
+
 </li>
 
 <li><p>Change 25.8.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a>, as indicated:</p>
@@ -20070,9 +20119,13 @@ or an integer type, then all arguments of arithmetic type corresponding to <tt>d
 -2- For each set of overloaded functions within <tt>&lt;cmath&gt;</tt>, with the exception of <tt>abs</tt>, there 
 shall be additional overloads sufficient to ensure:
 <blockquote>
-<ol style="list-style-type: none">
-<li><p>(2.1) &mdash; </p></li>
-<li><p>(2.2) &mdash; </p></li>
+<ol>
+<li><p>If any argument of arithmetic type corresponding to a <tt>double</tt> parameter has type <tt>long double</tt>, then
+all arguments of arithmetic type (6.7.1 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>) corresponding to <tt>double</tt> parameters are 
+<del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to <tt>long double</tt>.</p></li>
+<li><p>Otherwise, if any argument of arithmetic type corresponding to a <tt>double</tt> parameter has type <tt>double</tt>
+or an integer type, then all arguments of arithmetic type corresponding to <tt>double</tt> parameters are
+<del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to <tt>double</tt>.</p></li>
 <li><p>Otherwise, all arguments of arithmetic type corresponding to <tt>double</tt> parameters have type <tt>float</tt>.</p></li>
 </ol>
 </blockquote>
