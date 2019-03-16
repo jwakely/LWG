@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-03-16 at 12:04:42 UTC</p>
+<p><p>Revised 2019-03-16 at 13:32:53 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -22611,13 +22611,22 @@ cause the program to become ill-formed anyway because of the illegal formation o
 types for member functions such as <tt>T&amp; get() const noexcept</tt>.
 <p/>
 As concrete wording suggestion I would recommend wording that ensures that an ill-formed program is only required when a
-specialization of <tt>reference_wrapper</tt> is instantiated, because in the absence of constrained template parameter
+specialization of <tt>reference_wrapper</tt> is instantiated, because in the absence of a constrained template parameter
 we shouldn't require implementations to diagnose even forming the name of a <tt>reference_wrapper</tt> specialization such 
 as in the following example:
 </p>
 <blockquote><pre>
 using X = reference_wrapper&lt;int() const&gt;;
 </pre></blockquote>
+<p>
+The wording below does not take advantage of a <i>Mandates:</i> element to prevent a dependency on LWG <a href="lwg-active.html#3193">3193</a>
+and because such an element is rarely used to specify class templates. If the committee wishes to use such an element, 
+the equivalent wording would be:
+</p>
+<blockquote><p>
+<i>Mandates:</i> <tt>reference_wrapper</tt> is instantiated with a referenceable type (15.3.22 <a href="https://wg21.link/defns.referenceable">[defns.referenceable]</a>) 
+as the argument for the template parameter <tt>T</tt>.
+</p></blockquote>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -22629,9 +22638,10 @@ using X = reference_wrapper&lt;int() const&gt;;
 <blockquote>
 <p>
 -1- <tt>reference_wrapper&lt;T&gt;</tt> is a <i>Cpp17CopyConstructible</i> and <i>Cpp17CopyAssignable</i> wrapper around a reference
-to an object or function of type <tt>T</tt>.
+to an object or function of type <tt>T</tt>. <ins>If <tt>reference_wrapper</tt> is instantiated with a non-referenceable type 
+(15.3.22 <a href="https://wg21.link/defns.referenceable">[defns.referenceable]</a>) as the argument for the template parameter <tt>T</tt>, the program is ill-formed.</ins>
 <p/>
--2- <tt>reference_wrapper&lt;T&gt;</tt> shall be a trivially copyable type (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>).
+-2- <tt>reference_wrapper&lt;T&gt;</tt> is a trivially copyable type (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>).
 <p/>
 -3- The template parameter <tt>T</tt> of <tt>reference_wrapper</tt> may be an incomplete type.
 </p>
