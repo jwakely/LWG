@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3195" href="lwg-active.html#3195">3195</a>. What is the stored pointer value of an empty <tt>weak_ptr</tt>?</h3>
 <p><b>Section:</b> 19.11.4.1 <a href="https://wg21.link/util.smartptr.weak.const">[util.smartptr.weak.const]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-03-15 <b>Last modified:</b> 2019-03-16</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-03-15 <b>Last modified:</b> 2019-03-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -56,10 +56,10 @@ template&lt;class Y&gt; weak_ptr(const shared_ptr&lt;Y&gt;&amp; r) noexcept;
 </pre>
 <blockquote>
 <p>
-3 <i>Remarks:</i> The second and third constructors shall not participate in overload resolution unless <tt>Y*</tt> is 
+3 <i>Remarks:</i> The second and third constructors shall not participate in overload resolution unless <tt>Y*</tt> is
 compatible with <tt>T*</tt>.
 <p/>
-4 <i>Effects:</i> If <tt>r</tt> is empty, constructs an empty <tt>weak_ptr</tt> object; otherwise, constructs a 
+4 <i>Effects:</i> If <tt>r</tt> is empty, constructs an empty <tt>weak_ptr</tt> object; otherwise, constructs a
 <tt>weak_ptr</tt> object that shares ownership with <tt>r</tt> and stores a copy of the pointer stored in <tt>r</tt>.
 <p/>
 5 <i>Ensures:</i> <tt>use_count() == r.use_count()</tt>.
@@ -67,21 +67,21 @@ compatible with <tt>T*</tt>.
 </blockquote>
 </blockquote>
 <p>
-Note that neither specifies the value of the stored pointer when the resulting <tt>weak_ptr</tt> is empty. 
-This didn't matter &mdash; the stored pointer value was unobservable for an empty <tt>weak_ptr</tt> &mdash; 
+Note that neither specifies the value of the stored pointer when the resulting <tt>weak_ptr</tt> is empty.
+This didn't matter &mdash; the stored pointer value was unobservable for an empty <tt>weak_ptr</tt> &mdash;
 until we added <tt>atomic&lt;weak_ptr&gt;</tt>. 19.11.8.2 <a href="https://wg21.link/util.smartptr.atomic.weak">[util.smartptr.atomic.weak]</a>/15 says:
 </p>
 <blockquote>
 <p>
-<i>Remarks:</i> Two <tt>weak_ptr</tt> objects are equivalent if they store the same pointer value and either 
+<i>Remarks:</i> Two <tt>weak_ptr</tt> objects are equivalent if they store the same pointer value and either
 share ownership, or both are empty. The weak form may fail spuriously. See 30.7.1 <a href="https://wg21.link/atomics.types.operations">[atomics.types.operations]</a>.
 </p>
 </blockquote>
 <p>
-Two empty <tt>weak_ptr</tt> objects that store different pointer values are not equivalent. We <em>could</em> 
-correct this by changing 19.11.8.2 <a href="https://wg21.link/util.smartptr.atomic.weak">[util.smartptr.atomic.weak]</a>/15 to "Two <tt>weak_ptr</tt> objects are 
-equivalent if they are both empty, or if they share ownership and store the same pointer value." In practice, 
-an implementation of <tt>atomic&lt;weak_ptr&gt;</tt> will CAS on both the ownership (control block pointer) 
+Two empty <tt>weak_ptr</tt> objects that store different pointer values are not equivalent. We <em>could</em>
+correct this by changing 19.11.8.2 <a href="https://wg21.link/util.smartptr.atomic.weak">[util.smartptr.atomic.weak]</a>/15 to "Two <tt>weak_ptr</tt> objects are
+equivalent if they are both empty, or if they share ownership and store the same pointer value." In practice,
+an implementation of <tt>atomic&lt;weak_ptr&gt;</tt> will CAS on both the ownership (control block pointer)
 and stored pointer value, so it seems cleaner to pin down the stored pointer value of an empty <tt>weak_ptr</tt>.
 </p>
 
@@ -90,7 +90,7 @@ and stored pointer value, so it seems cleaner to pin down the stored pointer val
 <p>This wording is relative to <a href="http://wg21.link/n4800">N4800</a>.</p>
 
 <ol>
-<li><p>Modify 19.11.4.1 <a href="https://wg21.link/util.smartptr.weak.const">[util.smartptr.weak.const]</a> as indicated (note the drive-by edit to cleanup the occurrences of "constructs 
+<li><p>Modify 19.11.4.1 <a href="https://wg21.link/util.smartptr.weak.const">[util.smartptr.weak.const]</a> as indicated (note the drive-by edit to cleanup the occurrences of "constructs
 an object of class foo"):</p>
 
 <blockquote><pre>
@@ -98,7 +98,7 @@ constexpr weak_ptr() noexcept;
 </pre>
 <blockquote>
 <p>
--1- <i>Effects:</i> Constructs an empty <del><tt>weak_ptr</tt></del> object<ins>, that stores a null pointer value</ins>.
+-1- <i>Effects:</i> Constructs an empty <del><tt>weak_ptr</tt></del> object <ins>that stores a null pointer value</ins>.
 <p/>
 -2- <i>Ensures:</i> <tt>use_count() == 0</tt>.
 </p>
@@ -113,8 +113,8 @@ template&lt;class Y&gt; weak_ptr(const shared_ptr&lt;Y&gt;&amp; r) noexcept;
 -3- <i>Remarks:</i> The second and third constructors shall not participate in overload resolution unless <tt>Y*</tt> is
 compatible with <tt>T*</tt>.
 <p/>
--4- <i>Effects:</i> If <tt>r</tt> is empty, constructs an empty <del><tt>weak_ptr</tt></del> object <ins>that stores a 
-null pointer value</ins>; otherwise, constructs a <tt>weak_ptr</tt> object that shares ownership with <tt>r</tt> 
+-4- <i>Effects:</i> If <tt>r</tt> is empty, constructs an empty <del><tt>weak_ptr</tt></del> object <ins>that stores a
+null pointer value</ins>; otherwise, constructs a <tt>weak_ptr</tt> object that shares ownership with <tt>r</tt>
 and stores a copy of the pointer stored in <tt>r</tt>.
 <p/>
 -5- <i>Ensures:</i> <tt>use_count() == r.use_count()</tt>.
