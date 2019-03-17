@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2155" href="lwg-active.html#2155">2155</a>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
 <p><b>Section:</b> 16.12 <a href="https://wg21.link/support.runtime">[support.runtime]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Thomas Plum <b>Opened:</b> 2012-04-30 <b>Last modified:</b> 2017-03-19</p>
+ <b>Submitter:</b> Thomas Plum <b>Opened:</b> 2012-04-30 <b>Last modified:</b> 2019-03-17</p>
 <p><b>Priority: </b>4
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#support.runtime">issues</a> in [support.runtime].</p>
@@ -119,6 +119,49 @@ LWG agrees. Jonathan provides wording.
 <p><i>[2017-03-04, Kona]</i></p>
 
 <p>The reference to &lt;cstdbool&gt; in p2 needs to be struck as well. Continue the discussion on the reflector once the DIS is available.</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>This wording is relative to N4296.</p>
+
+<ol>
+<li>
+<p>Edit the footnote on 15.5.1.2 <a href="https://wg21.link/headers">[headers]</a> p7:</p>
+<blockquote>
+<p>
+176) In particular, including <ins>any of</ins> the standard header<ins>s <tt>&lt;stdbool.h&gt;</tt>, <tt>&lt;cstdbool&gt;</tt>,</ins> <tt>&lt;iso646.h&gt;</tt> or <tt>&lt;ciso646&gt;</tt> has no effect.
+</p>
+</blockquote>
+</li>
+
+<li>
+<p>Edit 16.12 <a href="https://wg21.link/support.runtime">[support.runtime]</a> p1 as indicated (and remove the index entry for <tt>__bool_true_false_are_defined</tt>):</p>
+
+<blockquote>
+<p>
+-1- Headers <tt>&lt;csetjmp&gt;</tt> (nonlocal jumps), <tt>&lt;csignal&gt;</tt> (signal handling), <tt>&lt;cstdalign&gt;</tt> (alignment), <tt>&lt;cstdarg&gt;</tt> (variable arguments), <tt>&lt;cstdbool&gt;</tt><ins>,</ins><del> (<tt>__bool_true_false_are_defined</tt>).</del> <tt>&lt;cstdlib&gt;</tt> (runtime environment <tt>getenv()</tt>, <tt>system()</tt>), and <tt>&lt;ctime&gt;</tt> (system clock <tt>clock()</tt>, <tt>time()</tt>) provide further compatibility with C code.
+</p>
+</blockquote>
+</li>
+
+<li>
+<p>Remove Table 38 &mdash; Header <tt>&lt;cstdbool&gt;</tt> synopsis [tab:support.hdr.cstdbool] from 16.12 <a href="https://wg21.link/support.runtime">[support.runtime]</a> </p>
+<blockquote>
+<table border="1">
+<caption> Table 38 &mdash; Header <tt>&lt;cstdbool&gt;</tt> synopsis </caption>
+<tr><td><b>Type</b></td><td><b>Name(s)</b></td></tr>
+<tr><td><b>Macro:</b></td><td><tt>__bool_true_false_are_defined</tt></td></tr>
+</table>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2019-03-17; Daniel comments and provides revised wording]</i></p>
+
+<p>
+The updated wording fixes the requested change.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
