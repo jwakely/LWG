@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D115)</h1>
-<p><p>Revised 2019-03-17 at 11:15:48 UTC</p>
+<p><p>Revised 2019-03-17 at 13:41:03 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -20042,7 +20042,7 @@ could really be described as "modify[ing] a property of a type".
 <hr>
 <h3><a name="2846" href="#2846">2846</a><sup><a href="https://cplusplus.github.io/LWG/issue2846">(i)</a></sup>. Undefined phrase "effectively cast"</h3>
 <p><b>Section:</b> 25.4.9 <a href="https://wg21.link/cmplx.over">[cmplx.over]</a>, 25.8.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2016-12-15 <b>Last modified:</b> 2019-03-16</p>
+ <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2016-12-15 <b>Last modified:</b> 2019-03-17</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#cmplx.over">issues</a> in [cmplx.over].</p>
@@ -20068,12 +20068,15 @@ spelled out somewhere, e.g. in the library definitions section.
 <p><i>[2019-03-16; Daniel comments and provides wording]</i></p>
 
 <p>
-I decided to use the form "converted" and to refer to 7.3 <a href="https://wg21.link/conv">[conv]</a>.
+I decided to use the form "converted" and to refer to 7.3 <a href="https://wg21.link/conv">[conv]</a> for 25.8.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> and
+25.4.9 <a href="https://wg21.link/cmplx.over">[cmplx.over]</a>, because those conversions can all be done implicitly. This also holds for the 
+<tt>pow</tt> specification 25.4.9 <a href="https://wg21.link/cmplx.over">[cmplx.over]</a> p3, because the described conversions of
+<tt>complex&lt;T&gt;</tt> to <tt>complex&lt;U&gt;</tt> involve only the need of non-explicit constructors.
 </p>
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4800">N4800</a>.</p>
+<p>This wording is relative to <a href="https://wg21.link/n4810">N4810</a>.</p>
 
 <ol>
 <li><p>Change 25.4.9 <a href="https://wg21.link/cmplx.over">[cmplx.over]</a>, as indicated:</p>
@@ -20097,13 +20100,13 @@ of type <tt>complex&lt;T&gt;</tt>:
 <blockquote>
 <ol style="list-style-type: none">
 <li><p>(3.1) &mdash; If either argument has type <tt>complex&lt;long double&gt;</tt> or type <tt>long double</tt>, 
-then both arguments are <del>effectively cast</del><ins>explicitly converted (9.3 <a href="https://wg21.link/dcl.init">[dcl.init]</a>)</ins> to 
+then both arguments are <del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to 
 <tt>complex&lt;long double&gt;</tt>.</p></li>
 <li><p>(3.2) &mdash; Otherwise, if either argument has type <tt>complex&lt;double&gt;</tt>, <tt>double</tt>, 
-or an integer type, then both arguments are <del>effectively cast</del><ins>explicitly converted (9.3 <a href="https://wg21.link/dcl.init">[dcl.init]</a>)</ins> 
+or an integer type, then both arguments are <del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> 
 to <tt>complex&lt;double&gt;</tt>.</p></li>
 <li><p>(3.3) &mdash; Otherwise, if either argument has type <tt>complex&lt;float&gt;</tt> or <tt>float</tt>, 
-then both arguments are <del>effectively cast</del><ins>explicitly converted (9.3 <a href="https://wg21.link/dcl.init">[dcl.init]</a>)</ins> to 
+then both arguments are <del>effectively cast</del><ins>converted (7.3 <a href="https://wg21.link/conv">[conv]</a>)</ins> to 
 <tt>complex&lt;float&gt;</tt>.</p></li>
 </ol>
 </blockquote>
