@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-03-17 at 15:18:17 UTC</p>
+<p><p>Revised 2019-03-17 at 18:34:54 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -16600,7 +16600,7 @@ argument to operator <tt>new[](std::size_t)</tt> to obtain space to store supple
 <hr>
 <h3><a name="2741" href="#2741">2741</a><sup><a href="https://cplusplus.github.io/LWG/issue2741">(i)</a></sup>. <tt>is_partitioned</tt> requirements need updating</h3>
 <p><b>Section:</b> 24.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2016-07-06 <b>Last modified:</b> 2017-07-16</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2016-07-06 <b>Last modified:</b> 2019-03-17</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#alg.partitions">issues</a> in [alg.partitions].</p>
@@ -16624,8 +16624,8 @@ Also, since the sequence is homogeneous, we shouldn't have to say that the expre
 for all elements in the range; that implies that it need not be well-formed if the range is empty.</p>
 <p>Marshall and JW to reword. Status to Open</p>
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>This wording is relative to N4594.</p>
 
 <ol>
@@ -16682,7 +16682,26 @@ before those that do not.
 </blockquote>
 </li>
 </ol>
+</blockquote>
 
+<p><i>[2019-03-17; Daniel comments and removes previous wording]</i></p>
+
+<p>
+In the recent working draft <a href="https://wg21.link/n4810">N4810</a> all the "shall be convertible to <tt>Predicate</tt>'s 
+argument type" are gone - they were cleaned up when "The One Range" proposal <a href="https://wg21.link/p0896r4">P0896R4</a> 
+had been accepted in San Diego 2018.
+<p/>
+I also believe that we don't need the extra wording that was suggested in the previous P/R (effectively the need to say 
+that the expression <tt>pred(*i)</tt> is well-formed), because this follows (in a more general way) by the expression 
+<tt>invoke(pred, invoke(proj, e))</tt> that is applied to the elements <tt>e</tt> of <tt>[first, last)</tt>.
+<p/>
+Therefore I'm suggesting that the resolution for this issue should be: Resolved by <a href="https://wg21.link/p0896r4">P0896R4</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+</p>
 
 
 
