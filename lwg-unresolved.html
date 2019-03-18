@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-03-18 at 17:19:13 UTC</p>
+<p><p>Revised 2019-03-18 at 20:16:37 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -662,7 +662,7 @@ standard containers.
 <hr>
 <h3><a name="1175" href="#1175">1175</a><sup><a href="https://cplusplus.github.io/LWG/issue1175">(i)</a></sup>. <tt>unordered</tt> complexity</h3>
 <p><b>Section:</b> 21.2.7 <a href="https://wg21.link/unord.req">[unord.req]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2009-07-17 <b>Last modified:</b> 2019-03-17</p>
+ <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2009-07-17 <b>Last modified:</b> 2019-03-18</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#unord.req">active issues</a> in [unord.req].</p>
@@ -1100,7 +1100,7 @@ expressed in terms of the number on the contained objects by an exception of the
 
 <blockquote>
 <p>
--2- <ins>Unless otherwise specified, a</ins><del>A</del>ll of the complexity requirements in this Clause are stated 
+-2- <ins>Unless otherwise specified,</ins><del>All of the</del> complexity requirements in this Clause are stated 
 solely in terms of the number of operations on the contained objects. [<i>Example:</i> The copy constructor of type 
 <tt>vector&lt;vector&lt;int&gt;&gt;</tt> has linear complexity, even though the complexity of copying each contained 
 <tt>vector&lt;int&gt;</tt> is itself linear. &mdash; <i>end example</i>]
@@ -1152,6 +1152,19 @@ different work units are involved. &mdash; <i>end drafting note</i>]
 </tr>
 
 <tr>
+<td><tt>X()</tt><br/>
+<tt>X a;</tt>
+</td>
+<td><tt>X</tt></td>
+<td><i>Expects:</i> [&hellip;]<br/>
+<i>Effects:</i> Constructs an empty container with an unspecified number <ins><tt>n</tt></ins> of<br/>
+buckets, using <tt>hasher()</tt> as the hash function and <tt>key_equal()</tt> as the key<br/>
+equality predicate.
+</td>
+<td><del>constant</del><ins>&#x1d4aa;(<tt>n</tt>)</ins></td>
+</tr>
+
+<tr>
 <td><tt>X(i, j, n, hf, eq)</tt><br/>
 <tt>X a(i, j, n, hf, eq)</tt>
 </td>
@@ -1197,6 +1210,21 @@ is <tt>distance(i, j)</tt>), worst case<br/>
 </tr>
 
 <tr>
+<td><tt>X(i, j)</tt><br/>
+<tt>X a(i, j)</tt>
+</td>
+<td><tt>X</tt></td>
+<td><i>Expects:</i> [&hellip;]<br/>
+<i>Effects</i>: Constructs an empty container with an unspecified number <ins><tt>n</tt></ins> of<br/>
+buckets, using <tt>hasher()</tt> as the hash function and <tt>key_equal()</tt> as the key<br/>
+equality predicate, and inserts elements from <tt>[i, j)</tt> into it.
+</td>
+<td>Average case <ins>&#x1d4aa;(<tt>n</tt>) +</ins> &#x1d4aa;(<tt><i>N</i></tt>) (<tt><i>N</i></tt><br/> 
+is <tt>distance(i, j)</tt>), worst case<br/> 
+<ins>&#x1d4aa;(<tt>n</tt>) +</ins> &#x1d4aa;(<tt><i>N</i><sup>2</sup></tt>)</td>
+</tr>
+
+<tr>
 <td colspan="4" style="text-align:center;">&hellip;</td>
 </tr>
 
@@ -1207,23 +1235,29 @@ is <tt>distance(i, j)</tt>), worst case<br/>
 
 <li><p>Modify 21.5.4.2 <a href="https://wg21.link/unord.map.cnstr">[unord.map.cnstr]</a> as indicated:</p>
 
-<blockquote><pre>
+<blockquote>
+<p>
+<ins>-?- In the descriptions that follow, let <tt>n</tt> be <tt>0</tt> for the constructor overloads 
+where <tt>n</tt> is not provided.</ins>
+</p>
+<pre>
 unordered_map() : unordered_map(size_type(<i>see below</i>)) { }
 explicit unordered_map(size_type n,
                        const hasher&amp; hf = hasher(),
                        const key_equal&amp; eql = key_equal(),
                        const allocator_type&amp; a = allocator_type());
-</pre><blockquote><p>
+</pre><blockquote>
+<p>
 -1- <i>Effects</i>: Constructs an empty <tt>unordered_map</tt> using the specified hash function, key equality predicate,
-and allocator, and using at least <tt>n</tt> buckets. For the default constructor, the number of buckets is
-<del>implementation-defined</del><ins>unspecified</ins>. <tt>max_load_factor()</tt> returns <tt>1.0</tt>.
-</p></blockquote>
-<blockquote><p>
+and allocator, and using at least <tt>n</tt> buckets. <del>For the default constructor, the number of buckets is
+implementation-defined.</del> <del><tt>max_load_factor()</tt> returns <tt>1.0</tt>.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> <tt>max_load_factor() == 1.0</tt></ins>
+<p/>
 -2- <i>Complexity</i>: <del>Constant</del><ins>Linear in the number of buckets</ins>.
-</p></blockquote>
+</p>
 </blockquote>
-
-<blockquote><pre>
+<pre>
 template &lt;class InputIterator&gt;
 unordered_map(InputIterator f, InputIterator l,
               size_type n = <i>see below</i>,
@@ -1235,41 +1269,51 @@ unordered_map(initializer_list&lt;value_type&gt; il,
               const hasher&amp; hf = hasher(),
               const key_equal&amp; eql = key_equal(),
               const allocator_type&amp; a = allocator_type());
-</pre><blockquote><p>
--3- <i>Effects</i>: Constructs an empty <tt>unordered_map</tt> using the specified hash function, key equality predicate,
-and allocator, and using at least <tt>n</tt> buckets. If <tt>n</tt> is not provided, the number of buckets is 
-<del>implementation-defined</del><ins>unspecified</ins>. Then inserts elements from the range <tt>[f, l)</tt> for 
-the first form, or from the range <tt>[il.begin(), il.end())</tt> for the second form. <tt>max_load_factor()</tt> 
-returns <tt>1.0</tt>.
-</p>
+</pre>
+<blockquote>
 <p>
--4- <i>Complexity</i>: <del>Average case linear, worst case quadratic</del><ins>Linear in the number of buckets.
-In the average case linear in <tt><i>N</i></tt> and in the worst case quadratic in <tt><i>N</i></tt> to insert
-the elements, where <tt><i>N</i></tt> is equal to number of elements in the range <tt>[f, l)</tt> for the first form,
-or in the range <tt>[il.begin(), il.end())</tt> for the second form</ins>.
-</p></blockquote>
+-3- <i>Effects</i>: Constructs an empty <tt>unordered_map</tt> using the specified hash function, key equality predicate,
+and allocator, and using at least <tt>n</tt> buckets. <del>If <tt>n</tt> is not provided, the number of buckets is 
+implementation-defined.</del> Then inserts elements from the range <tt>[f, l)</tt> for 
+the first form, or from the range <tt>[il.begin(), il.end())</tt> for the second form. <del><tt>max_load_factor()</tt> 
+returns <tt>1.0</tt>.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> <tt>max_load_factor() == 1.0</tt></ins>
+<p/>
+-4- <i>Complexity</i>: <del>Average case linear, worst case quadratic</del><ins>Linear in the number of buckets, 
+plus &#x1d4aa;(<tt><i>N</i></tt>) (average case) or &#x1d4aa;(<tt><i>N</i><sup>2</sup></tt>) (worst case) where 
+<tt><i>N</i></tt> is the number of insertions</ins>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
 <li><p>Modify 21.5.5.2 <a href="https://wg21.link/unord.multimap.cnstr">[unord.multimap.cnstr]</a> as indicated:</p>
 
-<blockquote><pre>
+<blockquote>
+<p>
+<ins>-?- In the descriptions that follow, let <tt>n</tt> be <tt>0</tt> for the constructor overloads
+where <tt>n</tt> is not provided.</ins>
+</p>
+<pre>
 unordered_multimap() : unordered_multimap(size_type(<i>see below</i>)) { }
 explicit unordered_multimap(size_type n,
                             const hasher&amp; hf = hasher(),
                             const key_equal&amp; eql = key_equal(),
                             const allocator_type&amp; a = allocator_type());
-</pre><blockquote><p>
--1- <i>Effects</i>: Constructs an empty <tt>unordered_multimap</tt> using the specified hash function, key equality predicate,
-and allocator, and using at least <tt>n</tt> buckets. For the default constructor, the number of buckets is 
-<ins>unspecified</ins><del>implementation-defined</del>. <tt>max_load_factor()</tt> returns <tt>1.0</tt>.
-</p>
+</pre>
+<blockquote>
 <p>
+-1- <i>Effects</i>: Constructs an empty <tt>unordered_multimap</tt> using the specified hash function, key equality predicate,
+and allocator, and using at least <tt>n</tt> buckets. <del>For the default constructor, the number of buckets is 
+implementation-defined. <tt>max_load_factor()</tt> returns <tt>1.0</tt>.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> <tt>max_load_factor() == 1.0</tt></ins>
+<p/>
 -2- <i>Complexity</i>: <del>Constant</del><ins>Linear in the number of buckets</ins>.
-</p></blockquote>
+</p>
 </blockquote>
-
-<blockquote><pre>
+<pre>
 template &lt;class InputIterator&gt;
 unordered_multimap(InputIterator f, InputIterator l,
                    size_type n = <i>see below</i>,
@@ -1281,41 +1325,51 @@ unordered_multimap(initializer_list&lt;value_type&gt; il,
                    const hasher&amp; hf = hasher(),
                    const key_equal&amp; eql = key_equal(),
                    const allocator_type&amp; a = allocator_type());
-</pre><blockquote><p>
--3- <i>Effects</i>: Constructs an empty <tt>unordered_multimap</tt> using the specified hash function, key equality predicate,
-and allocator, and using at least <tt>n</tt> buckets. If <tt>n</tt> is not provided, the number of buckets is 
-<ins>unspecified</ins><del>implementation-defined</del>. Then inserts elements from the range <tt>[f, l)</tt> for the 
-first form, or from the range <tt>[il.begin(), il.end())</tt> for the second form. <tt>max_load_factor()</tt> returns 
-<tt>1.0</tt>.
-</p>
+</pre>
+<blockquote>
 <p>
--4- <i>Complexity</i>: <del>Average case linear, worst case quadratic</del><ins>Linear in the number of buckets.
-In the average case linear in <tt><i>N</i></tt> and in the worst case quadratic in <tt><i>N</i></tt> to insert
-the elements, where <tt><i>N</i></tt> is equal to number of elements in the range <tt>[f, l)</tt> for the first form,
-or in the range <tt>[il.begin(), il.end())</tt> for the second form</ins>.
-</p></blockquote>
+-3- <i>Effects</i>: Constructs an empty <tt>unordered_multimap</tt> using the specified hash function, key equality predicate,
+and allocator, and using at least <tt>n</tt> buckets. <del>If <tt>n</tt> is not provided, the number of buckets is 
+implementation-defined.</del> Then inserts elements from the range <tt>[f, l)</tt> for the 
+first form, or from the range <tt>[il.begin(), il.end())</tt> for the second form. <del><tt>max_load_factor()</tt> returns 
+<tt>1.0</tt>.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> <tt>max_load_factor() == 1.0</tt></ins>
+<p/>
+-4- <i>Complexity</i>: <del>Average case linear, worst case quadratic</del><ins>Linear in the number of buckets, 
+plus &#x1d4aa;(<tt><i>N</i></tt>) (average case) or &#x1d4aa;(<tt><i>N</i><sup>2</sup></tt>) (worst case) where 
+<tt><i>N</i></tt> is the number of insertions</ins>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
 <li><p>Modify 21.5.6.2 <a href="https://wg21.link/unord.set.cnstr">[unord.set.cnstr]</a> as indicated:</p>
 
-<blockquote><pre>
+<blockquote>
+<p>
+<ins>-?- In the descriptions that follow, let <tt>n</tt> be <tt>0</tt> for the constructor overloads
+where <tt>n</tt> is not provided.</ins>
+</p>
+<pre>
 unordered_set() : unordered_set(size_type(<i>see below</i>)) { }
 explicit unordered_set(size_type n,
                        const hasher&amp; hf = hasher(),
                        const key_equal&amp; eql = key_equal(),
                        const allocator_type&amp; a = allocator_type());
-</pre><blockquote><p>
--1- <i>Effects</i>: Constructs an empty <tt>unordered_set</tt> using the specified hash function, key equality predicate,
-and allocator, and using at least <tt>n</tt> buckets. For the default constructor, the number of buckets is 
-<ins>unspecified</ins><del>implementation-defined</del>. <tt>max_load_factor()</tt> returns <tt>1.0</tt>.
-</p>
+</pre>
+<blockquote>
 <p>
+-1- <i>Effects</i>: Constructs an empty <tt>unordered_set</tt> using the specified hash function, key equality predicate,
+and allocator, and using at least <tt>n</tt> buckets. <del>For the default constructor, the number of buckets is 
+implementation-defined.</del> <del><tt>max_load_factor()</tt> returns <tt>1.0</tt>.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> <tt>max_load_factor() == 1.0</tt></ins>
+<p/>
 -2- <i>Complexity</i>: <del>Constant</del><ins>Linear in the number of buckets</ins>.
-</p></blockquote>
+</p>
 </blockquote>
-
-<blockquote><pre>
+<pre>
 template &lt;class InputIterator&gt;
 unordered_set(InputIterator f, InputIterator l,
               size_type n = <i>see below</i>,
@@ -1327,41 +1381,51 @@ unordered_set(initializer_list&lt;value_type&gt; il,
               const hasher&amp; hf = hasher(),
               const key_equal&amp; eql = key_equal(),
               const allocator_type&amp; a = allocator_type());              
-</pre><blockquote><p>
--3- <i>Effects</i>: Constructs an empty <tt>unordered_set</tt> using the specified hash function, key equality predicate,
-and allocator, and using at least <tt>n</tt> buckets. If <tt>n</tt> is not provided, the number of buckets is 
-<ins>unspecified</ins><del>implementation-defined</del>. Then inserts elements from the range <tt>[f, l)</tt> for the 
-first form, or from the range <tt>[il.begin(), il.end())</tt> for the second form. <tt>max_load_factor()</tt> returns 
-<tt>1.0</tt>.
-</p>
+</pre>
+<blockquote>
 <p>
--4- <i>Complexity</i>: <del>Average case linear, worst case quadratic</del><ins>Linear in the number of buckets.
-In the average case linear in <tt><i>N</i></tt> and in the worst case quadratic in <tt><i>N</i></tt> to insert
-the elements, where <tt><i>N</i></tt> is equal to number of elements in the range <tt>[f, l)</tt> for the first form,
-or in the range <tt>[il.begin(), il.end())</tt> for the second form</ins>.
-</p></blockquote>
+-3- <i>Effects</i>: Constructs an empty <tt>unordered_set</tt> using the specified hash function, key equality predicate,
+and allocator, and using at least <tt>n</tt> buckets. <del>If <tt>n</tt> is not provided, the number of buckets is 
+implementation-defined.</del> Then inserts elements from the range <tt>[f, l)</tt> for the 
+first form, or from the range <tt>[il.begin(), il.end())</tt> for the second form. <del><tt>max_load_factor()</tt> returns 
+<tt>1.0</tt>.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> <tt>max_load_factor() == 1.0</tt></ins>
+<p/>
+-4- <i>Complexity</i>: <del>Average case linear, worst case quadratic</del><ins>Linear in the number of buckets, 
+plus &#x1d4aa;(<tt><i>N</i></tt>) (average case) or &#x1d4aa;(<tt><i>N</i><sup>2</sup></tt>) (worst case) where 
+<tt><i>N</i></tt> is the number of insertions</ins>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
 <li><p>Modify 21.5.7.2 <a href="https://wg21.link/unord.multiset.cnstr">[unord.multiset.cnstr]</a> as indicated:</p>
 
-<blockquote><pre>
+<blockquote>
+<p>
+<ins>-?- In the descriptions that follow, let <tt>n</tt> be <tt>0</tt> for the constructor overloads
+where <tt>n</tt> is not provided.</ins>
+</p>
+<pre>
 unordered_multiset() : unordered_multiset(size_type(<i>see below</i>)) { }
 explicit unordered_multiset(size_type n,
                             const hasher&amp; hf = hasher(),
                             const key_equal&amp; eql = key_equal(),
                             const allocator_type&amp; a = allocator_type());
-</pre><blockquote><p>
--1- <i>Effects</i>: Constructs an empty <tt>unordered_multiset</tt> using the specified hash function, key equality predicate,
-and allocator, and using at least <tt>n</tt> buckets. For the default constructor, the number of buckets is 
-<ins>unspecified</ins><del>implementation-defined</del>. <tt>max_load_factor()</tt> returns <tt>1.0</tt>.
-</p>
+</pre>
+<blockquote>
 <p>
+-1- <i>Effects</i>: Constructs an empty <tt>unordered_multiset</tt> using the specified hash function, key equality predicate,
+and allocator, and using at least <tt>n</tt> buckets. <del>For the default constructor, the number of buckets is 
+implementation-defined.</del> <del><tt>max_load_factor()</tt> returns <tt>1.0</tt>.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> <tt>max_load_factor() == 1.0</tt></ins>
+<p/>
 -2- <i>Complexity</i>: <del>Constant</del><ins>Linear in the number of buckets</ins>.
-</p></blockquote>
+</p>
 </blockquote>
-
-<blockquote><pre>
+<pre>
 template &lt;class InputIterator&gt;
 unordered_multiset(InputIterator f, InputIterator l,
                    size_type n = <i>see below</i>,
@@ -1373,19 +1437,22 @@ unordered_multiset(initializer_list&lt;value_type&gt; il,
                    const hasher&amp; hf = hasher(),
                    const key_equal&amp; eql = key_equal(),
                    const allocator_type&amp; a = allocator_type());                   
-</pre><blockquote><p>
--3- <i>Effects</i>: Constructs an empty <tt>unordered_multiset</tt> using the specified hash function, key equality predicate,
-and allocator, and using at least <tt>n</tt> buckets. If <tt>n</tt> is not provided, the number of buckets is 
-<ins>unspecified</ins><del>implementation-defined</del>. Then inserts elements from the range <tt>[f, l)</tt> for the 
-first form, or from the range <tt>[il.begin(), il.end())</tt> for the second form. <tt>max_load_factor()</tt> returns 
-<tt>1.0</tt>.
-</p>
+</pre>
+<blockquote>
 <p>
--4- <i>Complexity</i>: <del>Average case linear, worst case quadratic</del><ins>Linear in the number of buckets.
-In the average case linear in <tt><i>N</i></tt> and in the worst case quadratic in <tt><i>N</i></tt> to insert
-the elements, where <tt><i>N</i></tt> is equal to number of elements in the range <tt>[f, l)</tt> for the first form,
-or in the range <tt>[il.begin(), il.end())</tt> for the second form</ins>.
-</p></blockquote>
+-3- <i>Effects</i>: Constructs an empty <tt>unordered_multiset</tt> using the specified hash function, key equality predicate,
+and allocator, and using at least <tt>n</tt> buckets. <del>If <tt>n</tt> is not provided, the number of buckets is 
+implementation-defined.</del> Then inserts elements from the range <tt>[f, l)</tt> for the 
+first form, or from the range <tt>[il.begin(), il.end())</tt> for the second form. <del><tt>max_load_factor()</tt> returns 
+<tt>1.0</tt>.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> <tt>max_load_factor() == 1.0</tt></ins>
+<p/>
+-4- <i>Complexity</i>: <del>Average case linear, worst case quadratic</del><ins>Linear in the number of buckets, 
+plus &#x1d4aa;(<tt><i>N</i></tt>) (average case) or &#x1d4aa;(<tt><i>N</i><sup>2</sup></tt>) (worst case) where 
+<tt><i>N</i></tt> is the number of insertions</ins>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
@@ -18264,7 +18331,7 @@ This was reported as editorial request <a href="https://github.com/cplusplus/dra
 <hr>
 <h3><a name="2820" href="#2820">2820</a><sup><a href="https://cplusplus.github.io/LWG/issue2820">(i)</a></sup>. Clarify <tt>&lt;cstdint&gt;</tt> macros</h3>
 <p><b>Section:</b> 16.4 <a href="https://wg21.link/cstdint">[cstdint]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2016-11-12 <b>Last modified:</b> 2019-03-17</p>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2016-11-12 <b>Last modified:</b> 2019-03-18</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#cstdint">issues</a> in [cstdint].</p>
@@ -18835,7 +18902,7 @@ respectively. &mdash; <i>end note</i>]</ins>
 <p>
 -1- The contents and meaning of the header <tt>&lt;cinttypes&gt;</tt> [&hellip;]
 <p/>
-<ins>-?- Each of the macros listed in this subclause is defined if and only if the implementation actually defines the 
+<ins>-?- Each of the macros listed in this subclause is defined if and only if the implementation defines the 
 corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>.</ins>
 </p>
 </blockquote>
