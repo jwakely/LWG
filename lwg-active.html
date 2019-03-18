@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D115)</h1>
-<p><p>Revised 2019-03-18 at 21:10:21 UTC</p>
+<p><p>Revised 2019-03-18 at 21:26:22 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -7133,7 +7133,7 @@ this <a href="https://github.com/cplusplus/draft/commit/bfaea046b5176152a86514a8
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
 <p><b>Section:</b> 16.12 <a href="https://wg21.link/support.runtime">[support.runtime]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Thomas Plum <b>Opened:</b> 2012-04-30 <b>Last modified:</b> 2019-03-17</p>
+ <b>Submitter:</b> Thomas Plum <b>Opened:</b> 2012-04-30 <b>Last modified:</b> 2019-03-18</p>
 <p><b>Priority: </b>4
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#support.runtime">issues</a> in [support.runtime].</p>
@@ -7265,48 +7265,17 @@ LWG agrees. Jonathan provides wording.
 </ol>
 </blockquote>
 
-<p><i>[2019-03-17; Daniel comments and provides revised wording]</i></p>
+<p><i>[2019-03-18; Daniel comments and eliminates previously proposed wording]</i></p>
 
 <p>
-The updated wording fixes the requested change.
+With the approval of <a href="http://wg21.link/p0619r4">P0619R4</a> in Rapperswil, the offending wording has now been eliminated 
+from the working draft. I suggest to close this issue as: Resolved by <a href="http://wg21.link/p0619r4">P0619R4</a>.
 </p>
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to N4296.</p>
-
-<ol>
-<li>
-<p>Edit the footnote on 15.5.1.2 <a href="https://wg21.link/headers">[headers]</a> p7:</p>
-<blockquote>
 <p>
-176) In particular, including <ins>any of</ins> the standard header<ins>s <tt>&lt;stdbool.h&gt;</tt>, <tt>&lt;cstdbool&gt;</tt>,</ins> <tt>&lt;iso646.h&gt;</tt> or <tt>&lt;ciso646&gt;</tt> has no effect.
 </p>
-</blockquote>
-</li>
-
-<li>
-<p>Edit 16.12 <a href="https://wg21.link/support.runtime">[support.runtime]</a> p1 as indicated (and remove the index entry for <tt>__bool_true_false_are_defined</tt>):</p>
-
-<blockquote>
-<p>
--1- Headers <tt>&lt;csetjmp&gt;</tt> (nonlocal jumps), <tt>&lt;csignal&gt;</tt> (signal handling), <tt>&lt;cstdalign&gt;</tt> (alignment), <tt>&lt;cstdarg&gt;</tt> (variable arguments), <tt>&lt;cstdbool&gt;</tt><ins>,</ins><del> (<tt>__bool_true_false_are_defined</tt>).</del> <tt>&lt;cstdlib&gt;</tt> (runtime environment <tt>getenv()</tt>, <tt>system()</tt>), and <tt>&lt;ctime&gt;</tt> (system clock <tt>clock()</tt>, <tt>time()</tt>) provide further compatibility with C code.
-</p>
-</blockquote>
-</li>
-
-<li>
-<p>Remove Table 38 &mdash; Header <tt>&lt;cstdbool&gt;</tt> synopsis [tab:support.hdr.cstdbool] from 16.12 <a href="https://wg21.link/support.runtime">[support.runtime]</a> </p>
-<blockquote>
-<table border="1">
-<caption> Table 38 &mdash; Header <tt>&lt;cstdbool&gt;</tt> synopsis </caption>
-<tr><td><b>Type</b></td><td><b>Name(s)</b></td></tr>
-<tr><td><b>Macro:</b></td><td><tt>__bool_true_false_are_defined</tt></td></tr>
-</table>
-</blockquote>
-</li>
-</ol>
-
 
 
 
