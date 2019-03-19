@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-03-19 at 18:37:27 UTC</p>
+<p><p>Revised 2019-03-19 at 19:14:19 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -31301,7 +31301,7 @@ A test() {
 <hr>
 <h3><a name="3195" href="#3195">3195</a><sup><a href="https://cplusplus.github.io/LWG/issue3195">(i)</a></sup>. What is the stored pointer value of an empty <tt>weak_ptr</tt>?</h3>
 <p><b>Section:</b> 19.11.4.1 <a href="https://wg21.link/util.smartptr.weak.const">[util.smartptr.weak.const]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-03-15 <b>Last modified:</b> 2019-03-17</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-03-15 <b>Last modified:</b> 2019-03-19</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -31363,7 +31363,7 @@ and stored pointer value, so it seems cleaner to pin down the stored pointer val
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4800">N4800</a>.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
 
 <ol>
 <li><p>Modify 19.11.4.1 <a href="https://wg21.link/util.smartptr.weak.const">[util.smartptr.weak.const]</a> as indicated (note the drive-by edit to cleanup the occurrences of "constructs
@@ -31396,6 +31396,50 @@ and stores a copy of the pointer stored in <tt>r</tt>.
 -5- <i>Ensures:</i> <tt>use_count() == r.use_count()</tt>.
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3196" href="#3196">3196</a><sup><a href="https://cplusplus.github.io/LWG/issue3196">(i)</a></sup>. <tt>std::optional&lt;T&gt;</tt> is ill-formed is <tt>T</tt> is an array</h3>
+<p><b>Section:</b> 19.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-03-18 <b>Last modified:</b> 2019-03-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#optional.optional">active issues</a> in [optional.optional].</p>
+<p><b>View all other</b> <a href="lwg-index.html#optional.optional">issues</a> in [optional.optional].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+19.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a> appears to allow arrays:
+</p>
+<blockquote><p>
+<tt>T</tt> shall be an object type other than <i>cv</i> <tt>in_place_t</tt> or <i>cv</i> <tt>nullopt_t</tt> and shall 
+satisfy the <i>Cpp17Destructible</i> requirements (Table 30).
+</p></blockquote>
+<p>
+But instantiating it fails, because <tt>value_or</tt> attempts to return <tt>T</tt> by value, which isn't possible for an array type.
+<p/>
+Existing practice seems to be to reject array types. Libstdc++ and libc++ give an error for the signature of <tt>value_or</tt>, 
+and MSVC fails a static assert saying the type needs to be destructible (which is misleading, because <tt>int[2]</tt> 
+is destructible, but either way it's ill-formed).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 19.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- <tt>T</tt> shall be a<del>n</del> <ins>non-array</ins> object type other than <i>cv</i> <tt>in_place_t</tt> 
+or <i>cv</i> <tt>nullopt_t</tt> and shall satisfy the <i>Cpp17Destructible</i> requirements (Table 30).
+</p>
 </blockquote>
 </li>
 </ol>

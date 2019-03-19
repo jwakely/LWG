@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D115)</h1>
-<p><p>Revised 2019-03-19 at 18:37:27 UTC</p>
+<p><p>Revised 2019-03-19 at 19:14:19 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,15 +158,15 @@ ownership of it.
 <ul>
 <li>D115: 2019-03-11 2019 post-Kona mailing<ul>
 <li><b>Summary:</b><ul>
-<li>269 open issues, down by 20.</li>
+<li>270 open issues, down by 19.</li>
 <li>2413 closed issues, up by 31.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2717 issues total, up by 11.</li>
+<li>2718 issues total, up by 12.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 2 Ready issues: <a href="lwg-active.html#3186">3186</a>, <a href="lwg-active.html#3187">3187</a>.</li>
 <li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3185">3185</a>.</li>
-<li>Added the following 8 New issues: <a href="lwg-active.html#3188">3188</a>, <a href="lwg-active.html#3189">3189</a>, <a href="lwg-active.html#3190">3190</a>, <a href="lwg-active.html#3191">3191</a>, <a href="lwg-active.html#3192">3192</a>, <a href="lwg-active.html#3193">3193</a>, <a href="lwg-active.html#3194">3194</a>, <a href="lwg-active.html#3195">3195</a>.</li>
+<li>Added the following 9 New issues: <a href="lwg-active.html#3188">3188</a>, <a href="lwg-active.html#3189">3189</a>, <a href="lwg-active.html#3190">3190</a>, <a href="lwg-active.html#3191">3191</a>, <a href="lwg-active.html#3192">3192</a>, <a href="lwg-active.html#3193">3193</a>, <a href="lwg-active.html#3194">3194</a>, <a href="lwg-active.html#3195">3195</a>, <a href="lwg-active.html#3196">3196</a>.</li>
 <li>Changed the following 3 issues to Ready (from New): <a href="lwg-active.html#3055">3055</a>, <a href="lwg-active.html#3158">3158</a>, <a href="lwg-active.html#3169">3169</a>.</li>
 <li>Changed the following issue to Ready (from Open): <a href="lwg-active.html#2899">2899</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3178">3178</a>, <a href="lwg-active.html#3183">3183</a>, <a href="lwg-active.html#3184">3184</a>.</li>
@@ -34081,7 +34081,7 @@ A test() {
 <hr>
 <h3><a name="3195" href="#3195">3195</a><sup><a href="https://cplusplus.github.io/LWG/issue3195">(i)</a></sup>. What is the stored pointer value of an empty <tt>weak_ptr</tt>?</h3>
 <p><b>Section:</b> 19.11.4.1 <a href="https://wg21.link/util.smartptr.weak.const">[util.smartptr.weak.const]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-03-15 <b>Last modified:</b> 2019-03-17</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-03-15 <b>Last modified:</b> 2019-03-19</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -34143,7 +34143,7 @@ and stored pointer value, so it seems cleaner to pin down the stored pointer val
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4800">N4800</a>.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
 
 <ol>
 <li><p>Modify 19.11.4.1 <a href="https://wg21.link/util.smartptr.weak.const">[util.smartptr.weak.const]</a> as indicated (note the drive-by edit to cleanup the occurrences of "constructs
@@ -34176,6 +34176,50 @@ and stores a copy of the pointer stored in <tt>r</tt>.
 -5- <i>Ensures:</i> <tt>use_count() == r.use_count()</tt>.
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3196" href="#3196">3196</a><sup><a href="https://cplusplus.github.io/LWG/issue3196">(i)</a></sup>. <tt>std::optional&lt;T&gt;</tt> is ill-formed is <tt>T</tt> is an array</h3>
+<p><b>Section:</b> 19.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-03-18 <b>Last modified:</b> 2019-03-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#optional.optional">active issues</a> in [optional.optional].</p>
+<p><b>View all other</b> <a href="lwg-index.html#optional.optional">issues</a> in [optional.optional].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+19.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a> appears to allow arrays:
+</p>
+<blockquote><p>
+<tt>T</tt> shall be an object type other than <i>cv</i> <tt>in_place_t</tt> or <i>cv</i> <tt>nullopt_t</tt> and shall 
+satisfy the <i>Cpp17Destructible</i> requirements (Table 30).
+</p></blockquote>
+<p>
+But instantiating it fails, because <tt>value_or</tt> attempts to return <tt>T</tt> by value, which isn't possible for an array type.
+<p/>
+Existing practice seems to be to reject array types. Libstdc++ and libc++ give an error for the signature of <tt>value_or</tt>, 
+and MSVC fails a static assert saying the type needs to be destructible (which is misleading, because <tt>int[2]</tt> 
+is destructible, but either way it's ill-formed).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 19.6.3 <a href="https://wg21.link/optional.optional">[optional.optional]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- <tt>T</tt> shall be a<del>n</del> <ins>non-array</ins> object type other than <i>cv</i> <tt>in_place_t</tt> 
+or <i>cv</i> <tt>nullopt_t</tt> and shall satisfy the <i>Cpp17Destructible</i> requirements (Table 30).
+</p>
 </blockquote>
 </li>
 </ol>
