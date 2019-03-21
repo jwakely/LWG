@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-03-21 at 17:09:52 UTC</p>
+<p><p>Revised 2019-03-21 at 17:16:21 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -10015,54 +10015,6 @@ in the program being ill-formed. &mdash; <i>end note</i>]</del>
 
 
 <hr>
-<h3><a name="2292" href="#2292">2292</a><sup><a href="https://cplusplus.github.io/LWG/issue2292">(i)</a></sup>. Find a better phrasing for "shall not participate in overload resolution"</h3>
-<p><b>Section:</b> 15.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jeffrey Yasskin <b>Opened:</b> 2013-09-03 <b>Last modified:</b> 2019-03-21</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#structure.specifications">active issues</a> in [structure.specifications].</p>
-<p><b>View all other</b> <a href="lwg-index.html#structure.specifications">issues</a> in [structure.specifications].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The C++14 CD has 25 sections including the phrase "X shall not
-participate in overload resolution ...". Most of these uses are double
-negatives, which are hard to interpret. "shall not ... unless" tends
-to be the easiest to read, since the condition is true when the
-function is available, but we also have a lot of "if X is not Y, then
-Z shall not participate", which actually means "You can call Z if X is
-Y." The current wording is also clumsy and long-winded. We should find
-a better and more concise phrasing.
-<p/>
-As an initial proposal, I'd suggest using "X is enabled if and only if Y" in prose
-and adding an "<i>Enabled If:</i> ..." element to 15.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a>.
-<p/>
-Daniel:
-<p/>
-I suggest to name this new specification element for 15.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a>
-as "<i>Template Constraints:</i>" instead, because the mentioned wording form was intentionally provided 
-starting with LWG <a href="lwg-defects.html#1237">1237</a> to give implementations more freedom to realize the 
-concrete constraints. Instead of the original <tt>std::enable_if</tt>-based specifications
-we can use better forms of "SFINAE" constraints today and it eases the path to possible language-based
-constraints in the future.
-</p>
-
-<p><i>[2019-03-21; Daniel comments ]</i></p>
-
-<p>
-Apparently the adoption of <a href="http://wg21.link/p0788r3">P0788R3</a> at the Rapperswil 2018 meeting 
-has resolved this issue by introduction of the new <i>Constraints:</i> element.
-</p>
-
-
-
-<p><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
 <h3><a name="2295" href="#2295">2295</a><sup><a href="https://cplusplus.github.io/LWG/issue2295">(i)</a></sup>. Locale name when the provided <tt>Facet</tt> is a <tt>nullptr</tt></h3>
 <p><b>Section:</b> 27.3.1.2 <a href="https://wg21.link/locale.cons">[locale.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Juan Soulie <b>Opened:</b> 2013-09-04 <b>Last modified:</b> 2016-02-10</p>
@@ -10211,7 +10163,7 @@ In any case I can envision at least two approaches to solve this issue:
 <ol>
 <li>
 <p>
-As indicated in LWG <a href="lwg-active.html#2292">2292</a>, those function could get an explicit "<i>Template Constraints:</i>"
+As indicated in LWG <a href="lwg-defects.html#2292">2292</a>, those function could get an explicit "<i>Template Constraints:</i>"
 element, albeit this promises more than needed to solve this issue.
 </p>
 </li>
