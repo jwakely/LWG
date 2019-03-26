@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-03-26 at 18:04:11 UTC</p>
+<p><p>Revised 2019-03-26 at 18:47:21 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -6811,7 +6811,7 @@ Moved to Open.
 <hr>
 <h3><a name="2191" href="#2191">2191</a><sup><a href="https://cplusplus.github.io/LWG/issue2191">(i)</a></sup>. Incorrect specification of <tt>match_results(match_results&amp;&amp;)</tt></h3>
 <p><b>Section:</b> 29.10.1 <a href="https://wg21.link/re.results.const">[re.results.const]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Pete Becker <b>Opened:</b> 2012-10-02 <b>Last modified:</b> 2019-03-24</p>
+ <b>Submitter:</b> Pete Becker <b>Opened:</b> 2012-10-02 <b>Last modified:</b> 2019-03-26</p>
 <p><b>Priority: </b>4
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#re.results.const">issues</a> in [re.results.const].</p>
@@ -6837,7 +6837,7 @@ Also, the requirements for move-assignment should refer to Table 141. Further it
 <tt>n &lt; m.size()</tt>".
 </p>
 
-<p><i>[2019-03-24; Daniel comments and provides wording]</i></p>
+<p><i>[2019-03-26; Daniel comments and provides wording]</i></p>
 
 <p>
 The previous Table 141 (Now Table 128 in <a href="http://wg21.link/n4810">N4810</a>) has been modified to cover now
@@ -6847,6 +6847,9 @@ move operations the corresponding values refer to the values of the move source 
 Re Ganesh's proposal: Note that no further wording is needed for the move-assignment operator, because in the current 
 working draft the move-assignment operator's <i>Effects:</i> element refers already to Table 128. The suggested clarification
 of <em>unsigned</em> integers has been implemented by referring to <em>non-negative</em> integers instead.
+<p/>
+Upon suggestion from Casey, the wording also introduces <i>Ensures:</i> elements that refer to Table 128 and as drive-by fix
+eliminates a "<i>Throws:</i> Nothing." element from a <tt>noexcept</tt> function.
 </p>
 
 
@@ -6857,7 +6860,7 @@ of <em>unsigned</em> integers has been implemented by referring to <em>non-negat
 <li><p>Add a new paragraph at the beginning of 29.10.1 <a href="https://wg21.link/re.results.const">[re.results.const]</a> as indicated:</p>
 
 <blockquote><p>
-<ins>-?- Table 128 lists the effects of <tt>match_results</tt> copy/move constructors and copy/move assignment
+<ins>-?- Table 128 lists the postconditions of <tt>match_results</tt> copy/move constructors and copy/move assignment
 operators. For move operations, the results of the expressions depending on the parameter <tt>m</tt> denote the values
 they had before the respective function calls.</ins>
 </p></blockquote>
@@ -6866,13 +6869,51 @@ they had before the respective function calls.</ins>
 
 <li><p>Modify 29.10.1 <a href="https://wg21.link/re.results.const">[re.results.const]</a> as indicated:</p>
 
-<blockquote><pre>
+<blockquote>
+<pre>
 match_results(const match_results&amp; m);
 </pre>
 <blockquote>
 <p>
--3- <i>Effects:</i> Constructs an object of class <tt>match_results</tt>, as a copy of <tt>m</tt>. <ins>The postconditions 
-of this function are indicated in Table 128.</ins>
+-3- <i>Effects:</i> Constructs <del>an object of class <tt>match_results</tt>, as</del> a copy of <tt>m</tt>.
+<p/>
+<ins>-?- <i>Ensures:</i> As indicated in Table 128.</ins>
+</p>
+</blockquote>
+<pre>
+match_results(match_results&amp;&amp; m) noexcept;
+</pre>
+<blockquote>
+<p>
+-4- <i>Effects:</i> Move constructs <del>an object of class <tt>match_results</tt></del> from <tt>m</tt> 
+<del>satisfying the same postconditions as Table 128. Additionally</del>, the stored <tt>Allocator</tt> value 
+is move constructed from <tt>m.get_allocator()</tt>.
+<p/>
+<ins>-?- <i>Ensures:</i> As indicated in Table 128.</ins>
+<p/>
+<del>-5- <i>Throws:</i> Nothing.</del>
+</p>
+</blockquote>
+<pre>
+match_results&amp; operator=(const match_results&amp; m);
+</pre>
+<blockquote>
+<p>
+-6- <i>Effects:</i> Assigns <tt>m</tt> to <tt>*this</tt>. <del>The postconditions of this function are indicated 
+in Table 128.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> As indicated in Table 128.</ins>
+</p>
+</blockquote>
+<pre>
+match_results&amp; operator=(match_results&amp;&amp; m);
+</pre>
+<blockquote>
+<p>
+-7- <i>Effects:</i> Move<del>-</del><ins> </ins>assigns <tt>m</tt> to <tt>*this</tt>. <del>The postconditions of 
+this function are indicated in Table 128.</del>
+<p/>
+<ins>-?- <i>Ensures:</i> As indicated in Table 128.</ins>
 </p>
 </blockquote>
 </blockquote>
@@ -6883,7 +6924,7 @@ of this function are indicated in Table 128.</ins>
 
 <blockquote>
 <table border="1">
-<caption>Table 128 &mdash; <tt>match_results</tt> <del>assignment operator</del><ins>copy/move operation</ins> effects</caption>
+<caption>Table 128 &mdash; <tt>match_results</tt> <del>assignment operator effects</del><ins>copy/move operation postconditions</ins></caption>
 <tr style="text-align:center">
 <th>Element</th>
 <th>Value</th>
