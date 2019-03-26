@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2820" href="lwg-active.html#2820">2820</a>. Clarify <tt>&lt;cstdint&gt;</tt> macros</h3>
 <p><b>Section:</b> 16.4 <a href="https://wg21.link/cstdint">[cstdint]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2016-11-12 <b>Last modified:</b> 2019-03-18</p>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2016-11-12 <b>Last modified:</b> 2019-03-26</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#cstdint">issues</a> in [cstdint].</p>
@@ -452,6 +452,15 @@ typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>
 Those changes have been applied as well.
 </p>
 
+<p><i>[2019-03-26; Reflector discussion and minor wording update]</i></p>
+
+<p>
+Geoffrey pointed out that the revised wording has the effect that it requires an implementation to define <tt>SCN</tt>
+macros for all mentioned typedefs, but the C11 standard says "the corresponding <tt>fscanf</tt> macros shall be
+defined unless the implementation does not have a suitable <tt>fscanf</tt> length modifier for the type.". An additional 
+wording update repairs this problem below.
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
 <p>
@@ -596,8 +605,10 @@ respectively. &mdash; <i>end note</i>]</ins>
 <p>
 -1- The contents and meaning of the header <tt>&lt;cinttypes&gt;</tt> [&hellip;]
 <p/>
-<ins>-?- Each of the macros listed in this subclause is defined if and only if the implementation defines the 
-corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>.</ins>
+<ins>-?- Each of the <tt>PRI</tt> macros listed in this subclause is defined if and only if the implementation defines the 
+corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>. Each of the <tt>SCN</tt> macros listed in this subclause is 
+defined if and only if the implementation defines the corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a> and
+has a suitable <tt>fscanf</tt> length modifier for the type.</ins>
 </p>
 </blockquote>
 </li>
