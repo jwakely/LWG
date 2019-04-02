@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#CD1">CD1</a> status.</em></p>
 <h3><a name="762" href="lwg-defects.html#762">762</a>. <tt>std::unique_ptr</tt> requires complete type?</h3>
-<p><b>Section:</b> 19.11.1 <a href="https://wg21.link/unique.ptr">[unique.ptr]</a> <b>Status:</b> <a href="lwg-active.html#CD1">CD1</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2007-11-30 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 20.11.1 <a href="https://wg21.link/unique.ptr">[unique.ptr]</a> <b>Status:</b> <a href="lwg-active.html#CD1">CD1</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2007-11-30 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#unique.ptr">issues</a> in [unique.ptr].</p>
@@ -36,7 +36,7 @@ In contrast to the proposed <tt>std::shared_ptr</tt>, <tt>std::unique_ptr</tt>
 does currently not support incomplete types, because it
 gives no explicit grant - thus instantiating <tt>unique_ptr</tt> with
 an incomplete pointee type <tt>T</tt> automatically belongs to
-undefined behaviour according to 15.5.4.8 <a href="https://wg21.link/res.on.functions">[res.on.functions]</a>&#47;2, last
+undefined behaviour according to 16.5.4.8 <a href="https://wg21.link/res.on.functions">[res.on.functions]</a>&#47;2, last
 bullet. This is an unnecessary restriction and prevents
 many well-established patterns - like the bridge pattern - for <tt>std::unique_ptr</tt>.
 </p>
@@ -71,7 +71,7 @@ The specialization <tt>unique_ptr&lt;T[]&gt;</tt> has some more restrictive cons
 type-completeness on <tt>T</tt> than <tt>unique_ptr&lt;T&gt;</tt>. The following proposed wordings
 try to cope with that. If the committee sees less usefulness on relaxed
 constraints on <tt>unique_ptr&lt;T[]&gt;</tt>, the alternative would be to stop this relaxation
-e.g. by adding one further bullet to 19.11.1.3 <a href="https://wg21.link/unique.ptr.runtime">[unique.ptr.runtime]</a>&#47;1:
+e.g. by adding one further bullet to 20.11.1.3 <a href="https://wg21.link/unique.ptr.runtime">[unique.ptr.runtime]</a>&#47;1:
 "<tt>T</tt> shall be a complete type, if used as template argument of
 <tt>unique_ptr&lt;T[], D&gt;</tt>
 </p>
@@ -90,7 +90,7 @@ current specification of <tt>unique_ptr</tt>.
 <ol>
 <li>
 <p>
-In 19.11.1 <a href="https://wg21.link/unique.ptr">[unique.ptr]</a>&#47;2 add as the last sentence to the existing para:
+In 20.11.1 <a href="https://wg21.link/unique.ptr">[unique.ptr]</a>&#47;2 add as the last sentence to the existing para:
 </p>
 
 <blockquote><p>
@@ -109,7 +109,7 @@ function. -- <i>end note</i> ]
 
 <li>
 <p>
-19.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;1: No changes necessary.
+20.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;1: No changes necessary.
 </p>
 
 <blockquote>
@@ -123,7 +123,7 @@ The current wording says just this.
 
 <li>
 <p>
-In 19.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;5 change the requires clause to say:
+In 20.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;5 change the requires clause to say:
 </p>
 
 <blockquote>
@@ -160,7 +160,7 @@ again requires Completeness of <tt>Y</tt>, if <tt>!SameType&lt;X, Y&gt;</tt>
 
 <li>
 <p>
-Merge 19.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;12+13 thereby removing the sentence
+Merge 20.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;12+13 thereby removing the sentence
 of 12, but transferring the "requires" to 13:
 </p>
 
@@ -179,10 +179,10 @@ pointer and the <tt>D</tt> deleter are well-formed and well-defined.
 </li>
 
 <li>
-19.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;17: No changes necessary.
+20.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;17: No changes necessary.
 </li>
 <li>
-<p>19.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;21:</p>
+<p>20.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>&#47;21:</p>
 
 <blockquote><p>
 <i>Requires:</i> If <tt>D</tt> is not a reference type, construction of
@@ -205,7 +205,7 @@ e.g. "<tt>U</tt> shall be a complete type."
 
 <li>
 <p>
-19.11.1.2.2 <a href="https://wg21.link/unique.ptr.single.dtor">[unique.ptr.single.dtor]</a>: Just before p1 add a new paragraph:
+20.11.1.2.2 <a href="https://wg21.link/unique.ptr.single.dtor">[unique.ptr.single.dtor]</a>: Just before p1 add a new paragraph:
 </p>
 <blockquote>
 <p>
@@ -224,7 +224,7 @@ type-completeness of <tt>T</tt> is delegated to this expression.
 
 <li>
 <p>
-19.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a>&#47;1: No changes necessary, except the
+20.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a>&#47;1: No changes necessary, except the
 current editorial issue, that "must shall" has to be changed to
 "shall", but this change is not a special part of this resolution.
 </p>
@@ -238,7 +238,7 @@ further requirements on the requirements of the effects clause
 
 <li>
 <p>
-19.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a>&#47;6:
+20.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a>&#47;6:
 </p>
 
 <blockquote><p>
@@ -259,7 +259,7 @@ is true, see (6)+(8).
 
 <li>
 <p>
-19.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a>&#47;11: No changes necessary.
+20.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a>&#47;11: No changes necessary.
 </p>
 <p><i>[
 N.B.: Delegation to requirements of effects clause is sufficient.
@@ -269,7 +269,7 @@ N.B.: Delegation to requirements of effects clause is sufficient.
 
 <li>
 <p>
-19.11.1.2.4 <a href="https://wg21.link/unique.ptr.single.observers">[unique.ptr.single.observers]</a>&#47;1+4+7+9+11:
+20.11.1.2.4 <a href="https://wg21.link/unique.ptr.single.observers">[unique.ptr.single.observers]</a>&#47;1+4+7+9+11:
 </p>
 
 <blockquote>
@@ -281,12 +281,12 @@ N.B.: Delegation to requirements of effects clause is sufficient.
 </li>
 
 <li>
-19.11.1.2.5 <a href="https://wg21.link/unique.ptr.single.modifiers">[unique.ptr.single.modifiers]</a>&#47;1: No changes necessary.
+20.11.1.2.5 <a href="https://wg21.link/unique.ptr.single.modifiers">[unique.ptr.single.modifiers]</a>&#47;1: No changes necessary.
 </li>
 
 <li>
 <p>
-19.11.1.2.5 <a href="https://wg21.link/unique.ptr.single.modifiers">[unique.ptr.single.modifiers]</a>&#47;4: Just before p. 4 add a new paragraph:
+20.11.1.2.5 <a href="https://wg21.link/unique.ptr.single.modifiers">[unique.ptr.single.modifiers]</a>&#47;4: Just before p. 4 add a new paragraph:
 </p>
 <blockquote><p>
 <i>Requires:</i> The expression <tt>get_deleter()(get())</tt> shall be well-formed,
@@ -295,12 +295,12 @@ shall have well-defined behavior, and shall not throw exceptions.
 </li>
 
 <li>
-19.11.1.2.5 <a href="https://wg21.link/unique.ptr.single.modifiers">[unique.ptr.single.modifiers]</a>&#47;7: No changes necessary.
+20.11.1.2.5 <a href="https://wg21.link/unique.ptr.single.modifiers">[unique.ptr.single.modifiers]</a>&#47;7: No changes necessary.
 </li>
 
 <li>
 <p>
-19.11.1.3 <a href="https://wg21.link/unique.ptr.runtime">[unique.ptr.runtime]</a>: Add one additional bullet on paragraph 1:
+20.11.1.3 <a href="https://wg21.link/unique.ptr.runtime">[unique.ptr.runtime]</a>: Add one additional bullet on paragraph 1:
 </p>
 
 <blockquote>

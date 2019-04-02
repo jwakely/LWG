@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3193" href="lwg-active.html#3193">3193</a>. <i>Mandates:</i> and <i>Expects:</i> elements are not defined for types</h3>
-<p><b>Section:</b> 15.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2019-03-04 <b>Last modified:</b> 2019-03-18</p>
+<p><b>Section:</b> 16.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2019-03-04 <b>Last modified:</b> 2019-03-26</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#structure.specifications">active issues</a> in [structure.specifications].</p>
@@ -34,8 +34,8 @@
 <p><b>Discussion:</b></p>
 <p>
 The working paper uses the special elements <i>Mandates:</i>, <i>Expects:</i> as well as 
-<i>Requires:</i> to types, albeit 15.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> defines them 
-only for functions, for example 15.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> sub-bullet (3.4):
+<i>Requires:</i> to types, albeit 16.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> defines them 
+only for functions, for example 16.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> sub-bullet (3.4):
 </p>
 <blockquote><p>
 <i>Expects:</i> the conditions (sometimes termed preconditions) that the function assumes to hold whenever
@@ -45,10 +45,10 @@ it is called.
 Examples for such usages on types are (from <a href="https://wg21.link/n4800">N4800</a>):
 </p>
 <ul>
-<li><p>20.2.2 <a href="https://wg21.link/char.traits.typedefs">[char.traits.typedefs]</a> for types <tt>int_type</tt> and <tt>state_type</tt></p></li>
-<li><p>19.4.4 <a href="https://wg21.link/pair.astuple">[pair.astuple]</a> for <tt>tuple_element&lt;I, pair&lt;T1, T2&gt;&gt;::type</tt></p></li>
-<li><p>19.5.3.6 <a href="https://wg21.link/tuple.helper">[tuple.helper]</a> for <tt>tuple_element&lt;I, tuple&lt;Types...&gt;&gt;::type</tt></p></li>
-<li><p>19.5.3.9 <a href="https://wg21.link/tuple.traits">[tuple.traits]</a> for <tt>uses_allocator&lt;tuple&lt;Types...&gt;, Alloc&gt;</tt></p></li>
+<li><p>21.2.2 <a href="https://wg21.link/char.traits.typedefs">[char.traits.typedefs]</a> for types <tt>int_type</tt> and <tt>state_type</tt></p></li>
+<li><p>20.4.4 <a href="https://wg21.link/pair.astuple">[pair.astuple]</a> for <tt>tuple_element&lt;I, pair&lt;T1, T2&gt;&gt;::type</tt></p></li>
+<li><p>20.5.3.6 <a href="https://wg21.link/tuple.helper">[tuple.helper]</a> for <tt>tuple_element&lt;I, tuple&lt;Types...&gt;&gt;::type</tt></p></li>
+<li><p>20.5.3.9 <a href="https://wg21.link/tuple.traits">[tuple.traits]</a> for <tt>uses_allocator&lt;tuple&lt;Types...&gt;, Alloc&gt;</tt></p></li>
 <li><p>Table 62 &mdash; "Container requirements" for type <tt>XX::value_type</tt></p></li>
 <li><p>Table 65 &mdash; "Allocator-aware container requirements" for type <tt>allocator_type</tt></p></li>
 <li><p>Table 69 &mdash; "Associative container requirements" for types <tt>X::value_type</tt> and <tt>X::key_compare</tt></p></li>
@@ -56,7 +56,7 @@ Examples for such usages on types are (from <a href="https://wg21.link/n4800">N4
 </ul>
 <p>
 Instead of replacing these elements usages for these places by extra wording to reach the same effects I
-recommend to update instead 15.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> to ensure that requirement-expressing elements
+recommend to update instead 16.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> to ensure that requirement-expressing elements
 are defined in a way that it also allows to express requirements imposed on types by these elements to standardize 
 "existing practice". 
 <p/>
@@ -78,7 +78,7 @@ and <i>Requires:</i> alone.
 <p>
 During the preparation of the wording for this issue it was found that we should allow 
 <i>Remarks:</i> elements to be used for other things than functions. One example of imposed 
-restrictions can be found in 16.11.3 <a href="https://wg21.link/cmp.common">[cmp.common]</a>:
+restrictions can be found in 17.11.3 <a href="https://wg21.link/cmp.common">[cmp.common]</a>:
 </p>
 <blockquote>
 <pre>
@@ -89,17 +89,17 @@ struct common_comparison_category {
 </pre>
 <p>
 -2- <i>Remarks:</i> The member <i>typedef-name</i> <tt>type</tt> denotes the common comparison type 
-(10.10.2 <a href="https://wg21.link/class.spaceship">[class.spaceship]</a>) of <tt>Ts...</tt>, the expanded parameter pack. [&hellip;]
+(11.10.3 <a href="https://wg21.link/class.spaceship">[class.spaceship]</a>) of <tt>Ts...</tt>, the expanded parameter pack. [&hellip;]
 </p>
 </blockquote>
 <p>
 The discussion of this issue speaks of "type" restrictions (versus the specified restrictions on
-functions), because even the non-type template argument restrictions of 19.4.4 <a href="https://wg21.link/pair.astuple">[pair.astuple]</a> 
+functions), because even the non-type template argument restrictions of 20.4.4 <a href="https://wg21.link/pair.astuple">[pair.astuple]</a> 
 appear in the context of a member type specification, but there are examples where not really a 
-single (member) type is involved, e.g. in the 19.5.3.6 <a href="https://wg21.link/tuple.helper">[tuple.helper]</a> example mentioned above. 
+single (member) type is involved, e.g. in the 20.5.3.6 <a href="https://wg21.link/tuple.helper">[tuple.helper]</a> example mentioned above. 
 <p/>
 Another example is when such elements are used for the specification of template specializations, e.g.
-in 19.5.3.6 <a href="https://wg21.link/tuple.helper">[tuple.helper]</a>:
+in 20.5.3.6 <a href="https://wg21.link/tuple.helper">[tuple.helper]</a>:
 </p>
 <blockquote>
 <pre>
@@ -108,7 +108,7 @@ template&lt;class T&gt; struct tuple_size;
 <blockquote>
 <p>
 -1- <i>Remarks:</i> All specializations of <tt>tuple_size</tt> shall satisfy the 
-<i>Cpp17UnaryTypeTrait</i> requirements (19.15.1 <a href="https://wg21.link/meta.rqmts">[meta.rqmts]</a>) with a base characteristic 
+<i>Cpp17UnaryTypeTrait</i> requirements (20.15.1 <a href="https://wg21.link/meta.rqmts">[meta.rqmts]</a>) with a base characteristic 
 of <tt>integral_constant&lt;size_t, N&gt;</tt> for some <tt>N</tt>.
 </p>
 </blockquote>
@@ -134,7 +134,7 @@ to which the extended rules apply.
 <p>This wording is relative to <a href="https://wg21.link/n4810">N4810</a>.</p>
 
 <ol>
-<li><p>Change 15.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a>, as indicated:</p>
+<li><p>Change 16.4.1.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a>, as indicated:</p>
 
 <blockquote>
 <p>
@@ -150,7 +150,7 @@ ill-formed. [<i>Example:</i> An implementation might express such a condition
 via the <i>constant-expression</i> in a <i>static_assert-declaration</i> (Clause 9). 
 If the diagnostic is to be emitted only after the function has been selected by overload resolution, an 
 implementation might express such a condition via a <i>constraint-expression</i> 
-(12.4.2 <a href="https://wg21.link/temp.constr.decl">[temp.constr.decl]</a>) and also define the function as deleted. &mdash; <i>end example</i>]</p></li>
+(13.4.2 <a href="https://wg21.link/temp.constr.decl">[temp.constr.decl]</a>) and also define the function as deleted. &mdash; <i>end example</i>]</p></li>
 <li><p>(3.4) &mdash; <i>Expects:</i> the conditions (sometimes termed preconditions) <ins>imposed 
 on a non-function entity, or</ins> that the function assumes to hold whenever 
 it is called. [<i>Example:</i> An implementation might express such conditions via an attribute such 
@@ -164,7 +164,7 @@ However, some such conditions might not lend themselves to expression via code. 
 </blockquote>
 </li>
 
-<li><p>Change 15.5.4.11 <a href="https://wg21.link/res.on.required">[res.on.required]</a>, as indicated:</p>
+<li><p>Change 16.5.4.11 <a href="https://wg21.link/res.on.required">[res.on.required]</a>, as indicated:</p>
 
 <blockquote>
 <p>

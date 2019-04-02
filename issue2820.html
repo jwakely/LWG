@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2820" href="lwg-active.html#2820">2820</a>. Clarify <tt>&lt;cstdint&gt;</tt> macros</h3>
-<p><b>Section:</b> 16.4 <a href="https://wg21.link/cstdint">[cstdint]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+<p><b>Section:</b> 17.4 <a href="https://wg21.link/cstdint">[cstdint]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
  <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2016-11-12 <b>Last modified:</b> 2019-03-26</p>
 <p><b>Priority: </b>3
 </p>
@@ -75,7 +75,7 @@ This wording is relative to <a href="http://wg21.link/n4640">N4640</a>.
 </p>
 
 <ol>
-<li><p>Append the following content to 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a> p2:</p>
+<li><p>Append the following content to 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a> p2:</p>
 
 <blockquote>
 <p>
@@ -99,7 +99,7 @@ the corresponding limit macros are defined if and only if the implementation pro
 </p>
 
 <ol>
-<li><p>Change 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, header <tt>&lt;cstdint&gt;</tt> synopsis, as indicated:</p>
+<li><p>Change 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, header <tt>&lt;cstdint&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -195,7 +195,7 @@ those macros are defined that correspond to typedef names that the implementatio
 </blockquote>
 </li>
 
-<li><p>Change 28.12.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> as indicated:</p>
+<li><p>Change 29.12.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> as indicated:</p>
 
 <blockquote><pre>
 #define PRId<del>N</del><ins><i>N</i></ins> <i>see below</i>
@@ -237,7 +237,7 @@ those macros are defined that correspond to typedef names that the implementatio
 -1- The contents and meaning of the header <tt>&lt;cinttypes&gt;</tt> [&hellip;]
 <p/>
 <ins>-?- In particular, macros that use the placeholder <tt><i>N</i></tt> are defined if and only if the implementation 
-actually provides the corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, and moreover, the <tt>fscanf</tt> macros 
+actually provides the corresponding typedef name in 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, and moreover, the <tt>fscanf</tt> macros 
 are provided unless the implementation does not have a suitable <tt>fscanf</tt> length modifier for the type.</ins>
 </p>
 </blockquote>
@@ -255,7 +255,7 @@ This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.
 </p>
 
 <ol>
-<li><p>Change 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, header <tt>&lt;cstdint&gt;</tt> synopsis, as indicated:</p>
+<li><p>Change 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, header <tt>&lt;cstdint&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -351,7 +351,7 @@ those macros are defined that correspond to typedef names that the implementatio
 </blockquote>
 </li>
 
-<li><p>Change 28.12.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> as indicated:</p>
+<li><p>Change 29.12.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> as indicated:</p>
 
 <blockquote><pre>
 #define PRId<del>N</del><ins><i>N</i></ins> <i>see below</i>
@@ -393,7 +393,7 @@ those macros are defined that correspond to typedef names that the implementatio
 -1- The contents and meaning of the header <tt>&lt;cinttypes&gt;</tt> [&hellip;]
 <p/>
 <ins>-?- <tt>PRI</tt> macros that use the placeholder <tt><i>N</i></tt> are defined if and only if the implementation actually 
-provides the corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>. <tt>SCN</tt> macros that use the placeholder 
+provides the corresponding typedef name in 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>. <tt>SCN</tt> macros that use the placeholder 
 <tt><i>N</i></tt> are defined if and only if the implementation actually provides the corresponding typedef name 
 and the implementation has a suitable <tt>fscanf</tt> length modifier for the type.</ins>
 </p>
@@ -437,7 +437,7 @@ and of
 </p>
 <blockquote><p>
 <tt>PRI</tt> macros that use the placeholder N are defined if and only if the implementation actually defines the 
-corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>. <tt>SCN</tt> macros that use the placeholder <tt><i>N</i></tt> 
+corresponding typedef name in 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>. <tt>SCN</tt> macros that use the placeholder <tt><i>N</i></tt> 
 are defined if and only if the implementation actually defines the corresponding typedef name and the implementation 
 has a suitable <tt>fscanf</tt> length modifier for the type.
 </p></blockquote>
@@ -446,7 +446,7 @@ to:
 </p>
 <blockquote><p>
 Each of the macros listed in this subclause is defined if and only if the implementation actually defines the corresponding 
-typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>.
+typedef name in 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>.
 </p></blockquote>
 <p>
 Those changes have been applied as well.
@@ -468,7 +468,7 @@ This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.
 </p>
 
 <ol>
-<li><p>Change 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, header <tt>&lt;cstdint&gt;</tt> synopsis, as indicated:</p>
+<li><p>Change 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, header <tt>&lt;cstdint&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -564,7 +564,7 @@ respectively. &mdash; <i>end note</i>]</ins>
 </blockquote>
 </li>
 
-<li><p>Change 28.12.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> as indicated:</p>
+<li><p>Change 29.12.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> as indicated:</p>
 
 <blockquote><pre>
 #define PRId<del>N</del><ins><i>N</i></ins> <i>see below</i>
@@ -606,8 +606,8 @@ respectively. &mdash; <i>end note</i>]</ins>
 -1- The contents and meaning of the header <tt>&lt;cinttypes&gt;</tt> [&hellip;]
 <p/>
 <ins>-?- Each of the <tt>PRI</tt> macros listed in this subclause is defined if and only if the implementation defines the 
-corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>. Each of the <tt>SCN</tt> macros listed in this subclause is 
-defined if and only if the implementation defines the corresponding typedef name in 16.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a> and
+corresponding typedef name in 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>. Each of the <tt>SCN</tt> macros listed in this subclause is 
+defined if and only if the implementation defines the corresponding typedef name in 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a> and
 has a suitable <tt>fscanf</tt> length modifier for the type.</ins>
 </p>
 </blockquote>

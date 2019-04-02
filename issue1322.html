@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
 <h3><a name="1322" href="lwg-defects.html#1322">1322</a>. Explicit <tt>CopyConstructible</tt> requirements are insufficient</h3>
-<p><b>Section:</b> 15.5.3.1 <a href="https://wg21.link/utility.arg.requirements">[utility.arg.requirements]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2010-02-16 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 16.5.3.1 <a href="https://wg21.link/utility.arg.requirements">[utility.arg.requirements]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2010-02-16 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#utility.arg.requirements">issues</a> in [utility.arg.requirements].</p>
@@ -161,7 +161,7 @@ requirements [copyconstructible]:
 
 <li>
 <p>
-Change 15.5.3.3 <a href="https://wg21.link/nullablepointer.requirements">[nullablepointer.requirements]</a>/1 as follows:
+Change 16.5.3.3 <a href="https://wg21.link/nullablepointer.requirements">[nullablepointer.requirements]</a>/1 as follows:
 </p>
 
 <blockquote>
@@ -184,7 +184,7 @@ values. A type <tt>P</tt> meets the requirements of <tt>NullablePointer</tt> if:
 
 <li>
 <p>
-Change 15.5.3.4 <a href="https://wg21.link/hash.requirements">[hash.requirements]</a>/1 as indicated: <i>[explicit
+Change 16.5.3.4 <a href="https://wg21.link/hash.requirements">[hash.requirements]</a>/1 as indicated: <i>[explicit
 copy-constructible functors could not be provided as arguments
 to any algorithm that takes these by value. Also a typo is fixed.]</i>
 </p>
@@ -213,7 +213,7 @@ it satis<ins>fies</ins><del>ifes</del> the requirements of
 
 <li>
 <p>
-Change 19.15.1 <a href="https://wg21.link/meta.rqmts">[meta.rqmts]</a>/1+2 as indicated:
+Change 20.15.1 <a href="https://wg21.link/meta.rqmts">[meta.rqmts]</a>/1+2 as indicated:
 </p>
 
 <blockquote>
@@ -239,7 +239,7 @@ described. It shall be <tt>DefaultConstructible</tt>,
 
 <li>
 <p>
-Change 19.14.3 <a href="https://wg21.link/func.require">[func.require]</a>/4 as indicated: <i>[explicit
+Change 20.14.3 <a href="https://wg21.link/func.require">[func.require]</a>/4 as indicated: <i>[explicit
 copy-constructible functors could not be provided as arguments to any algorithm
 that takes these by value]</i>
 </p>
@@ -255,7 +255,7 @@ exceptions. [..]
 
 <li>
 <p>
-Change 19.14.5 <a href="https://wg21.link/refwrap">[refwrap]</a>/1 as indicated:
+Change 20.14.5 <a href="https://wg21.link/refwrap">[refwrap]</a>/1 as indicated:
 </p>
 
 <blockquote><p>
@@ -267,7 +267,7 @@ reference to an object or function of type <tt>T</tt>.
 
 <li>
 <p>
-Change 19.14.14.3 <a href="https://wg21.link/func.bind.bind">[func.bind.bind]</a>/5+9 as indicated:
+Change 20.14.14.3 <a href="https://wg21.link/func.bind.bind">[func.bind.bind]</a>/5+9 as indicated:
 </p>
 
 <blockquote>
@@ -298,7 +298,7 @@ CopyConstructible</tt>. [<i>Note:</i> this implies that all of <tt>FD</tt> and
 
 <li>
 <p>
-Change 19.14.14.4 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> as indicated:
+Change 20.14.14.4 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> as indicated:
 </p>
 
 <blockquote><p>
@@ -309,7 +309,7 @@ Change 19.14.14.4 <a href="https://wg21.link/func.bind.place">[func.bind.place]<
 
 <li>
 <p>
-Change 19.11.1 <a href="https://wg21.link/unique.ptr">[unique.ptr]</a>/5 as indicated:
+Change 20.11.1 <a href="https://wg21.link/unique.ptr">[unique.ptr]</a>/5 as indicated:
 </p>
 
 <blockquote><p>
@@ -325,7 +325,7 @@ MoveConstructible</tt> and <tt>MoveAssignable</tt>, but is not
 
 <li>
 <p>
-Change 19.11.3 <a href="https://wg21.link/util.smartptr.shared">[util.smartptr.shared]</a>/2 as indicated:
+Change 20.11.3 <a href="https://wg21.link/util.smartptr.shared">[util.smartptr.shared]</a>/2 as indicated:
 </p>
 
 <blockquote><p>
@@ -337,7 +337,7 @@ Change 19.11.3 <a href="https://wg21.link/util.smartptr.shared">[util.smartptr.s
 
 <li>
 <p>
-Change 19.11.4 <a href="https://wg21.link/util.smartptr.weak">[util.smartptr.weak]</a>/2 as indicated:
+Change 20.11.4 <a href="https://wg21.link/util.smartptr.weak">[util.smartptr.weak]</a>/2 as indicated:
 </p>
 
 <blockquote><p>
@@ -350,7 +350,7 @@ be an incomplete type.
 
 <li>
 <p>
-Change 22.3.5.1 <a href="https://wg21.link/iterator.iterators">[iterator.iterators]</a>/2 as indicated: <i>[This fixes a
+Change 23.3.5.1 <a href="https://wg21.link/iterator.iterators">[iterator.iterators]</a>/2 as indicated: <i>[This fixes a
 defect in the Iterator requirements. None of the usual algorithms accepting
 iterators would be usable with iterators with explicit copy-constructors]</i>
 </p>

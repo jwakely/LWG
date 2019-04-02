@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2019-03-27 at 18:04:26 UTC</p>
+<td align="left"><p>Revised 2019-04-02 at 18:04:40 UTC</p>
 </td>
 </tr>
 <tr>
@@ -44,8 +44,8 @@
 <h2>Ready Issues</h2>
 <hr>
 <h3><a name="2899" href="#2899">2899</a><sup><a href="https://cplusplus.github.io/LWG/issue2899">(i)</a></sup>. <tt>is_(nothrow_)move_constructible</tt> and <tt>tuple</tt>, <tt>optional</tt> and <tt>unique_ptr</tt></h3>
-<p><b>Section:</b> 19.5 <a href="https://wg21.link/tuple">[tuple]</a>, 19.6 <a href="https://wg21.link/optional">[optional]</a>, 19.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> United States <b>Opened:</b> 2017-02-03 <b>Last modified:</b> 2019-02-27</p>
+<p><b>Section:</b> 20.5 <a href="https://wg21.link/tuple">[tuple]</a>, 20.6 <a href="https://wg21.link/optional">[optional]</a>, 20.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> United States <b>Opened:</b> 2017-02-03 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#tuple">issues</a> in [tuple].</p>
@@ -77,7 +77,7 @@ applies to the move-assignment operator. Note that <tt>pair</tt> and <tt>variant
 This wording is relative to <a href="http://wg21.link/n4640">N4640</a>.
 </p>
 <ol>
-<li><p>Modify 19.5.3 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a> as indicated:</p>
+<li><p>Modify 20.5.3 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -119,7 +119,7 @@ tuple&amp; operator=(pair&lt;U1, U2&gt;&amp;&amp;) <ins>noexcept(<i>see below</i
 </blockquote>
 </li>
 
-<li><p>Modify 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> as indicated:</p>
+<li><p>Modify 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -193,7 +193,7 @@ template &lt;class U1, class U2&gt; <i>EXPLICIT</i> constexpr tuple(pair&lt;U1, 
 </blockquote>
 </li>
 
-<li><p>Modify 19.5.3.2 <a href="https://wg21.link/tuple.assign">[tuple.assign]</a> as indicated:</p>
+<li><p>Modify 20.5.3.2 <a href="https://wg21.link/tuple.assign">[tuple.assign]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -264,7 +264,7 @@ doesn't resolve the issue for <tt>std::tuple</tt> or <tt>std::unique_ptr</tt>. I
 This wording is relative to <a href="http://wg21.link/n4800">N4800</a>.
 </p>
 <ol>
-<li><p>Modify 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> as indicated:</p>
+<li><p>Modify 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -282,7 +282,7 @@ is <tt>true</tt> for all <tt><i>i</i></tt>.
 </blockquote>
 </li>
 
-<li><p>Modify 19.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a> as indicated:</p>
+<li><p>Modify 20.11.1.2.1 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -302,7 +302,7 @@ rvalue of type <tt>D</tt> shall not throw an exception.
 </blockquote>
 </li>
 
-<li><p>Modify 19.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a> as indicated:</p>
+<li><p>Modify 20.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -333,15 +333,15 @@ requirements and assignment of the deleter from an lvalue of type <tt>D</tt> sha
 
 <hr>
 <h3><a name="3055" href="#3055">3055</a><sup><a href="https://cplusplus.github.io/LWG/issue3055">(i)</a></sup>. <tt>path::operator+=(<i>single-character</i>)</tt> misspecified</h3>
-<p><b>Section:</b> 28.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-01-24 <b>Last modified:</b> 2019-02-27</p>
+<p><b>Section:</b> 29.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-01-24 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#fs.path.concat">issues</a> in [fs.path.concat].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-28.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> uses the expression <tt>path(x).native()</tt> to specify the effects of
+29.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> uses the expression <tt>path(x).native()</tt> to specify the effects of
 concatenating a single character <tt>x</tt>. However, there is no <tt>path</tt> constructor taking a single character.
 </p>
 
@@ -356,7 +356,7 @@ concatenating a single character <tt>x</tt>. However, there is no <tt>path</tt> 
 <blockquote class="note">
 <p>This wording is relative to <a href="http://wg21.link/n4713">N4713</a>.</p>
 <ol>
-<li><p>Modify 28.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> as indicated:</p>
+<li><p>Modify 29.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -403,7 +403,7 @@ template&lt;class EcharT&gt;
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="http://wg21.link/n4762">N4762</a>.</p>
 <ol>
-<li><p>Modify 28.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> as indicated:</p>
+<li><p>Modify 29.11.7.4.4 <a href="https://wg21.link/fs.path.concat">[fs.path.concat]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -446,8 +446,8 @@ template&lt;class EcharT&gt;
 
 <hr>
 <h3><a name="3158" href="#3158">3158</a><sup><a href="https://cplusplus.github.io/LWG/issue3158">(i)</a></sup>. <tt>tuple(allocator_arg_t, const Alloc&amp;)</tt> should be conditionally explicit</h3>
-<p><b>Section:</b> 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-21 <b>Last modified:</b> 2019-02-27</p>
+<p><b>Section:</b> 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-08-21 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
@@ -486,7 +486,7 @@ Also, the editor requested that we change "implicitly default-constructible" to 
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
 <ol>
-<li><p>Modify 19.5.3 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a>, class template <tt>tuple</tt> synopsis, as indicated:</p>
+<li><p>Modify 20.5.3 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a>, class template <tt>tuple</tt> synopsis, as indicated:</p>
 <blockquote><pre>
 [&hellip;]
 <i>// allocator-extended constructors</i>
@@ -498,7 +498,7 @@ template&lt;class Alloc&gt;
 </pre></blockquote>
 </li>
 
-<li><p>Modify 19.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a>, as indicated:</p>
+<li><p>Modify 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a>, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -548,8 +548,8 @@ template&lt;class Alloc, class U1, class U2&gt;
 
 <hr>
 <h3><a name="3169" href="#3169">3169</a><sup><a href="https://cplusplus.github.io/LWG/issue3169">(i)</a></sup>. <tt>ranges</tt> permutation generators discard useful information</h3>
-<p><b>Section:</b> 24.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-11-26 <b>Last modified:</b> 2019-02-27</p>
+<p><b>Section:</b> 25.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-11-26 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
@@ -573,7 +573,7 @@ that <tt>bool</tt> and the end iterator value to be consistent with the other
 
 <p>
 During the reflector discussion it had been noticed that an additional update of
-24.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> p.16 is necessary for the new type
+25.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> p.16 is necessary for the new type
 <tt>next_permutation_result</tt> and two missing occurrences of <tt>iterator_t&lt;&gt;</tt> where
 added. The proposed wording has been updated.
 </p>
@@ -584,7 +584,7 @@ added. The proposed wording has been updated.
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
 <blockquote class="note">
 <ol>
-<li><p>Modify 24.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> as follows:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> as follows:</p>
 
 <blockquote>
 <p>
@@ -596,11 +596,11 @@ and special members specified above. They have no base classes or members other 
 </blockquote>
 </li>
 
-<li><p>Modify 24.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a> as follows:</p>
+<li><p>Modify 25.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a> as follows:</p>
 
 <blockquote>
 <pre>
-  // 24.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a>, permutations
+  // 25.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a>, permutations
   template&lt;class BidirectionalIterator&gt;
     constexpr bool next_permutation(BidirectionalIterator first,
                                     BidirectionalIterator last);
@@ -654,7 +654,7 @@ and special members specified above. They have no base classes or members other 
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a> as follows:</p>
+<li><p>Modify 25.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a> as follows:</p>
 
 <blockquote>
 <blockquote>
@@ -745,7 +745,7 @@ argument is an rvalue (temporary) and returned iterator may  be dangling.
 <p>This wording is relative to <a href="https://wg21.link/n4800">N4800</a>.</p>
 
 <ol>
-<li><p>Modify 24.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> as follows:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> as follows:</p>
 
 <blockquote>
 <p>
@@ -757,11 +757,11 @@ and special members specified above. They have no base classes or members other 
 </blockquote>
 </li>
 
-<li><p>Modify 24.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a> as follows:</p>
+<li><p>Modify 25.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a> as follows:</p>
 
 <blockquote>
 <pre>
-  // 24.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a>, permutations
+  // 25.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a>, permutations
   template&lt;class BidirectionalIterator&gt;
     constexpr bool next_permutation(BidirectionalIterator first,
                                     BidirectionalIterator last);
@@ -815,7 +815,7 @@ and special members specified above. They have no base classes or members other 
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a> as follows:</p>
+<li><p>Modify 25.7.12 <a href="https://wg21.link/alg.permutation.generators">[alg.permutation.generators]</a> as follows:</p>
 
 <blockquote>
 <blockquote>
@@ -894,8 +894,8 @@ namespace ranges {
 
 <hr>
 <h3><a name="3183" href="#3183">3183</a><sup><a href="https://cplusplus.github.io/LWG/issue3183">(i)</a></sup>. Normative permission to specialize Ranges variable templates</h3>
-<p><b>Section:</b> 22.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-01-14 <b>Last modified:</b> 2019-02-03</p>
+<p><b>Section:</b> 23.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-01-14 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -911,15 +911,15 @@ respectively. Specializing these traits allows the use of such types with the
 library which would otherwise treat them as if they model <tt>SizedSentinel</tt>
 / <tt>SizedRange</tt>. The wording in P0896R4 failed, however, to provide
 normative permission to specialize these variable templates as is required by
-15.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> after the application of
+16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> after the application of
 <a href="https://wg21.link/p0551r3">P0551R3</a>.
 </p><p>
-Furthermore, 15.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> notably does not require that
+Furthermore, 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> notably does not require that
 program-defined specializations of standard library variable templates meet the
 requirements on the primary template (as is the case for class templates) or
 indeed any requirements. P0896R4 also added the <tt>enable_view</tt> variable
 template which is used to explicitly opt in or out of the <tt>View</tt> concept
-23.5.4 <a href="https://wg21.link/range.view">[range.view]</a> when the default chosen by the heuristic is
+24.4.4 <a href="https://wg21.link/range.view">[range.view]</a> when the default chosen by the heuristic is
 incorrect. P0896R4 did include normative permission to specialize
 <tt>enable_view</tt>, but the wording does not place sufficient requirements on
 such user specializations so as to make them usable by the <tt>View</tt> concept
@@ -943,7 +943,7 @@ which may be unfamiliar to reviewers.]
 </blockquote>
 
 <ol>
-<li><p>Change 22.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a> as follows:</p>
+<li><p>Change 23.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a> as follows:</p>
 <blockquote>
 <p>
 [&hellip;]
@@ -952,7 +952,7 @@ which may be unfamiliar to reviewers.]
 <tt>iter_difference_t&lt;I&gt;</tt>, then <tt>i - s</tt> is well-defined and
 equals <tt>−N</tt>.
 </p><p>
-<ins>-?- Pursuant to 15.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a>, users may specialize
+<ins>-?- Pursuant to 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a>, users may specialize
 <tt>disable_sized_sentinel</tt> for cv-unqualified non-array object types
 <tt>S</tt> and <tt>I</tt> at least one of which is a program-defined type.
 Such specializations shall be usable in constant expressions
@@ -969,7 +969,7 @@ iterators with the library that satisfy but do not in fact model
 <li><p>Add an index entry for <tt>disable_sized_sentinel</tt> that points to
  [iterator.concepts.sizedsentinel].</p>
 </li>
-<li><p>Change 23.5.3 <a href="https://wg21.link/range.sized">[range.sized]</a> as follows:</p>
+<li><p>Change 24.4.3 <a href="https://wg21.link/range.sized">[range.sized]</a> as follows:</p>
 <blockquote>
 <p>
 [&hellip;]
@@ -979,7 +979,7 @@ iterators with the library that satisfy but do not in fact model
 the evaluations of <tt>ranges::begin</tt> and <tt>ranges::end</tt> in the
 <tt>Range</tt> concept.&mdash;<i>end note</i>]
 </p><p>
-<ins>-?- Pursuant to 15.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a>, users may specialize
+<ins>-?- Pursuant to 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a>, users may specialize
 <tt>disable_sized_range</tt> for cv-unqualified program-defined types.
 Such specializations shall be usable in constant expressions
 (7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>) and have type <tt>const bool</tt>.</ins>
@@ -991,14 +991,14 @@ note</i>]
 </blockquote>
 </li>
 <li><p>Add an index entry for <tt>disable_sized_range</tt> that points to
-23.5.3 <a href="https://wg21.link/range.sized">[range.sized]</a>.</p>
+24.4.3 <a href="https://wg21.link/range.sized">[range.sized]</a>.</p>
 </li>
-<li><p>Change 23.5.4 <a href="https://wg21.link/range.view">[range.view]</a> as follows:</p>
+<li><p>Change 24.4.4 <a href="https://wg21.link/range.view">[range.view]</a> as follows:</p>
 <blockquote>
 <p>
 [&hellip;]
 </p><p>
-5 Pursuant to 15.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a>, users may specialize
+5 Pursuant to 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a>, users may specialize
 <tt>enable_view</tt> to <tt>true</tt> for <ins>cv-unqualified
 program-defined</ins> types which model <tt>View</tt>, and <tt>false</tt> for
 types which do not. <ins>Such specializations shall be usable in constant
@@ -1013,8 +1013,8 @@ expressions (7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>) and ha
 
 <hr>
 <h3><a name="3184" href="#3184">3184</a><sup><a href="https://cplusplus.github.io/LWG/issue3184">(i)</a></sup>. Inconsistencies in <tt>bind_front</tt> wording</h3>
-<p><b>Section:</b> 19.14.13 <a href="https://wg21.link/func.bind_front">[func.bind_front]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-01-16 <b>Last modified:</b> 2019-01-26</p>
+<p><b>Section:</b> 99 [func.bind_front] <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-01-16 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -1041,7 +1041,7 @@ provided traits must evaluate to true), it may be replaced with usage of fold ex
 <p>This wording is relative to <a href="https://wg21.link/n4791">N4791</a>.</p>
 
 <ol>
-<li><p>Change 19.14.12 <a href="https://wg21.link/func.not_fn">[func.not_fn]</a> as indicated:</p>
+<li><p>Change 99 [func.not_fn] as indicated:</p>
 <blockquote>
 <pre>
 template&lt;class F&gt; <i>unspecified</i> not_fn(F&amp;&amp; f);
@@ -1053,7 +1053,7 @@ template&lt;class F&gt; <i>unspecified</i> not_fn(F&amp;&amp; f);
 <ol style="list-style-type: none">
 <li><p>(1.1) &mdash; [&hellip;]</p></li>
 <li><p>(1.2) &mdash; [&hellip;]</p></li>
-<li><p>(1.3) &mdash; <tt>fd</tt> is the target object of <tt>g</tt> (19.14.2 <a href="https://wg21.link/func.def">[func.def]</a>) of type 
+<li><p>(1.3) &mdash; <tt>fd</tt> is the target object of <tt>g</tt> (20.14.2 <a href="https://wg21.link/func.def">[func.def]</a>) of type 
 <tt>FD</tt> <ins>direct-non-list-initialized with</ins><del>initialized with the <i>initializer</i></del> 
 <tt><del>(</del>std::forward&lt;F&gt;(f)<del>)</del></tt><del> (9.3 <a href="https://wg21.link/dcl.init">[dcl.init]</a>)</del>,</p></li>
 <li><p>(1.4) &mdash; [&hellip;]</p></li>
@@ -1062,7 +1062,7 @@ template&lt;class F&gt; <i>unspecified</i> not_fn(F&amp;&amp; f);
 </blockquote>
 </li>
 
-<li><p>Change 19.14.13 <a href="https://wg21.link/func.bind_front">[func.bind_front]</a> as indicated:</p>
+<li><p>Change 99 [func.bind_front] as indicated:</p>
 <blockquote>
 <pre>
 template &lt;class F, class... Args&gt;
@@ -1075,11 +1075,11 @@ template &lt;class F, class... Args&gt;
 <ol style="list-style-type: none">
 <li><p>(1.1) &mdash; [&hellip;]</p></li>
 <li><p>(1.2) &mdash; [&hellip;]</p></li>
-<li><p>(1.3) &mdash; <tt>fd</tt> is the target object of <tt>g</tt> (19.14.2 <a href="https://wg21.link/func.def">[func.def]</a>) of type 
+<li><p>(1.3) &mdash; <tt>fd</tt> is the target object of <tt>g</tt> (20.14.2 <a href="https://wg21.link/func.def">[func.def]</a>) of type 
 <tt>FD</tt> <ins>direct-non-list-initialized with</ins><del>initialized with the <i>initializer</i></del> 
 <tt><del>(</del>std::forward&lt;F&gt;(f)<del>)</del></tt><del> (9.3 <a href="https://wg21.link/dcl.init">[dcl.init]</a>)</del>,</p></li>
 <li><p>(1.4) &mdash; [&hellip;]</p></li>
-<li><p>(1.5) &mdash; <tt>bound_args</tt> is a pack of bound argument entities of <tt>g</tt> (19.14.2 <a href="https://wg21.link/func.def">[func.def]</a>) 
+<li><p>(1.5) &mdash; <tt>bound_args</tt> is a pack of bound argument entities of <tt>g</tt> (20.14.2 <a href="https://wg21.link/func.def">[func.def]</a>) 
 of types <tt>BoundArgs...</tt>, <ins>direct-non-list-initialized with</ins><del>initialized with 
 <i>initializer</i>s </del><tt><del>(</del>std::forward&lt;Args&gt;(args)<del>)</del>...</tt>, 
 respectively, and</p></li>
@@ -1106,8 +1106,8 @@ shall be true.
 
 <hr>
 <h3><a name="3185" href="#3185">3185</a><sup><a href="https://cplusplus.github.io/LWG/issue3185">(i)</a></sup>. Uses-allocator construction functions missing <tt>constexpr</tt> and <tt>noexcept</tt></h3>
-<p><b>Section:</b> 19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2019-01-29 <b>Last modified:</b> 2019-02-12</p>
+<p><b>Section:</b> 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2019-01-29 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
@@ -1135,11 +1135,11 @@ then also add <tt>constexpr</tt> to <tt>uninitialized_construct_using_allocator<
 <p>This wording is relative to <a href="https://wg21.link/n4800">N4800</a>.</p>
 
 <ol>
-<li><p>Change header <tt>&lt;memory&gt;</tt> synopsis, 19.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, as indicated:</p>
+<li><p>Change header <tt>&lt;memory&gt;</tt> synopsis, 20.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
-<i>// 19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>, uses-allocator construction</i>
+<i>// 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>, uses-allocator construction</i>
 template &lt;class T, class Alloc, class... Args&gt;
 <ins>constexpr</ins> auto uses_allocator_construction_args(const Alloc&amp; alloc, Args&amp;&amp;... args) <ins>noexcept</ins> -&gt; <i>see below</i>;
 template &lt;class T, class Alloc, class Tuple1, class Tuple2&gt;
@@ -1162,7 +1162,7 @@ T* uninitialized_construct_using_allocator(T* p, const Alloc&amp; alloc, Args&am
 </blockquote>
 </li>
 
-<li><p>Change 19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated:</p>
+<li><p>Change 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated:</p>
 <blockquote>
 <pre>
 template &lt;class T, class Alloc, class... Args&gt;
@@ -1246,8 +1246,8 @@ template &lt;class T, class Alloc, class... Args&gt;
 
 <hr>
 <h3><a name="3186" href="#3186">3186</a><sup><a href="https://cplusplus.github.io/LWG/issue3186">(i)</a></sup>. <tt>ranges</tt> removal, partition, and <tt>partial_sort_copy</tt> algorithms discard useful information</h3>
-<p><b>Section:</b> 24.6.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a>, 24.6.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a>, 24.7.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a>, 24.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-02-05 <b>Last modified:</b> 2019-02-27</p>
+<p><b>Section:</b> 25.6.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a>, 25.6.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a>, 25.7.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a>, 25.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-02-05 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#alg.remove">issues</a> in [alg.remove].</p>
@@ -1275,7 +1275,7 @@ For <tt>partial_sort_copy</tt> we propose to return <code>partial_sort_copy_resu
 Proposed wording is updated to incorporate wording comments from Casey Carter:
 </p>
 <ul>
-<li><p>We don't need to repeat the definition of <tt>partial_sort_copy_result</tt> in 24.7.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a>; 
+<li><p>We don't need to repeat the definition of <tt>partial_sort_copy_result</tt> in 25.7.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a>; 
 the single definition in the synopsis is sufficient.</p></li>
 <li><p><tt><i>e</i></tt> is a potentially confusing choice of placeholder name for the end of the output range, given that 
 we use a placeholder <tt><i>E</i></tt> for predicates in the algorithm specifications.</p></li>
@@ -1296,11 +1296,11 @@ above algorithms.
 <p>This wording is relative to <a href="https://wg21.link/n4800">N4800</a>.</p>
 
 <ol>
-<li><p>Change header <tt>&lt;algorithm&gt;</tt> synopsis, 24.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a>, as indicated:</p>
+<li><p>Change header <tt>&lt;algorithm&gt;</tt> synopsis, 25.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a>, as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
-<i>//24.6.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a>, remove</i>
+<i>//25.6.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a>, remove</i>
 [&hellip;]
 namespace ranges {
 template&lt;Permutable I, Sentinel&lt;I&gt; S, class T, class Proj = identity&gt;
@@ -1321,7 +1321,7 @@ template&lt;ForwardRange R, class Proj = identity,
     remove_if(R&amp;&amp; r, Pred pred, Proj proj = {});
 }
 [&hellip;]
-<i>// 24.6.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a>, unique</i>
+<i>// 25.6.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a>, unique</i>
 [&hellip;]
 namespace ranges {
   template&lt;Permutable I, Sentinel&lt;I&gt; S, class Proj = identity,
@@ -1334,7 +1334,7 @@ namespace ranges {
       unique(R&amp;&amp; r, C comp = {}, Proj proj = {});
 }
 [&hellip;]
-<i>// 24.7.1 <a href="https://wg21.link/alg.sort">[alg.sort]</a>, sorting</i>
+<i>// 25.7.1 <a href="https://wg21.link/alg.sort">[alg.sort]</a>, sorting</i>
 [&hellip;]
 namespace ranges {
   <ins>template&lt;class I, class O&gt; using partial_sort_copy_result = copy_result&lt;I, O&gt;;</ins>
@@ -1357,7 +1357,7 @@ namespace ranges {
                         Proj1 proj1 = {}, Proj2 proj2 = {});
 }
 [&hellip;]
-<i>// 24.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a>, partitions</i>
+<i>// 25.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a>, partitions</i>
 [&hellip;]
 namespace ranges {
   template&lt;Permutable I, Sentinel&lt;I&gt; S, class Proj = identity,
@@ -1386,7 +1386,7 @@ namespace ranges {
 </blockquote>
 </li>
 
-<li><p>Change 24.6.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a> as indicated:</p>
+<li><p>Change 25.6.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a> as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -1425,7 +1425,7 @@ template&lt;ForwardRange R, class Proj = identity,
 </blockquote>
 </li>
 
-<li><p>Change 24.6.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a> as indicated:</p>
+<li><p>Change 25.6.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a> as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -1456,7 +1456,7 @@ namespace ranges {
 </blockquote>
 </li>
 
-<li><p>Change 24.7.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a> as indicated:</p>
+<li><p>Change 25.7.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a> as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -1495,7 +1495,7 @@ namespace ranges {
 </blockquote>
 </li>
 
-<li><p>Change 24.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> as indicated:</p>
+<li><p>Change 25.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -1563,8 +1563,8 @@ namespace ranges {
 
 <hr>
 <h3><a name="3187" href="#3187">3187</a><sup><a href="https://cplusplus.github.io/LWG/issue3187">(i)</a></sup>. <a href="https://wg21.link/p0591r4">P0591R4</a> reverted DR 2586 fixes to <tt>scoped_allocator_adaptor::construct()</tt></h3>
-<p><b>Section:</b> 19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-14 <b>Last modified:</b> 2019-02-27</p>
+<p><b>Section:</b> 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-14 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
@@ -1605,7 +1605,7 @@ containing an lvalue allocator. Those args cannot be used to construct an <tt>X<
 <p>This wording is relative to <a href="https://wg21.link/n4800">N4800</a>.</p>
 
 <ol>
-<li><p>Change 19.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated:</p>
+<li><p>Change 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>

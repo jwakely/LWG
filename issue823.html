@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
 <h3><a name="823" href="lwg-defects.html#823">823</a>. <tt>identity&lt;void&gt;</tt> seems broken</h3>
-<p><b>Section:</b> 19.2.4 <a href="https://wg21.link/forward">[forward]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
- <b>Submitter:</b> Walter Brown <b>Opened:</b> 2008-04-09 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 20.2.4 <a href="https://wg21.link/forward">[forward]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
+ <b>Submitter:</b> Walter Brown <b>Opened:</b> 2008-04-09 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#forward">issues</a> in [forward].</p>
@@ -33,7 +33,7 @@
 <p><b>Discussion:</b></p>
 <p>
 N2588 seems to have added an <tt>operator()</tt> member function to the
-<tt>identity&lt;&gt;</tt> helper in 19.2.4 <a href="https://wg21.link/forward">[forward]</a>.  I believe this change makes it no
+<tt>identity&lt;&gt;</tt> helper in 20.2.4 <a href="https://wg21.link/forward">[forward]</a>.  I believe this change makes it no
 longer possible to instantiate <tt>identity&lt;void&gt;</tt>, as it would require
 forming a reference-to-<tt>void</tt> type as this <tt>operator()</tt>'s parameter type.
 </p>
@@ -98,7 +98,7 @@ template &lt;class T&gt; struct identity : unary_function&lt;T, T&gt; {
 <p>
 Invent (if needed) a generic type wrapper (corresponding to concept
 <tt>IdentityOf</tt>),
-e.g. <tt>identity_of</tt>, and move it's prototype description back to 19.2.4 <a href="https://wg21.link/forward">[forward]</a>:
+e.g. <tt>identity_of</tt>, and move it's prototype description back to 20.2.4 <a href="https://wg21.link/forward">[forward]</a>:
 </p>
 
 <blockquote><pre>
@@ -128,7 +128,7 @@ Mark as <del>NAD Editorial</del><ins>Resolved</ins>, fixed by <a href="lwg-defec
 
 <p><b>Proposed resolution:</b></p>
 <p>
-Change definition of <tt>identity</tt> in 19.2.4 <a href="https://wg21.link/forward">[forward]</a>, paragraph 2, to:
+Change definition of <tt>identity</tt> in 20.2.4 <a href="https://wg21.link/forward">[forward]</a>, paragraph 2, to:
 </p>
 
 <blockquote><pre>

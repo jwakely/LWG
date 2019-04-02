@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#CD1">CD1</a> status.</em></p>
 <h3><a name="804" href="lwg-defects.html#804">804</a>. Some problems with classes <tt>error_code</tt>/<tt>error_condition</tt></h3>
-<p><b>Section:</b> 18.5 <a href="https://wg21.link/syserr">[syserr]</a> <b>Status:</b> <a href="lwg-active.html#CD1">CD1</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2008-02-24 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 19.5 <a href="https://wg21.link/syserr">[syserr]</a> <b>Status:</b> <a href="lwg-active.html#CD1">CD1</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2008-02-24 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#syserr">issues</a> in [syserr].</p>
@@ -34,8 +34,8 @@
 <ol style="list-style-type:upper-alpha">
 <li>
 <p>
-18.5.3.1 <a href="https://wg21.link/syserr.errcode.overview">[syserr.errcode.overview]</a>/1, class <tt>error_code</tt> and
-18.5.4.1 <a href="https://wg21.link/syserr.errcondition.overview">[syserr.errcondition.overview]</a>/, class <tt>error_condition</tt> synopses
+19.5.3.1 <a href="https://wg21.link/syserr.errcode.overview">[syserr.errcode.overview]</a>/1, class <tt>error_code</tt> and
+19.5.4.1 <a href="https://wg21.link/syserr.errcondition.overview">[syserr.errcondition.overview]</a>/, class <tt>error_condition</tt> synopses
 declare an expository data member <tt>cat_</tt>:
 </p>
 <blockquote><pre>
@@ -51,7 +51,7 @@ The classes are not <tt>(Copy)Assignable</tt>, which is probably not the intent.
 </li>
 <li>
 The post conditions of all modifiers from
-18.5.3.3 <a href="https://wg21.link/syserr.errcode.modifiers">[syserr.errcode.modifiers]</a> and 18.5.4.3 <a href="https://wg21.link/syserr.errcondition.modifiers">[syserr.errcondition.modifiers]</a>, resp.,
+19.5.3.3 <a href="https://wg21.link/syserr.errcode.modifiers">[syserr.errcode.modifiers]</a> and 19.5.4.3 <a href="https://wg21.link/syserr.errcondition.modifiers">[syserr.errcondition.modifiers]</a>, resp.,
 cannot be fulfilled.
 </li>
 </ol>
@@ -73,8 +73,8 @@ type).
 
 <li>
 The member function <tt>message</tt> throws clauses (
-18.5.2.2 <a href="https://wg21.link/syserr.errcat.virtuals">[syserr.errcat.virtuals]</a>/10, 18.5.3.4 <a href="https://wg21.link/syserr.errcode.observers">[syserr.errcode.observers]</a>/8, and
-18.5.4.4 <a href="https://wg21.link/syserr.errcondition.observers">[syserr.errcondition.observers]</a>/6) guarantee "throws nothing",
+19.5.2.2 <a href="https://wg21.link/syserr.errcat.virtuals">[syserr.errcat.virtuals]</a>/10, 19.5.3.4 <a href="https://wg21.link/syserr.errcode.observers">[syserr.errcode.observers]</a>/8, and
+19.5.4.4 <a href="https://wg21.link/syserr.errcondition.observers">[syserr.errcondition.observers]</a>/6) guarantee "throws nothing",
 although
 they return a <tt>std::string</tt> by value, which might throw in out-of-memory
 conditions (see related issue <a href="lwg-defects.html#771">771</a>).
@@ -117,7 +117,7 @@ Resolution of part A:
 </p>
 <blockquote>
 <p>
-Change 18.5.3.1 <a href="https://wg21.link/syserr.errcode.overview">[syserr.errcode.overview]</a> Class error_code overview synopsis as indicated:
+Change 19.5.3.1 <a href="https://wg21.link/syserr.errcode.overview">[syserr.errcode.overview]</a> Class error_code overview synopsis as indicated:
 </p>
 
 <blockquote><pre>
@@ -127,7 +127,7 @@ private:
 </pre></blockquote>
 
 <p>
-Change 18.5.3.2 <a href="https://wg21.link/syserr.errcode.constructors">[syserr.errcode.constructors]</a> Class error_code constructors as indicated:
+Change 19.5.3.2 <a href="https://wg21.link/syserr.errcode.constructors">[syserr.errcode.constructors]</a> Class error_code constructors as indicated:
 </p>
 
 <blockquote>
@@ -162,7 +162,7 @@ error_code(int val, const error_category&amp; cat);
 </blockquote>
 
 <p>
-Change 18.5.3.3 <a href="https://wg21.link/syserr.errcode.modifiers">[syserr.errcode.modifiers]</a> Class error_code modifiers as indicated:
+Change 19.5.3.3 <a href="https://wg21.link/syserr.errcode.modifiers">[syserr.errcode.modifiers]</a> Class error_code modifiers as indicated:
 </p>
 
 <blockquote>
@@ -180,7 +180,7 @@ void assign(int val, const error_category&amp; cat);
 </blockquote>
 
 <p>
-Change 18.5.3.4 <a href="https://wg21.link/syserr.errcode.observers">[syserr.errcode.observers]</a> Class error_code observers as indicated:
+Change 19.5.3.4 <a href="https://wg21.link/syserr.errcode.observers">[syserr.errcode.observers]</a> Class error_code observers as indicated:
 </p>
 
 <blockquote><pre>
@@ -196,7 +196,7 @@ const error_category&amp; category() const;
 </blockquote>
 
 <p>
-Change 18.5.4.1 <a href="https://wg21.link/syserr.errcondition.overview">[syserr.errcondition.overview]</a> Class error_condition overview synopsis as indicated:
+Change 19.5.4.1 <a href="https://wg21.link/syserr.errcondition.overview">[syserr.errcondition.overview]</a> Class error_condition overview synopsis as indicated:
 </p>
 
 <blockquote><pre>
@@ -206,7 +206,7 @@ private:
 </pre></blockquote>
 
 <p>
-Change 18.5.4.2 <a href="https://wg21.link/syserr.errcondition.constructors">[syserr.errcondition.constructors]</a> Class error_condition constructors as indicated:
+Change 19.5.4.2 <a href="https://wg21.link/syserr.errcondition.constructors">[syserr.errcondition.constructors]</a> Class error_condition constructors as indicated:
 </p>
 <p><i>[
 (If the proposed resolution of issue <a href="lwg-defects.html#805">805</a> has already been applied, the
@@ -247,7 +247,7 @@ error_condition(int val, const error_category&amp; cat);
 </blockquote>
 
 <p>
-Change 18.5.4.3 <a href="https://wg21.link/syserr.errcondition.modifiers">[syserr.errcondition.modifiers]</a> Class error_condition modifiers as indicated:
+Change 19.5.4.3 <a href="https://wg21.link/syserr.errcondition.modifiers">[syserr.errcondition.modifiers]</a> Class error_condition modifiers as indicated:
 </p>
 
 <blockquote><pre>
@@ -263,7 +263,7 @@ void assign(int val, const error_category&amp; cat);
 </blockquote>
 
 <p>
-Change 18.5.4.4 <a href="https://wg21.link/syserr.errcondition.observers">[syserr.errcondition.observers]</a> Class error_condition observers as indicated:
+Change 19.5.4.4 <a href="https://wg21.link/syserr.errcondition.observers">[syserr.errcondition.observers]</a> Class error_condition observers as indicated:
 </p>
 
 <blockquote><pre>
@@ -286,7 +286,7 @@ Resolution of part C:
 <blockquote>
 
 <p>
-In 18.5.2.2 <a href="https://wg21.link/syserr.errcat.virtuals">[syserr.errcat.virtuals]</a>, remove the throws clause p. 10.
+In 19.5.2.2 <a href="https://wg21.link/syserr.errcat.virtuals">[syserr.errcat.virtuals]</a>, remove the throws clause p. 10.
 </p>
 
 <blockquote>
@@ -305,7 +305,7 @@ virtual string message(int ev) const = 0;
 </blockquote>
 
 <p>
-In 18.5.3.4 <a href="https://wg21.link/syserr.errcode.observers">[syserr.errcode.observers]</a>, remove the throws clause p. 8.
+In 19.5.3.4 <a href="https://wg21.link/syserr.errcode.observers">[syserr.errcode.observers]</a>, remove the throws clause p. 8.
 </p>
 
 <blockquote>
@@ -323,7 +323,7 @@ string message() const;
 </blockquote>
 
 <p>
-In 18.5.4.4 <a href="https://wg21.link/syserr.errcondition.observers">[syserr.errcondition.observers]</a>, remove the throws clause p. 6.
+In 19.5.4.4 <a href="https://wg21.link/syserr.errcondition.observers">[syserr.errcondition.observers]</a>, remove the throws clause p. 6.
 </p>
 
 <blockquote>

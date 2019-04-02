@@ -24,19 +24,19 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD Editorial">NAD Editorial</a> status.</em></p>
 <h3><a name="645" href="lwg-closed.html#645">645</a>. Missing members in match_results</h3>
-<p><b>Section:</b> 29.10 <a href="https://wg21.link/re.results">[re.results]</a> <b>Status:</b> <a href="lwg-active.html#NAD Editorial">NAD Editorial</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2007-02-26 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 30.10 <a href="https://wg21.link/re.results">[re.results]</a> <b>Status:</b> <a href="lwg-active.html#NAD Editorial">NAD Editorial</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2007-02-26 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#re.results">issues</a> in [re.results].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#NAD Editorial">NAD Editorial</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-According to the description given in 29.10 <a href="https://wg21.link/re.results">[re.results]</a>/2 the class template
+According to the description given in 30.10 <a href="https://wg21.link/re.results">[re.results]</a>/2 the class template
 match_results "shall satisfy the requirements of a Sequence, [..],
 except that only operations defined for const-qualified Sequences
 are supported".
-Comparing the provided operations from 29.10 <a href="https://wg21.link/re.results">[re.results]</a>/3 with the
+Comparing the provided operations from 30.10 <a href="https://wg21.link/re.results">[re.results]</a>/3 with the
 sequence/container tables 80 and 81 one recognizes the following
 missing operations:
 </p>
@@ -84,7 +84,7 @@ should be added according to tables 80/81.
 
 <p><b>Proposed resolution:</b></p>
 <p>
-Add the following members to the <tt>match_results</tt> synopsis after <tt>end()</tt> in 29.10 <a href="https://wg21.link/re.results">[re.results]</a>
+Add the following members to the <tt>match_results</tt> synopsis after <tt>end()</tt> in 30.10 <a href="https://wg21.link/re.results">[re.results]</a>
 para 3:
 </p>
 
@@ -94,7 +94,7 @@ const_iterator cend() const;
 </pre></blockquote>
 
 <p>
-In section 29.10.4 <a href="https://wg21.link/re.results.acc">[re.results.acc]</a> change:
+In section 30.10.4 <a href="https://wg21.link/re.results.acc">[re.results.acc]</a> change:
 </p>
 
 <blockquote>

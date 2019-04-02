@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++14">C++14</a> status.</em></p>
 <h3><a name="2210" href="lwg-defects.html#2210">2210</a>. Missing allocator-extended constructor for allocator-aware containers</h3>
-<p><b>Section:</b> 21.3 <a href="https://wg21.link/sequences">[sequences]</a>, 21.4 <a href="https://wg21.link/associative">[associative]</a>, 21.5 <a href="https://wg21.link/unord">[unord]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2012-11-01 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 22.3 <a href="https://wg21.link/sequences">[sequences]</a>, 22.4 <a href="https://wg21.link/associative">[associative]</a>, 22.5 <a href="https://wg21.link/unord">[unord]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2012-11-01 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#sequences">issues</a> in [sequences].</p>
@@ -100,7 +100,7 @@ Howard: We should ping Pablo, this might be a deliberate design decision.
 <p>This wording is relative to N3485.</p>
 
 <ol>
-<li><p>Edit the synopsis in 21.3.8.1 <a href="https://wg21.link/deque.overview">[deque.overview]</a>/2:</p>
+<li><p>Edit the synopsis in 22.3.8.1 <a href="https://wg21.link/deque.overview">[deque.overview]</a>/2:</p>
 
 <blockquote>
 <pre>
@@ -118,7 +118,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Edit 21.3.8.2 <a href="https://wg21.link/deque.cons">[deque.cons]</a>/2:</p>
+<li><p>Edit 22.3.8.2 <a href="https://wg21.link/deque.cons">[deque.cons]</a>/2:</p>
 
 <blockquote>
 <pre>
@@ -133,7 +133,7 @@ explicit deque(size_type n<ins>, const Allocator&amp; = Allocator()</ins>);
 </blockquote>
 </li>
 
-<li><p>Edit the synopsis in 21.3.9.1 <a href="https://wg21.link/forwardlist.overview">[forwardlist.overview]</a>/3:</p>
+<li><p>Edit the synopsis in 22.3.9.1 <a href="https://wg21.link/forwardlist.overview">[forwardlist.overview]</a>/3:</p>
 
 <blockquote>
 <pre>
@@ -151,7 +151,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Edit 21.3.9.2 <a href="https://wg21.link/forwardlist.cons">[forwardlist.cons]</a>/3:</p>
+<li><p>Edit 22.3.9.2 <a href="https://wg21.link/forwardlist.cons">[forwardlist.cons]</a>/3:</p>
 
 <blockquote>
 <pre>
@@ -166,7 +166,7 @@ explicit forward_list(size_type n<ins>, const Allocator&amp; = Allocator()</ins>
 </blockquote>
 </li>
 
-<li><p>Edit the synopsis in 21.3.10.1 <a href="https://wg21.link/list.overview">[list.overview]</a>/2:</p>
+<li><p>Edit the synopsis in 22.3.10.1 <a href="https://wg21.link/list.overview">[list.overview]</a>/2:</p>
 
 <blockquote>
 <pre>
@@ -184,7 +184,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Edit 21.3.10.2 <a href="https://wg21.link/list.cons">[list.cons]</a>/3:</p>
+<li><p>Edit 22.3.10.2 <a href="https://wg21.link/list.cons">[list.cons]</a>/3:</p>
 
 <blockquote>
 <pre>
@@ -199,7 +199,7 @@ explicit list(size_type n<ins>, const Allocator&amp; = Allocator()</ins>);
 </blockquote>
 </li>
 
-<li><p>Edit the synopsis in 21.3.11.1 <a href="https://wg21.link/vector.overview">[vector.overview]</a>/2:</p>
+<li><p>Edit the synopsis in 22.3.11.1 <a href="https://wg21.link/vector.overview">[vector.overview]</a>/2:</p>
 
 <blockquote>
 <pre>
@@ -217,7 +217,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Edit 21.3.11.2 <a href="https://wg21.link/vector.cons">[vector.cons]</a>/3:</p>
+<li><p>Edit 22.3.11.2 <a href="https://wg21.link/vector.cons">[vector.cons]</a>/3:</p>
 
 <blockquote>
 <pre>
@@ -232,7 +232,7 @@ explicit vector(size_type n<ins>, const Allocator&amp; = Allocator()</ins>);
 </blockquote>
 </li>
 
-<li><p>Edit the synopsis in 21.3.12 <a href="https://wg21.link/vector.bool">[vector.bool]</a>/1:</p>
+<li><p>Edit the synopsis in 22.3.12 <a href="https://wg21.link/vector.bool">[vector.bool]</a>/1:</p>
 
 <blockquote>
 <pre>
@@ -252,7 +252,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Add to the synopsis in 21.4.4.1 <a href="https://wg21.link/map.overview">[map.overview]</a> p2:</p>
+<li><p>Add to the synopsis in 22.4.4.1 <a href="https://wg21.link/map.overview">[map.overview]</a> p2:</p>
 
 <blockquote>
 <pre>
@@ -278,7 +278,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Add to the synopsis in 21.4.5.1 <a href="https://wg21.link/multimap.overview">[multimap.overview]</a> p2:</p>
+<li><p>Add to the synopsis in 22.4.5.1 <a href="https://wg21.link/multimap.overview">[multimap.overview]</a> p2:</p>
 
 <blockquote>
 <pre>
@@ -304,7 +304,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Add to the synopsis in 21.4.6.1 <a href="https://wg21.link/set.overview">[set.overview]</a> p2:</p>
+<li><p>Add to the synopsis in 22.4.6.1 <a href="https://wg21.link/set.overview">[set.overview]</a> p2:</p>
 
 <blockquote>
 <pre>
@@ -330,7 +330,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Add to the synopsis in 21.4.7.1 <a href="https://wg21.link/multiset.overview">[multiset.overview]</a> p2:</p>
+<li><p>Add to the synopsis in 22.4.7.1 <a href="https://wg21.link/multiset.overview">[multiset.overview]</a> p2:</p>
 
 <blockquote>
 <pre>
@@ -356,7 +356,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Add to the synopsis in 21.5.4.1 <a href="https://wg21.link/unord.map.overview">[unord.map.overview]</a> p3:</p>
+<li><p>Add to the synopsis in 22.5.4.1 <a href="https://wg21.link/unord.map.overview">[unord.map.overview]</a> p3:</p>
 
 <blockquote>
 <pre>
@@ -397,7 +397,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Add to the synopsis in 21.5.5.1 <a href="https://wg21.link/unord.multimap.overview">[unord.multimap.overview]</a> p3:</p>
+<li><p>Add to the synopsis in 22.5.5.1 <a href="https://wg21.link/unord.multimap.overview">[unord.multimap.overview]</a> p3:</p>
 
 <blockquote>
 <pre>
@@ -438,7 +438,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Add to the synopsis in 21.5.6.1 <a href="https://wg21.link/unord.set.overview">[unord.set.overview]</a> p3:</p>
+<li><p>Add to the synopsis in 22.5.6.1 <a href="https://wg21.link/unord.set.overview">[unord.set.overview]</a> p3:</p>
 
 <blockquote>
 <pre>
@@ -479,7 +479,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Add to the synopsis in 21.5.7.1 <a href="https://wg21.link/unord.multiset.overview">[unord.multiset.overview]</a> p3:</p>
+<li><p>Add to the synopsis in 22.5.7.1 <a href="https://wg21.link/unord.multiset.overview">[unord.multiset.overview]</a> p3:</p>
 
 <blockquote>
 <pre>
