@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-04-06 at 16:15:34 UTC</p>
+<p><p>Revised 2019-04-06 at 16:33:44 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -32210,6 +32210,50 @@ constexpr span() noexcept;
 <blockquote>
 <p>
 -1- <i>Constraints:</i> <tt>Extent <del>&lt;</del><ins>dynamic_extent || Extent =</ins>= 0</tt> is <tt>true</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3199" href="#3199">3199</a><sup><a href="https://cplusplus.github.io/LWG/issue3199">(i)</a></sup>. <tt>istream &gt;&gt; bitset&lt;0&gt;</tt> fails</h3>
+<p><b>Section:</b> 20.9.4 <a href="https://wg21.link/bitset.operators">[bitset.operators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Davis Herring <b>Opened:</b> 2019-04-05 <b>Last modified:</b> 2019-04-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#bitset.operators">issues</a> in [bitset.operators].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+From a <a href="https://stackoverflow.com/a/55506627/8586227">StackOverflow question</a>:
+</p>
+<p>
+[bitset.operators]/5.1 says that extracting a <tt>bitset&lt;0&gt;</tt> stops after reading 0 characters.  
+/6 then says that, since no characters were stored, <tt>failbit</tt> is set.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 20.9.4 <a href="https://wg21.link/bitset.operators">[bitset.operators]</a> as indicated:</p>
+
+<blockquote><pre>
+template&lt;class charT, class traits, size_t N&gt;
+  basic_istream&lt;charT, traits&gt;&amp;
+    operator&gt;&gt;(basic_istream&lt;charT, traits&gt;&amp; is, bitset&lt;N&gt;&amp; x);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-6- If <ins><tt>N &gt; 0</tt> and</ins> no characters are stored in <tt>str</tt>, calls <tt>is.setstate(ios_base::failbit)</tt> 
+(which may throw <tt>ios_base::failure</tt> (29.5.5.4 <a href="https://wg21.link/iostate.flags">[iostate.flags]</a>)).
 </p>
 </blockquote>
 </blockquote>
