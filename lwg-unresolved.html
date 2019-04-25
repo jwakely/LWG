@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-04-23 at 17:32:40 UTC</p>
+<p><p>Revised 2019-04-25 at 19:47:32 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -32627,6 +32627,69 @@ constexpr float lerp(float a, float b, float t) <ins>noexcept</ins>;
 constexpr double lerp(double a, double b, double t) <ins>noexcept</ins>;
 constexpr long double lerp(long double a, long double b, long double t) <ins>noexcept</ins>;
 </pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3202" href="#3202">3202</a><sup><a href="https://cplusplus.github.io/LWG/issue3202">(i)</a></sup>. P0318R1 was supposed to be revised</h3>
+<p><b>Section:</b> 20.14.1 <a href="https://wg21.link/functional.syn">[functional.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-04-23 <b>Last modified:</b> 2019-04-25</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="http://wg21.link/p0318r1">P0318R1</a> was discussed in Batavia and the requested changes were made in D0318R2. 
+In San Diego the R1 paper was voted into the WP, despite not having the requested changes. There were also changes to 
+D0318R2 suggested on the reflector, which are incorporated below.
+<p/>
+I've suggested that <tt>&lt;functional&gt;</tt> is the wrong header for these traits and they belong in 
+<tt>&lt;type_traits&gt;</tt>, but I'll keep that separate from this issue.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 20.14.1 <a href="https://wg21.link/functional.syn">[functional.syn]</a>, header <tt>&lt;functional&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt; struct unwrap_reference;
+<ins>template&lt;class T&gt; using unwrap_reference_t = typename unwrap_reference&lt;T&gt;::type;</ins>
+template&lt;class T&gt; struct unwrap_ref_decay<del> : unwrap_reference&lt;decay_t&lt;T&gt;&gt; {}</del>;
+template&lt;class T&gt; using unwrap_ref_decay_t = typename unwrap_ref_decay&lt;T&gt;::type;
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 20.14.5.6 <a href="https://wg21.link/refwrap.unwrapref">[refwrap.unwrapref]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt;
+  struct unwrap_reference;
+</pre>
+<blockquote>
+<p>
+-1- If <tt>T</tt> is a specialization [&hellip;]
+</p>
+</blockquote>
+<pre>
+<ins>template&lt;class T&gt;
+  struct unwrap_ref_decay;</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- The member typedef <tt>type</tt> of <tt>unwrap_ref_decay&lt;T&gt;</tt> denotes the type 
+<tt>unwrap_reference_t&lt;decay_t&lt;T&gt;&gt;</tt>.</ins>
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ol>
