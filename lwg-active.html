@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D116)</h1>
-<p><p>Revised 2019-05-11 at 13:30:31 UTC</p>
+<p><p>Revised 2019-05-11 at 15:26:33 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D116: 2019-06-17 2019 pre-Cologne mailing<ul>
 <li><b>Summary:</b><ul>
-<li>278 open issues, up by 8.</li>
+<li>279 open issues, up by 9.</li>
 <li>2413 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2726 issues total, up by 8.</li>
+<li>2727 issues total, up by 9.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3202">3202</a>.</li>
-<li>Added the following 7 New issues: <a href="lwg-active.html#3197">3197</a>, <a href="lwg-active.html#3198">3198</a>, <a href="lwg-active.html#3199">3199</a>, <a href="lwg-active.html#3200">3200</a>, <a href="lwg-active.html#3201">3201</a>, <a href="lwg-active.html#3203">3203</a>, <a href="lwg-active.html#3204">3204</a>.</li>
+<li>Added the following 8 New issues: <a href="lwg-active.html#3197">3197</a>, <a href="lwg-active.html#3198">3198</a>, <a href="lwg-active.html#3199">3199</a>, <a href="lwg-active.html#3200">3200</a>, <a href="lwg-active.html#3201">3201</a>, <a href="lwg-active.html#3203">3203</a>, <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3205">3205</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -35997,6 +35997,27 @@ std::swap(matched, s.matched);</ins>
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3205" href="#3205">3205</a><sup><a href="https://cplusplus.github.io/LWG/issue3205">(i)</a></sup>. The name "<tt>Boolean</tt>" conflicts with Windows headers</h3>
+<p><b>Section:</b> 18.5.2 <a href="https://wg21.link/concept.boolean">[concept.boolean]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-05-10 <b>Last modified:</b> 2019-05-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>Boolean</tt> concept was recently added to the C++20 working draft. Unfortunately, there are 
+Windows platform headers that use the name "<tt>Boolean</tt>" in the global namespace. Programs that import 
+namespace <tt>std</tt> into the global namespace via using directive &mdash; as is common in the 
+Windows codebase &mdash; will be broken by the C++20 Standard Library if this name is not changed.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 

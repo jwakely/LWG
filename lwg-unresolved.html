@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-05-11 at 13:30:31 UTC</p>
+<p><p>Revised 2019-05-11 at 15:26:33 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -32764,6 +32764,27 @@ std::swap(matched, s.matched);</ins>
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3205" href="#3205">3205</a><sup><a href="https://cplusplus.github.io/LWG/issue3205">(i)</a></sup>. The name "<tt>Boolean</tt>" conflicts with Windows headers</h3>
+<p><b>Section:</b> 18.5.2 <a href="https://wg21.link/concept.boolean">[concept.boolean]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-05-10 <b>Last modified:</b> 2019-05-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>Boolean</tt> concept was recently added to the C++20 working draft. Unfortunately, there are 
+Windows platform headers that use the name "<tt>Boolean</tt>" in the global namespace. Programs that import 
+namespace <tt>std</tt> into the global namespace via using directive &mdash; as is common in the 
+Windows codebase &mdash; will be broken by the C++20 Standard Library if this name is not changed.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
