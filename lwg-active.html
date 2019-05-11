@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D116)</h1>
-<p><p>Revised 2019-05-11 at 13:10:27 UTC</p>
+<p><p>Revised 2019-05-11 at 13:30:31 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -35973,6 +35973,11 @@ int compare(const value_type* s) const;
 <pre>
 <ins>void swap(sub_match&amp; s) noexcept(<i>see below</i>);</ins>
 </pre>
+<blockquote class="note">
+[<i>Drafting note:</i> The swappable requirement should really be unnecessary because <i>Cpp17Iterator</i> 
+requires it, but there is no wording that requires <tt>BidirectionalIterator</tt> to satisfy the 
+bidirectional iterator requirements. &mdash; <i>end drafting note</i>]
+</blockquote>
 <blockquote>
 <p>
 <ins>-?- <i>Expects:</i> Lvalues of type <tt>BidirectionalIterator</tt> are swappable 
