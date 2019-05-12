@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-05-11 at 16:02:05 UTC</p>
+<p><p>Revised 2019-05-12 at 15:19:02 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -23282,7 +23282,7 @@ equal(
 <hr>
 <h3><a name="3023" href="#3023">3023</a><sup><a href="https://cplusplus.github.io/LWG/issue3023">(i)</a></sup>. Clarify <i>unspecified</i> call wrappers</h3>
 <p><b>Section:</b> 20.14.15 <a href="https://wg21.link/func.memfn">[func.memfn]</a>, 99 [func.not_fn], 20.14.14 <a href="https://wg21.link/func.bind">[func.bind]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Detlef Vollmann <b>Opened:</b> 2017-10-07 <b>Last modified:</b> 2017-11-10</p>
+ <b>Submitter:</b> Detlef Vollmann <b>Opened:</b> 2017-10-07 <b>Last modified:</b> 2019-05-12</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#func.memfn">issues</a> in [func.memfn].</p>
@@ -23317,6 +23317,35 @@ invocation of <tt>mem_fn</tt>/<tt>bind</tt>/<tt>not_fn</tt> will always return
 the same wrapper type, if they are instantiated (called with) same parameters type.
 However, the existence of this issue, shows that some library-wide
 clarification note would be welcomed.
+</p>
+
+<p><i>[2019-05-12; Tomasz comments]</i></p>
+
+<p>
+I have realized that this issue indicates an real problem with the
+usability of <tt>bind</tt> as the replacement of the <tt>binder1st/binder2nd</tt>.
+Currently it is not required that a binding functor of the same type with
+same argument, produces the same result, of the type of the call wrapper
+may depends on the <i>cv</i> ref qualifiers of arguments. For example we are
+not requiring that the types of <tt>f1, f2, f3, f4</tt> are the same (and actually
+are not for clang):
+</p>
+<blockquote><pre>
+auto func = [](std::string) {};
+std::string s("foo");
+auto f1 = std::bind(func, s);
+auto f2 = std::bind(std::as_const(func), std::as_const(s));
+auto f3 = std::bind(func, std::string("bar"));
+auto f4 = std::bind(std::move(func), std::move(s));
+// online link: https://wandbox.org/permlink/dcXJaITMJCnBWt7R
+</pre></blockquote>
+<p>
+As a consequence, if the user creates a <tt>std::vector&lt;decltype(std::bind(func,
+std::string(), _2))&gt;</tt> (instead of <tt>std::vector&lt;std::binder1st&lt;FuncType,
+std::string&gt;&gt;</tt>) he may not be able to store the result of the binding <tt>func</tt> 
+with <tt>std::string</tt> instance, if an copy of <tt>std::string</tt> is made. That leads me
+to conclusion that this issue actually require wording change, to provide such 
+guarantee, and is materially different from LWG <a href="lwg-defects.html#3015">3015</a>.
 </p>
 
 
