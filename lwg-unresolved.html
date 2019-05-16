@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-05-13 at 18:37:53 UTC</p>
+<p><p>Revised 2019-05-16 at 17:59:07 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -32818,33 +32818,6 @@ std::swap(matched, s.matched);</ins>
 </blockquote>
 </li>
 </ol>
-
-
-
-
-<hr>
-<h3><a name="3205" href="#3205">3205</a><sup><a href="https://cplusplus.github.io/LWG/issue3205">(i)</a></sup>. The name "<tt>Boolean</tt>" is commonly macroized</h3>
-<p><b>Section:</b> 18.5.2 <a href="https://wg21.link/concept.boolean">[concept.boolean]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-05-10 <b>Last modified:</b> 2019-05-12</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The <tt>Boolean</tt> concept was recently added to the C++20 working draft. Unfortunately, the name 
-"<tt>Boolean</tt>" is commonly defined as a macro in the Windows codebase. There are a few dozen 
-occurrences of "<tt>#define Boolean</tt>" in ACTCD19, so this issue exists to a lesser extent in 
-other code as well. Using "<tt>Boolean</tt>" as the name of the concept will inhibit adoption in 
-code that uses such a macro definition.
-<p/>
-Daniel:
-<p/>
-This issue was <em>intensively</em> discussed on the 
-<a href="http://lists.isocpp.org/lib/2019/05/11268.php">LWG reflector</a>.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
 
 
 
