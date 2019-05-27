@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-05-26 at 14:47:03 UTC</p>
+<p><p>Revised 2019-05-27 at 16:03:54 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -13488,6 +13488,7 @@ const int *q = data(x); // ok
  <b>Submitter:</b> Janez &#x17d;emva <b>Opened:</b> 2014-11-16 <b>Last modified:</b> 2015-02-28</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.range">active issues</a> in [iterator.range].</p>
 <p><b>View all other</b> <a href="lwg-index.html#iterator.range">issues</a> in [iterator.range].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -33010,6 +33011,48 @@ prior to the <tt>sys_days</tt> epoch). Otherwise, if <tt>y_.ok() &amp;&amp; m_.o
 returns <ins><tt>sys_days{y_/m_/1d} + (d_ - 1d)</tt></ins><del>a <tt>sys_days</tt> which is offset from 
 <tt>sys_days{y_/m_/last}</tt> by the number of days <tt>d_</tt> is offset from 
 <tt>sys_days{y_/m_/last}.day()</tt></del>. Otherwise the value returned is unspecified.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3207" href="#3207">3207</a><sup><a href="https://cplusplus.github.io/LWG/issue3207">(i)</a></sup>. <tt>N</tt> in <tt>ssize(const T (&amp;)[N])</tt> should be <tt>size_t</tt></h3>
+<p><b>Section:</b> 23.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Nevin Liber <b>Opened:</b> 2019-05-23 <b>Last modified:</b> 2019-05-27</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.range">active issues</a> in [iterator.range].</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.range">issues</a> in [iterator.range].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>N</tt> in <tt>ssize(const T (&amp;)[N])</tt> is specified to be of type <tt>ptrdiff_t</tt>.  
+It should be <tt>size_t</tt> to be consistent with the rest of the standard library, such as the
+array overloads for all other range access functions, the <tt>swap</tt> overload for arrays, and
+other function template overloads for arrays. (Note: the return type of this function should still 
+be <tt>ptrdiff_t</tt>.)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 23.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T, <del>ptrdiff</del><ins>size</ins>_t N&gt; constexpr ptrdiff_t ssize(const T (&amp;array)[N]) noexcept;
+</pre>
+<blockquote>
+<p>
+-19- <i>Returns:</i> <tt><ins>static_cast&lt;ptrdiff_t&gt;(</ins>N<ins>)</ins></tt>.
 </p>
 </blockquote>
 </blockquote>
