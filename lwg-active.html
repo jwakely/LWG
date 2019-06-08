@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2019-05-27</td>
+  <td align="left">2019-06-08</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D116)</h1>
-<p><p>Revised 2019-05-27 at 16:03:54 UTC</p>
+<p><p>Revised 2019-06-08 at 13:44:03 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D116: 2019-06-17 2019 pre-Cologne mailing<ul>
 <li><b>Summary:</b><ul>
-<li>281 open issues, up by 11.</li>
+<li>283 open issues, up by 13.</li>
 <li>2413 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2729 issues total, up by 11.</li>
+<li>2731 issues total, up by 13.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3202">3202</a>.</li>
-<li>Added the following 10 New issues: <a href="lwg-active.html#3197">3197</a>, <a href="lwg-active.html#3198">3198</a>, <a href="lwg-active.html#3199">3199</a>, <a href="lwg-active.html#3200">3200</a>, <a href="lwg-active.html#3201">3201</a>, <a href="lwg-active.html#3203">3203</a>, <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3205">3205</a>, <a href="lwg-active.html#3206">3206</a>, <a href="lwg-active.html#3207">3207</a>.</li>
+<li>Added the following 12 New issues: <a href="lwg-active.html#3197">3197</a>, <a href="lwg-active.html#3198">3198</a>, <a href="lwg-active.html#3199">3199</a>, <a href="lwg-active.html#3200">3200</a>, <a href="lwg-active.html#3201">3201</a>, <a href="lwg-active.html#3203">3203</a>, <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3205">3205</a>, <a href="lwg-active.html#3206">3206</a>, <a href="lwg-active.html#3207">3207</a>, <a href="lwg-active.html#3208">3208</a>, <a href="lwg-active.html#3209">3209</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -4700,7 +4700,7 @@ is <tt>true</tt>, else <tt>::new((void *)p) U{std::forward&lt;Args&gt;(args)...}
 <hr>
 <h3><a name="2095" href="#2095">2095</a><sup><a href="https://cplusplus.github.io/LWG/issue2095">(i)</a></sup>. <tt>promise</tt> and <tt>packaged_task</tt> missing constructors needed for uses-allocator construction</h3>
 <p><b>Section:</b> 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>, 32.6.10 <a href="https://wg21.link/futures.task">[futures.task]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2011-11-01 <b>Last modified:</b> 2016-08-06</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2011-11-01 <b>Last modified:</b> 2019-06-03</p>
 <p><b>Priority: </b>4
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#futures.promise">active issues</a> in [futures.promise].</p>
@@ -4759,8 +4759,13 @@ this topic until the final outcome of that paper and its proposed resolution is 
 
 <p>Fri PM: Send to LEWG  - and this also applies to <tt>function</tt> in LFTS.</p>
 
+<p><i>[2019-06-03 Jonathan Wakely provides updated wording]</i></p>
 
-<p><b>Proposed resolution:</b></p>
+<p>Jonathan updates wording post-<a href="lwg-defects.html#2976">2976</a>
+and observes that this resolution conflicts with <a href="lwg-active.html#3003">3003</a>.</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p><i>[This wording is relative to the FDIS.]</i></p>
 
 
@@ -4879,11 +4884,57 @@ to <tt>*this</tt>.
 </li>
 </ol>
 
+</blockquote>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p><i>[This wording is relative to N4810.]</i></p>
+
+
+<ol>
+<li><p>Add to 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>, class template <tt>promise</tt> synopsis,
+as indicated:</p>
+
 <blockquote><pre>
+namespace std {
+  template &lt;class R&gt;
+  class promise {
+  public:
+    promise();
+    template &lt;class Allocator&gt;
+      promise(allocator_arg_t, const Allocator&amp; a);
+    <ins>template &lt;class Allocator&gt;
+      promise(allocator_arg_t, const Allocator&amp; a, promise&amp;&amp; rhs) noexcept;</ins>
+    promise(promise&amp;&amp; rhs) noexcept;
+    promise(const promise&amp; rhs) = delete;
+    ~promise();
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre></blockquote>
+</li>
+
+<li><p>Change 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> as indicated:</p>
+
+<blockquote><pre>
+promise(promise&amp;&amp; rhs) noexcept;
+<ins>template &lt;class Allocator&gt;
+  promise(allocator_arg_t, const Allocator&amp; a, promise&amp;&amp; rhs) noexcept;</ins>
 </pre><blockquote>
 <p>
-</p></blockquote></blockquote>
+-5- <i>Effects</i>: constructs a new <tt>promise</tt> object and transfers ownership of
+the shared state of <tt>rhs</tt> (if any) to the newly-constructed object.
+<p/>
+-6- <i>Postcondition</i>: <tt>rhs</tt> has no shared state.
+<p/>
+<ins>-?- [<i>Note</i>: <tt>a</tt> is not used &mdash; <i>end note</i>]</ins>
+</p>
+</blockquote></blockquote>
 
+</li>
+</ol>
 
 
 
@@ -24526,7 +24577,7 @@ Resolved by editorial creation of <tt><i>decay-copy</i></tt> after acceptance of
 <hr>
 <h3><a name="3003" href="#3003">3003</a><sup><a href="https://cplusplus.github.io/LWG/issue3003">(i)</a></sup>. <tt>&lt;future&gt;</tt> still has type-erased allocators in <tt>promise</tt></h3>
 <p><b>Section:</b> 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-07-16 <b>Last modified:</b> 2018-01-29</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-07-16 <b>Last modified:</b> 2019-06-03</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#futures.promise">active issues</a> in [futures.promise].</p>
@@ -24554,6 +24605,10 @@ to be used on elements constructed in the shared state, and allows the emplace-c
 <p><i>[2018-1-26 issues processing telecon]</i></p>
 
 <p>Status to 'Open'; Billy to write a paper.</p>
+
+<p><i>[2019-06-03]</i></p>
+
+<p>Jonathan observes that this resolution conflicts with <a href="lwg-active.html#2095">2095</a>.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -36286,6 +36341,104 @@ template&lt;class T, <del>ptrdiff</del><ins>size</ins>_t N&gt; constexpr ptrdiff
 <blockquote>
 <p>
 -19- <i>Returns:</i> <tt><ins>static_cast&lt;ptrdiff_t&gt;(</ins>N<ins>)</ins></tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3208" href="#3208">3208</a><sup><a href="https://cplusplus.github.io/LWG/issue3208">(i)</a></sup>. <tt>Boolean</tt>'s expression requirements are ordered inconsistently</h3>
+<p><b>Section:</b> 23.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-06-06 <b>Last modified:</b> 2019-06-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.range">active issues</a> in [iterator.range].</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.range">issues</a> in [iterator.range].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For consistency of presentation, we should group and order the
+<tt>&amp;&amp;</tt> and <tt>||</tt> expression requirements similarly to the
+<tt>==</tt> and <tt>!=</tt> expression requirements. Note that the suggested
+change is not quite editorial: evaluation of requirements for satisfaction has
+short-circuiting behavior, so the declaration order of requirements is
+normatively significant in general.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 18.5.2 <a href="https://wg21.link/concept.boolean">[concept.boolean]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+  { b1 } -&gt; ConvertibleTo&lt;bool&gt;;
+  { !b1 } -&gt; ConvertibleTo&lt;bool&gt;;
+  <del>{ b1 &amp;&amp;  a } -&gt; Same&lt;bool&gt;;</del>
+  <del>{ b1 ||  a } -&gt; Same&lt;bool&gt;;</del>
+  { b1 &amp;&amp; b2 } -&gt; Same&lt;bool&gt;;
+  <ins>{ b1 &amp;&amp;  a } -&gt; Same&lt;bool&gt;;</ins>
+  {  a &amp;&amp; b2 } -&gt; Same&lt;bool&gt;;
+  { b1 || b2 } -&gt; Same&lt;bool&gt;;
+  <ins>{ b1 ||  a } -&gt; Same&lt;bool&gt;;</ins>
+  {  a || b2 } -&gt; Same&lt;bool&gt;;
+  { b1 == b2 } -&gt; ConvertibleTo&lt;bool&gt;;
+  { b1 ==  a } -&gt; ConvertibleTo&lt;bool&gt;;
+  {  a == b2 } -&gt; ConvertibleTo&lt;bool&gt;;
+  { b1 != b2 } -&gt; ConvertibleTo&lt;bool&gt;;
+  { b1 !=  a } -&gt; ConvertibleTo&lt;bool&gt;;
+  {  a != b2 } -&gt; ConvertibleTo&lt;bool&gt;;
+};
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3209" href="#3209">3209</a><sup><a href="https://cplusplus.github.io/LWG/issue3209">(i)</a></sup>. Expression in <tt>year::ok()</tt> returns clause is ill-formed</h3>
+<p><b>Section:</b> 27.8.5.2 <a href="https://wg21.link/time.cal.year.members">[time.cal.year.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-05-28 <b>Last modified:</b> 2019-06-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The expression in the <i>Returns</i> element of <code>year::ok</code> in [time.cal.year.members] p18:
+</p>
+<blockquote><pre>
+min() &lt;= y_ &amp;&amp; y_ &lt;= max()
+</pre></blockquote> 
+<p>
+is ill-formed, as it attempts to compare type <code>short</code> (type of <code>y_</code>
+member) with type <code>year</code> (type of <code>year::min()</code> and <code>year::max()</code>).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 27.8.5.2 <a href="https://wg21.link/time.cal.year.members">[time.cal.year.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr bool ok() const noexcept;
+</pre>
+<blockquote>
+<p>
+-18- <i>Returns:</i> <tt>min()<ins>.y_</ins> &lt;= y_ &amp;&amp; y_ &lt;= max()<ins>.y_</ins></tt>.
 </p>
 </blockquote>
 </blockquote>
