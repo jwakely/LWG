@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D116)</h1>
-<p><p>Revised 2019-06-08 at 15:58:30 UTC</p>
+<p><p>Revised 2019-06-08 at 16:28:06 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D116: 2019-06-17 2019 pre-Cologne mailing<ul>
 <li><b>Summary:</b><ul>
-<li>285 open issues, up by 15.</li>
+<li>286 open issues, up by 16.</li>
 <li>2413 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2733 issues total, up by 15.</li>
+<li>2734 issues total, up by 16.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 2 Tentatively Ready issues: <a href="lwg-active.html#3202">3202</a>, <a href="lwg-active.html#3206">3206</a>.</li>
-<li>Added the following 13 New issues: <a href="lwg-active.html#3197">3197</a>, <a href="lwg-active.html#3198">3198</a>, <a href="lwg-active.html#3199">3199</a>, <a href="lwg-active.html#3200">3200</a>, <a href="lwg-active.html#3201">3201</a>, <a href="lwg-active.html#3203">3203</a>, <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3205">3205</a>, <a href="lwg-active.html#3207">3207</a>, <a href="lwg-active.html#3208">3208</a>, <a href="lwg-active.html#3209">3209</a>, <a href="lwg-active.html#3210">3210</a>, <a href="lwg-active.html#3211">3211</a>.</li>
+<li>Added the following 14 New issues: <a href="lwg-active.html#3197">3197</a>, <a href="lwg-active.html#3198">3198</a>, <a href="lwg-active.html#3199">3199</a>, <a href="lwg-active.html#3200">3200</a>, <a href="lwg-active.html#3201">3201</a>, <a href="lwg-active.html#3203">3203</a>, <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3205">3205</a>, <a href="lwg-active.html#3207">3207</a>, <a href="lwg-active.html#3208">3208</a>, <a href="lwg-active.html#3209">3209</a>, <a href="lwg-active.html#3210">3210</a>, <a href="lwg-active.html#3211">3211</a>, <a href="lwg-active.html#3212">3212</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -36502,7 +36502,7 @@ Peter Dimov argues that (1) isn't likely to break enough to matter.
 
 <blockquote class="note">
 <p>
-As the issue submitter prefers option (2), this is wording for that.
+[<i>Drafting note:</i> As the issue submitter prefers option (2), this is wording for that.]
 </p>
 </blockquote>
 
@@ -36584,6 +36584,95 @@ That requirement is really easy to enforce, and it has been requested by users (
 <tt>T<sub><i>i</i></sub></tt>, then the destructor of <tt>tuple</tt> is trivial. 
 <ins>The default constructor of <tt>tuple&lt;&gt;</tt> is trivial.</ins>
 </p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3212" href="#3212">3212</a><sup><a href="https://cplusplus.github.io/LWG/issue3212">(i)</a></sup>. <tt>tuple_element_t&lt;1, const span&lt;int, 42&gt;&gt;</tt> is <tt>const int</tt></h3>
+<p><b>Section:</b> 22.7.3.8 <a href="https://wg21.link/span.tuple">[span.tuple]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-05-31 <b>Last modified:</b> 2019-06-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+As currently specified, it uses the <i>cv</i>-qualified partial specialization, which incorrectly 
+adds <i>cv</i>-qualification to the element type.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 22.7.2 <a href="https://wg21.link/span.syn">[span.syn]</a>, header <tt>&lt;span&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 22.7.3.8 <a href="https://wg21.link/span.tuple">[span.tuple]</a>, tuple interface</i>
+template&lt;class T&gt; class tuple_size;
+template&lt;size_t I, class T&gt; class tuple_element;
+template&lt;class ElementType, size_t Extent&gt;
+  struct tuple_size&lt;span&lt;ElementType, Extent&gt;&gt;;
+template&lt;class ElementType&gt;
+  struct tuple_size&lt;span&lt;ElementType, dynamic_extent&gt;&gt;; <i>// not defined</i>
+template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;;
+<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
+struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;
+template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt;;
+template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;; </ins>
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 22.7.3.8 <a href="https://wg21.link/span.tuple">[span.tuple]</a> before p1 as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The representation style for the newly added wording follows the new style
+for <tt>tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;::type</tt>, which 
+had recently been changed editorially.]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+template&lt;class ElementType, size_t Extent&gt;
+  struct tuple_size&lt;span&lt;ElementType, Extent&gt;&gt;
+    : integral_constant&lt;size_t, Extent&gt; { };
+
+tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;::type
+
+<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt; {
+    using type = ElementType;
+  };
+
+template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt; {
+    using type = ElementType;
+  };
+
+template&lt;size_t I, class ElementType, size_t Extent>
+  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt; {
+    using type = ElementType;
+  };</ins>
+</pre>
+<blockquote>
+<p>
+-1- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
