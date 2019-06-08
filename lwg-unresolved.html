@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-06-08 at 17:18:27 UTC</p>
+<p><p>Revised 2019-06-08 at 17:30:10 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -33412,6 +33412,16 @@ convertible to integral type", but <tt>for_each_n</tt> and <tt>copy_n</tt> have 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
 
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> Sub-clause [algorithms] has not yet gone through a cleanup of our new wording
+style for requirements expressed in <i>Requires</i> and <i>Expects</i> elements. The below wording 
+changes perform this fix for the touched paragraphs and also replaces here <i>Requires</i> by
+<i>Expects</i> to prevent papers that address such wording changes to keep tracking of additional
+wording changes caused by proposed wording of issues.]
+</p>
+</blockquote>
+
 <ol>
 <li><p>Modify 25.5.4 <a href="https://wg21.link/alg.foreach">[alg.foreach]</a> as indicated:</p>
 
@@ -33424,7 +33434,7 @@ template&lt;class InputIterator, class Size, class Function&gt;
 <p>
 -16- <i>Requires:</i> shall satisfy the <i>Cpp17MoveConstructible</i> requirements [&hellip;]
 <p/>
--17- <i>Requires:</i> <ins>The type <tt>Size</tt> shall be convertible to integral type 
+-17- <i><del>Requires</del><ins>Expects</ins>:</i> <ins>The type <tt>Size</tt> is convertible to integral type 
 (7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.3.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins> <tt>n &gt;= 0</tt>.
 <p/>
 [&hellip;]
@@ -33439,7 +33449,7 @@ template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Func
 <p>
 -21- <i>Requires:</i> shall satisfy the <i>Cpp17CopyConstructible</i> requirements [&hellip;]
 <p/>
--22- <i>Requires:</i> <ins>The type <tt>Size</tt> shall be convertible to integral type 
+-22- <i><del>Requires</del><ins>Expects</ins>:</i> <ins>The type <tt>Size</tt> is convertible to integral type 
 (7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.3.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins> <tt>n &gt;= 0</tt>.
 <p/>
 [&hellip;]
@@ -33468,7 +33478,7 @@ template&lt;InputIterator I, WeaklyIncrementable O&gt;
 <p>
 -10- Let <tt><i>M</i></tt> be <tt>max(n, 0)</tt>.
 <p/>
-<ins>-?- <i>Requires:</i> The type <tt>Size</tt> shall be convertible to integral type 
+<ins>-?- <i>Expects:</i> The type <tt>Size</tt> is convertible to integral type 
 (7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.3.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins>
 <p/>
 [&hellip;]
