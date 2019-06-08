@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-06-08 at 17:30:10 UTC</p>
+<p><p>Revised 2019-06-08 at 17:58:24 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -12802,6 +12802,7 @@ much because it would still hold for all refined forms.
  <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2014-04-30 <b>Last modified:</b> 2018-08-25</p>
 <p><b>Priority: </b>2
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#facet.num.get.virtuals">active issues</a> in [facet.num.get.virtuals].</p>
 <p><b>View all other</b> <a href="lwg-index.html#facet.num.get.virtuals">issues</a> in [facet.num.get.virtuals].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -33337,11 +33338,11 @@ template&lt;class ElementType&gt;
 template&lt;size_t I, class ElementType, size_t Extent&gt;
   struct tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;;
 <ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
-struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;
+  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;
 template&lt;size_t I, class ElementType, size_t Extent&gt;
   struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt;;
 template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;; </ins>
+  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;;</ins>
 [&hellip;]
 </pre>
 </blockquote>
@@ -33353,7 +33354,7 @@ template&lt;size_t I, class ElementType, size_t Extent&gt;
 <p>
 [<i>Drafting note:</i> The representation style for the newly added wording follows the new style
 for <tt>tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;::type</tt>, which 
-had recently been changed editorially.]
+  <a href="https://github.com/cplusplus/draft/pull/2868">had recently been changed editorially</a>.]
 </p>
 </blockquote>
 
@@ -33488,6 +33489,43 @@ template&lt;InputIterator I, WeaklyIncrementable O&gt;
 </li>
 
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3214" href="#3214">3214</a><sup><a href="https://cplusplus.github.io/LWG/issue3214">(i)</a></sup>. &sect;[facet.num.get.virtuals] doesn't say what it means for digit grouping to be consistent</h3>
+<p><b>Section:</b> 28.4.2.1.2 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-06-03 <b>Last modified:</b> 2019-06-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#facet.num.get.virtuals">active issues</a> in [facet.num.get.virtuals].</p>
+<p><b>View all other</b> <a href="lwg-index.html#facet.num.get.virtuals">issues</a> in [facet.num.get.virtuals].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+28.4.2.1.2 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a> paragraph 4 says:
+</p>
+<blockquote><p>
+"Digit grouping is checked. That is, the positions of discarded separators is examined for consistency with 
+<tt>use_facet&lt;numpunct&lt;charT&gt;&gt;(loc).grouping()</tt>. If they are not consistent then 
+<tt>ios_base::failbit</tt> is assigned to <tt>err</tt>."
+</p></blockquote>
+<p>
+It's unclear what is considered consistent or not.
+<p/>
+Obviously if the expected grouping is "1,234,567" then an input of "1,234,567" is consistent. Libstdc++, 
+MSVC and Boost all consider "1234567" to be consistent with an expected grouping "1,234,567" (and it 
+looks like libc++ is going to agree soon). That can be justified by saying that there are no discarded 
+separators to examine, so no inconsistency. But what about "1234,567"? There is only one discarded 
+separator here, and its position is consistent with the expected format.
+<p/>
+The wording should clarify that if there are no separators at all, that is OK. If there are one or more 
+separators then they must be at the expected positions, and there must not be any missing.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
