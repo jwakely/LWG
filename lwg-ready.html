@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2019-06-13 at 19:48:38 UTC</p>
+<td align="left"><p>Revised 2019-06-13 at 19:55:40 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1857,6 +1857,64 @@ returns <ins><tt>sys_days{y_/m_/1d} + (d_ - 1d)</tt></ins><del>a <tt>sys_days</t
 <tt>sys_days{y_/m_/last}.day()</tt></del>. Otherwise the value returned is unspecified.
 </p>
 </blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3208" href="#3208">3208</a><sup><a href="https://cplusplus.github.io/LWG/issue3208">(i)</a></sup>. <tt>Boolean</tt>'s expression requirements are ordered inconsistently</h3>
+<p><b>Section:</b> 23.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-06-06 <b>Last modified:</b> 2019-06-13</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.range">active issues</a> in [iterator.range].</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.range">issues</a> in [iterator.range].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For consistency of presentation, we should group and order the
+<tt>&amp;&amp;</tt> and <tt>||</tt> expression requirements similarly to the
+<tt>==</tt> and <tt>!=</tt> expression requirements. Note that the suggested
+change is not quite editorial: evaluation of requirements for satisfaction has
+short-circuiting behavior, so the declaration order of requirements is
+normatively significant in general.
+</p>
+
+<p><i>[2019-06-13; Priority to 0 and Status to Tentatively Ready after seven positive votes on the reflector.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 18.5.2 <a href="https://wg21.link/concept.boolean">[concept.boolean]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+  { b1 } -&gt; ConvertibleTo&lt;bool&gt;;
+  { !b1 } -&gt; ConvertibleTo&lt;bool&gt;;
+  <del>{ b1 &amp;&amp;  a } -&gt; Same&lt;bool&gt;;</del>
+  <del>{ b1 ||  a } -&gt; Same&lt;bool&gt;;</del>
+  { b1 &amp;&amp; b2 } -&gt; Same&lt;bool&gt;;
+  <ins>{ b1 &amp;&amp;  a } -&gt; Same&lt;bool&gt;;</ins>
+  {  a &amp;&amp; b2 } -&gt; Same&lt;bool&gt;;
+  { b1 || b2 } -&gt; Same&lt;bool&gt;;
+  <ins>{ b1 ||  a } -&gt; Same&lt;bool&gt;;</ins>
+  {  a || b2 } -&gt; Same&lt;bool&gt;;
+  { b1 == b2 } -&gt; ConvertibleTo&lt;bool&gt;;
+  { b1 ==  a } -&gt; ConvertibleTo&lt;bool&gt;;
+  {  a == b2 } -&gt; ConvertibleTo&lt;bool&gt;;
+  { b1 != b2 } -&gt; ConvertibleTo&lt;bool&gt;;
+  { b1 !=  a } -&gt; ConvertibleTo&lt;bool&gt;;
+  {  a != b2 } -&gt; ConvertibleTo&lt;bool&gt;;
+};
+</pre>
 </blockquote>
 </li>
 
