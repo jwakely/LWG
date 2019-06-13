@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-06-13 at 19:55:40 UTC</p>
+<p><p>Revised 2019-06-13 at 20:42:14 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
@@ -1159,6 +1159,52 @@ normatively significant in general.
   {  a != b2 } -&gt; ConvertibleTo&lt;bool&gt;;
 };
 </pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3209" href="#3209">3209</a><sup><a href="https://cplusplus.github.io/LWG/issue3209">(i)</a></sup>. Expression in <tt>year::ok()</tt> returns clause is ill-formed</h3>
+<p><b>Section:</b> 27.8.5.2 <a href="https://wg21.link/time.cal.year.members">[time.cal.year.members]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-05-28 <b>Last modified:</b> 2019-06-13</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The expression in the <i>Returns</i> element of <code>year::ok</code> in [time.cal.year.members] p18:
+</p>
+<blockquote><pre>
+min() &lt;= y_ &amp;&amp; y_ &lt;= max()
+</pre></blockquote> 
+<p>
+is ill-formed, as it attempts to compare type <code>short</code> (type of <code>y_</code>
+member) with type <code>year</code> (type of <code>year::min()</code> and <code>year::max()</code>).
+</p>
+
+<p><i>[2019-06-13; Priority to 0 and Status to Tentatively Ready after seven positive votes on the reflector.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 27.8.5.2 <a href="https://wg21.link/time.cal.year.members">[time.cal.year.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr bool ok() const noexcept;
+</pre>
+<blockquote>
+<p>
+-18- <i>Returns:</i> <tt>min()<ins>.y_</ins> &lt;= y_ &amp;&amp; y_ &lt;= max()<ins>.y_</ins></tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 

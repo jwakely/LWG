@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-06-13 at 19:55:40 UTC</p>
+<p><p>Revised 2019-06-13 at 20:42:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -32944,49 +32944,6 @@ it denotes the same type as <tt>decay_t&lt;common_type&lt;T...&gt;::type&gt;</tt
 <p/>
 -4- Note B: [&hellip;]
 </p>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-<hr>
-<h3><a name="3209" href="#3209">3209</a><sup><a href="https://cplusplus.github.io/LWG/issue3209">(i)</a></sup>. Expression in <tt>year::ok()</tt> returns clause is ill-formed</h3>
-<p><b>Section:</b> 27.8.5.2 <a href="https://wg21.link/time.cal.year.members">[time.cal.year.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-05-28 <b>Last modified:</b> 2019-06-08</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The expression in the <i>Returns</i> element of <code>year::ok</code> in [time.cal.year.members] p18:
-</p>
-<blockquote><pre>
-min() &lt;= y_ &amp;&amp; y_ &lt;= max()
-</pre></blockquote> 
-<p>
-is ill-formed, as it attempts to compare type <code>short</code> (type of <code>y_</code>
-member) with type <code>year</code> (type of <code>year::min()</code> and <code>year::max()</code>).
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
-
-<ol>
-<li><p>Modify 27.8.5.2 <a href="https://wg21.link/time.cal.year.members">[time.cal.year.members]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-constexpr bool ok() const noexcept;
-</pre>
-<blockquote>
-<p>
--18- <i>Returns:</i> <tt>min()<ins>.y_</ins> &lt;= y_ &amp;&amp; y_ &lt;= max()<ins>.y_</ins></tt>.
-</p>
-</blockquote>
 </blockquote>
 </li>
 
