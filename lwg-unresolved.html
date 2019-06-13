@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-06-13 at 20:42:14 UTC</p>
+<p><p>Revised 2019-06-13 at 21:04:09 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -33481,6 +33481,62 @@ allocator <tt>a</tt> passed to <tt>allocate_shared</tt> <del>such that its <tt>v
 <tt>remove_cv_t&lt;U&gt;</tt></del>.</p></li>
 </ol>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3217" href="#3217">3217</a><sup><a href="https://cplusplus.github.io/LWG/issue3217">(i)</a></sup>. <tt>&lt;memory&gt;</tt> and <tt>&lt;execution&gt;</tt> should define <tt>__cpp_lib_parallel_algorithm</tt></h3>
+<p><b>Section:</b> 17.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-06-12 <b>Last modified:</b> 2019-06-13</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#support.limits.general">issues</a> in [support.limits.general].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+There are parallel overloads of algorithms in <tt>&lt;memory&gt;</tt>, so it should define the macro. 
+Also, <tt>&lt;execution&gt;</tt> defines the exec policies for use with the algos, so that should 
+define the macro too.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 17.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a>, Table 36 &mdash; "Standard library feature-test 
+macros", as indicated:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table 36 &mdash; Standard library feature-test macros</caption>
+<tr style="text-align:center">
+<th>Macro name</th>
+<th>Value</th>
+<th>Header(s)</th>
+</tr>
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><tt>__cpp_lib_parallel_algorithm</tt></td>
+<td><tt>201603L</tt></td>
+<td><tt>&lt;algorithm&gt; <ins>&lt;execution&gt; &lt;memory&gt;</ins> &lt;numeric&gt;</tt></td>
+</tr>
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
 </blockquote>
 </li>
 </ol>
