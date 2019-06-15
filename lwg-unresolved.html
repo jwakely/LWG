@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-06-15 at 18:10:34 UTC</p>
+<p><p>Revised 2019-06-15 at 20:13:58 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -33535,6 +33535,80 @@ macros", as indicated:</p>
 <td><tt>__cpp_lib_parallel_algorithm</tt></td>
 <td><tt>201603L</tt></td>
 <td><tt>&lt;algorithm&gt; <ins>&lt;execution&gt; &lt;memory&gt;</ins> &lt;numeric&gt;</tt></td>
+</tr>
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3218" href="#3218">3218</a><sup><a href="https://cplusplus.github.io/LWG/issue3218">(i)</a></sup>. Modifier for <tt>%d</tt> parse flag does not match POSIX and <tt>format</tt> specification</h3>
+<p><b>Section:</b> 27.12 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-06-13 <b>Last modified:</b> 2019-06-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.parse">issues</a> in [time.parse].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, the '<code>%d</code>' parse flags accepts the '<code>E</code>' modifier to parse the 
+locale's alternative representation, see Table 88 &mdash; 
+<a href="http://eel.is/c++draft/time.parse#11.sentence-26">
+"Meaning of <code>parse</code> flags"</a>:
+</p>
+<blockquote><p>
+The modified command <code>%Ed</code> interprets the locale's
+alternative representation of the day of the month.
+</p></blockquote>
+<p>
+This is inconsistent with the 
+<a href="http://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html">POSIX 
+<code>strftime</code> specification</a> and the <tt>format</tt> functions, that uses '<code>O</code>' 
+to output alternate locale representation. Per Table 87 &mdash; 
+<a href="http://eel.is/c++draft/time.format#17.sentence-28">"Meaning of <code>format</code>
+conversion specifiers"</a>:
+</p>
+<blockquote><p>
+The modified command <code>%Od</code> produces the locale's alternative representation.
+</p></blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 27.12 <a href="https://wg21.link/time.parse">[time.parse]</a>, Table 88 &mdash; "Meaning of <code>parse</code> flags", 
+as indicated:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table 88 &mdash; Meaning of <code>parse</code> flags</caption>
+<tr style="text-align:center">
+<th>Flag</th>
+<th>Parsed value</th>
+</tr>
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><tt>%d</tt></td>
+<td>The day of the month as a decimal number. The modified command <tt>%<i>N</i> d</tt> 
+specifies the maximum number of characters to read. If <tt><i>N</i></tt> is not specified, 
+the default is 2. Leading zeroes are permitted but not required. The modified command 
+<tt>%<del>E</del><ins>O</ins>d</tt> interprets the locale's alternative representation 
+of the day of the month.</td>
 </tr>
 <tr>
 <td colspan="3" align="center">
