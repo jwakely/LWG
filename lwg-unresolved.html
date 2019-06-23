@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-06-23 at 11:36:32 UTC</p>
+<p><p>Revised 2019-06-23 at 11:59:03 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -33989,6 +33989,47 @@ overloads because we keep getting this wrong, but we could also exempt <tt>lerp<
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3224" href="#3224">3224</a><sup><a href="https://cplusplus.github.io/LWG/issue3224">(i)</a></sup>. <tt>zoned_time</tt> constructor from <tt>TimeZonePtr</tt> does not specify initialization of 
+<tt>tp_</tt></h3>
+<p><b>Section:</b> 27.10.7.2 <a href="https://wg21.link/time.zone.zonedtime.ctor">[time.zone.zonedtime.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-06-20 <b>Last modified:</b> 2019-06-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <code>zoned_time(TimeZonePtr z)</code> does not specify how the <code>tp_</code> 
+sub-element is initialized. It should be consistent with <code>zoned_time(string_view)</code> 
+that default initializes <code>tp_</code>,
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4820">N4820</a>.</p>
+
+<ol>
+<li><p>Modify 27.10.7.2 <a href="https://wg21.link/time.zone.zonedtime.ctor">[time.zone.zonedtime.ctor]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+explicit zoned_time(TimeZonePtr z);
+</pre>
+<blockquote>
+<p>
+-5- <i>Requires:</i> <tt>z</tt> refers to a time zone.
+<p/>
+-6- <i>Effects:</i> Constructs a <tt>zoned_time</tt> by initializing <tt>zone_</tt> with <tt>std::move(z)</tt>
+<ins>and default constructing <tt>tp_</tt></ins>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
