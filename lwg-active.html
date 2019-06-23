@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D117)</h1>
-<p><p>Revised 2019-06-23 at 10:39:43 UTC</p>
+<p><p>Revised 2019-06-23 at 10:52:43 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D117: 2019-08-05 2019 post-Cologne mailing<ul>
 <li><b>Summary:</b><ul>
-<li>296 open issues, up by 1.</li>
+<li>297 open issues, up by 2.</li>
 <li>2413 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2744 issues total, up by 1.</li>
+<li>2745 issues total, up by 2.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following New issue: <a href="lwg-active.html#3222">3222</a>.</li>
+<li>Added the following 2 New issues: <a href="lwg-active.html#3222">3222</a>, <a href="lwg-active.html#3223">3223</a>.</li>
 <li>Changed the following 6 issues to Voting (from Ready): <a href="lwg-active.html#2899">2899</a>, <a href="lwg-active.html#3055">3055</a>, <a href="lwg-active.html#3158">3158</a>, <a href="lwg-active.html#3169">3169</a>, <a href="lwg-active.html#3186">3186</a>, <a href="lwg-active.html#3187">3187</a>.</li>
 <li>Changed the following 11 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#3183">3183</a>, <a href="lwg-active.html#3184">3184</a>, <a href="lwg-active.html#3185">3185</a>, <a href="lwg-active.html#3191">3191</a>, <a href="lwg-active.html#3196">3196</a>, <a href="lwg-active.html#3198">3198</a>, <a href="lwg-active.html#3199">3199</a>, <a href="lwg-active.html#3202">3202</a>, <a href="lwg-active.html#3206">3206</a>, <a href="lwg-active.html#3208">3208</a>, <a href="lwg-active.html#3209">3209</a>.</li>
 </ul></li>
@@ -37628,6 +37628,31 @@ nor modify elements in the ranges <tt>[first, last]</tt> or <tt>[result, result 
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3223" href="#3223">3223</a><sup><a href="https://cplusplus.github.io/LWG/issue3223">(i)</a></sup>. <tt>lerp</tt> should not add the "sufficient additional overloads"</h3>
+<p><b>Section:</b> 26.8.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2019-06-20 <b>Last modified:</b> 2019-06-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#cmath.syn">active issues</a> in [cmath.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#cmath.syn">issues</a> in [cmath.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It seems that <tt>lerp</tt> can't give a sensible answer for integer inputs. It's new machinery, 
+not the legacy C stuff extended with extra overloads.
+<p/>
+I would prefer to fix this by explicitly annotating the functions that are supposed to get additional 
+overloads because we keep getting this wrong, but we could also exempt <tt>lerp</tt> in 
+26.8.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> p2.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
