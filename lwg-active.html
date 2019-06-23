@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2019-06-22</td>
+  <td align="left">2019-06-23</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D117)</h1>
-<p><p>Revised 2019-06-22 at 17:57:06 UTC</p>
+<p><p>Revised 2019-06-23 at 10:39:43 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D117: 2019-08-05 2019 post-Cologne mailing<ul>
 <li><b>Summary:</b><ul>
-<li>295 open issues, up by 0.</li>
+<li>296 open issues, up by 1.</li>
 <li>2413 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2743 issues total, up by 0.</li>
+<li>2744 issues total, up by 1.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>No issues added.</li>
+<li>Added the following New issue: <a href="lwg-active.html#3222">3222</a>.</li>
 <li>Changed the following 6 issues to Voting (from Ready): <a href="lwg-active.html#2899">2899</a>, <a href="lwg-active.html#3055">3055</a>, <a href="lwg-active.html#3158">3158</a>, <a href="lwg-active.html#3169">3169</a>, <a href="lwg-active.html#3186">3186</a>, <a href="lwg-active.html#3187">3187</a>.</li>
 <li>Changed the following 11 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#3183">3183</a>, <a href="lwg-active.html#3184">3184</a>, <a href="lwg-active.html#3185">3185</a>, <a href="lwg-active.html#3191">3191</a>, <a href="lwg-active.html#3196">3196</a>, <a href="lwg-active.html#3198">3198</a>, <a href="lwg-active.html#3199">3199</a>, <a href="lwg-active.html#3202">3202</a>, <a href="lwg-active.html#3206">3206</a>, <a href="lwg-active.html#3208">3208</a>, <a href="lwg-active.html#3209">3209</a>.</li>
 </ul></li>
@@ -36884,7 +36884,7 @@ separators then they must be at the expected positions, and there must not be an
 <hr>
 <h3><a name="3215" href="#3215">3215</a><sup><a href="https://cplusplus.github.io/LWG/issue3215">(i)</a></sup>. <tt>variant</tt> default constructor has vague <tt>constexpr</tt> requirements</h3>
 <p><b>Section:</b> 20.7.3.1 <a href="https://wg21.link/variant.ctor">[variant.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Louis Dionne <b>Opened:</b> 2019-06-04 <b>Last modified:</b> 2019-06-09</p>
+ <b>Submitter:</b> Louis Dionne <b>Opened:</b> 2019-06-04 <b>Last modified:</b> 2019-06-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#variant.ctor">active issues</a> in [variant.ctor].</p>
@@ -36902,7 +36902,8 @@ the alternative type <tt>T<sub>0</sub></tt> would satisfy the requirements for a
 <p>
 First of all, I find it confusing that we say "This function shall be <tt>constexpr</tt> if [&hellip;]", 
 when the declaration of the function clearly has the <tt>constexpr</tt> keyword on it 
-unconditionally. Instead, I would use the wording "This function shall be usable in a constexpr context if [...]".
+unconditionally. Instead, I would use the wording "This function shall be usable in a constexpr context 
+if [&hellip;]".
 <p/>
 Secondly, I think we shouldn't be using if-and-only-if since it restricts whether implementations can be 
 <tt>constexpr</tt>-friendly as an extension. Instead, it seems better to just say "if".
@@ -36913,6 +36914,12 @@ something we can test for because it says "value-initialization of the alternati
 the value initialization can actually be be performed inside a constexpr context (for example the 
 default constructor could be <tt>constexpr</tt> friendly <em>but</em> not marked with the 
 <tt>constexpr</tt> keyword).
+</p>
+
+<p><i>[2017-06-17, Tim Song comments]</i></p>
+
+<p>
+This issue is related to LWG <a href="lwg-active.html#2833">2833</a>.
 </p>
 
 
@@ -37489,6 +37496,134 @@ z - ym == dm</tt>.
 <p/>
 <i>Complexity:</i> <tt>&#x1d4aa;(1)</tt> with respect to the value of <tt>dm</tt>.
 </p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3222" href="#3222">3222</a><sup><a href="https://cplusplus.github.io/LWG/issue3222">(i)</a></sup>. P0574R1 introduced preconditions on non-existent parameters</h3>
+<p><b>Section:</b> 25.9.8 <a href="https://wg21.link/inclusive.scan">[inclusive.scan]</a>, 25.9.10 <a href="https://wg21.link/transform.inclusive.scan">[transform.inclusive.scan]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-06-18 <b>Last modified:</b> 2019-06-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+after applying <a href="http://wg21.link/p0574r1">P0574R1</a> to the working draft,
+25.9.10 <a href="https://wg21.link/transform.inclusive.scan">[transform.inclusive.scan]</a> bullet 1.1 says "If <tt>init</tt> is provided, [&hellip;]; 
+otherwise, <tt>ForwardIterator1</tt>'s value type shall be [&hellip;]."
+25.9.10 <a href="https://wg21.link/transform.inclusive.scan">[transform.inclusive.scan]</a> bullet 1.2 says "If <tt>init</tt> is provided, [&hellip;]; 
+otherwise, [&hellip;] shall be convertible to <tt>ForwardIterator1</tt>'s value type."
+<p/>
+For the first overload <tt>init</tt> is not provided, but there is no <tt>ForwardIterator1</tt>, so 
+these requirements cannot be met. The requirements for the first overload need to be stated in terms 
+of <tt>InputIterator</tt>'s value type, not <tt>ForwardIterator1</tt>'s value type.
+<p/>
+The same problem exists in 25.9.8 <a href="https://wg21.link/inclusive.scan">[inclusive.scan]</a>. 25.9.11 <a href="https://wg21.link/adjacent.difference">[adjacent.difference]</a> solves 
+this problem by saying "Let <tt>T</tt> be the value type of <tt>decltype(first)</tt>".
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 25.9.8 <a href="https://wg21.link/inclusive.scan">[inclusive.scan]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class InputIterator, class OutputIterator, class BinaryOperation&gt;
+  OutputIterator inclusive_scan(InputIterator first, InputIterator last,
+                                OutputIterator result, BinaryOperation binary_op);
+template&lt;class ExecutionPolicy, class ForwardIterator1, class ForwardIterator2,
+         class BinaryOperation&gt;
+  ForwardIterator2 inclusive_scan(ExecutionPolicy&amp;&amp; exec,
+                                  ForwardIterator1 first, ForwardIterator1 last,
+                                  ForwardIterator2 result, BinaryOperation binary_op);
+template&lt;class InputIterator, class OutputIterator, class BinaryOperation, class T&gt;
+  OutputIterator inclusive_scan(InputIterator first, InputIterator last,
+                                OutputIterator result, BinaryOperation binary_op, T init);
+template&lt;class ExecutionPolicy,
+         class ForwardIterator1, class ForwardIterator2, class BinaryOperation, class T&gt;
+  ForwardIterator2 inclusive_scan(ExecutionPolicy&amp;&amp; exec,
+                                  ForwardIterator1 first, ForwardIterator1 last,
+                                  ForwardIterator2 result, BinaryOperation binary_op, T init);
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <tt>U</tt> be the value type of <tt>decltype(first)</tt>.</ins>
+<p/>
+-3- <i>Requires:</i>
+</p>
+<ol style="list-style-type:none">
+<li><p>(3.1) &mdash; If <tt>init</tt> is provided, <tt>T</tt> shall be <i>Cpp17MoveConstructible</i> (Table 26); otherwise, <del><tt>ForwardIterator1</tt>'s value type</del><ins><tt>U</tt></ins> shall be 
+<i>Cpp17MoveConstructible</i>.</p></li>
+<li><p>(3.2) &mdash; If <tt>init</tt> is provided, all of <tt>binary_op(init, init)</tt>, <tt>binary_op(init, 
+*first)</tt>, and <tt>binary_op(*first, *first)</tt> shall be convertible to <tt>T</tt>; otherwise, 
+<tt>binary_op(*first, *first)</tt> shall be convertible to <del><tt>ForwardIterator1</tt>'s value 
+type</del><ins><tt>U</tt></ins>.</p></li>
+<li><p>(3.3) &mdash; <tt>binary_op</tt> shall neither invalidate iterators or subranges, nor modify elements 
+in the ranges <tt>[first, last]</tt> or <tt>[result, result + (last - first)]</tt>.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 25.9.10 <a href="https://wg21.link/transform.inclusive.scan">[transform.inclusive.scan]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class InputIterator, class OutputIterator,
+         class BinaryOperation, class UnaryOperation&gt;
+  OutputIterator transform_inclusive_scan(InputIterator first, InputIterator last,
+                                          OutputIterator result,
+                                          BinaryOperation binary_op, UnaryOperation unary_op);
+template&lt;class ExecutionPolicy,
+         class ForwardIterator1, class ForwardIterator2,
+         class BinaryOperation, class UnaryOperation&gt;
+  ForwardIterator2 transform_inclusive_scan(ExecutionPolicy&amp;&amp; exec,
+                                            ForwardIterator1 first, ForwardIterator1 last,
+                                            ForwardIterator2 result,
+                                            BinaryOperation binary_op, UnaryOperation unary_op);
+template&lt;class InputIterator, class OutputIterator,
+         class BinaryOperation, class UnaryOperation, class T&gt;
+  OutputIterator transform_inclusive_scan(InputIterator first, InputIterator last,
+                                          OutputIterator result,
+                                          BinaryOperation binary_op, UnaryOperation unary_op,
+                                          T init);
+template&lt;class ExecutionPolicy,
+         class ForwardIterator1, class ForwardIterator2,
+         class BinaryOperation, class UnaryOperation, class T&gt;
+  ForwardIterator2 transform_inclusive_scan(ExecutionPolicy&amp;&amp; exec,
+                                            ForwardIterator1 first, ForwardIterator1 last,
+                                            ForwardIterator2 result,
+                                            BinaryOperation binary_op, UnaryOperation unary_op,
+                                            T init);
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <tt>U</tt> be the value type of <tt>decltype(first)</tt>.</ins>
+<p/>
+-1- <i>Requires:</i>
+</p>
+<ol style="list-style-type:none">
+<li><p>(1.1) &mdash; If <tt>init</tt> is provided, <tt>T</tt> shall be <i>Cpp17MoveConstructible</i> (Table 26); otherwise, <del><tt>ForwardIterator1</tt>'s value type</del><ins><tt>U</tt></ins> shall be 
+<i>Cpp17MoveConstructible</i>.</p></li>
+<li><p>(1.2) &mdash; If <tt>init</tt> is provided, all of</p> 
+<ol style="list-style-type:none">
+<li><p>(1.2.1) &mdash; <tt>binary_op(init, init)</tt>,</p></li>
+<li><p>(1.2.2) &mdash; <tt>binary_op(init, unary_op(*first))</tt>, and</p></li>
+<li><p>(1.2.3) &mdash; <tt>binary_op(unary_op(*first), unary_op(*first))</tt></p></li>
+</ol>
+<p>shall be convertible to <tt>T</tt>; otherwise, <tt>binary_op(unary_op(*first), unary_op(*first))</tt> 
+shall be convertible to <del><tt>ForwardIterator1</tt>'s value type</del><ins><tt>U</tt></ins>.</p></li>
+<li><p>(1.3) &mdash; Neither <tt>unary_op</tt> nor <tt>binary_op</tt> shall invalidate iterators or subranges, 
+nor modify elements in the ranges <tt>[first, last]</tt> or <tt>[result, result + (last - first)]</tt>.</p></li>
+</ol>
 </blockquote>
 </blockquote>
 </li>
