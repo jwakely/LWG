@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2019-06-23</td>
+  <td align="left">2019-06-24</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D117)</h1>
-<p><p>Revised 2019-06-23 at 18:01:46 UTC</p>
+<p><p>Revised 2019-06-24 at 18:14:52 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -37337,7 +37337,7 @@ macros", as indicated:</p>
 <hr>
 <h3><a name="3218" href="#3218">3218</a><sup><a href="https://cplusplus.github.io/LWG/issue3218">(i)</a></sup>. Modifier for <tt>%d</tt> parse flag does not match POSIX and <tt>format</tt> specification</h3>
 <p><b>Section:</b> 27.12 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-06-13 <b>Last modified:</b> 2019-06-22</p>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-06-13 <b>Last modified:</b> 2019-06-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#time.parse">issues</a> in [time.parse].</p>
@@ -37364,6 +37364,17 @@ conversion specifiers"</a>:
 <blockquote><p>
 The modified command <code>%Od</code> produces the locale's alternative representation.
 </p></blockquote>
+
+<p><i>[2019-06-24; Howard comments]</i></p>
+
+<p>
+This was simply a type-o in my documentation that infected the proposal and subsequently the C++ working draft.
+<p/>
+None of <tt>std::time_put</tt>, C's <tt>strftime</tt>, or POSIX's <tt>strftime</tt> support 
+<tt>%Ed</tt> but all support <tt>%Od</tt>. Furthermore the existing example implementation 
+supports <tt>%Od</tt> but not <tt>%Ed</tt>. And all the existing example implementation 
+does is forward to <tt>std::time_put</tt>.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -37684,7 +37695,7 @@ program is ill-formed.
 <hr>
 <h3><a name="3221" href="#3221">3221</a><sup><a href="https://cplusplus.github.io/LWG/issue3221">(i)</a></sup>. Result of <tt>year_month</tt> arithmetic with <tt>months</tt> is ambiguous</h3>
 <p><b>Section:</b> 27.8.13.3 <a href="https://wg21.link/time.cal.ym.nonmembers">[time.cal.ym.nonmembers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-06-16 <b>Last modified:</b> 2019-06-16</p>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-06-16 <b>Last modified:</b> 2019-06-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -37696,6 +37707,14 @@ The current specification of the addition of <code>year_month</code> and
 To illustrate, both  <code>year(2019)/month(1)</code> and <code>year(2018)/month(13)</code> 
 are valid results of <code>year(2018)/month(12) + months(1)</code> addition, 
 according to the spec in 27.8.13.3 <a href="https://wg21.link/time.cal.ym.nonmembers">[time.cal.ym.nonmembers]</a>.
+</p>
+
+<p><i>[2019-06-24; LWG discussion]</i></p>
+
+<p>
+During discussions on the LWG reflector there was a preference to add "is <tt>true</tt>" at the 
+end of the modified <i>Returns:</i> element. This additional edit has been applied to Tomasz'
+original wording below.
 </p>
 
 
@@ -37712,7 +37731,7 @@ constexpr year_month operator+(const year_month&amp; ym, const months&amp; dm) n
 <blockquote>
 <p>
 -3- <i>Returns:</i> A <tt>year_month</tt> value <tt>z</tt> such that <tt><ins>z.ok() &amp;&amp;</ins>
-z - ym == dm</tt>.
+z - ym == dm</tt> <ins>is <tt>true</tt></ins>.
 <p/>
 <i>Complexity:</i> <tt>&#x1d4aa;(1)</tt> with respect to the value of <tt>dm</tt>.
 </p>
