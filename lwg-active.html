@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D117)</h1>
-<p><p>Revised 2019-06-30 at 17:20:28 UTC</p>
+<p><p>Revised 2019-06-30 at 17:30:44 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D117: 2019-08-05 2019 post-Cologne mailing<ul>
 <li><b>Summary:</b><ul>
-<li>301 open issues, up by 6.</li>
+<li>302 open issues, up by 7.</li>
 <li>2413 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2749 issues total, up by 6.</li>
+<li>2750 issues total, up by 7.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 6 New issues: <a href="lwg-active.html#3222">3222</a>, <a href="lwg-active.html#3223">3223</a>, <a href="lwg-active.html#3224">3224</a>, <a href="lwg-active.html#3225">3225</a>, <a href="lwg-active.html#3226">3226</a>, <a href="lwg-active.html#3227">3227</a>.</li>
+<li>Added the following 7 New issues: <a href="lwg-active.html#3222">3222</a>, <a href="lwg-active.html#3223">3223</a>, <a href="lwg-active.html#3224">3224</a>, <a href="lwg-active.html#3225">3225</a>, <a href="lwg-active.html#3226">3226</a>, <a href="lwg-active.html#3227">3227</a>, <a href="lwg-active.html#3228">3228</a>.</li>
 <li>Changed the following 6 issues to Voting (from Ready): <a href="lwg-active.html#2899">2899</a>, <a href="lwg-active.html#3055">3055</a>, <a href="lwg-active.html#3158">3158</a>, <a href="lwg-active.html#3169">3169</a>, <a href="lwg-active.html#3186">3186</a>, <a href="lwg-active.html#3187">3187</a>.</li>
 <li>Changed the following 11 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#3183">3183</a>, <a href="lwg-active.html#3184">3184</a>, <a href="lwg-active.html#3185">3185</a>, <a href="lwg-active.html#3191">3191</a>, <a href="lwg-active.html#3196">3196</a>, <a href="lwg-active.html#3198">3198</a>, <a href="lwg-active.html#3199">3199</a>, <a href="lwg-active.html#3202">3202</a>, <a href="lwg-active.html#3206">3206</a>, <a href="lwg-active.html#3208">3208</a>, <a href="lwg-active.html#3209">3209</a>.</li>
 </ul></li>
@@ -38397,6 +38397,43 @@ node_type extract(const key_type&amp; x);
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3228" href="#3228">3228</a><sup><a href="https://cplusplus.github.io/LWG/issue3228">(i)</a></sup>. Surprising <tt>variant</tt> construction</h3>
+<p><b>Section:</b> 20.7.3.1 <a href="https://wg21.link/variant.ctor">[variant.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2019-06-25 <b>Last modified:</b> 2019-06-30</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#variant.ctor">active issues</a> in [variant.ctor].</p>
+<p><b>View all other</b> <a href="lwg-index.html#variant.ctor">issues</a> in [variant.ctor].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+User mcencora on reddit today posted this example:
+</p>
+<blockquote><pre>
+#include &lt;variant&gt;
+
+struct ConvertibleToBool 
+{
+  constexpr operator bool() const { return true; }
+};
+
+static_assert(std::holds_alternative&lt;bool&gt;(std::variant&lt;int, bool&gt;(ConvertibleToBool{})));
+</pre></blockquote>
+<p>
+Before <a href="http://wg21.link/p0608">P0608</a>, the <tt>variant</tt> holds <tt>bool</tt>. After P0608, 
+the <tt>variant</tt> holds <tt>int</tt> so the static assertion fires.
+<p/>
+I don't know what the right answer is between (a) ill-formed (b) hold <tt>bool</tt> and (c) 
+hold <tt>int</tt> is, but I think (a) and (b) are better options than (c).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
