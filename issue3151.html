@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3151" href="lwg-active.html#3151">3151</a>. <tt>ConvertibleTo</tt> rejects conversions from array and function types</h3>
 <p><b>Section:</b> 18.4.4 <a href="https://wg21.link/concept.convertibleto">[concept.convertibleto]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2018-12-16</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2019-07-15</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#concept.convertibleto">active issues</a> in [concept.convertibleto].</p>
@@ -58,10 +58,7 @@ change made here must take care to avoid breaking the
 
 <p><i>[2018-08-20 Priority set to 3 after reflector discussion]</i></p>
 
-
-
-<p><b>Proposed resolution:</b></p>
-
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
 <blockquote class="note">
 <p>
 [<i>Drafting Note:</i> I've used <tt>declval</tt> here, despite that "Concepts
@@ -74,7 +71,6 @@ requires(add_rvalue_reference_t&lt;From&gt; (&amp;f)()) {
   static_cast&lt;To&gt;(f());
 };
 </pre>
-</blockquote>
 </blockquote>
 
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
@@ -94,6 +90,11 @@ template&lt;class From, class To&gt;
 </blockquote>
 </li>
 </ol>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This issue is resolved by the resolution of issue <a href="lwg-active.html#3194">3194</a>.</p>
 
 
 
