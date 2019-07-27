@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-07-27 at 11:46:11 UTC</p>
+<p><p>Revised 2019-07-27 at 12:47:11 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -34162,10 +34162,10 @@ template&lt;class charT, class traits, class Alloc, class Parsable&gt;
 </pre></blockquote>
 <p>
 -6- <i><del>Remarks</del><ins>Constraints</ins>:</i> <del>This function shall not participate in 
-overload resolution unless</del> <tt>from_stream(declval&lt;basic_istream&lt;charT, traits&gt;&amp;&gt;(), 
-fmt.c_str(), tp, <ins>declval&lt;basic_string&lt;charT, traits, Alloc&gt;*&gt;()</ins><del>nullptr</del>, 
-&amp;offset)</tt> is a <del>valid</del><ins>well-formed</ins> expression <ins>when treated as an 
-unevaluated operand</ins>.
+overload resolution unless</del><ins>The expression</ins> <tt>from_stream(declval&lt;basic_istream&lt;charT, 
+traits&gt;&amp;&gt;(), fmt.c_str(), tp, <ins>declval&lt;basic_string&lt;charT, traits, 
+Alloc&gt;*&gt;()</ins><del>nullptr</del>, &amp;offset)</tt> is <del>a valid</del><ins>well-formed</ins> 
+<del>expression</del><ins>when treated as an unevaluated operand</ins>.
 <p/>
 -7- <i>Returns:</i> A manipulator that, when extracted from a <tt>basic_istream&lt;charT, traits&gt; is</tt>, 
 calls <tt>from_stream(is, fmt.c_str(), tp, <ins>static_cast&lt;basic_string&lt;charT, traits,
@@ -34174,6 +34174,38 @@ Alloc&gt;*&gt;(</ins>nullptr<ins>)</ins>, &amp;offset)</tt>.
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3236" href="#3236">3236</a><sup><a href="https://cplusplus.github.io/LWG/issue3236">(i)</a></sup>. Random access iterator requirements lack limiting relational operators domain to comparing 
+those from the same range</h3>
+<p><b>Section:</b> 23.3.5.6 <a href="https://wg21.link/random.access.iterators">[random.access.iterators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Peter Sommerlad <b>Opened:</b> 2019-07-15 <b>Last modified:</b> 2019-07-27</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#random.access.iterators">issues</a> in [random.access.iterators].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For forward iterators we have very clear wording regarding the restricted domain of <tt>operator==</tt>
+in 23.3.5.4 <a href="https://wg21.link/forward.iterators">[forward.iterators]</a> p2:
+</p>
+<blockquote><p>
+The domain of <tt>==</tt> for forward iterators is that of iterators over the same underlying sequence. 
+However, value-initialized iterators may be compared and shall compare equal to other value-initialized 
+iterators of the same type. [<i>Note:</i> Value-initialized iterators behave as if they refer past the 
+end of the same empty sequence. &mdash; <i>end note</i>]
+</p></blockquote>
+<p>
+But for the relational operators of random access iterators specified in 
+23.3.5.6 <a href="https://wg21.link/random.access.iterators">[random.access.iterators]</a>, Table  [tab:randomaccessiterator],
+no such domain constraints are clearly defined, except that we can infer that they are
+similarly constrained as the difference of the compared iterators by means of the
+operational semantics of <tt>operator&lt;</tt>.
+</p>
 
 
 
