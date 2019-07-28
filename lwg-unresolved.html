@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-07-28 at 12:04:38 UTC</p>
+<p><p>Revised 2019-07-28 at 15:17:29 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -34367,6 +34367,45 @@ subsections should restrict lookup to ADL only. It is very likely that I missed 
 Comparisons, <tt>swap</tt></p></li>
 <li><p><a href="http://wg21.link/p1614r2">P1614R2 (The Mothership has Landed)</a>: Comparisons</p></li>
 </ul>
+
+
+
+
+<hr>
+<h3><a name="3240" href="#3240">3240</a><sup><a href="https://cplusplus.github.io/LWG/issue3240">(i)</a></sup>. Headers declare more than entities</h3>
+<p><b>Section:</b> 16.5.2.2 <a href="https://wg21.link/using.headers">[using.headers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2019-07-24 <b>Last modified:</b> 2019-07-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#using.headers">issues</a> in [using.headers].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Quoting 16.5.2.2 <a href="https://wg21.link/using.headers">[using.headers]</a> p3:
+</p>
+<blockquote><p>
+"[&hellip;] and shall include the header lexically before the first reference in that translation
+ unit to any of the entities declared in that header."
+</p></blockquote>
+<p>
+This suggests we may be able to use macros and typedefs (like <tt>size_t</tt>) declared in 
+standard headers without the corresponding <tt>#include</tt>. Clearly that is not the intended 
+behavior!
+<p/>
+I thought about replacing 'entity' with 'name', but the same name may occur with
+different contexts throughout the standard library. I thought about "contents of that
+header", but run afoul of the same function overloads (<tt>std::begin</tt> etc.) being declared
+in multiple headers.
+<p/>
+It may be simpler to turn this sentence around, along the lines of:
+</p>
+<blockquote><p>
+"No part of the standard library shall be used in a translation unit prior to a including
+or importing a header that provides that feature.”
+</p></blockquote>
+<p>
+Even here, 'used' may be a problematic term of art. Perhaps "named"?
+</p>
 
 
 

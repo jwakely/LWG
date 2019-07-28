@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D117)</h1>
-<p><p>Revised 2019-07-28 at 12:04:38 UTC</p>
+<p><p>Revised 2019-07-28 at 15:17:29 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D117: 2019-08-05 2019 post-Cologne mailing<ul>
 <li><b>Summary:</b><ul>
-<li>295 open issues, up by 0.</li>
+<li>296 open issues, up by 1.</li>
 <li>2431 closed issues, up by 18.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2761 issues total, up by 18.</li>
+<li>2762 issues total, up by 19.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 6 Tentatively Ready issues: <a href="lwg-active.html#3222">3222</a>, <a href="lwg-active.html#3224">3224</a>, <a href="lwg-active.html#3225">3225</a>, <a href="lwg-active.html#3230">3230</a>, <a href="lwg-active.html#3231">3231</a>, <a href="lwg-active.html#3232">3232</a>.</li>
-<li>Added the following 12 New issues: <a href="lwg-active.html#3223">3223</a>, <a href="lwg-active.html#3226">3226</a>, <a href="lwg-active.html#3227">3227</a>, <a href="lwg-active.html#3228">3228</a>, <a href="lwg-active.html#3229">3229</a>, <a href="lwg-active.html#3233">3233</a>, <a href="lwg-active.html#3234">3234</a>, <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3236">3236</a>, <a href="lwg-active.html#3237">3237</a>, <a href="lwg-active.html#3238">3238</a>, <a href="lwg-active.html#3239">3239</a>.</li>
+<li>Added the following 13 New issues: <a href="lwg-active.html#3223">3223</a>, <a href="lwg-active.html#3226">3226</a>, <a href="lwg-active.html#3227">3227</a>, <a href="lwg-active.html#3228">3228</a>, <a href="lwg-active.html#3229">3229</a>, <a href="lwg-active.html#3233">3233</a>, <a href="lwg-active.html#3234">3234</a>, <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3236">3236</a>, <a href="lwg-active.html#3237">3237</a>, <a href="lwg-active.html#3238">3238</a>, <a href="lwg-active.html#3239">3239</a>, <a href="lwg-active.html#3240">3240</a>.</li>
 <li>Changed the following 2 issues to Ready (from New): <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3190">3190</a>.</li>
 <li>Changed the following 2 issues to Ready (from Open): <a href="lwg-active.html#3103">3103</a>, <a href="lwg-active.html#3149">3149</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3218">3218</a>, <a href="lwg-active.html#3221">3221</a>.</li>
@@ -37234,6 +37234,45 @@ subsections should restrict lookup to ADL only. It is very likely that I missed 
 Comparisons, <tt>swap</tt></p></li>
 <li><p><a href="http://wg21.link/p1614r2">P1614R2 (The Mothership has Landed)</a>: Comparisons</p></li>
 </ul>
+
+
+
+
+<hr>
+<h3><a name="3240" href="#3240">3240</a><sup><a href="https://cplusplus.github.io/LWG/issue3240">(i)</a></sup>. Headers declare more than entities</h3>
+<p><b>Section:</b> 16.5.2.2 <a href="https://wg21.link/using.headers">[using.headers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2019-07-24 <b>Last modified:</b> 2019-07-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#using.headers">issues</a> in [using.headers].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Quoting 16.5.2.2 <a href="https://wg21.link/using.headers">[using.headers]</a> p3:
+</p>
+<blockquote><p>
+"[&hellip;] and shall include the header lexically before the first reference in that translation
+ unit to any of the entities declared in that header."
+</p></blockquote>
+<p>
+This suggests we may be able to use macros and typedefs (like <tt>size_t</tt>) declared in 
+standard headers without the corresponding <tt>#include</tt>. Clearly that is not the intended 
+behavior!
+<p/>
+I thought about replacing 'entity' with 'name', but the same name may occur with
+different contexts throughout the standard library. I thought about "contents of that
+header", but run afoul of the same function overloads (<tt>std::begin</tt> etc.) being declared
+in multiple headers.
+<p/>
+It may be simpler to turn this sentence around, along the lines of:
+</p>
+<blockquote><p>
+"No part of the standard library shall be used in a translation unit prior to a including
+or importing a header that provides that feature.”
+</p></blockquote>
+<p>
+Even here, 'used' may be a problematic term of art. Perhaps "named"?
+</p>
 
 
 
