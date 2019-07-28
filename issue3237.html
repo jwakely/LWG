@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3237" href="lwg-active.html#3237">3237</a>. LWG 3038 and 3190 have inconsistent PRs</h3>
 <p><b>Section:</b> 20.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-07-18 <b>Last modified:</b> 2019-07-27</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-07-18 <b>Last modified:</b> 2019-07-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#mem.poly.allocator.mem">issues</a> in [mem.poly.allocator.mem].</p>
@@ -62,9 +62,9 @@ either succeed or throw an exception derived from <tt>bad_alloc</tt>.
 <tt><del>length_error</del><ins>bad_array_new_length</ins></tt>. 
 Otherwise equivalent to:
 </p>
-<pre>
+<blockquote><pre>
 return static_cast&lt;Tp*&gt;(memory_rsrc-&gt;allocate(n * sizeof(Tp), alignof(Tp)));
-</pre>
+</pre></blockquote>
 </blockquote>
 </li>
 </ol>
