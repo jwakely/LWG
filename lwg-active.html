@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D117)</h1>
-<p><p>Revised 2019-07-28 at 11:26:11 UTC</p>
+<p><p>Revised 2019-07-28 at 11:31:56 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -37111,9 +37111,9 @@ either succeed or throw an exception derived from <tt>bad_alloc</tt>.
 <li><p>Modify 20.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> as indicated:</p>
 
 <blockquote>
-<blockquote><pre>
+<pre>
 [[nodiscard]] Tp* allocate(size_t n);
-</pre></blockquote>
+</pre><blockquote>
 <p>
 -1- <i>Effects:</i> If <tt>SIZE_MAX / sizeof(Tp) &lt; n</tt>, throws 
 <tt><del>length_error</del><ins>bad_array_new_length</ins></tt>. 
@@ -37122,6 +37122,7 @@ Otherwise equivalent to:
 <blockquote><pre>
 return static_cast&lt;Tp*&gt;(memory_rsrc-&gt;allocate(n * sizeof(Tp), alignof(Tp)));
 </pre></blockquote>
+</blockquote>
 </blockquote>
 </li>
 </ol>
