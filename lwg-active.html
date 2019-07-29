@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2019-07-28</td>
+  <td align="left">2019-07-29</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D117)</h1>
-<p><p>Revised 2019-07-28 at 15:42:28 UTC</p>
+<p><p>Revised 2019-07-29 at 16:30:07 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -36699,7 +36699,7 @@ alternative full year representation.</ins></td>
 <hr>
 <h3><a name="3231" href="#3231">3231</a><sup><a href="https://cplusplus.github.io/LWG/issue3231">(i)</a></sup>. <tt>year_month_day_last::day</tt> specification does not cover <tt>!ok()</tt> values</h3>
 <p><b>Section:</b> 27.8.15.2 <a href="https://wg21.link/time.cal.ymdlast.members">[time.cal.ymdlast.members]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-06-29 <b>Last modified:</b> 2019-07-27</p>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-06-29 <b>Last modified:</b> 2019-07-29</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -36744,7 +36744,7 @@ constexpr chrono::day day() const noexcept;
 </pre>
 <blockquote>
 <p>
--13- <i>Returns:</i> <ins>If <tt>ok() == true</tt>, returns a</ins><del>A</del> <tt>day</tt> 
+-13- <i>Returns:</i> <ins>If <tt>ok()</tt> is <tt>true</tt>, returns a</ins><del>A</del> <tt>day</tt> 
 representing the last day of the (<tt>year, month</tt>) pair represented by <tt>*this</tt>. 
 <ins>Otherwise the returned value is unspecified.</ins>
 <p/>
@@ -37085,7 +37085,7 @@ operational semantics of <tt>operator&lt;</tt>.
 <hr>
 <h3><a name="3237" href="#3237">3237</a><sup><a href="https://cplusplus.github.io/LWG/issue3237">(i)</a></sup>. LWG 3038 and 3190 have inconsistent PRs</h3>
 <p><b>Section:</b> 20.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-07-18 <b>Last modified:</b> 2019-07-28</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-07-18 <b>Last modified:</b> 2019-07-29</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#mem.poly.allocator.mem">issues</a> in [mem.poly.allocator.mem].</p>
@@ -37105,6 +37105,16 @@ Reflector discussion of 3190 seemed to achieve consensus that <tt>bad_array_new_
 the better option. Unlike <tt>length_error</tt>, <tt>bad_array_new_length</tt> derives from 
 <tt>bad_alloc</tt> so we can make this change without altering the invariant that allocation functions 
 either succeed or throw an exception derived from <tt>bad_alloc</tt>.
+<p/>
+Further, <a href="http://wg21.link/p0339r6">P0339R6</a> "<tt>polymorphic_allocator&lt;&gt;</tt> as a 
+vocabulary type" recently added the function template "<tt>template&lt;class T&gt; T* 
+allocate_object(size_t n = 1);</tt>" to <tt>std::pmr::polymorphic_allocator</tt>, which is another 
+instance of the "allocate memory for <tt>n</tt> objects of type <tt>T</tt>" pattern. 
+20.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> paragraph 8.1 specifies that <tt>allocate_object</tt> throws 
+<tt>length_error</tt> when <tt>SIZE_MAX / sizeof(T) &lt; n</tt>, presumably for consistency with <tt>std::pmr::polymorphic_allocator::allocate</tt> specified in paragraph 1. <tt>allocate_object</tt>'s 
+behavior should be consistent with <tt>allocator::allocate</tt> and 
+<tt>polymorphic_allocator::allocate</tt> so we have a single means of communicating "request for 
+allocation of unrepresentable size" errors in the Standard Library.
 </p>
 
 <p><b>Proposed resolution:</b></p>
@@ -37124,7 +37134,27 @@ Otherwise equivalent to:
 </p>
 <blockquote><pre>
 return static_cast&lt;Tp*&gt;(memory_rsrc-&gt;allocate(n * sizeof(Tp), alignof(Tp)));
+</pre>
+</blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class T&gt;
+  T* allocate_object(size_t n = 1);
+</pre><blockquote>
+<p>
+-8- <i>Effects:</i> Allocates memory suitable for holding an array of <tt>n</tt> objects of type 
+<tt>T</tt>, as follows:
+</p>
+<ol style="list-style-type: none">
+<li><p>(8.1) &mdash; if <tt>SIZE_MAX / sizeof(T) &lt; n</tt>, throws 
+<tt><del>length_error</del><ins>bad_array_new_length</ins></tt>,</p></li>
+<li><p>(8.2) &mdash; otherwise equivalent to:</p>
+<blockquote><pre>
+return static_cast&lt;T*&gt;(allocate_bytes(n*sizeof(T), alignof(T)));
 </pre></blockquote>
+</li>
+</ol>
 </blockquote>
 </blockquote>
 </li>
