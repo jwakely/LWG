@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-08-02 at 18:32:54 UTC</p>
+<p><p>Revised 2019-08-02 at 18:43:08 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -34629,6 +34629,8 @@ literal-char ::= &lt;a character other than '{'<del> or</del><ins>,</ins> '}'<in
  <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-07-31 <b>Last modified:</b> 2019-08-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.string">active issues</a> in [format.string].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.string">issues</a> in [format.string].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -34685,6 +34687,57 @@ precision  ::= integer | '{' <ins>[</ins>arg-id<ins>]</ins> '}'
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3243" href="#3243">3243</a><sup><a href="https://cplusplus.github.io/LWG/issue3243">(i)</a></sup>. <tt>std::format</tt> and negative zeroes</h3>
+<p><b>Section:</b> 99 [format.string] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-07-31 <b>Last modified:</b> 2019-08-02</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.string">active issues</a> in [format.string].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.string">issues</a> in [format.string].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+What are these:
+</p>
+<blockquote><pre>
+std::format("{}", -0.0);
+std::format("{:+}", -0.0);
+std::format("{:-}", -0.0);
+std::format("{: }", -0.0);
+</pre></blockquote>
+<p>
+with
+</p>
+<blockquote><pre>
+"{:{}} {}"
+</pre></blockquote>
+<p>
+A negative zero is not a negative number, so I <em>think</em> the answer for an implementation that supports 
+signed zeroes is <tt>"0"</tt>, <tt>"-0"</tt>, <tt>"0"</tt>, <tt>" 0"</tt>. Is that the intent? (Note 
+that this doesn't satisfy <tt>to_chars</tt>' round-trip guarantee.)
+<p/>
+Or should the behavior actually be that <tt>"+"</tt> means "insert a leading <tt>+</tt> if <tt>to_chars</tt>' 
+output does not start with <tt>-"</tt> and <tt>" "</tt> actually means "insert a leading space if 
+<tt>to_chars</tt>' output does not start with <tt>-"</tt> (that is, the same as <tt>"%+f"</tt> and <tt>"% f"</tt>) 
+&mdash; so that the result of all four calls is <tt>"-0"</tt>?
+<p/>
+<b>Victor Zverovich:</b>
+<p/>
+The latter. <tt>std::format</tt> is specified in terms of <tt>to_chars</tt> and the intent is to have similar 
+round trip guarantee here, so the result should be <tt>"-0"</tt>, <tt>"-0"</tt>, <tt>"-0"</tt>, <tt>"-0"</tt>. 
+This has also been extensively discussed in LEWG and the outcome of that discussion was to print <tt>'-'</tt> 
+for negative zeros.
+<p/>
+So I think it should be clarified that <tt>'-'</tt> and space apply to negative numbers and negative zero.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
