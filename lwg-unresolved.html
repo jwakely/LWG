@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-07-29 at 16:30:07 UTC</p>
+<p><p>Revised 2019-08-02 at 17:23:52 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -26594,14 +26594,15 @@ allocation function. &mdash; <i>end note</i>]
 <hr>
 <h3><a name="3088" href="#3088">3088</a><sup><a href="https://cplusplus.github.io/LWG/issue3088">(i)</a></sup>. <tt>forward_list::merge</tt> behavior unclear when passed <tt>*this</tt></h3>
 <p><b>Section:</b> 22.3.9.6 <a href="https://wg21.link/forwardlist.ops">[forwardlist.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-03-19 <b>Last modified:</b> 2018-06-19</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-03-19 <b>Last modified:</b> 2019-07-30</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#forwardlist.ops">issues</a> in [forwardlist.ops].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#300">300</a> changed <tt>list::merge</tt> to be a no-op when passed <tt>*this</tt>, but there's no equivalent rule for <tt>forward_list::merge</tt>.
+LWG <a href="lwg-defects.html#300">300</a> changed <tt>list::merge</tt> to be a no-op when passed <tt>*this</tt>, but there's
+no equivalent rule for <tt>forward_list::merge</tt>.
 Presumably the <tt>forward_list</tt> proposal predated the adoption of LWG 300's PR and was never updated 
 for the change. Everything in the discussion of that issue applies mutatis mutandis to the current 
 specification of <tt>forward_list::merge</tt>.
@@ -26611,8 +26612,12 @@ specification of <tt>forward_list::merge</tt>.
 
 <p>Priority set to 3</p>
 
+<p><i>[2019-07-30 Tim provides updated PR]</i></p>
 
-<p><b>Proposed resolution:</b></p>
+<p>Per the comments during issue prioritization, the new PR tries to synchronize the wording
+between <tt>list::merge</tt> and <tt>forward_list::merge</tt>.</p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>This wording is relative to <a href="http://wg21.link/n4727">N4727</a>.</p>
 
 <ol>
@@ -26644,6 +26649,86 @@ their elements, but they now behave as iterators into <tt>*this</tt>, not into <
 <p/>
 -23- <i>Complexity:</i> At most <tt>distance(begin(), end()) + distance(x.begin(), x.end()) - 1</tt> 
 comparisons <ins>if <tt>addressof(x) != this</tt>; otherwise, no comparisons are performed</ins>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4727">N4820</a>.</p>
+
+<ol>
+<li><p>Edit 22.3.9.6 <a href="https://wg21.link/forwardlist.ops">[forwardlist.ops]</a> as indicated:</p>
+<blockquote>
+<pre>
+void merge(forward_list&amp; x);
+void merge(forward_list&amp;&amp; x);
+template&lt;class Compare&gt; void merge(forward_list&amp; x, Compare comp);
+template&lt;class Compare&gt; void merge(forward_list&amp;&amp; x, Compare comp);
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <tt>comp</tt> be <tt>less&lt;&gt;{}</tt> for the first two overloads.</ins>
+<p/>
+-22- <i>Expects:</i> <tt>*this</tt> and <tt>x</tt> are both sorted with respect to the comparator 
+<del><tt>operator&lt;</tt> (for the first two overloads) or</del> <tt>comp</tt>
+<del> (for the last two overloads)</del>, 
+and <tt>get_allocator() == x.get_allocator()</tt> is <tt>true</tt>.
+<p/>
+-23- <i>Effects:</i> <ins>If <tt>addressof(x) == this</tt>, there are no effects. Otherwise, 
+m</ins><del>M</del>erges the two sorted ranges <tt>[begin(), end())</tt> and <tt>[x.begin(), x.end())</tt>. 
+<ins>The result is a range that is sorted with respect to the comparator <tt>comp</tt>.</ins> <del><tt>x</tt> is 
+empty after the merge. If an exception is thrown other than by a comparison there are no effects.</del>
+Pointers and references to the moved elements of <tt>x</tt> now refer to those same elements but 
+as members of <tt>*this</tt>. Iterators referring to the moved elements will continue to refer to 
+their elements, but they now behave as iterators into <tt>*this</tt>, not into <tt>x</tt>.
+<p/>
+-24- <i>Remarks:</i> Stable (16.5.5.7 <a href="https://wg21.link/algorithm.stable">[algorithm.stable]</a>). <ins>If <tt>addressof(x) != this</tt>,
+<tt>x</tt> is empty after the merge. No elements are copied by this operation.
+If an exception is thrown other than by a comparison there are no effects.</ins>
+<p/>
+-25- <i>Complexity:</i> At most <tt>distance(begin(), end()) + distance(x.begin(), x.end()) - 1</tt> 
+comparisons <ins>if <tt>addressof(x) != this</tt>; otherwise, no comparisons are performed</ins>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+<li><p>Edit 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a> as indicated:</p>
+<blockquote>
+<pre>
+void merge(list&amp; x);
+void merge(list&amp;&amp; x);
+template&lt;class Compare&gt; void merge(list&amp; x, Compare comp);
+template&lt;class Compare&gt; void merge(list&amp;&amp; x, Compare comp);
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <tt>comp</tt> be <tt>less&lt;&gt;{}</tt> for the first two overloads.</ins>
+<p/>
+-24- <i>Expects:</i> <del>Both the list and the argument list shall be</del><ins><tt>*this</tt> and <tt>x</tt> are both</ins>
+sorted with respect to the comparator <del><tt>operator&lt;</tt>
+(for the first two overloads) or </del><tt>comp</tt><del> (for the last two overloads).</del><ins>, and</ins>
+<tt>get_allocator() != x.get_allocator()</tt> is <tt>true</tt>.
+<p/>
+-25- <i>Effects:</i> If <tt>addressof(x) == this</tt>, <del>does nothing; o</del><ins>there are no effects. O</ins>therwise,
+merges the two sorted ranges <tt>[begin(), end())</tt> and <tt>[x.begin(), x.end())</tt>.
+The result is a range <del>in which the elements will be sorted in non-decreasing order according to the ordering 
+defined by <tt>comp</tt>; that is, for every iterator <tt>i</tt>, in the range other than the first, the condition
+<tt>comp(*i, *(i - 1))</tt> will be <tt>false</tt></del><ins>that is sorted with respect to the comparator
+<tt>comp</tt></ins>. Pointers and references to the moved elements of <tt>x</tt> now refer to those same elements 
+but as members of <tt>*this</tt>. Iterators referring to the moved elements will continue to refer to their elements,
+but they now behave as iterators into <tt>*this</tt>, not into <tt>x</tt>.
+<p/>
+-26- <i>Remarks:</i> Stable (16.5.5.7 <a href="https://wg21.link/algorithm.stable">[algorithm.stable]</a>). If <tt>addressof(x) != this</tt>, <del>the range
+<tt>[x.begin(), x.end())</tt></del><ins><tt>x</tt></ins> is empty after the merge. No elements are copied by this operation.
+<ins>If an exception is thrown other than by a comparison there are no effects.</ins>
+<p/>
+-27- <i>Complexity:</i> At most <tt>size() + x.size() - 1</tt> <del>applications of <tt>comp</tt></del><ins>comparisons</ins>
+if <tt>addressof(x) != this</tt>; otherwise, no <del>applications of <tt>comp</tt></del><ins>comparisons</ins> are performed. 
+<del>If an exception is thrown other than by a comparison there are no effects.</del>
 </p>
 </blockquote>
 </blockquote>
@@ -34186,7 +34271,7 @@ Alloc&gt;*&gt;(</ins>nullptr<ins>)</ins>, &amp;offset)</tt>.
 <h3><a name="3236" href="#3236">3236</a><sup><a href="https://cplusplus.github.io/LWG/issue3236">(i)</a></sup>. Random access iterator requirements lack limiting relational operators domain to comparing 
 those from the same range</h3>
 <p><b>Section:</b> 23.3.5.6 <a href="https://wg21.link/random.access.iterators">[random.access.iterators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Peter Sommerlad <b>Opened:</b> 2019-07-15 <b>Last modified:</b> 2019-07-28</p>
+ <b>Submitter:</b> Peter Sommerlad <b>Opened:</b> 2019-07-15 <b>Last modified:</b> 2019-08-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#random.access.iterators">issues</a> in [random.access.iterators].</p>
@@ -34210,7 +34295,59 @@ similarly constrained as the difference of the compared iterators by means of th
 operational semantics of <tt>operator&lt;</tt>.
 </p>
 
+<p><i>[2019-07-29; Casey comments and provides wording]</i></p>
+
+<p>
+Change the "Operational Semantics" column of the "<tt>a &lt; b</tt>" row of [tab:randomaccessiterator] to 
+"<ins><i>Effects:</i> Equivalent to: <tt>return</tt></ins> <tt>b - a &gt; 0</tt><ins>;</ins>
+<p/>
+It then follows that <tt>a &lt; b</tt> is required to be well-defined over the domain for which 
+<tt>b - a</tt> is required to be well-defined, which is the set of pairs <tt>(x, y)</tt> such that 
+there exists a value <tt>n</tt> of type difference_type such that <tt>x + n == b</tt>.
+</p>
+
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4820">N4820</a>.</p>
+
+<ol>
+<li><p>Modify 20.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> as indicated:</p>
+
+<blockquote>
+<table border="1">
+<caption>Table 78: <ii>Cpp17RandomAccessIterator</ii> requirements (in addition to 
+<i>Cpp17BidirectionalIterator</i>) [tab:randomaccessiterator]</caption>
+<tr align="center">
+<th>Expression</th>
+<th>Return type</th>
+<th>Operational semantics</th>
+<th>Assertion&#47;note<br/>pre-&#47;post-condition</th>
+</tr> 
+
+<tr>
+<td colspan="4" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>a &lt; b</tt>
+</td>
+<td>
+contextually convertible to <tt>bool</tt>
+</td>
+<td>
+<ins><i>Effects:</i> Equivalent to: <tt>return</tt></ins> <tt>b - a &gt; 0<ins>;</ins></tt>
+</td>
+<td>
+<tt>&lt;</tt> is a total ordering relation
+</td>
+</tr>
+
+</table>
+</blockquote>
+</li>
+</ol>
 
 
 
@@ -34411,7 +34548,7 @@ Comparisons, <tt>swap</tt></p></li>
 <hr>
 <h3><a name="3240" href="#3240">3240</a><sup><a href="https://cplusplus.github.io/LWG/issue3240">(i)</a></sup>. Headers declare more than entities</h3>
 <p><b>Section:</b> 16.5.2.2 <a href="https://wg21.link/using.headers">[using.headers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2019-07-24 <b>Last modified:</b> 2019-07-28</p>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2019-07-24 <b>Last modified:</b> 2019-07-30</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#using.headers">issues</a> in [using.headers].</p>
@@ -34438,7 +34575,7 @@ It may be simpler to turn this sentence around, along the lines of:
 </p>
 <blockquote><p>
 "No part of the standard library shall be used in a translation unit prior to a including
-or importing a header that provides that feature.”
+or importing a header that provides that feature."
 </p></blockquote>
 <p>
 Even here, 'used' may be a problematic term of art. Perhaps "named"?
@@ -34452,7 +34589,7 @@ Even here, 'used' may be a problematic term of art. Perhaps "named"?
 <hr>
 <h3><a name="3241" href="#3241">3241</a><sup><a href="https://cplusplus.github.io/LWG/issue3241">(i)</a></sup>. <tt>chrono-spec</tt> grammar ambiguity in &sect;[time.format]</h3>
 <p><b>Section:</b> 27.11 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2019-07-24 <b>Last modified:</b> 2019-07-28</p>
+ <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2019-07-24 <b>Last modified:</b> 2019-07-30</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -34469,8 +34606,10 @@ conversion-spec ::= '%' [modifier] type
 </pre></blockquote>
 
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to the Post Cologne working draft.</p>
+
 <ol>
-<li><p>Modify the <tt>literal-char</tt> grammar in 27.11 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
+<li><p>Modify the <tt>literal-char</tt> grammar in [time.format] as indicated:</p>
 
 <blockquote>
 <pre>
