@@ -26,7 +26,7 @@
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>This document is the Table of Contents for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.</p>
-<p><p>Revised 2019-08-02 at 18:43:08 UTC</p>
+<p><p>Revised 2019-08-03 at 17:52:23 UTC</p>
 </p><h2><a name="Priority 1"</a>Priority 1 (2 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -1411,19 +1411,19 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3219">3219</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3219"></a></td>
+<td align="right"><a href="lwg-active.html#2823">2823</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2823"></a></td>
 <td align="left">22.3.7.1 [array.overview]<a name="array.overview"></a></td>
-<td align="left"><tt>std::array</tt> overview container requirements are incorrect</td>
+<td align="left"><tt>std::array</tt> initialization is still not permissive enough</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2823">2823</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2823"></a></td>
+<td align="right"><a href="lwg-active.html#3219">3219</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3219"></a></td>
 <td align="left">22.3.7.1 [array.overview]</td>
-<td align="left"><tt>std::array</tt> initialization is still not permissive enough</td>
+<td align="left"><tt>std::array</tt> overview container requirements are incorrect</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -2516,28 +2516,19 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2478">2478</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2478"></a></td>
-<td align="left">D.15.1 [depr.conversions.string]<a name="depr.conversions.string"></a></td>
-<td align="left">Unclear how <tt>wstring_convert</tt> uses <tt>cvtstate</tt></td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">4</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#2481">2481</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2481"></a></td>
-<td align="left">D.15.1 [depr.conversions.string]</td>
+<td align="left">D.15.1 [depr.conversions.string]<a name="depr.conversions.string"></a></td>
 <td align="left"><tt>wstring_convert</tt> should be more precise regarding "byte-error string" etc.</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2479">2479</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2479"></a></td>
-<td align="left">D.15.2 [depr.conversions.buffer]<a name="depr.conversions.buffer"></a></td>
-<td align="left">Unclear how <tt>wbuffer_convert</tt> uses <tt>cvtstate</tt></td>
+<td align="right"><a href="lwg-active.html#2478">2478</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2478"></a></td>
+<td align="left">D.15.1 [depr.conversions.string]</td>
+<td align="left">Unclear how <tt>wstring_convert</tt> uses <tt>cvtstate</tt></td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
@@ -2545,14 +2536,23 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <tr>
 <td align="right"><a href="lwg-active.html#2480">2480</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2480"></a></td>
-<td align="left">D.15.2 [depr.conversions.buffer]</td>
+<td align="left">D.15.2 [depr.conversions.buffer]<a name="depr.conversions.buffer"></a></td>
 <td align="left">Error handling of <tt>wbuffer_convert</tt> unclear</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
+<tr>
+<td align="right"><a href="lwg-active.html#2479">2479</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2479"></a></td>
+<td align="left">D.15.2 [depr.conversions.buffer]</td>
+<td align="left">Unclear how <tt>wbuffer_convert</tt> uses <tt>cvtstate</tt></td>
+<td align="center"><font color="red">No</font></td>
+<td align="center">4</td>
+<td align="left"></td>
+</tr>
 </table>
-<h2><a name="Priority 99"</a>Not Prioritized (41 issues)</h2>
+<h2><a name="Priority 99"</a>Not Prioritized (42 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -2672,20 +2672,20 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2922">2922</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2922"></a></td>
+<td align="right"><a href="lwg-active.html#3099">3099</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3099"></a></td>
 <td align="left">20.15.2 [meta.type.synop]<a name="meta.type.synop"></a></td>
-<td align="left">The <tt>*_constant&lt;&gt;</tt> templates do not make use of <tt>template&lt;auto&gt;</tt></td>
-<td align="center"><font color="red">No</font></td>
+<td align="left"><tt>is_assignable&lt;Incomplete&amp;, Incomplete&amp;&gt;</tt></td>
+<td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3099">3099</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3099"></a></td>
+<td align="right"><a href="lwg-active.html#2922">2922</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2922"></a></td>
 <td align="left">20.15.2 [meta.type.synop]</td>
-<td align="left"><tt>is_assignable&lt;Incomplete&amp;, Incomplete&amp;&gt;</tt></td>
-<td align="center">Yes</td>
+<td align="left">The <tt>*_constant&lt;&gt;</tt> templates do not make use of <tt>template&lt;auto&gt;</tt></td>
+<td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
@@ -2700,20 +2700,20 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2884">2884</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2884"></a></td>
+<td align="right"><a href="lwg-active.html#2885">2885</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2885"></a></td>
 <td align="left">22 [containers]<a name="containers"></a></td>
-<td align="left">Relational operators for containers should sfinae; if the underlying type is not comparable, neither should the container be</td>
+<td align="left">The relational operators of <tt>optional</tt> and <tt>variant</tt> completely reflect the semantics of the element 
+types &mdash; this is inconsistent with other types in the library</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2885">2885</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2885"></a></td>
+<td align="right"><a href="lwg-active.html#2884">2884</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2884"></a></td>
 <td align="left">22 [containers]</td>
-<td align="left">The relational operators of <tt>optional</tt> and <tt>variant</tt> completely reflect the semantics of the element 
-types &mdash; this is inconsistent with other types in the library</td>
+<td align="left">Relational operators for containers should sfinae; if the underlying type is not comparable, neither should the container be</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
@@ -2811,6 +2811,15 @@ those from the same range</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3244">3244</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3244"></a></td>
+<td align="left">29.11.7.3 [fs.path.req]<a name="fs.path.req"></a></td>
+<td align="left">Constraints for <tt>Source</tt> in [fs.path.req] insufficiently constrainty</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#523">523</a></td>
 <td align="left"><a href="lwg-active.html#Open">Open</a><a name="523"></a></td>
 <td align="left">30 [re]<a name="re"></a></td>
@@ -2874,18 +2883,9 @@ those from the same range</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1493">1493</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1493"></a></td>
-<td align="left">32.4.3 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
-<td align="left">Add <tt>mutex</tt>, <tt>recursive_mutex</tt>, <tt>is_locked</tt> function</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#961">961</a></td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="961"></a></td>
-<td align="left">32.4.3 [thread.mutex.requirements]</td>
+<td align="left">32.4.3 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
 <td align="left">Various threading bugs #11</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
@@ -2901,6 +2901,15 @@ those from the same range</td>
 <td align="left"><a href="lwg-active.html#961">961</a></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#1493">1493</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1493"></a></td>
+<td align="left">32.4.3 [thread.mutex.requirements]</td>
+<td align="left">Add <tt>mutex</tt>, <tt>recursive_mutex</tt>, <tt>is_locked</tt> function</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3242">3242</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3242"></a></td>
 <td align="left">99 [format.string]<a name="format.string"></a></td>
@@ -2914,7 +2923,7 @@ those from the same range</td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3243"></a></td>
 <td align="left">99 [format.string]</td>
 <td align="left"><tt>std::format</tt> and negative zeroes</td>
-<td align="center"><font color="red">No</font></td>
+<td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
