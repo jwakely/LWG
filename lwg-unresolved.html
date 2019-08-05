@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-08-05 at 16:38:39 UTC</p>
+<p><p>Revised 2019-08-05 at 17:56:39 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -34353,7 +34353,7 @@ return static_cast&lt;T*&gt;(allocate_bytes(n*sizeof(T), alignof(T)));
 <hr>
 <h3><a name="3238" href="#3238">3238</a><sup><a href="https://cplusplus.github.io/LWG/issue3238">(i)</a></sup>. Insufficiently-defined behavior of <tt>std::function</tt> deduction guides</h3>
 <p><b>Section:</b> 20.14.16.2.1 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Louis Dionne <b>Opened:</b> 2019-07-17 <b>Last modified:</b> 2019-07-28</p>
+ <b>Submitter:</b> Louis Dionne <b>Opened:</b> 2019-07-17 <b>Last modified:</b> 2019-08-05</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#func.wrap.func.con">active issues</a> in [func.wrap.func.con].</p>
@@ -34400,10 +34400,10 @@ template&lt;class F&gt; function(F) -&gt; function&lt;<i>see below</i>&gt;;
 </pre><blockquote>
 <p>
 -12- <i>Remarks:</i> This deduction guide participates in overload resolution only if 
-<tt>&amp;F::operator()</tt> is well-formed when treated as an unevaluated operand<ins>, and is 
-of the form <tt>R(G::*)(A...) <i>cv</i> &amp;<sub><i>opt</i></sub> 
-noexcept<sub><i>opt</i></sub></tt> for a class type <tt>G</tt></ins>. In that case, <del>if 
-<tt>decltype(&amp;F::operator())</tt> is of the form <tt>R(G::*)(A...) <i>cv</i> 
+<tt>&amp;F::operator()</tt> is well-formed when treated as an unevaluated operand<ins>, and its type is 
+of the form <tt>R(G::*)(A...) <i>cv</i> &amp;<sub><i>opt</i></sub> noexcept<sub><i>opt</i></sub></tt> 
+for a class type <tt>G</tt> and a sequence of types <tt>A...</tt></ins>. 
+In that case, <del>if <tt>decltype(&amp;F::operator())</tt> is of the form <tt>R(G::*)(A...) <i>cv</i> 
 &amp;<sub><i>opt</i></sub> noexcept<sub><i>opt</i></sub></tt> for a class type <tt>G</tt>, 
 then</del> the deduced type is <tt>function&lt;R(A...)&gt;</tt>.
 </p>
