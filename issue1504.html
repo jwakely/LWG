@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
 <h3><a name="1504" href="lwg-defects.html#1504">1504</a>. Term "are serialized" is not defined</h3>
-<p><b>Section:</b> 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
- <b>Submitter:</b> INCITS <b>Opened:</b> 2010-08-25 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 32.8.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
+ <b>Submitter:</b> INCITS <b>Opened:</b> 2010-08-25 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#futures.promise">active issues</a> in [futures.promise].</p>
@@ -34,7 +34,7 @@
 <p><b>Discussion:</b></p>
 <p><b>Addresses US-196</b></p>
 <p>
-The term "are serialized" is not defined (32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> p. 21, 25).
+The term "are serialized" is not defined (32.8.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> p. 21, 25).
 </p>
 <p><i>[
 Resolution proposed by ballot comment:
@@ -58,7 +58,7 @@ Replace "are serialized" with "shall not introduce a data race (17.6.4.8)".
 
 <blockquote>
 <ol>
-<li>Change 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> p. 21 as indicated:
+<li>Change 32.8.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> p. 21 as indicated:
 <blockquote><p>
 21 <em>Synchronization</em>: calls to <tt>set_value</tt> and <tt>set_exception</tt> on a single 
 <tt>promise</tt> object <del>are serialized</del><ins>shall not introduce a data race ([res.on.data.races])</ins>.
@@ -66,7 +66,7 @@ Replace "are serialized" with "shall not introduce a data race (17.6.4.8)".
 state. &mdash; <em>end note</em> ]
 </p></blockquote>
 </li>
-<li>Change 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> p. 25 as indicated:
+<li>Change 32.8.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> p. 25 as indicated:
 <blockquote><p>
 25 <em>Synchronization</em>: calls to <tt>set_value</tt> and <tt>set_exception</tt> on a single 
 <tt>promise</tt> object <del>are serialized</del><ins>shall not introduce a data race ([res.on.data.races])</ins>.

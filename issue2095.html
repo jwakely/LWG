@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#LEWG">LEWG</a> status.</em></p>
 <h3><a name="2095" href="lwg-active.html#2095">2095</a>. <tt>promise</tt> and <tt>packaged_task</tt> missing constructors needed for uses-allocator construction</h3>
-<p><b>Section:</b> 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>, 32.6.10 <a href="https://wg21.link/futures.task">[futures.task]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2011-11-01 <b>Last modified:</b> 2019-06-03</p>
+<p><b>Section:</b> 32.8.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>, 32.8.10 <a href="https://wg21.link/futures.task">[futures.task]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2011-11-01 <b>Last modified:</b> 2019-06-16</p>
 <p><b>Priority: </b>4
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#futures.promise">active issues</a> in [futures.promise].</p>
@@ -95,7 +95,7 @@ and observes that this resolution conflicts with <a href="lwg-active.html#3003">
 
 
 <ol>
-<li><p>Add to 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>, class template <tt>promise</tt> synopsis, 
+<li><p>Add to 32.8.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>, class template <tt>promise</tt> synopsis, 
 as indicated:</p>
 
 <blockquote><pre>
@@ -118,7 +118,7 @@ namespace std {
 </pre></blockquote>
 </li>
 
-<li><p>Change 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> as indicated:</p>
+<li><p>Change 32.8.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> as indicated:</p>
 
 <blockquote><pre>
 promise(promise&amp;&amp; rhs) noexcept;
@@ -137,7 +137,7 @@ the shared state of <tt>rhs</tt> (if any) to the newly-constructed object.
 
 </li>
 
-<li><p>Add to 32.6.10 <a href="https://wg21.link/futures.task">[futures.task]</a>, class template <tt>packaged_task</tt> synopsis, 
+<li><p>Add to 32.8.10 <a href="https://wg21.link/futures.task">[futures.task]</a>, class template <tt>packaged_task</tt> synopsis, 
 as indicated:</p>
 
 <blockquote><pre>
@@ -176,7 +176,7 @@ namespace std {
 </pre></blockquote>
 </li>
 
-<li><p>Change 32.6.10.1 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> as indicated:</p>
+<li><p>Change 32.8.10.1 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> as indicated:</p>
 
 <blockquote><pre>
 packaged_task() noexcept;
@@ -218,7 +218,7 @@ to <tt>*this</tt>.
 
 
 <ol>
-<li><p>Add to 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>, class template <tt>promise</tt> synopsis,
+<li><p>Add to 32.8.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>, class template <tt>promise</tt> synopsis,
 as indicated:</p>
 
 <blockquote><pre>
@@ -241,7 +241,7 @@ namespace std {
 </pre></blockquote>
 </li>
 
-<li><p>Change 32.6.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> as indicated:</p>
+<li><p>Change 32.8.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> as indicated:</p>
 
 <blockquote><pre>
 promise(promise&amp;&amp; rhs) noexcept;

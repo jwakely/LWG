@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3220" href="lwg-active.html#3220">3220</a>. P0558 broke conforming C++14 uses of atomic <tt>shared_ptr</tt></h3>
 <p><b>Section:</b> 31.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-06-11 <b>Last modified:</b> 2019-07-27</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-06-11 <b>Last modified:</b> 2019-07-23</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#atomics.syn">active issues</a> in [atomics.syn].</p>
@@ -63,7 +63,7 @@ template&lt;class T&gt; void atomic_store(atomic&lt;T&gt;*, typename atomic&lt;T
 </pre></blockquote>
 <p>
 The program intends to call the "other" <tt>atomic_store</tt> from 
-D.12 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>:
+D.14 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>:
 </p>
 <blockquote><pre>
 template&lt;class T&gt; void atomic_store(shared_ptr&lt;T&gt;*, shared_ptr&lt;T&gt;); <i>// #3</i>
@@ -82,7 +82,7 @@ argument <tt>T</tt> shall be trivially copyable"
 <p/>
 The fix is fairly straightforward since <tt>atomic&lt;T&gt;::value_type</tt> is always an alias 
 for <tt>T</tt>: for those non-member atomic functions with overloads defined in 
-D.12 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>, use a different form to require that <tt>T</tt> 
+D.14 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>, use a different form to require that <tt>T</tt> 
 in the type of the second parameter is non-deduced.
 </p>
 
@@ -99,7 +99,7 @@ in the type of the second parameter is non-deduced.
 
 <blockquote><pre>
 [&hellip;]
-<i>// 31.8 <a href="https://wg21.link/atomics.nonmembers">[atomics.nonmembers]</a>, non-member functions</i>
+<i>// 31.9 <a href="https://wg21.link/atomics.nonmembers">[atomics.nonmembers]</a>, non-member functions</i>
 [&hellip;]
 template&lt;class T&gt;
   void atomic_store(volatile atomic&lt;T&gt;*, <del>typename atomic&lt;T&gt;::value_type</del><ins>type_identity_t&lt;T&gt;</ins>) noexcept;
@@ -162,7 +162,7 @@ template&lt;class T&gt;
 
 </li>
 
-<li><p>Modify 31.8 <a href="https://wg21.link/atomics.nonmembers">[atomics.nonmembers]</a> as indicated:</p>
+<li><p>Modify 31.9 <a href="https://wg21.link/atomics.nonmembers">[atomics.nonmembers]</a> as indicated:</p>
 
 <blockquote>
 <p>
