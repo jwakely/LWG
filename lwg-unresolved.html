@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-08-06 at 17:13:32 UTC</p>
+<p><p>Revised 2019-08-15 at 18:13:59 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -35276,6 +35276,68 @@ of the conversion to always contain a decimal-point character, even if no digits
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3251" href="#3251">3251</a><sup><a href="https://cplusplus.github.io/LWG/issue3251">(i)</a></sup>. Are <tt>std::format</tt> alignment specifiers applied to string arguments?</h3>
+<p><b>Section:</b> 20.20.2 <a href="https://wg21.link/format.string">[format.string]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-08-02 <b>Last modified:</b> 2019-08-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.string">active issues</a> in [format.string].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.string">issues</a> in [format.string].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+We are told:
+</p>
+<blockquote><p>
+Formatting of objects of arithmetic types and <tt>const void*</tt> is done as if by 
+calling <tt>to_chars</tt> (unless otherwise specified) and copying the output through 
+the output iterator of the format context with additional padding and adjustments 
+as specified by the format specifiers.
+</p></blockquote>
+<p>
+&hellip; but there is no corresponding rule for strings. Is an alignment specifier 
+intended to be applied to strings or not? The wording as-is is ambiguous.
+<p/>
+(The above also doesn't cover formatting <tt>void*</tt> or <tt>std::nullptr_t</tt>. 
+Presumably at least those two should have the relevant adjustments applied to them!)
+<p/>
+The wording never actually anywhere says that the <tt>basic_format_args</tt> are in 
+any way involved in the formatting process, or how formatting actually happens. 
+(The wording doesn't say that <tt>basic_format_arg::handle::format</tt> is ever 
+called, for example.)
+<p/>
+<b>Victor Zverovich:</b>
+<p/>
+An alignment specifier is intended to be applied to strings as well, <tt>void*</tt> and 
+<tt>std::nullptr_t</tt> are converted into <tt>const void*</tt> when constructing 
+<tt>basic_format_arg</tt>.
+<p/>
+The wording for <tt>vformat</tt> and similar functions says that <tt>basic_format_args</tt> is involved:
+</p>
+<blockquote><p>
+<i>Returns:</i> A string object holding the character representation of formatting arguments
+ provided by <tt>args</tt> formatted according to specifications given in <tt>fmt</tt>.
+</p></blockquote>
+<p>
+but I admit that it is hand-wavy. Perhaps we could add something along the lines of
+</p>
+<blockquote><p>
+For each replacement field referring to the argument with index <tt>(arg-id) i</tt>, the 
+<tt>basic_format_arg</tt> object referring to the argument is obtained via <tt>args.get(i)</tt> 
+and the <tt>parse</tt> and <tt>format</tt> functions of the <tt>formatter</tt> specialization 
+for the underlying argument type are called to parse the format specification and format the value.
+</p></blockquote>
+<p>
+to clarify how we format <tt>args</tt> (<tt>basic_format_args</tt>).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
