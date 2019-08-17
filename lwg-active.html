@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-08-17 at 12:19:00 UTC</p>
+<p><p>Revised 2019-08-17 at 14:16:08 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D118: 2019-10-07 pre-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>308 open issues, up by 5.</li>
+<li>309 open issues, up by 6.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>34 reassigned issues, up by 0.</li>
-<li>2775 issues total, up by 5.</li>
+<li>2776 issues total, up by 6.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 5 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3253">3253</a>.</li>
+<li>Added the following 6 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3254">3254</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3246">3246</a>.</li>
 </ul></li>
 </ul>
@@ -38415,6 +38415,88 @@ public:
   [&hellip;]
 };
 </pre>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3254" href="#3254">3254</a><sup><a href="https://cplusplus.github.io/LWG/issue3254">(i)</a></sup>. Strike <tt>stop_token</tt>'s <tt>operator!=</tt></h3>
+<p><b>Section:</b> 99 [stoptoken] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-08-06 <b>Last modified:</b> 2019-08-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In the shiny new world of the future, we need not declare overloads of <tt>operator!=</tt> that 
+<tt>return !(x == y);</tt> the rewrite rule in 12.3.1.2 <a href="https://wg21.link/over.match.oper">[over.match.oper]</a> para 3.4.3 
+achieves the same effect. Consequently, we should not declare such unnecessary 
+<tt>operator!=</tt> overloads. The synopsis of class <tt>stop_token</tt> in 99 [stoptoken] 
+declares exactly such an <tt>operator!=</tt> friend which should be struck.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 99 [stoptoken], class <tt>stop_token</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  class stop_token {
+  public:  
+    [&hellip;]
+    [[nodiscard]] friend bool operator==(const stop_token&amp; lhs, const stop_token&amp; rhs) noexcept;
+    <del>[[nodiscard]] friend bool operator!=(const stop_token&amp; lhs, const stop_token&amp; rhs) noexcept;</del>
+    friend void swap(stop_token&amp; lhs, stop_token&amp; rhs) noexcept;
+  };
+}
+</pre>
+</blockquote>
+
+</li>
+
+<li><p>Modify  [stoptoken.cmp] and  [stoptoken.special] as indicated:</p>
+
+<blockquote>
+<p>
+<b>32.3.3.3 <ins>Non-member functions</ins><del>Comparisons</del> [stoptoken.<ins>nonmembers</ins><del>cmp</del>]</b>
+</p>
+<pre>
+[[nodiscard]] bool operator==(const stop_token&amp; lhs, const stop_token&amp; rhs) noexcept;
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns:</i> <tt>true</tt> if <tt>lhs</tt> and <tt>rhs</tt> have ownership of the same stop 
+state or if both <tt>lhs</tt> and <tt>rhs</tt> do not have ownership of a stop state; otherwise <tt>false</tt>.
+</p>
+</blockquote>
+<pre>
+<del>[[nodiscard]] bool operator!=(const stop_token&amp; lhs, const stop_token&amp; rhs) noexcept;</del>
+</pre>
+<blockquote>
+<p>
+<del>-2- <i>Returns:</i> <tt>!(lhs==rhs)</tt>.</del>
+</p>
+</blockquote>
+<p>
+<del><b>32.3.3.4 Specialized algorithms [stoptoken.special]</b></del>
+</p>
+<pre>
+friend void swap(stop_token&amp; x, stop_token&amp; y) noexcept;
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Equivalent to: <tt>x.swap(y)</tt>.
+</p>
+</blockquote>
 </blockquote>
 
 </li>
