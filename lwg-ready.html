@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2019-08-17 at 11:34:22 UTC</p>
+<td align="left"><p>Revised 2019-08-17 at 12:02:05 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1283,6 +1283,48 @@ template&lt;class Duration, class TimeZonePtr, class TimeZonePtr2&gt;
 
 
 <hr>
+<h3><a name="3241" href="#3241">3241</a><sup><a href="https://cplusplus.github.io/LWG/issue3241">(i)</a></sup>. <tt>chrono-spec</tt> grammar ambiguity in &sect;[time.format]</h3>
+<p><b>Section:</b> 27.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2019-07-24 <b>Last modified:</b> 2019-08-17</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>chrono-spec</tt> grammar introduced by <a href="http://wg21.link/p1361r2">P1361R2</a> "Integration 
+of chrono with text formatting" in section [time.format] is ambiguous because <tt>'%'</tt> can be 
+interpreted as either <tt>literal-char</tt> or <tt>conversion-spec</tt>:
+</p>
+<blockquote><pre>
+chrono-spec     ::= literal-char | conversion-spec
+literal-char    ::= &lt;a character other than '{' or '}'&gt;
+conversion-spec ::= '%' [modifier] type
+</pre></blockquote>
+
+<p><i>[2019-08-17 Issue Prioritization]</i></p>
+
+<p>Status to Tentatively Ready and priority to 0 after five positive votes on the reflector.</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify the <tt>literal-char</tt> grammar in 27.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+<i>literal-char:</i>
+          <span style="font-family: serif;">any character other than</span> <tt>{</tt><ins><span style="font-family: serif;">,</span></ins><del> or</del> <tt>}</tt><ins><span style="font-family: serif;">, or</span> %</ins>
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
 <h3><a name="3246" href="#3246">3246</a><sup><a href="https://cplusplus.github.io/LWG/issue3246">(i)</a></sup>. What are the constraints on the template parameter of <tt>basic_format_arg</tt>?</h3>
 <p><b>Section:</b> 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-08-01 <b>Last modified:</b> 2019-08-17</p>
@@ -1337,7 +1379,7 @@ meets the <i>Formatter</i> requirements".
 
 <p><i>[2019-08-17 Issue Prioritization]</i></p>
 
-<p>Status to Tentatively Ready after six positive votes on the reflector.</p>
+<p>Status to Tentatively Ready and priority to 0 after six positive votes on the reflector.</p>
 
 
 <p><b>Proposed resolution:</b></p>
