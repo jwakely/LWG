@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-08-17 at 15:26:48 UTC</p>
+<p><p>Revised 2019-08-17 at 16:25:14 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D118: 2019-10-07 pre-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>309 open issues, up by 6.</li>
+<li>310 open issues, up by 7.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>34 reassigned issues, up by 0.</li>
-<li>2776 issues total, up by 6.</li>
+<li>2777 issues total, up by 7.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 6 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3254">3254</a>.</li>
+<li>Added the following 7 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3246">3246</a>.</li>
 </ul></li>
 </ul>
@@ -38502,6 +38502,117 @@ friend void swap(stop_token&amp; x, stop_token&amp; y) noexcept;
 </li>
 </ol>
 
+
+
+
+
+<hr>
+<h3><a name="3255" href="#3255">3255</a><sup><a href="https://cplusplus.github.io/LWG/issue3255">(i)</a></sup>. <tt>span</tt>'s <tt>array</tt> constructor is too strict</h3>
+<p><b>Section:</b> 22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jean Guegant &amp; Barry Revzin <b>Opened:</b> 2019-08-10 <b>Last modified:</b> 2019-08-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#span.cons">issues</a> in [span.cons].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<b>Barry Revzin:</b>
+<p/>
+From <a href="https://stackoverflow.com/q/57444188/2069064">StackOverflow</a>:
+<p/>
+This compiles:
+</p>
+<blockquote><pre>
+std::vector&lt;int*&gt; v = {nullptr, nullptr};
+std::span&lt;const int* const&gt; s{v};
+</pre></blockquote>
+<p>
+This does not:
+</p>
+<blockquote><pre>
+std::array&lt;int*, 2&gt; a = {nullptr, nullptr};
+std::span&lt;const int* const&gt; s{a};
+</pre></blockquote>
+<p>
+The problem is that <tt>span</tt>'s constructors include
+</p>
+<ul>
+<li><p>A constructor template that takes any <tt>Container</tt> that is neither a raw array nor a <tt>std::array</tt></p></li>
+<li><p>A constructor template that takes an <tt>array&lt;value_type, N&gt;&amp;</tt></p></li>
+<li><p>A constructor template that takes a <tt>const array&lt;value_type, N&gt;&amp;</tt></p></li>
+</ul>
+<p>
+So the first is excluded, and the other two don't match. We can change the array constructor templates to take an 
+<tt>array&lt;T, N&gt;</tt> with the requirement that <tt>T(*)[]</tt> is convertible to <tt>ElementType(*)[]</tt>?
+<p/>
+<b>Jean Guegant:</b>
+<p/>
+It is impossible to create a <tt>std::span</tt> from a <tt>std::array&lt;const T, X&gt;</tt> given the current 
+set of constructors of <tt>std::span</tt> (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a>):
+</p>
+<blockquote><pre>
+std::array&lt;const int, 4&gt; a = {1, 2, 3, 4};
+std::span&lt;const int&gt; s{a}; <i>// No overload can be found.</i>
+std::span s{a}; <i>// CTAD doesn't help either.</i>
+</pre></blockquote>
+<p>
+Both constructors accepting a <tt>std::array</tt> (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p11) require the first template 
+parameter of the <tt>std::array</tt> parameter to be <tt>value_type</tt>:
+</p>
+<blockquote><pre>
+template&lt;size_t N&gt; constexpr span(array&lt;value_type, N&gt;&amp; arr) noexcept;
+template&lt;size_t N&gt; constexpr span(const array&lt;value_type, N&gt;&amp; arr) noexcept;
+</pre></blockquote>
+<p>
+<tt>value_type</tt> being defined as <tt>remove_cv_t&lt;ElementType&gt;</tt> &mdash; this constrains the first 
+template parameter not to be <tt>const</tt>.
+<p/>
+Both constructors accepting a generic <tt>Container</tt> (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p14) have a 
+constraint &mdash; (p14.3) <tt>Container</tt> is not a specialization of <tt>array</tt> &mdash; 
+rejecting <tt>std::array</tt>.
+<p/>
+While you can call <tt>std::array&lt;const T, X&gt;::data</tt> and <tt>std::array&lt;const T, X&gt;::size</tt> 
+to manually create a <tt>std::span</tt>, we should, in my opinion, offer a proper overload for this scenario.
+Two reasons came to my mind:
+</p>
+<ol>
+<li><p><tt>std::span</tt> handles C-arrays and <tt>std::arrays</tt> in an asymmetric way. The constructor 
+taking a C-array (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p11) is using <tt>element_type</tt> and as such can work with 
+<tt>const T</tt>:</p>
+<blockquote><pre>
+const int a[] = {1, 2, 3, 4};
+std::span&lt;const int&gt; s{a}; <i>// It works</i>
+</pre></blockquote>
+<p>
+If a user upgrades her/his code from C-arrays to a <tt>std::array</tt>s and literally take the type 
+<tt>const T</tt> and use it as the first parameter of <tt>std::array</tt>, he/she will face an error.
+</p>
+</li>
+<li><p>Even if the user is aware that <tt>const std::array&lt;T, X&gt;</tt> is more idiomatic than 
+<tt>std::array&lt;const T, X&gt;</tt>, the second form may appear in the context of template 
+instantiation.</p></li>
+</ol>
+<p>
+At the time this issue is written <tt>gls::span</tt>, from which <tt>std::span</tt> is partly based on, 
+does not suffer from the same issue: Its constructor taking a generic <tt>const Container&amp;</tt> does 
+not constraint the <tt>Container</tt> not to be a <tt>std::array</tt> (although its constructor taking 
+a generic <tt>Container&amp;</tt> does). For the users willing to upgrade from <tt>gsl::span</tt> to 
+<tt>std::span</tt>, this could be a breaking change.
+<p/>
+Three tracks could be explored to solve that issue:
+</p>
+<ul>
+<li><p>Making both constructors accepting a <tt>std::array</tt> (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p11) 
+requiring the first template parameter of the <tt>std::array</tt> parameter to be <tt>element_type</tt> and 
+not <tt>value_type</tt>.</p></li>
+<li><p>Removing the constraint &mdash; <tt>Container</tt> is not a specialization of <tt>array</tt> 
+(22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p14.3) &mdash; on the constructor taking a generic <tt>const Container&amp;</tt> 
+as <tt>gsl::span</tt> does.</p></li>
+<li><p><a href="http://wg21.link/p1394">P1394</a> could also fix that issue if accepted in a later standard.</p></li>
+</ul>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
