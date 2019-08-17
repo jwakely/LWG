@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-08-17 at 10:18:17 UTC</p>
+<p><p>Revised 2019-08-17 at 10:46:34 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -34611,8 +34611,8 @@ precision  ::= integer | '{' <ins>[</ins>arg-id<ins>]</ins> '}'
 <hr>
 <h3><a name="3243" href="#3243">3243</a><sup><a href="https://cplusplus.github.io/LWG/issue3243">(i)</a></sup>. <tt>std::format</tt> and negative zeroes</h3>
 <p><b>Section:</b> 20.20.2 <a href="https://wg21.link/format.string">[format.string]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-07-31 <b>Last modified:</b> 2019-08-03</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-07-31 <b>Last modified:</b> 2019-08-17</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.string">active issues</a> in [format.string].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.string">issues</a> in [format.string].</p>
@@ -34653,15 +34653,19 @@ for negative zeros.
 So I think it should be clarified that <tt>'-'</tt> and space apply to negative numbers and negative zero.
 </p>
 
+<p><i>[2019-08-17 Priority set to 2 based on reflector discussion]</i></p>
+
+
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to the Post Cologne working draft.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
 
 <ol>
-<li><p>Modify the sign option table in [format.string] as indicated:</p>
+<li><p>Modify the <i>sign</i> options Table [tab:format.sign] in 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> as indicated:</p>
 
 <blockquote>
 <table border="1">
+<caption>Table 59: Meaning of <i>sign</i> options [tab:format.sign]</caption>
 <tr align="center">
 <th>Option</th>
 <th>Meaning</th>
@@ -34682,7 +34686,7 @@ Indicates that a sign should be used for both non-negative and negative numbers.
 </td>
 <td>
 Indicates that a sign should be used only for negative numbers <ins>and negative zero</ins> 
-(this is the default behavior)
+(this is the default behavior).
 </td>
 </tr>
 
@@ -34691,14 +34695,15 @@ Indicates that a sign should be used only for negative numbers <ins>and negative
 space
 </td>
 <td>
-Indicates that a leading space should be used for non-negative numbers, and a minus sign for negative numbers 
-<ins>and negative zero</ins>.
+Indicates that a leading space should be used for non-negative numbers, and a minus
+sign for negative numbers <ins>and negative zero</ins>.
 </td>
 </tr>
 
 </table>
 </blockquote>
 </li>
+
 </ol>
 
 
