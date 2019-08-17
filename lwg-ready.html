@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2019-08-17 at 10:05:38 UTC</p>
+<td align="left"><p>Revised 2019-08-17 at 10:18:17 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1276,6 +1276,107 @@ template&lt;class Duration, class TimeZonePtr, class TimeZonePtr2&gt;
 </pre>
 </blockquote>
 
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3246" href="#3246">3246</a><sup><a href="https://cplusplus.github.io/LWG/issue3246">(i)</a></sup>. What are the constraints on the template parameter of <tt>basic_format_arg</tt>?</h3>
+<p><b>Section:</b> 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-08-01 <b>Last modified:</b> 2019-08-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In <a href="http://wg21.link/p0645r10">P0645R10</a> 20.?.5.1/ we find:
+</p>
+<blockquote><p>
+<i>Constraints:</i> <tt>typename Context::template formatter_type&lt;T&gt;</tt> is enabled.
+</p></blockquote>
+<p>
+&hellip; which doesn't mean anything, because that is an arbitrary type. Presumably the intent 
+is that that type will always be a specialization of formatter, but there appear to be 
+no constraints whatsoever on the <tt>Context</tt> template parameter, so there seems to be no 
+requirement that that is the case.
+<p/>
+Should <tt>basic_format_arg</tt> place some constraints on its <tt>Context</tt> template parameter? 
+E.g., should it be required to be a specialization of <tt>basic_format_context</tt>?
+<p/>
+<b>Victor Zverovich:</b>
+<p/>
+The intent here is to allow different context types provide their own formatter extension types. 
+The default formatter context and extension are <tt>basic_format_context</tt> and formatter 
+respectively, but it's possible to have other. For example, in the <tt>fmt</tt> library there 
+is a formatter context that supports <tt>printf</tt> formatting for legacy code. It cannot use 
+the default formatter specializations because of the different syntax <tt>(%...</tt> vs 
+<tt>{...})</tt>.
+<p/>
+<b>Richard Smith:</b>
+<p/>
+In either case, the specification here seems to be missing the rules for what is a valid 
+<tt>Context</tt> parameter.
+<p/>
+I'm happy to editorially change "is enabled" to "is an enabled specialization of formatter", 
+since there's nothing else that this could mean, but we still need a wording fix for the 
+broader issue here. Here's what I have so far for this wording:
+</p>
+<blockquote><p>
+<i>Constraints:</i> The template specialization <tt>typename Context::template 
+formatter_type&lt;T&gt;</tt> is an enabled specialization of formatter 
+([formatter.requirements]).
+</p></blockquote>
+<p>
+<b>Tim Song:</b>
+<p/>
+I think what we actually want here is "<tt>typename Context::template formatter_type&lt;T&gt;</tt> 
+meets the <i>Formatter</i> requirements".
+</p>
+
+<p><i>[2019-08-17 Issue Prioritization]</i></p>
+
+<p>Status to Tentatively Ready after six positive votes on the reflector.</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt; explicit basic_format_arg(const T&amp; v) noexcept;
+</pre>
+<blockquote>
+<p>
+-4- <i>Constraints:</i> The template specialization
+</p>
+<blockquote>
+<pre>
+typename Context::template formatter_type&lt;T&gt;
+</pre>
+</blockquote>
+<p>
+<del>is an enabled specialization of <tt>formatter</tt></del><ins>meets the
+<i>Formatter</i> requirements</ins> (20.20.4 <a href="https://wg21.link/format.formatter">[format.formatter]</a>). The extent 
+to which an implementation determines that the specialization <del>is 
+enabled</del><ins>meets the <i>Formatter</i> requirements</ins> is unspecified, 
+except that as a minimum the expression
+</p>
+<blockquote>
+<pre>
+typename Context::template formatter_type&lt;T&gt;()
+  .format(declval&lt;const T&amp;&gt;(), declval&lt;Context&amp;&gt;())
+</pre>
+</blockquote>
+<p>
+shall be well-formed when treated as an unevaluated operand.
+</p>
+</blockquote>
+</blockquote>
 </li>
 </ol>
 
