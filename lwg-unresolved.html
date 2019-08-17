@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-08-17 at 16:25:14 UTC</p>
+<p><p>Revised 2019-08-17 at 17:17:57 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -33085,6 +33085,7 @@ allocator <tt>a</tt> passed to <tt>allocate_shared</tt> <del>such that its <tt>v
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-06-12 <b>Last modified:</b> 2019-07-27</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#support.limits.general">active issues</a> in [support.limits.general].</p>
 <p><b>View all other</b> <a href="lwg-index.html#support.limits.general">issues</a> in [support.limits.general].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -35517,6 +35518,164 @@ as <tt>gsl::span</tt> does.</p></li>
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3256" href="#3256">3256</a><sup><a href="https://cplusplus.github.io/LWG/issue3256">(i)</a></sup>. Feature testing macro for <tt>constexpr</tt> algorithms</h3>
+<p><b>Section:</b> 17.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Antony Polukhin <b>Opened:</b> 2019-08-14 <b>Last modified:</b> 2019-08-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#support.limits.general">active issues</a> in [support.limits.general].</p>
+<p><b>View all other</b> <a href="lwg-index.html#support.limits.general">issues</a> in [support.limits.general].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Feature testing macro from <a href="http://wg21.link/p0202">P0202</a> "Add Constexpr Modifiers to Functions 
+in <tt>&lt;algorithm&gt;</tt> and <tt>&lt;utility&gt;</tt> Headers" is missing in the WD.
+<p/>
+For user convenience and to reduce feature testing macro count it would be better to stick to initial version 
+of P0202 that was providing only the <tt>__cpp_lib_constexpr_algorithms</tt>.
+<p/>
+So remove <tt>__cpp_lib_constexpr_swap_algorithms</tt>, define <tt>__cpp_lib_constexpr_algorithms</tt> to 
+<tt>201703L</tt> if <a href="http://wg21.link/p0202">P0202</a> is implemented, to <tt>201806L</tt> if 
+<a href="http://wg21.link/p0202">P0202</a>+<a href="http://wg21.link/p0879">P0879</a> are implemented.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify the Table 36 "Standard library feature-test macros" [tab:support.ft] in 
+17.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a> as indicated:</p>
+
+<blockquote>
+<table border="1">
+<caption>Table 36: Standard library feature-test macros [tab:support.ft]</caption>
+<tr align="center">
+<th>Macro name</th>
+<th>Value</th>
+<th>Header(s)</th>
+</tr> 
+
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>__cpp_lib_constexpr_<del>swap_</del>algorithms</tt>
+</td>
+<td>
+<tt>201806L</tt>
+</td>
+<td>
+<tt>&lt;algorithm&gt;</tt>
+</td>
+</tr>
+
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+
+</table>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3257" href="#3257">3257</a><sup><a href="https://cplusplus.github.io/LWG/issue3257">(i)</a></sup>. Missing feature testing macro update from P0858</h3>
+<p><b>Section:</b> 17.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Antony Polukhin <b>Opened:</b> 2019-08-14 <b>Last modified:</b> 2019-08-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#support.limits.general">active issues</a> in [support.limits.general].</p>
+<p><b>View all other</b> <a href="lwg-index.html#support.limits.general">issues</a> in [support.limits.general].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="http://wg21.link/p0858">P0858</a> "Constexpr iterator requirements" suggested to update 
+the feature-testing macros <tt>__cpp_lib_string_view</tt> and <tt>__cpp_lib_array_constexpr</tt> 
+to the date of adoption.
+<p/>
+That did not happen.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify the Table 36 "Standard library feature-test macros" [tab:support.ft] in 
+17.3.1 <a href="https://wg21.link/support.limits.general">[support.limits.general]</a> as indicated:</p>
+
+<blockquote>
+<table border="1">
+<caption>Table 36: Standard library feature-test macros [tab:support.ft]</caption>
+<tr align="center">
+<th>Macro name</th>
+<th>Value</th>
+<th>Header(s)</th>
+</tr> 
+
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>__cpp_lib_array_constexpr</tt>
+</td>
+<td>
+<tt>201<del>6</del><ins>8</ins>03L</tt>
+</td>
+<td>
+<tt>&lt;iterator&gt; &lt;array&gt;</tt>
+</td>
+</tr>
+
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>__cpp_lib_string_view</tt>
+</td>
+<td>
+<tt>201<del>606</del><ins>803</ins>L</tt>
+</td>
+<td>
+<tt>&lt;string&gt; &lt;string_view&gt;</tt>
+</td>
+</tr>
+
+<tr>
+<td colspan="3" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+
+</table>
+</blockquote>
+</li>
+
+</ol>
 
 
 
