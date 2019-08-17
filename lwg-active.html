@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2019-08-15</td>
+  <td align="left">2019-08-17</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-08-15 at 19:22:15 UTC</p>
+<p><p>Revised 2019-08-17 at 09:40:45 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -37879,12 +37879,12 @@ performed in a context that does not include a declaration of <tt>ranges::iter_m
 <hr>
 <h3><a name="3248" href="#3248">3248</a><sup><a href="https://cplusplus.github.io/LWG/issue3248">(i)</a></sup>. <tt>std::format</tt> <tt>#b</tt>, <tt>#B</tt>, <tt>#o</tt>, <tt>#x</tt>, and <tt>#X</tt> 
 presentation types misformat negative numbers</h3>
-<p><b>Section:</b> 20.20.2 <a href="https://wg21.link/format.string">[format.string]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-08-01 <b>Last modified:</b> 2019-08-05</p>
+<p><b>Section:</b> 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-08-01 <b>Last modified:</b> 2019-08-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#format.string">active issues</a> in [format.string].</p>
-<p><b>View all other</b> <a href="lwg-index.html#format.string">issues</a> in [format.string].</p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.string.std">active issues</a> in [format.string.std].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.string.std">issues</a> in [format.string.std].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -37938,13 +37938,14 @@ The sign is inserted before the output of <tt>to_chars</tt>.
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to the Post Cologne working draft.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
 
 <ol>
-<li><p>Modify the sign option table in [format.string] as indicated:</p>
+<li><p>Modify the <i>sign</i> options Table [tab:format.sign] in 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> as indicated:</p>
 
 <blockquote>
 <table border="1">
+<caption>Table 59: Meaning of <i>sign</i> options [tab:format.sign]</caption>
 <tr align="center">
 <th>Option</th>
 <th>Meaning</th>
@@ -37965,7 +37966,7 @@ inserted before the output of <tt>to_chars</tt>.</ins>
 <tt>'-'</tt>
 </td>
 <td>
-Indicates that a sign should be used only for negative numbers (this is the default behavior)
+Indicates that a sign should be used only for negative numbers (this is the default behavior).
 </td>
 </tr>
 
@@ -37974,7 +37975,8 @@ Indicates that a sign should be used only for negative numbers (this is the defa
 space
 </td>
 <td>
-Indicates that a leading space should be used for non-negative numbers, and a minus sign for negative numbers.
+Indicates that a leading space should be used for non-negative numbers, and a minus
+sign for negative numbers.
 </td>
 </tr>
 
@@ -37986,93 +37988,15 @@ Indicates that a leading space should be used for non-negative numbers, and a mi
 
 <blockquote>
 <p>
-The <tt>'#'</tt> option causes the alternate form to be used for the conversion. This option is only 
-valid for arithmetic types other than <tt>charT</tt> and <tt>bool</tt> or when an integer presentation 
-type is specified. For integers, when binary, octal, or hexadecimal output is used, this option 
-<del>adds</del><ins>inserts</ins> the respective prefix <tt>"0b"</tt> (<tt>"0B"</tt>), <tt>"0"</tt>, 
-or <tt>"0x"</tt> (<tt>"0X"</tt>) to the output value <ins>after the sign, if any</ins>. [&hellip;]
+-6 The <tt>#</tt> option causes the <i>alternate form</i> to be used for the conversion. This option 
+is only valid for arithmetic types other than <tt>charT</tt> and <tt>bool</tt> or when an integer 
+presentation type is specified. For integral types, the alternate form <del>adds</del><ins>inserts</ins> 
+the base prefix (if any) specified in Table [tab:format.type.int] to the output value <ins>after the 
+sign, if any</ins>. [&hellip;]
 </p>
 </blockquote>
 </li>
 
-<li><p>Modify the table for the available integer presentation types and their mapping to 
-<tt>to_chars</tt> as indicated:</p>
-
-<blockquote>
-<table border="1">
-<tr align="center">
-<th>Type</th>
-<th>Meaning</th>
-</tr> 
-
-<tr>
-<td>
-<tt>'b'</tt>
-</td>
-<td>
-<tt>to_chars(first, last, value, 2)<del>;</del></tt> <del>using the <tt>'#'</tt> option with this type adds the prefix 
-<tt>"0b"</tt> to the output</del>.
-</td>
-</tr>
-
-<tr>
-<td>
-<tt>'B'</tt>
-</td>
-<td>
-The same as <tt>'b'</tt><del>, except that the <tt>'#'</tt> option adds the prefix <tt>"0B"</tt> 
-to the output</del>.
-</td>
-</tr>
-
-<tr>
-<td>
-<tt>'d'</tt>
-</td>
-<td>
-<tt>to_chars(first, last, value)</tt>.
-</td>
-</tr>
-
-<tr>
-<td>
-<tt>'o'</tt>
-</td>
-<td>
-<tt>to_chars(first, last, value, 8)<del>;</del></tt> <del>using the <tt>'#'</tt> option with this type adds the 
-prefix <tt>"0"</tt> to the output</del>.
-</td>
-</tr>
-
-<tr>
-<td>
-<tt>'x'</tt>
-</td>
-<td>
-<tt>to_chars(first, last, value, 16)<del>;</del></tt> <del>using the <tt>'#'</tt> option with this type adds the 
-prefix <tt>"0x"</tt> to the output</del>.
-</td>
-</tr>
-
-<tr>
-<td>
-<tt>'X'</tt>
-</td>
-<td>
-The same as <tt>'x'</tt>, except that it uses uppercase letters for digits above 9 <del>and the <tt>'#'</tt> 
-option adds the prefix <tt>"0X"</tt> to the output</del>.
-</td>
-</tr>
-
-<tr>
-<td colspan="2" align="center">
-<tt>[&hellip;]</tt>
-</td>
-</tr>
-
-</table>
-</blockquote>
-</li>
 </ol>
 
 
@@ -38081,7 +38005,7 @@ option adds the prefix <tt>"0X"</tt> to the output</del>.
 <hr>
 <h3><a name="3249" href="#3249">3249</a><sup><a href="https://cplusplus.github.io/LWG/issue3249">(i)</a></sup>. There are no 'pointers' in &sect;[atomics.lockfree]</h3>
 <p><b>Section:</b> 31.5 <a href="https://wg21.link/atomics.lockfree">[atomics.lockfree]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2019-08-03 <b>Last modified:</b> 2019-08-06</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2019-08-03 <b>Last modified:</b> 2019-08-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#atomics.lockfree">issues</a> in [atomics.lockfree].</p>
@@ -38096,7 +38020,7 @@ but there are no pointers in an <tt>atomic&lt;int&gt;</tt>.
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4820">N4820</a>.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
 
 <ol>
 <li><p>Modify 31.5 <a href="https://wg21.link/atomics.lockfree">[atomics.lockfree]</a> as indicated:</p>
@@ -38117,12 +38041,12 @@ be consistent for all pointers</del> of the same type.
 
 <hr>
 <h3><a name="3250" href="#3250">3250</a><sup><a href="https://cplusplus.github.io/LWG/issue3250">(i)</a></sup>. <tt>std::format</tt>: <tt>#</tt> (alternate form) for NaN and inf</h3>
-<p><b>Section:</b> 20.20.2 <a href="https://wg21.link/format.string">[format.string]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-08-05 <b>Last modified:</b> 2019-08-06</p>
+<p><b>Section:</b> 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-08-05 <b>Last modified:</b> 2019-08-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#format.string">active issues</a> in [format.string].</p>
-<p><b>View all other</b> <a href="lwg-index.html#format.string">issues</a> in [format.string].</p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.string.std">active issues</a> in [format.string.std].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.string.std">issues</a> in [format.string.std].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -38147,15 +38071,18 @@ without a decimal point.
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to the Post Cologne working draft.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
 
 <ol>
-<li><p>Modify [format.string] as indicated:</p>
+<li><p>Modify 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> as indicated:</p>
 
 <blockquote>
 <p>
-[&hellip;] For <ins>finite</ins> floating-point numbers the alternate form causes the result 
-of the conversion to always contain a decimal-point character, even if no digits follow it. [&hellip;]
+-6- [&hellip;] For floating-point types, the alternate form causes the result of the conversion 
+<ins>of finite values</ins> to always contain a decimal-point character, even if no digits follow 
+it. Normally, a decimal-point character appears in the result of these conversions only if a digit 
+follows it. In addition, for <tt>g</tt> and <tt>G</tt> conversions, trailing zeros are not removed 
+from the result.
 </p>
 </blockquote>
 </li>
@@ -38230,7 +38157,7 @@ to clarify how we format <tt>args</tt> (<tt>basic_format_args</tt>).
 <h3><a name="3252" href="#3252">3252</a><sup><a href="https://cplusplus.github.io/LWG/issue3252">(i)</a></sup>. Parse locale's aware modifiers for commands are not consistent
 with POSIX spec</h3>
 <p><b>Section:</b> 27.13 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-08-06 <b>Last modified:</b> 2019-08-15</p>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-08-06 <b>Last modified:</b> 2019-08-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#time.parse">active issues</a> in [time.parse].</p>
@@ -38270,7 +38197,7 @@ The <code>%d</code> modifier was addressed by LWG <a href="lwg-active.html#3218"
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to the Post Cologne working draft.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
 
 <ol>
 <li><p>Modify Table 99 "Meaning of <tt>parse</tt> flags [tab:time.parse.spec]" in
@@ -38392,7 +38319,7 @@ alternative representation.</ins>
 <hr>
 <h3><a name="3253" href="#3253">3253</a><sup><a href="https://cplusplus.github.io/LWG/issue3253">(i)</a></sup>. <tt>basic_syncbuf::basic_syncbuf()</tt> should not be explicit</h3>
 <p><b>Section:</b> 29.10.2.1 <a href="https://wg21.link/syncstream.syncbuf.overview">[syncstream.syncbuf.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Nevin Liber <b>Opened:</b> 2019-08-06 <b>Last modified:</b> 2019-08-15</p>
+ <b>Submitter:</b> Nevin Liber <b>Opened:</b> 2019-08-06 <b>Last modified:</b> 2019-08-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -38405,7 +38332,7 @@ working paper. <tt>basic_syncbuf</tt> should not have an explicit default constr
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to the Post Cologne working draft.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
 
 <ol>
 <li><p>Modify 29.10.2.1 <a href="https://wg21.link/syncstream.syncbuf.overview">[syncstream.syncbuf.overview]</a>, class template <tt>basic_syncbuf</tt> 
