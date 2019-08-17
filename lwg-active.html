@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-08-17 at 09:40:45 UTC</p>
+<p><p>Revised 2019-08-17 at 10:05:38 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -37739,7 +37739,7 @@ The locale's equivalent of the AM/PM designations associated with a 12-hour cloc
 <hr>
 <h3><a name="3246" href="#3246">3246</a><sup><a href="https://cplusplus.github.io/LWG/issue3246">(i)</a></sup>. What are the constraints on the template parameter of <tt>basic_format_arg</tt>?</h3>
 <p><b>Section:</b> 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-08-01 <b>Last modified:</b> 2019-08-03</p>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-08-01 <b>Last modified:</b> 2019-08-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -37791,10 +37791,10 @@ meets the <i>Formatter</i> requirements".
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to the Post Cologne working draft.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
 
 <ol>
-<li><p>Modify [format.arg] as indicated:</p>
+<li><p>Modify 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -37802,14 +37802,24 @@ template&lt;class T&gt; explicit basic_format_arg(const T&amp; v) noexcept;
 </pre>
 <blockquote>
 <p>
--?- <i>Constraints:</i> The template specialization <tt>typename Context::template 
-formatter_type&lt;T&gt;</tt> <del>is an enabled specialization of formatter</del><ins>meets the
-<i>Formatter</i> requirements</ins> ([formatter.requirements]). The extent to which an 
-implementation determines that <tt>typename Context::template formatter_type&lt;T&gt;</tt> 
-<del>is enabled</del><ins>meets the <i>Formatter</i> requirements</ins> is unspecified, 
-except that as a minimum the expression <tt>typename Context::template 
-formatter_type&lt;T&gt;().format(declval&lt;const T&amp;&gt;(), declval&lt;Context&amp;&gt;())</tt> 
-shall be well-formed when treated as an unevaluated operand. 
+-4- <i>Constraints:</i> The template specialization
+<blockquote>
+<pre>
+typename Context::template formatter_type&lt;T&gt;
+</pre>
+</blockquote>
+<del>is an enabled specialization of <tt>formatter</tt></del><ins>meets the
+<i>Formatter</i> requirements</ins> (20.20.4 <a href="https://wg21.link/format.formatter">[format.formatter]</a>). The extent 
+to which an implementation determines that the specialization <del>is 
+enabled</del><ins>meets the <i>Formatter</i> requirements</ins> is unspecified, 
+except that as a minimum the expression
+<blockquote>
+<pre>
+typename Context::template formatter_type&lt;T&gt;()
+  .format(declval&lt;const T&amp;&gt;(), declval&lt;Context&amp;&gt;())
+</pre>
+</blockquote>
+shall be well-formed when treated as an unevaluated operand.
 </p>
 </blockquote>
 </blockquote>
