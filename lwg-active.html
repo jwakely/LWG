@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-08-21 at 17:49:28 UTC</p>
+<p><p>Revised 2019-08-21 at 18:43:31 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D118: 2019-10-07 pre-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>314 open issues, up by 11.</li>
+<li>315 open issues, up by 12.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>34 reassigned issues, up by 0.</li>
-<li>2781 issues total, up by 11.</li>
+<li>2782 issues total, up by 12.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 11 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3259">3259</a>.</li>
+<li>Added the following 12 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3260">3260</a>.</li>
 <li>Changed the following 5 issues to Tentatively Ready (from New): <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>.</li>
 </ul></li>
 </ul>
@@ -38978,6 +38978,62 @@ meet iterator category requirements are constexpr functions<ins>.</ins><del>, ex
 </li>
 
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3260" href="#3260">3260</a><sup><a href="https://cplusplus.github.io/LWG/issue3260">(i)</a></sup>. <tt>year_month*</tt> arithmetic rejects durations convertible to years</h3>
+<p><b>Section:</b> 27.8 <a href="https://wg21.link/time.cal">[time.cal]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-08-15 <b>Last modified:</b> 2019-08-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, the <tt>year_month*</tt> types (<tt>year_month</tt>,
+<tt>year_month_day</tt>) provide separate arithmetic operators with
+duration type of <tt>years</tt> or <tt>months</tt>. This is an intentional
+optimization that avoids performing modulo arithmetic in the former case.
+<p/>
+However, these make the arithmetic of <code>year_month*</code> types
+with durations that are convertible to <code>years</code> (and by
+consequence to <code>months</code>) ambiguous. For example, the following
+code is ambiguous:
+</p>
+<blockquote>
+<pre>
+using decades = duration&lt;int, ratio_multiply&lt;ratio&lt;10&gt;, years::period&gt;&gt;;
+auto ymd = 2001y/January/1d;
+ymd += decades(1); // <span style="color:#C80000;font-weight:bold">error, ambiguous</span>
+</pre>
+</blockquote>
+<p>
+while less usual durations that are only convertible to <tt>months</tt> work correctly:
+</p>
+<blockquote>
+<pre>
+using decamonths = duration&lt;int, ratio_multiply&lt;ratio&lt;10&gt;, months::period&gt;&gt;;
+auto ymd = 2001y/January/1d;
+ymd += decamonths(1);
+</pre>
+</blockquote>
+<p>
+The example implementation resolves the issues by making sure that the
+<tt>years</tt> overload will be preferred in case of ambiguity, by declaring the
+<tt>months</tt> overload a function template with a default argument for its parameter
+(suggested by Tim Song):
+</p>
+<blockquote>
+<pre>
+<ins>template&lt;class = <em>unspecified</em>&gt;</ins>
+constexpr year_month_weekday&amp; operator+=(const months&amp; m) noexcept;
+constexpr year_month_weekday&amp; operator+=(const years&amp; m) noexcept;
+</pre>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
