@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-08-22 at 20:17:33 UTC</p>
+<p><p>Revised 2019-08-23 at 17:28:58 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -35996,6 +35996,51 @@ return os &lt;&lt; format(os.getloc(),
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+<hr>
+<h3><a name="3263" href="#3263">3263</a><sup><a href="https://cplusplus.github.io/LWG/issue3263">(i)</a></sup>. Atomic waiting function calls should only be unblocked once</h3>
+<p><b>Section:</b> 31.6 <a href="https://wg21.link/atomics.wait">[atomics.wait]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Geoffrey Romer <b>Opened:</b> 2019-08-19 <b>Last modified:</b> 2019-08-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It appears that in a conforming implementation, all but one <tt>wait()</tt> call on a given 
+atomic object may block forever, regardless of any <tt>notify_one()</tt> calls, because in 
+principle every <tt>notify_one()</tt> call could be considered to unblock the same single 
+<tt>wait()</tt> call. Common sense suggests (and David Olsen confirms) that the intent is 
+for each waiting function call to be (non-spuriously) unblocked by at most one notifying 
+function call, but as far as I can tell the words never say that.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 31.6 <a href="https://wg21.link/atomics.wait">[atomics.wait]</a> as indicated:</p>
+
+<blockquote>
+<p>
+<ins>-?- All blocking and unblocking events on a single atomic object occur in a single total order 
+that is consistent with the "happens before" partial order.</ins>
+<p/>
+-4- A call to an atomic waiting operation on an atomic object <tt>M</tt> is <i>eligible to be 
+unblocked</i> by a call to an atomic notifying operation on <tt>M</tt> if <ins>it has not been 
+unblocked, and</ins> there exist side effects <tt>X</tt> and <tt>Y</tt> on <tt>M</tt> such that:
+</p>
+<ol style="list-style-type: none">
+<li><p>(4.1) &mdash; the atomic waiting operation has blocked after observing the result of <tt>X</tt>,</p></li>
+<li><p>(4.2) &mdash; <tt>X</tt> precedes <tt>Y</tt> in the modification order of <tt>M</tt>, and</p></li>
+<li><p>(4.3) &mdash; <tt>Y</tt> happens before the call to the atomic notifying operation.</p></li>
+</ol>
+</blockquote>
+</li>
+
 </ol>
 
 
