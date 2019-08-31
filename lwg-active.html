@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-08-31 at 16:51:17 UTC</p>
+<p><p>Revised 2019-08-31 at 16:55:58 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -39829,10 +39829,12 @@ to the enumeration.
 </p>
 <blockquote>
 <pre>
-<ins>enum class memory_order : <i>unspecified</i> {
-  memory_order_relaxed = relaxed, memory_order_consume = consume, memory_order_acquire = acquire, 
-  memory_order_release = release, memory_order_acq_rel = acq_rel, memory_order_seq_cst = seq_cst
-};</ins>
+<ins>namespace std {
+  enum class memory_order : <i>unspecified</i> {
+    memory_order_relaxed = relaxed, memory_order_consume = consume, memory_order_acquire = acquire, 
+    memory_order_release = release, memory_order_acq_rel = acq_rel, memory_order_seq_cst = seq_cst
+  };
+}</ins>
 </pre>
 </blockquote>
 </blockquote>
