@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-08-31 at 14:33:29 UTC</p>
+<p><p>Revised 2019-08-31 at 16:51:17 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36528,6 +36528,59 @@ below.
 </tr>
 
 </table>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3268" href="#3268">3268</a><sup><a href="https://cplusplus.github.io/LWG/issue3268">(i)</a></sup>. <tt>memory_order::memory_order_foo</tt> broken in C++20</h3>
+<p><b>Section:</b> 31.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2019-08-31 <b>Last modified:</b> 2019-08-31</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#atomics.order">active issues</a> in [atomics.order].</p>
+<p><b>View all other</b> <a href="lwg-index.html#atomics.order">issues</a> in [atomics.order].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="http://wg21.link/p0439r0">P0439R0</a> renamed the <tt>std::memory_order</tt> enumerators 
+when making it a scoped enumeration. The paper makes the old unscoped names available in the 
+global namespace, but not within the scope of the enumeration.
+<p/>
+For example:
+<p/>
+<tt>std::memory_order::memory_order_consume</tt> is no longer well-formed but 
+<tt>std::memory_order::consume</tt> and <tt>std::memory_order_consume</tt> are.
+<p/>
+In order to prevent unnecessary breakage, we should re-add the <tt>memory_order_foo</tt> names 
+to the enumeration.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Add a new sub-clause at the end of D <a href="https://wg21.link/depr">[depr]</a> as indicated:</p>
+
+<blockquote>
+<p>
+<ins><b>D.?? Deprecated <tt>memory_order</tt> enumerators</b></ins>
+<p/>
+<ins>-?- The following enumerators are declared in addition to those specified in 31.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a>:</ins>
+</p>
+<blockquote>
+<pre>
+<ins>enum class memory_order : <i>unspecified</i> {
+  memory_order_relaxed = relaxed, memory_order_consume = consume, memory_order_acquire = acquire, 
+  memory_order_release = release, memory_order_acq_rel = acq_rel, memory_order_seq_cst = seq_cst
+};</ins>
+</pre>
+</blockquote>
 </blockquote>
 </li>
 </ol>
