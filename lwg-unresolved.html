@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-09-02 at 13:53:11 UTC</p>
+<p><p>Revised 2019-09-02 at 14:00:24 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -35484,7 +35484,7 @@ template&lt;<ins>class T,</ins> size_t N&gt;
 <hr>
 <h3><a name="3258" href="#3258">3258</a><sup><a href="https://cplusplus.github.io/LWG/issue3258">(i)</a></sup>. Range access and <tt>initializer_list</tt></h3>
 <p><b>Section:</b> 24.3.1 <a href="https://wg21.link/range.access.begin">[range.access.begin]</a>, 24.3.2 <a href="https://wg21.link/range.access.end">[range.access.end]</a>, 24.3.5 <a href="https://wg21.link/range.access.rbegin">[range.access.rbegin]</a>, 24.3.6 <a href="https://wg21.link/range.access.rend">[range.access.rend]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-08-15 <b>Last modified:</b> 2019-08-23</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-08-15 <b>Last modified:</b> 2019-09-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -35493,7 +35493,7 @@ template&lt;<ins>class T,</ins> size_t N&gt;
 The specification of <tt>ranges::begin</tt> in 24.3.1 <a href="https://wg21.link/range.access.begin">[range.access.begin]</a> includes a
 "poison pill" overload:
 <blockquote><pre>
-template&lt;class T&gt; void begin(initializer_list&lt;T&gt;<del>&amp;&amp;</del>) = delete;
+template&lt;class T&gt; void begin(initializer_list&lt;T&gt;&amp;&amp;) = delete;
 </pre></blockquote>
 which exists to create an ambiguity with the non-member <tt>initializer_list</tt> overload of
 <tt>begin</tt> in namespace <tt>std</tt> (17.9.1 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a>) when performing
