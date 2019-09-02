@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-09-01 at 19:48:10 UTC</p>
+<p><p>Revised 2019-09-02 at 09:28:56 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36594,7 +36594,7 @@ to the enumeration.
 <hr>
 <h3><a name="3269" href="#3269">3269</a><sup><a href="https://cplusplus.github.io/LWG/issue3269">(i)</a></sup>. Parse manipulators do not specify the result of the extraction from stream</h3>
 <p><b>Section:</b> 27.13 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-09-01 <b>Last modified:</b> 2019-09-01</p>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-09-01 <b>Last modified:</b> 2019-09-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#time.parse">active issues</a> in [time.parse].</p>
@@ -36635,7 +36635,8 @@ LWG <a href="lwg-active.html#3235">3235</a>.
 -1- Each parse overload specified in this subclause calls <tt>from_stream</tt> unqualified, 
 so as to enable argument dependent lookup (6.4.2 <a href="https://wg21.link/basic.lookup.argdep">[basic.lookup.argdep]</a>). 
 <ins>In the following paragraphs, let <tt>is</tt> denote a non-<tt>const</tt> lvalue of 
-an object of type <tt>basic_istream&lt;charT, traits&gt;</tt>.</ins>
+an object of type <tt>basic_istream&lt;charT, traits&gt;</tt> where <tt>charT</tt> and
+<tt>traits</tt> are template parameters in that context.</ins>
 </p>
 <pre>
 template&lt;class charT, class traits, class Alloc, class Parsable&gt;
