@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-09-02 at 12:49:33 UTC</p>
+<p><p>Revised 2019-09-02 at 13:53:11 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -39217,7 +39217,7 @@ constexpr year_month_weekday&amp; operator+=(const years&amp; m) noexcept;
 <h3><a name="3261" href="#3261">3261</a><sup><a href="https://cplusplus.github.io/LWG/issue3261">(i)</a></sup>. <tt>regex</tt> components' <tt>noexcept</tt> annotations appear broken for POCMA or throwing 
 <tt>BidirectionalIterator</tt></h3>
 <p><b>Section:</b> 30.8 <a href="https://wg21.link/re.regex">[re.regex]</a>, 30.10 <a href="https://wg21.link/re.results">[re.results]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2019-08-17 <b>Last modified:</b> 2019-08-21</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2019-08-17 <b>Last modified:</b> 2019-09-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#re.regex">active issues</a> in [re.regex].</p>
@@ -39231,6 +39231,11 @@ probably need an <i>Expects:</i> or something to say that <tt>BidirectionalItera
 throw through these operations. We probably also need <tt>match_results::operator=</tt> to 
 respect <tt>propagate_on_container_move_assignment</tt> (and maybe the copy ctor respect 
 <tt>propagate_on_container_copy_assignment</tt>).
+</p>
+<p><i>[2019-09-02; Tim Song comments]</i></p>
+
+<p>
+The issue is related to LWG <a href="lwg-active.html#2490">2490</a>.
 </p>
 
 
