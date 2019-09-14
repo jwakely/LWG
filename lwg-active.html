@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-09-14 at 11:30:17 UTC</p>
+<p><p>Revised 2019-09-14 at 12:12:57 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D118: 2019-10-07 pre-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>327 open issues, up by 24.</li>
+<li>328 open issues, up by 25.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>34 reassigned issues, up by 0.</li>
-<li>2794 issues total, up by 24.</li>
+<li>2795 issues total, up by 25.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>.</li>
-<li>Added the following 21 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3266">3266</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>.</li>
+<li>Added the following 22 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3266">3266</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>.</li>
 <li>Changed the following 5 issues to Tentatively Ready (from New): <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>.</li>
 </ul></li>
 </ul>
@@ -40155,7 +40155,7 @@ these functions need to save and restore any settings on the <tt>basic_istream</
 <blockquote class="note">
 <p>
 [<i>Drafting note:</i> The modification of 27.13 <a href="https://wg21.link/time.parse">[time.parse]</a> p1 is intended to be non-conflictingly 
-mergeable with the change suggested by LWG <a href="lwg-active.html#3269">3269</a> at the same paragraph.
+mergeable with the change suggested by LWG <a href="lwg-active.html#3269">3269</a> at the same paragraph.]
 </p>
 </blockquote>
 
@@ -40289,7 +40289,7 @@ midnight.</ins>
 <blockquote class="note">
 <p>
 [<i>Drafting note:</i> The modification of 27.13 <a href="https://wg21.link/time.parse">[time.parse]</a> p1 is intended to be non-conflictingly 
-mergeable with the change suggested by LWG <a href="lwg-active.html#3269">3269</a> and LWG <a href="lwg-active.html#3271">3271</a> at the same paragraph.
+mergeable with the change suggested by LWG <a href="lwg-active.html#3269">3269</a> and LWG <a href="lwg-active.html#3271">3271</a> at the same paragraph.]
 </p>
 </blockquote>
 
@@ -40319,6 +40319,75 @@ space characters in the input stream.
 <tt>weekday</tt>. However if a flag refers to a "time of day" (e.g. <tt>%H</tt>, <tt>%I</tt>, <tt>%p</tt>, 
 etc.), then a specialization of <tt>duration</tt> is parsed as the time of day elapsed since midnight.</ins>
 </p>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3273" href="#3273">3273</a><sup><a href="https://cplusplus.github.io/LWG/issue3273">(i)</a></sup>. Specify <tt>weekday_indexed</tt> to range of <tt>[0, 7]</tt></h3>
+<p><b>Section:</b> 27.8.7.2 <a href="https://wg21.link/time.cal.wdidx.members">[time.cal.wdidx.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2019-09-02 <b>Last modified:</b> 2019-09-14</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+On one hand, we say that if you try to construct a <tt>weekday_indexed</tt> with index 0, 
+you get an unspecified index instead (27.8.7.2 <a href="https://wg21.link/time.cal.wdidx.members">[time.cal.wdidx.members]</a>/p1),:
+</p>
+<blockquote>
+<p>
+The values held are unspecified if <tt>!wd.ok()</tt> or index is not in the range <tt>[1, 5]</tt>.
+</p>
+</blockquote>
+<p>
+OTOH, we take pains to pin down <tt>year_month_weekday</tt>'s conversion to <tt>sys_days</tt> 
+when the index is zero (27.8.7.2 <a href="https://wg21.link/time.cal.wdidx.members">[time.cal.wdidx.members]</a>/p19):
+</p>
+<blockquote>
+<p>
+If <tt>index()</tt> is <tt>0</tt> the returned <tt>sys_days</tt> represents the date <tt>7</tt> 
+days prior to the first <tt>weekday()</tt> of <tt>year()/month()</tt>.
+</p>
+</blockquote>
+<p>
+This is inconsistent. We should allow a slightly wider range (say, <tt>[0, 7]</tt>, since you need 
+at least 3 bits anyway to represent the 5 distinct valid values, and the <tt>0</tt> value referred 
+to by 27.8.7.2 <a href="https://wg21.link/time.cal.wdidx.members">[time.cal.wdidx.members]</a>/p19.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 27.8.7.2 <a href="https://wg21.link/time.cal.wdidx.members">[time.cal.wdidx.members]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> As a drive-by fix a cleanup of "Constructs an object of type <tt>weekday_indexed</tt>"
+wording has been applied as well. ]
+</p>
+</blockquote>
+
+
+<blockquote>
+<pre>
+constexpr weekday_indexed(const chrono::weekday&amp; wd, unsigned index) noexcept;
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> <del>Constructs an object of type <tt>weekday_indexed</tt> by 
+initializing</del><ins>Initializes</ins> <tt>wd_</tt> with <tt>wd</tt> and <tt>index_</tt> with 
+<tt>index</tt>. The values held are unspecified if <tt>!wd.ok()</tt> or 
+<tt>index</tt> is not in the range <tt>[<del>1</del><ins>0</ins>, <del>5</del><ins>7</ins>]</tt>.
+</p>
+</blockquote>
 </blockquote>
 
 </li>
