@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2019-09-02</td>
+  <td align="left">2019-09-14</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-09-02 at 14:00:24 UTC</p>
+<p><p>Revised 2019-09-14 at 10:23:45 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D118: 2019-10-07 pre-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>324 open issues, up by 21.</li>
+<li>325 open issues, up by 22.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>34 reassigned issues, up by 0.</li>
-<li>2791 issues total, up by 21.</li>
+<li>2792 issues total, up by 22.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>.</li>
-<li>Added the following 18 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3266">3266</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>.</li>
+<li>Added the following 19 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3266">3266</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>.</li>
 <li>Changed the following 5 issues to Tentatively Ready (from New): <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>.</li>
 </ul></li>
 </ul>
@@ -38954,7 +38954,7 @@ That did not happen.
 <hr>
 <h3><a name="3258" href="#3258">3258</a><sup><a href="https://cplusplus.github.io/LWG/issue3258">(i)</a></sup>. Range access and <tt>initializer_list</tt></h3>
 <p><b>Section:</b> 24.3.1 <a href="https://wg21.link/range.access.begin">[range.access.begin]</a>, 24.3.2 <a href="https://wg21.link/range.access.end">[range.access.end]</a>, 24.3.5 <a href="https://wg21.link/range.access.rbegin">[range.access.rbegin]</a>, 24.3.6 <a href="https://wg21.link/range.access.rend">[range.access.rend]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-08-15 <b>Last modified:</b> 2019-09-02</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-08-15 <b>Last modified:</b> 2019-09-14</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -39067,15 +39067,15 @@ and does not include a declaration of <tt>ranges::rbegin</tt>.
 subexpression <tt>E</tt> is expression-equivalent to:
 </p><p>
 (1.1) &mdash; If <tt>E</tt> is an lvalue, <tt><i>decay-copy</i>(E.rend())</tt> if it is a valid
-expression and its type <del><tt>S</tt></del> models
+expression and its type <tt>S</tt> models
 <blockquote><pre>
-sentinel_for&lt;<ins>S,</ins> decltype(ranges::rbegin(E))&gt;
+sentinel_for&lt;decltype(ranges::rbegin(E))&gt;
 </pre></blockquote>
 </p><p>
 (1.2) &mdash; Otherwise, <tt><i>decay-copy</i>(rend(E))</tt> if it is a valid expression and its
 type <tt>S</tt> models
 <blockquote><pre>
-sentinel_for&lt;<ins>S,</ins> decltype(ranges::rbegin(E))&gt;
+sentinel_for&lt;decltype(ranges::rbegin(E))&gt;
 </pre></blockquote>
 with overload resolution performed in a context that includes the declaration<ins>s</ins>:
 <blockquote><pre>
@@ -40002,6 +40002,129 @@ and</ins> calls <tt>from_stream(is, fmt.c_str(), tp, addressof(abbrev), &amp;off
 </p>
 </blockquote>
 </blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3270" href="#3270">3270</a><sup><a href="https://cplusplus.github.io/LWG/issue3270">(i)</a></sup>. Parsing and formatting <tt>%j</tt> with <tt>duration</tt>s</h3>
+<p><b>Section:</b> 27.12 <a href="https://wg21.link/time.format">[time.format]</a>, 27.13 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2019-09-02 <b>Last modified:</b> 2019-09-14</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.format">issues</a> in [time.format].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>%j</tt> represents the day number of the year when formatting and parsing <tt>time_point</tt>s. 
+It is also handy to interpret this flag consistently when formatting and parsing durations. That 
+is if there is not enough information in the stream to represent a <tt>time_point</tt>, and if the 
+target of the format/parse is a <tt>duration</tt>, <tt>%j</tt> represents a number of days.
+</p>
+<blockquote>
+<pre>
+#include &lt;chrono&gt;
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+#include &lt;string&gt;
+
+int main()
+{
+  using namespace std;
+  using namespace std::chrono;
+  <i>// Parse %j as number of days into a duration</i>
+  istringstream in{"222"};
+  hours d;
+  in &gt;&gt; parse("%j", d);
+  cout &lt;&lt; d &lt;&lt; '\n';
+  cout &lt;&lt; format("{:%j}", d) &lt;&lt; '\n';
+}
+</pre>
+</blockquote>
+<p>
+Output:
+</p>
+<blockquote>
+<pre>
+5328h
+222
+</pre>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify "Table 98 &mdash; Meaning of conversion specifiers"
+ [tab:time.format.spec] as indicated:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table 98 &mdash; Meaning of conversion specifiers  [tab:time.format.spec]</caption>
+<tr style="text-align:center">
+<th>Specifier</th>
+<th>Replacement</th>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><tt>%j</tt></td>
+<td>The day of the year as a decimal number. Jan 1 is <tt>001</tt>. If the result is less than three<br/>
+digits, it is left-padded with <tt>0</tt> to three digits. <ins>If the type being formatted is a<br/> 
+specialization of <tt>duration</tt>, it is formatted as a decimal number of <tt>days</tt>.</ins></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
+</blockquote>
+
+</li>
+
+<li><p>Modify "Table 99 &mdash; Meaning of <tt>parse</tt> flags"
+ [tab:time.parse.spec] as indicated:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table 99 &mdash; Meaning of <tt>parse</tt> flags  [tab:time.parse.spec]</caption>
+<tr style="text-align:center">
+<th>Flag</th>
+<th>Parsed value</th>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><tt>%j</tt></td>
+<td>The day of the year as a decimal number. Jan 1 is <tt>1</tt>. The modified command <tt>%<i>N</i>j</tt><br/>
+specifies the maximum number of characters to read. If <tt><i>N</i></tt> is not specified, the default<br/>
+is <tt>3</tt>. Leading zeroes are permitted but not required. <ins>If the type being parsed is a<br/> 
+specialization of <tt>duration</tt>, it is parsed as a decimal number of <tt>days</tt>.</ins></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
+</blockquote>
+
 </li>
 </ol>
 
