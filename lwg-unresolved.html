@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-09-14 at 17:04:45 UTC</p>
+<p><p>Revised 2019-09-15 at 10:34:34 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -35885,8 +35885,8 @@ return os &lt;&lt; format(os.getloc(),
 <hr>
 <h3><a name="3263" href="#3263">3263</a><sup><a href="https://cplusplus.github.io/LWG/issue3263">(i)</a></sup>. Atomic waiting function calls should only be unblocked once</h3>
 <p><b>Section:</b> 31.6 <a href="https://wg21.link/atomics.wait">[atomics.wait]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Geoffrey Romer <b>Opened:</b> 2019-08-19 <b>Last modified:</b> 2019-08-23</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Geoffrey Romer <b>Opened:</b> 2019-08-19 <b>Last modified:</b> 2019-09-14</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -35898,6 +35898,9 @@ principle every <tt>notify_one()</tt> call could be considered to unblock the sa
 for each waiting function call to be (non-spuriously) unblocked by at most one notifying 
 function call, but as far as I can tell the words never say that.
 </p>
+
+<p><i>[2019-09-14 Priority set to 3 based on reflector discussion]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -36908,7 +36911,7 @@ initializing</del><ins>Initializes</ins> <tt>wd_</tt> with <tt>wd</tt> and <tt>i
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-There is no feature test macro for std::span.
+There is no feature test macro for <tt>std::span</tt>.
 <p/>
 For the purposes of SD-6, I think we want two values: <tt>201803L</tt> for the original addition of 
 <tt>&lt;span&gt;</tt> by <a href="http://wg21.link/p0122r7">P0122R7</a> (Jacksonville, 2018) and then 
