@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-09-15 at 11:28:47 UTC</p>
+<p><p>Revised 2019-09-15 at 11:51:12 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -14663,6 +14663,7 @@ The "shall not introduce a data race" wording is probably not technically correc
  <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2015-06-19 <b>Last modified:</b> 2017-09-10</p>
 <p><b>Priority: </b>4
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#locale.time.get.virtuals">active issues</a> in [locale.time.get.virtuals].</p>
 <p><b>View all other</b> <a href="lwg-index.html#locale.time.get.virtuals">issues</a> in [locale.time.get.virtuals].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -37343,6 +37344,66 @@ The C++ working draft only needs the newer value.
 </tr>
 
 </table>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3275" href="#3275">3275</a><sup><a href="https://cplusplus.github.io/LWG/issue3275">(i)</a></sup>. Why does <tt>time_get::do_get</tt> require a valid pointer when none of the others do?</h3>
+<p><b>Section:</b> 28.4.5.1.2 <a href="https://wg21.link/locale.time.get.virtuals">[locale.time.get.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2019-09-09 <b>Last modified:</b> 2019-09-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#locale.time.get.virtuals">active issues</a> in [locale.time.get.virtuals].</p>
+<p><b>View all other</b> <a href="lwg-index.html#locale.time.get.virtuals">issues</a> in [locale.time.get.virtuals].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+According to 28.4.5.1.2 <a href="https://wg21.link/locale.time.get.virtuals">[locale.time.get.virtuals]</a> p11:
+</p>
+<blockquote><p>
+<i>Requires:</i> <tt>t</tt> shall point to an object
+</p></blockquote>
+<p>
+[Note: In my "Mandates" paper, I changed this to "<i>Expects:</i> <tt>t</tt> points to an object"]
+<p/>
+Nevertheless, it's odd, and inconsistent. <tt>time_get::get</tt> does not have any such stated requirement, 
+and it calls <tt>do_get</tt>. None of the other "time" calls in <tt>time_get</tt> have such a (stated) 
+requirement.
+<p/>
+I believe that this requirement is redundant, that it is implied by the wording in P12 and P14.
+<p/>
+P12: "or until it has extracted and assigned those <tt>struct tm</tt> members"
+<p/>
+P14: "It is unspecified whether multiple calls to <tt>do_get()</tt> with the address of the same 
+<tt>struct tm</tt> object will update the current contents of the object or simply overwrite its members."
+<p/>
+If the pointer is invalid (null, or points to unmapped memory, say), you've got UB anyway.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 28.4.5.1.2 <a href="https://wg21.link/locale.time.get.virtuals">[locale.time.get.virtuals]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+iter_type do_get(iter_type s, iter_type end, ios_base&amp; f,
+                 ios_base::iostate&amp; err, tm* t, char format, char modifier) const;
+</pre>
+<blockquote>
+<p>
+<del>-11- <i>Requires:</i> <tt>t</tt> shall point to an object.</del>
+<p/>
+-12- <i>Effects:</i> [&hellip;]
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ol>
