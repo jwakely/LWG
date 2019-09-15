@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-09-15 at 11:51:12 UTC</p>
+<p><p>Revised 2019-09-15 at 12:04:11 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D118: 2019-10-07 pre-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>330 open issues, up by 27.</li>
+<li>331 open issues, up by 28.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>34 reassigned issues, up by 0.</li>
-<li>2797 issues total, up by 27.</li>
+<li>2798 issues total, up by 28.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 5 Tentatively Ready issues: <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3266">3266</a>.</li>
-<li>Added the following 22 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3275">3275</a>.</li>
+<li>Added the following 23 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3275">3275</a>, <a href="lwg-active.html#3276">3276</a>.</li>
 <li>Changed the following 5 issues to Tentatively Ready (from New): <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>.</li>
 </ul></li>
 </ul>
@@ -40999,6 +40999,54 @@ iter_type do_get(iter_type s, iter_type end, ios_base&amp; f,
 -12- <i>Effects:</i> [&hellip;]
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3276" href="#3276">3276</a><sup><a href="https://cplusplus.github.io/LWG/issue3276">(i)</a></sup>. Class <tt>split_view::outer_iterator::value_type</tt> should inherit from <tt>view_interface</tt></h3>
+<p><b>Section:</b> 24.7.8.4 <a href="https://wg21.link/range.split.outer.value">[range.split.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-09 <b>Last modified:</b> 2019-09-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It is a view. It should have all the view goodies. Suggested priority P1 because it affects ABI.
+<p/>
+The proposed change has been implemented and tested in range-v3.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.8.4 <a href="https://wg21.link/range.split.outer.value">[range.split.outer.value]</a>, class <tt>split_view::outer_iterator::value_type</tt>
+synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class V, class Pattern&gt;
+  template&lt;bool Const&gt;
+  struct split_view&lt;V, Pattern&gt;::outer_iterator&lt;Const&gt;::value_type 
+    <ins>: view_interface&lt;value_type&gt;</ins> {
+  private:
+    outer_iterator i_ = outer_iterator(); <i>// exposition only</i>
+  public:
+    value_type() = default;
+    constexpr explicit value_type(outer_iterator i);
+
+    constexpr inner_iterator&lt;Const&gt; begin() const;
+    constexpr default_sentinel_t end() const;
+  };
+}
+</pre>
 </blockquote>
 </li>
 </ol>
