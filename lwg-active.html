@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-09-15 at 12:04:11 UTC</p>
+<p><p>Revised 2019-09-15 at 12:17:55 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D118: 2019-10-07 pre-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>331 open issues, up by 28.</li>
+<li>332 open issues, up by 29.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>34 reassigned issues, up by 0.</li>
-<li>2798 issues total, up by 28.</li>
+<li>2799 issues total, up by 29.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 5 Tentatively Ready issues: <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3266">3266</a>.</li>
-<li>Added the following 23 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3275">3275</a>, <a href="lwg-active.html#3276">3276</a>.</li>
+<li>Added the following 24 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3275">3275</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>.</li>
 <li>Changed the following 5 issues to Tentatively Ready (from New): <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>.</li>
 </ul></li>
 </ul>
@@ -41047,6 +41047,51 @@ namespace std::ranges {
   };
 }
 </pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3277" href="#3277">3277</a><sup><a href="https://cplusplus.github.io/LWG/issue3277">(i)</a></sup>. Pre-increment on prvalues is not a requirement of <tt>weakly_incrementable</tt></h3>
+<p><b>Section:</b> 23.3.4.13 <a href="https://wg21.link/iterator.concept.random.access">[iterator.concept.random.access]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-09 <b>Last modified:</b> 2019-09-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+See 23.3.4.13 <a href="https://wg21.link/iterator.concept.random.access">[iterator.concept.random.access]</a>/2.6, which shows <tt>++</tt> being applied to a prvalue iterator.
+<p/>
+A similar change has already been made to 24.6.3.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a>/4.6.
+<p/>
+Suggest priority P0 or P1 because it effects the definition of a concept.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 23.3.4.13 <a href="https://wg21.link/iterator.concept.random.access">[iterator.concept.random.access]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- Let <tt>a</tt> and <tt>b</tt> be valid iterators of type <tt>I</tt> such that <tt>b</tt> 
+is reachable from <tt>a</tt> after <tt>n</tt> applications of <tt>++a</tt>, let <tt>D</tt> be
+<tt>iter_difference_t&lt;I&gt;</tt>, and let <tt>n</tt> denote a value of type <tt>D</tt>. 
+<tt>I</tt> models <tt>random_access_iterator</tt> only if
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; <tt>(a += n)</tt> is equal to <tt>b</tt>.</p></li>
+<li><p>[&hellip;]</p></li>
+<li><p>(2.6) &mdash; If <tt>(a + D(n - 1))</tt> is valid, then <tt>(a + n)</tt> is equal to 
+<tt><del>++</del><ins>[](I c){ return ++c; }</ins>(a + D(n - 1))</tt>.</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
 </blockquote>
 </li>
 </ol>
