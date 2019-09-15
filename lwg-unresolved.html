@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-09-15 at 12:17:55 UTC</p>
+<p><p>Revised 2019-09-15 at 12:41:46 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -37497,6 +37497,64 @@ is reachable from <tt>a</tt> after <tt>n</tt> applications of <tt>++a</tt>, let 
 <tt><del>++</del><ins>[](I c){ return ++c; }</ins>(a + D(n - 1))</tt>.</p></li>
 <li><p>[&hellip;]</p></li>
 </ol>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3278" href="#3278">3278</a><sup><a href="https://cplusplus.github.io/LWG/issue3278">(i)</a></sup>. <tt>join_view&lt;V&gt;::iterator&lt;true&gt;</tt> tries to write through <tt>const join_view</tt> ptr</h3>
+<p><b>Section:</b> 24.7.7.2 <a href="https://wg21.link/range.join.view">[range.join.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-09 <b>Last modified:</b> 2019-09-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The non-<tt>const</tt> <tt>join_view::begin()</tt> returns <tt>iterator&lt;<i>simple-view</i>&lt;V&gt;&gt;</tt>. 
+If <tt><i>simple-view</i>&lt;V&gt;</tt> is <tt>true</tt>, then the iterator stores a <tt>const join_view*</tt> 
+named <tt>parent_</tt>. <tt>iterator::satisfy()</tt> will try to write to <tt>parent_-&gt;inner_</tt> if 
+<tt>ref_is_glvalue</tt> is <tt>false</tt>. That doesn't work because the <tt>inner_</tt> field is not marked 
+mutable.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.7.2 <a href="https://wg21.link/range.join.view">[range.join.view]</a>, class <tt>template join_view</tt> synopsis, as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> Changing the <tt>join_view&lt;V&gt;::inner_</tt> member to be mutable is safe 
+because this exposition-only member is only used when the <tt>join_view</tt> is single-pass and 
+only modified by operations that invalidate other iterators]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;input_range V&gt;
+    requires view&lt;V&gt; &amp;&amp; input_range&lt;range_reference_t&lt;V&gt;&gt;&gt; &amp;&amp;
+            (is_reference_v&lt;range_reference_t&lt;V&gt;&gt; ||
+            view&lt;range_value_t&lt;V&gt;&gt;)
+  class join_view : public view_interface&lt;join_view&lt;V&gt;&gt; {
+  private:
+    [&hellip;]
+    V base_ = V(); <i>// exposition only</i>
+    <ins>mutable</ins> all_view&lt;InnerRng&gt; inner_ = <i>// exposition only, present only when</i> 
+                                        <ins><i>//</i></ins> !is_reference_v&lt;InnerRng&gt;
+      all_view&lt;InnerRng&gt;();
+  public:
+    [&hellip;]
+  };
+}
+</pre>
 </blockquote>
 </li>
 </ol>
