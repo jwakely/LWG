@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-09-16 at 17:25:37 UTC</p>
+<p><p>Revised 2019-09-16 at 17:49:23 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D118: 2019-10-07 pre-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>337 open issues, up by 34.</li>
+<li>338 open issues, up by 35.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>34 reassigned issues, up by 0.</li>
-<li>2804 issues total, up by 34.</li>
+<li>2805 issues total, up by 35.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 5 Tentatively Ready issues: <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3266">3266</a>.</li>
-<li>Added the following 29 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3275">3275</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>, <a href="lwg-active.html#3278">3278</a>, <a href="lwg-active.html#3279">3279</a>, <a href="lwg-active.html#3280">3280</a>, <a href="lwg-active.html#3281">3281</a>, <a href="lwg-active.html#3282">3282</a>.</li>
+<li>Added the following 30 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3275">3275</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>, <a href="lwg-active.html#3278">3278</a>, <a href="lwg-active.html#3279">3279</a>, <a href="lwg-active.html#3280">3280</a>, <a href="lwg-active.html#3281">3281</a>, <a href="lwg-active.html#3282">3282</a>, <a href="lwg-active.html#3283">3283</a>.</li>
 <li>Changed the following 5 issues to Tentatively Ready (from New): <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>.</li>
 </ul></li>
 </ul>
@@ -41738,6 +41738,78 @@ constexpr subrange(R&amp;&amp; r) requires (!StoreSize || sized_range&lt;R&gt;);
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3283" href="#3283">3283</a><sup><a href="https://cplusplus.github.io/LWG/issue3283">(i)</a></sup>. Types satisfying <tt>input_iterator</tt> but not <tt>equality_comparable</tt> look like 
+C++17 output iterators</h3>
+<p><b>Section:</b> 23.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2019-09-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.traits">issues</a> in [iterator.traits].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In C++20, if an iterator doesn't define <em>all</em> of the associated iterator types (value, 
+category, reference, and difference), the primary <tt>std::iterator_traits</tt> template picks 
+a category based on structural conformance to a set of implementation-defined concepts that 
+capture the old iterator requirements tables. (See 23.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a>.) In C++17, 
+input iterators were required to be equality-comparable with themselves. In C++20 that is not 
+the case, so such iterators must not be given <tt>intput_iterator_tag</tt> as a category. 
+They don't, so that's all well and good.
+<p/>
+However, 23.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> concludes that, since such an iterator cannot be an 
+input iterator, it must therefor be an <em>output</em> iterator, and it assigns it a category 
+of <tt>std::output_iterator_tag</tt>. It does this even if there is a nested 
+<tt>iterator_category</tt> typedef declaring the iterator to be input. (This will happen 
+frequently as C++20 iterators don't require iterators to declare their reference type, for 
+instance.) This will be extremely confusing to users who, understandably, will be at a loss to 
+understand why the legacy STL algorithms think their iterator is an output iterator when they 
+have clearly stated that the iterator is input!
+<p/>
+The fix is to tweak the specification such that the output category is assigned to an iterator 
+only (a) if it declares its category to be output, or (b) it doesn't specify a category at all. 
+The result, for the user, is that their iterator simply won't look like a C++17 iterator at all, 
+because it isn't!
+<p/>
+Suggested priority: P1. We can't make this change after C++20 because it would be an observable change.
+<p/>
+This fix has been implemented in range-v3.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 23.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- The members of a specialization <tt>iterator_traits&lt;I&gt;</tt> generated from the 
+<tt>iterator_traits</tt> primary template are computed as follows:
+</p>
+<ol style="list-style-type: none">
+<li><p>(3.1) &mdash; If <tt>I</tt> has valid [&hellip;]</p></li>
+<li><p>[&hellip;]</p></li>
+<li><p>(3.3) &mdash; Otherwise, if <tt>I</tt> satisfies the exposition-only concept 
+<tt><i>cpp17-iterator</i></tt> <ins>and either</ins></p>
+<ol style="list-style-type:lower-alpha">
+<li><p><ins><tt>I::iterator_category</tt> is valid and denotes <tt>std::output_iterator_tag</tt> or a 
+type publicly and unambiguously derived from <tt>std::output_iterator_tag</tt>, or</ins></p></li>
+<li><p><ins>there is no type <tt>I::iterator_category</tt></ins></p></li>
+</ol> 
+<p>then <tt>iterator_traits&lt;I&gt;</tt> has the following publicly accessible members:</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+</blockquote>
+</li>
+
 </ol>
 
 
