@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D118)</h1>
-<p><p>Revised 2019-09-16 at 19:29:54 UTC</p>
+<p><p>Revised 2019-09-16 at 19:54:07 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D118: 2019-10-07 pre-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>340 open issues, up by 37.</li>
+<li>341 open issues, up by 38.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>34 reassigned issues, up by 0.</li>
-<li>2807 issues total, up by 37.</li>
+<li>2808 issues total, up by 38.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 5 Tentatively Ready issues: <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3266">3266</a>.</li>
-<li>Added the following 32 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3275">3275</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>, <a href="lwg-active.html#3278">3278</a>, <a href="lwg-active.html#3279">3279</a>, <a href="lwg-active.html#3280">3280</a>, <a href="lwg-active.html#3281">3281</a>, <a href="lwg-active.html#3282">3282</a>, <a href="lwg-active.html#3283">3283</a>, <a href="lwg-active.html#3284">3284</a>, <a href="lwg-active.html#3285">3285</a>.</li>
+<li>Added the following 33 New issues: <a href="lwg-active.html#3249">3249</a>, <a href="lwg-active.html#3250">3250</a>, <a href="lwg-active.html#3251">3251</a>, <a href="lwg-active.html#3252">3252</a>, <a href="lwg-active.html#3254">3254</a>, <a href="lwg-active.html#3255">3255</a>, <a href="lwg-active.html#3258">3258</a>, <a href="lwg-active.html#3260">3260</a>, <a href="lwg-active.html#3261">3261</a>, <a href="lwg-active.html#3262">3262</a>, <a href="lwg-active.html#3263">3263</a>, <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3265">3265</a>, <a href="lwg-active.html#3267">3267</a>, <a href="lwg-active.html#3268">3268</a>, <a href="lwg-active.html#3269">3269</a>, <a href="lwg-active.html#3270">3270</a>, <a href="lwg-active.html#3271">3271</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3275">3275</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>, <a href="lwg-active.html#3278">3278</a>, <a href="lwg-active.html#3279">3279</a>, <a href="lwg-active.html#3280">3280</a>, <a href="lwg-active.html#3281">3281</a>, <a href="lwg-active.html#3282">3282</a>, <a href="lwg-active.html#3283">3283</a>, <a href="lwg-active.html#3284">3284</a>, <a href="lwg-active.html#3285">3285</a>, <a href="lwg-active.html#3286">3286</a>.</li>
 <li>Changed the following 5 issues to Tentatively Ready (from New): <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>.</li>
 </ul></li>
 </ul>
@@ -41895,6 +41895,96 @@ model <tt>semiregular</tt> (18.6 <a href="https://wg21.link/concepts.object">[co
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3286" href="#3286">3286</a><sup><a href="https://cplusplus.github.io/LWG/issue3286">(i)</a></sup>. <tt>ranges::size</tt> is not required to be valid after a call to <tt>ranges::begin</tt> on an input range</h3>
+<p><b>Section:</b> 24.7.6.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>, 24.5.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2019-09-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+On an input (but not forward) range, <tt>begin(rng)</tt> is not required to be an equality-preserving 
+expression. If the range is <em>also</em> sized, then it is not valid to call <tt>size(rng)</tt> after 
+<tt>begin(rng)</tt>. In several places in the ranges clause, this precondition is violated. A trivial 
+re-expression of the effects clause fixes the problem.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.6.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>, class template <tt>take_view</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+  class take_view : public view_interface&lt;take_view&lt;V&gt;&gt; {
+  private:
+    [&hellip;]
+  public:
+    [&hellip;]
+    constexpr auto begin() requires (!<i>simple-view</i>&lt;V&gt;) {
+      if constexpr (sized_range&lt;V&gt;) {
+        if constexpr (random_access_range&lt;V&gt;)
+          return ranges::begin(base_);
+        else <ins>{
+          auto sz = size();</ins>
+          return counted_iterator{ranges::begin(base_), <del>size()</del><ins>sz</ins>};
+        <ins>}</ins>
+      } else
+        return counted_iterator{ranges::begin(base_), count_};
+    }
+
+    constexpr auto begin() const requires range&lt;const V&gt; {
+      if constexpr (sized_range&lt;const V&gt;) {
+        if constexpr (random_access_range&lt;const V&gt;)
+          return ranges::begin(base_);
+        else <ins>{
+          auto sz = size();</ins>
+          return counted_iterator{ranges::begin(base_), <del>size()</del><ins>sz</ins>};
+        <ins>}</ins>
+      } else
+        return counted_iterator{ranges::begin(base_), count_};
+    }
+    
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 24.5.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;<i>not-same-as</i>&lt;subrange&gt; R&gt;
+  requires forwarding-range&lt;R&gt; &amp;&amp;
+    convertible_to&lt;iterator_t&lt;R&gt;, I&gt; &amp;&amp; convertible_to&lt;sentinel_t&lt;R&gt;, S&gt;
+constexpr subrange(R&amp;&amp; r) requires (!StoreSize || sized_range&lt;R&gt;);
+</pre>
+<blockquote>
+<p>
+-6- <i>Effects:</i> Equivalent to:
+<ol style="list-style-type: none">
+<li><p>(6.1) &mdash; If <tt>StoreSize</tt> is <tt>true</tt>, <tt>subrange{<del>ranges::begin(r), 
+ranges::end(r)</del><ins>r</ins>, ranges::size(r)}</tt>.</p></li>
+<li><p>(6.2) &mdash; Otherwise, <tt>subrange{ranges::begin(r), ranges::end(r)}</tt>.</p></li>
+</ol>
+</p>
+</blockquote>
+</blockquote>
+</li>
 </ol>
 
 
