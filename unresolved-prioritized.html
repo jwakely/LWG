@@ -26,7 +26,7 @@
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>This document is the Table of Contents for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.</p>
-<p><p>Revised 2019-09-18 at 18:13:41 UTC</p>
+<p><p>Revised 2019-09-18 at 18:33:09 UTC</p>
 </p><h2><a name="Priority 1"</a>Priority 1 (2 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -1610,20 +1610,20 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2366">2366</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2366"></a></td>
+<td align="right"><a href="lwg-active.html#3188">3188</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3188"></a></td>
 <td align="left">23.6.3 [istreambuf.iterator]<a name="istreambuf.iterator"></a></td>
-<td align="left"><tt>istreambuf_iterator</tt> end-of-stream equality</td>
-<td align="center"><font color="red">No</font></td>
+<td align="left"><tt>istreambuf_iterator::pointer</tt> should not be <i>unspecified</i></td>
+<td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3188">3188</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3188"></a></td>
+<td align="right"><a href="lwg-active.html#2366">2366</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2366"></a></td>
 <td align="left">23.6.3 [istreambuf.iterator]</td>
-<td align="left"><tt>istreambuf_iterator::pointer</tt> should not be <i>unspecified</i></td>
-<td align="center">Yes</td>
+<td align="left"><tt>istreambuf_iterator</tt> end-of-stream equality</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -1646,19 +1646,19 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1238">1238</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="1238"></a></td>
+<td align="right"><a href="lwg-active.html#2963">2963</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2963"></a></td>
 <td align="left">25 [algorithms]<a name="algorithms"></a></td>
-<td align="left">Defining algorithms taking iterator for range</td>
+<td align="left">Algorithms with underspecified iterator requirements</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2963">2963</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2963"></a></td>
+<td align="right"><a href="lwg-active.html#1238">1238</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="1238"></a></td>
 <td align="left">25 [algorithms]</td>
-<td align="left">Algorithms with underspecified iterator requirements</td>
+<td align="left">Defining algorithms taking iterator for range</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1844,19 +1844,19 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2702">2702</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2702"></a></td>
+<td align="right"><a href="lwg-active.html#2703">2703</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2703"></a></td>
 <td align="left">28.4.2.2.2 [facet.num.put.virtuals]<a name="facet.num.put.virtuals"></a></td>
-<td align="left"><tt>num_put::do_put(..., bool)</tt> performs ill-formed <tt>do_put</tt> call</td>
+<td align="left">No provision for fill-padding when <tt>boolalpha</tt> is set</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2703">2703</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2703"></a></td>
+<td align="right"><a href="lwg-active.html#2702">2702</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2702"></a></td>
 <td align="left">28.4.2.2.2 [facet.num.put.virtuals]</td>
-<td align="left">No provision for fill-padding when <tt>boolalpha</tt> is set</td>
+<td align="left"><tt>num_put::do_put(..., bool)</tt> performs ill-formed <tt>do_put</tt> call</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -2580,28 +2580,19 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2478">2478</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2478"></a></td>
-<td align="left">D.17.1 [depr.conversions.string]<a name="depr.conversions.string"></a></td>
-<td align="left">Unclear how <tt>wstring_convert</tt> uses <tt>cvtstate</tt></td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">4</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#2481">2481</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2481"></a></td>
-<td align="left">D.17.1 [depr.conversions.string]</td>
+<td align="left">D.17.1 [depr.conversions.string]<a name="depr.conversions.string"></a></td>
 <td align="left"><tt>wstring_convert</tt> should be more precise regarding "byte-error string" etc.</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2480">2480</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2480"></a></td>
-<td align="left">D.17.2 [depr.conversions.buffer]<a name="depr.conversions.buffer"></a></td>
-<td align="left">Error handling of <tt>wbuffer_convert</tt> unclear</td>
+<td align="right"><a href="lwg-active.html#2478">2478</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2478"></a></td>
+<td align="left">D.17.1 [depr.conversions.string]</td>
+<td align="left">Unclear how <tt>wstring_convert</tt> uses <tt>cvtstate</tt></td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
@@ -2609,14 +2600,23 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <tr>
 <td align="right"><a href="lwg-active.html#2479">2479</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2479"></a></td>
-<td align="left">D.17.2 [depr.conversions.buffer]</td>
+<td align="left">D.17.2 [depr.conversions.buffer]<a name="depr.conversions.buffer"></a></td>
 <td align="left">Unclear how <tt>wbuffer_convert</tt> uses <tt>cvtstate</tt></td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
+<tr>
+<td align="right"><a href="lwg-active.html#2480">2480</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2480"></a></td>
+<td align="left">D.17.2 [depr.conversions.buffer]</td>
+<td align="left">Error handling of <tt>wbuffer_convert</tt> unclear</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center">4</td>
+<td align="left"></td>
+</tr>
 </table>
-<h2><a name="Priority 99"</a>Not Prioritized (71 issues)</h2>
+<h2><a name="Priority 99"</a>Not Prioritized (72 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -2855,18 +2855,9 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3287">3287</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3287"></a></td>
-<td align="left">23.3.2.3 [iterator.traits]<a name="iterator.traits"></a></td>
-<td align="left">Exposition-only <tt><i>cpp17-input-iterator</i></tt> concept is needlessly complex</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#3283">3283</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3283"></a></td>
-<td align="left">23.3.2.3 [iterator.traits]</td>
+<td align="left">23.3.2.3 [iterator.traits]<a name="iterator.traits"></a></td>
 <td align="left">Types satisfying <tt>input_iterator</tt> but not <tt>equality_comparable</tt> look like 
 C++17 output iterators</td>
 <td align="center">Yes</td>
@@ -2878,6 +2869,15 @@ C++17 output iterators</td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3289"></a></td>
 <td align="left">23.3.2.3 [iterator.traits]</td>
 <td align="left">Cannot opt out of C++17 iterator-ness without also opting out of C++20 iterator-ness</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3287">3287</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3287"></a></td>
+<td align="left">23.3.2.3 [iterator.traits]</td>
+<td align="left">Exposition-only <tt><i>cpp17-input-iterator</i></tt> concept is needlessly complex</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -2901,20 +2901,20 @@ C++17 output iterators</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3277">3277</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3277"></a></td>
+<td align="right"><a href="lwg-active.html#3284">3284</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3284"></a></td>
 <td align="left">23.3.4.13 [iterator.concept.random.access]<a name="iterator.concept.random.access"></a></td>
-<td align="left">Pre-increment on prvalues is not a requirement of <tt>weakly_incrementable</tt></td>
+<td align="left"><tt>random_access_iterator</tt> semantic constraints accidentally promote difference type
+ using unary negate</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3284">3284</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3284"></a></td>
+<td align="right"><a href="lwg-active.html#3277">3277</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3277"></a></td>
 <td align="left">23.3.4.13 [iterator.concept.random.access]</td>
-<td align="left"><tt>random_access_iterator</tt> semantic constraints accidentally promote difference type
- using unary negate</td>
+<td align="left">Pre-increment on prvalues is not a requirement of <tt>weakly_incrementable</tt></td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -2930,6 +2930,15 @@ those from the same range</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3293">3293</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3293"></a></td>
+<td align="left">23.5.3.8 [move.iter.nonmember]<a name="move.iter.nonmember"></a></td>
+<td align="left"><tt>move_iterator operator+()</tt> has incorrect constraints</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3258">3258</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3258"></a></td>
 <td align="left">24.3.1 [range.access.begin]<a name="range.access.begin"></a></td>
@@ -2939,19 +2948,19 @@ those from the same range</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3282">3282</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3282"></a></td>
+<td align="right"><a href="lwg-active.html#3281">3281</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3281"></a></td>
 <td align="left">24.5.3 [range.subrange]<a name="range.subrange"></a></td>
-<td align="left"><tt>subrange</tt> converting constructor should disallow derived to base conversions</td>
+<td align="left">Conversion from <tt><i>pair-like</i></tt> types to <tt>subrange</tt> is a silent semantic promotion</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3281">3281</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3281"></a></td>
+<td align="right"><a href="lwg-active.html#3282">3282</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3282"></a></td>
 <td align="left">24.5.3 [range.subrange]</td>
-<td align="left">Conversion from <tt><i>pair-like</i></tt> types to <tt>subrange</tt> is a silent semantic promotion</td>
+<td align="left"><tt>subrange</tt> converting constructor should disallow derived to base conversions</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -3130,23 +3139,23 @@ with POSIX spec</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#1396">1396</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="1396"></a></td>
+<td align="left">30.8 [re.regex]<a name="re.regex"></a></td>
+<td align="left"><tt>regex</tt> should support allocators</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center"></td>
+<td align="left"><a href="lwg-closed.html#1451">1451</a></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3261">3261</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3261"></a></td>
-<td align="left">30.8 [re.regex]<a name="re.regex"></a></td>
+<td align="left">30.8 [re.regex]</td>
 <td align="left"><tt>regex</tt> components' <tt>noexcept</tt> annotations appear broken for POCMA or throwing 
 <tt>BidirectionalIterator</tt></td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#1396">1396</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="1396"></a></td>
-<td align="left">30.8 [re.regex]</td>
-<td align="left"><tt>regex</tt> should support allocators</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center"></td>
-<td align="left"><a href="lwg-closed.html#1451">1451</a></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#2236">2236</a></td>
@@ -3221,22 +3230,22 @@ with POSIX spec</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#961">961</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="961"></a></td>
-<td align="left">32.4.3 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
-<td align="left">Various threading bugs #11</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center"></td>
-<td align="left"><a href="lwg-active.html#936">936</a></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#936">936</a></td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
-<td align="left">32.4.3 [thread.mutex.requirements]</td>
+<td align="left">32.4.3 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
 <td align="left">Mutex type overspecified</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"><a href="lwg-active.html#961">961</a></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#961">961</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="961"></a></td>
+<td align="left">32.4.3 [thread.mutex.requirements]</td>
+<td align="left">Various threading bugs #11</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center"></td>
+<td align="left"><a href="lwg-active.html#936">936</a></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#1493">1493</a></td>
