@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-09-18 at 17:57:43 UTC</p>
+<p><p>Revised 2019-09-18 at 18:13:41 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38856,6 +38856,55 @@ namespace std::ranges {
 </ol>
 
 </blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3292" href="#3292">3292</a><sup><a href="https://cplusplus.github.io/LWG/issue3292">(i)</a></sup>. <tt>iota_view</tt> is under-constrained</h3>
+<p><b>Section:</b> 24.6.3.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2019-09-13 <b>Last modified:</b> 2019-09-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="http://wg21.link/p1207r4">P1207R4</a> changed <tt>weakly_incrementable</tt> from requiring 
+<tt>semiregular</tt> to requiring <tt>default_constructible &amp;&amp; movable</tt>.
+<p/>
+<tt>iota_view</tt> currently is specified to require that <tt>W</tt> be just <tt>weakly_incrementable</tt>. 
+But we have to copy the <tt>W</tt> from the view into its iterator and also in <tt>operator*()</tt> to 
+return a <tt>W</tt>.
+<p/>
+The shortest resolution is just to add "<tt> &amp;&amp; semiregular&lt;W&gt;</tt>" to the class 
+constraints.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 24.6.3.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  [&hellip;]
+  template&lt;weakly_incrementable W, semiregular Bound = unreachable_sentinel_t&gt;
+    requires <i>weakly-equality-comparable-with</i>&lt;W, Bound&gt; <ins>&amp;&amp; semiregular&lt;W&gt;</ins>
+  class iota_view : public view_interface&lt;iota_view&lt;W, Bound&gt; {
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+
 </li>
 
 </ol>
