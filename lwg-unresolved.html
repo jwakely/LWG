@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-09-24 at 19:41:56 UTC</p>
+<p><p>Revised 2019-09-24 at 19:46:56 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -37334,54 +37334,6 @@ iter_type do_get(iter_type s, iter_type end, ios_base&amp; f,
 -12- <i>Effects:</i> [&hellip;]
 </p>
 </blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3276" href="#3276">3276</a><sup><a href="https://cplusplus.github.io/LWG/issue3276">(i)</a></sup>. Class <tt>split_view::outer_iterator::value_type</tt> should inherit from <tt>view_interface</tt></h3>
-<p><b>Section:</b> 24.7.8.4 <a href="https://wg21.link/range.split.outer.value">[range.split.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-09 <b>Last modified:</b> 2019-09-15</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-It is a view. It should have all the view goodies. Suggested priority P1 because it affects ABI.
-<p/>
-The proposed change has been implemented and tested in range-v3.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
-
-<ol>
-<li><p>Modify 24.7.8.4 <a href="https://wg21.link/range.split.outer.value">[range.split.outer.value]</a>, class <tt>split_view::outer_iterator::value_type</tt>
-synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;class V, class Pattern&gt;
-  template&lt;bool Const&gt;
-  struct split_view&lt;V, Pattern&gt;::outer_iterator&lt;Const&gt;::value_type 
-    <ins>: view_interface&lt;value_type&gt;</ins> {
-  private:
-    outer_iterator i_ = outer_iterator(); <i>// exposition only</i>
-  public:
-    value_type() = default;
-    constexpr explicit value_type(outer_iterator i);
-
-    constexpr inner_iterator&lt;Const&gt; begin() const;
-    constexpr default_sentinel_t end() const;
-  };
-}
-</pre>
 </blockquote>
 </li>
 </ol>
