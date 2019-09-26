@@ -24,8 +24,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
 <h3><a name="889" href="lwg-defects.html#889">889</a>. <tt>thread::id</tt> comparisons</h3>
-<p><b>Section:</b> 32.3.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
- <b>Submitter:</b> Lawrence Crowl <b>Opened:</b> 2008-09-15 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 32.4.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
+ <b>Submitter:</b> Lawrence Crowl <b>Opened:</b> 2008-09-15 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#thread.thread.id">issues</a> in [thread.thread.id].</p>
@@ -228,7 +228,7 @@ template &lt;&gt; struct hash&lt;std::thread::id&gt;;
 </del></pre></blockquote>
 
 <p>
-Add to 32.3 <a href="https://wg21.link/thread.threads">[thread.threads]</a>, p1 Header <tt>&lt;thread&gt;</tt> synopsis:
+Add to 32.4 <a href="https://wg21.link/thread.threads">[thread.threads]</a>, p1 Header <tt>&lt;thread&gt;</tt> synopsis:
 </p>
 
 <blockquote><pre>
@@ -237,7 +237,7 @@ template &lt;&gt; struct hash&lt;thread::id&gt;;</ins>
 </pre></blockquote>
 
 <p>
-Add template specialization below class definition in 32.3.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a>
+Add template specialization below class definition in 32.4.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a>
 </p>
 
 <blockquote><pre>
@@ -248,7 +248,7 @@ struct hash&lt;thread::id&gt; : public unary_function&lt;thread::id, size_t&gt; 
 </pre></blockquote>
 
 <p>
-Extend note in p2 32.3.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a> with second sentence:
+Extend note in p2 32.4.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a> with second sentence:
 </p>
 
 <blockquote><p>
@@ -260,7 +260,7 @@ in unordered containers.</ins>
 </p></blockquote>
 
 <p>
-Add new paragraph to end of 32.3.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a>
+Add new paragraph to end of 32.4.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a>
 </p>
 
 <blockquote><pre>

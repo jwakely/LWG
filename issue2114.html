@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2114" href="lwg-active.html#2114">2114</a>. Incorrect "<em>contextually</em> convertible to <tt>bool</tt>" requirements</h3>
 <p><b>Section:</b> 16.5.3.3 <a href="https://wg21.link/nullablepointer.requirements">[nullablepointer.requirements]</a>, 23.3.5.2 <a href="https://wg21.link/input.iterators">[input.iterators]</a>, 23.3.5.6 <a href="https://wg21.link/random.access.iterators">[random.access.iterators]</a>, 25.1 <a href="https://wg21.link/algorithms.general">[algorithms.general]</a>, 25.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a>, 32.2.1 <a href="https://wg21.link/thread.req.paramname">[thread.req.paramname]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2011-12-09 <b>Last modified:</b> 2017-02-02</p>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2011-12-09 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
@@ -128,7 +128,7 @@ The problem here is not that we have two different definitions of <tt>Predicate<
 is confusing, but this fact alone is not a defect. The first (minor) problem is that this definition does not properly 
 apply to function objects that are function pointers, because <tt>operator()</tt> is not defined in a strict sense. 
 But the actually worse second problem is that this wording has the very <tt>same</tt> problem that has originally lead to
-LWG <a href="lwg-defects.html#556">556</a>! We only need to look at 32.5.3 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> p15 to recognice this:
+LWG <a href="lwg-defects.html#556">556</a>! We only need to look at 32.6.3 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> p15 to recognice this:
 </p>
 <blockquote><pre>
 while (!pred())
@@ -138,7 +138,7 @@ while (!pred())
 The negation expression here looks very familiar to the example provided in LWG <a href="lwg-defects.html#556">556</a> and is sensitive
 to the same "unusual proxy" problem. Changing the 32.2.1 <a href="https://wg21.link/thread.req.paramname">[thread.req.paramname]</a> wording to a corresponding
 "contextual conversion to <tt>bool</tt>" wouldn't work either, because existing specifications rely on "convertible
-to <tt>bool</tt>", e.g. 32.5.3 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> p32+33+42 or 32.5.4 <a href="https://wg21.link/thread.condition.condvarany">[thread.condition.condvarany]</a> 
+to <tt>bool</tt>", e.g. 32.6.3 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> p32+33+42 or 32.6.4 <a href="https://wg21.link/thread.condition.condvarany">[thread.condition.condvarany]</a> 
 p25+26+32+33.
 <p/>
 To summarize: I believe that LWG <a href="lwg-defects.html#556">556</a> was not completely resolved. A pessimistic interpretation is,
