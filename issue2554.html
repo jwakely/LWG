@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
 <h3><a name="2554" href="lwg-defects.html#2554">2554</a>. Swapping multidimensional arrays is never <tt>noexcept</tt></h3>
 <p><b>Section:</b> 20.2.2 <a href="https://wg21.link/utility.swap">[utility.swap]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
- <b>Submitter:</b> Orson Peters <b>Opened:</b> 2015-11-01 <b>Last modified:</b> 2016-03-09</p>
+ <b>Submitter:</b> Orson Peters <b>Opened:</b> 2015-11-01 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#utility.swap">issues</a> in [utility.swap].</p>
@@ -55,7 +55,7 @@ int main()
 <p>
 Both clang 3.8.0 and gcc 5.2.0 return <tt>0</tt>.
 <p/>
-The reason for this unexpected result seems to be a consequence of both core wording rules (6.3.2 <a href="https://wg21.link/basic.scope.pdecl">[basic.scope.pdecl]</a> says
+The reason for this unexpected result seems to be a consequence of both core wording rules (6.4.2 <a href="https://wg21.link/basic.scope.pdecl">[basic.scope.pdecl]</a> says
 that "The point of declaration for a name is immediately after its complete declarator (Clause 8) and before its initializer (if any)"
 and the exception specification is part of the declarator) and the fact that the exception-specification of the <tt>std::swap</tt> 
 overload for arrays uses an expression and not a type trait. At the point where the expression is evaluated, only the non-array

@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3012" href="lwg-defects.html#3012">3012</a>. <tt>atomic&lt;T&gt;</tt> is unimplementable for non-<tt>is_trivially_copy_constructible T</tt></h3>
 <p><b>Section:</b> 31.8 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-08-16 <b>Last modified:</b> 2019-02-27</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-08-16 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#atomics.types.generic">issues</a> in [atomics.types.generic].</p>
@@ -85,7 +85,7 @@ Casey Carter says that we might want to still require trivially copy assignable 
 <blockquote>
 <p>
 -1- <ins>If <tt>is_trivially_copy_constructible_v&lt;T&gt;</tt> is <tt>false</tt>, the program is ill-formed</ins><del>The
-template argument for <tt>T</tt> shall be trivially copyable (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
+template argument for <tt>T</tt> shall be trivially copyable (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
 arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
 </p>
 </blockquote>
@@ -104,7 +104,7 @@ arguments that are not also statically initializable may be difficult to use. &m
 <p>
 -1- <ins>If <tt>is_copy_constructible_v&lt;T&gt;</tt> is <tt>false</tt> or if
 <tt>is_trivially_copyable_v&lt;T&gt;</tt> is <tt>false</tt>, the program is ill-formed</ins><del>The
-template argument for <tt>T</tt> shall be trivially copyable (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
+template argument for <tt>T</tt> shall be trivially copyable (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
 arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
 </p>
 </blockquote>
@@ -139,7 +139,7 @@ implementation without heroic efforts.
 -1- The template argument for <tt>T</tt> shall <ins>meet the <tt>CopyConstructible</tt> and <tt>CopyAssignable</tt>
 requirements. If <tt>is_trivially_copyable_v&lt;T&gt; &amp;&amp; is_copy_constructible_v&lt;T&gt; &amp;&amp; 
 is_move_constructible_v&lt;T&gt; &amp;&amp; is_copy_assignable_v&lt;T&gt; &amp;&amp; is_move_assignable_v&lt;T&gt;</tt> 
-is <tt>false</tt>, the program is ill-formed</ins><del>be trivially copyable (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. 
+is <tt>false</tt>, the program is ill-formed</ins><del>be trivially copyable (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. 
 [<i>Note:</i> Type arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
 </p>
 </blockquote>

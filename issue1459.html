@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#LEWG">LEWG</a> status.</em></p>
 <h3><a name="1459" href="lwg-active.html#1459">1459</a>. Overlapping evaluations are allowed</h3>
 <p><b>Section:</b> 31.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
- <b>Submitter:</b> Canada <b>Opened:</b> 2010-08-25 <b>Last modified:</b> 2016-02-10</p>
+ <b>Submitter:</b> Canada <b>Opened:</b> 2010-08-25 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#atomics.order">active issues</a> in [atomics.order].</p>
@@ -46,7 +46,7 @@ as computed by the last prior assignment in the
 sequence.
 </p></blockquote>
 <p>
-... but 6.8.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a> p.13 states:
+... but 6.9.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a> p.13 states:
 </p>
 <blockquote><p>
 If A is not sequenced before B and B is not
@@ -87,7 +87,7 @@ In more detail, here the two evaluations, e1 and e2, are
 being executed as the arguments of a function and are
 consequently not sequenced-before each other. In
 practice we'd expect that they could overlap (as allowed
-by 6.8.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a> p.13), with the two writes taking effect before the two
+by 6.9.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a> p.13), with the two writes taking effect before the two
 reads. However, if we have to construct a linear order of
 evaluations, as in 31.5 <a href="https://wg21.link/atomics.lockfree">[atomics.lockfree]</a> p.8, then the execution above is not
 permited. Is that really intended?
@@ -114,7 +114,7 @@ However, in the short term, I'm still inclined to declare this NAD, for two sepa
 </p>
 
 <ol>
-<li><p>6.8.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a> p15 states: "If a side effect on a scalar
+<li><p>6.9.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a> p15 states: "If a side effect on a scalar
 object is unsequenced relative to either another side
 effect on the same scalar object or a value computation
 using the value of the same scalar object, the behavior is undefined."
@@ -129,7 +129,7 @@ can be evaluations of operations like lvalue to rvalue conversion,
 or individual assignments. In particular, the reads and writes
 executed by <tt>e1</tt> and <tt>e2</tt> in the example could be treated as separate
 evaluations for purposes of producing the sequence.
-The definition of "sequenced before" in 6.8.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a> makes
+The definition of "sequenced before" in 6.9.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a> makes
 little sense if the term "evaluation" is restricted to any notion
 of complete expression. Perhaps we should add yet another note
 to clarify this?  31.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a> p10 probably leads to 

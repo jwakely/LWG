@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++14">C++14</a> status.</em></p>
 <h3><a name="2140" href="lwg-defects.html#2140">2140</a>. Meaning of <tt>notify_all_at_thread_exit</tt> synchronization requirement?</h3>
 <p><b>Section:</b> 32.6 <a href="https://wg21.link/thread.condition">[thread.condition]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
- <b>Submitter:</b> Pete Becker <b>Opened:</b> 2012-03-06 <b>Last modified:</b> 2016-02-10</p>
+ <b>Submitter:</b> Pete Becker <b>Opened:</b> 2012-03-06 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#thread.condition">issues</a> in [thread.condition].</p>
@@ -37,14 +37,14 @@
 </p>
 <blockquote><p>
 <i>Synchronization</i>: The call to <tt>notify_all_at_thread_exit</tt> and the completion of the destructors 
-for all the current thread's variables of thread storage duration <em>synchronize with</em> (6.8.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>) 
+for all the current thread's variables of thread storage duration <em>synchronize with</em> (6.9.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>) 
 calls to functions waiting on <tt>cond</tt>.
 </p></blockquote>
 <p>
 The functions waiting on <tt>cond</tt> have already been called, otherwise they wouldn't be waiting. So how can a subsequent 
 call to <tt>notify_all_at_thread_exit</tt> synchronize with them?
 <p/>
-Also, "synchronizes with" is a relationship between library calls (6.8.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>&#47;8), so it's not 
+Also, "synchronizes with" is a relationship between library calls (6.9.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>&#47;8), so it's not 
 meaningful for completion of destructors for non-library objects. Presumably the intention wasn't so make library 
 destructors special here.
 </p>
@@ -102,7 +102,7 @@ void notify_all_at_thread_exit(condition_variable&amp; cond, unique_lock&lt;mute
 [&hellip;]
 <p/>
 -8- <i>Synchronization</i>: <del>The call to <tt>notify_all_at_thread_exit</tt> and the completion of the destructors for
-all the current thread's variables of thread storage duration synchronize with (6.8.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>) 
+all the current thread's variables of thread storage duration synchronize with (6.9.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>) 
 calls to functions waiting on <tt>cond</tt></del> <ins>The implied <tt>lk.unlock()</tt> call is sequenced after the 
 destruction of all objects with thread storage duration associated with the current thread</ins>.
 </p>

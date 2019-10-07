@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3><a name="1494" href="lwg-defects.html#1494">1494</a>. Term "are serialized" not defined</h3>
 <p><b>Section:</b> 32.5.6.2 <a href="https://wg21.link/thread.once.callonce">[thread.once.callonce]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
- <b>Submitter:</b> INCITS <b>Opened:</b> 2010-08-25 <b>Last modified:</b> 2016-02-10</p>
+ <b>Submitter:</b> INCITS <b>Opened:</b> 2010-08-25 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#thread.once.callonce">issues</a> in [thread.once.callonce].</p>
@@ -98,9 +98,9 @@ there are passive executions only if there is a returning execution.
 earlier returning execution. &mdash; <i>end note</i>]</ins>
 <p/>
 3 <em>Synchronization</em>: <del>The completion of an effective call to <tt>call_once</tt> on a <tt>once_flag</tt> 
-object <em>synchronizes with</em> (6.8.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>) all subsequent calls to <tt>call_once</tt> 
+object <em>synchronizes with</em> (6.9.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>) all subsequent calls to <tt>call_once</tt> 
 on the same <tt>once_flag</tt> object.</del><ins>For any given <code>once_flag</code>: all active executions occur in a total 
-order; completion of an active execution synchronizes with (6.8.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>) the start of 
+order; completion of an active execution synchronizes with (6.9.2 <a href="https://wg21.link/intro.multithread">[intro.multithread]</a>) the start of 
 the next one in this total order; and the returning execution synchronizes with the return from all passive 
 executions.</ins>
 </p></blockquote></blockquote>

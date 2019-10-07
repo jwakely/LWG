@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3213" href="lwg-active.html#3213">3213</a>. <tt>for_each_n</tt> and <tt>copy_n</tt> missing requirements for <tt>Size</tt></h3>
 <p><b>Section:</b> 25.5.4 <a href="https://wg21.link/alg.foreach">[alg.foreach]</a>, 25.6.1 <a href="https://wg21.link/alg.copy">[alg.copy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-05-31 <b>Last modified:</b> 2019-08-26</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-05-31 <b>Last modified:</b> 2019-09-25</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#alg.foreach">issues</a> in [alg.foreach].</p>
@@ -68,7 +68,7 @@ template&lt;class InputIterator, class Size, class Function&gt;
 -16- <i>Requires:</i> shall satisfy the <i>Cpp17MoveConstructible</i> requirements [&hellip;]
 <p/>
 -17- <i><del>Requires</del><ins>Expects</ins>:</i> <ins>The type <tt>Size</tt> is convertible to integral type
-(7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.3.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins> <tt>n &gt;= 0</tt>.
+(7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.4.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins> <tt>n &gt;= 0</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -83,7 +83,7 @@ template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Func
 -21- <i>Requires:</i> shall satisfy the <i>Cpp17CopyConstructible</i> requirements [&hellip;]
 <p/>
 -22- <i><del>Requires</del><ins>Expects</ins>:</i> <ins>The type <tt>Size</tt> is convertible to integral type
-(7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.3.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins> <tt>n &gt;= 0</tt>.
+(7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.4.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins> <tt>n &gt;= 0</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -112,7 +112,7 @@ template&lt;InputIterator I, WeaklyIncrementable O&gt;
 -10- Let <tt><i>M</i></tt> be <tt>max(n, 0)</tt>.
 <p/>
 <ins>-?- <i>Expects:</i> The type <tt>Size</tt> is convertible to integral type
-(7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.3.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins>
+(7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.4.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins>
 <p/>
 [&hellip;]
 </p>

@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3046" href="lwg-active.html#3046">3046</a>. Do not require <tt>reference_wrapper</tt> to support non-referenceable function types</h3>
 <p><b>Section:</b> 20.14.5 <a href="https://wg21.link/refwrap">[refwrap]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-12-14 <b>Last modified:</b> 2019-03-16</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2017-12-14 <b>Last modified:</b> 2019-03-26</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#refwrap">issues</a> in [refwrap].</p>
@@ -57,7 +57,7 @@ are not required to diagnose such invalid specializations, but also don't have t
 to an object or function of type <tt>T</tt>. <ins><tt>T</tt> shall be a referenceable type (16.3.22 <a href="https://wg21.link/defns.referenceable">[defns.referenceable]</a>) that 
 is not a reference type.</ins>
 <p/>
--2- <tt>reference_wrapper&lt;T&gt;</tt> shall be a trivially copyable type (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>).
+-2- <tt>reference_wrapper&lt;T&gt;</tt> shall be a trivially copyable type (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>).
 </p>
 </blockquote>
 </li>
@@ -106,7 +106,7 @@ as the argument for the template parameter <tt>T</tt>.
 to an object or function of type <tt>T</tt>. <ins>If <tt>reference_wrapper</tt> is instantiated with a non-referenceable type 
 (16.3.22 <a href="https://wg21.link/defns.referenceable">[defns.referenceable]</a>) as the argument for the template parameter <tt>T</tt>, the program is ill-formed.</ins>
 <p/>
--2- <tt>reference_wrapper&lt;T&gt;</tt> is a trivially copyable type (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>).
+-2- <tt>reference_wrapper&lt;T&gt;</tt> is a trivially copyable type (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>).
 <p/>
 -3- The template parameter <tt>T</tt> of <tt>reference_wrapper</tt> may be an incomplete type.
 </p>

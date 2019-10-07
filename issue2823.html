@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2823" href="lwg-active.html#2823">2823</a>. <tt>std::array</tt> initialization is still not permissive enough</h3>
 <p><b>Section:</b> 22.3.7.1 <a href="https://wg21.link/array.overview">[array.overview]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Robert Haberlach <b>Opened:</b> 2016-11-16 <b>Last modified:</b> 2018-03-24</p>
+ <b>Submitter:</b> Robert Haberlach <b>Opened:</b> 2016-11-16 <b>Last modified:</b> 2018-03-18</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#array.overview">active issues</a> in [array.overview].</p>
@@ -42,7 +42,7 @@ std::array&lt;int, 1&gt; arr{{0}};
 should be fine, but isn't guaranteed, since <tt>{0}</tt> has no type. We should rather go for implicit conversion:
 </p>
 <blockquote><p>
-An array is an aggregate (9.3.1 <a href="https://wg21.link/dcl.init.aggr">[dcl.init.aggr]</a>) that can be list-initialized with up to <tt>N</tt> elements 
+An array is an aggregate (9.4.1 <a href="https://wg21.link/dcl.init.aggr">[dcl.init.aggr]</a>) that can be list-initialized with up to <tt>N</tt> elements 
 <del>whose types are convertible to <tt>T</tt></del><ins>that can be implicitly converted to <tt>T</tt></ins>.
 </p></blockquote>
 
@@ -74,7 +74,7 @@ This wording is relative to N4606.
 
 <blockquote>
 <p>
--2- An <tt>array</tt> is an aggregate (9.3.1 <a href="https://wg21.link/dcl.init.aggr">[dcl.init.aggr]</a>) that can be list-initialized with up to <tt>N</tt> 
+-2- An <tt>array</tt> is an aggregate (9.4.1 <a href="https://wg21.link/dcl.init.aggr">[dcl.init.aggr]</a>) that can be list-initialized with up to <tt>N</tt> 
 elements <del>whose types are convertible</del><ins>that can be implicitly converted</ins> to <tt>T</tt>.
 </p>
 </blockquote>

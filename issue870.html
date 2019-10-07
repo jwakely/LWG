@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3><a name="870" href="lwg-defects.html#870">870</a>. Do unordered containers not support function pointers for predicate&#47;hasher?</h3>
 <p><b>Section:</b> 22.2.7 <a href="https://wg21.link/unord.req">[unord.req]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2008-08-17 <b>Last modified:</b> 2016-02-10</p>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2008-08-17 <b>Last modified:</b> 2017-02-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#unord.req">active issues</a> in [unord.req].</p>
@@ -151,7 +151,7 @@ between the above subset of callable objects and function objects which seem to
 be unintended: Backed by the Santa Cruz outcome function objects should include
 both function pointers and "object[s] with an operator() defined". This clearly
 excludes class types with a conversion function to a function pointer or all
-similar conversion function situations described in 12.3 <a href="https://wg21.link/over.match">[over.match]</a>&#47;2
+similar conversion function situations described in 12.4 <a href="https://wg21.link/over.match">[over.match]</a>&#47;2
 b. 2. In contrast to this, the wording for callable types seems to be less
 constrained (20.14.2 <a href="https://wg21.link/func.def">[func.def]</a>/3):
 </p>
@@ -239,9 +239,9 @@ Change 20.14 <a href="https://wg21.link/function.objects">[function.objects]</a>
 <blockquote>
 <p>
 1 <del>Function objects are objects with an <tt>operator()</tt>
-defined.</del> <ins>An object type (6.7 <a href="https://wg21.link/basic.types">[basic.types]</a>) that can be the
+defined.</del> <ins>An object type (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>) that can be the
 type of the <em>postfix-expression</em> in a function call (7.6.1.2 <a href="https://wg21.link/expr.call">[expr.call]</a>, 
-12.3.1.1 <a href="https://wg21.link/over.match.call">[over.match.call]</a>) is called a <em>function
+12.4.1.1 <a href="https://wg21.link/over.match.call">[over.match.call]</a>) is called a <em>function
 object type</em><sup>*</sup>. A <em>function object</em> is an object of a
 <em>function object type</em>.</ins> In the places where one would expect to
 pass a pointer to a function to an algorithmic template (Clause 25 <a href="https://wg21.link/algorithms">[algorithms]</a>), 
