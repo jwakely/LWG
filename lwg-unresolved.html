@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-10-08 at 16:54:15 UTC</p>
+<p><p>Revised 2019-10-09 at 18:07:44 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39069,9 +39069,9 @@ namespace std::ranges {
 
 
 <hr>
-<h3><a name="3299" href="#3299">3299</a><sup><a href="https://cplusplus.github.io/LWG/issue3299">(i)</a></sup>. Pointers don't need customized iterator behavoir</h3>
+<h3><a name="3299" href="#3299">3299</a><sup><a href="https://cplusplus.github.io/LWG/issue3299">(i)</a></sup>. Pointers don't need customized iterator behavior</h3>
 <p><b>Section:</b> 23.3.3.1 <a href="https://wg21.link/iterator.cust.move">[iterator.cust.move]</a>, 23.3.3.2 <a href="https://wg21.link/iterator.cust.swap">[iterator.cust.swap]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-10-07 <b>Last modified:</b> 2019-10-08</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-10-07 <b>Last modified:</b> 2019-10-09</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#iterator.cust.move">active issues</a> in [iterator.cust.move].</p>
@@ -39130,6 +39130,60 @@ overload resolution does not exchange the values denoted by <tt>E1</tt> and <tt>
 is ill-formed with no diagnostic required.
 </p></blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3300" href="#3300">3300</a><sup><a href="https://cplusplus.github.io/LWG/issue3300">(i)</a></sup>. Non-array <tt>ssize</tt> overload is underconstrained</h3>
+<p><b>Section:</b> 23.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-09-27 <b>Last modified:</b> 2019-10-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.range">active issues</a> in [iterator.range].</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.range">issues</a> in [iterator.range].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The overload of <tt>ssize</tt> specified in 23.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a>/18 has no constraints, 
+yet it specializes <tt>make_signed_t</tt> which has a precondition that its type parameter is an 
+integral type or enumeration but not <tt>bool</tt> (20.15.7.3 <a href="https://wg21.link/meta.trans.sign">[meta.trans.sign]</a>). This 
+precondition needs to be propagated to <tt>ssize</tt> as "<i>Mandates</i> [or <i>Constraints</i>]: 
+<tt>decltype(c.size())</tt> [meets the requirements for the type argument to <tt>make_signed</tt>]". 
+"<i>Mandates</i>" seems to be more in line with LWG guidance since there are no traits nor concepts 
+that observe <tt>ssize</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 23.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class C&gt; constexpr auto ssize(const C&amp; c)
+  -&gt; common_type_t&lt;ptrdiff_t, make_signed_t&lt;decltype(c.size())&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Mandates:</i> <tt>decltype(c.size())</tt> is a (possibly <i>cv</i>-qualified) integral or 
+enumeration type but not a <tt>bool</tt> type.</ins>
+<p/>
+-18- <i>Returns:</i>
+<blockquote>
+<pre>
+static_cast&lt;common_type_t&lt;ptrdiff_t, make_signed_t&lt;decltype(c.size())&gt;&gt;&gt;(c.size())
+</pre>
+</blockquote>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
 </ol>
 
 
