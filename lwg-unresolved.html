@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-10-09 at 18:07:44 UTC</p>
+<p><p>Revised 2019-10-10 at 18:14:19 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39181,6 +39181,61 @@ static_cast&lt;common_type_t&lt;ptrdiff_t, make_signed_t&lt;decltype(c.size())&g
 </blockquote>
 </p>
 </blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3301" href="#3301">3301</a><sup><a href="https://cplusplus.github.io/LWG/issue3301">(i)</a></sup>. <tt>transform_view::iterator</tt> has incorrect <tt>iterator_category</tt></h3>
+<p><b>Section:</b> 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Michel Morin <b>Opened:</b> 2019-10-03 <b>Last modified:</b> 2019-10-10</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+When the transformation function returns an rvalue, <tt>transform_view::iterator</tt> 
+cannot model <tt><i>cpp17-forward-iterator</i></tt>. However, similar to LWG <a href="lwg-active.html#3291">3291</a>,
+the current wording on <tt>transform_view::iterator::iterator_category</tt> does not 
+consider this.
+<p/>
+As Casey Carter pointed out <a href="https://github.com/ericniebler/stl2/issues/637#issuecomment-535594100">here</a>,
+the proposed wording below does not consider <tt>input_iterator</tt> that is not 
+<tt><i>cpp17-input-iterator</i></tt> (this problem is not specific to the PR; it's pervasive 
+in adapted iterators) and concepts-based determination would be a better fix for issues around 
+<tt>iterator_category</tt>. But anyway, I consider this PR as a minimal fix at the moment.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- <ins><tt>iterator::iterator_category</tt> is defined as follows:</ins> 
+Let <tt>C</tt> denote the type <tt>iterator_traits&lt;iterator_t&lt;Base&gt;&gt;::iterator_category</tt>.
+</p>
+<ol style="list-style-type: none">
+<li><p><ins>(2.?) &mdash; If <tt>is_lvalue_reference_v&lt;iter_reference_t&lt;iterator_t&lt;Base&gt;&gt;&gt;</tt> 
+is <tt>true</tt>,</ins></p>
+<ol style="list-style-type: none">
+<li><p><ins>(2.?.?) &mdash;</ins> If <tt>C</tt> models <tt>derived_from&lt;contiguous_iterator_tag&gt;</tt>, 
+then <tt>iterator_category</tt> denotes <tt>random_access_iterator_tag</tt>;</p></li>
+<li><p><ins>(2.?.?) &mdash;</ins> <ins>O</ins><del>o</del>therwise, <tt>iterator_category</tt> denotes 
+<tt>C</tt>.</p></li>
+</ol>
+</li>
+<li><p><ins>(2.?) &mdash; Otherwise, <tt>iterator_category</tt> denotes 
+<tt>input_iterator_tag</tt>.</ins></p></li>
+</ol>
 </blockquote>
 </li>
 
