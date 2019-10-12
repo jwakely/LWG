@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-10-12 at 11:36:37 UTC</p>
+<p><p>Revised 2019-10-12 at 11:44:18 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -167,7 +167,7 @@ ownership of it.
 <li>Added the following 4 New issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3302">3302</a>.</li>
 <li>Changed the following 4 issues to Voting (from Ready): <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3103">3103</a>, <a href="lwg-active.html#3149">3149</a>, <a href="lwg-active.html#3190">3190</a>.</li>
 <li>Changed the following 23 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#3218">3218</a>, <a href="lwg-active.html#3221">3221</a>, <a href="lwg-active.html#3222">3222</a>, <a href="lwg-active.html#3224">3224</a>, <a href="lwg-active.html#3225">3225</a>, <a href="lwg-active.html#3230">3230</a>, <a href="lwg-active.html#3231">3231</a>, <a href="lwg-active.html#3232">3232</a>, <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3266">3266</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>.</li>
-<li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3284">3284</a>.</li>
+<li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3284">3284</a>, <a href="lwg-active.html#3286">3286</a>.</li>
 </ul></li>
 </ul>
 </li>
@@ -42011,6 +42011,7 @@ type publicly and unambiguously derived from <tt>std::output_iterator_tag</tt>, 
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#iterator.concept.random.access">active issues</a> in [iterator.concept.random.access].</p>
 <p><b>View all other</b> <a href="lwg-index.html#iterator.concept.random.access">issues</a> in [iterator.concept.random.access].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 23.3.4.13 <a href="https://wg21.link/iterator.concept.random.access">[iterator.concept.random.access]</a>/p2.7 says:
@@ -42090,11 +42091,11 @@ model <tt>semiregular</tt> (18.6 <a href="https://wg21.link/concepts.object">[co
 
 <hr>
 <h3><a name="3286" href="#3286">3286</a><sup><a href="https://cplusplus.github.io/LWG/issue3286">(i)</a></sup>. <tt>ranges::size</tt> is not required to be valid after a call to <tt>ranges::begin</tt> on an input range</h3>
-<p><b>Section:</b> 24.7.6.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>, 24.5.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2019-09-17</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 24.7.6.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>, 24.5.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2019-10-12</p>
+<p><b>Priority: </b>0
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 On an input (but not forward) range, <tt>begin(rng)</tt> is not required to be an equality-preserving 
@@ -42103,6 +42104,10 @@ to call <tt>size(rng)</tt> after <tt>begin(rng)</tt> (24.4.3 <a href="https://wg
 places in the ranges clause, this precondition is violated. A trivial re-expression of the effects 
 clause fixes the problem.
 </p>
+
+<p><i>[2019-10-12 Issue Prioritization]</i></p>
+
+<p>Status to Tentatively Ready and priority to 0 after seven positive votes on the reflector.</p>
 
 
 <p><b>Proposed resolution:</b></p>
