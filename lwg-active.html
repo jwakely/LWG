@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-10-12 at 11:44:18 UTC</p>
+<p><p>Revised 2019-10-12 at 12:00:29 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D119: 2019-11-25 post-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>355 open issues, up by 4.</li>
+<li>356 open issues, up by 5.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>36 reassigned issues, up by 0.</li>
-<li>2824 issues total, up by 4.</li>
+<li>2825 issues total, up by 5.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 4 New issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3302">3302</a>.</li>
+<li>Added the following 5 New issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3303">3303</a>.</li>
 <li>Changed the following 4 issues to Voting (from Ready): <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3103">3103</a>, <a href="lwg-active.html#3149">3149</a>, <a href="lwg-active.html#3190">3190</a>.</li>
 <li>Changed the following 23 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#3218">3218</a>, <a href="lwg-active.html#3221">3221</a>, <a href="lwg-active.html#3222">3222</a>, <a href="lwg-active.html#3224">3224</a>, <a href="lwg-active.html#3225">3225</a>, <a href="lwg-active.html#3230">3230</a>, <a href="lwg-active.html#3231">3231</a>, <a href="lwg-active.html#3232">3232</a>, <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3266">3266</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3284">3284</a>, <a href="lwg-active.html#3286">3286</a>.</li>
@@ -43342,6 +43342,62 @@ namespace std::ranges {
   }  
 }
 [&hellip;]
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3303" href="#3303">3303</a><sup><a href="https://cplusplus.github.io/LWG/issue3303">(i)</a></sup>. Bad "<tt>constexpr</tt>" marker for <tt>destroy/destroy_n</tt></h3>
+<p><b>Section:</b> 20.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2019-10-10 <b>Last modified:</b> 2019-10-12</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This issue is submitted due to the working draft issue 
+<a href="https://github.com/cplusplus/draft/issues/3181">cplusplus/draft#3181</a> which had been
+classified as non-editorially.
+<p/>
+<a href="http://wg21.link/p0784r7">P0784R7</a>, approved in Cologne, added "<tt>constexpr</tt>" markers to
+the overloads of <tt>destroy</tt> and <tt>destroy_n</tt> taking an <tt>ExecutionPolicy</tt> 
+parameter.  This seems to be in error; parallel algorithms should not be marked "<tt>constexpr</tt>".
+(None of the parallel algorithms in <tt>&lt;algorithm&gt;</tt> is marked "<tt>constexpr</tt>".)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 20.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  
+  <i>// 20.10.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a>, destroy</i>
+  template&lt;class T&gt;
+    constexpr void destroy_at(T* location);
+  template&lt;class ForwardIterator&gt;
+    constexpr void destroy(ForwardIterator first, ForwardIterator last);
+  template&lt;class ExecutionPolicy, class ForwardIterator&gt;
+    <del>constexpr</del> void destroy(ExecutionPolicy&amp;&amp; exec, <i>// see 25.3.5 <a href="https://wg21.link/algorithms.parallel.overloads">[algorithms.parallel.overloads]</a></i>
+                           ForwardIterator first, ForwardIterator last);
+  template&lt;class ForwardIterator, class Size&gt;
+    constexpr ForwardIterator destroy_n(ForwardIterator first, Size n);
+  template&lt;class ExecutionPolicy, class ForwardIterator, class Size&gt;
+    <del>constexpr</del> ForwardIterator destroy_n(ExecutionPolicy&amp;&amp; exec, <i>// see 25.3.5 <a href="https://wg21.link/algorithms.parallel.overloads">[algorithms.parallel.overloads]</a></i>
+                                        ForwardIterator first, Size n);  
+  [&hellip;]
+}
 </pre>
 </blockquote>
 </li>
