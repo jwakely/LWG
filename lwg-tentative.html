@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-10-12 at 12:00:29 UTC</p>
+<p><p>Revised 2019-10-12 at 12:07:23 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
@@ -589,6 +589,43 @@ is reachable from <tt>a</tt> after <tt>n</tt> applications of <tt>++a</tt>, let 
 <li><p>(2.7) &mdash; <tt>(b += <ins>D(</ins>-n<ins>)</ins>)</tt> is equal to <tt>a</tt>.</p></li>
 <li><p>[&hellip;]</p></li>
 </ol>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3285" href="#3285">3285</a><sup><a href="https://cplusplus.github.io/LWG/issue3285">(i)</a></sup>. The type of a customization point object shall satisfy <tt>semiregular</tt></h3>
+<p><b>Section:</b> 16.4.2.2.6 <a href="https://wg21.link/customization.point.object">[customization.point.object]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2019-10-12</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+We should be testing the un-<i>cv</i>-qualified type of a customization point object.
+</p>
+
+<p><i>[2019-10-12 Issue Prioritization]</i></p>
+
+<p>Status to Tentatively Ready and priority to 0 after seven positive votes on the reflector.</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 16.4.2.2.6 <a href="https://wg21.link/customization.point.object">[customization.point.object]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- The type of a customization point object <ins>ignoring <i>cv</i>-qualifiers</ins> shall 
+model <tt>semiregular</tt> (18.6 <a href="https://wg21.link/concepts.object">[concepts.object]</a>).
+</p>
 </blockquote>
 </li>
 
