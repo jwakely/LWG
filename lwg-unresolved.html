@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-10-10 at 18:14:19 UTC</p>
+<p><p>Revised 2019-10-12 at 11:14:45 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39193,7 +39193,7 @@ static_cast&lt;common_type_t&lt;ptrdiff_t, make_signed_t&lt;decltype(c.size())&g
 <hr>
 <h3><a name="3301" href="#3301">3301</a><sup><a href="https://cplusplus.github.io/LWG/issue3301">(i)</a></sup>. <tt>transform_view::iterator</tt> has incorrect <tt>iterator_category</tt></h3>
 <p><b>Section:</b> 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Michel Morin <b>Opened:</b> 2019-10-03 <b>Last modified:</b> 2019-10-10</p>
+ <b>Submitter:</b> Michel Morin <b>Opened:</b> 2019-10-03 <b>Last modified:</b> 2019-10-12</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -39236,6 +39236,58 @@ then <tt>iterator_category</tt> denotes <tt>random_access_iterator_tag</tt>;</p>
 <li><p><ins>(2.?) &mdash; Otherwise, <tt>iterator_category</tt> denotes 
 <tt>input_iterator_tag</tt>.</ins></p></li>
 </ol>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3302" href="#3302">3302</a><sup><a href="https://cplusplus.github.io/LWG/issue3302">(i)</a></sup>. Range adaptor objects <tt>keys</tt> and <tt>values</tt> are unspecified</h3>
+<p><b>Section:</b> 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Michel Morin <b>Opened:</b> 2019-10-04 <b>Last modified:</b> 2019-10-12</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This issue is submitted due to the working draft issue 
+<a href="https://github.com/cplusplus/draft/issues/3231">cplusplus/draft#3231</a> which had been
+classified as non-editorially.
+<p/>
+<tt>keys</tt> and <tt>values</tt> are listed in 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, but not specified.
+It seems that <a href="http://wg21.link/p1035r7">P1035R7</a> forgot to specify them (as 
+<tt>elements&lt;0&gt;</tt> and <tt>elements&lt;1&gt;</tt>).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  [&hellip;]
+  
+  template&lt;class R&gt;
+    using keys_view = elements_view&lt;all_view&lt;R&gt;, 0&gt;;
+  template&lt;class R&gt;
+    using values_view = elements_view&lt;all_view&lt;R&gt;, 1&gt;;
+  namespace views {
+    template&lt;size_t N&gt;
+      inline constexpr <i>unspecified</i> elements = <i>unspecified</i>;
+    inline constexpr <ins>auto</ins><del><i>unspecified</i></del> keys = <ins>elements&lt;0&gt;</ins><del><i>unspecified</i></del>;
+    inline constexpr <ins>auto</ins><del><i>unspecified</i></del> values = <ins>elements&lt;1&gt;</ins><del><i>unspecified</i></del>;
+  }  
+}
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 
