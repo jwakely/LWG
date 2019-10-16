@@ -27,7 +27,7 @@ C++17 output iterators</title>
 <h3><a name="3283" href="lwg-active.html#3283">3283</a>. Types satisfying <tt>input_iterator</tt> but not <tt>equality_comparable</tt> look like 
 C++17 output iterators</h3>
 <p><b>Section:</b> 23.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2019-10-12</p>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2019-10-16</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#iterator.traits">active issues</a> in [iterator.traits].</p>
@@ -83,8 +83,8 @@ This fix has been implemented in range-v3.
 <li><p>(3.3) &mdash; Otherwise, if <tt>I</tt> satisfies the exposition-only concept 
 <tt><i>cpp17-iterator</i></tt> <ins>and either</ins></p>
 <ol style="list-style-type:lower-alpha">
-<li><p><ins><tt>I::iterator_category</tt> is valid and denotes <tt>std::output_iterator_tag</tt> or a 
-type publicly and unambiguously derived from <tt>std::output_iterator_tag</tt>, or</ins></p></li>
+<li><p><ins><tt>I::iterator_category</tt> is valid and denotes <tt>output_iterator_tag</tt> or a 
+type publicly and unambiguously derived from <tt>output_iterator_tag</tt>, or</ins></p></li>
 <li><p><ins>there is no type <tt>I::iterator_category</tt></ins></p></li>
 </ol> 
 <p>then <tt>iterator_traits&lt;I&gt;</tt> has the following publicly accessible members:</p></li>
