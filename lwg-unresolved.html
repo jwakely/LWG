@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-10-19 at 20:54:11 UTC</p>
+<p><p>Revised 2019-10-30 at 17:34:09 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -15222,7 +15222,7 @@ Which means that the character class matching worked, but not the matching to th
 <hr>
 <h3><a name="2547" href="#2547">2547</a><sup><a href="https://cplusplus.github.io/LWG/issue2547">(i)</a></sup>. Container requirements (and other library text) should say "strict total order", not just "total order"</h3>
 <p><b>Section:</b> 20.14.7 <a href="https://wg21.link/comparisons">[comparisons]</a>, 22.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>, 32.4.2.1 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Matt Austern <b>Opened:</b> 2015-10-08 <b>Last modified:</b> 2015-10-31</p>
+ <b>Submitter:</b> Matt Austern <b>Opened:</b> 2015-10-08 <b>Last modified:</b> 2015-10-30</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#comparisons">active issues</a> in [comparisons].</p>
@@ -31498,7 +31498,7 @@ template<ins>, provided that the added declaration depends on at least one progr
 <hr>
 <h3><a name="3188" href="#3188">3188</a><sup><a href="https://cplusplus.github.io/LWG/issue3188">(i)</a></sup>. <tt>istreambuf_iterator::pointer</tt> should not be <i>unspecified</i></h3>
 <p><b>Section:</b> 23.6.3 <a href="https://wg21.link/istreambuf.iterator">[istreambuf.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-21 <b>Last modified:</b> 2019-03-06</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-21 <b>Last modified:</b> 2019-10-30</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#istreambuf.iterator">active issues</a> in [istreambuf.iterator].</p>
@@ -31526,6 +31526,13 @@ With the acceptance of <a href="https://wg21.link/p1252r2">P1252R2</a> the commi
 of <tt>move_iterator</tt>, interestingly without mentioning what should happen with its current <tt>pointer</tt> typedef (which
 is equal to the template parameter <tt>Iterator</tt> and thus never <tt>void</tt>). Effectively this is a very similar situation 
 as for the here discussed <tt>istreambuf_iterator</tt> case and it seems attractive to me to solve both cases similarly. 
+</p>
+
+<p><i>[2019-10-30, Jonathan comments]</i></p>
+
+<p>
+Also, <tt>reverse_iterator::operator-&gt;()</tt> is now constrained and so not always defined, but 
+<tt>reverse_iterator::pointer</tt> is defined unconditionally.
 </p>
 
 
@@ -31585,7 +31592,7 @@ This might also apply to the <tt>Compare</tt> parameter for the <tt>merge</tt> a
 <hr>
 <h3><a name="3192" href="#3192">3192</a><sup><a href="https://cplusplus.github.io/LWG/issue3192">(i)</a></sup>. &sect;[allocator.uses.construction] functions misbehave for <tt>const</tt> types</h3>
 <p><b>Section:</b> 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-28 <b>Last modified:</b> 2019-03-16</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-28 <b>Last modified:</b> 2019-03-15</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#allocator.uses.construction">issues</a> in [allocator.uses.construction].</p>
@@ -39281,6 +39288,69 @@ is_object_v&lt;T&gt;</ins></tt>, a pointer to the object contained by <tt>operan
 [&hellip;]
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3306" href="#3306">3306</a><sup><a href="https://cplusplus.github.io/LWG/issue3306">(i)</a></sup>. <tt>ranges::advance</tt> violates its preconditions</h3>
+<p><b>Section:</b> 23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-10-27 <b>Last modified:</b> 2019-10-30</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>Recall that "<tt>[i, s)</tt> denotes a range" for an iterator <tt>i</tt> and sentinel <tt>s</tt>
+means that either <tt>i == s</tt> holds, or <tt>i</tt> is dereferenceable and <tt>[++i, s)</tt>
+denotes a range ( [iterator.requirements.genera]).
+</p><p>
+The three-argument overload <tt>ranges::advance(i, n, bound)</tt> is specified in
+23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a> paragraphs 5 through 7. Para 5 establishes a precondition that
+<tt>[bound, i)</tt> denotes a range when <tt>n &lt; 0</tt> (both <tt>bound</tt> and <tt>i</tt> must
+have the same type in this case). When <tt>sized_sentinel_for&lt;S, I&gt;</tt> holds and
+<tt>n &lt; bound - i</tt>, para 6.1.1 says that <tt>ranges::advance(i, n, bound)</tt> is equivalent
+to <tt>ranges::advance(i, bound)</tt>. Para 3, however, establishes a precondition for
+<tt>ranges::advance(i, bound)</tt> that <tt>[i, bound)</tt> denotes a range. <tt>[bound, i)</tt> and
+<tt>[i, bound)</tt> cannot both denote ranges unless <tt>i == bound</tt>, which is not the case for
+all calls that reach 6.1.1.
+</p><p>
+The call in para 6.1.1 wants the effects of either 4.1 - which really has no preconditions - or 4.2,
+which is well-defined if either <tt>[i, bound)</tt> or <tt>[bound, i)</tt> denotes a range. Para 3's
+stronger precondition is actually only required by Para 4.3, which increments <tt>i</tt> blindly
+looking for <tt>bound</tt>. The straight-forward fix here seems to be to relax para 3's precondition
+to only apply when 4.3 will be reached.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Modify 23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
+  constexpr void ranges::advance(I&amp; i, S bound);
+</pre>
+<p>
+-3- <i>Expects</i>: <ins>Either <tt>assignable_from&lt;I&amp;, S&gt; ||
+sized_sentinel_for&lt;S, I&gt;</tt> is modeled, or</ins> <tt>[i, bound)</tt> denotes a range.
+</p><p>
+-4- <i>Effects</i>:
+</p><p>
+(4.1) &mdash; If <tt>I</tt> and <tt>S</tt> model <tt>assignable_from&lt;I&amp;, S&gt;</tt>,
+equivalent to <tt>i = std::move(bound)</tt>.
+</p><p>
+(4.2) &mdash; Otherwise, if <tt>S</tt> and <tt>I</tt> model <tt>sized_sentinel_for&lt;S, I&gt;</tt>,
+equivalent to <tt>ranges::advance(i, bound - i)</tt>.
+</p><p>
+(4.3) &mdash; Otherwise, while <tt>bool(i != bound)</tt> is <tt>true</tt>, increments <tt>i</tt>.
+</p>
 </blockquote>
 </li>
 </ol>
