@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-10-30 at 17:34:09 UTC</p>
+<p><p>Revised 2019-10-31 at 18:48:00 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38425,8 +38425,8 @@ namespace std::ranges {
 <hr>
 <h3><a name="3293" href="#3293">3293</a><sup><a href="https://cplusplus.github.io/LWG/issue3293">(i)</a></sup>. <tt>move_iterator operator+()</tt> has incorrect constraints</h3>
 <p><b>Section:</b> 23.5.3.8 <a href="https://wg21.link/move.iter.nonmember">[move.iter.nonmember]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Bo Persson <b>Opened:</b> 2019-09-13 <b>Last modified:</b> 2019-09-18</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Bo Persson <b>Opened:</b> 2019-09-13 <b>Last modified:</b> 2019-10-31</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -38452,6 +38452,10 @@ However, the return type of this operator is <tt>move_iterator&lt;Iterator&gt;</
 the expression <tt>x + n</tt> ought to have that type. Also, there is no <tt>operator+</tt> 
 that matches the constraints, so it effectively disables the addition.
 </p>
+
+<p><i>[2019-10-31 Issue Prioritization]</i></p>
+
+<p>Priority to 3 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -38624,8 +38628,8 @@ does not participate in class template argument deduction (12.4.1.8 <a href="htt
 <hr>
 <h3><a name="3295" href="#3295">3295</a><sup><a href="https://cplusplus.github.io/LWG/issue3295">(i)</a></sup>. Comparison category <tt>operator==</tt> are mis-specified</h3>
 <p><b>Section:</b> 17.11.2 <a href="https://wg21.link/cmp.categories">[cmp.categories]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2019-09-14 <b>Last modified:</b> 2019-09-22</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2019-09-14 <b>Last modified:</b> 2019-10-31</p>
+<p><b>Priority: </b>1
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -38643,75 +38647,12 @@ five should all look like:
 friend constexpr bool operator==(const strong_ordering&amp; v, const strong_ordering&amp; w) noexcept = default; 
 </pre></blockquote>
 
+<p><i>[2019-10-31 Issue Prioritization]</i></p>
 
-<p><b>Proposed resolution:</b></p>
-
-
-
-
-<hr>
-<h3><a name="3296" href="#3296">3296</a><sup><a href="https://cplusplus.github.io/LWG/issue3296">(i)</a></sup>. Inconsistent default argument for <tt>basic_regex&lt;&gt;::assign</tt></h3>
-<p><b>Section:</b> 30.8 <a href="https://wg21.link/re.regex">[re.regex]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2019-09-16 <b>Last modified:</b> 2019-09-24</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#re.regex">active issues</a> in [re.regex].</p>
-<p><b>View all other</b> <a href="lwg-index.html#re.regex">issues</a> in [re.regex].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The declaration of the overload of <tt>basic_regex&lt;&gt;::assign(const charT* p, size_t len, flag_type f)</tt>
-has an inconsistent default argument for the <tt>flag_type f</tt> parameter.
-<p/>
-30.8 <a href="https://wg21.link/re.regex">[re.regex]</a> p3:
-</p>
-<blockquote><pre>
-basic_regex&amp; assign(const charT* p, size_t len, flag_type f);
-</pre></blockquote>
-<p>
-30.8.2 <a href="https://wg21.link/re.regex.assign">[re.regex.assign]</a> before p12:
-</p>
-<blockquote><pre>
-basic_regex&amp; assign(const charT* ptr, size_t len, flag_type f = regex_constants::ECMAScript);
-</pre></blockquote>
-<p>
-Since all other overloads have a default argument in both 30.8 <a href="https://wg21.link/re.regex">[re.regex]</a> and
-30.8.2 <a href="https://wg21.link/re.regex.assign">[re.regex.assign]</a> I propose to add a default argument for this overload
-in the declaration in 30.8 <a href="https://wg21.link/re.regex">[re.regex]</a>.
-<p/>
-It should be pointed out that there exists implementation divergence due to the current
-wording state: libc++ and libstdc++ do <em>not</em> implement the default argument.
-The MS STL library <em>does</em> have the default argument.
-</p>
+<p>Priority to 1 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
-
-<ol>
-<li><p>Modify 30.8 <a href="https://wg21.link/re.regex">[re.regex]</a>, class template <tt>basic_regex</tt> synopsis, 
-as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-<i>// 30.8.2 <a href="https://wg21.link/re.regex.assign">[re.regex.assign]</a>, assign</i>
-[&hellip;]
-basic_regex&amp; assign(const charT* ptr, flag_type f = regex_constants::ECMAScript);
-basic_regex&amp; assign(const charT* p, size_t len, flag_type f <ins>= regex_constants::ECMAScript</ins>);
-template&lt;class string_traits, class A&gt;
-  basic_regex&amp; assign(const basic_string&lt;charT, string_traits, A&gt;&amp; s,
-                      flag_type f = regex_constants::ECMAScript);
-template&lt;class InputIterator&gt;
-  basic_regex&amp; assign(InputIterator first, InputIterator last,
-                      flag_type f = regex_constants::ECMAScript);
-basic_regex&amp; assign(initializer_list&lt;charT&gt;,
-                    flag_type = regex_constants::ECMAScript);
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-</ol>
 
 
 
@@ -38719,8 +38660,8 @@ basic_regex&amp; assign(initializer_list&lt;charT&gt;,
 <hr>
 <h3><a name="3297" href="#3297">3297</a><sup><a href="https://cplusplus.github.io/LWG/issue3297">(i)</a></sup>. Useless sequence container requirement</h3>
 <p><b>Section:</b> 22.2.3 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-09-17 <b>Last modified:</b> 2019-09-23</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-09-17 <b>Last modified:</b> 2019-10-31</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#sequence.reqmts">active issues</a> in [sequence.reqmts].</p>
 <p><b>View all other</b> <a href="lwg-index.html#sequence.reqmts">issues</a> in [sequence.reqmts].</p>
@@ -38752,6 +38693,10 @@ iterator directly to the container's value type; again, implicit conversion is n
 We should strike the implicit conversion requirement since it is not useful and only serves to confuse 
 readers of the Standard (see e.g. <a href="https://github.com/microsoft/STL/issues/107">here</a>).
 </p>
+
+<p><i>[2019-10-31 Issue Prioritization]</i></p>
+
+<p>Priority to 3 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
