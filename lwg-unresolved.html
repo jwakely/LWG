@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-10-31 at 18:53:14 UTC</p>
+<p><p>Revised 2019-10-31 at 19:04:26 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -30708,6 +30708,7 @@ derived types as always equal</h3>
  <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-11-29 <b>Last modified:</b> 2019-07-27</p>
 <p><b>Priority: </b>2
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#default.allocator">active issues</a> in [default.allocator].</p>
 <p><b>View all other</b> <a href="lwg-index.html#default.allocator">issues</a> in [default.allocator].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -39157,6 +39158,51 @@ equivalent to <tt>i = std::move(bound)</tt>.
 equivalent to <tt>ranges::advance(i, bound - i)</tt>.
 </p><p>
 (4.3) &mdash; Otherwise, while <tt>bool(i != bound)</tt> is <tt>true</tt>, increments <tt>i</tt>.
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3307" href="#3307">3307</a><sup><a href="https://cplusplus.github.io/LWG/issue3307">(i)</a></sup>. <tt>std::allocator&lt;void&gt;().allocate(n)</tt></h3>
+<p><b>Section:</b> 20.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-10-25 <b>Last modified:</b> 2019-10-31</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#default.allocator">active issues</a> in [default.allocator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#default.allocator">issues</a> in [default.allocator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In C++20 the <tt>std::allocator&lt;void&gt;</tt> explicit specialization is gone, which means it uses the 
+primary template, which has allocate and deallocate members.
+<p/>
+Although it's implied by the use of <tt>sizeof(T)</tt>, <tt>std::allocator&lt;T&gt;::allocate</tt> 
+doesn't have an explicit precondition that the value type is complete.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Modify 20.10.10.1 <a href="https://wg21.link/allocator.members">[allocator.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[[nodiscard]] constexpr T* allocate(size_t n);
+</pre>
+<p>
+<ins>-?- <i>Mandates:</i> <tt>T</tt> is not an incomplete type (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>).</ins>
+<p/>
+-2- <i>Returns:</i> A pointer to the initial element of an array of storage of size 
+<tt>n * sizeof(T)</tt>, aligned appropriately for objects of type <tt>T</tt>.
+<p/>
+[&hellip;]
 </p>
 </blockquote>
 </li>
