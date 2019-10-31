@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-10-31 at 19:04:26 UTC</p>
+<p><p>Revised 2019-10-31 at 19:23:58 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39201,6 +39201,83 @@ doesn't have an explicit precondition that the value type is complete.
 <p/>
 -2- <i>Returns:</i> A pointer to the initial element of an array of storage of size 
 <tt>n * sizeof(T)</tt>, aligned appropriately for objects of type <tt>T</tt>.
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3308" href="#3308">3308</a><sup><a href="https://cplusplus.github.io/LWG/issue3308">(i)</a></sup>. <tt>vector</tt> and <tt>deque</tt> iterator <tt>erase</tt> invalidates elements even when no change occurs</h3>
+<p><b>Section:</b> 22.3.8.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a>, 22.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2019-10-29 <b>Last modified:</b> 2019-10-31</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#deque.modifiers">issues</a> in [deque.modifiers].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It seems incorrect that a container would invalidate anything as a result of being asked to erase 0 elements. 
+This came up in a recent customer bug report against Visual Studio, where given a <tt>vector v</tt>, 
+<tt>v.erase(v.begin(), v.begin())</tt> triggered a self-assignment of all the elements in the vector. 
+<p/>
+<tt>deque</tt> has language enumerating erasures of the first and last element which invalidate fewer 
+iterators, and a fallback that says all iterators are invalidated, which seems to intend to be talking about middle-of-container erasures. However, erasing 0 elements isn't really a middle of container erasure.
+<p/>
+vector says that iterators and references are invalidated after the 'point of the erase', but when 0 
+elements are erased it's unclear what that even means.
+<p/>
+We should say that erasures that erase 0 elements are no ops and be clearer about which elements are 
+invalidated for <tt>vector</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Modify 22.3.8.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+iterator erase(const_iterator position);
+iterator erase(const_iterator first, const_iterator last);
+void pop_front();
+void pop_back();
+</pre>
+<p>
+-4- <i>Effects:</i> <ins>Erases elements as indicated in Table 75 [tab:container.seq.req].</ins> 
+An erase operation that erases the last element of a deque invalidates only the past-the-end 
+iterator and all iterators and references to the erased elements. An erase operation that erases 
+the first element of a deque but not the last element invalidates only iterators and references 
+to the erased elements. An erase operation that erases <ins>any elements, but</ins> neither the 
+first element nor the last element of a deque invalidates the past-the-end iterator and all 
+iterators and references to all the elements of the deque. <del>[<i>Note:</i> <tt>pop_front</tt> 
+and <tt>pop_back</tt> are erase operations. &mdash; <i>end note</i>]</del>
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr iterator erase(const_iterator position);
+constexpr iterator erase(const_iterator first, const_iterator last);
+constexpr void pop_back();
+</pre>
+<p>
+-3- <i>Effects:</i> <ins>Erases elements as indicated in Table 75 [tab:container.seq.req].</ins> 
+Invalidates iterators and references at or after the <del>point of the erase.</del><ins>first erased 
+element. [<i>Note:</i> For the second overload of <tt>erase</tt>, if <tt>first == last</tt>, no 
+elements are erased, and no iterators or references are invalidated. &mdash; <i>end note</i>]</ins>
 <p/>
 [&hellip;]
 </p>
