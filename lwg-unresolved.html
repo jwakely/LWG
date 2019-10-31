@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-10-31 at 19:28:07 UTC</p>
+<p><p>Revised 2019-10-31 at 19:34:48 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38781,8 +38781,8 @@ static_cast&lt;common_type_t&lt;ptrdiff_t, make_signed_t&lt;decltype(c.size())&g
 <hr>
 <h3><a name="3301" href="#3301">3301</a><sup><a href="https://cplusplus.github.io/LWG/issue3301">(i)</a></sup>. <tt>transform_view::iterator</tt> has incorrect <tt>iterator_category</tt></h3>
 <p><b>Section:</b> 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Michel Morin <b>Opened:</b> 2019-10-03 <b>Last modified:</b> 2019-10-12</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Michel Morin <b>Opened:</b> 2019-10-03 <b>Last modified:</b> 2019-10-31</p>
+<p><b>Priority: </b>1
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -38798,6 +38798,10 @@ the proposed wording below does not consider <tt>input_iterator</tt> that is not
 in adapted iterators) and concepts-based determination would be a better fix for issues around 
 <tt>iterator_category</tt>. But anyway, I consider this PR as a minimal fix at the moment.
 </p>
+
+<p><i>[2019-10-31 Issue Prioritization]</i></p>
+
+<p>Priority to 1 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -38836,8 +38840,8 @@ then <tt>iterator_category</tt> denotes <tt>random_access_iterator_tag</tt>;</p>
 <hr>
 <h3><a name="3302" href="#3302">3302</a><sup><a href="https://cplusplus.github.io/LWG/issue3302">(i)</a></sup>. Range adaptor objects <tt>keys</tt> and <tt>values</tt> are unspecified</h3>
 <p><b>Section:</b> 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Michel Morin <b>Opened:</b> 2019-10-04 <b>Last modified:</b> 2019-10-12</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Michel Morin <b>Opened:</b> 2019-10-04 <b>Last modified:</b> 2019-10-31</p>
+<p><b>Priority: </b>1
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -38850,6 +38854,10 @@ classified as non-editorial.
 It seems that <a href="http://wg21.link/p1035r7">P1035R7</a> forgot to specify them (as 
 <tt>elements&lt;0&gt;</tt> and <tt>elements&lt;1&gt;</tt>).
 </p>
+
+<p><i>[2019-10-31 Issue Prioritization]</i></p>
+
+<p>Priority to 1 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
