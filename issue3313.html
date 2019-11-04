@@ -107,7 +107,15 @@ constexpr iterator&amp; operator--()
 </pre>
 <blockquote>
 <p>
--14- <i>Effects:</i> Equivalent to: [&hellip;]
+-14- <i>Effects:</i> Equivalent to:
+<blockquote><pre>
+if (outer_ == ranges::end(parent_-&gt;base_))
+  inner_ = ranges::end(*--outer_);
+while (inner_ == ranges::begin(*outer_))
+  inner_ = ranges::end(*--outer_);
+--inner_;
+return *this;
+</pre></blockquote>
 </p>
 </blockquote>
 <pre>
@@ -118,8 +126,12 @@ constexpr iterator operator--(int)
 </pre>
 <blockquote>
 <p>
--15- <i>Effects:</i> Equivalent to: [&hellip;]
-[&hellip;]
+-15- <i>Effects:</i> Equivalent to:
+<blockquote><pre>
+auto tmp = *this;
+--*this;
+return tmp;
+</pre></blockquote>
 </p>
 </blockquote>
 </blockquote>

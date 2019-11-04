@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-11-04 at 19:54:57 UTC</p>
+<p><p>Revised 2019-11-04 at 19:57:15 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -44366,7 +44366,15 @@ constexpr iterator&amp; operator--()
 </pre>
 <blockquote>
 <p>
--14- <i>Effects:</i> Equivalent to: [&hellip;]
+-14- <i>Effects:</i> Equivalent to:
+<blockquote><pre>
+if (outer_ == ranges::end(parent_-&gt;base_))
+  inner_ = ranges::end(*--outer_);
+while (inner_ == ranges::begin(*outer_))
+  inner_ = ranges::end(*--outer_);
+--inner_;
+return *this;
+</pre></blockquote>
 </p>
 </blockquote>
 <pre>
@@ -44377,8 +44385,12 @@ constexpr iterator operator--(int)
 </pre>
 <blockquote>
 <p>
--15- <i>Effects:</i> Equivalent to: [&hellip;]
-[&hellip;]
+-15- <i>Effects:</i> Equivalent to:
+<blockquote><pre>
+auto tmp = *this;
+--*this;
+return tmp;
+</pre></blockquote>
 </p>
 </blockquote>
 </blockquote>
