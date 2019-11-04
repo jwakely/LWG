@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-11-04 at 19:25:59 UTC</p>
+<p><p>Revised 2019-11-04 at 19:54:57 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D119: 2019-11-25 post-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>363 open issues, up by 12.</li>
+<li>364 open issues, up by 13.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>38 reassigned issues, up by 2.</li>
-<li>2834 issues total, up by 14.</li>
+<li>2835 issues total, up by 15.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 2 Ready issues: <a href="lwg-active.html#3303">3303</a>, <a href="lwg-active.html#3307">3307</a>.</li>
-<li>Added the following 11 New issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3310">3310</a>, <a href="lwg-active.html#3311">3311</a>, <a href="lwg-active.html#3312">3312</a>.</li>
+<li>Added the following 12 New issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3310">3310</a>, <a href="lwg-active.html#3311">3311</a>, <a href="lwg-active.html#3312">3312</a>, <a href="lwg-active.html#3313">3313</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3304">3304</a>.</li>
 <li>Changed the following 4 issues to Voting (from Ready): <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3103">3103</a>, <a href="lwg-active.html#3149">3149</a>, <a href="lwg-active.html#3190">3190</a>.</li>
 <li>Changed the following 23 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#3218">3218</a>, <a href="lwg-active.html#3221">3221</a>, <a href="lwg-active.html#3222">3222</a>, <a href="lwg-active.html#3224">3224</a>, <a href="lwg-active.html#3225">3225</a>, <a href="lwg-active.html#3230">3230</a>, <a href="lwg-active.html#3231">3231</a>, <a href="lwg-active.html#3232">3232</a>, <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3266">3266</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>.</li>
@@ -44271,6 +44271,113 @@ try {
 return p;
 </pre></blockquote>
 <p/>
+[&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3313" href="#3313">3313</a><sup><a href="https://cplusplus.github.io/LWG/issue3313">(i)</a></sup>. <tt>join_view::iterator::operator--</tt> is incorrectly constrained</h3>
+<p><b>Section:</b> 24.7.10.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> United States <b>Opened:</b> 2019-11-04 <b>Last modified:</b> 2019-11-04</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses US 294</b></p>
+
+<p>
+<tt>join_view::iterator::operator--</tt> is improperly constrained. In the <i>Effects:</i> clause in
+paragraph 14, we see the statement:
+</p>
+<blockquote><pre>
+inner_ = ranges::end(*--outer_);
+</pre></blockquote>
+<p>
+However, this only well-formed when <tt>end</tt> returns an iterator, not a sentinel. This
+requirement is not reflected in the constraints of the function(s).
+<p/>
+<b>Eric Niebler:</b>
+<p/>
+From the WD, <tt>join_view::iterator::operator--</tt> is specified as:
+</p>
+<blockquote><pre>
+constexpr iterator&amp; operator--()
+  requires ref_is_glvalue &amp;&amp; bidirectional_range&lt;Base&gt; &amp;&amp;
+    bidirectional_range&lt;range_reference_t&lt;Base&gt;&gt;;
+</pre>
+-14- <i>Effects:</i> Equivalent to:
+<blockquote><pre>
+if (outer_ == ranges::end(parent_-&gt;base_))
+  inner_ = ranges::end(*--outer_);
+while (inner_ == ranges::begin(*outer_))
+  inner_ = ranges::end(*--outer_);
+--inner_;
+return *this;
+</pre></blockquote>
+</blockquote>
+<p>
+The trouble is from the lines that do:
+</p>
+<blockquote><pre>
+  inner_ = ranges::end(*--outer_);
+</pre></blockquote>
+<p>
+Clearly this will only compile when <tt>*--outer</tt> returns a <tt>common_range</tt>, but 
+nowhere is that requirement stated.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.10.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a>, class template <tt>join_view::iterator</tt> synopsis, 
+as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr iterator&amp; operator--()
+  requires ref_is_glvalue &amp;&amp; bidirectional_range&lt;Base&gt; &amp;&amp;
+           bidirectional_range&lt;range_reference_t&lt;Base&gt;&gt; <ins>&amp;&amp;
+           common_range&lt;range_reference_t&lt;Base&gt;&gt;</ins>;
+
+constexpr iterator operator--(int)
+  requires ref_is_glvalue &amp;&amp; bidirectional_range&lt;Base&gt; &amp;&amp;
+           bidirectional_range&lt;range_reference_t&lt;Base&gt;&gt; <ins>&amp;&amp;
+           common_range&lt;range_reference_t&lt;Base&gt;&gt;</ins>;
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 24.7.10.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr iterator&amp; operator--()
+  requires ref_is_glvalue &amp;&amp; bidirectional_range&lt;Base&gt; &amp;&amp;
+           bidirectional_range&lt;range_reference_t&lt;Base&gt;&gt; <ins>&amp;&amp;
+           common_range&lt;range_reference_t&lt;Base&gt;&gt;</ins>;
+</pre>
+<blockquote>
+<p>
+-14- <i>Effects:</i> Equivalent to: [&hellip;]
+</p>
+</blockquote>
+<pre>
+constexpr iterator operator--(int)
+  requires ref_is_glvalue &amp;&amp; bidirectional_range&lt;Base&gt; &amp;&amp;
+           bidirectional_range&lt;range_reference_t&lt;Base&gt;&gt; <ins>&amp;&amp;
+           common_range&lt;range_reference_t&lt;Base&gt;&gt;</ins>;
+</pre>
+<blockquote>
+<p>
+-15- <i>Effects:</i> Equivalent to: [&hellip;]
 [&hellip;]
 </p>
 </blockquote>
