@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-11-05 at 17:41:51 UTC</p>
+<p><p>Revised 2019-11-05 at 18:52:29 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D119: 2019-11-25 post-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>366 open issues, up by 15.</li>
+<li>367 open issues, up by 16.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>38 reassigned issues, up by 2.</li>
-<li>2837 issues total, up by 17.</li>
+<li>2838 issues total, up by 18.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 2 Ready issues: <a href="lwg-active.html#3303">3303</a>, <a href="lwg-active.html#3307">3307</a>.</li>
-<li>Added the following 14 New issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3310">3310</a>, <a href="lwg-active.html#3311">3311</a>, <a href="lwg-active.html#3312">3312</a>, <a href="lwg-active.html#3313">3313</a>, <a href="lwg-active.html#3314">3314</a>, <a href="lwg-active.html#3315">3315</a>.</li>
+<li>Added the following 15 New issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3310">3310</a>, <a href="lwg-active.html#3311">3311</a>, <a href="lwg-active.html#3312">3312</a>, <a href="lwg-active.html#3313">3313</a>, <a href="lwg-active.html#3314">3314</a>, <a href="lwg-active.html#3315">3315</a>, <a href="lwg-active.html#3316">3316</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3304">3304</a>.</li>
 <li>Changed the following 4 issues to Voting (from Ready): <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3103">3103</a>, <a href="lwg-active.html#3149">3149</a>, <a href="lwg-active.html#3190">3190</a>.</li>
 <li>Changed the following 23 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#3218">3218</a>, <a href="lwg-active.html#3221">3221</a>, <a href="lwg-active.html#3222">3222</a>, <a href="lwg-active.html#3224">3224</a>, <a href="lwg-active.html#3225">3225</a>, <a href="lwg-active.html#3230">3230</a>, <a href="lwg-active.html#3231">3231</a>, <a href="lwg-active.html#3232">3232</a>, <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3266">3266</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>.</li>
@@ -44666,6 +44666,83 @@ The text in the table should be updated to match the actual behavior.
 </tr>
 
 </table>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3316" href="#3316">3316</a><sup><a href="https://cplusplus.github.io/LWG/issue3316">(i)</a></sup>.  Correctly define epoch for <tt>utc_clock</tt> / <tt>utc_timepoint</tt></h3>
+<p><b>Section:</b> 27.7.2.1 <a href="https://wg21.link/time.clock.utc.overview">[time.clock.utc.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Great Britain <b>Opened:</b> 2019-11-05 <b>Last modified:</b> 2019-11-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses <a href="https://github.com/cplusplus/nbballot/issues/329">GB 333</a></b></p>
+
+<p>
+UTC epoch is not correctly defined UTC has an officially recorded epoch of 1/1/1972 00:00:00 
+and is 10 seconds behind TAI.
+This can be confirmed through reference to the 
+<a href="https://www.bipm.org/cc/CCTF/Allowed/18/CCTF_09-32_noteUTC.pdf#page=6">BIPM</a> (the 
+body that oversees international metrology)
+</p>
+<blockquote><p>
+"The defining epoch of 1 January 1972, <tt>0 h 0m 0 s</tt> UTC was set 10 s behind TAI, which
+was the approximate accumulated difference between TAI and UT1 since the inception of
+TAI in 1958, and a unique fraction of a second adjustment was applied so that UTC would
+differ from TAI by an integral number of seconds. The recommended maximum departure of 
+UTC from UT1 was 0.7 s. The term "leap second" was introduced for the stepped second."
+</p></blockquote>
+<p>
+Proposed change:
+<p/>
+<tt>utc_clock</tt> and <tt>utc_timepoint</tt> should correctly report relative to the official 
+UTC epoch. 27.2.2.1 footnote 1 should read: 
+</p>
+<blockquote><p>
+In contrast to <tt>sys_time</tt>, which does not take leap seconds into account, 
+<tt>utc_clock</tt> and its associated <tt>time_point</tt>, <tt>utc_time</tt>, count time,
+including leap seconds, since 1972-01-01 00:00:00 UTC. [<i>Example:</i> 
+<tt>clock_cast&lt;utc_clock&gt;(sys_seconds{sys_days{1972y/January/1}}).time_since_epoch()</tt> 
+is <tt>0s</tt>. <tt>clock_cast&lt;utc_clock&gt;(sys_seconds{sys_days{2000y/January/1}}).time_since_epoch()</tt>
+is <tt>883'612'822</tt>, which is <tt>10'197 * 86'400s + 22s</tt>. &mdash; <i>end example</i>]
+</p></blockquote>
+<p>
+<b>Howard Hinnant:</b>
+<p/>
+Clarify that the epoch of <code>utc_clock</code> is intended to be <tt>1970-01-01</tt>.
+<p/>
+Rationale: The main use case of <code>utc_clock</code> is to get the correct number of seconds 
+when subtracting time points straddling a leap second insertion point, and this computation 
+is independent of the epoch. Furthermore learning/teaching that <code>utc_clock</code> is 
+<code>system_clock</code> except that <code>utc_clock</code> includes leap seconds is easier.  
+And this fact is more easily understood when comparing the underlying <code>.time_since_epoch()</code> 
+of equivalent time points from each clock.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Modify 27.7.2.1 <a href="https://wg21.link/time.clock.utc.overview">[time.clock.utc.overview]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- In contrast to <tt>sys_time</tt>, which does not take leap seconds into account, <tt>utc_clock</tt> 
+and its associated <tt>time_point</tt>, <tt>utc_time</tt>, count time, including leap seconds, since 
+1970-01-01 00:00:00 UTC. <ins>[<i>Note:</i> The UTC time standard began on 
+1972-01-01 00:00:10 TAI. To measure time since this epoch instead, one can add/subtract the 
+constant <tt>sys_days{1972y/1/1} - sys_days{1970y/1/1}</tt> (<tt>63'072'000s</tt>) from the 
+<tt>utc_time</tt> &mdash; <i>end note</i>]</ins> [<i>Example:</i> <tt>clock_cast&lt;utc_clock&gt;(sys_seconds{sys_days{1970y/January/1}}).time_since_epoch()</tt> is <tt>0s</tt>. 
+<tt>clock_cast&lt;utc_clock&gt;(sys_seconds{sys_days{2000y/January/1}}).time_since_epoch()</tt>
+is <tt>946'684'822s</tt>, which is <tt>10'957 * 86'400s + 22s</tt>. &mdash; <i>end example</i>]
+</p>
 </blockquote>
 </li>
 </ol>
