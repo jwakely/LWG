@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-06 at 20:11:33 UTC</p>
+<p><p>Revised 2019-11-06 at 20:23:18 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40718,6 +40718,71 @@ if it is a well-formed expression.</p></li>
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3325" href="#3325">3325</a><sup><a href="https://cplusplus.github.io/LWG/issue3325">(i)</a></sup>. Constrain return type of transformation function for <tt>transform_view</tt></h3>
+<p><b>Section:</b> 24.7.5.2 <a href="https://wg21.link/range.transform.view">[range.transform.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> United States <b>Opened:</b> 2019-11-06 <b>Last modified:</b> 2019-11-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses <a href="https://github.com/cplusplus/nbballot/issues/299">US 303</a></b></p>
+
+<p>
+The <tt>transform_view</tt> does not constrain the return type of the transformation function. It
+is invalid to pass a <tt>void</tt>-returning transformation function to the <tt>transform_view</tt>, 
+which would cause its <tt>iterator</tt>s' <tt>operator*</tt> member to return <tt>void</tt>.
+<p/>
+Proposed change:
+</p>
+<p>
+Change the constraints on <tt>transform_view</tt> to the following:
+</p>
+<blockquote><pre>
+template&lt;input_range V, copy_constructible F&gt;
+  requires view&lt;V&gt; &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
+           regular_invocable&lt;F&amp;, range_reference_t&lt;V&gt;&gt; &amp;&amp;
+           <i>can-reference</i>&lt;invoke_result_t&lt;F&amp;, range_reference_t&lt;V&gt;&gt;&gt;
+class transform_view;
+</pre></blockquote>
+<p>
+<b>Jonathan Wakely:</b>
+<p/>
+The NB comment says "The <tt>transform_view</tt> does not constrain the return type of the transformation 
+function. It is invalid to pass a <tt>void</tt>-returning transformation function to the <tt>transform_view</tt>, 
+which would cause its <tt>iterator</tt>s' <tt>operator*</tt> member to return <tt>void</tt>."
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.5.2 <a href="https://wg21.link/range.transform.view">[range.transform.view]</a>, class template <tt>elements_view</tt> synopsis, 
+as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;input_range V, copy_constructible F&gt;
+    requires view&lt;V&gt; &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
+             regular_invocable&lt;F&amp;, range_reference_t&lt;V&gt;&gt; <ins>&amp;&amp;
+             <i>can-reference</i>&lt;invoke_result_t&lt;F&amp;, range_reference_t&lt;V&gt;&gt;&gt;</ins>
+  class transform_view : public view_interface&lt;transform_view&lt;V, F&gt;&gt; {
+    [&hellip;]
+  };
+[&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
 
 
 
