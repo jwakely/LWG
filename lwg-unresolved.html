@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-06 at 19:35:56 UTC</p>
+<p><p>Revised 2019-11-06 at 20:07:12 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40623,6 +40623,101 @@ namespace std::ranges {
 
 </ol>
 
+
+
+
+
+<hr>
+<h3><a name="3324" href="#3324">3324</a><sup><a href="https://cplusplus.github.io/LWG/issue3324">(i)</a></sup>. Special-case <tt>std::strong/weak/partial_order</tt> for pointers</h3>
+<p><b>Section:</b> 17.11.7 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Canada <b>Opened:</b> 2019-11-06 <b>Last modified:</b> 2019-11-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses <a href="https://github.com/cplusplus/nbballot/issues/176">CA 178</a></b></p>
+
+<p>
+<tt>std::strong_order</tt>, <tt>weak_order</tt>, and <tt>partial_order</tt> have special cases 
+for floating point, but are missing special casing for pointers. <tt>compare_three_way</tt> and 
+<tt>std::less</tt> have the special casing for pointers.
+</p>
+Proposed change:
+<p/>
+Change [cmp.alg] bullet 1.4 from
+<br/>
+"Otherwise, <tt>strong_ordering(E &lt;=&gt; F)</tt> if it is a well-formed expression."
+<br/>
+to
+<br/>
+"Otherwise, <tt>strong_ordering(compare_three_way()(E, F))</tt> if it is a well-formed expression."
+<p/>
+Change [cmp.alg] bullet 2.4 from
+<br/>
+"Otherwise, <tt>weak_ordering(E &lt;=&gt; F)</tt> if it is a well-formed expression."
+<br/>
+to
+<br/>
+"Otherwise, <tt>weak_ordering(compare_three_way()(E, F))</tt> if it is a well-formed expression."
+<br/>
+Change [cmp.alg] bullet 3.3 from
+<br/>
+"Otherwise, <tt>partial_ordering(E &lt;=&gt; F)</tt> if it is a well-formed expression."
+<br/>
+to
+<br/>
+"Otherwise, <tt>partial_ordering(compare_three_way()(E, F))</tt> if it is a well-formed expression."
+<p>
+<b>Dietmar K&uuml;hl:</b>
+<p/>
+Use <tt>compare_three_way</tt> instead of <tt>&lt;=&gt;</tt> for the various comparison algorithms.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Change 17.11.7 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- The name <tt>strong_order</tt> [&hellip;]
+</p>
+<blockquote>
+<ol style="list-style-type: none">
+<li><p>[&hellip;]</p></li>
+<li><p>(1.4) &mdash; Otherwise, <tt>strong_ordering(<del>E &lt;=&gt; F</del><ins>compare_three_way()(E, F)</ins>)</tt> 
+if it is a well-formed expression.</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+</blockquote>
+<p>
+-2- The name <tt>weak_order</tt> [&hellip;]
+</p>
+<blockquote>
+<ol style="list-style-type: none">
+<li><p>[&hellip;]</p></li>
+<li><p>(2.4) &mdash; Otherwise, <tt>weak_ordering(<del>E &lt;=&gt; F</del><ins>compare_three_way()(E, F)</ins>)</tt> 
+if it is a well-formed expression.</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+</blockquote>
+<p>
+-3- The name <tt>partial_order</tt> [&hellip;]
+</p>
+<blockquote>
+<ol style="list-style-type: none">
+<li><p>[&hellip;]</p></li>
+<li><p>(3.3) &mdash; Otherwise, <tt>partial_ordering(<del>E &lt;=&gt; F</del><ins>compare_three_way()(E, F)</ins>)</tt> 
+if it is a well-formed expression.</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
