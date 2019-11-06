@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-11-06 at 19:18:01 UTC</p>
+<p><p>Revised 2019-11-06 at 19:35:56 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D119: 2019-11-25 post-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>373 open issues, up by 22.</li>
+<li>374 open issues, up by 23.</li>
 <li>2433 closed issues, up by 0.</li>
 <li>38 reassigned issues, up by 2.</li>
-<li>2844 issues total, up by 24.</li>
+<li>2845 issues total, up by 25.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 2 Ready issues: <a href="lwg-active.html#3303">3303</a>, <a href="lwg-active.html#3307">3307</a>.</li>
-<li>Added the following 21 New issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3310">3310</a>, <a href="lwg-active.html#3311">3311</a>, <a href="lwg-active.html#3312">3312</a>, <a href="lwg-active.html#3313">3313</a>, <a href="lwg-active.html#3314">3314</a>, <a href="lwg-active.html#3315">3315</a>, <a href="lwg-active.html#3316">3316</a>, <a href="lwg-active.html#3317">3317</a>, <a href="lwg-active.html#3318">3318</a>, <a href="lwg-active.html#3319">3319</a>, <a href="lwg-active.html#3320">3320</a>, <a href="lwg-active.html#3321">3321</a>, <a href="lwg-active.html#3322">3322</a>.</li>
+<li>Added the following 22 New issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3310">3310</a>, <a href="lwg-active.html#3311">3311</a>, <a href="lwg-active.html#3312">3312</a>, <a href="lwg-active.html#3313">3313</a>, <a href="lwg-active.html#3314">3314</a>, <a href="lwg-active.html#3315">3315</a>, <a href="lwg-active.html#3316">3316</a>, <a href="lwg-active.html#3317">3317</a>, <a href="lwg-active.html#3318">3318</a>, <a href="lwg-active.html#3319">3319</a>, <a href="lwg-active.html#3320">3320</a>, <a href="lwg-active.html#3321">3321</a>, <a href="lwg-active.html#3322">3322</a>, <a href="lwg-active.html#3323">3323</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3304">3304</a>.</li>
 <li>Changed the following 4 issues to Voting (from Ready): <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3103">3103</a>, <a href="lwg-active.html#3149">3149</a>, <a href="lwg-active.html#3190">3190</a>.</li>
 <li>Changed the following 23 issues to Voting (from Tentatively Ready): <a href="lwg-active.html#3218">3218</a>, <a href="lwg-active.html#3221">3221</a>, <a href="lwg-active.html#3222">3222</a>, <a href="lwg-active.html#3224">3224</a>, <a href="lwg-active.html#3225">3225</a>, <a href="lwg-active.html#3230">3230</a>, <a href="lwg-active.html#3231">3231</a>, <a href="lwg-active.html#3232">3232</a>, <a href="lwg-active.html#3235">3235</a>, <a href="lwg-active.html#3241">3241</a>, <a href="lwg-active.html#3244">3244</a>, <a href="lwg-active.html#3245">3245</a>, <a href="lwg-active.html#3246">3246</a>, <a href="lwg-active.html#3253">3253</a>, <a href="lwg-active.html#3256">3256</a>, <a href="lwg-active.html#3257">3257</a>, <a href="lwg-active.html#3259">3259</a>, <a href="lwg-active.html#3266">3266</a>, <a href="lwg-active.html#3272">3272</a>, <a href="lwg-active.html#3273">3273</a>, <a href="lwg-active.html#3274">3274</a>, <a href="lwg-active.html#3276">3276</a>, <a href="lwg-active.html#3277">3277</a>.</li>
@@ -45347,6 +45347,88 @@ constexpr explicit join_view(R&amp;&amp; r);
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3323" href="#3323">3323</a><sup><a href="https://cplusplus.github.io/LWG/issue3323">(i)</a></sup>. <tt><i>has-tuple-element</i></tt> helper concept needs <tt>convertible_to</tt></h3>
+<p><b>Section:</b> 24.7.16.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Great Britain <b>Opened:</b> 2019-11-06 <b>Last modified:</b> 2019-11-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses <a href="https://github.com/cplusplus/nbballot/issues/295">GB 299</a></b></p>
+
+<p>
+<tt><i>has-tuple-element</i></tt> helper concept needs <tt>convertible_to</tt>
+<p/>
+The exposition-only <tt><i>has-tuple-element</i></tt> concept (for <tt>elements_view</tt>) is defined as
+</p>
+<blockquote><pre>
+template&lt;class T, size_t N&gt;
+concept <i>has-tuple-element</i> = <i>exposition only</i>
+  requires(T t) {
+    typename tuple_size&lt;T&gt;::type;
+    requires N &lt; tuple_size_v&lt;T&gt;;
+    typename tuple_element_t&lt;N, T&gt;;
+    { get&lt;N&gt;(t) } -&gt; const tuple_element_t&lt;N, T&gt;&amp;;
+  };
+</pre></blockquote>
+<p>
+However, the return type constraint for <tt>{ get&lt;N&gt;(t) }</tt> is no longer valid 
+under the latest concepts changes
+<p/>
+Proposed change:
+</p>
+<p>
+Change to:
+</p>
+<blockquote><pre>
+template&lt;class T, size_t N&gt;
+concept <i>has-tuple-element</i> = <i>exposition only</i>
+  requires(T t) {
+    typename tuple_size&lt;T&gt;::type;
+    requires N &lt; tuple_size_v&lt;T&gt;;
+    typename tuple_element_t&lt;N, T&gt;;
+    { get&lt;N&gt;(t) } -&gt; convertible_to&lt;const tuple_element_t&lt;N, T&gt;&amp;&gt;;
+  };
+</pre></blockquote>
+<p>
+<b>Jonathan Wakely:</b>
+<p/>
+The NB comment says "The return type constraint for <tt>{ get(t) }</tt> is no longer valid under 
+the latest concepts changes." The changes referred to are those in <a href="https://wg21.link/p1452r2">P1452R2</a>. 
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.16.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a>, class template <tt>elements_view</tt> synopsis, 
+as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class T, size_t N&gt;
+  concept <i>has-tuple-element</i> = <i>// exposition only</i>
+    requires(T t) {
+      typename tuple_size&lt;T&gt;::type;
+      requires N &lt; tuple_size_v&lt;T&gt;;
+      typename tuple_element_t&lt;N, T&gt;;
+      { get&lt;N&gt;(t) } -&gt; <ins>convertible_to&lt;</ins>const tuple_element_t&lt;N, T&gt;&amp;<ins>&gt;</ins>;
+    };
+[&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
 </ol>
 
 
