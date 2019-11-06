@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-06 at 18:14:19 UTC</p>
+<p><p>Revised 2019-11-06 at 19:00:42 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -31597,6 +31597,7 @@ This might also apply to the <tt>Compare</tt> parameter for the <tt>merge</tt> a
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-28 <b>Last modified:</b> 2019-03-15</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
 <p><b>View all other</b> <a href="lwg-index.html#allocator.uses.construction">issues</a> in [allocator.uses.construction].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -40376,6 +40377,73 @@ iterators (22.2 <a href="https://wg21.link/container.requirements">[container.re
 <blockquote>
 <p>
 <del>-9- <i>Effects:</i> Equivalent to: <tt>return const_reverse_iterator(cbegin());</tt></del>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3321" href="#3321">3321</a><sup><a href="https://cplusplus.github.io/LWG/issue3321">(i)</a></sup>. <tt>uninitialized_construct_using_allocator</tt> should use <tt>construct_at</tt></h3>
+<p><b>Section:</b> 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> United States <b>Opened:</b> 2019-11-06 <b>Last modified:</b> 2019-11-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
+<p><b>View all other</b> <a href="lwg-index.html#allocator.uses.construction">issues</a> in [allocator.uses.construction].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses <a href="https://github.com/cplusplus/nbballot/issues/210">US 213</a></b></p>
+
+<p>
+<tt>uninitialized_construct_using_allocator</tt> should use <tt>construct_at</tt> instead 
+of <tt>operator new</tt>
+<p/>
+Proposed change:
+</p>
+<blockquote>
+<p>
+<i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+return <del>::new(static_cast&lt;void*&gt;(p))</del>
+<ins>construct_at(p,</ins>
+<del>T(</del>make_obj_using_allocator&lt;T&gt;(alloc,
+std::forward&lt;Args&gt;(args)...))<ins>)</ins>;
+</pre></blockquote>
+</blockquote>
+<p>
+<b>Tim Song:</b>
+<p/>
+The proposed wording in the NB comment is incorrect, because it prevents guaranteed elision.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Modify 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T, class Alloc, class... Args&gt;
+  constexpr T* uninitialized_construct_using_allocator(T* p, const Alloc&amp; alloc, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-17- <i>Effects:</i> Equivalent to:
+<blockquote><pre>
+return <del>::new(static_cast&lt;void*&gt;(p))
+  T(make_obj_using_allocator&lt;T&gt;(</del><ins>apply([&amp;](auto&amp;&amp;...xs) {
+         return construct_at(p, std::forward&lt;decltype(xs)&gt;(xs)...);
+     }, uses_allocator_construction_args&lt;T&gt;(</ins>alloc, std::forward&lt;Args&gt;(args)...));
+</pre></blockquote>
 </p>
 </blockquote>
 </blockquote>
