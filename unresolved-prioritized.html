@@ -26,7 +26,7 @@
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>This document is the Table of Contents for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.</p>
-<p><p>Revised 2019-11-16 at 15:00:57 UTC</p>
+<p><p>Revised 2019-11-16 at 15:34:04 UTC</p>
 </p><h2><a name="Priority 0"</a>Priority 0 (27 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -2544,19 +2544,19 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3204">3204</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3204"></a></td>
+<td align="right"><a href="lwg-active.html#3126">3126</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3126"></a></td>
 <td align="left">30.9 [re.submatch]<a name="re.submatch"></a></td>
-<td align="left"><tt>sub_match::swap</tt> only swaps the base class</td>
+<td align="left">There's no <tt>std::sub_match::compare(string_view)</tt> overload</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3126">3126</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3126"></a></td>
+<td align="right"><a href="lwg-active.html#3204">3204</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3204"></a></td>
 <td align="left">30.9 [re.submatch]</td>
-<td align="left">There's no <tt>std::sub_match::compare(string_view)</tt> overload</td>
+<td align="left"><tt>sub_match::swap</tt> only swaps the base class</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -3018,19 +3018,28 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#2546">2546</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2546"></a></td>
+<td align="left">30.13 [re.grammar]<a name="re.grammar"></a></td>
+<td align="left">Implementability of locale-sensitive <em>UnicodeEscapeSequence</em> matching</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center">4</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#2986">2986</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2986"></a></td>
-<td align="left">30.13 [re.grammar]<a name="re.grammar"></a></td>
+<td align="left">30.13 [re.grammar]</td>
 <td align="left">Handling of multi-character collating elements by the <tt>regex</tt> FSM is underspecified</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2546">2546</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2546"></a></td>
-<td align="left">30.13 [re.grammar]</td>
-<td align="left">Implementability of locale-sensitive <em>UnicodeEscapeSequence</em> matching</td>
+<td align="right"><a href="lwg-active.html#2265">2265</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2265"></a></td>
+<td align="left">31.4 [atomics.order]<a name="atomics.order"></a></td>
+<td align="left">29.3p9 appears to rule out some acceptable executions</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
@@ -3038,18 +3047,9 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <tr>
 <td align="right"><a href="lwg-active.html#3268">3268</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3268"></a></td>
-<td align="left">31.4 [atomics.order]<a name="atomics.order"></a></td>
+<td align="left">31.4 [atomics.order]</td>
 <td align="left"><tt>memory_order::memory_order_foo</tt> broken in C++20</td>
 <td align="center">Yes</td>
-<td align="center">4</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#2265">2265</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2265"></a></td>
-<td align="left">31.4 [atomics.order]</td>
-<td align="left">29.3p9 appears to rule out some acceptable executions</td>
-<td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
@@ -3090,28 +3090,19 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2478">2478</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2478"></a></td>
-<td align="left">D.17.1 [depr.conversions.string]<a name="depr.conversions.string"></a></td>
-<td align="left">Unclear how <tt>wstring_convert</tt> uses <tt>cvtstate</tt></td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">4</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#2481">2481</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2481"></a></td>
-<td align="left">D.17.1 [depr.conversions.string]</td>
+<td align="left">D.17.1 [depr.conversions.string]<a name="depr.conversions.string"></a></td>
 <td align="left"><tt>wstring_convert</tt> should be more precise regarding "byte-error string" etc.</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2479">2479</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2479"></a></td>
-<td align="left">D.17.2 [depr.conversions.buffer]<a name="depr.conversions.buffer"></a></td>
-<td align="left">Unclear how <tt>wbuffer_convert</tt> uses <tt>cvtstate</tt></td>
+<td align="right"><a href="lwg-active.html#2478">2478</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2478"></a></td>
+<td align="left">D.17.1 [depr.conversions.string]</td>
+<td align="left">Unclear how <tt>wstring_convert</tt> uses <tt>cvtstate</tt></td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
@@ -3119,14 +3110,23 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <tr>
 <td align="right"><a href="lwg-active.html#2480">2480</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2480"></a></td>
-<td align="left">D.17.2 [depr.conversions.buffer]</td>
+<td align="left">D.17.2 [depr.conversions.buffer]<a name="depr.conversions.buffer"></a></td>
 <td align="left">Error handling of <tt>wbuffer_convert</tt> unclear</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
+<tr>
+<td align="right"><a href="lwg-active.html#2479">2479</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2479"></a></td>
+<td align="left">D.17.2 [depr.conversions.buffer]</td>
+<td align="left">Unclear how <tt>wbuffer_convert</tt> uses <tt>cvtstate</tt></td>
+<td align="center"><font color="red">No</font></td>
+<td align="center">4</td>
+<td align="left"></td>
+</tr>
 </table>
-<h2><a name="Priority 99"</a>Not Prioritized (50 issues)</h2>
+<h2><a name="Priority 99"</a>Not Prioritized (51 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -3264,10 +3264,10 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3290">3290</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3290"></a></td>
+<td align="right"><a href="lwg-active.html#3250">3250</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3250"></a></td>
 <td align="left">20.20.2.2 [format.string.std]<a name="format.string.std"></a></td>
-<td align="left">Are <tt>std::format</tt> field widths code units, code points, or something else?</td>
+<td align="left"><tt>std::format</tt>: <tt>#</tt> (alternate form) for NaN and inf</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -3282,10 +3282,10 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3250">3250</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3250"></a></td>
+<td align="right"><a href="lwg-active.html#3290">3290</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3290"></a></td>
 <td align="left">20.20.2.2 [format.string.std]</td>
-<td align="left"><tt>std::format</tt>: <tt>#</tt> (alternate form) for NaN and inf</td>
+<td align="left">Are <tt>std::format</tt> field widths code units, code points, or something else?</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -3301,20 +3301,20 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2884">2884</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2884"></a></td>
+<td align="right"><a href="lwg-active.html#2885">2885</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2885"></a></td>
 <td align="left">22 [containers]<a name="containers"></a></td>
-<td align="left">Relational operators for containers should sfinae; if the underlying type is not comparable, neither should the container be</td>
+<td align="left">The relational operators of <tt>optional</tt> and <tt>variant</tt> completely reflect the semantics of the element 
+types &mdash; this is inconsistent with other types in the library</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2885">2885</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2885"></a></td>
+<td align="right"><a href="lwg-active.html#2884">2884</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2884"></a></td>
 <td align="left">22 [containers]</td>
-<td align="left">The relational operators of <tt>optional</tt> and <tt>variant</tt> completely reflect the semantics of the element 
-types &mdash; this is inconsistent with other types in the library</td>
+<td align="left">Relational operators for containers should sfinae; if the underlying type is not comparable, neither should the container be</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
@@ -3449,6 +3449,15 @@ with POSIX spec</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3334">3334</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3334"></a></td>
+<td align="left">29.10.3 [syncstream.osyncstream]<a name="syncstream.osyncstream"></a></td>
+<td align="left"><tt>basic_osyncstream</tt> move assignment and destruction calls <tt>basic_syncbuf::emit()</tt> twice</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#523">523</a></td>
 <td align="left"><a href="lwg-active.html#Open">Open</a><a name="523"></a></td>
 <td align="left">30 [re]<a name="re"></a></td>
@@ -3539,9 +3548,18 @@ with POSIX spec</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#936">936</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
+<td align="left">32.5.3 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
+<td align="left">Mutex type overspecified</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center"></td>
+<td align="left"><a href="lwg-active.html#961">961</a></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#961">961</a></td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="961"></a></td>
-<td align="left">32.5.3 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
+<td align="left">32.5.3 [thread.mutex.requirements]</td>
 <td align="left">Various threading bugs #11</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
@@ -3555,15 +3573,6 @@ with POSIX spec</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#936">936</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
-<td align="left">32.5.3 [thread.mutex.requirements]</td>
-<td align="left">Mutex type overspecified</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center"></td>
-<td align="left"><a href="lwg-active.html#961">961</a></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#3328">3328</a></td>

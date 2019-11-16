@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-16 at 15:00:57 UTC</p>
+<p><p>Revised 2019-11-16 at 15:34:04 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39564,6 +39564,30 @@ is expression-equivalent to:
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3334" href="#3334">3334</a><sup><a href="https://cplusplus.github.io/LWG/issue3334">(i)</a></sup>. <tt>basic_osyncstream</tt> move assignment and destruction calls <tt>basic_syncbuf::emit()</tt> twice</h3>
+<p><b>Section:</b> 29.10.3 <a href="https://wg21.link/syncstream.osyncstream">[syncstream.osyncstream]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-11-06 <b>Last modified:</b> 2019-11-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+These functions are specified to call <tt>emit()</tt>, which calls <tt>emit()</tt> on
+the <tt>basic_syncbuf</tt> and sets <tt>badbit</tt> if it fails. Then, the move
+assignment is specified to move-assign the <tt>basic_syncbuf</tt>, while the destructor 
+implicitly needs to destroy the <tt>basic_syncbuf</tt> data member. This calls <tt>emit()</tt> 
+on the <tt>basic_syncbuf</tt> again.
+<p/>
+Is this intended?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
