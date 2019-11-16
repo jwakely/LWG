@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-11-16 at 12:59:59 UTC</p>
+<p><p>Revised 2019-11-16 at 13:48:28 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,15 +158,15 @@ ownership of it.
 <ul>
 <li>D119: 2019-11-25 post-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>382 open issues, up by 31.</li>
+<li>383 open issues, up by 32.</li>
 <li>2435 closed issues, up by 2.</li>
 <li>36 reassigned issues, up by 0.</li>
-<li>2853 issues total, up by 33.</li>
+<li>2854 issues total, up by 34.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 21 Ready issues: <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3303">3303</a>, <a href="lwg-active.html#3307">3307</a>, <a href="lwg-active.html#3310">3310</a>, <a href="lwg-active.html#3313">3313</a>, <a href="lwg-active.html#3315">3315</a>, <a href="lwg-active.html#3316">3316</a>, <a href="lwg-active.html#3317">3317</a>, <a href="lwg-active.html#3318">3318</a>, <a href="lwg-active.html#3319">3319</a>, <a href="lwg-active.html#3320">3320</a>, <a href="lwg-active.html#3321">3321</a>, <a href="lwg-active.html#3322">3322</a>, <a href="lwg-active.html#3323">3323</a>, <a href="lwg-active.html#3324">3324</a>, <a href="lwg-active.html#3325">3325</a>, <a href="lwg-active.html#3326">3326</a>, <a href="lwg-active.html#3327">3327</a>, <a href="lwg-active.html#3329">3329</a>, <a href="lwg-active.html#3330">3330</a>, <a href="lwg-active.html#3331">3331</a>.</li>
 <li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3299">3299</a>.</li>
-<li>Added the following 8 New issues: <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3314">3314</a>, <a href="lwg-active.html#3328">3328</a>.</li>
+<li>Added the following 9 New issues: <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3314">3314</a>, <a href="lwg-active.html#3328">3328</a>, <a href="lwg-active.html#3332">3332</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3304">3304</a>.</li>
 <li>Added the following 2 Dup issues: <a href="lwg-closed.html#3311">3311</a>, <a href="lwg-closed.html#3312">3312</a>.</li>
 <li>Changed the following 4 issues to Voting (from Ready): <a href="lwg-active.html#3070">3070</a>, <a href="lwg-active.html#3103">3103</a>, <a href="lwg-active.html#3149">3149</a>, <a href="lwg-active.html#3190">3190</a>.</li>
@@ -37316,7 +37316,7 @@ template&lt;class Duration, class TimeZonePtr, class TimeZonePtr2&gt;
 <hr>
 <h3><a name="3233" href="#3233">3233</a><sup><a href="https://cplusplus.github.io/LWG/issue3233">(i)</a></sup>. Broken requirements for <tt>shared_ptr</tt> converting constructors</h3>
 <p><b>Section:</b> 20.11.3.1 <a href="https://wg21.link/util.smartptr.shared.const">[util.smartptr.shared.const]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-07-10 <b>Last modified:</b> 2019-07-11</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-07-10 <b>Last modified:</b> 2019-11-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#util.smartptr.shared.const">active issues</a> in [util.smartptr.shared.const].</p>
@@ -37369,7 +37369,7 @@ template&lt;class D&gt; shared_ptr(nullptr_t p, D d);
 template&lt;class D, class A&gt; shared_ptr(nullptr_t p, D d, A a);
 </pre></blockquote>
 <p>
-<ins>-?- <i>Constraints</i>: <tt>is_move_constructible_v&lt;D&gt;</tt> is <tt>true</tt>, and
+<ins>-?- <i>Constraints:</i> <tt>is_move_constructible_v&lt;D&gt;</tt> is <tt>true</tt>, and
 <tt>d(p)</tt> is a well-formed expression. For the first two overloads:</ins>
 </p>
 <ul>
@@ -37383,11 +37383,11 @@ template&lt;class D, class A&gt; shared_ptr(nullptr_t p, D d, A a);
   </ins></p></li>
 </ul>
 <p>
--9- <del><i>Requires</i></del><ins><i>Expects</i></ins>: Construction of <tt>d</tt> and a deleter of type [&hellip;]
+-9- <i><del>Requires</del><ins>Expects</ins>:</i> Construction of <tt>d</tt> and a deleter of type [&hellip;]
 </p>
 <p>[&hellip;]</p>
 <p>
-<del>-13- <i>Remarks</i>: When <tt>T</tt> is an array type, this constructor shall not participate
+<del>-13- <i>Remarks:</i> When <tt>T</tt> is an array type, this constructor shall not participate
 in overload resolution unless <tt>is_move_constructible_v&lt;D&gt;</tt> is <tt>true</tt>, the
 expression <tt>d(p)</tt> is well-formed, and either <tt>T</tt> is <tt>U[N]</tt> and <tt>Y(*)[N]</tt>
 is convertible to <tt>T*</tt>, or <tt>T</tt> is <tt>U[]</tt> and <tt>Y(*)[]</tt> is convertible to
@@ -44104,7 +44104,7 @@ is_object_v&lt;T&gt;</ins></tt>, a pointer to the object contained by <tt>operan
 <hr>
 <h3><a name="3306" href="#3306">3306</a><sup><a href="https://cplusplus.github.io/LWG/issue3306">(i)</a></sup>. <tt>ranges::advance</tt> violates its preconditions</h3>
 <p><b>Section:</b> 23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-10-27 <b>Last modified:</b> 2019-11-04</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-10-27 <b>Last modified:</b> 2019-11-16</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -44146,10 +44146,10 @@ template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
   constexpr void ranges::advance(I&amp; i, S bound);
 </pre>
 <p>
--3- <i>Expects</i>: <ins>Either <tt>assignable_from&lt;I&amp;, S&gt; ||
+-3- <i>Expects:</i> <ins>Either <tt>assignable_from&lt;I&amp;, S&gt; ||
 sized_sentinel_for&lt;S, I&gt;</tt> is modeled, or</ins> <tt>[i, bound)</tt> denotes a range.
 </p><p>
--4- <i>Effects</i>:
+-4- <i>Effects:</i>
 </p><p>
 (4.1) &mdash; If <tt>I</tt> and <tt>S</tt> model <tt>assignable_from&lt;I&amp;, S&gt;</tt>,
 equivalent to <tt>i = std::move(bound)</tt>.
@@ -46289,7 +46289,7 @@ to the following header synopses:
 
 
 <hr>
-<h3><a name="3331" href="#3331">3331</a><sup><a href="https://cplusplus.github.io/LWG/issue3331">(i)</a></sup>. Define totally_ordered/_with in terms of partially-ordered-with</h3>
+<h3><a name="3331" href="#3331">3331</a><sup><a href="https://cplusplus.github.io/LWG/issue3331">(i)</a></sup>. Define <tt>totally_ordered/_with</tt> in terms of <tt><i>partially-ordered-with</i></tt></h3>
 <p><b>Section:</b> 18.5.4 <a href="https://wg21.link/concept.totallyordered">[concept.totallyordered]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Great Britain <b>Opened:</b> 2019-11-08 <b>Last modified:</b> 2019-11-16</p>
 <p><b>Priority: </b>0
@@ -46302,11 +46302,11 @@ to the following header synopses:
 
 <p>
 Define <tt>totally_ordered[_with]</tt>
-in terms of <i><tt>partially-ordered-with</tt></i>.
+in terms of <tt><i>partially-ordered-with</i></tt>.
 This will simplify the definition of both concepts
 (particularly <tt>totally_ordered_with</tt>), and
 make them in-line with <tt>equality_comparable[_with]</tt>.
-Now that we've defined <i><tt>partially-ordered-with</tt></i>
+Now that we've defined <tt><i>partially-ordered-with</i></tt>
 for 17.11.4 <a href="https://wg21.link/cmp.concept">[cmp.concept]</a>, we should consider
 utilising it in as many locations as possible.
 </p><p>
@@ -46398,6 +46398,41 @@ template&lt;class T, class U&gt;
 </pre><p>
 [&hellip;]
 </p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3332" href="#3332">3332</a><sup><a href="https://cplusplus.github.io/LWG/issue3332">(i)</a></sup>. Issue in &sect;[time.format]</h3>
+<p><b>Section:</b> 27.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Mateusz Pusz <b>Opened:</b> 2019-11-05 <b>Last modified:</b> 2019-11-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.format">issues</a> in [time.format].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Table 97 [tab:time.format.spec] enumerates <tt>'q'</tt> and <tt>'Q'</tt> but those are not specified in 
+<i>chrono-format-spec</i> provided in paragraph 1 of sub-clause 27.12 <a href="https://wg21.link/time.format">[time.format]</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Change the <i>type</i> grammar element in 27.12 <a href="https://wg21.link/time.format">[time.format]</a> p1 as indicated:</p>
+
+<blockquote>
+<pre>
+<i>type:</i> one of
+         a A b B c C d D e F g G h H I j m M n
+         p <ins>q Q</ins> r R S t T u U V w W x X y Y z Z %
+</pre>
 </blockquote>
 </li>
 </ol>

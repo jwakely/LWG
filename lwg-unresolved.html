@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-16 at 12:59:59 UTC</p>
+<p><p>Revised 2019-11-16 at 13:48:28 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -34173,7 +34173,7 @@ as if it had a non-throwing exception specification.
 <hr>
 <h3><a name="3233" href="#3233">3233</a><sup><a href="https://cplusplus.github.io/LWG/issue3233">(i)</a></sup>. Broken requirements for <tt>shared_ptr</tt> converting constructors</h3>
 <p><b>Section:</b> 20.11.3.1 <a href="https://wg21.link/util.smartptr.shared.const">[util.smartptr.shared.const]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-07-10 <b>Last modified:</b> 2019-07-11</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-07-10 <b>Last modified:</b> 2019-11-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#util.smartptr.shared.const">active issues</a> in [util.smartptr.shared.const].</p>
@@ -34226,7 +34226,7 @@ template&lt;class D&gt; shared_ptr(nullptr_t p, D d);
 template&lt;class D, class A&gt; shared_ptr(nullptr_t p, D d, A a);
 </pre></blockquote>
 <p>
-<ins>-?- <i>Constraints</i>: <tt>is_move_constructible_v&lt;D&gt;</tt> is <tt>true</tt>, and
+<ins>-?- <i>Constraints:</i> <tt>is_move_constructible_v&lt;D&gt;</tt> is <tt>true</tt>, and
 <tt>d(p)</tt> is a well-formed expression. For the first two overloads:</ins>
 </p>
 <ul>
@@ -34240,11 +34240,11 @@ template&lt;class D, class A&gt; shared_ptr(nullptr_t p, D d, A a);
   </ins></p></li>
 </ul>
 <p>
--9- <del><i>Requires</i></del><ins><i>Expects</i></ins>: Construction of <tt>d</tt> and a deleter of type [&hellip;]
+-9- <i><del>Requires</del><ins>Expects</ins>:</i> Construction of <tt>d</tt> and a deleter of type [&hellip;]
 </p>
 <p>[&hellip;]</p>
 <p>
-<del>-13- <i>Remarks</i>: When <tt>T</tt> is an array type, this constructor shall not participate
+<del>-13- <i>Remarks:</i> When <tt>T</tt> is an array type, this constructor shall not participate
 in overload resolution unless <tt>is_move_constructible_v&lt;D&gt;</tt> is <tt>true</tt>, the
 expression <tt>d(p)</tt> is well-formed, and either <tt>T</tt> is <tt>U[N]</tt> and <tt>Y(*)[N]</tt>
 is convertible to <tt>T*</tt>, or <tt>T</tt> is <tt>U[]</tt> and <tt>Y(*)[]</tt> is convertible to
@@ -39042,7 +39042,7 @@ is_object_v&lt;T&gt;</ins></tt>, a pointer to the object contained by <tt>operan
 <hr>
 <h3><a name="3306" href="#3306">3306</a><sup><a href="https://cplusplus.github.io/LWG/issue3306">(i)</a></sup>. <tt>ranges::advance</tt> violates its preconditions</h3>
 <p><b>Section:</b> 23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-10-27 <b>Last modified:</b> 2019-11-04</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-10-27 <b>Last modified:</b> 2019-11-16</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -39084,10 +39084,10 @@ template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
   constexpr void ranges::advance(I&amp; i, S bound);
 </pre>
 <p>
--3- <i>Expects</i>: <ins>Either <tt>assignable_from&lt;I&amp;, S&gt; ||
+-3- <i>Expects:</i> <ins>Either <tt>assignable_from&lt;I&amp;, S&gt; ||
 sized_sentinel_for&lt;S, I&gt;</tt> is modeled, or</ins> <tt>[i, bound)</tt> denotes a range.
 </p><p>
--4- <i>Effects</i>:
+-4- <i>Effects:</i>
 </p><p>
 (4.1) &mdash; If <tt>I</tt> and <tt>S</tt> model <tt>assignable_from&lt;I&amp;, S&gt;</tt>,
 equivalent to <tt>i = std::move(bound)</tt>.
@@ -39467,6 +39467,41 @@ constructor is preferred for an indication of UTF-8 encoding more consistent wit
 
 </ol>
 
+
+
+
+
+<hr>
+<h3><a name="3332" href="#3332">3332</a><sup><a href="https://cplusplus.github.io/LWG/issue3332">(i)</a></sup>. Issue in &sect;[time.format]</h3>
+<p><b>Section:</b> 27.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Mateusz Pusz <b>Opened:</b> 2019-11-05 <b>Last modified:</b> 2019-11-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.format">issues</a> in [time.format].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Table 97 [tab:time.format.spec] enumerates <tt>'q'</tt> and <tt>'Q'</tt> but those are not specified in 
+<i>chrono-format-spec</i> provided in paragraph 1 of sub-clause 27.12 <a href="https://wg21.link/time.format">[time.format]</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Change the <i>type</i> grammar element in 27.12 <a href="https://wg21.link/time.format">[time.format]</a> p1 as indicated:</p>
+
+<blockquote>
+<pre>
+<i>type:</i> one of
+         a A b B c C d D e F g G h H I j m M n
+         p <ins>q Q</ins> r R S t T u U V w W x X y Y z Z %
+</pre>
+</blockquote>
+</li>
+</ol>
 
 
 
