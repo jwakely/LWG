@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-17 at 12:41:59 UTC</p>
+<p><p>Revised 2019-11-17 at 13:12:41 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39678,6 +39678,39 @@ corresponding argument is not in the range of representable values for <tt>charT
 <p/>
 It also appears unclear whether <tt>vformat</tt> may throw other types of exception (e.g. <tt>bad_alloc</tt>) 
 when the formatter or the constructor of <tt>std::string</tt> result throws.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3337" href="#3337">3337</a><sup><a href="https://cplusplus.github.io/LWG/issue3337">(i)</a></sup>. What is "is initialized" supposed to mean?</h3>
+<p><b>Section:</b> 28.4.1.4.2 <a href="https://wg21.link/locale.codecvt.virtuals">[locale.codecvt.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-11-15 <b>Last modified:</b> 2019-11-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#locale.codecvt.virtuals">issues</a> in [locale.codecvt.virtuals].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In 28.4.1.4.2 <a href="https://wg21.link/locale.codecvt.virtuals">[locale.codecvt.virtuals]</a> paragraphs 6 and 11, we find:
+</p>
+<blockquote>
+<p>
+<i>Preconditions:</i> <tt>(to &lt;= to_end)</tt> is well-defined and <tt>true</tt>; <tt>state</tt> 
+is initialized, if at the beginning of a sequence, or else is equal to the result of converting 
+the preceding characters in the sequence."
+</p>
+</blockquote>
+<p>
+This doesn't make sense. What is the value of <tt>state</tt> if we're at the beginning of a sequence? 
+Is the fact that we say that it's initialized in that case supposed to imply that it need not be 
+initialized otherwise?
+<p/>
+Perhaps this means "value-initialized" or "default-initialized" instead of merely "initialized"?
 </p>
 
 
