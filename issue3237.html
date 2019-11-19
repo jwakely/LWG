@@ -33,11 +33,11 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Both LWG <a href="lwg-defects.html#3038">3038</a> and LWG <a href="lwg-active.html#3190">3190</a> deal with how to respond to requests to allocate 
+Both LWG <a href="lwg-defects.html#3038">3038</a> and LWG <a href="lwg-defects.html#3190">3190</a> deal with how to respond to requests to allocate 
 "<tt>n * sizeof(T)</tt>" bytes of memory when <tt>n * sizeof(T)</tt> is not sufficient storage for 
 <tt>n</tt> objects of type <tt>T</tt>, i.e., when <tt>n &gt; SIZE_MAX / sizeof(T)</tt>. LWG 
 <a href="lwg-defects.html#3038">3038</a> changed <tt>polymorphic_allocator::allocate</tt> to throw <tt>length_error</tt> upon 
-detecting this condition, whereas LWG <a href="lwg-active.html#3190">3190</a> changed <tt>allocator::allocate</tt> to 
+detecting this condition, whereas LWG <a href="lwg-defects.html#3190">3190</a> changed <tt>allocator::allocate</tt> to 
 throw <tt>bad_array_new_length</tt>. It's peculiar that two standard library components which allocate 
 memory both detect this condition but handle it by throwing different exception types; for consistency, 
 the two should be harmonized.

@@ -22,14 +22,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#SG1">SG1</a> status.</em></p>
-<h3><a name="2334" href="lwg-active.html#2334">2334</a>. <tt>atomic</tt>'s default constructor requires "uninitialized" state even for types with non-trivial default-constructor</h3>
-<p><b>Section:</b> 31.8.1 <a href="https://wg21.link/atomics.types.operations">[atomics.types.operations]</a> <b>Status:</b> <a href="lwg-active.html#SG1">SG1</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2013-10-03 <b>Last modified:</b> 2019-02-27</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
+<h3><a name="2334" href="lwg-defects.html#2334">2334</a>. <tt>atomic</tt>'s default constructor requires "uninitialized" state even for types with non-trivial default-constructor</h3>
+<p><b>Section:</b> 31.8.1 <a href="https://wg21.link/atomics.types.operations">[atomics.types.operations]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2013-10-03 <b>Last modified:</b> 2019-11-19</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#atomics.types.operations">issues</a> in [atomics.types.operations].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#SG1">SG1</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Resolved">Resolved</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 According to 99 [atomics.types.operations.req] p4,
@@ -301,6 +301,9 @@ void atomic_flag::clear(memory_order order = memory_order_seq_cst) noexcept;
 
 <p>While discussing Richard's P1286 paper, we noted that this issue's resolution needs to be updated based on that discussion.</p>
 <p>Also, the idea that <code>atomic() noexcept = default</code> is ok will not fly for implementors who store additional information inside the atomic variable.</p>
+
+<p><i>[2019-11; Resolved by the adoption of <a href="https://wg21.link/P0883">P0883</a> in Belfast.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
