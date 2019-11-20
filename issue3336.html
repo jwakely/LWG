@@ -25,8 +25,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3336" href="lwg-active.html#3336">3336</a>. How does <tt>std::vformat</tt> handle exception thrown by formatters?</h3>
 <p><b>Section:</b> 20.20.3 <a href="https://wg21.link/format.functions">[format.functions]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tam S. B. <b>Opened:</b> 2019-11-11 <b>Last modified:</b> 2019-11-17</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Tam S. B. <b>Opened:</b> 2019-11-11 <b>Last modified:</b> 2019-11-20</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -51,8 +51,114 @@ It also appears unclear whether <tt>vformat</tt> may throw other types of except
 when the formatter or the constructor of <tt>std::string</tt> result throws.
 </p>
 
+<p><i>[2019-11-20 Issue Prioritization]</i></p>
+
+<p>Priority to 2 after reflector discussion.</p>
+
+<p><i>[2019-11-20; Victor Zverovich provides initial wording]</i></p>
+
+
 
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Before 20.20.3 <a href="https://wg21.link/format.functions">[format.functions]</a> insert a new sub-clause as indicated:</p>
+
+<blockquote>
+<p>
+<ins><b>20.20.? Error reporting [format.err.report]</b></ins>
+<p/>
+<ins>-?- Formatting functions throw exceptions to report formatting and other errors. They throw 
+<tt>format_error</tt> if an argument <tt>fmt</tt> is passed that is not a format string and 
+propagate exceptions thrown by <tt>formatter</tt> specializations. Failure to allocate storage 
+is reported by throwing an exception as described in 16.5.5.12 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a>.</ins>
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 20.20.3 <a href="https://wg21.link/format.functions">[format.functions]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+string vformat(string_view fmt, format_args args);
+wstring vformat(wstring_view fmt, wformat_args args);
+string vformat(const locale&amp; loc, string_view fmt, format_args args);
+wstring vformat(const locale&amp; loc, wstring_view fmt, wformat_args args);
+</pre>
+<blockquote>
+<p>
+-6- [&hellip;]
+<p/>
+-7- <i>Throws:</i> <del><tt>format_error</tt> if <tt>fmt</tt> is not a format string</del><ins>As specified in  [format.err.report]</ins>.
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class Out&gt;
+  Out vformat_to(Out out, string_view fmt, format_args_t&lt;Out, char&gt; args);
+template&lt;class Out&gt;
+  Out vformat_to(Out out, wstring_view fmt, format_args_t&lt;Out, wchar_t&gt; args);
+template&lt;class Out&gt;
+  Out vformat_to(Out out, const locale&amp; loc, string_view fmt,
+                 format_args_t&lt;Out, char&gt; args);
+template&lt;class Out&gt;
+  Out vformat_to(Out out, const locale&amp; loc, wstring_view fmt,
+                 format_args_t&lt;Out, wchar_t&gt; args);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-15- <i>Throws:</i> <del><tt>format_error</tt> if <tt>fmt</tt> is not a format string</del><ins>As specified in  [format.err.report]</ins>.
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class Out, class... Args&gt;
+  format_to_n_result&lt;Out&gt; format_to_n(Out out, iter_difference_t&lt;Out&gt; n,
+                                      string_view fmt, const Args&amp;... args);
+template&lt;class Out, class... Args&gt;
+  format_to_n_result&lt;Out&gt; format_to_n(Out out, iter_difference_t&lt;Out&gt; n,
+                                      wstring_view fmt, const Args&amp;... args);
+template&lt;class Out, class... Args&gt;
+  format_to_n_result&lt;Out&gt; format_to_n(Out out, iter_difference_t&lt;Out&gt; n,
+                                      const locale&amp; loc, string_view fmt,
+                                      const Args&amp;... args);
+template&lt;class Out, class... Args&gt;
+  format_to_n_result&lt;Out&gt; format_to_n(Out out, iter_difference_t&lt;Out&gt; n,
+                                      const locale&amp; loc, wstring_view fmt,
+                                      const Args&amp;... args);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-21- <i>Throws:</i> <del><tt>format_error</tt> if <tt>fmt</tt> is not a format string</del><ins>As specified in  [format.err.report]</ins>.
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class... Args&gt;
+  size_t formatted_size(string_view fmt, const Args&amp;... args);
+template&lt;class... Args&gt;
+  size_t formatted_size(wstring_view fmt, const Args&amp;... args);
+template&lt;class... Args&gt;
+  size_t formatted_size(const locale&amp; loc, string_view fmt, const Args&amp;... args);
+template&lt;class... Args&gt;
+  size_t formatted_size(const locale&amp; loc, wstring_view fmt, const Args&amp;... args);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-25- <i>Throws:</i> <del><tt>format_error</tt> if <tt>fmt</tt> is not a format string</del><ins>As specified in  [format.err.report]</ins>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
 
 
 
