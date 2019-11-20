@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-19 at 20:21:53 UTC</p>
+<p><p>Revised 2019-11-20 at 18:59:25 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38174,7 +38174,7 @@ namespace std::ranges {
 <hr>
 <h3><a name="3300" href="#3300">3300</a><sup><a href="https://cplusplus.github.io/LWG/issue3300">(i)</a></sup>. Non-array <tt>ssize</tt> overload is underconstrained</h3>
 <p><b>Section:</b> 23.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-09-27 <b>Last modified:</b> 2019-11-18</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-09-27 <b>Last modified:</b> 2019-11-20</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#iterator.range">active issues</a> in [iterator.range].</p>
@@ -38294,7 +38294,7 @@ corresponding signed integer type, with the same <i>cv</i>-qualifiers as <tt>T</
 otherwise, <tt>type</tt> names the signed integer type with smallest<br/>
 rank (6.8.4 <a href="https://wg21.link/conv.rank">[conv.rank]</a>) for which <tt>sizeof(T) == sizeof(type)</tt>, with the same<br/>
 <i>cv</i>-qualifiers as <tt>T</tt>.<br/>
-<i><del>Requires</del><ins>Mandates</ins>:</i> <tt>T</tt> <del>shall be</del><ins>is</ins> a<ins>n</ins> <del>(possibly <i>cv</i>-qualified)</del> integral <del>type</del> or enumeration <ins>type other than (possibly <i>cv</i>-qualified)</ins> <del>but not a</del> bool <del>type</del>.
+<i><del>Requires</del><ins>Mandates</ins>:</i> <tt>T</tt> <del>shall be</del><ins>is</ins> a<ins>n</ins> <del>(possibly <i>cv</i>-qualified)</del> integral <del>type</del> or enumeration <ins>type other than <i>cv</i></ins> <del>but not a</del> <tt>bool</tt> <del>type</del>.
 </td>
 </tr>
 
@@ -38311,7 +38311,7 @@ corresponding unsigned integer type, with the same <i>cv</i>-qualifiers as <tt>T
 otherwise, <tt>type</tt> names the unsigned integer type with smallest<br/>
 rank (6.8.4 <a href="https://wg21.link/conv.rank">[conv.rank]</a>) for which <tt>sizeof(T) == sizeof(type)</tt>, with the same<br/>
 <i>cv</i>-qualifiers as <tt>T</tt>.<br/>
-<i><del>Requires</del><ins>Mandates</ins>:</i> <tt>T</tt> <del>shall be</del><ins>is</ins> a<ins>n</ins> <del>(possibly <i>cv</i>-qualified)</del> integral <del>type</del> or enumeration <ins>type other than (possibly <i>cv</i>-qualified)</ins> <del>but not a</del> bool <del>type</del>.
+<i><del>Requires</del><ins>Mandates</ins>:</i> <tt>T</tt> <del>shall be</del><ins>is</ins> a<ins>n</ins> <del>(possibly <i>cv</i>-qualified)</del> integral <del>type</del> or enumeration <ins>type other than <i>cv</i></ins> <del>but not a</del> <tt>bool</tt> <del>type</del>.
 </td>
 </tr>
 </table>
