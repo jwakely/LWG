@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-20 at 20:33:10 UTC</p>
+<p><p>Revised 2019-11-21 at 16:58:22 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39312,7 +39312,7 @@ occurrences in addition to the definition in the <tt>&lt;ranges&gt;</tt> synopsi
 <hr>
 <h3><a name="3336" href="#3336">3336</a><sup><a href="https://cplusplus.github.io/LWG/issue3336">(i)</a></sup>. How does <tt>std::vformat</tt> handle exception thrown by formatters?</h3>
 <p><b>Section:</b> 20.20.3 <a href="https://wg21.link/format.functions">[format.functions]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tam S. B. <b>Opened:</b> 2019-11-11 <b>Last modified:</b> 2019-11-20</p>
+ <b>Submitter:</b> Tam S. B. <b>Opened:</b> 2019-11-11 <b>Last modified:</b> 2019-11-21</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -39358,8 +39358,9 @@ when the formatter or the constructor of <tt>std::string</tt> result throws.
 <p/>
 <ins>-?- Formatting functions throw exceptions to report formatting and other errors. They throw 
 <tt>format_error</tt> if an argument <tt>fmt</tt> is passed that is not a format string and 
-propagate exceptions thrown by <tt>formatter</tt> specializations. Failure to allocate storage 
-is reported by throwing an exception as described in 16.5.5.12 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a>.</ins>
+propagate exceptions thrown by <tt>formatter</tt> specializations and iterator operations. Failure 
+to allocate storage is reported by throwing an exception as described in 
+16.5.5.12 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a>.</ins>
 </p>
 </blockquote>
 </li>
