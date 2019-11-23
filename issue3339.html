@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3339: Move-constructed empty-container capacity</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3339" href="lwg-active.html#3339">3339</a>. Move-constructed empty-container capacity</h3>
+<p><b>Section:</b> 18.4.12 <a href="https://wg21.link/concept.defaultconstructible">[concept.defaultconstructible]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Nathan Myers <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2019-11-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#concept.defaultconstructible">active issues</a> in [concept.defaultconstructible].</p>
+<p><b>View all other</b> <a href="lwg-index.html#concept.defaultconstructible">issues</a> in [concept.defaultconstructible].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The Standard leaves unspecified the <tt>capacity()</tt> of a <tt>string</tt> or <tt>vector</tt>, 
+and <tt>bucket_count()</tt> of an <tt>unordered_set</tt> or <tt>unordered_map</tt>, 
+constructed by move from an empty <tt>other</tt>.
+<p/>
+For a non-empty <tt>other</tt>, normative language in the Standard constrains the new object to 
+use (mostly) the same storage as the other, by way of lifetime of iterators and pointers
+to elements.
+<p/>
+For an empty <tt>other</tt>, there can be no such pointers or iterators. However, the empty 
+container may have a non-zero <tt>capacity()</tt> or <tt>bucket_count()</tt>, and having reserved 
+storage there, one naturally expects that storage to be delivered to the new object in the same 
+way as if it had elements.
+<p/>
+Existing implementations, in fact, do move storage to the new container, provided it can be 
+deallocated using the new object's allocator. It is likely that existing programs have come to 
+depend on this behavior.
+<p/>
+The resolution proposed is to add language to the Standard specifying that, if the allocators 
+of the existing and new container objects are compatible, the storage of the new object is the 
+same as of the old, so that no allocations or deallocations are performed in the process, as 
+existing implementations in fact do.
+<p/>
+This appears to affect only <tt>string</tt>, <tt>vector</tt>, <tt>unordered_set</tt>,
+and <tt>unordered_map</tt>, but any new container types may also need similar attention.
+<p/>
+Note that in the case of the hashed containers, the array of buckets appears not to be required 
+to be moved, even when elements contained are. This seems to be a similar oversight; extant 
+implementations do move the bucket array. The resolution should cover this case as well.
+<p/>
+It is expected and intended that the proposed resolution does not require changes to the behavior 
+of implementations.
+<p/>
+See also LWG <a href="lwg-active.html#2321">2321</a> and <a href="http://wg21.link/p0966r1">P0966R1</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+</body>
+</html>

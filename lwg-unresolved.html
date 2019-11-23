@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-21 at 16:58:22 UTC</p>
+<p><p>Revised 2019-11-23 at 13:11:39 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39490,6 +39490,7 @@ Perhaps this means "value-initialized" or "default-initialized" instead of merel
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-11-18 <b>Last modified:</b> 2019-11-19</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#concept.defaultconstructible">active issues</a> in [concept.defaultconstructible].</p>
 <p><b>View all other</b> <a href="lwg-index.html#concept.defaultconstructible">issues</a> in [concept.defaultconstructible].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -39527,6 +39528,58 @@ of P1754R1 to the working draft &mdash; so this renaming has not happened, but t
 to the name <tt>default_constructible</tt> with <tt>default_initializable</tt> (There are 20 occurrences).</p>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3339" href="#3339">3339</a><sup><a href="https://cplusplus.github.io/LWG/issue3339">(i)</a></sup>. Move-constructed empty-container capacity</h3>
+<p><b>Section:</b> 18.4.12 <a href="https://wg21.link/concept.defaultconstructible">[concept.defaultconstructible]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Nathan Myers <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2019-11-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#concept.defaultconstructible">active issues</a> in [concept.defaultconstructible].</p>
+<p><b>View all other</b> <a href="lwg-index.html#concept.defaultconstructible">issues</a> in [concept.defaultconstructible].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The Standard leaves unspecified the <tt>capacity()</tt> of a <tt>string</tt> or <tt>vector</tt>, 
+and <tt>bucket_count()</tt> of an <tt>unordered_set</tt> or <tt>unordered_map</tt>, 
+constructed by move from an empty <tt>other</tt>.
+<p/>
+For a non-empty <tt>other</tt>, normative language in the Standard constrains the new object to 
+use (mostly) the same storage as the other, by way of lifetime of iterators and pointers
+to elements.
+<p/>
+For an empty <tt>other</tt>, there can be no such pointers or iterators. However, the empty 
+container may have a non-zero <tt>capacity()</tt> or <tt>bucket_count()</tt>, and having reserved 
+storage there, one naturally expects that storage to be delivered to the new object in the same 
+way as if it had elements.
+<p/>
+Existing implementations, in fact, do move storage to the new container, provided it can be 
+deallocated using the new object's allocator. It is likely that existing programs have come to 
+depend on this behavior.
+<p/>
+The resolution proposed is to add language to the Standard specifying that, if the allocators 
+of the existing and new container objects are compatible, the storage of the new object is the 
+same as of the old, so that no allocations or deallocations are performed in the process, as 
+existing implementations in fact do.
+<p/>
+This appears to affect only <tt>string</tt>, <tt>vector</tt>, <tt>unordered_set</tt>,
+and <tt>unordered_map</tt>, but any new container types may also need similar attention.
+<p/>
+Note that in the case of the hashed containers, the array of buckets appears not to be required 
+to be moved, even when elements contained are. This seems to be a similar oversight; extant 
+implementations do move the bucket array. The resolution should cover this case as well.
+<p/>
+It is expected and intended that the proposed resolution does not require changes to the behavior 
+of implementations.
+<p/>
+See also LWG <a href="lwg-active.html#2321">2321</a> and <a href="http://wg21.link/p0966r1">P0966R1</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
