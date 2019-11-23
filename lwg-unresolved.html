@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-23 at 16:15:43 UTC</p>
+<p><p>Revised 2019-11-23 at 17:02:18 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -10376,6 +10376,7 @@ position available, the function alters the read end pointer <tt>egptr()</tt> to
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2013-09-09 <b>Last modified:</b> 2016-12-14</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#pairs.pair">active issues</a> in [pairs.pair].</p>
 <p><b>View all other</b> <a href="lwg-index.html#pairs.pair">issues</a> in [pairs.pair].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -39564,6 +39565,72 @@ must be implicitly convertible to the <tt>basic_regex::value_type</tt>. For exam
 range constructor satisfy a SequenceContainer requirements, where implicit converting to its elements 
 is specified.
 </p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3342" href="#3342">3342</a><sup><a href="https://cplusplus.github.io/LWG/issue3342">(i)</a></sup>. Library wording uses "initializes <tt>x</tt> with <tt>y</tt>", which is underspecified</h3>
+<p><b>Section:</b> 20.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a>, 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a>, 20.7.3.1 <a href="https://wg21.link/variant.ctor">[variant.ctor]</a>, 20.11.8.1 <a href="https://wg21.link/util.smartptr.atomic.shared">[util.smartptr.atomic.shared]</a>, 20.13.3 <a href="https://wg21.link/allocator.adaptor.cnstr">[allocator.adaptor.cnstr]</a>, 20.20.4.3 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a>, 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a>, 22.6 <a href="https://wg21.link/container.adaptors">[container.adaptors]</a>, 23.5 <a href="https://wg21.link/predef.iterators">[predef.iterators]</a>, 24.5.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a>, 24.6 <a href="https://wg21.link/range.factories">[range.factories]</a>, 24.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a>, 25.9 <a href="https://wg21.link/numeric.ops">[numeric.ops]</a>, 27.9 <a href="https://wg21.link/time.hms">[time.hms]</a>, 30.12 <a href="https://wg21.link/re.iter">[re.iter]</a>, 31.8 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a>, 31.9 <a href="https://wg21.link/atomics.nonmembers">[atomics.nonmembers]</a>, 32.3 <a href="https://wg21.link/thread.stoptoken">[thread.stoptoken]</a>, 32.4 <a href="https://wg21.link/thread.threads">[thread.threads]</a>, 32.5 <a href="https://wg21.link/thread.mutex">[thread.mutex]</a>, 32.7 <a href="https://wg21.link/thread.sema">[thread.sema]</a>, 32.8 <a href="https://wg21.link/thread.coord">[thread.coord]</a>, 32.9 <a href="https://wg21.link/futures">[futures]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-11-21 <b>Last modified:</b> 2019-11-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#pairs.pair">active issues</a> in [pairs.pair].</p>
+<p><b>View all other</b> <a href="lwg-index.html#pairs.pair">issues</a> in [pairs.pair].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The problem was discussed <a href="https://github.com/cplusplus/draft/pull/3454#discussion_r348198610">here</a>:
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+It seems to me that this is just one instance of a systemic problem in the library wording. This phrasing 
+"initializes <tt>x</tt> with <tt>y</tt>" is common, but underspecified (and formally meaningless) &mdash; 
+the library wording either needs to say what kind of initialization is performed, or specify an initializer 
+(not an expression) with which to initialize. We should ask LWG to think about this; for each "initializes 
+<tt>x</tt> with <tt>y</tt>" utterance, the reader should know what kind of initialization we mean.
+<p/>
+Looking at random through the library wording, the first case I found: 22.6.4.2 <a href="https://wg21.link/queue.cons">[queue.cons]</a>/1:
+</p>
+<blockquote><p>
+<i>Effects:</i> Initializes <tt>c</tt> with <tt>cont</tt>.
+</p></blockquote>
+<p>
+The meaning of this depends on whether this is direct- or copy-initialization. (It's obscure, but if <tt>T</tt> 
+is not <i>Cpp17CopyInsertable</i> into the container, it could be the case that one form of initialization 
+works and the other does not, or that they both work and do different things.)
+<p/>
+Another random sample: 25.9.6 <a href="https://wg21.link/partial.sum">[partial.sum]</a>/2:
+</p>
+<blockquote><p>
+<i>Effects:</i> For a non-empty range, the function creates an accumulator <tt>acc</tt> whose type is 
+<tt>InputIterator</tt>'s value type, initializes it with <tt>*first</tt>, and assigns the result to <tt>*result</tt>.
+</p></blockquote>
+<p>
+Again the difference between direct- and copy-initialization is observable here.
+<p/>
+Perhaps the library should have blanket wording that when it says "initializes", it means by 
+direct- or copy-initialization, and that it's unspecified which one you get (or something like that) &mdash; 
+and someone should go through all the instances and check if any of them mean something else (I doubt this 
+is the only case that does).
+</p>
+</blockquote>
+<p>
+Suggestion: either
+</p>
+<ul>
+<li><p>add blanket wording defining what you mean when you say "initializes <tt>x</tt> with <tt>y</tt>" 
+(e.g., it's unspecified whether copy-initialization or direct-initialization is performed) and make sure 
+that that's what's intended for all uses, or</p></li>
+<li><p>stop using the "initializes <tt>x</tt> with <tt>y</tt>" formulation entirely, and specify the kind 
+of initialization on each use, or</p></li>
+<li><p>for each such use, ensure that <tt>y</tt> is an initializer (that is, of the form "<tt>= expr</tt>" 
+or "<tt>(expr, expr, &hellip;)</tt>" or "<tt>= { &hellip; }</tt>" or "<tt>{ &hellip; }</tt>", and not 
+merely an expression)</p></li>
+</ul>
 
 
 <p><b>Proposed resolution:</b></p>

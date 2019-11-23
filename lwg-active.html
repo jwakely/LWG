@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-11-23 at 16:15:43 UTC</p>
+<p><p>Revised 2019-11-23 at 17:02:18 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,15 +158,15 @@ ownership of it.
 <ul>
 <li>D119: 2019-11-25 post-Belfast mailing<ul>
 <li><b>Summary:</b><ul>
-<li>363 open issues, up by 12.</li>
+<li>364 open issues, up by 13.</li>
 <li>2465 closed issues, up by 32.</li>
 <li>35 reassigned issues, down by 1.</li>
-<li>2863 issues total, up by 43.</li>
+<li>2864 issues total, up by 44.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 21 Ready issues: <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3303">3303</a>, <a href="lwg-active.html#3307">3307</a>, <a href="lwg-active.html#3310">3310</a>, <a href="lwg-active.html#3313">3313</a>, <a href="lwg-active.html#3315">3315</a>, <a href="lwg-active.html#3316">3316</a>, <a href="lwg-active.html#3317">3317</a>, <a href="lwg-active.html#3318">3318</a>, <a href="lwg-active.html#3319">3319</a>, <a href="lwg-active.html#3320">3320</a>, <a href="lwg-active.html#3321">3321</a>, <a href="lwg-active.html#3322">3322</a>, <a href="lwg-active.html#3323">3323</a>, <a href="lwg-active.html#3324">3324</a>, <a href="lwg-active.html#3325">3325</a>, <a href="lwg-active.html#3326">3326</a>, <a href="lwg-active.html#3327">3327</a>, <a href="lwg-active.html#3329">3329</a>, <a href="lwg-active.html#3330">3330</a>, <a href="lwg-active.html#3331">3331</a>.</li>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3299">3299</a>, <a href="lwg-active.html#3300">3300</a>, <a href="lwg-active.html#3332">3332</a>.</li>
-<li>Added the following 16 New issues: <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3314">3314</a>, <a href="lwg-active.html#3328">3328</a>, <a href="lwg-active.html#3333">3333</a>, <a href="lwg-active.html#3334">3334</a>, <a href="lwg-active.html#3335">3335</a>, <a href="lwg-active.html#3336">3336</a>, <a href="lwg-active.html#3337">3337</a>, <a href="lwg-active.html#3338">3338</a>, <a href="lwg-active.html#3339">3339</a>, <a href="lwg-active.html#3340">3340</a>, <a href="lwg-active.html#3341">3341</a>.</li>
+<li>Added the following 17 New issues: <a href="lwg-active.html#3301">3301</a>, <a href="lwg-active.html#3305">3305</a>, <a href="lwg-active.html#3306">3306</a>, <a href="lwg-active.html#3308">3308</a>, <a href="lwg-active.html#3309">3309</a>, <a href="lwg-active.html#3314">3314</a>, <a href="lwg-active.html#3328">3328</a>, <a href="lwg-active.html#3333">3333</a>, <a href="lwg-active.html#3334">3334</a>, <a href="lwg-active.html#3335">3335</a>, <a href="lwg-active.html#3336">3336</a>, <a href="lwg-active.html#3337">3337</a>, <a href="lwg-active.html#3338">3338</a>, <a href="lwg-active.html#3339">3339</a>, <a href="lwg-active.html#3340">3340</a>, <a href="lwg-active.html#3341">3341</a>, <a href="lwg-active.html#3342">3342</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3304">3304</a>.</li>
 <li>Added the following 2 Dup issues: <a href="lwg-closed.html#3311">3311</a>, <a href="lwg-closed.html#3312">3312</a>.</li>
 <li>Changed the following issue to Ready (from New): <a href="lwg-active.html#3264">3264</a>.</li>
@@ -11682,6 +11682,7 @@ position available, the function alters the read end pointer <tt>egptr()</tt> to
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2013-09-09 <b>Last modified:</b> 2016-12-14</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#pairs.pair">active issues</a> in [pairs.pair].</p>
 <p><b>View all other</b> <a href="lwg-index.html#pairs.pair">issues</a> in [pairs.pair].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -44241,6 +44242,72 @@ must be implicitly convertible to the <tt>basic_regex::value_type</tt>. For exam
 range constructor satisfy a SequenceContainer requirements, where implicit converting to its elements 
 is specified.
 </p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3342" href="#3342">3342</a><sup><a href="https://cplusplus.github.io/LWG/issue3342">(i)</a></sup>. Library wording uses "initializes <tt>x</tt> with <tt>y</tt>", which is underspecified</h3>
+<p><b>Section:</b> 20.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a>, 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a>, 20.7.3.1 <a href="https://wg21.link/variant.ctor">[variant.ctor]</a>, 20.11.8.1 <a href="https://wg21.link/util.smartptr.atomic.shared">[util.smartptr.atomic.shared]</a>, 20.13.3 <a href="https://wg21.link/allocator.adaptor.cnstr">[allocator.adaptor.cnstr]</a>, 20.20.4.3 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a>, 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a>, 22.6 <a href="https://wg21.link/container.adaptors">[container.adaptors]</a>, 23.5 <a href="https://wg21.link/predef.iterators">[predef.iterators]</a>, 24.5.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a>, 24.6 <a href="https://wg21.link/range.factories">[range.factories]</a>, 24.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a>, 25.9 <a href="https://wg21.link/numeric.ops">[numeric.ops]</a>, 27.9 <a href="https://wg21.link/time.hms">[time.hms]</a>, 30.12 <a href="https://wg21.link/re.iter">[re.iter]</a>, 31.8 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a>, 31.9 <a href="https://wg21.link/atomics.nonmembers">[atomics.nonmembers]</a>, 32.3 <a href="https://wg21.link/thread.stoptoken">[thread.stoptoken]</a>, 32.4 <a href="https://wg21.link/thread.threads">[thread.threads]</a>, 32.5 <a href="https://wg21.link/thread.mutex">[thread.mutex]</a>, 32.7 <a href="https://wg21.link/thread.sema">[thread.sema]</a>, 32.8 <a href="https://wg21.link/thread.coord">[thread.coord]</a>, 32.9 <a href="https://wg21.link/futures">[futures]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-11-21 <b>Last modified:</b> 2019-11-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#pairs.pair">active issues</a> in [pairs.pair].</p>
+<p><b>View all other</b> <a href="lwg-index.html#pairs.pair">issues</a> in [pairs.pair].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The problem was discussed <a href="https://github.com/cplusplus/draft/pull/3454#discussion_r348198610">here</a>:
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+It seems to me that this is just one instance of a systemic problem in the library wording. This phrasing 
+"initializes <tt>x</tt> with <tt>y</tt>" is common, but underspecified (and formally meaningless) &mdash; 
+the library wording either needs to say what kind of initialization is performed, or specify an initializer 
+(not an expression) with which to initialize. We should ask LWG to think about this; for each "initializes 
+<tt>x</tt> with <tt>y</tt>" utterance, the reader should know what kind of initialization we mean.
+<p/>
+Looking at random through the library wording, the first case I found: 22.6.4.2 <a href="https://wg21.link/queue.cons">[queue.cons]</a>/1:
+</p>
+<blockquote><p>
+<i>Effects:</i> Initializes <tt>c</tt> with <tt>cont</tt>.
+</p></blockquote>
+<p>
+The meaning of this depends on whether this is direct- or copy-initialization. (It's obscure, but if <tt>T</tt> 
+is not <i>Cpp17CopyInsertable</i> into the container, it could be the case that one form of initialization 
+works and the other does not, or that they both work and do different things.)
+<p/>
+Another random sample: 25.9.6 <a href="https://wg21.link/partial.sum">[partial.sum]</a>/2:
+</p>
+<blockquote><p>
+<i>Effects:</i> For a non-empty range, the function creates an accumulator <tt>acc</tt> whose type is 
+<tt>InputIterator</tt>'s value type, initializes it with <tt>*first</tt>, and assigns the result to <tt>*result</tt>.
+</p></blockquote>
+<p>
+Again the difference between direct- and copy-initialization is observable here.
+<p/>
+Perhaps the library should have blanket wording that when it says "initializes", it means by 
+direct- or copy-initialization, and that it's unspecified which one you get (or something like that) &mdash; 
+and someone should go through all the instances and check if any of them mean something else (I doubt this 
+is the only case that does).
+</p>
+</blockquote>
+<p>
+Suggestion: either
+</p>
+<ul>
+<li><p>add blanket wording defining what you mean when you say "initializes <tt>x</tt> with <tt>y</tt>" 
+(e.g., it's unspecified whether copy-initialization or direct-initialization is performed) and make sure 
+that that's what's intended for all uses, or</p></li>
+<li><p>stop using the "initializes <tt>x</tt> with <tt>y</tt>" formulation entirely, and specify the kind 
+of initialization on each use, or</p></li>
+<li><p>for each such use, ensure that <tt>y</tt> is an initializer (that is, of the form "<tt>= expr</tt>" 
+or "<tt>(expr, expr, &hellip;)</tt>" or "<tt>= { &hellip; }</tt>" or "<tt>{ &hellip; }</tt>", and not 
+merely an expression)</p></li>
+</ul>
 
 
 <p><b>Proposed resolution:</b></p>
