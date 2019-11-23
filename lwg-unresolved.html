@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-23 at 14:07:41 UTC</p>
+<p><p>Revised 2019-11-23 at 15:47:25 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39726,6 +39726,51 @@ template&lt;class... Args&gt;
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3341" href="#3341">3341</a><sup><a href="https://cplusplus.github.io/LWG/issue3341">(i)</a></sup>. <tt>basic_regex</tt> range constructor: Missing requirements for iterator types</h3>
+<p><b>Section:</b> 30.8.1 <a href="https://wg21.link/re.regex.construct">[re.regex.construct]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> &Dcy;&iecy;&ncy;&icy;&scy; &Zcy;&acy;&khcy;&acy;&rcy;&ocy;&vcy; <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2019-11-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#re.regex.construct">issues</a> in [re.regex.construct].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This is description of a <tt>basic_regex</tt> range constructor from <a href="https://wg21.link/n4835">N4835</a>,
+30.8.1 <a href="https://wg21.link/re.regex.construct">[re.regex.construct]</a>:
+</p>
+<blockquote>
+<pre>
+template&lt;class ForwardIterator&gt;
+  basic_regex(ForwardIterator first, ForwardIterator last,
+              flag_type f = regex_constants::ECMAScript);
+</pre>
+<blockquote>
+<p>
+-17- <i>Throws:</i> <tt>regex_error</tt> if the sequence <tt>[first, last)</tt> is not a valid regular expression.
+<p/>
+-18- <i>Effects:</i> Constructs an object of class <tt>basic_regex</tt>; the object's internal finite state 
+machine is constructed from the regular expression contained in the sequence of characters <tt>[first, last)</tt>, 
+and interpreted according to the flags specified in <tt>f</tt>.
+<p/>
+-19- <i>Ensures:</i> <tt>flags()</tt> returns <tt>f. mark_count()</tt> returns the number of marked sub-expressions 
+within the expression.
+</p>
+</blockquote>
+</blockquote>
+<p>
+It seems that there are no requirements about dereferenced iterator's element type, that, apparently, 
+must be implicitly convertible to the <tt>basic_regex::value_type</tt>. For example, containers having 
+range constructor satisfy a SequenceContainer requirements, where implicit converting to its elements 
+is specified.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
