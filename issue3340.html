@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3336: How does std::vformat handle exception thrown by formatters?</title>
+<title>Issue 3340: Formatting functions should throw on argument/format string mismatch in &sect;[format.functions]</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -23,59 +23,60 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3336" href="lwg-active.html#3336">3336</a>. How does <tt>std::vformat</tt> handle exception thrown by formatters?</h3>
+<h3><a name="3340" href="lwg-active.html#3340">3340</a>. Formatting functions should throw on argument/format string mismatch in &sect;[format.functions]</h3>
 <p><b>Section:</b> 20.20.3 <a href="https://wg21.link/format.functions">[format.functions]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tam S. B. <b>Opened:</b> 2019-11-11 <b>Last modified:</b> 2019-11-21</p>
-<p><b>Priority: </b>2
+ <b>Submitter:</b> Great Britain <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2019-11-23</p>
+<p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.functions">active issues</a> in [format.functions].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.functions">issues</a> in [format.functions].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
+<p><b>Addresses <a href="https://github.com/cplusplus/nbballot/issues/226">GB 229</a></b></p>
+
 <p>
-The specification for <tt>std::vformat</tt> in 20.20.3 <a href="https://wg21.link/format.functions">[format.functions]</a>/7 says
+Formatting functions don't allow throwing on incorrect arguments. 
+<tt>std::format</tt> is only allowed to throw if <tt>fmt</tt> is not a format string, but the 
+intention is it also throws for errors during formatting, e.g. there are fewer arguments than 
+required by the format string.
 </p>
-<blockquote>
 <p>
-<i>Throws:</i> <tt>format_error</tt> if <tt>fmt</tt> is not a format string.
+Proposed change:
 </p>
-</blockquote>
 <p>
-It seems unclear whether <tt>vformat</tt> throws when an exception is thrown by the <tt>formatter</tt>, 
-e.g. when the format string is valid, but the corresponding argument cannot be formatted with the given 
-format string.
+Allow exceptions even when the format string is valid. Possibly state the <i>Effects:</i> more
+precisely.
+</p>
+<p>
+<b>Victor Zverovich:</b>
 <p/>
-For example, the <tt>"c"</tt> format specifier is specified to throw <tt>format_error</tt> if the 
-corresponding argument is not in the range of representable values for <tt>charT</tt> 
-(Table 60 [tab:format.type.int]). It seems unclear whether <tt>vformat</tt> propagates this exception.
-<p/>
-It also appears unclear whether <tt>vformat</tt> may throw other types of exception (e.g. <tt>bad_alloc</tt>) 
-when the formatter or the constructor of <tt>std::string</tt> result throws.
+LEWG approved resolution of this NB comment as an LWG issue.
 </p>
-
-<p><i>[2019-11-20 Issue Prioritization]</i></p>
-
-<p>Priority to 2 after reflector discussion.</p>
-
-<p><i>[2019-11-20; Victor Zverovich provides initial wording]</i></p>
-
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4835">N4835</a>.</p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
 
 <ol>
-<li><p>Before 20.20.3 <a href="https://wg21.link/format.functions">[format.functions]</a> insert a new sub-clause as indicated:</p>
+<li><p>Change 20.20.2.1 <a href="https://wg21.link/format.string.general">[format.string.general]</a> as follows:</p>
 
 <blockquote>
 <p>
-<ins><b>20.20.? Error reporting [format.err.report]</b></ins>
+-1- A <i>format string</i> <ins>for arguments <tt>args</tt></ins> is a (possibly empty) sequence of 
+<i>replacement fields</i>, <i>escape sequences</i>, and characters other than <tt>{</tt> and <tt>}</tt>. 
+[&hellip;]
 <p/>
-<ins>-?- Formatting functions throw exceptions to report formatting and other errors. They throw 
-<tt>format_error</tt> if an argument <tt>fmt</tt> is passed that is not a format string and 
-propagate exceptions thrown by <tt>formatter</tt> specializations and iterator operations. Failure 
-to allocate storage is reported by throwing an exception as described in 
-16.5.5.12 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a>.</ins>
+-2- The <i>arg-id</i> field specifies the index of the argument in <tt>args</tt> whose value is to be 
+formatted and inserted into the output instead of the replacement field. <ins>If there is no argument 
+with the index <i>arg-id</i> in <tt>args</tt>, the string is not a format string.</ins> The optional 
+<i>format-specifier</i> field explicitly specifies a format for the replacement value.
+<p/>
+[&hellip;]
+<p/>
+-5- The <i>format-spec</i> field contains <i>format specifications</i> that define how the value 
+should be presented. Each type can define its own interpretation of the <i>format-spec</i> field. 
+<ins>If <i>format-spec</i> doesn't conform to the format specifications for the argument in <tt>args</tt> 
+referred to by <i>arg-id</i>, the string is not a format string.</ins> [&hellip;]
 </p>
 </blockquote>
 </li>
@@ -93,7 +94,7 @@ wstring vformat(const locale&amp; loc, wstring_view fmt, wformat_args args);
 <p>
 -6- [&hellip;]
 <p/>
--7- <i>Throws:</i> <del><tt>format_error</tt> if <tt>fmt</tt> is not a format string</del><ins>As specified in  [format.err.report]</ins>.
+-7- <i>Throws:</i> <tt>format_error</tt> if <tt>fmt</tt> is not a format string <ins>for <tt>args</tt></ins>.
 </p>
 </blockquote>
 [&hellip;]
@@ -113,7 +114,7 @@ template&lt;class Out&gt;
 <p>
 [&hellip;]
 <p/>
--15- <i>Throws:</i> <del><tt>format_error</tt> if <tt>fmt</tt> is not a format string</del><ins>As specified in  [format.err.report]</ins>.
+-15- <i>Throws:</i> <tt>format_error</tt> if <tt>fmt</tt> is not a format string <ins>for <tt>args</tt></ins>.
 </p>
 </blockquote>
 [&hellip;]
@@ -137,7 +138,7 @@ template&lt;class Out, class... Args&gt;
 <p>
 [&hellip;]
 <p/>
--21- <i>Throws:</i> <del><tt>format_error</tt> if <tt>fmt</tt> is not a format string</del><ins>As specified in  [format.err.report]</ins>.
+-21- <i>Throws:</i> <tt>format_error</tt> if <tt>fmt</tt> is not a format string <ins>for <tt>args</tt></ins>.
 </p>
 </blockquote>
 [&hellip;]
@@ -155,12 +156,11 @@ template&lt;class... Args&gt;
 <p>
 [&hellip;]
 <p/>
--25- <i>Throws:</i> <del><tt>format_error</tt> if <tt>fmt</tt> is not a format string</del><ins>As specified in  [format.err.report]</ins>.
+-25- <i>Throws:</i> <tt>format_error</tt> if <tt>fmt</tt> is not a format string <ins>for <tt>args</tt></ins>.
 </p>
 </blockquote>
 </blockquote>
 </li>
-
 </ol>
 
 
