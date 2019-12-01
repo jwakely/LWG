@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-12-01 at 10:55:00 UTC</p>
+<p><p>Revised 2019-12-01 at 11:15:20 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -44746,7 +44746,7 @@ but at most <tt><del>-</del><ins>|</ins>n<ins>|</ins></tt> times.</p></li>
 <hr>
 <h3><a name="3345" href="#3345">3345</a><sup><a href="https://cplusplus.github.io/LWG/issue3345">(i)</a></sup>. Incorrect usages of "models" versus "satisfies"</h3>
 <p><b>Section:</b> 18.4.9 <a href="https://wg21.link/concept.swappable">[concept.swappable]</a>, 23.3.3.2 <a href="https://wg21.link/iterator.cust.swap">[iterator.cust.swap]</a>, 23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a>, 23.4.3.2 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, 23.5.1.1 <a href="https://wg21.link/reverse.iterator">[reverse.iterator]</a>, 23.5.3.1 <a href="https://wg21.link/move.iterator">[move.iterator]</a>, 23.5.3.6 <a href="https://wg21.link/move.iter.nav">[move.iter.nav]</a>, 23.5.4.2 <a href="https://wg21.link/common.iter.types">[common.iter.types]</a>, 23.5.4.5 <a href="https://wg21.link/common.iter.nav">[common.iter.nav]</a>, 24.3 <a href="https://wg21.link/range.access">[range.access]</a>, 24.6.3.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a>, 24.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a>, 25 <a href="https://wg21.link/algorithms">[algorithms]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2019-11-23 <b>Last modified:</b> 2019-11-30</p>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2019-11-23 <b>Last modified:</b> 2019-12-01</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#concept.swappable">active issues</a> in [concept.swappable].</p>
@@ -44781,8 +44781,9 @@ problem should be handled by a separate issue.
 
 <blockquote class="note">
 <p>
-[<i>Drafting note:</i> The proposed wording does not touch the definition of <tt>enable_view</tt>, whose
-definition is radically changed by LWG <a href="lwg-active.html#3326">3326</a>.]
+[<i>Drafting note:</i> The proposed wording does intentionally not touch the definition of 
+<tt>enable_view</tt>, whose definition is radically changed by LWG <a href="lwg-active.html#3326">3326</a> in a manner
+that does no longer need similar adjustments.]
 </p>
 </blockquote>
 <ol>
@@ -45003,12 +45004,12 @@ Otherwise, equivalent to <tt>++current</tt>.
 -1- The nested <i>typedef-name</i>s of the specialization of <tt>iterator_traits</tt> for 
 <tt>common_iterator&lt;I, S&gt;</tt> are defined as follows.
 <ol style="list-style-type: none">
-<li><p>(1.1) &mdash; <tt>iterator_concept</tt> denotes <tt>forward_iterator_tag</tt> if <tt>I</tt> 
+<li><p>(1.1)&nbsp;&mdash; <tt>iterator_concept</tt> denotes <tt>forward_iterator_tag</tt> if <tt>I</tt> 
 <del>models</del><ins>satisfies</ins> <tt>forward_iterator</tt>; otherwise it denotes <tt>input_iterator_tag</tt>.</p></li>
-<li><p>(1.2) &mdash; <tt>iterator_category</tt> denotes <tt>forward_iterator_tag</tt> if 
+<li><p>(1.2)&nbsp;&mdash; <tt>iterator_category</tt> denotes <tt>forward_iterator_tag</tt> if 
 <tt>iterator_traits&lt;I&gt;::iterator_category</tt> <del>models</del><ins>satisfies</ins> 
 <tt>derived_from&lt;forward_iterator_tag&gt;</tt>; otherwise it denotes <tt>input_iterator_tag</tt>.</p></li>
-<li><p>(1.3) &mdash; [&hellip;]</p></li>
+<li><p>(1.3)&nbsp;&mdash; [&hellip;]</p></li>
 </ol>
 </p>
 </blockquote>
@@ -45147,7 +45148,10 @@ which <del>models</del><ins>satisfies</ins> <tt>bidirectional_iterator</tt> (23.
 semantic requirements as well, and the term "satisfy integer-like" seems to be undefined.
 Fortunately, 23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> also introduces the exposition-only variable
 template <tt><i>is-integer-like</i></tt> which we use as predicate below to describe the syntactic 
-constraints of "integer-like" alone.]
+constraints of "integer-like" alone. This wording change regarding "is integer-like" is strictly
+speaking not required because of the "if and only if" definition provided in 
+23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> p12, but it has been made nonetheless to improve the 
+consistency between discriminating compile-time tests from potentially semantic requirements]
 </p>
 </blockquote>
 
