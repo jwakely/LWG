@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-11-30 at 15:14:21 UTC</p>
+<p><p>Revised 2019-12-01 at 10:55:00 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39302,7 +39302,7 @@ Perhaps this means "value-initialized" or "default-initialized" instead of merel
 <hr>
 <h3><a name="3339" href="#3339">3339</a><sup><a href="https://cplusplus.github.io/LWG/issue3339">(i)</a></sup>. Move-constructed empty-container capacity</h3>
 <p><b>Section:</b> 21.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a>, 22.3.11 <a href="https://wg21.link/vector">[vector]</a>, 22.5.4 <a href="https://wg21.link/unord.map">[unord.map]</a>, 22.5.6 <a href="https://wg21.link/unord.set">[unord.set]</a>, 22.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Nathan Myers <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2019-11-30</p>
+ <b>Submitter:</b> Nathan Myers <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2019-12-01</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#basic.string">active issues</a> in [basic.string].</p>
@@ -39311,7 +39311,7 @@ Perhaps this means "value-initialized" or "default-initialized" instead of merel
 <p><b>Discussion:</b></p>
 <p>
 The Standard leaves unspecified the <tt>capacity()</tt> of a <tt>string</tt> or <tt>vector</tt>, 
-and <tt>bucket_count()</tt> of an <tt>unordered_set</tt> or <tt>unordered_map</tt>, 
+and <tt>bucket_count()</tt> of an <tt>unordered_(multi)set</tt> or <tt>unordered_(multi)map</tt>, 
 constructed by move from an empty <tt>other</tt>.
 <p/>
 For a non-empty <tt>other</tt>, normative language in the Standard constrains the new object to 
@@ -39332,8 +39332,9 @@ of the existing and new container objects are compatible, the storage of the new
 same as of the old, so that no allocations or deallocations are performed in the process, as 
 existing implementations in fact do.
 <p/>
-This appears to affect only <tt>string</tt>, <tt>vector</tt>, <tt>unordered_set</tt>,
-and <tt>unordered_map</tt>, but any new container types may also need similar attention.
+This appears to affect only <tt>string</tt>, <tt>vector</tt>, <tt>unordered_set</tt>, 
+<tt>unordered_multiset</tt>, <tt>unordered_map</tt>, and <tt>unordered_multimap</tt>, but any 
+new container types may also need similar attention.
 <p/>
 Note that in the case of the hashed containers, the array of buckets appears not to be required 
 to be moved, even when elements contained are. This seems to be a similar oversight; extant 
@@ -40832,6 +40833,72 @@ for the overloads in namespace <tt>ranges</tt>, and at most <tt><i>N</i></tt> sw
 </blockquote>
 </blockquote>
 </li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3346" href="#3346">3346</a><sup><a href="https://cplusplus.github.io/LWG/issue3346">(i)</a></sup>. <tt>pair</tt> and <tt>tuple</tt> copy and move constructor have backwards specification</h3>
+<p><b>Section:</b> 20.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a>, 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-11-26 <b>Last modified:</b> 2019-12-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#pairs.pair">active issues</a> in [pairs.pair].</p>
+<p><b>View all other</b> <a href="lwg-index.html#pairs.pair">issues</a> in [pairs.pair].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+20.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a> p2 and 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> p3 say:
+</p>
+<blockquote>
+<p>
+The defaulted move and copy constructor, respectively, of {<tt>pair</tt>,<tt>tuple</tt>} is a constexpr 
+function if and only if all required element-wise initializations for copy and move, respectively, 
+would satisfy the requirements for a constexpr function.
+</p>
+</blockquote>
+<p>
+Note that we specify the copy constructor in terms of element move operations and the move constructor 
+in terms of element copy operations. Is that really the intent? This appears to be how this was originally 
+specified when the wording was added by <a href="https://wg21.link/n3471">N3471</a>.
+</p>
+
+<p><i>[2019-12-01; Daniel comments and provides wording]</i></p>
+
+<p>
+These inverted wording effects are an unintended oversight caused by <a href="https://wg21.link/n3471">N3471</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<ol>
+<li><p>Modify 20.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- The defaulted move and copy constructor, respectively, of <tt>pair</tt> shall be a constexpr function 
+if and only if all required element-wise initializations for <del>copy</del><ins>move</ins> and 
+<del>move</del><ins>copy</ins>, respectively, would satisfy the requirements for a constexpr function.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- The defaulted move and copy constructor, respectively, of <tt>tuple</tt> shall be a constexpr function 
+if and only if all required element-wise initializations for <del>copy</del><ins>move</ins> and 
+<del>move</del><ins>copy</ins>, respectively, would satisfy the requirements for a constexpr function. 
+The defaulted move and copy constructor of <tt>tuple&lt;&gt;</tt> shall be constexpr functions.
+</p>
+</blockquote>
+</li>
+
 
 </ol>
 
