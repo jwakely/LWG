@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-12-01 at 11:15:20 UTC</p>
+<p><p>Revised 2019-12-03 at 15:38:47 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39898,7 +39898,7 @@ cond.notify_all();
 <hr>
 <h3><a name="3344" href="#3344">3344</a><sup><a href="https://cplusplus.github.io/LWG/issue3344">(i)</a></sup>. <tt>advance(i, <i>most-negative</i>)</tt> and <tt>prev(i, <i>most-negative</i>)</tt></h3>
 <p><b>Section:</b> 23.4.2 <a href="https://wg21.link/iterator.operations">[iterator.operations]</a>, 23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-11-22 <b>Last modified:</b> 2019-11-30</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-11-22 <b>Last modified:</b> 2019-12-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#iterator.operations">active issues</a> in [iterator.operations].</p>
@@ -39936,6 +39936,17 @@ operations. We should consider doing so.
 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> I've chosen to provide wording for the conservative "define behavior for 
+<tt>advance</tt> and leave <tt>prev</tt> as status quo" middle ground.
+<p/>
+The occurrences of "|" in the below are math-font vertical bars (indicating absolute value). I've 
+changed both positive and negative cases for consistency of presentation.
+]
+</p>
+</blockquote>
 
 <ol>
 <li><p>Modify 23.4.2 <a href="https://wg21.link/iterator.operations">[iterator.operations]</a> as indicated:</p>
@@ -40276,12 +40287,12 @@ Otherwise, equivalent to <tt>++current</tt>.
 -1- The nested <i>typedef-name</i>s of the specialization of <tt>iterator_traits</tt> for 
 <tt>common_iterator&lt;I, S&gt;</tt> are defined as follows.
 <ol style="list-style-type: none">
-<li><p>(1.1)&nbsp;&mdash; <tt>iterator_concept</tt> denotes <tt>forward_iterator_tag</tt> if <tt>I</tt> 
+<li><p>(1.1) &mdash; <tt>iterator_concept</tt> denotes <tt>forward_iterator_tag</tt> if <tt>I</tt> 
 <del>models</del><ins>satisfies</ins> <tt>forward_iterator</tt>; otherwise it denotes <tt>input_iterator_tag</tt>.</p></li>
-<li><p>(1.2)&nbsp;&mdash; <tt>iterator_category</tt> denotes <tt>forward_iterator_tag</tt> if 
+<li><p>(1.2) &mdash; <tt>iterator_category</tt> denotes <tt>forward_iterator_tag</tt> if 
 <tt>iterator_traits&lt;I&gt;::iterator_category</tt> <del>models</del><ins>satisfies</ins> 
 <tt>derived_from&lt;forward_iterator_tag&gt;</tt>; otherwise it denotes <tt>input_iterator_tag</tt>.</p></li>
-<li><p>(1.3)&nbsp;&mdash; [&hellip;]</p></li>
+<li><p>(1.3) &mdash; [&hellip;]</p></li>
 </ol>
 </p>
 </blockquote>

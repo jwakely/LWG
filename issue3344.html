@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3344" href="lwg-active.html#3344">3344</a>. <tt>advance(i, <i>most-negative</i>)</tt> and <tt>prev(i, <i>most-negative</i>)</tt></h3>
 <p><b>Section:</b> 23.4.2 <a href="https://wg21.link/iterator.operations">[iterator.operations]</a>, 23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-11-22 <b>Last modified:</b> 2019-11-30</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-11-22 <b>Last modified:</b> 2019-12-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#iterator.operations">active issues</a> in [iterator.operations].</p>
@@ -63,6 +63,17 @@ operations. We should consider doing so.
 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> I've chosen to provide wording for the conservative "define behavior for 
+<tt>advance</tt> and leave <tt>prev</tt> as status quo" middle ground.
+<p/>
+The occurrences of "|" in the below are math-font vertical bars (indicating absolute value). I've 
+changed both positive and negative cases for consistency of presentation.
+]
+</p>
+</blockquote>
 
 <ol>
 <li><p>Modify 23.4.2 <a href="https://wg21.link/iterator.operations">[iterator.operations]</a> as indicated:</p>
