@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-12-07 at 18:21:37 UTC</p>
+<p><p>Revised 2019-12-07 at 22:28:54 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41436,7 +41436,10 @@ Carter noted in <a href="https://github.com/microsoft/STL/issues/268">microsoft/
 <li><p>Preventing <tt>locale</tt> from satisfying <tt>std::copyable</tt>.</p></li>
 </ul>
 <p>
-We aren't aware of any reason for this to be const. (I observe that this hasn't changed since N1804 on 2005-04-27 and probably goes back to C++98; I suspect that when this was originally specified, copy assignment operators were relatively new, and conventions for them weren't rigorously followed.)
+We aren't aware of any reason for this to be <tt>const</tt>. (I observe that this hasn't changed since 
+<a href="https://wg21.link/n1804">N1804</a> on 2005-04-27 and probably goes back to C++98; I suspect that 
+when this was originally specified, copy assignment operators were relatively new, and conventions for 
+them weren't rigorously followed.)
 </p>
 
 
