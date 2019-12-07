@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-12-07 at 13:43:30 UTC</p>
+<p><p>Revised 2019-12-07 at 13:58:47 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41142,6 +41142,8 @@ array(T, U...) -&gt; array&lt;T, 1 + sizeof...(U)&gt;;
  <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2019-12-03 <b>Last modified:</b> 2019-12-07</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -41173,6 +41175,56 @@ The smallest diff is just to move the macro into <tt>&lt;functional&gt;</tt>.
 #define __cpp_lib_unordered_map_try_emplace 201411L // also in &lt;unordered_map&gt;
 #define __cpp_lib_unwrap_ref                201811L // also in &lt;<del>type_traits</del><ins>functional</ins>&gt;
 #define __cpp_lib_variant                   201606L // also in &lt;variant&gt;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3349" href="#3349">3349</a><sup><a href="https://cplusplus.github.io/LWG/issue3349">(i)</a></sup>. Missing <tt>__cpp_lib_constexpr_complex</tt> for P0415R1</h3>
+<p><b>Section:</b> 99 [version.syn] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2019-12-04 <b>Last modified:</b> 2019-12-07</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/p1902r1">P1902R1</a> "Missing feature-test macros 2017-2019", accepted in Belfast, said:
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+[<a href="https://wg21.link/p0415r1">P0415R1</a>] (Constexpr for <tt>std::complex</tt>): this paper proposes to 
+introduce the macro <tt>__cpp_lib_constexpr_complex</tt>. That is, introducing a new macro for this header.
+</p>
+</blockquote>
+<p>
+However, <tt>__cpp_lib_constexpr_complex</tt> wasn't mentioned in the Wording section, and doesn't appear 
+in the latest WP <a href="https://wg21.link/n4842">N4842</a>.
+<p/>
+<a href="https://wg21.link/p0415r1">P0415R1</a> was accepted in Albuquerque (November 2017), and the paper itself 
+said "For the purposes of SG10, we recommend the feature-testing macro name <tt>__cpp_lib_constexpr_complex</tt>.", 
+so this has been accepted and then overlooked by WG21 twice.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4842">N4842</a>.</p>
+
+<ol>
+<li><p>Modify 99 [version.syn] p2 as indicated:</p>
+<blockquote>
+<pre>
+[&hellip;]
+#define __cpp_lib_constexpr_algorithms    201806L // also in &lt;algorithm&gt;
+<ins>#define __cpp_lib_constexpr_complex       201711L // also in &lt;complex&gt;</ins>
+#define __cpp_lib_constexpr_dynamic_alloc 201907L // also in &lt;memory&gt;
 [&hellip;]
 </pre>
 </blockquote>
