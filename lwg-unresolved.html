@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-12-07 at 17:37:44 UTC</p>
+<p><p>Revised 2019-12-07 at 18:21:37 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41395,12 +41395,12 @@ concept safe_range = <i>see below</i>;
 </p>
 <blockquote>
 <p>
-Expression: <tt>i &lt;=&gt; j</tt>
+<b>Expression:</b> <tt>i &lt;=&gt; j</tt>
 <p/>
-Return Type: <tt>strong_ordering</tt> if <tt>X::iterator</tt> meets the random access iterator requirements, 
+<b>Return Type:</b> <tt>strong_ordering</tt> if <tt>X::iterator</tt> meets the random access iterator requirements, 
 otherwise <tt>strong_equality</tt>.
 <p/>
-Complexity: constant
+<b>Complexity:</b> constant
 </p>
 </blockquote>
 <p>
@@ -41414,6 +41414,65 @@ or if we should pull the row out into yet another "conditionally-supported itera
 
 <p><b>Proposed resolution:</b></p>
 
+
+
+
+<hr>
+<h3><a name="3353" href="#3353">3353</a><sup><a href="https://cplusplus.github.io/LWG/issue3353">(i)</a></sup>. <tt>locale</tt>'s copy assignment operator should return <tt>locale&amp;</tt></h3>
+<p><b>Section:</b> 28.3.1 <a href="https://wg21.link/locale">[locale]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2019-12-06 <b>Last modified:</b> 2019-12-07</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#locale">issues</a> in [locale].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Curiously, <tt>locale</tt>'s copy assignment operator currently returns <tt>const locale&amp;</tt>. As Casey 
+Carter noted in <a href="https://github.com/microsoft/STL/issues/268">microsoft/STL#268</a>, this is:
+</p>
+<ul>
+<li><p>Weird!</p></li>
+<li><p>The only occurrence in the entire Standard Library.</p></li>
+<li><p>Preventing <tt>locale</tt> from satisfying <tt>std::copyable</tt>.</p></li>
+</ul>
+<p>
+We aren't aware of any reason for this to be const. (I observe that this hasn't changed since N1804 on 2005-04-27 and probably goes back to C++98; I suspect that when this was originally specified, copy assignment operators were relatively new, and conventions for them weren't rigorously followed.)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4842">N4842</a>.</p>
+
+<ol>
+<li><p>Modify 28.3.1 <a href="https://wg21.link/locale">[locale]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+~locale(); <i>// not virtual</i>
+<del>const</del> locale&amp; operator=(const locale&amp; other) noexcept;
+template&lt;class Facet&gt; locale combine(const locale&amp; other) const;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 28.3.1.2 <a href="https://wg21.link/locale.cons">[locale.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+<del>const</del> locale&amp; operator=(const locale&amp; other) noexcept;
+</pre>
+<blockquote>
+<p>
+-14- <i>Effects:</i> Creates a copy of <tt>other</tt>, replacing the current value.
+<p/>
+-15- <i>Returns:</i> <tt>*this</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
