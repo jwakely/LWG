@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D119)</h1>
-<p><p>Revised 2019-12-08 at 18:43:18 UTC</p>
+<p><p>Revised 2019-12-08 at 18:49:25 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -44417,8 +44417,8 @@ is specified.
 <hr>
 <h3><a name="3342" href="#3342">3342</a><sup><a href="https://cplusplus.github.io/LWG/issue3342">(i)</a></sup>. Library wording uses "initializes <tt>x</tt> with <tt>y</tt>", which is underspecified</h3>
 <p><b>Section:</b> 20.4.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a>, 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a>, 20.7.3.1 <a href="https://wg21.link/variant.ctor">[variant.ctor]</a>, 31.8.6.1 <a href="https://wg21.link/util.smartptr.atomic.shared">[util.smartptr.atomic.shared]</a>, 20.13.3 <a href="https://wg21.link/allocator.adaptor.cnstr">[allocator.adaptor.cnstr]</a>, 20.20.4.3 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a>, 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a>, 22.6 <a href="https://wg21.link/container.adaptors">[container.adaptors]</a>, 23.5 <a href="https://wg21.link/predef.iterators">[predef.iterators]</a>, 24.5.3.1 <a href="https://wg21.link/range.subrange.ctor">[range.subrange.ctor]</a>, 24.6 <a href="https://wg21.link/range.factories">[range.factories]</a>, 24.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a>, 25.9 <a href="https://wg21.link/numeric.ops">[numeric.ops]</a>, 27.9 <a href="https://wg21.link/time.hms">[time.hms]</a>, 30.12 <a href="https://wg21.link/re.iter">[re.iter]</a>, 31.8 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a>, 31.9 <a href="https://wg21.link/atomics.nonmembers">[atomics.nonmembers]</a>, 32.3 <a href="https://wg21.link/thread.stoptoken">[thread.stoptoken]</a>, 32.4 <a href="https://wg21.link/thread.threads">[thread.threads]</a>, 32.5 <a href="https://wg21.link/thread.mutex">[thread.mutex]</a>, 32.7 <a href="https://wg21.link/thread.sema">[thread.sema]</a>, 32.8 <a href="https://wg21.link/thread.coord">[thread.coord]</a>, 32.9 <a href="https://wg21.link/futures">[futures]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-11-21 <b>Last modified:</b> 2019-11-23</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2019-11-21 <b>Last modified:</b> 2019-12-08</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#pairs.pair">active issues</a> in [pairs.pair].</p>
 <p><b>View all other</b> <a href="lwg-index.html#pairs.pair">issues</a> in [pairs.pair].</p>
@@ -44474,6 +44474,10 @@ or "<tt>(expr, expr, &hellip;)</tt>" or "<tt>= { &hellip; }</tt>" or "<tt>{ &hel
 merely an expression)</p></li>
 </ul>
 
+<p><i>[2019-12-08 Issue Prioritization]</i></p>
+
+<p>Priority to 3 after reflector discussion.</p>
+
 
 <p><b>Proposed resolution:</b></p>
 
@@ -44483,8 +44487,8 @@ merely an expression)</p></li>
 <hr>
 <h3><a name="3343" href="#3343">3343</a><sup><a href="https://cplusplus.github.io/LWG/issue3343">(i)</a></sup>. Ordering of calls to <tt>unlock()</tt> and <tt>notify_all()</tt> in <i>Effects</i> element of <tt>notify_all_at_thread_exit()</tt> should be reversed</h3>
 <p><b>Section:</b> 32.6.2 <a href="https://wg21.link/thread.condition.nonmember">[thread.condition.nonmember]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Lewis Baker <b>Opened:</b> 2019-11-21 <b>Last modified:</b> 2019-11-23</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Lewis Baker <b>Opened:</b> 2019-11-21 <b>Last modified:</b> 2019-12-08</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -44593,6 +44597,10 @@ which would only happen after the completion of the call to <tt>cv.notify_all()<
 above code example to eliminate the race between a subsequent destruction of the condition-variable and 
 the call to <tt>cv.notify_all()</tt>.
 </p>
+
+<p><i>[2019-12-08 Issue Prioritization]</i></p>
+
+<p>Priority to 3 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -44765,8 +44773,8 @@ but at most <tt><del>-</del><ins>|</ins>n<ins>|</ins></tt> times.</p></li>
 <hr>
 <h3><a name="3345" href="#3345">3345</a><sup><a href="https://cplusplus.github.io/LWG/issue3345">(i)</a></sup>. Incorrect usages of "models" versus "satisfies"</h3>
 <p><b>Section:</b> 18.4.9 <a href="https://wg21.link/concept.swappable">[concept.swappable]</a>, 23.3.3.2 <a href="https://wg21.link/iterator.cust.swap">[iterator.cust.swap]</a>, 23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a>, 23.4.3.2 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, 23.5.1.1 <a href="https://wg21.link/reverse.iterator">[reverse.iterator]</a>, 23.5.3.1 <a href="https://wg21.link/move.iterator">[move.iterator]</a>, 23.5.3.6 <a href="https://wg21.link/move.iter.nav">[move.iter.nav]</a>, 23.5.4.2 <a href="https://wg21.link/common.iter.types">[common.iter.types]</a>, 23.5.4.5 <a href="https://wg21.link/common.iter.nav">[common.iter.nav]</a>, 24.3 <a href="https://wg21.link/range.access">[range.access]</a>, 24.6.3.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a>, 24.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a>, 25 <a href="https://wg21.link/algorithms">[algorithms]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2019-11-23 <b>Last modified:</b> 2019-12-01</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2019-11-23 <b>Last modified:</b> 2019-12-08</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#concept.swappable">active issues</a> in [concept.swappable].</p>
 <p><b>View all other</b> <a href="lwg-index.html#concept.swappable">issues</a> in [concept.swappable].</p>
@@ -44793,6 +44801,10 @@ Note: There exists similar misusage in regard to wording for types that "meet <i
 requirements, but those are not meant to be covered as part of this issue. This additional wording 
 problem should be handled by a separate issue.
 </p>
+
+<p><i>[2019-12-08 Issue Prioritization]</i></p>
+
+<p>Priority to 2 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
