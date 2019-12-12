@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D120)</h1>
-<p><p>Revised 2019-12-12 at 18:33:22 UTC</p>
+<p><p>Revised 2019-12-12 at 18:38:59 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -165,7 +165,7 @@ ownership of it.
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 2 New issues: <a href="lwg-active.html#3355">3355</a>, <a href="lwg-active.html#3356">3356</a>.</li>
-<li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3349">3349</a>, <a href="lwg-active.html#3351">3351</a>.</li>
+<li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3349">3349</a>, <a href="lwg-active.html#3350">3350</a>, <a href="lwg-active.html#3351">3351</a>.</li>
 </ul></li>
 </ul>
 </li>
@@ -46006,13 +46006,13 @@ so this has been accepted and then overlooked by WG21 twice.
 
 <hr>
 <h3><a name="3350" href="#3350">3350</a><sup><a href="https://cplusplus.github.io/LWG/issue3350">(i)</a></sup>. Simplify return type of <tt>lexicographical_compare_three_way</tt></h3>
-<p><b>Section:</b> 25.7.11 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-12-04 <b>Last modified:</b> 2019-12-07</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 25.7.11 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-12-04 <b>Last modified:</b> 2019-12-12</p>
+<p><b>Priority: </b>0
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#alg.three.way">active issues</a> in [alg.three.way].</p>
 <p><b>View all other</b> <a href="lwg-index.html#alg.three.way">issues</a> in [alg.three.way].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The current return type is:
@@ -46039,6 +46039,10 @@ in that case anyway, as we have:
 So the only effect of the complicated return type seems to be to cause the return type to be deduced as 
 <tt>void</tt> for specializations of the function template that are ill-formed if called. That doesn't seem useful.
 </p>
+
+<p><i>[2019-12-12 Issue Prioritization]</i></p>
+
+<p>Status to Tentatively Ready and priority to 0 after seven positive votes on the reflector.</p>
 
 
 <p><b>Proposed resolution:</b></p>

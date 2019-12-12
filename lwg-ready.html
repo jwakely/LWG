@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2019-12-12 at 18:33:22 UTC</p>
+<td align="left"><p>Revised 2019-12-12 at 18:38:59 UTC</p>
 </td>
 </tr>
 <tr>
@@ -3215,6 +3215,95 @@ so this has been accepted and then overlooked by WG21 twice.
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3350" href="#3350">3350</a><sup><a href="https://cplusplus.github.io/LWG/issue3350">(i)</a></sup>. Simplify return type of <tt>lexicographical_compare_three_way</tt></h3>
+<p><b>Section:</b> 25.7.11 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-12-04 <b>Last modified:</b> 2019-12-12</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#alg.three.way">active issues</a> in [alg.three.way].</p>
+<p><b>View all other</b> <a href="lwg-index.html#alg.three.way">issues</a> in [alg.three.way].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The current return type is:
+</p>
+<blockquote><pre>
+common_comparison_category_t&lt;decltype(comp(*b1, *b2)), strong_ordering&gt;
+</pre></blockquote>
+<p>
+Finding the common category with <tt>strong_ordering</tt> doesn't do anything. The common category of <tt>X</tt> 
+and <tt>strong_ordering</tt> is always <tt>X</tt>, so we can simplify it to:
+</p>
+<blockquote><pre>
+common_comparison_category_t&lt;decltype(comp(*b1, *b2))&gt;
+</pre></blockquote>
+<p>
+This can further be simplified, because the common category of any comparison category type is just that type. 
+If it's not a comparison category then the result would be <tt>void</tt>, but the function would be ill-formed 
+in that case anyway, as we have:
+</p>
+<blockquote><p>
+<i>Mandates:</i> <tt>decltype(comp(*b1, *b2))</tt> is a comparison category type.
+</p></blockquote>
+<p>
+So the only effect of the complicated return type seems to be to cause the return type to be deduced as 
+<tt>void</tt> for specializations of the function template that are ill-formed if called. That doesn't seem useful.
+</p>
+
+<p><i>[2019-12-12 Issue Prioritization]</i></p>
+
+<p>Status to Tentatively Ready and priority to 0 after seven positive votes on the reflector.</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4842">N4842</a>.</p>
+
+<ol>
+<li><p>Modify 25.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a> as indicated:</p>
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 25.7.11 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a>, three-way comparison algorithms</i>
+template&lt;class InputIterator1, class InputIterator2, class Cmp&gt;
+  constexpr auto
+    lexicographical_compare_three_way(InputIterator1 b1, InputIterator1 e1,
+                                      InputIterator2 b2, InputIterator2 e2,
+                                      Cmp comp)
+      -&gt; <del>common_comparison_category_t&lt;</del>decltype(comp(*b1, *b2))<del>, strong_ordering&gt;</del>;
+template&lt;class InputIterator1, class InputIterator2&gt;
+  constexpr auto
+    lexicographical_compare_three_way(InputIterator1 b1, InputIterator1 e1,
+                                      InputIterator2 b2, InputIterator2 e2);
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 25.7.11 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class InputIterator1, class InputIterator2, class Cmp&gt;
+  constexpr auto
+    lexicographical_compare_three_way(InputIterator1 b1, InputIterator1 e1,
+                                      InputIterator2 b2, InputIterator2 e2,
+                                      Cmp comp)
+      -&gt; <del>common_comparison_category_t&lt;</del>decltype(comp(*b1, *b2))<del>, strong_ordering&gt;</del>;
+</pre>
+<blockquote>
+<p>
+-1- <i>Mandates:</i> <tt>decltype(comp(*b1, *b2))</tt> is a comparison category type.
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
 </ol>
 
 
