@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2019-12-15 at 11:53:47 UTC</p>
+<p><p>Revised 2019-12-15 at 14:25:53 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39760,7 +39760,7 @@ merely an expression)</p></li>
 <hr>
 <h3><a name="3343" href="#3343">3343</a><sup><a href="https://cplusplus.github.io/LWG/issue3343">(i)</a></sup>. Ordering of calls to <tt>unlock()</tt> and <tt>notify_all()</tt> in <i>Effects</i> element of <tt>notify_all_at_thread_exit()</tt> should be reversed</h3>
 <p><b>Section:</b> 32.6.2 <a href="https://wg21.link/thread.condition.nonmember">[thread.condition.nonmember]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Lewis Baker <b>Opened:</b> 2019-11-21 <b>Last modified:</b> 2019-12-08</p>
+ <b>Submitter:</b> Lewis Baker <b>Opened:</b> 2019-11-21 <b>Last modified:</b> 2019-12-15</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -39875,9 +39875,12 @@ the call to <tt>cv.notify_all()</tt>.
 
 <p>Priority to 3 after reflector discussion.</p>
 
+<p><i>[2019-12-15; Daniel synchronizes wording with <a href="https://wg21.link/n4842">N4842</a>]</i></p>
+
+
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
+<p>This wording is relative to <a href="https://wg21.link/n4842">N4842</a>.</p>
 
 <ol>
 <li><p>Change 32.6.2 <a href="https://wg21.link/thread.condition.nonmember">[thread.condition.nonmember]</a> as indicated:</p>
@@ -39893,7 +39896,7 @@ void notify_all_at_thread_exit(condition_variable&amp; cond, unique_lock&lt;mute
 -2- <i>Effects:</i> Transfers ownership of the lock associated with <tt>lk</tt> into internal 
 storage and schedules <tt>cond</tt> to be notified when the current thread exits, after all 
 objects of thread storage duration associated with the current thread have been destroyed. 
-This notification shall be as if:
+This notification is equivalent to:
 </p>
 <blockquote><pre>
 <del>lk.unlock();</del>
