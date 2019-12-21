@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D120)</h1>
-<p><p>Revised 2019-12-21 at 14:34:33 UTC</p>
+<p><p>Revised 2019-12-21 at 14:58:25 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D120: 2020-01-13 pre-Prague mailing<ul>
 <li><b>Summary:</b><ul>
-<li>382 open issues, up by 6.</li>
+<li>383 open issues, up by 7.</li>
 <li>2465 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2882 issues total, up by 6.</li>
+<li>2883 issues total, up by 7.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3356">3356</a>.</li>
-<li>Added the following 5 New issues: <a href="lwg-active.html#3355">3355</a>, <a href="lwg-active.html#3357">3357</a>, <a href="lwg-active.html#3358">3358</a>, <a href="lwg-active.html#3359">3359</a>, <a href="lwg-active.html#3360">3360</a>.</li>
+<li>Added the following 6 New issues: <a href="lwg-active.html#3355">3355</a>, <a href="lwg-active.html#3357">3357</a>, <a href="lwg-active.html#3358">3358</a>, <a href="lwg-active.html#3359">3359</a>, <a href="lwg-active.html#3360">3360</a>, <a href="lwg-active.html#3361">3361</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3349">3349</a>, <a href="lwg-active.html#3350">3350</a>, <a href="lwg-active.html#3351">3351</a>.</li>
 <li>Changed the following issue to Tentatively Resolved (from Ready): <a href="lwg-active.html#3322">3322</a>.</li>
 </ul></li>
@@ -47094,6 +47094,58 @@ template&lt;class T, class U, class Cat = partial_ordering&gt;
       { u &lt;=&gt; t } -&gt; <i>compares-as</i>&lt;Cat&gt;;
     };
 </pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3361" href="#3361">3361</a><sup><a href="https://cplusplus.github.io/LWG/issue3361">(i)</a></sup>. <tt>safe_range&lt;<i>SomeRange</i>&amp;></tt> case</h3>
+<p><b>Section:</b> 24.4.2 <a href="https://wg21.link/range.range">[range.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2019-12-19 <b>Last modified:</b> 2019-12-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+24.5.4 <a href="https://wg21.link/range.dangling">[range.dangling]</a> p2 hints at how <tt>safe_range</tt> should allow lvalue ranges to model it. 
+However, its wording doesn't take into account that case.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4842">N4842</a>.</p>
+
+<ol>
+<li><p>Modify 24.4.2 <a href="https://wg21.link/range.range">[range.range]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt;
+  concept safe_range =
+    range&lt;T&gt; &amp;&amp;
+      (is_lvalue_reference_v&lt;T&gt; || enable_safe_range&lt;remove_cvref_t&lt;T&gt;&gt;);
+</pre>
+<blockquote>
+<p>
+-5- <del>Given an expression <tt>E</tt> such that <tt>decltype((E))</tt> is <tt>T</tt>,</del> <tt>T</tt> models 
+<tt>safe_range</tt> <del>only</del> <ins>if:</ins>
+<ol style="list-style-type: none">
+<li><p><ins>(5.1) &mdash; <tt>is_lvalue_reference_v&lt;T&gt;</tt> is <tt>true</tt>, or</ins></p></li>
+<li><p><ins>(5.2) &mdash; given an expression <tt>E</tt> such that <tt>decltype((E))</tt> is <tt>T</tt>,</ins>
+<del>if</del> the validity of iterators obtained from the object denoted by <tt>E</tt> is not tied to the lifetime of 
+that object.</p></li>
+</ol>
+<p/>
+-6- [<i>Note:</i> <del>Since the validity of iterators is not tied to the lifetime of an object 
+whose type models <tt>safe_range</tt>, a</del><ins>A</ins> function can accept arguments of <del>such</del> a 
+type <ins>that models <tt>safe_range</tt></ins> <del>by value</del> and return iterators obtained from it 
+without danger of dangling. &mdash; <i>end note</i>]
+</p>
+</blockquote>
 </blockquote>
 </li>
 
