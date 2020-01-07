@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D120)</h1>
-<p><p>Revised 2020-01-07 at 16:02:21 UTC</p>
+<p><p>Revised 2020-01-07 at 19:05:51 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -47322,7 +47322,7 @@ to have them have indeterminate values. We propose restoring consistency.</p>
 <pre>
   private:
     V base_<ins> = V()</ins>;                              // exposition only
-    range_difference_t&lt;V&gt; count_ = 0;           // exposition only
+    range_difference_t&lt;V&gt; count_<ins> = 0</ins>;           // exposition only
   };
 </pre>
 </blockquote>
