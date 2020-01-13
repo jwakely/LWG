@@ -21,14 +21,14 @@
 </style>
 </head>
 <body>
-<h1>C++ Standard Library Issues List (Revision D120)</h1>
+<h1>C++ Standard Library Issues List (Revision D121)</h1>
 <h1>Index by Status and Date</h1>
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>
 This document is the Index by Status and Date for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.
 </p>
-<p><p>Revised 2020-01-07 at 19:05:51 UTC</p>
+<p><p>Revised 2020-01-13 at 07:13:06 UTC</p>
 </p><h2><a name="Ready"</a>Ready (25 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -86,10 +86,37 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3330">3330</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3330"></a></td>
+<td align="left">17.12.1 [coroutine.syn]<a name="coroutine.syn"></a></td>
+<td align="left">Include <tt>&lt;compare&gt;</tt> from most library headers</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3329">3329</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3329"></a></td>
+<td align="left">18.5.4 [concept.totallyordered]<a name="concept.totallyordered"></a></td>
+<td align="left"><tt>totally_ordered_with</tt> both directly and indirectly requires <tt>common_reference_with</tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3331">3331</a></td>
 <td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3331"></a></td>
-<td align="left">18.5.4 [concept.totallyordered]<a name="concept.totallyordered"></a></td>
+<td align="left">18.5.4 [concept.totallyordered]</td>
 <td align="left">Define <tt>totally_ordered/_with</tt> in terms of <tt><i>partially-ordered-with</i></tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3303">3303</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3303"></a></td>
+<td align="left">20.10.2 [memory.syn]<a name="memory.syn"></a></td>
+<td align="left">Bad "<tt>constexpr</tt>" marker for <tt>destroy/destroy_n</tt></td>
 <td align="center">Yes</td>
 <td align="center">0</td>
 <td align="left"></td>
@@ -104,10 +131,28 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3307">3307</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3307"></a></td>
+<td align="left">20.10.10 [default.allocator]<a name="default.allocator"></a></td>
+<td align="left"><tt>std::allocator&lt;void&gt;().allocate(n)</tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3310">3310</a></td>
 <td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3310"></a></td>
 <td align="left">20.12.3.2 [mem.poly.allocator.mem]<a name="mem.poly.allocator.mem"></a></td>
 <td align="left">Replace <tt>SIZE_MAX</tt> with <tt>numeric_limits&lt;size_t&gt;::max()</tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3327">3327</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3327"></a></td>
+<td align="left">20.20.2.2 [format.string.std]<a name="format.string.std"></a></td>
+<td align="left">Format alignment specifiers vs. text direction</td>
 <td align="center">Yes</td>
 <td align="center">0</td>
 <td align="left"></td>
@@ -122,12 +167,39 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3302">3302</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3302"></a></td>
+<td align="left">24.2 [ranges.syn]<a name="ranges.syn"></a></td>
+<td align="left">Range adaptor objects <tt>keys</tt> and <tt>values</tt> are unspecified</td>
+<td align="center">Yes</td>
+<td align="center">1</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3264">3264</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3264"></a></td>
+<td align="left">24.4.3 [range.sized]<a name="range.sized"></a></td>
+<td align="left"><tt>sized_range</tt> and <tt>ranges::size</tt> redundantly use <tt>disable_sized_range</tt></td>
+<td align="center">Yes</td>
+<td align="center">1</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3326">3326</a></td>
 <td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3326"></a></td>
 <td align="left">24.4.4 [range.view]<a name="range.view"></a></td>
 <td align="left"><tt>enable_view</tt> has false positives</td>
 <td align="center">Yes</td>
 <td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3281">3281</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3281"></a></td>
+<td align="left">24.5.3 [range.subrange]<a name="range.subrange"></a></td>
+<td align="left">Conversion from <tt><i>pair-like</i></tt> types to <tt>subrange</tt> is a silent semantic promotion</td>
+<td align="center">Yes</td>
+<td align="center">1</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -193,78 +265,6 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="center">0</td>
 <td align="left"></td>
 </tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3330">3330</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3330"></a></td>
-<td align="left">17.12.1 [coroutine.syn]<a name="coroutine.syn"></a></td>
-<td align="left">Include <tt>&lt;compare&gt;</tt> from most library headers</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3329">3329</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3329"></a></td>
-<td align="left">18.5.4 [concept.totallyordered]<a name="concept.totallyordered"></a></td>
-<td align="left"><tt>totally_ordered_with</tt> both directly and indirectly requires <tt>common_reference_with</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3327">3327</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3327"></a></td>
-<td align="left">20.20.2.2 [format.string.std]<a name="format.string.std"></a></td>
-<td align="left">Format alignment specifiers vs. text direction</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3281">3281</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3281"></a></td>
-<td align="left">24.5.3 [range.subrange]<a name="range.subrange"></a></td>
-<td align="left">Conversion from <tt><i>pair-like</i></tt> types to <tt>subrange</tt> is a silent semantic promotion</td>
-<td align="center">Yes</td>
-<td align="center">1</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3302">3302</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3302"></a></td>
-<td align="left">24.2 [ranges.syn]<a name="ranges.syn"></a></td>
-<td align="left">Range adaptor objects <tt>keys</tt> and <tt>values</tt> are unspecified</td>
-<td align="center">Yes</td>
-<td align="center">1</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3264">3264</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3264"></a></td>
-<td align="left">24.4.3 [range.sized]<a name="range.sized"></a></td>
-<td align="left"><tt>sized_range</tt> and <tt>ranges::size</tt> redundantly use <tt>disable_sized_range</tt></td>
-<td align="center">Yes</td>
-<td align="center">1</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3303">3303</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3303"></a></td>
-<td align="left">20.10.2 [memory.syn]<a name="memory.syn"></a></td>
-<td align="left">Bad "<tt>constexpr</tt>" marker for <tt>destroy/destroy_n</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3307">3307</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3307"></a></td>
-<td align="left">20.10.10 [default.allocator]<a name="default.allocator"></a></td>
-<td align="left"><tt>std::allocator&lt;void&gt;().allocate(n)</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
 </table>
 <h2><a name="Tentatively Ready"</a>Tentatively Ready (19 issues)</h2>
 <table border="1" cellpadding="4">
@@ -278,19 +278,28 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
   <td align="center"><b>Duplicates</b></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3360">3360</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3360"></a></td>
-<td align="left">17.11.4 [cmp.concept]<a name="cmp.concept"></a></td>
-<td align="left"><tt>three_way_comparable_with</tt> is inconsistent with similar concepts</td>
+<td align="right"><a href="lwg-active.html#3349">3349</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3349"></a></td>
+<td align="left">17.3.2 [version.syn]<a name="version.syn"></a></td>
+<td align="left">Missing <tt>__cpp_lib_constexpr_complex</tt> for P0415R1</td>
 <td align="center">Yes</td>
 <td align="center">0</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3254">3254</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3254"></a></td>
-<td align="left">32.3.3 [stoptoken]<a name="stoptoken"></a></td>
-<td align="left">Strike <tt>stop_token</tt>'s <tt>operator!=</tt></td>
+<td align="right"><a href="lwg-active.html#3356">3356</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3356"></a></td>
+<td align="left">17.3.2 [version.syn]</td>
+<td align="left"><tt>__cpp_lib_nothrow_convertible</tt> should be <tt>__cpp_lib_<em>is_</em>nothrow_convertible</tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3360">3360</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3360"></a></td>
+<td align="left">17.11.4 [cmp.concept]<a name="cmp.concept"></a></td>
+<td align="left"><tt>three_way_comparable_with</tt> is inconsistent with similar concepts</td>
 <td align="center">Yes</td>
 <td align="center">0</td>
 <td align="left"></td>
@@ -302,24 +311,6 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"><tt>ConvertibleTo</tt> prose does not match code</td>
 <td align="center">Yes</td>
 <td align="center">1</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3356">3356</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3356"></a></td>
-<td align="left">17.3.2 [version.syn]<a name="version.syn"></a></td>
-<td align="left"><tt>__cpp_lib_nothrow_convertible</tt> should be <tt>__cpp_lib_<em>is_</em>nothrow_convertible</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3349">3349</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3349"></a></td>
-<td align="left">17.3.2 [version.syn]</td>
-<td align="left">Missing <tt>__cpp_lib_constexpr_complex</tt> for P0415R1</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -341,10 +332,10 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3338">3338</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3338"></a></td>
-<td align="left">18.4.12 [concept.defaultconstructible]<a name="concept.defaultconstructible"></a></td>
-<td align="left">Rename <tt>default_constructible</tt> to <tt>default_initializable</tt></td>
+<td align="right"><a href="lwg-active.html#3254">3254</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3254"></a></td>
+<td align="left">32.3.3 [stoptoken]<a name="stoptoken"></a></td>
+<td align="left">Strike <tt>stop_token</tt>'s <tt>operator!=</tt></td>
 <td align="center">Yes</td>
 <td align="center">0</td>
 <td align="left"></td>
@@ -359,19 +350,19 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3300">3300</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3300"></a></td>
-<td align="left">23.7 [iterator.range]<a name="iterator.range"></a></td>
-<td align="left">Non-array <tt>ssize</tt> overload is underconstrained</td>
+<td align="right"><a href="lwg-active.html#3285">3285</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3285"></a></td>
+<td align="left">16.4.2.2.6 [customization.point.object]<a name="customization.point.object"></a></td>
+<td align="left">The type of a customization point object shall satisfy <tt>semiregular</tt></td>
 <td align="center">Yes</td>
-<td align="center">3</td>
+<td align="center">0</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3332">3332</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3332"></a></td>
-<td align="left">27.12 [time.format]<a name="time.format"></a></td>
-<td align="left">Issue in &sect;[time.format]</td>
+<td align="right"><a href="lwg-active.html#3338">3338</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3338"></a></td>
+<td align="left">18.4.12 [concept.defaultconstructible]<a name="concept.defaultconstructible"></a></td>
+<td align="left">Rename <tt>default_constructible</tt> to <tt>default_initializable</tt></td>
 <td align="center">Yes</td>
 <td align="center">0</td>
 <td align="left"></td>
@@ -395,10 +386,38 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3284">3284</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3284"></a></td>
+<td align="left">23.3.4.13 [iterator.concept.random.access]<a name="iterator.concept.random.access"></a></td>
+<td align="left"><tt>random_access_iterator</tt> semantic constraints accidentally promote difference type
+ using unary negate</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3300">3300</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3300"></a></td>
+<td align="left">23.7 [iterator.range]<a name="iterator.range"></a></td>
+<td align="left">Non-array <tt>ssize</tt> overload is underconstrained</td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3291">3291</a></td>
 <td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3291"></a></td>
 <td align="left">24.6.3.3 [range.iota.iterator]<a name="range.iota.iterator"></a></td>
 <td align="left"><tt>iota_view::iterator</tt> has the wrong <tt>iterator_category</tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3286">3286</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3286"></a></td>
+<td align="left">24.7.6.2 [range.take.view]<a name="range.take.view"></a></td>
+<td align="left"><tt>ranges::size</tt> is not required to be valid after a call to <tt>ranges::begin</tt> on an input range</td>
 <td align="center">Yes</td>
 <td align="center">0</td>
 <td align="left"></td>
@@ -413,38 +432,19 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3332">3332</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3332"></a></td>
+<td align="left">27.12 [time.format]<a name="time.format"></a></td>
+<td align="left">Issue in &sect;[time.format]</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3296">3296</a></td>
 <td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3296"></a></td>
 <td align="left">30.8 [re.regex]<a name="re.regex"></a></td>
 <td align="left">Inconsistent default argument for <tt>basic_regex&lt;&gt;::assign</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3285">3285</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3285"></a></td>
-<td align="left">16.4.2.2.6 [customization.point.object]<a name="customization.point.object"></a></td>
-<td align="left">The type of a customization point object shall satisfy <tt>semiregular</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3284">3284</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3284"></a></td>
-<td align="left">23.3.4.13 [iterator.concept.random.access]<a name="iterator.concept.random.access"></a></td>
-<td align="left"><tt>random_access_iterator</tt> semantic constraints accidentally promote difference type
- using unary negate</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3286">3286</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3286"></a></td>
-<td align="left">24.7.6.2 [range.take.view]<a name="range.take.view"></a></td>
-<td align="left"><tt>ranges::size</tt> is not required to be valid after a call to <tt>ranges::begin</tt> on an input range</td>
 <td align="center">Yes</td>
 <td align="center">0</td>
 <td align="left"></td>
