@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-01-14 at 11:57:45 UTC</p>
+<p><p>Revised 2020-01-14 at 12:15:38 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40611,32 +40611,6 @@ inherited from <tt>view_interface</tt>.</p>
 
 </li>
 </ol>
-
-
-
-
-
-<hr>
-<h3><a name="3365" href="#3365">3365</a><sup><a href="https://cplusplus.github.io/LWG/issue3365">(i)</a></sup>. Rename <i>ref-is-glvalue</i> to <i>deref-is-ref</i></h3>
-<p><b>Section:</b> 24.7.10.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2020-01-07 <b>Last modified:</b> 2020-01-14</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.join.iterator">active issues</a> in [range.join.iterator].</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.join.iterator">issues</a> in [range.join.iterator].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>The name of <i>join_view::iterator::ref-is-glvalue</i>, defined as 
-<tt>is_reference_v&lt;range_reference_t&lt;Base&gt;&gt;</tt>, doesn't take into account 
-the fact that it may also be true because <tt>range_reference_t&lt;Base&gt;</tt>
-is an rvalue (e.g. for <tt>move_iterator&lt;int&gt;</tt>).</p>
-
-<p>We suggest renaming it to <i>deref-is-ref</i>.</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>Rename all occurrences referring to the symbol 
-<i>join_view::iterator::ref-is-glvalue</i> to <i>deref-is-ref</i>.</p>
 
 
 

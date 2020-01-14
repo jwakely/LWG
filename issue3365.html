@@ -22,15 +22,15 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">Tentatively NAD</a> status.</em></p>
 <h3><a name="3365" href="lwg-active.html#3365">3365</a>. Rename <i>ref-is-glvalue</i> to <i>deref-is-ref</i></h3>
-<p><b>Section:</b> 24.7.10.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 24.7.10.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
  <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2020-01-07 <b>Last modified:</b> 2020-01-14</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>0
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.join.iterator">active issues</a> in [range.join.iterator].</p>
 <p><b>View all other</b> <a href="lwg-index.html#range.join.iterator">issues</a> in [range.join.iterator].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>The name of <i>join_view::iterator::ref-is-glvalue</i>, defined as 
 <tt>is_reference_v&lt;range_reference_t&lt;Base&gt;&gt;</tt>, doesn't take into account 
@@ -38,6 +38,11 @@ the fact that it may also be true because <tt>range_reference_t&lt;Base&gt;</tt>
 is an rvalue (e.g. for <tt>move_iterator&lt;int&gt;</tt>).</p>
 
 <p>We suggest renaming it to <i>deref-is-ref</i>.</p>
+
+<p><i>[2020-01-14 Status set to Tentatively NAD after five positive votes on the reflector. 
+This issue was based on a misunderstanding by the submitter which had been cleared up in an 
+<a href="https://github.com/cplusplus/draft/issues/3610">related editorial issue</a>.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
