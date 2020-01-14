@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-01-14 at 13:31:12 UTC</p>
+<p><p>Revised 2020-01-14 at 13:40:50 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
@@ -2264,6 +2264,13 @@ must evaluate <tt>last - first</tt>.
 
 <p><i>[2020-01-14 Status set to Tentatively Ready after ten positive votes on the reflector.]</i></p>
 
+
+<p><i>[2020-01-14; Daniel comments]</i></p>
+
+<p>
+The fixed wording in 22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p9 depends on the no-throw-guarantee of integer-class
+conversions to integral types. This guarantee is specified by LWG <a href="lwg-active.html#3367">3367</a>.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>

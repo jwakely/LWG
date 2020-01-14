@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-01-14 at 13:31:12 UTC</p>
+<p><p>Revised 2020-01-14 at 13:40:50 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -46182,6 +46182,13 @@ must evaluate <tt>last - first</tt>.
 <p><i>[2020-01-14 Status set to Tentatively Ready after ten positive votes on the reflector.]</i></p>
 
 
+<p><i>[2020-01-14; Daniel comments]</i></p>
+
+<p>
+The fixed wording in 22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p9 depends on the no-throw-guarantee of integer-class
+conversions to integral types. This guarantee is specified by LWG <a href="lwg-active.html#3367">3367</a>.
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4842">N4842</a>.</p>
@@ -46905,6 +46912,13 @@ guarantees in algorithms, containers, and other uses of iterators and their diff
 Integer-class types must provide the same guarantees to support the same use cases as do integer types.
 </p>
 
+<p><i>[2020-01-14; Daniel comments]</i></p>
+
+<p>
+The fixed wording in LWG <a href="lwg-active.html#3358">3358</a>, 22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p9 depends on the no-throw-guarantee 
+of integer-class conversions to integral types.
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="http://wg21.link/n4842">N4842</a>.</p>
@@ -46921,12 +46935,12 @@ Integer-class types must provide the same guarantees to support the same use cas
 
 <blockquote>
 <p>
--6- <del>All</del> <ins>Expressions of</ins> integer-class type<del>s</del> are explicitly convertible to 
+-6- <del>All</del><ins>Expressions of</ins> integer-class type<del>s</del> are explicitly convertible to 
 <del>all</del><ins>any</ins> integral type<del>s and</del><ins>. Expressions of integral type are both</ins>
 implicitly and explicitly convertible <del>from all integral types</del><ins>to any integer-class type. 
 Conversions between integral and integer-class types do not exit via an exception</ins>.
 <p/>
--7- <del>All</del> <ins>Expressions <tt><i>E</i></tt> of</ins> integer-class type<del>s</del> <ins><tt>I</tt></ins> 
+-7- <del>All</del><ins>Expressions <tt><i>E</i></tt> of</ins> integer-class type<del>s</del> <ins><tt>I</tt></ins> 
 are contextually convertible to <tt>bool</tt> as if by <tt>bool(<del>a</del><ins><i>E</i></ins> != I(0))</tt><del>, 
 where <tt>a</tt> is an instance of the integral-class type <tt>I</tt></del>.
 </p>
