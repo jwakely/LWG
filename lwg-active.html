@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-01-14 at 11:34:37 UTC</p>
+<p><p>Revised 2020-01-14 at 11:57:45 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -165,7 +165,7 @@ ownership of it.
 </ul></li>
 <li><b>Details:</b><ul>
 <li>No issues added.</li>
-<li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3358">3358</a>.</li>
+<li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3358">3358</a>, <a href="lwg-active.html#3364">3364</a>.</li>
 </ul></li>
 </ul>
 </li>
@@ -46745,18 +46745,20 @@ inherited from <tt>view_interface</tt>.</p>
 
 <hr>
 <h3><a name="3364" href="#3364">3364</a><sup><a href="https://cplusplus.github.io/LWG/issue3364">(i)</a></sup>. Initialize data members of ranges and their iterators</h3>
-<p><b>Section:</b> 24.7.7.2 <a href="https://wg21.link/range.take.while.view">[range.take.while.view]</a>, 24.7.8.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a>, 24.7.9.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a>, 24.7.15.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 24.7.7.2 <a href="https://wg21.link/range.take.while.view">[range.take.while.view]</a>, 24.7.8.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a>, 24.7.9.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a>, 24.7.15.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2020-01-07 <b>Last modified:</b> 2020-01-14</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>0
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.take.while.view">active issues</a> in [range.take.while.view].</p>
 <p><b>View all other</b> <a href="lwg-index.html#range.take.while.view">issues</a> in [range.take.while.view].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
-<p>Before P1035 was accepted, no data member in [ranges] whose type could
-potentially be an aggregate or fundamental type was left without initializer. 
-P1035 left some such data members without initializer, so it is possible
-to have them have indeterminate values. We propose restoring consistency.</p>
+<p>Before <a href="http://wg21.link/p1035">P1035</a> was accepted, no data member in [ranges] whose type could
+potentially be an aggregate or fundamental type was left without initializer. P1035 left some such data members 
+without initializer, so it is possible to have them have indeterminate values. We propose restoring consistency.</p>
+
+<p><i>[2020-01-14 Status set to Tentatively Ready after five positive votes on the reflector.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -46766,13 +46768,13 @@ to have them have indeterminate values. We propose restoring consistency.</p>
 <li><p>Modify 24.7.7.2 <a href="https://wg21.link/range.take.while.view">[range.take.while.view]</a> as follows:</p>
 <blockquote>
 <pre>
-  class take_while_view : public view_interface&lt;take_while_view&lt;V, Pred&gt;&gt; {
-    template&lt;bool&gt; class sentinel;                      // exposition only
+class take_while_view : public view_interface&lt;take_while_view&lt;V, Pred&gt;&gt; {
+  template&lt;bool&gt; class sentinel;                      <i>// exposition only</i>
 
-    V base_<ins> = V()</ins>;                                      // exposition only
-    semiregular-box&lt;Pred&gt; pred_;                        // exposition only
+  V base_ <ins>= V()</ins>;                                      <i>// exposition only</i>
+  semiregular-box&lt;Pred&gt; pred_;                        <i>// exposition only</i>
 
-  public:
+public:
 </pre>
 </blockquote>
 </li>
@@ -46780,10 +46782,10 @@ to have them have indeterminate values. We propose restoring consistency.</p>
 <li><p>Modify 24.7.8.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a> as follows:</p>
 <blockquote>
 <pre>
-  private:
-    V base_<ins> = V()</ins>;                              // exposition only
-    range_difference_t&lt;V&gt; count_<ins> = 0</ins>;           // exposition only
-  };
+private:
+  V base_ <ins>= V()</ins>;                                     <i>// exposition only</i>
+  range_difference_t&lt;V&gt; count_ <ins>= 0</ins>;                  <i>// exposition only</i>
+};
 </pre>
 </blockquote>
 </li>
@@ -46791,10 +46793,10 @@ to have them have indeterminate values. We propose restoring consistency.</p>
 <li><p>Modify 24.7.9.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a> as follows:</p>
 <blockquote>
 <pre>
-  private:
-    V base_<ins> = V()</ins>;                                      // exposition only
-    semiregular-box&lt;Pred&gt; pred_;                        // exposition only
-  };
+private:
+  V base_ <ins>= V()</ins>;                                     <i>// exposition only</i>
+  semiregular-box&lt;Pred&gt; pred_;                       <i>// exposition only</i>
+};
 </pre>
 </blockquote>
 </li>
@@ -46802,12 +46804,12 @@ to have them have indeterminate values. We propose restoring consistency.</p>
 <li><p>Modify 24.7.15.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as follows:</p>
 <blockquote>
 <pre>
-  class elements_view&lt;V, N&gt;::iterator {                 // exposition only
-    using base-t = conditional_t&lt;Const, const V, V&gt;;
-    friend iterator&lt;!Const&gt;;
+class elements_view&lt;V, N&gt;::iterator {                <i>// exposition only</i>
+  using base-t = conditional_t&lt;Const, const V, V&gt;;
+  friend iterator&lt;!Const&gt;;
 
-    iterator_t&lt;base-t&gt; current_<ins> = iterator_t&lt;base-t&gt;()</ins>;
-  public:
+  iterator_t&lt;base-t&gt; current_ <ins>= iterator_t&lt;base-t&gt;()</ins>;
+public:
 </pre>
 </blockquote>
 </li>
