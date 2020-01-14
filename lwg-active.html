@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-01-14 at 12:55:13 UTC</p>
+<p><p>Revised 2020-01-14 at 13:06:01 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D121: 2020-03-02 post-Prague mailing<ul>
 <li><b>Summary:</b><ul>
-<li>380 open issues, up by 0.</li>
+<li>381 open issues, up by 1.</li>
 <li>2472 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2887 issues total, up by 0.</li>
+<li>2888 issues total, up by 1.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>No issues added.</li>
+<li>Added the following New issue: <a href="lwg-active.html#3366">3366</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3358">3358</a>, <a href="lwg-active.html#3362">3362</a>, <a href="lwg-active.html#3364">3364</a>.</li>
 <li>Changed the following issue to Tentatively NAD (from New): <a href="lwg-active.html#3365">3365</a>.</li>
 </ul></li>
@@ -46850,6 +46850,37 @@ This issue was based on a misunderstanding by the submitter which had been clear
 <p><b>Proposed resolution:</b></p>
 <p>Rename all occurrences referring to the symbol 
 <i>join_view::iterator::ref-is-glvalue</i> to <i>deref-is-ref</i>.</p>
+
+
+
+
+
+<hr>
+<h3><a name="3366" href="#3366">3366</a><sup><a href="https://cplusplus.github.io/LWG/issue3366">(i)</a></sup>. Narrowing conversions between integer and integer-class types</h3>
+<p><b>Section:</b> 23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-01-07 <b>Last modified:</b> 2020-01-14</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The working draft ignores the possibility that:
+</p>
+<ol>
+<li><p>the value of an expression of integer-class type might not be representable by the target 
+integer type of a conversion, and</p></li>
+<li><p>the value of an expression of integer type might not be representable by the target 
+integer-class type of a conversion.</p></li>
+</ol>
+<p>
+Presumably the behavior of these cases is undefined by omission; is this actually the intent?   
+<p/>
+Notably (2) could be specified away by mandating that all integer-class types are capable of 
+representing the value range of all integer types of the same signedness.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 

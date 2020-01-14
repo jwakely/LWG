@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-01-14 at 12:55:13 UTC</p>
+<p><p>Revised 2020-01-14 at 13:06:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40525,6 +40525,37 @@ inherited from <tt>view_interface</tt>.</p>
 
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3366" href="#3366">3366</a><sup><a href="https://cplusplus.github.io/LWG/issue3366">(i)</a></sup>. Narrowing conversions between integer and integer-class types</h3>
+<p><b>Section:</b> 23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-01-07 <b>Last modified:</b> 2020-01-14</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The working draft ignores the possibility that:
+</p>
+<ol>
+<li><p>the value of an expression of integer-class type might not be representable by the target 
+integer type of a conversion, and</p></li>
+<li><p>the value of an expression of integer type might not be representable by the target 
+integer-class type of a conversion.</p></li>
+</ol>
+<p>
+Presumably the behavior of these cases is undefined by omission; is this actually the intent?   
+<p/>
+Notably (2) could be specified away by mandating that all integer-class types are capable of 
+representing the value range of all integer types of the same signedness.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
