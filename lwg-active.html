@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2020-01-15</td>
+  <td align="left">2020-01-16</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-01-15 at 19:09:39 UTC</p>
+<p><p>Revised 2020-01-16 at 18:51:29 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,13 +158,13 @@ ownership of it.
 <ul>
 <li>D121: 2020-03-02 post-Prague mailing<ul>
 <li><b>Summary:</b><ul>
-<li>384 open issues, up by 4.</li>
+<li>385 open issues, up by 5.</li>
 <li>2472 closed issues, up by 0.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2891 issues total, up by 4.</li>
+<li>2892 issues total, up by 5.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 4 New issues: <a href="lwg-active.html#3366">3366</a>, <a href="lwg-active.html#3367">3367</a>, <a href="lwg-active.html#3368">3368</a>, <a href="lwg-active.html#3369">3369</a>.</li>
+<li>Added the following 5 New issues: <a href="lwg-active.html#3366">3366</a>, <a href="lwg-active.html#3367">3367</a>, <a href="lwg-active.html#3368">3368</a>, <a href="lwg-active.html#3369">3369</a>, <a href="lwg-active.html#3370">3370</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3358">3358</a>, <a href="lwg-active.html#3362">3362</a>, <a href="lwg-active.html#3364">3364</a>.</li>
 <li>Changed the following issue to Tentatively NAD (from New): <a href="lwg-active.html#3365">3365</a>.</li>
 </ul></li>
@@ -47210,6 +47210,78 @@ template&lt;size_t N&gt; constexpr span(const array&lt;value_type, N&gt;&amp; ar
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3370" href="#3370">3370</a><sup><a href="https://cplusplus.github.io/LWG/issue3370">(i)</a></sup>. &sect;[cstdint.syn]p2 and &sect;[headers]p5 are not sufficiently clear</h3>
+<p><b>Section:</b> 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, 16.5.1.2 <a href="https://wg21.link/headers">[headers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Dawid Pilarski <b>Opened:</b> 2020-01-14 <b>Last modified:</b> 2020-01-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#cstdint.syn">issues</a> in [cstdint.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This issue has been submitted, because the editorial change requests 
+<a href="https://github.com/cplusplus/draft/issues/3521">c++-draft-issue 3521</a> and
+<a href="https://github.com/cplusplus/draft/pull/3528">c++-draft-pull request 3528</a>
+has been rejected as not being editorial changes:
+</p>
+<p>
+Currently given wording of 17.4.1 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>p2:
+</p>
+<blockquote><p>
+The header defines all types and macros the same as the C standard library header <tt>&lt;stdint.h&gt;</tt>.
+</p></blockquote>
+<p>
+might be understood as intended: typedefs inside <tt>stdint.h</tt> and inside <tt>cstdint</tt> in namespace 
+<tt>std::</tt> refer to the same types, but another interpretation could be, that it's understood as:
+<p/>
+Definitions in both files are done the same way (<tt>cstdint</tt> provides typedefs not in namespace 
+<tt>std</tt>, because it would be a different definition than one in <tt>stdint.h</tt>).
+<p/>
+Also 16.5.1.2 <a href="https://wg21.link/headers">[headers]</a>p5 is non sufficiently clear:
+</p>
+<blockquote><p>
+[&hellip;] the contents of each header <tt>c<i>name</i></tt> is the same as that of the corresponding header 
+<tt><i>name</i>.h</tt> [&hellip;]
+</p></blockquote>
+<p>
+As it doesn't say what does "same content" mean. For example is an implementation allowed to do following:
+</p>
+<blockquote><pre>
+// __impl.h
+typedef int __my_int;
+namespace std { typedef long __my_int; }
+
+// cname header
+#include "__impl.h"
+
+namespace std {
+  typedef __my_int uint32_t;
+}
+
+// name.h header
+#include "__impl.h"
+typedef __my_int uint32_t;
+</pre></blockquote>
+<p>
+? 
+<p/>
+In this case typedef from namespace <tt>std</tt> and from global namespace refer to different types?
+<p/>
+Proposed change:
+<p/>
+Apply wording, that will unambiguously make typedefs from namespace <tt>std</tt> refer to the same types 
+as typedefs from global namespace for all headers <tt><i>name</i>.h</tt> and their corresponding headers 
+<tt>c<i>name</i></tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
