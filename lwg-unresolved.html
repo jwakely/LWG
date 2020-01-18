@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-01-18 at 19:17:48 UTC</p>
+<p><p>Revised 2020-01-18 at 19:25:51 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41272,6 +41272,48 @@ template&lt;class T&gt;
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3376" href="#3376">3376</a><sup><a href="https://cplusplus.github.io/LWG/issue3376">(i)</a></sup>. "integer-like class type" is too restrictive</h3>
+<p><b>Section:</b> 23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-01-16 <b>Last modified:</b> 2020-01-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.concept.winc">active issues</a> in [iterator.concept.winc].</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.concept.winc">issues</a> in [iterator.concept.winc].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> says:
+</p>
+<blockquote><p>
+A type <tt>I</tt> is an <i>integer-class type</i> if it is in a set of implementation-defined class types 
+that behave as integer types do, as defined in below.
+</p></blockquote>
+<p>
+and
+</p>
+<blockquote><p>
+A type <tt>I</tt> is integer-like if it models <tt>integral&lt;I&gt;</tt> or if it is an integer-class type.
+</p></blockquote>
+<p>
+Some implementations support built-in integer types that do not necessarily model <tt>std::integral</tt>, 
+e.g. with libstdc++ whether <tt>std::is_integral_v&lt;__int128&gt;</tt> is <tt>true</tt> depends whether 
+"strict" or "extensions" mode is in use. Because <tt>__int128</tt> is not a class type, it can't be used 
+as an integer-like type in strict mode (which effectively means it can't be used at all, to avoid unwanted 
+ABI differences between modes).
+<p/>
+The requirement should be relaxed to permit non-class types which are integer-like but not one of the 
+standard integer types (nor extended integer types). If we do that, the name "integer-like class type" 
+should probably change.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 

@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3376: decay in viewable_range should be remove_cvref</title>
+<title>Issue 3376: "integer-like class type" is too restrictive</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -23,51 +23,42 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3376" href="lwg-active.html#3376">3376</a>. <tt>decay</tt> in <tt>viewable_range</tt> should be <tt>remove_cvref</tt></h3>
-<p><b>Section:</b> 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-01-14 <b>Last modified:</b> 2020-01-18</p>
+<h3><a name="3376" href="lwg-active.html#3376">3376</a>. "integer-like class type" is too restrictive</h3>
+<p><b>Section:</b> 23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-01-16 <b>Last modified:</b> 2020-01-18</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.concept.winc">active issues</a> in [iterator.concept.winc].</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.concept.winc">issues</a> in [iterator.concept.winc].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The viewable_range concept is defined in 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> as:
+23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> says:
 </p>
-<blockquote>
-<pre>
-template&lt;class T&gt;
-  concept viewable_range =
-    range&lt;T&gt; &amp;&amp; (safe_range&lt;T&gt; || view&lt;decay_t&lt;T&gt;&gt;);
-</pre>
-</blockquote>
+<blockquote><p>
+A type <tt>I</tt> is an <i>integer-class type</i> if it is in a set of implementation-defined class types 
+that behave as integer types do, as defined in below.
+</p></blockquote>
 <p>
-Since neither pointer types, array types, nor function types model <tt>view</tt>, 
-<tt>view&lt;decay_t&lt;T&gt;&gt;</tt> here could simplified to <tt>view&lt;remove_cvref_t&lt;T&gt;&gt;</tt>. 
-The use of <tt>decay_t</tt> is an artifact of the Ranges TS being based on C++14 which didn't have 
-<tt>remove_cvref_t</tt>. [Note that the proposed change is not purely editorial since the difference 
-is observable to subsumption.]
+and
+</p>
+<blockquote><p>
+A type <tt>I</tt> is integer-like if it models <tt>integral&lt;I&gt;</tt> or if it is an integer-class type.
+</p></blockquote>
+<p>
+Some implementations support built-in integer types that do not necessarily model <tt>std::integral</tt>, 
+e.g. with libstdc++ whether <tt>std::is_integral_v&lt;__int128&gt;</tt> is <tt>true</tt> depends whether 
+"strict" or "extensions" mode is in use. Because <tt>__int128</tt> is not a class type, it can't be used 
+as an integer-like type in strict mode (which effectively means it can't be used at all, to avoid unwanted 
+ABI differences between modes).
+<p/>
+The requirement should be relaxed to permit non-class types which are integer-like but not one of the 
+standard integer types (nor extended integer types). If we do that, the name "integer-like class type" 
+should probably change.
 </p>
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4842">N4842</a>.</p>
-
-<ol>
-<li><p>Modify 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> as indicated:</p>
-
-<blockquote>
-<p>
--4- The <tt>viewable_range</tt> concept specifies the requirements of a <tt>range</tt> type that can be 
-converted to a <tt>view</tt> safely.
-</p>
-<pre>
-template&lt;class T&gt;
-  concept viewable_range =
-    range&lt;T&gt; &amp;&amp; (safe_range&lt;T&gt; || view&lt;<del>decay_t</del><ins>remove_cvref</ins>&lt;T&gt;&gt;);
-</pre>
-</blockquote>
-</li>
-</ol>
 
 
 
