@@ -3,7 +3,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3373: format_to_n_result needs the "we really mean what we say" wording</title>
+<title>Issue 3373: {to,from}_chars_result and format_to_n_result need the
+ "we really mean what we say" wording</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -23,17 +24,20 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3373" href="lwg-active.html#3373">3373</a>. <tt>format_to_n_result</tt> needs the "we really mean what we say" wording</h3>
-<p><b>Section:</b> 20.20.1 <a href="https://wg21.link/format.syn">[format.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-01-16 <b>Last modified:</b> 2020-01-17</p>
+<h3><a name="3373" href="lwg-active.html#3373">3373</a>. <tt>{to,from}_chars_result</tt> and <tt>format_to_n_result</tt> need the
+ "we really mean what we say" wording</h3>
+<p><b>Section:</b> 20.19.1 <a href="https://wg21.link/charconv.syn">[charconv.syn]</a>, 20.20.1 <a href="https://wg21.link/format.syn">[format.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-01-16 <b>Last modified:</b> 2020-01-18</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View all other</b> <a href="lwg-index.html#charconv.syn">issues</a> in [charconv.syn].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-To ensure that <tt>format_to_n_result</tt> can be used in structural bindings,
-it needs the special wording we use to negate the general library permission
-to add private data members.
+To ensure that <tt>to_chars_result</tt>, <tt>from_chars_result</tt>, and
+<tt>format_to_n_result</tt> can be used in structured bindings, they need the
+special wording we use to negate the general library permission to add private
+data members and bases.
 </p>
 
 
@@ -41,6 +45,17 @@ to add private data members.
 <p>This wording is relative to <a href="http://wg21.link/n4842">N4842</a>.</p>
 
 <ol>
+<li><p>Add a paragraph at the end of 20.19.1 <a href="https://wg21.link/charconv.syn">[charconv.syn]</a> as follows:</p>
+
+<blockquote>
+<p>
+-?- The types <tt>to_chars_result</tt> and <tt>from_chars_result</tt> have the
+data members and special members specified above. They have no base classes or
+members other than those specified.
+</p>
+</blockquote>
+</li>
+
 <li><p>Add a paragraph at the end of 20.20.1 <a href="https://wg21.link/format.syn">[format.syn]</a> as follows:</p>
 
 <blockquote>
