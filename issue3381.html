@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3381" href="lwg-active.html#3381">3381</a>. <tt>begin</tt> and <tt>data</tt> must agree for <tt>contiguous_range</tt></h3>
 <p><b>Section:</b> 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-01-25 <b>Last modified:</b> 2020-01-25</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-01-25 <b>Last modified:</b> 2020-01-26</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.refinements">active issues</a> in [range.refinements].</p>
@@ -38,7 +38,7 @@ requires that <tt>ranges::data(r)</tt> be valid for a <tt>contiguous_range r</tt
 impose the obvious semantic requirement that <tt>to_address(ranges::begin(r)) == ranges::data(r)</tt>. 
 In other words, <tt>data</tt> and <tt>begin</tt> must agree so that <tt>[begin(r), end(r))</tt> and 
 the counted range <tt>data(r) + [0, size(r))</tt> (this is the new "counted range" specification 
-syntax per <a href="https://github.com/cplusplus/draft/issues/2932">workdraft isse 2932</a>) denote 
+syntax per <a href="https://github.com/cplusplus/draft/issues/2932">working draft issue 2932</a>) denote 
 the same sequence of elements.
 </p>
 
