@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2020-02-01 at 13:11:36 UTC</p>
+<td align="left"><p>Revised 2020-02-01 at 13:15:14 UTC</p>
 </td>
 </tr>
 <tr>
@@ -626,6 +626,66 @@ template&lt;size_t N&gt; constexpr span(const array&lt;value_type, N&gt;&amp; ar
 -12- <i>Postconditions:</i> <tt>size() == N &amp;&amp; data() == data(arr)</tt>.
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3371" href="#3371">3371</a><sup><a href="https://cplusplus.github.io/LWG/issue3371">(i)</a></sup>. <tt>visit_format_arg</tt> and <tt>make_format_args</tt> are not hidden friends</h3>
+<p><b>Section:</b> 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-01-16 <b>Last modified:</b> 2020-02-01</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.arg">issues</a> in [format.arg].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+After <a href="https://wg21.link/P1965R0">P1965R0</a>, friend function and function template
+declarations always introduce hidden friends under the new blanket wording in
+16.5.5.6 <a href="https://wg21.link/hidden.friends">[hidden.friends]</a>. However, 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a> contains
+"exposition only" friend declarations of <tt>visit_format_arg</tt> and <tt>make_format_args</tt>,
+and those are not intended to be hidden. The only reason to have these declarations in the first
+place is because these function templates are specified using the exposition-only private data
+members of <tt>basic_format_arg</tt>, but that's unnecessary &mdash; for example,
+<tt>shared_ptr</tt>'s constructors are not exposition-only friends of <tt>enable_shared_from_this</tt>,
+even though the former are shown as assigning to the latter's exposition-only <tt>weak_this</tt>
+private data member (see 20.11.3.1 <a href="https://wg21.link/util.smartptr.shared.const">[util.smartptr.shared.const]</a>p1).
+</p>
+
+<p><i>[2020-02-01 Status set to Tentatively Ready after five positive votes on the reflector.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4842">N4842</a>.</p>
+
+<ol>
+<li><p>Edit 20.20.5.1 <a href="https://wg21.link/format.arg">[format.arg]</a>, class template <tt>basic_format_arg</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class Context&gt;
+  class basic_format_arg {
+
+    [&hellip;]
+
+<del>    template&lt;class Visitor, class Ctx&gt;
+      friend auto visit_format_arg(Visitor&amp;&amp; vis,
+                                   basic_format_arg&lt;Ctx&gt; arg);                  // <i>exposition only</i>
+
+    template&lt;class Ctx, class... Args>
+      friend <i>format-arg-store</i>&lt;Ctx, Args...&gt;
+        make_format_args(const Args&amp;... args);                                  // <i>exposition only</i></del>
+
+    [&hellip;]
+  };
+}
+</pre>
 </blockquote>
 </li>
 </ol>
