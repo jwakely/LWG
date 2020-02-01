@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-01 at 13:25:32 UTC</p>
+<p><p>Revised 2020-02-01 at 13:40:32 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41224,6 +41224,51 @@ data members other than those specified.</ins>
 </p>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3383" href="#3383">3383</a><sup><a href="https://cplusplus.github.io/LWG/issue3383">(i)</a></sup>. &sect;[time.zone.leap.nonmembers] <tt>sys_seconds</tt> should be replaced with <tt>seconds</tt></h3>
+<p><b>Section:</b> 27.11.8.3 <a href="https://wg21.link/time.zone.leap.nonmembers">[time.zone.leap.nonmembers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2020-01-30 <b>Last modified:</b> 2020-02-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In <a href="http://wg21.link/n4849">N4849</a> 27.11.8.3 <a href="https://wg21.link/time.zone.leap.nonmembers">[time.zone.leap.nonmembers]</a>/12, the type 
+template parameter <tt>Duration</tt> is constrained by <tt>three_way_comparable_with&lt;sys_seconds&gt;</tt>. 
+However, since <tt>std::chrono::sys_seconds</tt> is a time point type and <tt>Duration</tt> must be a 
+duration type, they can never be compared directly via <tt>operator&lt;=&gt;</tt>.
+<p/>
+I guess that the actual intent is comparing <tt>Duration</tt> with the duration type of 
+<tt>std::chrono::sys_seconds</tt>, i.e. <tt>std::chrono::seconds</tt>. And thus <tt>sys_seconds</tt> 
+should be replaced with <tt>seconds</tt> here.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 27.11.8.3 <a href="https://wg21.link/time.zone.leap.nonmembers">[time.zone.leap.nonmembers]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;three_way_comparable_with&lt;<del>sys_</del>seconds&gt; Duration&gt;
+  constexpr auto operator&lt;=&gt;(const leap&amp; x, const sys_time&lt;Duration&gt;&amp; y) noexcept;
+</pre>
+<blockquote>
+<p>
+-12- <i>Returns:</i> <tt>x.date() &lt;=&gt; y</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
 </ol>
 
 
