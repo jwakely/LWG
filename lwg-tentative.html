@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-01 at 13:15:14 UTC</p>
+<p><p>Revised 2020-02-01 at 13:18:36 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
@@ -1429,6 +1429,66 @@ return vformat_to(out, loc, fmt, <del>{</del>make_format_args&lt;context&gt;(arg
 <blockquote>
 <p> -10- Let <tt>charT</tt> be <tt>decltype(fmt)::value_type</tt>.</p>
 <p> [&hellip;] </p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3374" href="#3374">3374</a><sup><a href="https://cplusplus.github.io/LWG/issue3374">(i)</a></sup>. P0653 + P1006 should have made the other <tt>std::to_address</tt> overload <tt>constexpr</tt></h3>
+<p><b>Section:</b> 20.10.4 <a href="https://wg21.link/pointer.conversion">[pointer.conversion]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2020-01-14 <b>Last modified:</b> 2020-02-01</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+While reviewing some interactions with <a href="http://wg21.link/p0653">P0653</a> + 
+<a href="http://wg21.link/p1006">P1006</a>, Billy discovered that one of the overloads was 
+missing the <tt>constexpr</tt> tag. This might be a typo or a missed merge interaction between 
+P0653 (which adds <tt>to_address</tt> with the pointer overload being <tt>constexpr</tt>) and 
+P1006 (which makes <tt>pointer_traits::pointer_to constexpr</tt>). Mail was sent the LWG reflector, 
+and Glen Fernandes, the author of P0653, indicates that this might have been an oversight.
+</p>
+
+<p><i>[2020-02-01 Status set to Tentatively Ready after seven positive votes on the reflector.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4842">N4842</a>.</p>
+
+<ol>
+<li><p>Modify 20.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 20.10.4 <a href="https://wg21.link/pointer.conversion">[pointer.conversion]</a>, pointer conversion</i>
+template&lt;class T&gt;
+  constexpr T* to_address(T* p) noexcept;
+template&lt;class Ptr&gt;
+  <ins>constexpr</ins> auto to_address(const Ptr&amp; p) noexcept;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 20.10.4 <a href="https://wg21.link/pointer.conversion">[pointer.conversion]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Ptr&gt; <ins>constexpr</ins> auto to_address(const Ptr&amp; p) noexcept;
+</pre>
+<blockquote>
+<p>
+-3- <i>Returns:</i> <tt>pointer_traits&lt;Ptr&gt;::to_address(p)</tt> if that expression is well-formed 
+(see 20.10.3.3 <a href="https://wg21.link/pointer.traits.optmem">[pointer.traits.optmem]</a>), otherwise <tt>to_address(p.operator-&gt;())</tt>.
+</p>
 </blockquote>
 </blockquote>
 </li>
