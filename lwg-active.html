@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-02-01 at 16:48:11 UTC</p>
+<p><p>Revised 2020-02-01 at 16:58:27 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -48252,6 +48252,26 @@ should be replaced with <tt>seconds</tt> here.
 <p>This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.</p>
 
 <ol>
+<li><p>Modify 27.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  namespace chrono {
+    [&hellip;]
+    template&lt;three_way_comparable_with&lt;<del>sys_</del>seconds&gt; Duration&gt;
+      auto operator&lt;=&gt;(const leap&amp; x, const sys_time&lt;Duration&gt;&amp; y);
+    [&hellip;]
+  }
+  [&hellip;]
+}
+</pre>
+<blockquote>
+</blockquote>
+</blockquote>
+</li>
+
 <li><p>Modify 27.11.8.3 <a href="https://wg21.link/time.zone.leap.nonmembers">[time.zone.leap.nonmembers]</a> as indicated:</p>
 
 <blockquote>
@@ -48266,7 +48286,6 @@ template&lt;three_way_comparable_with&lt;<del>sys_</del>seconds&gt; Duration&gt;
 </blockquote>
 </blockquote>
 </li>
-
 </ol>
 
 
