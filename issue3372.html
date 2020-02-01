@@ -22,15 +22,15 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
 <h3><a name="3372" href="lwg-active.html#3372">3372</a>. <tt>vformat_to</tt> should not try to deduce <tt>Out</tt> twice</h3>
-<p><b>Section:</b> 20.20.3 <a href="https://wg21.link/format.functions">[format.functions]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-01-16 <b>Last modified:</b> 2020-01-17</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 20.20.3 <a href="https://wg21.link/format.functions">[format.functions]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-01-16 <b>Last modified:</b> 2020-02-01</p>
+<p><b>Priority: </b>0
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.functions">active issues</a> in [format.functions].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.functions">issues</a> in [format.functions].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 <tt>vformat_to</tt> currently deduces <tt>Out</tt> from its first and last arguments.
@@ -38,6 +38,9 @@ This requires its last argument's type to be a specialization of <tt>basic_forma
 which notably prevents the use of <tt><i>format-arg-store</i></tt> arguments directly.
 This is unnecessary: we should only deduce from the first argument.
 </p>
+
+<p><i>[2020-02-01 Status set to Tentatively Ready after six positive votes on the reflector.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
