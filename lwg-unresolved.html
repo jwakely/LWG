@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-01 at 13:22:05 UTC</p>
+<p><p>Revised 2020-02-01 at 13:25:32 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40669,59 +40669,6 @@ as typedefs from global namespace for all headers <tt><i>name</i>.h</tt> and the
 <p>Priority to 3 after reflector discussion.</p>
 
 <p><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
-<h3><a name="3375" href="#3375">3375</a><sup><a href="https://cplusplus.github.io/LWG/issue3375">(i)</a></sup>. <tt>decay</tt> in <tt>viewable_range</tt> should be <tt>remove_cvref</tt></h3>
-<p><b>Section:</b> 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-01-14 <b>Last modified:</b> 2020-01-18</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.refinements">active issues</a> in [range.refinements].</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.refinements">issues</a> in [range.refinements].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The viewable_range concept is defined in 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> as:
-</p>
-<blockquote>
-<pre>
-template&lt;class T&gt;
-  concept viewable_range =
-    range&lt;T&gt; &amp;&amp; (safe_range&lt;T&gt; || view&lt;decay_t&lt;T&gt;&gt;);
-</pre>
-</blockquote>
-<p>
-Since neither pointer types, array types, nor function types model <tt>view</tt>, 
-<tt>view&lt;decay_t&lt;T&gt;&gt;</tt> here could simplified to <tt>view&lt;remove_cvref_t&lt;T&gt;&gt;</tt>. 
-The use of <tt>decay_t</tt> is an artifact of the Ranges TS being based on C++14 which didn't have 
-<tt>remove_cvref_t</tt>. [Note that the proposed change is not purely editorial since the difference 
-is observable to subsumption.]
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4842">N4842</a>.</p>
-
-<ol>
-<li><p>Modify 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> as indicated:</p>
-
-<blockquote>
-<p>
--4- The <tt>viewable_range</tt> concept specifies the requirements of a <tt>range</tt> type that can be 
-converted to a <tt>view</tt> safely.
-</p>
-<pre>
-template&lt;class T&gt;
-  concept viewable_range =
-    range&lt;T&gt; &amp;&amp; (safe_range&lt;T&gt; || view&lt;<del>decay_t</del><ins>remove_cvref</ins>&lt;T&gt;&gt;);
-</pre>
-</blockquote>
-</li>
-</ol>
 
 
 
