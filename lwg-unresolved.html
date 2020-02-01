@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-01 at 14:00:40 UTC</p>
+<p><p>Revised 2020-02-01 at 16:44:11 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41323,6 +41323,64 @@ friend constexpr range_difference_t&lt;<i>Base</i>&gt;
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3385" href="#3385">3385</a><sup><a href="https://cplusplus.github.io/LWG/issue3385">(i)</a></sup>. <tt>common_iterator</tt> is not sufficiently constrained for non-copyable iterators</h3>
+<p><b>Section:</b> 23.5.4.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Corentin Jabot <b>Opened:</b> 2020-01-31 <b>Last modified:</b> 2020-02-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+We don't actually specify anywhere that non-copyable iterators do not have a <tt>common_iterator</tt> 
+(and it would make little sense for them to as algorithms dealing with C++17 iterators are not expecting 
+non-copyable things) As it stands <tt>common_iterator</tt> can be created from move only iterator but 
+are then non-copyable themselves. <a href="http://wg21.link/p1862">P1862</a> already constrains 
+<tt>common_view</tt> in a similar fashion</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 23.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  <i>// 23.5.4 <a href="https://wg21.link/iterators.common">[iterators.common]</a>, common iterators</i>
+  template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
+    requires (!same_as&lt;I, S&gt; <ins>&amp;&amp; copyable&lt;I&gt;</ins>)
+      class common_iterator;
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.4.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a>, class template <tt>common_iterator</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
+    requires (!same_as&lt;I, S&gt; <ins>&amp;&amp; copyable&lt;I&gt;</ins>)
+  class common_iterator {
+  public:
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
 </ol>
 
 
