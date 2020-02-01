@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-01 at 13:18:36 UTC</p>
+<p><p>Revised 2020-02-01 at 13:22:05 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40669,55 +40669,6 @@ as typedefs from global namespace for all headers <tt><i>name</i>.h</tt> and the
 <p>Priority to 3 after reflector discussion.</p>
 
 <p><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
-<h3><a name="3373" href="#3373">3373</a><sup><a href="https://cplusplus.github.io/LWG/issue3373">(i)</a></sup>. <tt>{to,from}_chars_result</tt> and <tt>format_to_n_result</tt> need the
- "we really mean what we say" wording</h3>
-<p><b>Section:</b> 20.19.1 <a href="https://wg21.link/charconv.syn">[charconv.syn]</a>, 20.20.1 <a href="https://wg21.link/format.syn">[format.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-01-16 <b>Last modified:</b> 2020-01-18</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#charconv.syn">issues</a> in [charconv.syn].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-To ensure that <tt>to_chars_result</tt>, <tt>from_chars_result</tt>, and
-<tt>format_to_n_result</tt> can be used in structured bindings, they need the
-special wording we use to negate the general library permission to add private
-data members and bases.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4842">N4842</a>.</p>
-
-<ol>
-<li><p>Add a paragraph at the end of 20.19.1 <a href="https://wg21.link/charconv.syn">[charconv.syn]</a> as follows:</p>
-
-<blockquote>
-<p>
--?- The types <tt>to_chars_result</tt> and <tt>from_chars_result</tt> have the
-data members and special members specified above. They have no base classes or
-members other than those specified.
-</p>
-</blockquote>
-</li>
-
-<li><p>Add a paragraph at the end of 20.20.1 <a href="https://wg21.link/format.syn">[format.syn]</a> as follows:</p>
-
-<blockquote>
-<p>
--1- The class template <tt>format_to_n_result</tt> has the template parameters,
-data members, and special members specified above. It has no base classes or
-members other than those specified.
-</p>
-</blockquote>
-</li>
-</ol>
 
 
 
