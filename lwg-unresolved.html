@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-08 at 16:00:01 UTC</p>
+<p><p>Revised 2020-02-08 at 18:30:20 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41890,7 +41890,7 @@ constexpr <ins>const</ins> I<ins>&amp;</ins> base() const &amp; <del>requires co
 
 
 <hr>
-<h3><a name="3392" href="#3392">3392</a><sup><a href="https://cplusplus.github.io/LWG/issue3392">(i)</a></sup>. Problems with <tt>ranges::distance()</tt></h3>
+<h3><a name="3392" href="#3392">3392</a><sup><a href="https://cplusplus.github.io/LWG/issue3392">(i)</a></sup>. <tt>ranges::distance()</tt> cannot be used on a move-only iterator with a sized sentinel</h3>
 <p><b>Section:</b> 23.4.3.2 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-08</p>
 <p><b>Priority: </b>Not Prioritized
@@ -41898,9 +41898,9 @@ constexpr <ins>const</ins> I<ins>&amp;</ins> base() const &amp; <del>requires co
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-It is not possible to use the two-argument overload of <tt>ranges::distance()</tt> to compute
-the distance between a move-only <tt>counted_iterator</tt> and the <tt>default_sentinel</tt>. 
-In other words, the following is invalid
+One cannot use <tt>ranges::distance(I, S)</tt> to compute the distance between a
+move-only <tt>counted_iterator</tt> and the <tt>default_sentinel</tt>. In other words,
+the following is invalid
 </p>
 <blockquote><pre>
 // iter is a counted_iterator with an move-only underlying iterator
@@ -41913,13 +41913,22 @@ and yet
 (default_sentinel - iter);
 </pre></blockquote>
 <p>
-is valid.
+is valid. The first example is invalid because <tt>ranges::distance()</tt> takes
+its first argument by value so when invoking it with an iterator lvalue
+argument the iterator must be copyable, which a move-only iterator is
+not. The second example is valid because <tt>counted_iterator::operator-()</tt>
+takes its iterator argument by <tt>const</tt> reference, so it doesn't require
+copyability of the <tt>counted_iterator</tt>.
 <p/>
-Suggested resolution:
+This incongruency poses an inconvenience in generic code which uses
+<tt>ranges::distance()</tt> to efficiently compute the distance between two
+iterators or between an iterator-sentinel pair. Although it's a bit of
+an edge case, it would be good if <tt>ranges::distance()</tt> does the right
+thing when the iterator is a move-only lvalue with a sized sentinel.
 <p/>
-For the case where <tt>S</tt> models <tt>sized_sentinel_for&lt;remove_reference_t&lt;I&gt;&gt;</tt>,
-define a constrained overload of <tt>ranges::distance(I, S)</tt> that takes its
-iterator argument by <tt>const</tt> reference instead of by value (and returns <tt>last - first</tt> as before).
+If this is worth fixing, one solution might be to define a separate
+overload of <tt>ranges::distance(I, S)</tt> that takes its arguments by <tt>const</tt>
+reference, as follows.
 </p>
 
 
@@ -41940,9 +41949,10 @@ namespace std {
     [&hellip;]
     <i>// 23.4.3.2 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
     template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
-      constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
-    <ins>template&lt;input_or_output_iterator I, sized_sentinel_for&lt;remove_reference_t&lt;I&gt;&gt; S&gt;
-      constexpr iter_difference_t&lt;remove_reference_t&lt;I&gt;&gt; distance(const I&amp; first, S last);</ins>
+      <ins>requires (!sized_sentinel_for&lt;S, I&gt;)</ins>
+        constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
+    <ins>template&lt;input_or_output_iterator I, sized_sentinel_for&lt;I&gt; S&gt;
+      constexpr iter_difference_t&lt;I&gt; distance(const I&amp; first, const S&amp; last);</ins>
     template&lt;range R&gt;
       constexpr range_difference_t&lt;R&gt; distance(R&amp;&amp; r);
     [&hellip;]
@@ -41958,27 +41968,29 @@ namespace std {
 <blockquote>
 <pre>
 template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
-  constexpr iter_difference_t&lt;I&gt; ranges::distance(I first, S last);
+  <ins>requires (!sized_sentinel_for&lt;S, I&gt;)</ins>
+    constexpr iter_difference_t&lt;I&gt; ranges::distance(I first, S last);
 </pre>
 <blockquote>
 <p>
--1- <i>Preconditions:</i> <tt>[first, last)</tt> denotes a range, or <tt>[last, first)</tt> denotes a range 
-and <tt>S</tt> and <tt>I</tt> model <tt>same_as&lt;S, I&gt; &amp;&amp; sized_sentinel_for&lt;S, I&gt;</tt>.
+-1- <i>Preconditions:</i> <tt>[first, last)</tt> denotes a range<del>, or <tt>[last, first)</tt> denotes a range 
+and <tt>S</tt> and <tt>I</tt> model <tt>same_as&lt;S, I&gt; &amp;&amp; sized_sentinel_for&lt;S, I&gt;</tt></del>.
 <p/>
--2- <i>Effects:</i> If <tt>S</tt> and <tt>I</tt> model <tt>sized_sentinel_for&lt;S, I&gt;</tt>, returns 
-<tt>(last - first)</tt>; otherwise, returns the number of increments needed to get from <tt>first</tt> to <tt>last</tt>.
+-2- <i>Effects:</i> <del>If <tt>S</tt> and <tt>I</tt> model <tt>sized_sentinel_for&lt;S, I&gt;</tt>, returns 
+<tt>(last - first)</tt>; otherwise, r</del><ins>R</ins>eturns the number of increments needed to get from 
+<tt>first</tt> to <tt>last</tt>.
 </p>
 </blockquote>
 <pre>
-<ins>template&lt;input_or_output_iterator I, sized_sentinel_for&lt;remove_reference_t&lt;I&gt;&gt; S&gt;
-  constexpr iter_difference_t&lt;remove_reference_t&lt;I&gt;&gt; ranges::distance(const I&amp; first, S last);</ins>
+<ins>template&lt;input_or_output_iterator I, sized_sentinel_for&lt;I&gt; S&gt;
+  constexpr iter_difference_t&lt;I&gt; ranges::distance(const I&amp; first, const S&amp; last);</ins>
 </pre>
 <blockquote>
 <p>
-<ins>-?- <i>Preconditions:</i> <tt>[first, last)</tt> denotes a range and <tt>S</tt> and <tt>I</tt> model 
-<tt>sized_sentinel_for&lt;S, remove_reference_t&lt;I&gt;&gt;</tt>.</ins>
+<ins>-?- <i>Preconditions:</i> <tt>[first, last)</tt> denotes a range or <tt>[last, first)</tt> denotes a 
+range and <tt>S</tt> and <tt>I</tt> model <tt>same_as&lt;S, I&gt; &amp;&amp; sized_sentinel_for&lt;S, I&gt;</tt>.</ins>
 <p/>
-<ins>-? <i>Effects:</i> returns <tt>(last - first)</tt>;</ins>
+<ins>-? <i>Effects:</i> Returns <tt>(last - first)</tt>;</ins>
 </p>
 </blockquote>
 </blockquote>
