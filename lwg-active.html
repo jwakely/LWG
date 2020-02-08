@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-02-08 at 14:51:04 UTC</p>
+<p><p>Revised 2020-02-08 at 15:22:32 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D121: 2020-03-02 post-Prague mailing<ul>
 <li><b>Summary:</b><ul>
-<li>404 open issues, up by 24.</li>
+<li>405 open issues, up by 25.</li>
 <li>2472 closed issues, up by 0.</li>
 <li>36 reassigned issues, up by 1.</li>
-<li>2912 issues total, up by 25.</li>
+<li>2913 issues total, up by 26.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 9 Tentatively Ready issues: <a href="lwg-active.html#3367">3367</a>, <a href="lwg-active.html#3368">3368</a>, <a href="lwg-active.html#3369">3369</a>, <a href="lwg-active.html#3371">3371</a>, <a href="lwg-active.html#3372">3372</a>, <a href="lwg-active.html#3373">3373</a>, <a href="lwg-active.html#3374">3374</a>, <a href="lwg-active.html#3377">3377</a>, <a href="lwg-active.html#3380">3380</a>.</li>
-<li>Added the following 14 New issues: <a href="lwg-active.html#3366">3366</a>, <a href="lwg-active.html#3370">3370</a>, <a href="lwg-active.html#3376">3376</a>, <a href="lwg-active.html#3378">3378</a>, <a href="lwg-active.html#3381">3381</a>, <a href="lwg-active.html#3382">3382</a>, <a href="lwg-active.html#3383">3383</a>, <a href="lwg-active.html#3384">3384</a>, <a href="lwg-active.html#3385">3385</a>, <a href="lwg-active.html#3386">3386</a>, <a href="lwg-active.html#3387">3387</a>, <a href="lwg-active.html#3388">3388</a>, <a href="lwg-active.html#3389">3389</a>, <a href="lwg-active.html#3390">3390</a>.</li>
+<li>Added the following 15 New issues: <a href="lwg-active.html#3366">3366</a>, <a href="lwg-active.html#3370">3370</a>, <a href="lwg-active.html#3376">3376</a>, <a href="lwg-active.html#3378">3378</a>, <a href="lwg-active.html#3381">3381</a>, <a href="lwg-active.html#3382">3382</a>, <a href="lwg-active.html#3383">3383</a>, <a href="lwg-active.html#3384">3384</a>, <a href="lwg-active.html#3385">3385</a>, <a href="lwg-active.html#3386">3386</a>, <a href="lwg-active.html#3387">3387</a>, <a href="lwg-active.html#3388">3388</a>, <a href="lwg-active.html#3389">3389</a>, <a href="lwg-active.html#3390">3390</a>, <a href="lwg-active.html#3391">3391</a>.</li>
 <li>Added the following Open issue: <a href="lwg-active.html#3375">3375</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3379">3379</a>.</li>
 <li>Changed the following 25 issues to Voting (from Ready): <a href="lwg-active.html#3264">3264</a>, <a href="lwg-active.html#3280">3280</a>, <a href="lwg-active.html#3281">3281</a>, <a href="lwg-active.html#3292">3292</a>, <a href="lwg-active.html#3302">3302</a>, <a href="lwg-active.html#3303">3303</a>, <a href="lwg-active.html#3304">3304</a>, <a href="lwg-active.html#3307">3307</a>, <a href="lwg-active.html#3310">3310</a>, <a href="lwg-active.html#3313">3313</a>, <a href="lwg-active.html#3315">3315</a>, <a href="lwg-active.html#3316">3316</a>, <a href="lwg-active.html#3317">3317</a>, <a href="lwg-active.html#3318">3318</a>, <a href="lwg-active.html#3319">3319</a>, <a href="lwg-active.html#3320">3320</a>, <a href="lwg-active.html#3321">3321</a>, <a href="lwg-active.html#3323">3323</a>, <a href="lwg-active.html#3324">3324</a>, <a href="lwg-active.html#3325">3325</a>, <a href="lwg-active.html#3326">3326</a>, <a href="lwg-active.html#3327">3327</a>, <a href="lwg-active.html#3329">3329</a>, <a href="lwg-active.html#3330">3330</a>, <a href="lwg-active.html#3331">3331</a>.</li>
@@ -48846,6 +48846,119 @@ constexpr move_iterator&lt;Iterator&gt; make_move_iterator(Iterator i);
 </li>
 
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3391" href="#3391">3391</a><sup><a href="https://cplusplus.github.io/LWG/issue3391">(i)</a></sup>. Problems with <tt>counted_iterator/move_iterator::base() const &amp;</tt></h3>
+<p><b>Section:</b> 23.5.3 <a href="https://wg21.link/move.iterators">[move.iterators]</a>, 23.5.6 <a href="https://wg21.link/iterators.counted">[iterators.counted]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#move.iterators">issues</a> in [move.iterators].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It is not possible to use the <tt>const &amp;</tt> overloads of <tt>counted_iterator::base()</tt> or
+<tt>move_iterator::base()</tt> to get at an underlying move-only iterator in order to compare it 
+against a sentinel.
+<p/>
+More concretely, assuming issue LWG <a href="lwg-active.html#3389">3389</a> is fixed, this means that
+</p>
+<blockquote><pre>
+auto v = r | views::take(5);
+ranges::begin(v) == ranges::end(v);
+</pre></blockquote>
+<p>
+is invalid when <tt>r</tt> is a <tt>view</tt> whose <tt>begin()</tt> is a move-only input iterator.
+The code is invalid because <tt>ranges::take_view::sentinel::operator==()</tt> must call 
+<tt>counted_iterator::base()</tt> to compare the underlying iterator against its sentinel, and 
+therefore this <tt>operator==()</tt> requires that the underlying iterator is <tt>copy_constructible</tt>.
+<p/>
+Suggested resolution:
+<p/>
+Make these <tt>const &amp; base()</tt> overloads return the underlying iterator by <tt>const</tt> reference.  
+Remove the <tt>copy_constructible</tt> constraint on these overloads. Perhaps the <tt>base()</tt> 
+overloads for the iterator wrappers in 24.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a> could use the same treatment?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 23.5.3.1 <a href="https://wg21.link/move.iterator">[move.iterator]</a>, class template <tt>move_iterator</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class Iterator&gt;
+  class move_iterator {
+  public:
+    using iterator_type = Iterator;
+    [&hellip;]
+    constexpr <ins>const</ins> iterator_type<ins>&amp;</ins> base() const &amp;;
+    constexpr iterator_type base() &amp;&amp;;
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.3.4 <a href="https://wg21.link/move.iter.op.conv">[move.iter.op.conv]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr <ins>const</ins> Iterator<ins>&amp;</ins> base() const &amp;;
+</pre>
+<blockquote>
+<p>
+<del>-1- <i>Constraints:</i> <tt>Iterator</tt> satisfies <tt>copy_constructible</tt>.</del>
+<p/>
+<del>-2- <i>Preconditions:</i> <tt>Iterator</tt> models <tt>copy_constructible</tt>.</del>
+<p/>
+-3- <i>Returns:</i> <tt>current</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.6.1 <a href="https://wg21.link/counted.iterator">[counted.iterator]</a>, class template <tt>counted_iterator</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;input_or_output_iterator I&gt;
+  class counted_iterator {
+  public:
+    using iterator_type = I;
+    [&hellip;]
+    constexpr <ins>const</ins> I<ins>&amp;</ins> base() const &amp; <del>requires copy_constructible&lt;I&gt;</del>;
+    constexpr I base() &amp;&amp;;
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.6.3 <a href="https://wg21.link/counted.iter.access">[counted.iter.access]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr <ins>const</ins> I<ins>&amp;</ins> base() const &amp; <del>requires copy_constructible&lt;I&gt;</del>;
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Equivalent to: <tt>return current;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
 
 
 
