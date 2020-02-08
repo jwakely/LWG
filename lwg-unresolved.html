@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-08 at 13:15:40 UTC</p>
+<p><p>Revised 2020-02-08 at 14:23:11 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41676,6 +41676,51 @@ friend constexpr <del>compare_three_way_result_t&lt;iterator_t&lt;<i>base-t</i>&
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3389" href="#3389">3389</a><sup><a href="https://cplusplus.github.io/LWG/issue3389">(i)</a></sup>. A move-only iterator still does not have a <tt>counted_iterator</tt></h3>
+<p><b>Section:</b> 23.5.6.2 <a href="https://wg21.link/counted.iter.const">[counted.iter.const]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/p1207r4">P1207R4</a> ("Movability of single-pass iterators") 
+introduces the notion of a move-only non-forward iterator and makes some changes to 
+the iterator adaptor <tt>counted_iterator</tt> in order to support move-only iterators.
+<p/>
+The problem is that the constructor of <tt>counted_iterator</tt> accepting such an iterator
+is specified as "Initializes <tt>current</tt> with <tt>i</tt>" which would attempt
+copy-constructing <tt>current</tt> from <tt>i</tt> instead of move-constructing it.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 23.5.6.2 <a href="https://wg21.link/counted.iter.const">[counted.iter.const]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr counted_iterator(I i, iter_difference_t&lt;I&gt; n);
+</pre>
+<blockquote>
+<p>
+-1- <i>Preconditions:</i> <tt>n &gt;= 0</tt>.
+<p/>
+-2- <i>Effects:</i> Initializes <tt>current</tt> with <tt><ins>std::move(</ins>i<ins>)</ins></tt> 
+and <tt>length</tt> with <tt>n</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
 </ol>
 
 
