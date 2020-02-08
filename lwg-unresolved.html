@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-08 at 14:23:11 UTC</p>
+<p><p>Revised 2020-02-08 at 14:51:04 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36669,6 +36669,8 @@ character contributes to the field width.</ins>
  <b>Submitter:</b> Bo Persson <b>Opened:</b> 2019-09-13 <b>Last modified:</b> 2019-11-04</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#move.iter.nonmember">active issues</a> in [move.iter.nonmember].</p>
+<p><b>View all other</b> <a href="lwg-index.html#move.iter.nonmember">issues</a> in [move.iter.nonmember].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -41694,9 +41696,9 @@ friend constexpr <del>compare_three_way_result_t&lt;iterator_t&lt;<i>base-t</i>&
 introduces the notion of a move-only non-forward iterator and makes some changes to 
 the iterator adaptor <tt>counted_iterator</tt> in order to support move-only iterators.
 <p/>
-The problem is that the constructor of <tt>counted_iterator</tt> accepting such an iterator
-is specified as "Initializes <tt>current</tt> with <tt>i</tt>" which would attempt
-copy-constructing <tt>current</tt> from <tt>i</tt> instead of move-constructing it.
+The problem is that the constructor of <tt>counted_iterator</tt> (23.5.6.2 <a href="https://wg21.link/counted.iter.const">[counted.iter.const]</a> p2) 
+accepting such an iterator is specified as "Initializes <tt>current</tt> with <tt>i</tt>" 
+which would attempt copy-constructing <tt>current</tt> from <tt>i</tt> instead of move-constructing it.
 </p>
 
 
@@ -41716,6 +41718,54 @@ constexpr counted_iterator(I i, iter_difference_t&lt;I&gt; n);
 <p/>
 -2- <i>Effects:</i> Initializes <tt>current</tt> with <tt><ins>std::move(</ins>i<ins>)</ins></tt> 
 and <tt>length</tt> with <tt>n</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3390" href="#3390">3390</a><sup><a href="https://cplusplus.github.io/LWG/issue3390">(i)</a></sup>. <tt>make_move_iterator()</tt> cannot be used to construct a <tt>move_iterator</tt> for a
+move-only iterator</h3>
+<p><b>Section:</b> 23.5.3.8 <a href="https://wg21.link/move.iter.nonmember">[move.iter.nonmember]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#move.iter.nonmember">active issues</a> in [move.iter.nonmember].</p>
+<p><b>View all other</b> <a href="lwg-index.html#move.iter.nonmember">issues</a> in [move.iter.nonmember].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/p1207r4">P1207R4</a> ("Movability of single-pass iterators") 
+introduces the notion of a move-only non-forward iterator and makes some changes to 
+the existing specification to realize that support.
+<p/>
+The problem is that the specification of <tt>make_move_iterator()</tt> provided in 
+23.5.3.8 <a href="https://wg21.link/move.iter.nonmember">[move.iter.nonmember]</a> p6 does attempt to construct a
+<tt>move_iterator&lt;Iterator&gt;</tt> with an lvalue of <tt>i</tt> instead
+of an rvalue, having the effect of copying it instead of moving it, thus preventing
+to accept move-only iterators.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 23.5.3.8 <a href="https://wg21.link/move.iter.nonmember">[move.iter.nonmember]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Iterator&gt;
+constexpr move_iterator&lt;Iterator&gt; make_move_iterator(Iterator i);
+</pre>
+<blockquote>
+<p>
+-6- <i>Returns:</i> <tt>move_iterator&lt;Iterator&gt;(<ins>std::move(</ins>i<ins>)</ins>)</tt>.
 </p>
 </blockquote>
 </blockquote>
