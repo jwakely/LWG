@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-07 at 16:06:20 UTC</p>
+<p><p>Revised 2020-02-08 at 11:50:11 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
@@ -1542,6 +1542,83 @@ template&lt;class Ptr&gt; <ins>constexpr</ins> auto to_address(const Ptr&amp; p)
 (see 20.10.3.3 <a href="https://wg21.link/pointer.traits.optmem">[pointer.traits.optmem]</a>), otherwise <tt>to_address(p.operator-&gt;())</tt>.
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3380" href="#3380">3380</a><sup><a href="https://cplusplus.github.io/LWG/issue3380">(i)</a></sup>. <tt>common_type</tt> and comparison categories</h3>
+<p><b>Section:</b> 20.15.7.6 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-01-23 <b>Last modified:</b> 2020-02-08</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#meta.trans.other">active issues</a> in [meta.trans.other].</p>
+<p><b>View all other</b> <a href="lwg-index.html#meta.trans.other">issues</a> in [meta.trans.other].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+There are two paragraphs in the the definition of <tt>common_type</tt>:
+</p>
+<ul>
+<li><p>Otherwise, if both <tt>D1</tt> and <tt>D2</tt> denote comparison category types 
+(17.11.2.1 <a href="https://wg21.link/cmp.categories.pre">[cmp.categories.pre]</a>), let <tt>C</tt> denote the common comparison type 
+(11.11.3 <a href="https://wg21.link/class.spaceship">[class.spaceship]</a>) of <tt>D1</tt> and <tt>D2</tt>.</p></li>
+<li><p>Otherwise, if <tt>decay_t&lt;decltype(false ? declval&lt;D1&gt;() : declval&lt;D2&gt;())&gt;</tt> 
+denotes a valid type, let <tt>C</tt> denote that type.</p></li>
+</ul>
+<p>
+<a href="https://wg21.link/p1614r2">P1614R2</a> added the first bullet so that 
+<tt>common_type_t&lt;strong_equality, T&gt;</tt> would be the same type as 
+<tt>common_comparison_category_t&lt;strong_equality, T&gt;</tt>; other cases are correctly handled 
+by the second (pre-existing) bullet. After application of <a href="https://wg21.link/p1959r0">P1959R0</a> 
+in Belfast, <tt>std::strong_equality</tt> is no more. We can now strike the first bullet without 
+changing the behavior of <tt>common_type</tt>.
+</p>
+
+<p><i>[2020-02-08 Status set to Tentatively Ready after seven positive votes on the reflector.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 20.15.7.6 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- Note A: For the <tt>common_type</tt> trait applied to a template parameter pack <tt>T</tt> of types, 
+the member <tt>type</tt> shall be either defined or not present as follows:
+</p>
+<ol style="list-style-type: none">
+<li><p>(3.1) &mdash; [&hellip;]</p></li>
+<li><p>[&hellip;]</p></li>
+<li><p>(3.3) &mdash; If <tt>sizeof...(T)</tt> is two, let the first and second types constituting <tt>T</tt> 
+be denoted by <tt>T1</tt> and <tt>T2</tt>, respectively, and let <tt>D1</tt> and <tt>D2</tt> denote the 
+same types as <tt>decay_t&lt;T1&gt;</tt> and <tt>decay_t&lt;T2&gt;</tt>, respectively.</p>
+<ol style="list-style-type: none">
+<li><p>(3.3.1) &mdash; If <tt>is_same_v&lt;T1, D1&gt;</tt> is <tt>false</tt> or <tt>is_same_v&lt;T2, D2&gt;</tt> 
+is <tt>false</tt>, let <tt>C</tt> denote the same type, if any, as <tt>common_type_t&lt;D1, D2&gt;</tt>.</p></li>
+<li><p>(3.3.2) &mdash; [<i>Note:</i> None of the following will apply if there is a specialization 
+<tt>common_type&lt;D1, D2&gt;</tt>. &mdash; <i>end note</i>]</p></li>
+<li><p><del>(3.3.3) &mdash; Otherwise, if both <tt>D1</tt> and <tt>D2</tt> denote comparison category types 
+(17.11.2.1 <a href="https://wg21.link/cmp.categories.pre">[cmp.categories.pre]</a>), let <tt>C</tt> denote the common comparison type 
+(11.11.3 <a href="https://wg21.link/class.spaceship">[class.spaceship]</a>) of <tt>D1</tt> and <tt>D2</tt>.</del></p></li>
+<li><p>(3.3.4) &mdash; Otherwise, if</p>
+<blockquote><pre>
+decay_t&lt;decltype(false ? declval&lt;D1&gt;() : declval&lt;D2&gt;())>
+</pre></blockquote>
+<p>
+denotes a valid type, let <tt>C</tt> denote that type.</p></li>
+<li><p>(3.3.5) &mdash; [&hellip;]</p></li>
+</ol>
+</li>
+<li><p>[&hellip;]</p></li>
+</ol>
 </blockquote>
 </li>
 </ol>
