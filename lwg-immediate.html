@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2020-02-10 at 18:50:44 UTC</p>
+<td align="left"><p>Revised 2020-02-10 at 19:10:44 UTC</p>
 </td>
 </tr>
 <tr>
@@ -42,5 +42,519 @@
 </tr>
 </table>
 <h2>Immediate Issues</h2>
+<hr>
+<h3><a name="3381" href="#3381">3381</a><sup><a href="https://cplusplus.github.io/LWG/issue3381">(i)</a></sup>. <tt>begin</tt> and <tt>data</tt> must agree for <tt>contiguous_range</tt></h3>
+<p><b>Section:</b> 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-01-25 <b>Last modified:</b> 2020-02-10</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.refinements">active issues</a> in [range.refinements].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.refinements">issues</a> in [range.refinements].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The definition of the <tt>contiguous_range</tt> concept in 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a>/2 
+requires that <tt>ranges::data(r)</tt> be valid for a <tt>contiguous_range r</tt>, but fails to 
+impose the obvious semantic requirement that <tt>to_address(ranges::begin(r)) == ranges::data(r)</tt>. 
+In other words, <tt>data</tt> and <tt>begin</tt> must agree so that <tt>[begin(r), end(r))</tt> and 
+the counted range <tt>data(r) + [0, size(r))</tt> (this is the new "counted range" specification 
+syntax per <a href="https://github.com/cplusplus/draft/issues/2932">working draft issue 2932</a>) denote 
+the same sequence of elements.
+</p>
+
+<p><i>[2020-02 Prioritized as IMMEDIATE Monday morning in Prague]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- <tt>contiguous_range</tt> additionally requires that the <tt>ranges::data</tt> customization point 
+(24.3.11 <a href="https://wg21.link/range.prim.data">[range.prim.data]</a>) is usable with the range.
+</p>
+<pre>
+template&lt;class T&gt;
+  concept contiguous_range =
+    random_access_range&lt;T&gt; &amp;&amp; contiguous_iterator&lt;iterator_t&lt;T&gt;&gt; &amp;&amp;
+    requires(T&amp; t) {
+      { ranges::data(t) } -&gt; same_as&lt;add_pointer_t&lt;range_reference_t&lt;T&gt;&gt;&gt;;
+    };
+</pre>
+<p>
+<ins>-?- Given an expression <tt>t</tt> such that <tt>decltype((t))</tt> is <tt>T&amp;</tt>, <tt>T</tt> 
+models <tt>contiguous_range</tt> only if <tt>(to_address(ranges::begin(t)) == ranges::data(t))</tt>.</ins>
+<p/>
+-3- The <tt>common_range</tt> concept [&hellip;]
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3384" href="#3384">3384</a><sup><a href="https://cplusplus.github.io/LWG/issue3384">(i)</a></sup>. <tt>transform_view::<i>sentinel</i></tt> has an incorrect <tt>operator-</tt></h3>
+<p><b>Section:</b> 24.7.5.4 <a href="https://wg21.link/range.transform.sentinel">[range.transform.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Ville Voutilainen <b>Opened:</b> 2020-01-31 <b>Last modified:</b> 2020-02-10</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<ol>
+<li><p><tt>transform_view::<i>iterator</i></tt> has an exposition-only member <tt><i>current_</i></tt> 
+(24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>)</p></li>
+<li><p><tt>transform_view::<i>sentinel</i></tt> has an exposition-only member <tt><i>end_</i></tt>
+(24.7.5.4 <a href="https://wg21.link/range.transform.sentinel">[range.transform.sentinel]</a>)</p></li>
+<li><p>at 24.7.5.4 <a href="https://wg21.link/range.transform.sentinel">[range.transform.sentinel]</a>/6 we have:</p></li>
+</ol>
+<pre>
+friend constexpr range_difference_t&lt;<i>Base</i>&gt;
+  operator-(const <i>sentinel</i>&amp; y, const <i>iterator</i>&lt;Const&gt;&amp; x)
+    requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;;
+</pre>
+<blockquote><p>
+<i>Effects:</i> Equivalent to: <tt>return x.<i>end_</i> - y.<i>current_</i>;</tt>
+</p></blockquote>
+<p>
+<tt>x</tt> is an <tt><i>iterator</i></tt>, so it has <tt><i>current_</i></tt>, not <tt><i>end_</i></tt>. 
+<tt>y</tt> is a <tt><i>sentinel</i></tt>, so it has <tt><i>end_</i></tt>, not <tt><i>current_</i></tt>.</p>
+
+<p><i>[2020-02 Prioritized as IMMEDIATE Monday morning in Prague]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.5.4 <a href="https://wg21.link/range.transform.sentinel">[range.transform.sentinel]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+friend constexpr range_difference_t&lt;<i>Base</i>&gt;
+  operator-(const <i>sentinel</i>&amp; y, const <i>iterator</i>&lt;Const&gt;&amp; x)
+    requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+-6- <i>Effects:</i> Equivalent to: <tt>return <del>x</del><ins>y</ins>.<i>end_</i> - <del>y</del><ins>x</ins>.<i>current_</i>;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3385" href="#3385">3385</a><sup><a href="https://cplusplus.github.io/LWG/issue3385">(i)</a></sup>. <tt>common_iterator</tt> is not sufficiently constrained for non-copyable iterators</h3>
+<p><b>Section:</b> 23.5.4.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Corentin Jabot <b>Opened:</b> 2020-01-31 <b>Last modified:</b> 2020-02-10</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+We don't actually specify anywhere that non-copyable iterators do not have a <tt>common_iterator</tt> 
+(and it would make little sense for them to as algorithms dealing with C++17 iterators are not expecting 
+non-copyable things) As it stands <tt>common_iterator</tt> can be created from move only iterator but 
+are then non-copyable themselves. <a href="https://wg21.link/p1862">P1862</a> already constrains 
+<tt>common_view</tt> in a similar fashion</p>
+
+<p><i>[2020-02 Prioritized as IMMEDIATE Monday morning in Prague]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 23.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  <i>// 23.5.4 <a href="https://wg21.link/iterators.common">[iterators.common]</a>, common iterators</i>
+  template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
+    requires (!same_as&lt;I, S&gt; <ins>&amp;&amp; copyable&lt;I&gt;</ins>)
+      class common_iterator;
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.4.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a>, class template <tt>common_iterator</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
+    requires (!same_as&lt;I, S&gt; <ins>&amp;&amp; copyable&lt;I&gt;</ins>)
+  class common_iterator {
+  public:
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3387" href="#3387">3387</a><sup><a href="https://cplusplus.github.io/LWG/issue3387">(i)</a></sup>. &sect;[range.reverse.view] <tt>reverse_view&lt;V&gt;</tt> unintentionally requires <tt>range&lt;const V&gt;</tt></h3>
+<p><b>Section:</b> 24.7.14.2 <a href="https://wg21.link/range.reverse.view">[range.reverse.view]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-04 <b>Last modified:</b> 2020-02-10</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>reverse_view&lt;V&gt;</tt> requires <tt>bidirectional_range&lt;V&gt;</tt>, but not <tt>range&lt;const V&gt;</tt>, 
+which means that <tt>iterator_t&lt;const V&gt;</tt> might be an invalid type. The return types of the 
+<tt>begin() const</tt> and <tt>end() const</tt> overloads make use of <tt>iterator_t&lt;const V&gt;</tt> 
+in a non-SFINAE context, which means that instantiating <tt>reverse_view&lt;X&gt;</tt> is ill-formed unless 
+<tt>range&lt;const X&gt;</tt> is satisfied.
+<p/>
+Code like <tt>x | views::filter(p) | views::reverse</tt> fails to compile because 
+<tt>const filter_view&lt;&hellip;&gt;</tt> does not model <tt>range</tt>, so 
+<tt>iterator_t&lt;const filter_view&lt;&hellip;&gt;&gt;</tt> is invalid.
+<p/>
+Either <tt>range&lt;const V&gt;</tt> needs to be in the class' <tt>requires</tt>-clause, or the return types 
+of the <tt>const</tt>-qualified <tt>begin()</tt> and <tt>end()</tt> need to delay use of 
+<tt>iterator_t&lt;const V&gt;</tt> until <tt>range&lt;const V&gt;</tt> is known to be satisfied.
+<p/>
+Giving these overloads an <tt>auto</tt> return type means the type is determined when the member is called. 
+The constraint <tt>common_range&lt;const V&gt;</tt> appropriately restricts the selection of these overloads, 
+so they can only be called when the type is valid. This is what <tt>cmcstl2</tt> does. <tt>range-v3</tt> 
+makes the <tt>begin() const</tt> and <tt>end() const</tt> members into function templates, so that they 
+are SFINAE contexts.
+</p>
+
+This is related to <a href="lwg-active.html#3347">3347</a>.
+<p><i>[2020-02 Prioritized as IMMEDIATE Monday morning in Prague]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.14.2 <a href="https://wg21.link/range.reverse.view">[range.reverse.view]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+    requires bidirectional_range&lt;V&gt;
+  class reverse_view : public view_interface&lt;reverse_view&lt;V&gt;&gt; {
+    [&hellip;]
+    constexpr reverse_iterator&lt;iterator_t&lt;V&gt;&gt; begin();
+    constexpr reverse_iterator&lt;iterator_t&lt;V&gt;&gt; begin() requires common_range&lt;V&gt;;
+    constexpr <del>reverse_iterator&lt;iterator_t&lt;const V&gt;&gt;</del><ins>auto</ins> begin() const
+      requires common_range&lt;const V&gt;;  
+    
+    constexpr reverse_iterator&lt;iterator_t&lt;V&gt;&gt; end();
+    constexpr <del>reverse_iterator&lt;iterator_t&lt;const V&gt;&gt;</del><ins>auto</ins> end() const
+      requires common_range&lt;const V&gt;;  
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+[&hellip;]
+</blockquote>
+<blockquote>
+<pre>
+constexpr reverse_iterator&lt;iterator_t&lt;V&gt;&gt; begin() requires common_range&lt;V&gt;;
+constexpr <del>reverse_iterator&lt;iterator_t&lt;const V&gt;&gt;</del><ins>auto</ins> begin() const
+  requires common_range&lt;const V&gt;;
+</pre>
+<blockquote>
+<p>
+-5- <i>Effects:</i> Equivalent to: <tt>return make_reverse_iterator(ranges::end(base_));</tt>
+</p>
+</blockquote>
+<pre>
+constexpr reverse_iterator&lt;iterator_t&lt;V&gt;&gt; end();
+constexpr <del>reverse_iterator&lt;iterator_t&lt;const V&gt;&gt;</del><ins>auto</ins> end() const
+  requires common_range&lt;const V&gt;;
+</pre>
+<blockquote>
+<p>
+-6- <i>Effects:</i> Equivalent to: <tt>return make_reverse_iterator(ranges::begin(base_));</tt>
+</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3388" href="#3388">3388</a><sup><a href="https://cplusplus.github.io/LWG/issue3388">(i)</a></sup>. <tt>view</tt> iterator types have ill-formed <tt>&lt;=&gt;</tt> operators</h3>
+<p><b>Section:</b> 24.6.3.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a>, 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>, 24.7.15.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-10</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.iota.iterator">active issues</a> in [range.iota.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.iota.iterator">issues</a> in [range.iota.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+24.6.3.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> and 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> and 
+24.7.15.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> all declare <tt>operator&lt;=&gt;</tt> similar to this:
+</p>
+<blockquote><pre>
+friend constexpr compare_three_way_result_t&lt;W&gt; operator&lt;=&gt;(
+    const iterator&amp; x, const iterator&amp; y)
+  requires totally_ordered&lt;W&gt; &amp;&amp; three_way_comparable&lt;W&gt;;
+</pre></blockquote>
+<p>
+Similar to issue <a href="lwg-active.html#3347">3347</a> and issue <a href="lwg-active.html#3387">3387</a>, this is ill-formed if 
+<tt>three_way_comparable&lt;W&gt;</tt> is not satisfied, because <tt>compare_three_way_result_t&lt;W&gt;</tt> 
+is invalid. This declaration is instantiated when the enclosing iterator type is instantiated, making 
+any use of <tt>iota_view&lt;W, B&gt;::iterator</tt> ill-formed when <tt>three_way_comparable&lt;W&gt;</tt> 
+is not satisfied.
+<p/>
+We can either add an exposition-only <tt><i>safe-compare-three-way-result-t</i></tt> alias that denotes 
+<tt>void</tt> or <tt>std::nonesuch</tt> for spaceship-less types, so the declaration is valid (and then 
+disabled by the constraints), or simply make them return <tt>auto</tt>.
+</p>
+
+<p><i>[2020-02 Prioritized as IMMEDIATE Monday morning in Prague]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 24.6.3.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class W, class Bound&gt;
+  struct iota_view&lt;W, Bound&gt;::<i>iterator</i> {
+    [&hellip;]
+    friend constexpr <del>compare_three_way_result_t&lt;W&gt;</del><ins>auto</ins> operator&lt;=&gt;(
+        const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      requires totally_ordered&lt;W&gt; &amp;&amp; three_way_comparable&lt;W&gt;;
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+[&hellip;]
+</blockquote>
+<blockquote>
+<pre>
+friend constexpr <del>compare_three_way_result_t&lt;W&gt;</del><ins>auto</ins>
+  operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+    requires totally_ordered&lt;W&gt; &amp;&amp; three_way_comparable&lt;W&gt;;
+</pre>
+<blockquote>
+<p>
+-19- <i>Effects:</i> Equivalent to: <tt>return x.value_ &lt;=&gt; y.value_;</tt>
+</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class V, class F&gt;
+  template&lt;bool Const&gt;
+  class transform_view&lt;V, F&gt;::<i>iterator</i> {
+    [&hellip;]
+    friend constexpr <del>compare_three_way_result_t&lt;iterator_t&lt;<i>Base</i>&gt;&gt;</del><ins>auto</ins> 
+      operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+        requires random_access_range&lt;<i>Base</i>&gt; &amp;&amp; three_way_comparable&lt;iterator_t&lt;<i>Base</i>&gt;&gt;;
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+[&hellip;]
+</blockquote>
+<blockquote>
+<pre>
+friend constexpr <del>compare_three_way_result_t&lt;iterator_t&lt;<i>Base</i>&gt;&gt;</del><ins>auto</ins>
+  operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+    requires random_access_range&lt;<i>Base</i>&gt; &amp;&amp; three_way_comparable&lt;iterator_t&lt;<i>Base</i>&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+-19- <i>Effects:</i> Equivalent to: <tt>return x.<i>current_</i> &lt;=&gt; y.<i>current_</i>;</tt>
+</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.7.15.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class V, size_t N&gt;
+  template&lt;bool Const&gt;
+  class elements_view&lt;V, N&gt;::<i>iterator</i> {
+    [&hellip;]
+    friend constexpr <del>compare_three_way_result_t&lt;iterator_t&lt;<i>base-t</i>&gt;&gt;</del><ins>auto</ins> 
+      operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+        requires random_access_range&lt;<i>base-t</i>&gt; &amp;&amp; three_way_comparable&lt;iterator_t&lt;<i>base-t</i>&gt;&gt;;
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+[&hellip;]
+</blockquote>
+<blockquote>
+<pre>
+friend constexpr <del>compare_three_way_result_t&lt;iterator_t&lt;<i>base-t</i>&gt;&gt;</del><ins>auto</ins>
+  operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+    requires random_access_range&lt;<i>base-t</i>&gt; &amp;&amp; three_way_comparable&lt;iterator_t&lt;<i>base-t</i>&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+-18- <i>Effects:</i> Equivalent to: <tt>return x.<i>current_</i> &lt;=&gt; y.<i>current_</i>;</tt>
+</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3389" href="#3389">3389</a><sup><a href="https://cplusplus.github.io/LWG/issue3389">(i)</a></sup>. A move-only iterator still does not have a <tt>counted_iterator</tt></h3>
+<p><b>Section:</b> 23.5.6.2 <a href="https://wg21.link/counted.iter.const">[counted.iter.const]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-10</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/p1207r4">P1207R4</a> ("Movability of single-pass iterators") 
+introduces the notion of a move-only non-forward iterator and makes some changes to 
+the iterator adaptor <tt>counted_iterator</tt> in order to support move-only iterators.
+<p/>
+The problem is that the constructor of <tt>counted_iterator</tt> (23.5.6.2 <a href="https://wg21.link/counted.iter.const">[counted.iter.const]</a> p2) 
+accepting such an iterator is specified as "Initializes <tt>current</tt> with <tt>i</tt>" 
+which would attempt copy-constructing <tt>current</tt> from <tt>i</tt> instead of move-constructing it.
+</p>
+
+<p><i>[2020-02 Prioritized as IMMEDIATE Monday morning in Prague]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 23.5.6.2 <a href="https://wg21.link/counted.iter.const">[counted.iter.const]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr counted_iterator(I i, iter_difference_t&lt;I&gt; n);
+</pre>
+<blockquote>
+<p>
+-1- <i>Preconditions:</i> <tt>n &gt;= 0</tt>.
+<p/>
+-2- <i>Effects:</i> Initializes <tt>current</tt> with <tt><ins>std::move(</ins>i<ins>)</ins></tt> 
+and <tt>length</tt> with <tt>n</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3390" href="#3390">3390</a><sup><a href="https://cplusplus.github.io/LWG/issue3390">(i)</a></sup>. <tt>make_move_iterator()</tt> cannot be used to construct a <tt>move_iterator</tt> for a
+move-only iterator</h3>
+<p><b>Section:</b> 23.5.3.8 <a href="https://wg21.link/move.iter.nonmember">[move.iter.nonmember]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-10</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#move.iter.nonmember">active issues</a> in [move.iter.nonmember].</p>
+<p><b>View all other</b> <a href="lwg-index.html#move.iter.nonmember">issues</a> in [move.iter.nonmember].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/p1207r4">P1207R4</a> ("Movability of single-pass iterators") 
+introduces the notion of a move-only non-forward iterator and makes some changes to 
+the existing specification to realize that support.
+<p/>
+The problem is that the specification of <tt>make_move_iterator()</tt> provided in 
+23.5.3.8 <a href="https://wg21.link/move.iter.nonmember">[move.iter.nonmember]</a> p6 does attempt to construct a
+<tt>move_iterator&lt;Iterator&gt;</tt> with an lvalue of <tt>i</tt> instead
+of an rvalue, having the effect of copying it instead of moving it, thus preventing
+to accept move-only iterators.
+</p>
+
+<p><i>[2020-02 Prioritized as IMMEDIATE Monday morning in Prague]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 23.5.3.8 <a href="https://wg21.link/move.iter.nonmember">[move.iter.nonmember]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Iterator&gt;
+constexpr move_iterator&lt;Iterator&gt; make_move_iterator(Iterator i);
+</pre>
+<blockquote>
+<p>
+-6- <i>Returns:</i> <tt>move_iterator&lt;Iterator&gt;(<ins>std::move(</ins>i<ins>)</ins>)</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
 </body>
 </html>
