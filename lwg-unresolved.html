@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-10 at 15:14:04 UTC</p>
+<p><p>Revised 2020-02-10 at 15:29:20 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40528,7 +40528,7 @@ without danger of dangling. &mdash; <i>end note</i>]
 <hr>
 <h3><a name="3363" href="#3363">3363</a><sup><a href="https://cplusplus.github.io/LWG/issue3363">(i)</a></sup>. <tt>drop_while_view</tt> should opt-out of <tt>sized_range</tt></h3>
 <p><b>Section:</b> 24.7.9.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2020-01-07 <b>Last modified:</b> 2020-02-09</p>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2020-01-07 <b>Last modified:</b> 2020-02-10</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -40544,9 +40544,23 @@ inherited from <tt>view_interface</tt>.</p>
 <p><i>[2020-01-16 Priority set to 1 after discussion on the reflector.]</i></p>
 
 
+<p><i>[2020-02-10; Prague 2020; Casey comments and provides alternative wording]</i></p>
 
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/N4842">N4842</a>.</p>
+<p>
+The fundamental issue here is that both <tt>ranges::size</tt> and <tt>view_interface::size</tt> 
+(it should be unsurprising that many of the "default" implementations of member <tt>meow</tt> in 
+<tt>view_interface</tt> look just like fallback cases of the <tt>ranges::meow</tt> CPO) have 
+a case that returns the difference of <tt>ranges::end</tt> and <tt>ranges::begin</tt>. If 
+<tt>begin</tt> and <tt>end</tt> are amortized* O(1) but not "true" O(1), then the resulting 
+<tt>size</tt> operation is amortized O(1) and not "true" O(1) as required by the 
+<tt>sized_range</tt> concept. I don't believe we can or should fix this on a case by case basis,
+but we should instead relax the complexity requirement for <tt>sized_range</tt> to be 
+handwavy-amortized O(1).
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>This wording is relative to <a href="https://wg21.link/N4849">N4849</a>.</p>
 
 <ol>
 <li><p>Add the following specialization to 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>:</p>
@@ -40566,6 +40580,29 @@ inherited from <tt>view_interface</tt>.</p>
 
   namespace views { inline constexpr unspecified drop_while = unspecified; }
 </pre>
+</blockquote>
+
+</li>
+</ol>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/N4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- Given an lvalue <tt>t</tt> of type <tt>remove_reference_t&lt;T&gt;</tt>, <tt>T</tt> models 
+<tt>sized_range</tt> only if
+</p>
+<ol style="list-style-type: none"> 
+<li><p>(2.1) &mdash; <tt>ranges::size(t)</tt> is <ins>amortized</ins> &#x1d4aa;(<tt>1</tt>), does not modify <tt>t</tt>, 
+and is equal to <tt>ranges::distance(t)</tt>, and</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
 </blockquote>
 
 </li>
