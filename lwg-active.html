@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-02-11 at 15:41:26 UTC</p>
+<p><p>Revised 2020-02-11 at 17:20:39 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -48771,8 +48771,8 @@ to actually return <tt>x.date().time_since_epoch() &lt;=&gt; y.time_since_epoch(
 <tt>duration</tt>s).
 </p>
 
-
-<p><b>Proposed resolution:</b></p>
+<strong>Previous resolution [SUPERSEDED]:</strong>
+<blockquote class="note">
 <p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
 
 <ol>
@@ -48794,6 +48794,73 @@ namespace std {
     template&lt;<del>three_way_comparable_with&lt;sys_seconds&gt;</del><ins>class</ins> Duration&gt;
       <ins>requires three_way_comparable_with&lt;sys_seconds, sys_time&lt;Duration&gt;&gt;</ins>
         <ins>constexpr</ins> auto operator&lt;=&gt;(const leap&amp; x, const sys_time&lt;Duration&gt;&amp; y) <ins>noexcept</ins>;
+    [&hellip;]
+  }
+  [&hellip;]
+}
+</pre>
+<blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 27.11.8.3 <a href="https://wg21.link/time.zone.leap.nonmembers">[time.zone.leap.nonmembers]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;<del>three_way_comparable_with&lt;sys_seconds&gt;</del><ins>class</ins> Duration&gt;
+  <ins>requires three_way_comparable_with&lt;sys_seconds, sys_time&lt;Duration&gt;&gt;</ins>
+    constexpr auto operator&lt;=&gt;(const leap&amp; x, const sys_time&lt;Duration&gt;&amp; y) noexcept;
+</pre>
+<blockquote>
+<p>
+-12- <i>Returns:</i> <tt>x.date() &lt;=&gt; y</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2020-02-11, Prague; Daniel suggests alternative wording]</i></p>
+
+<p>
+During today's LWG discussion of this issue the observation was made that there also exists a 
+mismatch regarding the <tt>noexcept</tt> specifier for both declarations, but for this second deviation
+a corresponding change does <em>not</em> seem to be a good drive-by fix candidate, because we have a
+function template here that allows supporting user-defined types, whose comparison may throw (Note 
+that the corresponding <tt>operator&lt;=&gt;</tt> or other comparison function declarations of the 
+<tt>duration</tt> and <tt>time_point</tt> templates are <em>not</em> specified as <tt>noexcept</tt> 
+function templates). The revised wording below does therefore intentionally <em>not</em> change the
+currently existing <tt>noexcept</tt>-specifier mismatch, but a separate issue should instead be
+opened for the general <tt>noexcept</tt>-specifier mismatches for all comparison function templates
+of <tt>std::chrono::leap</tt>. Daniel has volunteered to take care for this issue.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 27.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The synopsis does provide an additional drive-by fix to eliminate the mismatch of the 
+<tt>constexpr</tt> in declaration and prototype specification, but does <em>not</em> so for a similar
+mismatch of the exception-specifications of both declarations.]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  namespace chrono {
+    [&hellip;]
+    template&lt;<del>three_way_comparable_with&lt;sys_seconds&gt;</del><ins>class</ins> Duration&gt;
+      <ins>requires three_way_comparable_with&lt;sys_seconds, sys_time&lt;Duration&gt;&gt;</ins>
+        <ins>constexpr</ins> auto operator&lt;=&gt;(const leap&amp; x, const sys_time&lt;Duration&gt;&amp; y);
     [&hellip;]
   }
   [&hellip;]
