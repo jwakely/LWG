@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2020-02-10</td>
+  <td align="left">2020-02-11</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-02-10 at 21:35:38 UTC</p>
+<p><p>Revised 2020-02-11 at 12:29:58 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -49593,7 +49593,7 @@ and <tt>S</tt> and <tt>I</tt> model <tt>same_as&lt;S, I&gt; &amp;&amp; sized_sen
 <hr>
 <h3><a name="3393" href="#3393">3393</a><sup><a href="https://cplusplus.github.io/LWG/issue3393">(i)</a></sup>. Missing/incorrect feature test macro for coroutines</h3>
 <p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2020-01-25 <b>Last modified:</b> 2020-02-09</p>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2020-01-25 <b>Last modified:</b> 2020-02-11</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
@@ -49614,8 +49614,8 @@ We have a third such example in coroutines: there is library machinery that need
 the compiler has language support for it, and the end user should just check the library macro.
 </p>
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
 
 <ol>
@@ -49662,6 +49662,71 @@ the compiler has language support for it, and the end user should just check the
 [&hellip;]
 #define __cpp_lib_constexpr_vector    201907L <i>// also in &lt;vector&gt;</i>
 <ins>#define __cpp_lib_coroutines          201902L <i>// also in &lt;coroutine&gt;</i></ins>
+#define __cpp_lib_destroying_delete   201806L <i>// also in &lt;new&gt;</i>
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2020-02-11, Prague]</i></p>
+
+<p>
+LWG observed that the naming suggestion didn't follow naming conventions of SG-10 because of the plural form
+<tt>corountines</tt>. The submitter agreed with that complaint, so the revised wording uses now the singular
+form.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 15.11 <a href="https://wg21.link/cpp.predefined">[cpp.predefined]</a>, Table [tab:cpp.predefined.ft], as indicated:</p>
+
+<blockquote>
+<table border="1">
+<caption>Table 18: Feature-test macros [tab:cpp.predefined.ft]</caption>
+<tr align="center">
+<th>Macro name</th>
+<th>Value</th>
+</tr> 
+
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+
+<tr>
+<td>
+<tt>__cpp<ins>_impl</ins>_coroutine<del>s</del></tt>
+</td>
+<td>
+<tt>201902L</tt>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+
+</table>
+</blockquote>
+
+</li>
+
+<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <tt>&lt;version&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+#define __cpp_lib_constexpr_vector    201907L <i>// also in &lt;vector&gt;</i>
+<ins>#define __cpp_lib_coroutine           201902L <i>// also in &lt;coroutine&gt;</i></ins>
 #define __cpp_lib_destroying_delete   201806L <i>// also in &lt;new&gt;</i>
 [&hellip;]
 </pre>
