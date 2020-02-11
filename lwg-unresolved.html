@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-11 at 12:29:58 UTC</p>
+<p><p>Revised 2020-02-11 at 15:41:26 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40563,7 +40563,7 @@ data members other than those specified.</ins>
 <hr>
 <h3><a name="3383" href="#3383">3383</a><sup><a href="https://cplusplus.github.io/LWG/issue3383">(i)</a></sup>. &sect;[time.zone.leap.nonmembers] <tt>sys_seconds</tt> should be replaced with <tt>seconds</tt></h3>
 <p><b>Section:</b> 27.11.8.3 <a href="https://wg21.link/time.zone.leap.nonmembers">[time.zone.leap.nonmembers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2020-01-30 <b>Last modified:</b> 2020-02-10</p>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2020-01-30 <b>Last modified:</b> 2020-02-11</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -40643,7 +40643,7 @@ to actually return <tt>x.date().time_since_epoch() &lt;=&gt; y.time_since_epoch(
 <blockquote class="note">
 <p>
 The synopsis does provide an additional drive-by fix to eliminate the mismatch of the <tt>constexpr</tt>
-in declaration and prototype specification.
+and <tt>noexcept</tt> in declaration and prototype specification.
 </p>
 </blockquote>
 
@@ -40655,7 +40655,7 @@ namespace std {
     [&hellip;]
     template&lt;<del>three_way_comparable_with&lt;sys_seconds&gt;</del><ins>class</ins> Duration&gt;
       <ins>requires three_way_comparable_with&lt;sys_seconds, sys_time&lt;Duration&gt;&gt;</ins>
-        <ins>constexpr</ins> auto operator&lt;=&gt;(const leap&amp; x, const sys_time&lt;Duration&gt;&amp; y);
+        <ins>constexpr</ins> auto operator&lt;=&gt;(const leap&amp; x, const sys_time&lt;Duration&gt;&amp; y) <ins>noexcept</ins>;
     [&hellip;]
   }
   [&hellip;]
