@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-13 at 10:38:58 UTC</p>
+<p><p>Revised 2020-02-13 at 11:02:16 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -31440,46 +31440,10 @@ is <tt>remove_cv_t&lt;U&gt;</tt>.
 
 
 <hr>
-<h3><a name="3211" href="#3211">3211</a><sup><a href="https://cplusplus.github.io/LWG/issue3211">(i)</a></sup>. <tt>std::tuple&lt;&gt;</tt> should be trivially constructible</h3>
-<p><b>Section:</b> 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Louis Dionne <b>Opened:</b> 2019-05-29 <b>Last modified:</b> 2019-07-09</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
-<p><b>View all other</b> <a href="lwg-index.html#tuple.cnstr">issues</a> in [tuple.cnstr].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-That requirement is really easy to enforce, and it has been requested by users (e.g. 
-<a href="https://bugs.llvm.org/show_bug.cgi?id=41714">libc++ bug 41714</a>).
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
-
-<ol>
-<li><p>Modify 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> as indicated:</p>
-
-<blockquote>
-<p>
--4- If <tt>is_trivially_destructible_v&lt;T<sub><i>i</i></sub>&gt;</tt> is <tt>true</tt> for all 
-<tt>T<sub><i>i</i></sub></tt>, then the destructor of <tt>tuple</tt> is trivial. 
-<ins>The default constructor of <tt>tuple&lt;&gt;</tt> is trivial.</ins>
-</p>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-<hr>
 <h3><a name="3212" href="#3212">3212</a><sup><a href="https://cplusplus.github.io/LWG/issue3212">(i)</a></sup>. <tt>tuple_element_t&lt;1, const span&lt;int, 42&gt;&gt;</tt> is <tt>const int</tt></h3>
 <p><b>Section:</b> 22.7.3.9 <a href="https://wg21.link/span.tuple">[span.tuple]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-05-31 <b>Last modified:</b> 2019-07-09</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-05-31 <b>Last modified:</b> 2020-02-13</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -31488,9 +31452,89 @@ As currently specified, it uses the <i>cv</i>-qualified partial specialization, 
 adds <i>cv</i>-qualification to the element type.
 </p>
 
+<strong>Previous resolution [SUPERSEDED]:</strong>
+<blockquote class="note">
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 22.7.2 <a href="https://wg21.link/span.syn">[span.syn]</a>, header <tt>&lt;span&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 22.7.3.9 <a href="https://wg21.link/span.tuple">[span.tuple]</a>, tuple interface</i>
+template&lt;class T&gt; class tuple_size;
+template&lt;size_t I, class T&gt; class tuple_element;
+template&lt;class ElementType, size_t Extent&gt;
+  struct tuple_size&lt;span&lt;ElementType, Extent&gt;&gt;;
+template&lt;class ElementType&gt;
+  struct tuple_size&lt;span&lt;ElementType, dynamic_extent&gt;&gt;; <i>// not defined</i>
+template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;;
+<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;
+template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt;;
+template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;;</ins>
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 22.7.3.9 <a href="https://wg21.link/span.tuple">[span.tuple]</a> before p1 as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The representation style for the newly added wording follows the new style
+for <tt>tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;::type</tt>, which 
+  <a href="https://github.com/cplusplus/draft/pull/2868">had recently been changed editorially</a>.]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+template&lt;class ElementType, size_t Extent&gt;
+  struct tuple_size&lt;span&lt;ElementType, Extent&gt;&gt;
+    : integral_constant&lt;size_t, Extent&gt; { };
+
+tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;::type
+
+<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt; {
+    using type = ElementType;
+  };
+
+template&lt;size_t I, class ElementType, size_t Extent&gt;
+  struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt; {
+    using type = ElementType;
+  };
+
+template&lt;size_t I, class ElementType, size_t Extent>
+  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt; {
+    using type = ElementType;
+  };</ins>
+</pre>
+<blockquote>
+<p>
+-1- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2020-02-13, Prague]</i></p>
+
+<p>
+Wording needs to be adjusted, because we accepted <a href="http://wg21.link/p1831r1">P1831R1</a>.
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+<p>This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.</p>
 
 <ol>
 <li><p>Modify 22.7.2 <a href="https://wg21.link/span.syn">[span.syn]</a>, header <tt>&lt;span&gt;</tt> synopsis, as indicated:</p>
@@ -40231,11 +40275,12 @@ static consteval source_location current() noexcept;
 <p>
 -1- [&hellip;]
 <p/>
--2- <i>Remarks:</i> When a default member initializer is used to initialize a non-static data member, any calls to
-<tt>current</tt> should correspond to the location of the constructor or aggregate initialization that initializes
-the member. <ins>Any calls to <tt>current</tt> that appear as a default argument (9.3.3.6 <a href="https://wg21.link/dcl.fct.default">[dcl.fct.default]</a>), or as a 
-subexpression thereof, should correspond to the location of the invocation of the function that uses the default 
-argument (7.6.1.2 <a href="https://wg21.link/expr.call">[expr.call]</a>).</ins>
+-2- <i>Remarks:</i> <del>When a default member initializer is used to initialize a non-static data member, any calls to
+<tt>current</tt></del><ins>Any call to <tt>current</tt> that appears as a default member initializer (11.4 <a href="https://wg21.link/class.mem">[class.mem]</a>), 
+or as a subexpression thereof,</ins> should correspond to the location of the constructor <ins>definition</ins> or 
+aggregate initialization that <del>initializes the member</del><ins>uses the default member initializer</ins>. 
+<ins>Any call to current that appears as a default argument (9.3.3.6 <a href="https://wg21.link/dcl.fct.default">[dcl.fct.default]</a>), or as a subexpression thereof, 
+should correspond to the location of the invocation of the function that uses the default argument (7.6.1.2 <a href="https://wg21.link/expr.call">[expr.call]</a>).</ins>
 <p/>
 <del>-3- [<i>Note:</i> When used as a default argument (9.3.3.6 <a href="https://wg21.link/dcl.fct.default">[dcl.fct.default]</a>), the value of the 
 <tt>source_location</tt> will be the location of the call to <tt>current</tt> at the call site. &mdash; <i>end note</i>]</del>
