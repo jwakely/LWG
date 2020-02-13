@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-02-13 at 14:50:59 UTC</p>
+<p><p>Revised 2020-02-13 at 15:04:36 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -50142,7 +50142,7 @@ form.
 <hr>
 <h3><a name="3394" href="#3394">3394</a><sup><a href="https://cplusplus.github.io/LWG/issue3394">(i)</a></sup>. <tt>ranges::basic_istream_view::<i>iterator</i></tt> has an empty <tt>iterator_traits</tt></h3>
 <p><b>Section:</b> 24.6.4.3 <a href="https://wg21.link/range.istream.iterator">[range.istream.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-09 <b>Last modified:</b> 2020-02-10</p>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-09 <b>Last modified:</b> 2020-02-13</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.istream.iterator">active issues</a> in [range.istream.iterator].</p>
@@ -50187,8 +50187,8 @@ See also LWG <a href="lwg-active.html#3283">3283</a> and  <a href="lwg-active.ht
 <p><i>[2020-02 Prioritized as P2 Monday morning in Prague]</i></p>
 
 
-
-<p><b>Proposed resolution:</b></p>
+<strong>Previous resolution [SUPERSEDED]:</strong>
+<blockquote class="note">
 <p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
 
 <ol>
@@ -50215,6 +50215,21 @@ namespace std::ranges {
 </li>
 
 </ol>
+</blockquote>
+
+<p><i>[2020-02-13, Prague]</i></p>
+
+<p>
+LWG decided for NAD: The <tt>ranges::basic_istream_view::iterator</tt> is a move-only type 
+and thus cannot meet the <i>Cpp17</i> requirements (even <tt>output_iterator_tag</tt>), as such it should not 
+specialize <tt>iterator_traits</tt>, to avoid misleading results when it is passed to new algorithms.
+<p/>
+A related issue, LWG <a href="lwg-active.html#3397">3397</a>, is supposed to take care for a problem with the definition of the
+<tt>iterator_category</tt> member type of this template.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
@@ -50319,7 +50334,7 @@ should correspond to the location of the invocation of the function that uses th
 
 
 <hr>
-<h3><a name="3397" href="#3397">3397</a><sup><a href="https://cplusplus.github.io/LWG/issue3397">(i)</a></sup>. TBD</h3>
+<h3><a name="3397" href="#3397">3397</a><sup><a href="https://cplusplus.github.io/LWG/issue3397">(i)</a></sup>. <tt>ranges::basic_istream_view::iterator</tt> should not provide <tt>iterator_category</tt></h3>
 <p><b>Section:</b> 24.6.4.3 <a href="https://wg21.link/range.istream.iterator">[range.istream.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2020-02-13 <b>Last modified:</b> 2020-02-13</p>
 <p><b>Priority: </b>Not Prioritized
@@ -50329,7 +50344,9 @@ should correspond to the location of the invocation of the function that uses th
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-TBD
+The <tt>ranges::basic_istream_view::iterator</tt> is a move-only type, and as such it does not meets the 
+<i>Cpp17</i> iterator requirements, yet it does provides <tt>iterator_category</tt> (intended to be used for 
+<i>Cpp17</i> iterators). We should provide <tt>iterator_concept</tt> instead.
 </p>
 
 
@@ -50345,7 +50362,7 @@ namespace std::ranges {
   template&lt;class Val, class CharT, class Traits&gt;
   class basic_istream_view&lt;Val, CharT, Traits&gt;::<i>iterator</i> { <i>// exposition only</i>
   public:
-    using iterator_category = input_iterator_tag;
+    using <del>iterator_category</del><ins>iterator_concept</ins> = input_iterator_tag;
     using difference_type = ptrdiff_t;
     using value_type = Val;
 
