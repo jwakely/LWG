@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-13 at 09:01:33 UTC</p>
+<p><p>Revised 2020-02-13 at 09:10:10 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -37623,7 +37623,7 @@ template&lt;class... Args&gt;
 </ol>
 </blockquote>
 
-<p><i>[2020-02-12, Prague; LWG]</i></p>
+<p><i>[2020-02-12, Prague; LWG discussion]</i></p>
 
 <p>
 Option A is the only one we look at. Furthermore some wording refinements have been suggested that
@@ -37665,8 +37665,8 @@ by <i>arg-id</i>, the string is not a format string for <tt>args</tt>.</ins> [&h
 <ins><b>20.20.? Error reporting [format.err.report]</b></ins>
 <p/>
 <ins>-?- Formatting functions throw <tt>format_error</tt> if an argument <tt>fmt</tt> is passed 
-that is not a format string for arguments <tt>args</tt>. They propagate exceptions thrown by 
-<tt>formatter</tt> specializations and iterator operations. Failure to allocate storage is 
+that is not a format string for <tt>args</tt>. They propagate exceptions thrown by operations of
+<tt>formatter</tt> specializations and iterators. Failure to allocate storage is 
 reported by throwing an exception as described in 16.5.5.13 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a>.</ins>
 </p>
 </blockquote>
