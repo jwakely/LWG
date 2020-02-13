@@ -22,15 +22,15 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Immediate">Immediate</a> status.</em></p>
 <h3><a name="3262" href="lwg-active.html#3262">3262</a>. Formatting of negative durations is not specified</h3>
-<p><b>Section:</b> 27.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-08-18 <b>Last modified:</b> 2020-02-09</p>
+<p><b>Section:</b> 27.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-08-18 <b>Last modified:</b> 2020-02-13</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
 <p><b>View all other</b> <a href="lwg-index.html#time.format">issues</a> in [time.format].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The current specification of the formatting for <code>std::chrono::duration</code> and 
@@ -120,6 +120,8 @@ return os &lt;&lt; format(os.getloc(),
 
 <p><i>[2019-09-14; Howard improves wording]</i></p>
 
+<p><i>[2020-02; Status set to Immediate after LWG discussion Thursday in Prague. (Minor example wording cleanup)]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -154,9 +156,9 @@ before the replacement of the leftmost conversion specifier.</ins>
 <ins>[<i>Example:</i></ins>
 </p>
 <blockquote><pre>
-<ins>cout &lt;&lt; format("%T", -10'000s); <i>// prints:</i> -02:46:40
-cout &lt;&lt; format("%H:%M:%S", -10'000s); <i>// prints:</i> -02:46:40
-cout &lt;&lt; format("minutes %M, hours %H, seconds %S", -10'000s); <i>// prints:</i> minutes -46, hours 02, seconds 40</ins>
+<ins>cout &lt;&lt; format("{%:T}", -10'000s); <i>// prints:</i> -02:46:40
+cout &lt;&lt; format("{:%H:%M:%S}", -10'000s); <i>// prints:</i> -02:46:40
+cout &lt;&lt; format("{:minutes %M, hours %H, seconds %S}", -10'000s); <i>// prints:</i> minutes -46, hours 02, seconds 40</ins>
 </pre></blockquote>
 <p>
 <ins>&mdash; <i>end example</i>]</ins>

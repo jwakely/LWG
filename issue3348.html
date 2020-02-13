@@ -89,8 +89,6 @@ This is what the alternative wording tries to accomplish.
 <li><p>Modify 20.14.1 <a href="https://wg21.link/functional.syn">[functional.syn]</a>, header <tt>&lt;functional&gt;</tt> synopsis, as indicated:</p>
 <blockquote>
 <pre>
-<ins>include &lt;type_traits&gt;</ins>
-
 namespace std {
 [&hellip;]
 <del>template&lt;class T&gt; struct unwrap_reference;
@@ -198,6 +196,16 @@ struct unwrap_ref_decay;</tt></ins>
 </tr>
 </table>
 
+</li>
+
+<li><p>Insert between 20.15.7.6 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a> p1 and p2 as indicated:</p>
+<blockquote>
+<p>
+<ins>In addition to being available via inclusion of the <tt>&lt;type_traits&gt;</tt> header, the templates 
+<tt>unwrap_reference</tt>, <tt>unwrap_ref_decay</tt>, <tt>unwrap_reference_t</tt>, and <tt>unwrap_ref_decay_t</tt> 
+are available when the header <tt>&lt;functional&gt;</tt> (20.14.1 <a href="https://wg21.link/functional.syn">[functional.syn]</a>) is included.</ins>
+</p>
+</blockquote>
 </li>
 
 </ol>
