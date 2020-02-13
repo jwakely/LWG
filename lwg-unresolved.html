@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-13 at 18:15:33 UTC</p>
+<p><p>Revised 2020-02-13 at 18:37:19 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -27980,91 +27980,6 @@ not be obtained. Any exception thrown by the constructor of <tt>Service</tt></in
 
 
 <hr>
-<h3><a name="3125" href="#3125">3125</a><sup><a href="https://cplusplus.github.io/LWG/issue3125">(i)</a></sup>. <tt>duration</tt> streaming precondition should be a SFINAE condition</h3>
-<p><b>Section:</b> 27.5.10 <a href="https://wg21.link/time.duration.io">[time.duration.io]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2018-06-23 <b>Last modified:</b> 2019-07-09</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#time.duration.io">active issues</a> in [time.duration.io].</p>
-<p><b>View all other</b> <a href="lwg-index.html#time.duration.io">issues</a> in [time.duration.io].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-27.5.10 <a href="https://wg21.link/time.duration.io">[time.duration.io]</a>/1 states:
-</p>
-<blockquote>
-<pre>
-template&lt;class charT, class traits, class Rep, class Period&gt;
-  basic_ostream&lt;charT, traits&gt;&amp;
-    operator&lt;&lt;(basic_ostream&lt;charT, traits&gt;&amp; os, const duration&lt;Rep, Period&gt;&amp; d);
-</pre>
-<blockquote>
-<p>
-<i>Requires:</i> <tt>Rep</tt> is an integral type whose integer conversion rank (6.8.4 <a href="https://wg21.link/conv.rank">[conv.rank]</a>) is greater 
-than or equal to that of <tt>short</tt>, or a floating point type. <tt>charT</tt> is <tt>char</tt> or <tt>wchar_t</tt>.
-</p>
-</blockquote>
-</blockquote>
-<p>
-I think the intention was to make this a compile-time error, since all the information to make it so is available 
-at compile-time. But the wording doesn't suggest that.
-</p>
-<p><i>[2018-06-29; Daniel comments]</i></p>
-
-<p>
-The wording will be significantly simplified by the application of the new Library element <i>Constraints:</i> 
-introduced by <a href="http://wg21.link/p0788r3">P0788R3</a> and available with the post-Rapperswil working draft.
-</p>
-
-<p><i>[2018-07-20 Priority set to 2 after reflector discussion. NAD and P0 were also mentioned.]</i></p>
-
-
-<p><i>[2018-08-23 Batavia Issues processing]</i></p>
-
-<p>Marshall to talk to Howard about his intent. Status to Open</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.
-</p>
-
-<p>Change 27.5.10 <a href="https://wg21.link/time.duration.io">[time.duration.io]</a> as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note:</i> The suggested wording changes include the insertion of two bullets into the existing running text
-to improve clarification of the logic arm of the "unless"].
-</p>
-</blockquote>
-
-<blockquote>
-<pre>
-template&lt;class charT, class traits, class Rep, class Period&gt;
-  basic_ostream&lt;charT, traits&gt;&amp;
-    operator&lt;&lt;(basic_ostream&lt;charT, traits&gt;&amp; os, const duration&lt;Rep, Period&gt;&amp; d);
-</pre>
-<blockquote>
-<p>
--1- <i><del>Requires</del><ins>Remarks</ins>:</i> <ins>This function shall not participate in overload resolution 
-unless:</ins>
-</p>
-<ul>
-<li><p><tt>Rep</tt> is an integral type whose integer conversion rank (6.8.4 <a href="https://wg21.link/conv.rank">[conv.rank]</a>) is 
-greater than or equal to that of <tt>short</tt>, or a floating point type<del>.</del><ins>, and</ins></p></li>
-<li><p><tt>charT</tt> is <tt>char</tt> or <tt>wchar_t</tt></p></li>
-</ul>
-<p>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-
-
-
-
-
-<hr>
 <h3><a name="3126" href="#3126">3126</a><sup><a href="https://cplusplus.github.io/LWG/issue3126">(i)</a></sup>. There's no <tt>std::sub_match::compare(string_view)</tt> overload</h3>
 <p><b>Section:</b> 30.9 <a href="https://wg21.link/re.submatch">[re.submatch]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-06-26 <b>Last modified:</b> 2019-07-09</p>
@@ -33437,7 +33352,7 @@ various alignment options is as specified in Table [tab:format.align].
 <hr>
 <h3><a name="3255" href="#3255">3255</a><sup><a href="https://cplusplus.github.io/LWG/issue3255">(i)</a></sup>. <tt>span</tt>'s <tt>array</tt> constructor is too strict</h3>
 <p><b>Section:</b> 22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jean Guegant &amp; Barry Revzin <b>Opened:</b> 2019-08-10 <b>Last modified:</b> 2020-02-09</p>
+ <b>Submitter:</b> Jean Guegant &amp; Barry Revzin <b>Opened:</b> 2019-08-10 <b>Last modified:</b> 2020-02-13</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#span.cons">active issues</a> in [span.cons].</p>
@@ -33471,12 +33386,12 @@ The problem is that <tt>span</tt>'s constructors include
 <li><p>A constructor template that takes a <tt>const array&lt;value_type, N&gt;&amp;</tt></p></li>
 </ul>
 <p>
-So the first is excluded, and the other two don't match. We can change the array constructor templates to take an 
+So the first is excluded, and the other two don't match. We can change the array constructor templates to take an
 <tt>array&lt;T, N&gt;</tt> with the requirement that <tt>T(*)[]</tt> is convertible to <tt>ElementType(*)[]</tt>?
 <p/>
 <b>Jean Guegant:</b>
 <p/>
-It is impossible to create a <tt>std::span</tt> from a <tt>std::array&lt;const T, X&gt;</tt> given the current 
+It is impossible to create a <tt>std::span</tt> from a <tt>std::array&lt;const T, X&gt;</tt> given the current
 set of constructors of <tt>std::span</tt> (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a>):
 </p>
 <blockquote><pre>
@@ -33485,7 +33400,7 @@ std::span&lt;const int&gt; s{a}; <i>// No overload can be found.</i>
 std::span s{a}; <i>// CTAD doesn't help either.</i>
 </pre></blockquote>
 <p>
-Both constructors accepting a <tt>std::array</tt> (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p11) require the first template 
+Both constructors accepting a <tt>std::array</tt> (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p11) require the first template
 parameter of the <tt>std::array</tt> parameter to be <tt>value_type</tt>:
 </p>
 <blockquote><pre>
@@ -33493,54 +33408,62 @@ template&lt;size_t N&gt; constexpr span(array&lt;value_type, N&gt;&amp; arr) noe
 template&lt;size_t N&gt; constexpr span(const array&lt;value_type, N&gt;&amp; arr) noexcept;
 </pre></blockquote>
 <p>
-<tt>value_type</tt> being defined as <tt>remove_cv_t&lt;ElementType&gt;</tt> &mdash; this constrains the first 
+<tt>value_type</tt> being defined as <tt>remove_cv_t&lt;ElementType&gt;</tt> &mdash; this constrains the first
 template parameter not to be <tt>const</tt>.
 <p/>
-Both constructors accepting a generic <tt>Container</tt> (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p14) have a 
-constraint &mdash; (p14.3) <tt>Container</tt> is not a specialization of <tt>array</tt> &mdash; 
+Both constructors accepting a generic <tt>Container</tt> (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p14) have a
+constraint &mdash; (p14.3) <tt>Container</tt> is not a specialization of <tt>array</tt> &mdash;
 rejecting <tt>std::array</tt>.
 <p/>
-While you can call <tt>std::array&lt;const T, X&gt;::data</tt> and <tt>std::array&lt;const T, X&gt;::size</tt> 
+While you can call <tt>std::array&lt;const T, X&gt;::data</tt> and <tt>std::array&lt;const T, X&gt;::size</tt>
 to manually create a <tt>std::span</tt>, we should, in my opinion, offer a proper overload for this scenario.
 Two reasons came to my mind:
 </p>
 <ol>
-<li><p><tt>std::span</tt> handles C-arrays and <tt>std::arrays</tt> in an asymmetric way. The constructor 
-taking a C-array (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p11) is using <tt>element_type</tt> and as such can work with 
+<li><p><tt>std::span</tt> handles C-arrays and <tt>std::arrays</tt> in an asymmetric way. The constructor
+taking a C-array (22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p11) is using <tt>element_type</tt> and as such can work with
 <tt>const T</tt>:</p>
 <blockquote><pre>
 const int a[] = {1, 2, 3, 4};
 std::span&lt;const int&gt; s{a}; <i>// It works</i>
 </pre></blockquote>
 <p>
-If a user upgrades her/his code from C-arrays to a <tt>std::array</tt>s and literally take the type 
+If a user upgrades her/his code from C-arrays to a <tt>std::array</tt>s and literally take the type
 <tt>const T</tt> and use it as the first parameter of <tt>std::array</tt>, he/she will face an error.
 </p>
 </li>
-<li><p>Even if the user is aware that <tt>const std::array&lt;T, X&gt;</tt> is more idiomatic than 
-<tt>std::array&lt;const T, X&gt;</tt>, the second form may appear in the context of template 
+<li><p>Even if the user is aware that <tt>const std::array&lt;T, X&gt;</tt> is more idiomatic than
+<tt>std::array&lt;const T, X&gt;</tt>, the second form may appear in the context of template
 instantiation.</p></li>
 </ol>
 <p>
-At the time this issue is written <tt>gls::span</tt>, from which <tt>std::span</tt> is partly based on, 
-does not suffer from the same issue: Its constructor taking a generic <tt>const Container&amp;</tt> does 
-not constraint the <tt>Container</tt> not to be a <tt>std::array</tt> (although its constructor taking 
-a generic <tt>Container&amp;</tt> does). For the users willing to upgrade from <tt>gsl::span</tt> to 
+At the time this issue is written <tt>gls::span</tt>, from which <tt>std::span</tt> is partly based on,
+does not suffer from the same issue: Its constructor taking a generic <tt>const Container&amp;</tt> does
+not constraint the <tt>Container</tt> not to be a <tt>std::array</tt> (although its constructor taking
+a generic <tt>Container&amp;</tt> does). For the users willing to upgrade from <tt>gsl::span</tt> to
 <tt>std::span</tt>, this could be a breaking change.
 </p>
 
 <p><i>[2019-09-01 Priority set to 2 based on reflector discussion]</i></p>
 
 
+<p><i>[2020-02-13 Tim updates PR]</i></p>
 
-<p><b>Proposed resolution:</b></p>
+<p>
+The previous PR's change to the raw array constructor is both 1) unnecessary and 2) incorrect; it prevents
+<tt>span&lt;const int&gt;</tt> from being initialized with an <tt>int[42]</tt> xvalue.
+</p>
+
+<strong>Previous resolution: [SUPERSEDED]</strong>
+
+<blockquote class="note">
 <p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
 
 <blockquote class="note">
 <p>
-The only change is to make the constructors templated on the element type of the array as well. 
-We already have the right constraints in place. It's just that the 2nd constraint is trivially 
-satisfied today by the raw array constructor and either always or never satisfied by the <tt>std::array</tt> one. 
+The only change is to make the constructors templated on the element type of the array as well.
+We already have the right constraints in place. It's just that the 2nd constraint is trivially
+satisfied today by the raw array constructor and either always or never satisfied by the <tt>std::array</tt> one.
 </p>
 </blockquote>
 
@@ -33575,6 +33498,65 @@ public:
 <pre>
 template&lt;<ins>class T,</ins> size_t N&gt;
   constexpr span(<ins>T</ins><del>element_type</del> (&amp;arr)[N]) noexcept;
+template&lt;<ins>class T,</ins> size_t N&gt;
+  constexpr span(array&lt;<ins>T</ins><del>value_type</del>, N&gt;&amp; arr) noexcept;
+template&lt;<ins>class T,</ins> size_t N&gt;
+  constexpr span(const array&lt;<ins>T</ins><del>value_type</del>, N&gt;&amp; arr) noexcept;
+</pre>
+<blockquote>
+<p>
+-11- <i>Constraints:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p>(11.1) &mdash; <tt>extent == dynamic_extent || N == extent</tt> is <tt>true</tt>, and</p></li>
+<li><p>(11.2) &mdash; <tt>remove_pointer_t&lt;decltype(data(arr))&gt;(*)[]</tt> is convertible to <tt>ElementType(*)[]</tt>.</p></li>
+</ol>
+<p>
+-12- <i>Effects:</i> Constructs a <tt>span</tt> that is a view over the supplied array.
+<p/>
+-13- <i>Ensures:</i> <tt>size() == N &amp;&amp; data() == data(arr)</tt> <ins>is <tt>true</tt></ins>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.</p>
+<ol>
+<li><p>Modify 22.7.3.1 <a href="https://wg21.link/span.overview">[span.overview]</a>, class template <tt>span</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class ElementType, size_t Extent = dynamic_extent&gt;
+class span {
+public:
+  [&hellip;]
+  <i>// 22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a>, constructors, copy, and assignment</i>
+  constexpr span() noexcept;
+  constexpr span(pointer ptr, index_type count);
+  constexpr span(pointer first, pointer last);
+  template&lt;size_t N&gt;
+    constexpr span(element_type (&amp;arr)[N]) noexcept;
+  template&lt;<ins>class T,</ins> size_t N&gt;
+    constexpr span(array&lt;<ins>T</ins><del>value_type</del>, N&gt;&amp; arr) noexcept;
+  template&lt;<ins>class T,</ins> size_t N&gt;
+    constexpr span(const array&lt;<ins>T</ins><del>value_type</del>, N&gt;&amp; arr) noexcept;
+  [&hellip;]
+};
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;size_t N&gt;
+  constexpr span(element_type (&amp;arr)[N]) noexcept;
 template&lt;<ins>class T,</ins> size_t N&gt;
   constexpr span(array&lt;<ins>T</ins><del>value_type</del>, N&gt;&amp; arr) noexcept;
 template&lt;<ins>class T,</ins> size_t N&gt;
