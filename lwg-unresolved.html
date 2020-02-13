@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-13 at 19:41:11 UTC</p>
+<p><p>Revised 2020-02-13 at 19:49:17 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -33789,8 +33789,7 @@ public:
   [&hellip;]
   <i>// 22.7.3.2 <a href="https://wg21.link/span.cons">[span.cons]</a>, constructors, copy, and assignment</i>
   constexpr span() noexcept;
-  constexpr span(pointer ptr, index_type count);
-  constexpr span(pointer first, pointer last);
+  [&hellip;]
   template&lt;size_t N&gt;
     constexpr span(element_type (&amp;arr)[N]) noexcept;
   template&lt;<ins>class T,</ins> size_t N&gt;
@@ -33825,7 +33824,7 @@ template&lt;<ins>class T,</ins> size_t N&gt;
 <p>
 -12- <i>Effects:</i> Constructs a <tt>span</tt> that is a view over the supplied array.
 <p/>
--13- <i>Ensures:</i> <tt>size() == N &amp;&amp; data() == data(arr)</tt> <ins>is <tt>true</tt></ins>.
+-13- <i>Postconditions:</i> <tt>size() == N &amp;&amp; data() == data(arr)</tt> <ins>is <tt>true</tt></ins>.
 </p>
 </blockquote>
 </blockquote>
