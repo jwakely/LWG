@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-13 at 20:12:43 UTC</p>
+<p><p>Revised 2020-02-13 at 20:57:00 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -15439,7 +15439,7 @@ Just as an additional data point: MSVC++ agrees with libstdc++ and also throws <
 <hr>
 <h3><a name="2690" href="#2690">2690</a><sup><a href="https://cplusplus.github.io/LWG/issue2690">(i)</a></sup>. <tt>invoke&lt;R&gt;</tt></h3>
 <p><b>Section:</b> 20.14.4 <a href="https://wg21.link/func.invoke">[func.invoke]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
- <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2016-03-25 <b>Last modified:</b> 2019-07-09</p>
+ <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2016-03-25 <b>Last modified:</b> 2020-02-13</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#func.invoke">issues</a> in [func.invoke].</p>
@@ -15567,8 +15567,8 @@ namespace std {
 <p><i>[2018-08-22, Zhihao Yuan provides improved wording]</i></p>
 
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 </p>
@@ -15596,6 +15596,50 @@ namespace std {
 <pre>
 <ins>template &lt;class R, class F, class... Args&gt;
   R invoke(F&amp;&amp; f, Args&amp;&amp;... args)
+    noexcept(is_nothrow_invocable_r_v&lt;R, F, Args...&gt;);</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Constraints</i>: <tt>is_invocable_r_v&lt;R, F, Args...&gt;</tt>.</ins>
+<p/>
+<ins>-?- <i>Returns:</i> <tt><i>INVOKE</i>&lt;R&gt;(std::forward&lt;F&gt;(f), std::forward&lt;Args&gt;(args)...)</tt> 
+(20.14.3 <a href="https://wg21.link/func.require">[func.require]</a>).</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+</p>
+
+<ol>
+<li><p>Modify 20.14.1 <a href="https://wg21.link/functional.syn">[functional.syn]</a>, header <tt>&lt;functional&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  <i>// 20.14.4 <a href="https://wg21.link/func.invoke">[func.invoke]</a>, invoke</i>
+  template&lt;class F, class... Args&gt;
+    constexpr invoke_result_t&lt;F, Args...&gt; invoke(F&amp;&amp; f, Args&amp;&amp;... args)
+      noexcept(is_nothrow_invocable_v&lt;F, Args...&gt;);
+  <ins>template &lt;class R, class F, class... Args&gt;
+    constexpr R invoke(F&amp;&amp; f, Args&amp;&amp;... args)
+      noexcept(is_nothrow_invocable_r_v&lt;R, F, Args...&gt;);</ins>
+</pre>
+</blockquote>
+</li>
+
+<li><p>Add the following sequence of paragraphs after 20.14.4 <a href="https://wg21.link/func.invoke">[func.invoke]</a>/1 as indicated:</p>
+
+<blockquote>
+<pre>
+<ins>template &lt;class R, class F, class... Args&gt;
+  constexpr R invoke(F&amp;&amp; f, Args&amp;&amp;... args)
     noexcept(is_nothrow_invocable_r_v&lt;R, F, Args...&gt;);</ins>
 </pre>
 <blockquote>
@@ -27584,7 +27628,7 @@ asynchronous operation is invoked.
 <hr>
 <h3><a name="3117" href="#3117">3117</a><sup><a href="https://cplusplus.github.io/LWG/issue3117">(i)</a></sup>. Missing <tt>packaged_task</tt> deduction guides</h3>
 <p><b>Section:</b> 32.9.10 <a href="https://wg21.link/futures.task">[futures.task]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Marc Mutz <b>Opened:</b> 2018-06-08 <b>Last modified:</b> 2019-07-09</p>
+ <b>Submitter:</b> Marc Mutz <b>Opened:</b> 2018-06-08 <b>Last modified:</b> 2020-02-13</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#futures.task">issues</a> in [futures.task].</p>
@@ -27601,8 +27645,8 @@ packaged task with the same semantics as the existing ones for function.
 
 <p>Priority set to 3</p>
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>This wording is relative to <a href="http://wg21.link/n4750">N4750</a>.</p>
 
 <ol>
@@ -27643,6 +27687,67 @@ template&lt;class F&gt;
 <ins>-?- <i>Remarks:</i> This deduction guide participates in overload resolution only if <tt>&amp;F::operator()</tt> 
 is well-formed when treated as an unevaluated operand. In that case, if <tt>decltype(&amp;F::operator())</tt> is of the 
 form <tt>R(G::*)(A...) <i>cv</i> &amp;<sub><i>opt</i></sub> noexcept<sub><i>opt</i></sub></tt> for a class type <tt>G</tt>, 
+then the deduced type is <tt>packaged_task&lt;R(A...)&gt;</tt>.</ins>
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+packaged_task(packaged_task&amp;&amp; rhs) noexcept;
+</pre>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2020-02-13; Prague]</i></p>
+
+<p>
+LWG improves wording matching Marshall's Mandating paper.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 32.9.10 <a href="https://wg21.link/futures.task">[futures.task]</a>, class template <tt>packaged_task</tt> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  template&lt;class R, class... ArgTypes&gt;
+  class packaged_task&lt;R(ArgTypes...)&gt; {
+    [&hellip;]
+  };
+  
+  <ins>template&lt;class R, class... ArgTypes&gt;
+  packaged_task(R (*)( ArgTypes ...)) -&gt; packaged_task&lt;R( ArgTypes...)&gt;;
+
+  template&lt;class F&gt; packaged_task(F) -&gt; packaged_task&lt;<i>see below</i>&gt;;</ins>
+  
+  template&lt;class R, class... ArgTypes&gt;
+    void swap(packaged_task&lt;R(ArgTypes...)&gt;&amp; x, packaged_task&lt;R(ArgTypes...)&gt;&amp; y) noexcept;
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 32.9.10.1 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class F&gt;
+  packaged_task(F&amp;&amp; f);
+</pre>
+[&hellip;]
+<pre>
+<ins>template&lt;class F&gt; packaged_task(F) -&gt; packaged_task&lt;<i>see below</i>&gt;;</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Constraints:</i> <tt>&amp;F::operator()</tt> is well-formed when treated as an unevaluated operand.</ins>
+<p/>
+<ins>-?- <i>Remarks</i> If <tt>decltype(&amp;F::operator())</tt> is of the form 
+<tt>R(G::*)(A...) <i>cv</i> &amp;<sub><i>opt</i></sub> noexcept<sub><i>opt</i></sub></tt> for a class type <tt>G</tt>, 
 then the deduced type is <tt>packaged_task&lt;R(A...)&gt;</tt>.</ins>
 </p>
 </blockquote>
