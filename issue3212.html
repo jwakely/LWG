@@ -135,11 +135,7 @@ template&lt;class ElementType&gt;
 template&lt;size_t I, class ElementType, size_t Extent&gt;
   struct tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;;
 <ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt;;
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;;</ins>
+  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;</ins>
 [&hellip;]
 </pre>
 </blockquote>
@@ -166,9 +162,38 @@ tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;::type
 <ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
   struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt; {
     using type = ElementType;
-  };
+  };</ins>
+</pre>
+<blockquote>
+<p>
+-1- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
 
-template&lt;size_t I, class ElementType, size_t Extent&gt;
+<li><p>Add the following wording to Annex D:</p>
+
+<blockquote>
+<p>
+<ins><b>D.? Deprecated <tt>span</tt> tuple interface [depr.span.syn]</b></ins>
+<p/>
+<ins>1 The header <tt>&lt;span&gt;</tt> (22.7.2 <a href="https://wg21.link/span.syn">[span.syn]</a>) has the following additions:</ins>
+</p>
+<blockquote><pre>
+<ins>
+namespace std {
+  template&lt;size_t I, class ElementType, size_t Extent&gt;
+    struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt;;
+  template&lt;size_t I, class ElementType, size_t Extent&gt;
+    struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;;</ins>
+}
+</pre></blockquote>
+<p>
+<ins><b>D.1.? tuple interface [depr.span.tuple]</b></ins>
+</p>
+<blockquote><pre>
+<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
   struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt; {
     using type = ElementType;
   };
@@ -177,12 +202,10 @@ template&lt;size_t I, class ElementType, size_t Extent>
   struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt; {
     using type = ElementType;
   };</ins>
-</pre>
-<blockquote>
+</pre></blockquote>
 <p>
--1- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.
+<ins>-?- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.</ins>
 </p>
-</blockquote>
 </blockquote>
 </li>
 

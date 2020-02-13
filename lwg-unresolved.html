@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-13 at 11:02:16 UTC</p>
+<p><p>Revised 2020-02-13 at 12:21:59 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -31552,11 +31552,7 @@ template&lt;class ElementType&gt;
 template&lt;size_t I, class ElementType, size_t Extent&gt;
   struct tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;;
 <ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt;;
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;;</ins>
+  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;</ins>
 [&hellip;]
 </pre>
 </blockquote>
@@ -31583,9 +31579,38 @@ tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;::type
 <ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
   struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt; {
     using type = ElementType;
-  };
+  };</ins>
+</pre>
+<blockquote>
+<p>
+-1- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
 
-template&lt;size_t I, class ElementType, size_t Extent&gt;
+<li><p>Add the following wording to Annex D:</p>
+
+<blockquote>
+<p>
+<ins><b>D.? Deprecated <tt>span</tt> tuple interface [depr.span.syn]</b></ins>
+<p/>
+<ins>1 The header <tt>&lt;span&gt;</tt> (22.7.2 <a href="https://wg21.link/span.syn">[span.syn]</a>) has the following additions:</ins>
+</p>
+<blockquote><pre>
+<ins>
+namespace std {
+  template&lt;size_t I, class ElementType, size_t Extent&gt;
+    struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt;;
+  template&lt;size_t I, class ElementType, size_t Extent&gt;
+    struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;;</ins>
+}
+</pre></blockquote>
+<p>
+<ins><b>D.1.? tuple interface [depr.span.tuple]</b></ins>
+</p>
+<blockquote><pre>
+<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
   struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt; {
     using type = ElementType;
   };
@@ -31594,12 +31619,10 @@ template&lt;size_t I, class ElementType, size_t Extent>
   struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt; {
     using type = ElementType;
   };</ins>
-</pre>
-<blockquote>
+</pre></blockquote>
 <p>
--1- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.
+<ins>-?- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.</ins>
 </p>
-</blockquote>
 </blockquote>
 </li>
 
@@ -37108,7 +37131,7 @@ is expression-equivalent to:
 <hr>
 <h3><a name="3334" href="#3334">3334</a><sup><a href="https://cplusplus.github.io/LWG/issue3334">(i)</a></sup>. <tt>basic_osyncstream</tt> move assignment and destruction calls <tt>basic_syncbuf::emit()</tt> twice</h3>
 <p><b>Section:</b> 29.10.3 <a href="https://wg21.link/syncstream.osyncstream">[syncstream.osyncstream]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-11-06 <b>Last modified:</b> 2020-02-09</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-11-06 <b>Last modified:</b> 2020-02-13</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -37116,15 +37139,58 @@ is expression-equivalent to:
 <p>
 These functions are specified to call <tt>emit()</tt>, which calls <tt>emit()</tt> on
 the <tt>basic_syncbuf</tt> and sets <tt>badbit</tt> if it fails. Then, the move
-assignment is specified to move-assign the <tt>basic_syncbuf</tt>, while the destructor 
-implicitly needs to destroy the <tt>basic_syncbuf</tt> data member. This calls <tt>emit()</tt> 
+assignment is specified to move-assign the <tt>basic_syncbuf</tt>, while the destructor
+implicitly needs to destroy the <tt>basic_syncbuf</tt> data member. This calls <tt>emit()</tt>
 on the <tt>basic_syncbuf</tt> again.
 <p/>
 Is this intended?
 </p>
+<p><i>[2020-02-13 Tim adds wording after discussion with Peter]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/N4849">N4849</a>.</p>
+<blockquote class="note">
+<p>
+There is no need to explicitly call <tt>emit</tt> at all in these functions;
+memberwise move-assignment/destruction is sufficient, so we can strike the specification
+entirely and rely on the wording in 16.4.2.3 <a href="https://wg21.link/functions.within.classes">[functions.within.classes]</a>.
+</p>
+</blockquote>
+<ol>
+<li>
+<p>Edit 29.10.3.2 <a href="https://wg21.link/syncstream.osyncstream.cons">[syncstream.osyncstream.cons]</a> as indicated:</p>
+<blockquote>
+<pre>
+<del>~basic_osyncstream();</del>
+</pre>
+<blockquote>
+<p><del>-6- <i>Effects:</i> Calls <tt>emit()</tt>. If an exception is thrown
+from <tt>emit()</tt>, that exception is caught and ignored.</del></p>
+</blockquote>
+</blockquote>
+</li>
+<li>
+<p>Strike 29.10.3.3 <a href="https://wg21.link/syncstream.osyncstream.assign">[syncstream.osyncstream.assign]</a>:</p>
+<blockquote>
+<pre>
+<del>basic_osyncstream&amp; operator=(basic_osyncstream&amp;&amp; rhs) noexcept;</del>
+</pre>
+<blockquote>
+<p><del>-1- <i>Effects:</i> First, calls <tt>emit()</tt>.
+If an exception is thrown from <tt>emit()</tt>, that exception is caught and ignored.
+Move assigns <tt>sb</tt> from <tt>rhs.sb</tt>. [ <i>Note:</i> This disassociates <tt>rhs</tt>
+from its wrapped stream buffer ensuring destruction of <tt>rhs</tt> produces no output. — <i>end note</i> ]</del>
+<p/>
+<del>-2- <i>Postconditions:</i> <tt>nullptr == rhs.get_­wrapped()</tt> is <tt>true</tt>.
+<tt>get_­wrapped()</tt> returns the value previously returned by <tt>rhs.get_­wrapped()</tt>.
+</del>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
