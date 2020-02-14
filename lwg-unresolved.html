@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-14 at 11:29:18 UTC</p>
+<p><p>Revised 2020-02-14 at 11:40:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -30614,7 +30614,7 @@ is <tt>remove_cv_t&lt;U&gt;</tt>.
 <hr>
 <h3><a name="3212" href="#3212">3212</a><sup><a href="https://cplusplus.github.io/LWG/issue3212">(i)</a></sup>. <tt>tuple_element_t&lt;1, const span&lt;int, 42&gt;&gt;</tt> is <tt>const int</tt></h3>
 <p><b>Section:</b> 22.7.3.9 <a href="https://wg21.link/span.tuple">[span.tuple]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-05-31 <b>Last modified:</b> 2020-02-13</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-05-31 <b>Last modified:</b> 2020-02-14</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -30704,8 +30704,8 @@ template&lt;size_t I, class ElementType, size_t Extent>
 Wording needs to be adjusted, because we accepted <a href="http://wg21.link/p1831r1">P1831R1</a>.
 </p>
 
-
-<p><b>Proposed resolution:</b></p>
+<strong>Previous resolution [SUPERSEDED]:</strong>
+<blockquote class="note">
 <p>This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.</p>
 
 <ol>
@@ -30794,6 +30794,20 @@ template&lt;size_t I, class ElementType, size_t Extent>
 </li>
 
 </ol>
+
+</blockquote>
+
+<p><i>[2020-02-14, Prague]</i></p>
+
+<p>
+Lengthy discussion about the intended design of <tt>span</tt>'s tuple interface. Has been send to LEWG, who
+made several polls and concluded to remove the tuple interface for <tt>span</tt> for C++20.
+<p/>
+Will be resolved by <a href="http://wg21.link/p2116r0">P2116R0</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
