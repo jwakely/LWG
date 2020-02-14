@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2020-02-14 at 07:36:13 UTC</p>
+<td align="left"><p>Revised 2020-02-14 at 07:39:45 UTC</p>
 </td>
 </tr>
 <tr>
@@ -310,6 +310,55 @@ int main() {
 
 
 <hr>
+<h3><a name="3201" href="#3201">3201</a><sup><a href="https://cplusplus.github.io/LWG/issue3201">(i)</a></sup>. <tt>lerp</tt> should be marked as <tt>noexcept</tt></h3>
+<p><b>Section:</b> 26.8.4 <a href="https://wg21.link/c.math.lerp">[c.math.lerp]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Paolo Torres <b>Opened:</b> 2019-04-10 <b>Last modified:</b> 2020-02-14</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The overloads of <tt>lerp</tt> should be marked as <tt>noexcept</tt>, and this can be explained through the Lakos Rule. 
+This function does not specify any undefined behaviour, and as such has no preconditions. This implies it has a wide 
+contract, meaning it cannot throw, and thus can be marked as <tt>noexcept</tt>.
+</p>
+
+<p><i>[2020-02 Moved to Immediate on Thursday afternoon in Prague.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 26.8.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a>, header <tt>&lt;cmath&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+<i>// 26.8.4 <a href="https://wg21.link/c.math.lerp">[c.math.lerp]</a>, linear interpolation</i>
+constexpr float lerp(float a, float b, float t) <ins>noexcept</ins>;
+constexpr double lerp(double a, double b, double t) <ins>noexcept</ins>;
+constexpr long double lerp(long double a, long double b, long double t) <ins>noexcept</ins>;
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 26.8.4 <a href="https://wg21.link/c.math.lerp">[c.math.lerp]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr float lerp(float a, float b, float t) <ins>noexcept</ins>;
+constexpr double lerp(double a, double b, double t) <ins>noexcept</ins>;
+constexpr long double lerp(long double a, long double b, long double t) <ins>noexcept</ins>;
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
 <h3><a name="3226" href="#3226">3226</a><sup><a href="https://cplusplus.github.io/LWG/issue3226">(i)</a></sup>. <tt>zoned_time</tt> constructor from <tt>string_view</tt> should accept
 <tt>zoned_time&lt;Duration2, TimeZonePtr2&gt;</tt></h3>
 <p><b>Section:</b> 27.11.7.2 <a href="https://wg21.link/time.zone.zonedtime.ctor">[time.zone.zonedtime.ctor]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
@@ -450,6 +499,92 @@ zoned_time(string_view name, const zoned_time&lt;Duration<ins>2, TimeZonePtr2</i
 <p/>
 -36- [<i>Note:</i> The <tt>choose</tt> parameter has no effect. &mdash; <i>end note</i>]
 </p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3237" href="#3237">3237</a><sup><a href="https://cplusplus.github.io/LWG/issue3237">(i)</a></sup>. LWG 3038 and 3190 have inconsistent PRs</h3>
+<p><b>Section:</b> 20.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-07-18 <b>Last modified:</b> 2020-02-14</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#mem.poly.allocator.mem">active issues</a> in [mem.poly.allocator.mem].</p>
+<p><b>View all other</b> <a href="lwg-index.html#mem.poly.allocator.mem">issues</a> in [mem.poly.allocator.mem].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Both LWG <a href="lwg-defects.html#3038">3038</a> and LWG <a href="lwg-defects.html#3190">3190</a> deal with how to respond to requests to allocate 
+"<tt>n * sizeof(T)</tt>" bytes of memory when <tt>n * sizeof(T)</tt> is not sufficient storage for 
+<tt>n</tt> objects of type <tt>T</tt>, i.e., when <tt>n &gt; SIZE_MAX / sizeof(T)</tt>. LWG 
+<a href="lwg-defects.html#3038">3038</a> changed <tt>polymorphic_allocator::allocate</tt> to throw <tt>length_error</tt> upon 
+detecting this condition, whereas LWG <a href="lwg-defects.html#3190">3190</a> changed <tt>allocator::allocate</tt> to 
+throw <tt>bad_array_new_length</tt>. It's peculiar that two standard library components which allocate 
+memory both detect this condition but handle it by throwing different exception types; for consistency, 
+the two should be harmonized.
+<p/>
+Reflector discussion of 3190 seemed to achieve consensus that <tt>bad_array_new_length</tt> was 
+the better option. Unlike <tt>length_error</tt>, <tt>bad_array_new_length</tt> derives from 
+<tt>bad_alloc</tt> so we can make this change without altering the invariant that allocation functions 
+either succeed or throw an exception derived from <tt>bad_alloc</tt>.
+<p/>
+Further, <a href="http://wg21.link/p0339r6">P0339R6</a> "<tt>polymorphic_allocator&lt;&gt;</tt> as a 
+vocabulary type" recently added the function template "<tt>template&lt;class T&gt; T* 
+allocate_object(size_t n = 1);</tt>" to <tt>std::pmr::polymorphic_allocator</tt>, which is another 
+instance of the "allocate memory for <tt>n</tt> objects of type <tt>T</tt>" pattern. 
+20.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> paragraph 8.1 specifies that <tt>allocate_object</tt> throws 
+<tt>length_error</tt> when <tt>SIZE_MAX / sizeof(T) &lt; n</tt>, presumably for consistency with <tt>std::pmr::polymorphic_allocator::allocate</tt> specified in paragraph 1. <tt>allocate_object</tt>'s 
+behavior should be consistent with <tt>allocator::allocate</tt> and 
+<tt>polymorphic_allocator::allocate</tt> so we have a single means of communicating "request for 
+allocation of unrepresentable size" errors in the Standard Library.
+</p>
+
+<p><i>[2020-02 Moved to Immediate on Thursday afternoon in Prague.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4820">N4820</a>.</p>
+
+<ol>
+<li><p>Modify 20.12.3.2 <a href="https://wg21.link/mem.poly.allocator.mem">[mem.poly.allocator.mem]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[[nodiscard]] Tp* allocate(size_t n);
+</pre><blockquote>
+<p>
+-1- <i>Effects:</i> If <tt>SIZE_MAX / sizeof(Tp) &lt; n</tt>, throws 
+<tt><del>length_error</del><ins>bad_array_new_length</ins></tt>. 
+Otherwise equivalent to:
+</p>
+<blockquote><pre>
+return static_cast&lt;Tp*&gt;(memory_rsrc-&gt;allocate(n * sizeof(Tp), alignof(Tp)));
+</pre>
+</blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class T&gt;
+  T* allocate_object(size_t n = 1);
+</pre><blockquote>
+<p>
+-8- <i>Effects:</i> Allocates memory suitable for holding an array of <tt>n</tt> objects of type 
+<tt>T</tt>, as follows:
+</p>
+<ol style="list-style-type: none">
+<li><p>(8.1) &mdash; if <tt>SIZE_MAX / sizeof(T) &lt; n</tt>, throws 
+<tt><del>length_error</del><ins>bad_array_new_length</ins></tt>,</p></li>
+<li><p>(8.2) &mdash; otherwise equivalent to:</p>
+<blockquote><pre>
+return static_cast&lt;T*&gt;(allocate_bytes(n*sizeof(T), alignof(T)));
+</pre></blockquote>
+</li>
+</ol>
 </blockquote>
 </blockquote>
 </li>
@@ -1008,6 +1143,211 @@ return os &lt;&lt; format(os.getloc(),
 
 
 <hr>
+<h3><a name="3270" href="#3270">3270</a><sup><a href="https://cplusplus.github.io/LWG/issue3270">(i)</a></sup>. Parsing and formatting <tt>%j</tt> with <tt>duration</tt>s</h3>
+<p><b>Section:</b> 27.12 <a href="https://wg21.link/time.format">[time.format]</a>, 27.13 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2019-09-02 <b>Last modified:</b> 2020-02-14</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.format">issues</a> in [time.format].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>%j</tt> represents the day number of the year when formatting and parsing <tt>time_point</tt>s. 
+It is also handy to interpret this flag consistently when formatting and parsing durations. That 
+is if there is not enough information in the stream to represent a <tt>time_point</tt>, and if the 
+target of the format/parse is a <tt>duration</tt>, <tt>%j</tt> represents a number of days.
+</p>
+<blockquote>
+<pre>
+#include &lt;chrono&gt;
+#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+#include &lt;string&gt;
+
+int main()
+{
+  using namespace std;
+  using namespace std::chrono;
+  <i>// Parse %j as number of days into a duration</i>
+  istringstream in{"222"};
+  hours d;
+  in &gt;&gt; parse("%j", d);
+  cout &lt;&lt; d &lt;&lt; '\n';
+  cout &lt;&lt; format("{:%j}", d) &lt;&lt; '\n';
+}
+</pre>
+</blockquote>
+<p>
+Output:
+</p>
+<blockquote>
+<pre>
+5328h
+222
+</pre>
+</blockquote>
+<p><i>[2019-10 Priority set to 2 after reflector discussion]</i></p>
+
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify "Table 98 &mdash; Meaning of conversion specifiers"
+ [tab:time.format.spec] as indicated:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table 98 &mdash; Meaning of conversion specifiers  [tab:time.format.spec]</caption>
+<tr style="text-align:center">
+<th>Specifier</th>
+<th>Replacement</th>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><tt>%j</tt></td>
+<td>The day of the year as a decimal number. Jan 1 is <tt>001</tt>. If the result is less than three<br/>
+digits, it is left-padded with <tt>0</tt> to three digits. <ins>If the type being formatted is a<br/> 
+specialization of <tt>duration</tt>, it is formatted as a decimal number of <tt>days</tt>.</ins></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
+</blockquote>
+
+</li>
+
+<li><p>Modify "Table 99 &mdash; Meaning of <tt>parse</tt> flags"
+ [tab:time.parse.spec] as indicated:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table 99 &mdash; Meaning of <tt>parse</tt> flags  [tab:time.parse.spec]</caption>
+<tr style="text-align:center">
+<th>Flag</th>
+<th>Parsed value</th>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><tt>%j</tt></td>
+<td>The day of the year as a decimal number. Jan 1 is <tt>1</tt>. The modified command <tt>%<i>N</i>j</tt><br/>
+specifies the maximum number of characters to read. If <tt><i>N</i></tt> is not specified, the default<br/>
+is <tt>3</tt>. Leading zeroes are permitted but not required. <ins>If the type being parsed is a<br/> 
+specialization of <tt>duration</tt>, it is parsed as a decimal number of <tt>days</tt>.</ins></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
+</blockquote>
+
+</li>
+</ol></blockquote>
+
+<p><i>[2020-02-13 After Thursday afternoon discussion in Prague, Marshall provides updated wording.]</i></p>
+
+<p><i>[2020-02 Status to Immediate on Thursday night in Prague.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
+
+<ol>
+<li><p>Modify "Table 98 &mdash; Meaning of conversion specifiers"
+ [tab:time.format.spec] as indicated:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table 98 &mdash; Meaning of conversion specifiers  [tab:time.format.spec]</caption>
+<tr style="text-align:center">
+<th>Specifier</th>
+<th>Replacement</th>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><tt>%j</tt></td>
+<td><ins>If the type being formatted is a specialization of <tt>duration</tt>, 
+the decimal number of <tt>days</tt><br/>without padding. Otherwise, the</ins><del>The</del> 
+day of the year as a decimal number.<br/>Jan 1 is <tt>001</tt>. If the result 
+is less than three digits, it is left-padded with <tt>0</tt> to three digits. </td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
+</blockquote>
+
+</li>
+
+<li><p>Modify "Table 99 &mdash; Meaning of <tt>parse</tt> flags"
+ [tab:time.parse.spec] as indicated:</p>
+
+<blockquote>
+
+<table border="1">
+<caption>Table 99 &mdash; Meaning of <tt>parse</tt> flags  [tab:time.parse.spec]</caption>
+<tr style="text-align:center">
+<th>Flag</th>
+<th>Parsed value</th>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+<tr>
+<td><tt>%j</tt></td>
+<td><ins>If the type being parsed is a specialization of <tt>duration</tt>,<br/>
+a decimal number of <tt>days</tt>. Otherwise, the</ins><del>The</del> 
+day of the year as a decimal number. Jan 1 is <tt>1</tt>.<br/>
+<ins>In either case, the</ins><del>The</del> modified command <tt>%<i>N</i>j</tt> specifies the maximum number of characters to read.<br/>
+If <tt><i>N</i></tt> is not specified, the default is <tt>3</tt>. Leading zeroes are permitted but not required.</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
+
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3282" href="#3282">3282</a><sup><a href="https://cplusplus.github.io/LWG/issue3282">(i)</a></sup>. <tt>subrange</tt> converting constructor should disallow derived to base conversions</h3>
 <p><b>Section:</b> 24.5.3 <a href="https://wg21.link/range.subrange">[range.subrange]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
  <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2020-02-10</p>
@@ -1550,6 +1890,75 @@ constructor is preferred for an indication of UTF-8 encoding more consistent wit
 
 </ol>
 
+
+
+
+
+<hr>
+<h3><a name="3334" href="#3334">3334</a><sup><a href="https://cplusplus.github.io/LWG/issue3334">(i)</a></sup>. <tt>basic_osyncstream</tt> move assignment and destruction calls <tt>basic_syncbuf::emit()</tt> twice</h3>
+<p><b>Section:</b> 29.10.3 <a href="https://wg21.link/syncstream.osyncstream">[syncstream.osyncstream]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-11-06 <b>Last modified:</b> 2020-02-14</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+These functions are specified to call <tt>emit()</tt>, which calls <tt>emit()</tt> on
+the <tt>basic_syncbuf</tt> and sets <tt>badbit</tt> if it fails. Then, the move
+assignment is specified to move-assign the <tt>basic_syncbuf</tt>, while the destructor
+implicitly needs to destroy the <tt>basic_syncbuf</tt> data member. This calls <tt>emit()</tt>
+on the <tt>basic_syncbuf</tt> again.
+<p/>
+Is this intended?
+</p>
+<p><i>[2020-02-13 Tim adds wording after discussion with Peter]</i></p>
+
+<p><i>[2020-02 Status to Immediate Thursday afternoon in Prague.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/N4849">N4849</a>.</p>
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> There is no need to explicitly call <tt>emit</tt> at all in these functions;
+memberwise move-assignment/destruction is sufficient, so we can strike the specification
+entirely and rely on the wording in 16.4.2.3 <a href="https://wg21.link/functions.within.classes">[functions.within.classes]</a>. <i>&mdash; end drafting note</i>]
+</p>
+</blockquote>
+<ol>
+<li>
+<p>Edit 29.10.3.2 <a href="https://wg21.link/syncstream.osyncstream.cons">[syncstream.osyncstream.cons]</a> as indicated:</p>
+<blockquote>
+<pre>
+<del>~basic_osyncstream();</del>
+</pre>
+<blockquote>
+<p><del>-6- <i>Effects:</i> Calls <tt>emit()</tt>. If an exception is thrown
+from <tt>emit()</tt>, that exception is caught and ignored.</del></p>
+</blockquote>
+</blockquote>
+</li>
+<li>
+<p>Strike 29.10.3.3 <a href="https://wg21.link/syncstream.osyncstream.assign">[syncstream.osyncstream.assign]</a>:</p>
+<blockquote>
+<pre>
+<del>basic_osyncstream&amp; operator=(basic_osyncstream&amp;&amp; rhs) noexcept;</del>
+</pre>
+<blockquote>
+<p><del>-1- <i>Effects:</i> First, calls <tt>emit()</tt>.
+If an exception is thrown from <tt>emit()</tt>, that exception is caught and ignored.
+Move assigns <tt>sb</tt> from <tt>rhs.sb</tt>. [ <i>Note:</i> This disassociates <tt>rhs</tt>
+from its wrapped stream buffer ensuring destruction of <tt>rhs</tt> produces no output. — <i>end note</i> ]</del>
+<p/>
+<del>-2- <i>Postconditions:</i> <tt>nullptr == rhs.get_­wrapped()</tt> is <tt>true</tt>.
+<tt>get_­wrapped()</tt> returns the value previously returned by <tt>rhs.get_­wrapped()</tt>.
+</del>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
@@ -4644,6 +5053,67 @@ operator function (12.6 <a href="https://wg21.link/over.oper">[over.oper]</a>) f
 <del>or</del> relational (7.6.9 <a href="https://wg21.link/expr.rel">[expr.rel]</a>)<ins>, or three-way comparison 
 (7.6.8 <a href="https://wg21.link/expr.spaceship">[expr.spaceship]</a>)</ins> operators
 </p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3396" href="#3396">3396</a><sup><a href="https://cplusplus.github.io/LWG/issue3396">(i)</a></sup>. Clarify point of reference for <tt>source_location::current()</tt> (DE 169)</h3>
+<p><b>Section:</b> 17.8.2.1 <a href="https://wg21.link/support.srcloc.cons">[support.srcloc.cons]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2020-02-13 <b>Last modified:</b> 2020-02-14</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses <a href="https://github.com/cplusplus/nbballot/issues/167">DE 169</a></b></p>
+<p>
+The expectation of the note that a default argument expression
+involving current() causes a source_location to be constructed
+that refers to the site of a function call where that default
+argument is needed has no basis in normative text.
+In particular, 9.2.3.6 paragraph 5 seems to imply that the
+name "current" and its semantics are bound where it appears
+lexically in the function declaration.
+<p/>
+Proposed change:
+<p/>
+Add normative text to express the desired semantics.
+</p>
+
+<p><i>[2020-02 Moved to Immediate on Thursday afternoon in Prague.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 17.8.2.1 <a href="https://wg21.link/support.srcloc.cons">[support.srcloc.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+static consteval source_location current() noexcept;
+</pre>
+<blockquote>
+<p>
+-1- [&hellip;]
+<p/>
+-2- <i>Remarks:</i> <del>When a default member initializer is used to initialize a non-static data member, any calls to
+<tt>current</tt></del><ins>Any call to <tt>current</tt> that appears as a default member initializer (11.4 <a href="https://wg21.link/class.mem">[class.mem]</a>), 
+or as a subexpression thereof,</ins> should correspond to the location of the constructor <ins>definition</ins> or 
+aggregate initialization that <del>initializes the member</del><ins>uses the default member initializer</ins>. 
+<ins>Any call to <tt>current</tt> that appears as a default argument (9.3.3.6 <a href="https://wg21.link/dcl.fct.default">[dcl.fct.default]</a>), or as a subexpression thereof, 
+should correspond to the location of the invocation of the function that uses the default argument (7.6.1.2 <a href="https://wg21.link/expr.call">[expr.call]</a>).</ins>
+<p/>
+<del>-3- [<i>Note:</i> When used as a default argument (9.3.3.6 <a href="https://wg21.link/dcl.fct.default">[dcl.fct.default]</a>), the value of the 
+<tt>source_location</tt> will be the location of the call to <tt>current</tt> at the call site. &mdash; <i>end note</i>]</del>
+</p>
+</blockquote>
 </blockquote>
 </li>
 
