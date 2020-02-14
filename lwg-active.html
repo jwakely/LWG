@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D121)</h1>
-<p><p>Revised 2020-02-14 at 14:03:10 UTC</p>
+<p><p>Revised 2020-02-14 at 14:17:54 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -48603,10 +48603,10 @@ template&lt;class Duration&gt;
 </pre>
 <blockquote>
 <p>
--6- <i>Returns:</i> A <tt>leap_second_info</tt> where <tt>is_leap_second</tt> is <tt>true</tt> if
+-6- <i>Returns:</i> A <tt>leap_second_info</tt><ins>, <tt>lsi</tt>, </ins> where <tt><ins>lsi.</ins>is_leap_second</tt> is <tt>true</tt> if
 <tt>ut</tt> is during a <ins>positive</ins> leap second insertion, and otherwise <tt>false</tt>.
-<tt>elapsed</tt> is the <del>number</del><ins>sum</ins> of leap seconds between 1970-01-01 and
-<tt>ut</tt>. If <tt>is_leap_second</tt> is <tt>true</tt>, the leap second referred to by <tt>ut</tt>
+<tt><ins>lsi.</ins>elapsed</tt> is the <del>number</del><ins>sum</ins> of leap seconds between 1970-01-01 and
+<tt>ut</tt>. If <tt><ins>lsi.</ins>is_leap_second</tt> is <tt>true</tt>, the leap second referred to by <tt>ut</tt>
 is included in the <del>count</del><ins>sum</ins>.
 </p>
 </blockquote>
