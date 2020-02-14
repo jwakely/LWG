@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-14 at 11:40:01 UTC</p>
+<p><p>Revised 2020-02-14 at 12:12:17 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
@@ -975,6 +975,102 @@ expression and the types <tt>I</tt> and <tt>S</tt> of
 
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3394" href="#3394">3394</a><sup><a href="https://cplusplus.github.io/LWG/issue3394">(i)</a></sup>. <tt>ranges::basic_istream_view::<i>iterator</i></tt> has an empty <tt>iterator_traits</tt></h3>
+<p><b>Section:</b> 24.6.4.3 <a href="https://wg21.link/range.istream.iterator">[range.istream.iterator]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-09 <b>Last modified:</b> 2020-02-14</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.istream.iterator">active issues</a> in [range.istream.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.istream.iterator">issues</a> in [range.istream.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Every instantiation of <tt>ranges::basic_istream_view::<i>iterator</i></tt> has an empty
+<tt>iterator_traits</tt>, i.e. the type
+</p>
+<blockquote><pre>
+iterator_traits&lt;ranges::basic_istream_view&lt;Val, CharT, Traits&gt;::iterator&gt;
+</pre></blockquote>
+<p>
+has no members.
+<p/>
+This happens because <tt>basic_istream_view::<i>iterator</i></tt> neither models
+<tt><i>cpp17-iterator</i></tt> (since this concept requires copyability, which this
+iterator is by design not) nor does it define all four of the member
+types <tt>difference_type</tt>, <tt>value_type</tt>, <tt>reference</tt>, and 
+<tt>iterator_category</tt> (it is missing <tt>reference</tt>). Therefore by 
+23.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> p3, this iterator's specialization of 
+<tt>iterator_traits</tt> will be empty if generated from the 
+<tt>iterator_traits</tt> primary template.
+<p/>
+Since <tt>basic_istream_view::iterator</tt> is indeed an iterator, its
+<tt>iterator_traits</tt> should certainly not be empty. The simplest solution
+here is to define the member type <tt>reference</tt> in the definition of
+<tt>basic_istream_view::iterator</tt>, which will enable its <tt>iterator_traits</tt>
+specialization to be appropriately populated from the primary template.
+</p>
+
+<p><i>[2020-02-10; Jonathan comments]</i></p>
+
+<p>
+Jonathan and Casey have concerns about the proposed resolution. Casey: The wording makes it look
+as if this iterator is supposed to be an <tt><i>cpp17-input-iterator</i></tt>.
+<p/>
+See also LWG <a href="lwg-active.html#3283">3283</a> and  <a href="lwg-active.html#3289">3289</a>.
+</p>
+
+<p><i>[2020-02 Prioritized as P2 Monday morning in Prague]</i></p>
+
+
+<strong>Previous resolution [SUPERSEDED]:</strong>
+<blockquote class="note">
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 24.6.4.3 <a href="https://wg21.link/range.istream.iterator">[range.istream.iterator]</a>, class template 
+<tt>basic_istream_view::<i>iterator</i></tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class Val, class CharT, class Traits&gt;
+  class basic_istream_view&lt;Val, CharT, Traits&gt;::<i>iterator</i> { <i>// exposition only</i>
+  public:
+    using iterator_category = input_iterator_tag;
+    using difference_type = ptrdiff_t;
+    using value_type = Val;
+    <ins>using reference = Val&amp;;</ins>
+
+    <i>iterator</i>() = default;
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2020-02-13, Prague]</i></p>
+
+<p>
+LWG decided for NAD: The <tt>ranges::basic_istream_view::iterator</tt> is a move-only type 
+and thus cannot meet the <i>Cpp17</i> requirements (even <tt>output_iterator_tag</tt>), as such it should not 
+specialize <tt>iterator_traits</tt>, to avoid misleading results when it is passed to new algorithms.
+<p/>
+A related issue, LWG <a href="lwg-active.html#3397">3397</a>, is supposed to take care for a problem with the definition of the
+<tt>iterator_category</tt> member type of this template.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 

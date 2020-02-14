@@ -26,7 +26,7 @@
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>This document is the Table of Contents for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.</p>
-<p><p>Revised 2020-02-14 at 11:40:01 UTC</p>
+<p><p>Revised 2020-02-14 at 12:12:17 UTC</p>
 </p><h2><a name="Priority 0"</a>Priority 0 (1 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -69,7 +69,7 @@
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="Priority 2"</a>Priority 2 (50 issues)</h2>
+<h2><a name="Priority 2"</a>Priority 2 (49 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -421,15 +421,6 @@ C++17 output iterators</td>
 <td align="left">23.5.3.3 [move.iter.cons]<a name="move.iter.cons"></a></td>
 <td align="left"><tt>move_iterator</tt>'s conversions are more broken after P1207</td>
 <td align="center">Yes</td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3394">3394</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3394"></a></td>
-<td align="left">24.6.4.3 [range.istream.iterator]<a name="range.istream.iterator"></a></td>
-<td align="left"><tt>ranges::basic_istream_view::<i>iterator</i></tt> has an empty <tt>iterator_traits</tt></td>
-<td align="center"><font color="red">No</font></td>
 <td align="center">2</td>
 <td align="left"></td>
 </tr>
@@ -888,19 +879,19 @@ specified to make <tt><i>N</i></tt> copies of <tt>T</tt> into the destination ra
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3155">3155</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="3155"></a></td>
+<td align="right"><a href="lwg-active.html#3211">3211</a></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3211"></a></td>
 <td align="left">20.5.3.1 [tuple.cnstr]</td>
-<td align="left"><tt>tuple&lt;any, any&gt;{allocator_arg_t, an_allocator}</tt></td>
+<td align="left"><tt>std::tuple&lt;&gt;</tt> should be trivially constructible</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3211">3211</a></td>
-<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3211"></a></td>
+<td align="right"><a href="lwg-active.html#3155">3155</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="3155"></a></td>
 <td align="left">20.5.3.1 [tuple.cnstr]</td>
-<td align="left"><tt>std::tuple&lt;&gt;</tt> should be trivially constructible</td>
+<td align="left"><tt>tuple&lt;any, any&gt;{allocator_arg_t, an_allocator}</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -924,20 +915,20 @@ specified to make <tt><i>N</i></tt> copies of <tt>T</tt> into the destination ra
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2990">2990</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2990"></a></td>
+<td align="right"><a href="lwg-active.html#2746">2746</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2746"></a></td>
 <td align="left">20.6.3 [optional.optional]<a name="optional.optional"></a></td>
-<td align="left"><tt>optional::value_type</tt> is not always a value type</td>
-<td align="center">Yes</td>
+<td align="left">Inconsistency between requirements for <tt>emplace</tt> between <tt>optional</tt> and <tt>variant</tt></td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2746">2746</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2746"></a></td>
+<td align="right"><a href="lwg-active.html#2990">2990</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2990"></a></td>
 <td align="left">20.6.3 [optional.optional]</td>
-<td align="left">Inconsistency between requirements for <tt>emplace</tt> between <tt>optional</tt> and <tt>variant</tt></td>
-<td align="center"><font color="red">No</font></td>
+<td align="left"><tt>optional::value_type</tt> is not always a value type</td>
+<td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -1005,15 +996,6 @@ specified to make <tt><i>N</i></tt> copies of <tt>T</tt> into the destination ra
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3064">3064</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3064"></a></td>
-<td align="left">20.10.11 [specialized.algorithms]</td>
-<td align="left">How do uninitialized memory algorithms obtain pointer without undefined behavior?</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#3063">3063</a></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3063"></a></td>
 <td align="left">20.10.11 [specialized.algorithms]</td>
@@ -1023,10 +1005,10 @@ specified to make <tt><i>N</i></tt> copies of <tt>T</tt> into the destination ra
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3159">3159</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3159"></a></td>
-<td align="left">20.11.1.2 [unique.ptr.single]<a name="unique.ptr.single"></a></td>
-<td align="left">&sect;[unique.ptr.single] requirements on deleter may be too strict</td>
+<td align="right"><a href="lwg-active.html#3064">3064</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3064"></a></td>
+<td align="left">20.10.11 [specialized.algorithms]</td>
+<td align="left">How do uninitialized memory algorithms obtain pointer without undefined behavior?</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1034,9 +1016,18 @@ specified to make <tt><i>N</i></tt> copies of <tt>T</tt> into the destination ra
 <tr>
 <td align="right"><a href="lwg-active.html#2262">2262</a></td>
 <td align="left"><a href="lwg-active.html#Open">Open</a><a name="2262"></a></td>
-<td align="left">20.11.1.2 [unique.ptr.single]</td>
+<td align="left">20.11.1.2 [unique.ptr.single]<a name="unique.ptr.single"></a></td>
 <td align="left">Requirement for <tt>unique_ptr&lt;T&gt;::get_deleter()(p)</tt> to be able to destroy the <tt>unique_ptr</tt></td>
 <td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3159">3159</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3159"></a></td>
+<td align="left">20.11.1.2 [unique.ptr.single]</td>
+<td align="left">&sect;[unique.ptr.single] requirements on deleter may be too strict</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -1069,20 +1060,20 @@ specified to make <tt><i>N</i></tt> copies of <tt>T</tt> into the destination ra
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3210">3210</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3210"></a></td>
+<td align="right"><a href="lwg-active.html#3216">3216</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3216"></a></td>
 <td align="left">20.11.3.6 [util.smartptr.shared.create]<a name="util.smartptr.shared.create"></a></td>
-<td align="left"><tt>allocate_shared</tt> is inconsistent about removing <tt>const</tt> from the pointer 
-passed to allocator <tt>construct</tt> and <tt>destroy</tt></td>
+<td align="left">Rebinding the allocator before calling <tt>construct</tt>/<tt>destroy</tt> in <tt>allocate_shared</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3216">3216</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3216"></a></td>
+<td align="right"><a href="lwg-active.html#3210">3210</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3210"></a></td>
 <td align="left">20.11.3.6 [util.smartptr.shared.create]</td>
-<td align="left">Rebinding the allocator before calling <tt>construct</tt>/<tt>destroy</tt> in <tt>allocate_shared</tt></td>
+<td align="left"><tt>allocate_shared</tt> is inconsistent about removing <tt>const</tt> from the pointer 
+passed to allocator <tt>construct</tt> and <tt>destroy</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1124,20 +1115,20 @@ passed to allocator <tt>construct</tt> and <tt>destroy</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2547">2547</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2547"></a></td>
+<td align="right"><a href="lwg-active.html#2491">2491</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2491"></a></td>
 <td align="left">20.14.7 [comparisons]<a name="comparisons"></a></td>
-<td align="left">Container requirements (and other library text) should say "strict total order", not just "total order"</td>
-<td align="center"><font color="red">No</font></td>
+<td align="left"><tt>std::less&lt;T*&gt;</tt> in constant expression</td>
+<td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2491">2491</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2491"></a></td>
+<td align="right"><a href="lwg-active.html#2547">2547</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2547"></a></td>
 <td align="left">20.14.7 [comparisons]</td>
-<td align="left"><tt>std::less&lt;T*&gt;</tt> in constant expression</td>
-<td align="center">Yes</td>
+<td align="left">Container requirements (and other library text) should say "strict total order", not just "total order"</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -1151,20 +1142,20 @@ passed to allocator <tt>construct</tt> and <tt>destroy</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2290">2290</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2290"></a></td>
+<td align="right"><a href="lwg-active.html#2452">2452</a></td>
+<td align="left"><a href="lwg-active.html#Core">Core</a><a name="2452"></a></td>
 <td align="left">20.15 [meta]<a name="meta"></a></td>
-<td align="left">Top-level "SFINAE"-based constraints should get a separate definition in Clause 17</td>
-<td align="center">Yes</td>
+<td align="left"><tt>is_constructible</tt>, etc. and default arguments</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2452">2452</a></td>
-<td align="left"><a href="lwg-active.html#Core">Core</a><a name="2452"></a></td>
+<td align="right"><a href="lwg-active.html#2290">2290</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2290"></a></td>
 <td align="left">20.15 [meta]</td>
-<td align="left"><tt>is_constructible</tt>, etc. and default arguments</td>
-<td align="center"><font color="red">No</font></td>
+<td align="left">Top-level "SFINAE"-based constraints should get a separate definition in Clause 17</td>
+<td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
@@ -1179,10 +1170,19 @@ of <tt>TransformationTrait</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2827">2827</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2827"></a></td>
+<td align="right"><a href="lwg-active.html#2358">2358</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2358"></a></td>
 <td align="left">20.15.4.3 [meta.unary.prop]<a name="meta.unary.prop"></a></td>
-<td align="left"><tt>is_trivially_constructible</tt> and non-trivial destructors</td>
+<td align="left">Apparently-bogus definition of <tt>is_empty</tt> type trait</td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#2077">2077</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2077"></a></td>
+<td align="left">20.15.4.3 [meta.unary.prop]</td>
+<td align="left">Further incomplete constraints for type traits</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1207,19 +1207,10 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2358">2358</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2358"></a></td>
+<td align="right"><a href="lwg-active.html#2827">2827</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2827"></a></td>
 <td align="left">20.15.4.3 [meta.unary.prop]</td>
-<td align="left">Apparently-bogus definition of <tt>is_empty</tt> type trait</td>
-<td align="center">Yes</td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#2077">2077</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2077"></a></td>
-<td align="left">20.15.4.3 [meta.unary.prop]</td>
-<td align="left">Further incomplete constraints for type traits</td>
+<td align="left"><tt>is_trivially_constructible</tt> and non-trivial destructors</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1234,19 +1225,19 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3205">3205</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3205"></a></td>
+<td align="right"><a href="lwg-active.html#3152">3152</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3152"></a></td>
 <td align="left">20.15.7.6 [meta.trans.other]<a name="meta.trans.other"></a></td>
-<td align="left"><tt>decay_t</tt> in the new <tt>common_type</tt> fallback should be <tt>remove_cvref_t</tt></td>
+<td align="left"><tt>common_type</tt> and <tt>common_reference</tt> have flaws in common</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3152">3152</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3152"></a></td>
+<td align="right"><a href="lwg-active.html#3205">3205</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3205"></a></td>
 <td align="left">20.15.7.6 [meta.trans.other]</td>
-<td align="left"><tt>common_type</tt> and <tt>common_reference</tt> have flaws in common</td>
+<td align="left"><tt>decay_t</tt> in the new <tt>common_type</tt> fallback should be <tt>remove_cvref_t</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1333,19 +1324,19 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2705">2705</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2705"></a></td>
+<td align="right"><a href="lwg-active.html#2206">2206</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2206"></a></td>
 <td align="left">22.2.3 [sequence.reqmts]</td>
-<td align="left">Questionable precondition on Sequence containers <tt>a.assign(n, t)</tt></td>
+<td align="left">Inaccuracy in <tt>initializer_list</tt> constructor requirements</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2206">2206</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2206"></a></td>
+<td align="right"><a href="lwg-active.html#2705">2705</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2705"></a></td>
 <td align="left">22.2.3 [sequence.reqmts]</td>
-<td align="left">Inaccuracy in <tt>initializer_list</tt> constructor requirements</td>
+<td align="left">Questionable precondition on Sequence containers <tt>a.assign(n, t)</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1360,19 +1351,10 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2844">2844</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2844"></a></td>
+<td align="right"><a href="lwg-active.html#3227">3227</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3227"></a></td>
 <td align="left">22.2.6 [associative.reqmts]<a name="associative.reqmts"></a></td>
-<td align="left">Stability of <tt>a_uniq.insert(i, j)</tt></td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#2215">2215</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2215"></a></td>
-<td align="left">22.2.6 [associative.reqmts]</td>
-<td align="left">(unordered) associative container functors should be <tt>CopyConstructible</tt></td>
+<td align="left">Ambiguity issue for <tt>extract</tt> in ordered and unordered associative containers</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1388,6 +1370,15 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#2844">2844</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2844"></a></td>
+<td align="left">22.2.6 [associative.reqmts]</td>
+<td align="left">Stability of <tt>a_uniq.insert(i, j)</tt></td>
+<td align="center"><font color="red">No</font></td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#2227">2227</a></td>
 <td align="left"><a href="lwg-active.html#Open">Open</a><a name="2227"></a></td>
 <td align="left">22.2.6 [associative.reqmts]</td>
@@ -1397,10 +1388,10 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3227">3227</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3227"></a></td>
+<td align="right"><a href="lwg-active.html#2215">2215</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2215"></a></td>
 <td align="left">22.2.6 [associative.reqmts]</td>
-<td align="left">Ambiguity issue for <tt>extract</tt> in ordered and unordered associative containers</td>
+<td align="left">(unordered) associative container functors should be <tt>CopyConstructible</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -1614,19 +1605,19 @@ those from the same range</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3344">3344</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3344"></a></td>
+<td align="right"><a href="lwg-active.html#3197">3197</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3197"></a></td>
 <td align="left">23.4.2 [iterator.operations]</td>
-<td align="left"><tt>advance(i, <i>most-negative</i>)</tt> and <tt>prev(i, <i>most-negative</i>)</tt></td>
+<td align="left"><tt>std::prev</tt> should not require <tt>BidirectionalIterator</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3197">3197</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3197"></a></td>
+<td align="right"><a href="lwg-active.html#3344">3344</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3344"></a></td>
 <td align="left">23.4.2 [iterator.operations]</td>
-<td align="left"><tt>std::prev</tt> should not require <tt>BidirectionalIterator</tt></td>
+<td align="left"><tt>advance(i, <i>most-negative</i>)</tt> and <tt>prev(i, <i>most-negative</i>)</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -2683,20 +2674,20 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2265">2265</a></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2265"></a></td>
+<td align="right"><a href="lwg-active.html#3268">3268</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3268"></a></td>
 <td align="left">31.4 [atomics.order]<a name="atomics.order"></a></td>
-<td align="left">29.3p9 appears to rule out some acceptable executions</td>
-<td align="center"><font color="red">No</font></td>
+<td align="left"><tt>memory_order::memory_order_foo</tt> broken in C++20</td>
+<td align="center">Yes</td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3268">3268</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3268"></a></td>
+<td align="right"><a href="lwg-active.html#2265">2265</a></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2265"></a></td>
 <td align="left">31.4 [atomics.order]</td>
-<td align="left"><tt>memory_order::memory_order_foo</tt> broken in C++20</td>
-<td align="center">Yes</td>
+<td align="left">29.3p9 appears to rule out some acceptable executions</td>
+<td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
@@ -2746,19 +2737,19 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2481">2481</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2481"></a></td>
+<td align="right"><a href="lwg-active.html#2478">2478</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2478"></a></td>
 <td align="left">D.17.1 [depr.conversions.string]<a name="depr.conversions.string"></a></td>
-<td align="left"><tt>wstring_convert</tt> should be more precise regarding "byte-error string" etc.</td>
+<td align="left">Unclear how <tt>wstring_convert</tt> uses <tt>cvtstate</tt></td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2478">2478</a></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2478"></a></td>
+<td align="right"><a href="lwg-active.html#2481">2481</a></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2481"></a></td>
 <td align="left">D.17.1 [depr.conversions.string]</td>
-<td align="left">Unclear how <tt>wstring_convert</tt> uses <tt>cvtstate</tt></td>
+<td align="left"><tt>wstring_convert</tt> should be more precise regarding "byte-error string" etc.</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
@@ -3030,13 +3021,13 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#1493">1493</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1493"></a></td>
+<td align="right"><a href="lwg-active.html#936">936</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
 <td align="left">32.5.3 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
-<td align="left">Add <tt>mutex</tt>, <tt>recursive_mutex</tt>, <tt>is_locked</tt> function</td>
+<td align="left">Mutex type overspecified</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
-<td align="left"></td>
+<td align="left"><a href="lwg-active.html#961">961</a></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#961">961</a></td>
@@ -3048,13 +3039,13 @@ types &mdash; this is inconsistent with other types in the library</td>
 <td align="left"><a href="lwg-active.html#936">936</a></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#936">936</a></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
+<td align="right"><a href="lwg-active.html#1493">1493</a></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1493"></a></td>
 <td align="left">32.5.3 [thread.mutex.requirements]</td>
-<td align="left">Mutex type overspecified</td>
+<td align="left">Add <tt>mutex</tt>, <tt>recursive_mutex</tt>, <tt>is_locked</tt> function</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
-<td align="left"><a href="lwg-active.html#961">961</a></td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#2533">2533</a></td>
