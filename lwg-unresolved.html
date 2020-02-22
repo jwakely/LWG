@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-22 at 13:56:14 UTC</p>
+<p><p>Revised 2020-02-22 at 14:30:02 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -35505,6 +35505,37 @@ precondition of <tt>std::gamma_distribution</tt>, which requires argument to be 
 For these reasons the note added by resolution of LWG 2406 seems invalid and could be considered for 
 removal. However given the current status and history regarding handling of case <tt>p == 1</tt>, 
 removing the note might not be the only option to consider.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3403" href="#3403">3403</a><sup><a href="https://cplusplus.github.io/LWG/issue3403">(i)</a></sup>. Domain of <tt>ranges::ssize(E)</tt> doesn't match <tt>ranges::size(E)</tt></h3>
+<p><b>Section:</b> 99 [range.prim.ssize] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-19 <b>Last modified:</b> 2020-02-22</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>ranges::size(E)</tt> works with a non-range for which <tt>E.size()</tt> or <tt>size(E)</tt> is valid. 
+But <tt>ranges::ssize(E)</tt> requires the type <tt>range_difference_t</tt> which requires 
+<tt>ranges::begin(E)</tt> to be valid. This means there are types for which <tt>ranges::size(E)</tt> 
+is valid but <tt>ranges::ssize(E)</tt> is not.
+<p/>
+Casey's reaction to this is:
+<p/>
+I believe we want <tt>ranges::ssize</tt> to work with any argument that <tt>ranges::size accepts</tt>. 
+That suggest to me that we're going to need <tt><i>make-signed-like-t</i>&lt;T&gt;</tt> after all, 
+so we can "Let <tt>E</tt> be an expression, and let <tt>D</tt> be the wider of <tt>ptrdiff_t</tt> 
+or <tt>decltype(ranges::size(E))</tt>. Then <tt>ranges::ssize(E)</tt> is expression-equivalent to 
+<tt>static_cast&lt;<i>make-signed-like-t</i>&lt;D&gt;&gt;(ranges::size(E))</tt>." Although this wording 
+is still slightly icky since <tt>D</tt> isn't a valid type when <tt>ranges::size(E)</tt> isn't a valid 
+expression, I think it's an improvement?
 </p>
 
 
