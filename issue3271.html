@@ -22,15 +22,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3271" href="lwg-active.html#3271">3271</a>. Parsing functions should save and restore stream format state</h3>
-<p><b>Section:</b> 27.13 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2019-09-02 <b>Last modified:</b> 2019-10-08</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
+<h3><a name="3271" href="lwg-closed.html#3271">3271</a>. Parsing functions should save and restore stream format state</h3>
+<p><b>Section:</b> 27.13 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+ <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2019-09-02 <b>Last modified:</b> 2020-02-24</p>
 <p><b>Priority: </b>3
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#time.parse">active issues</a> in [time.parse].</p>
 <p><b>View all other</b> <a href="lwg-index.html#time.parse">issues</a> in [time.parse].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#NAD">NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 <tt>from_stream</tt> overloads may need to set various formatting state and flags of the <tt>basic_istream</tt> 
@@ -41,6 +40,13 @@ these functions need to save and restore any settings on the <tt>basic_istream</
 <p><i>[2019-10 Priority set to 3 after reflector discussion]</i></p>
 
 
+<p><i>[2020-02, Prague; Close as NAD]</i></p>
+
+
+LWG reviewed the issue and decided no change is needed.
+Unless specified to change the flags, it's assumed that the stream flags are
+unchanged by any input function.
+
 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="http://wg21.link/n4830">N4830</a>.</p>
@@ -48,7 +54,7 @@ these functions need to save and restore any settings on the <tt>basic_istream</
 <blockquote class="note">
 <p>
 [<i>Drafting note:</i> The modification of 27.13 <a href="https://wg21.link/time.parse">[time.parse]</a> p1 is intended to be non-conflictingly 
-mergeable with the change suggested by LWG <a href="lwg-active.html#3269">3269</a> at the same paragraph.]
+mergeable with the change suggested by LWG <a href="lwg-defects.html#3269">3269</a> at the same paragraph.]
 </p>
 </blockquote>
 

@@ -22,15 +22,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Immediate">Immediate</a> status.</em></p>
-<h3><a name="3388" href="lwg-active.html#3388">3388</a>. <tt>view</tt> iterator types have ill-formed <tt>&lt;=&gt;</tt> operators</h3>
-<p><b>Section:</b> 24.6.3.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a>, 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>, 24.7.15.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-22</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3><a name="3388" href="lwg-defects.html#3388">3388</a>. <tt>view</tt> iterator types have ill-formed <tt>&lt;=&gt;</tt> operators</h3>
+<p><b>Section:</b> 24.6.3.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a>, 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>, 24.7.15.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-24</p>
 <p><b>Priority: </b>0
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.iota.iterator">active issues</a> in [range.iota.iterator].</p>
 <p><b>View all other</b> <a href="lwg-index.html#range.iota.iterator">issues</a> in [range.iota.iterator].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 24.6.3.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> and 24.7.5.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> and 
@@ -42,7 +41,7 @@ friend constexpr compare_three_way_result_t&lt;W&gt; operator&lt;=&gt;(
   requires totally_ordered&lt;W&gt; &amp;&amp; three_way_comparable&lt;W&gt;;
 </pre></blockquote>
 <p>
-Similar to issue <a href="lwg-active.html#3347">3347</a> and issue <a href="lwg-active.html#3387">3387</a>, this is ill-formed if 
+Similar to issue <a href="lwg-defects.html#3347">3347</a> and issue <a href="lwg-defects.html#3387">3387</a>, this is ill-formed if 
 <tt>three_way_comparable&lt;W&gt;</tt> is not satisfied, because <tt>compare_three_way_result_t&lt;W&gt;</tt> 
 is invalid. This declaration is instantiated when the enclosing iterator type is instantiated, making 
 any use of <tt>iota_view&lt;W, B&gt;::iterator</tt> ill-formed when <tt>three_way_comparable&lt;W&gt;</tt> 

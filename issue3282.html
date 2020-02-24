@@ -22,15 +22,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Immediate">Immediate</a> status.</em></p>
-<h3><a name="3282" href="lwg-active.html#3282">3282</a>. <tt>subrange</tt> converting constructor should disallow derived to base conversions</h3>
-<p><b>Section:</b> 24.5.3 <a href="https://wg21.link/range.subrange">[range.subrange]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
- <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2020-02-22</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3><a name="3282" href="lwg-defects.html#3282">3282</a>. <tt>subrange</tt> converting constructor should disallow derived to base conversions</h3>
+<p><b>Section:</b> 24.5.3 <a href="https://wg21.link/range.subrange">[range.subrange]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2020-02-24</p>
 <p><b>Priority: </b>1
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.subrange">active issues</a> in [range.subrange].</p>
 <p><b>View all other</b> <a href="lwg-index.html#range.subrange">issues</a> in [range.subrange].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The following code leads to slicing and general badness:
@@ -46,7 +45,7 @@ Traversal operations on iterators that are pointers do pointer arithmetic. If a 
 actually pointing to a <tt>Derived*</tt>, then pointer arithmetic is invalid. <tt>subrange</tt>'s 
 constructors can easily flag this invalid code, and probably should.
 <p/>
-The following PR incorporates the suggested fix to issue LWG <a href="lwg-active.html#3281">3281</a> I previously reported.
+The following PR incorporates the suggested fix to issue LWG <a href="lwg-defects.html#3281">3281</a> I previously reported.
 <p/>
 Suggested priority: P1, since it will be hard to fix this after C++20 ships.
 </p>

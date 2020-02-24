@@ -31,14 +31,14 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-active.html#3280">3280</a> struck the problematic/extraneous converting constructor templates from the 
+LWG <a href="lwg-defects.html#3280">3280</a> struck the problematic/extraneous converting constructor templates from the 
 <tt><i>meow</i>_view</tt> range adaptor types in the standard library with the exception of <tt>common_view</tt>. 
 The omission of <tt>common_view</tt> seems to have been simply an oversight: its converting constructor 
 template is no less problematic or extraneous. We should remove <tt>common_view</tt>'s converting 
 constructor template as well to finish the task. Both <tt>cmcstl2</tt> and <tt>range-v3</tt> removed 
 the converting constructor template from <tt>common_view</tt> when removing the other converting 
 constructor templates, so we have implementation experience that this change is good as well as 
-consistent with the general thrust of LWG <a href="lwg-active.html#3280">3280</a>.
+consistent with the general thrust of LWG <a href="lwg-defects.html#3280">3280</a>.
 </p>
 
 
