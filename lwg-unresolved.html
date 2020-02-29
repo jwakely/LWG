@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-29 at 16:29:08 UTC</p>
+<p><p>Revised 2020-02-29 at 17:48:33 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -35917,23 +35917,41 @@ in other cases. Requiring unnecessary work is the antithesis of C++.
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3411" href="#3411">3411</a><sup><a href="https://cplusplus.github.io/LWG/issue3411">(i)</a></sup>. [fund.ts.v3] Contradictory namespace rules in the Library Fundamentals TS</h3>
+<p><b>Section:</b> 99 [fund.ts.v3::memory.resource.syn] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2020-02-28 <b>Last modified:</b> 2020-02-29</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses: fund.ts.v3</b></p>
 <p>
-This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.
+The Library Fundamentals TS, <a href="http://wg21.link/n4840">N4840</a>, 
+contains <a href="http://wg21.link/n4840#general.namespaces">a rule about 
+the use of namespaces (paragraph 1)</a>, with the consequence:
+</p>
+<blockquote><p>
+"This TS does not define <tt>std::experimental::fundamentals_v3::pmr</tt>"
+</p></blockquote>
+<p>
+However, the TS then <a href="http://wg21.link/n4840#memory.resource.syn">goes on to 
+define exactly that namespace</a>.
+<p/>
+At the time when the subclause memory.resource.syn was added, the IS didn't use to contain 
+a namespace <tt>pmr</tt>. When the IS adopted that namespace and the TS was rebased, the 
+namespace rule started conflicting with the material in the TS.
+<p/>
+I do not have a workable proposed resolution at this point.
 </p>
 
-<ol>
-<li><p>Modify 31.7.1 <a href="https://wg21.link/atomics.ref.ops">[atomics.ref.ops]</a> as indicated:</p>
 
-<blockquote>
-<pre>
-</pre>
-<blockquote>
-<p>
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
+<p><b>Proposed resolution:</b></p>
+
 
 
 
