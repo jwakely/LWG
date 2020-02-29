@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3410: lexicographical_compare_three_way is overspecified</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3410" href="lwg-active.html#3410">3410</a>. <tt>lexicographical_compare_three_way</tt> is overspecified</h3>
+<p><b>Section:</b> 25.7.11 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-02-27 <b>Last modified:</b> 2020-02-29</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#alg.three.way">issues</a> in [alg.three.way].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+25.7.11 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a>/2 specifies the effects of the <tt>lexicographical_compare_three_way</tt> 
+algorithm via a large "equivalent to" codeblock. This codeblock specifies one more iterator comparison 
+than necessary when the first input sequence is greater than the second, and two more than necessary
+in other cases. Requiring unnecessary work is the antithesis of C++.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.
+</p>
+
+<ol>
+<li><p>Modify 31.7.1 <a href="https://wg21.link/atomics.ref.ops">[atomics.ref.ops]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+</pre>
+<blockquote>
+<p>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+</body>
+</html>

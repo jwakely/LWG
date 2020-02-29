@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-29 at 14:04:01 UTC</p>
+<p><p>Revised 2020-02-29 at 16:29:08 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -35834,7 +35834,7 @@ on x86-64, <tt>atomic_ref&lt;complex&lt;double&gt;&gt;</tt> could be lock-free
 only when the referred object is aligned to 16 bytes, but the above definition 
 allows an implementation to define <tt>required_alignment</tt> to 8 and use locking.
 <p/>
-The note in  [tomics.ref.ops]/2 does mention that lock-free operations
+The note in 31.7.1 <a href="https://wg21.link/atomics.ref.ops">[atomics.ref.ops]</a>/2 does mention that lock-free operations
 may require higher alignment, but it does not provide guidance to the implementations 
 so that <tt>required_alignment</tt> reflects alignment required for lock-free 
 operations, if possible, and not just minimum alignment required for any kind of 
@@ -35891,6 +35891,44 @@ stricter alignment (6.7.6 <a href="https://wg21.link/basic.align">[basic.align]<
 whether operations on an <tt>atomic_ref</tt> are lock-free could depend on the alignment of the 
 referenced object.</del> For example, lock-free operations on <tt>std::complex&lt;double&gt;</tt>
 could be supported only if aligned to <tt>2*alignof(double)</tt>. &mdash; <i>end note</i>]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+<hr>
+<h3><a name="3410" href="#3410">3410</a><sup><a href="https://cplusplus.github.io/LWG/issue3410">(i)</a></sup>. <tt>lexicographical_compare_three_way</tt> is overspecified</h3>
+<p><b>Section:</b> 25.7.11 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-02-27 <b>Last modified:</b> 2020-02-29</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#alg.three.way">issues</a> in [alg.three.way].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+25.7.11 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a>/2 specifies the effects of the <tt>lexicographical_compare_three_way</tt> 
+algorithm via a large "equivalent to" codeblock. This codeblock specifies one more iterator comparison 
+than necessary when the first input sequence is greater than the second, and two more than necessary
+in other cases. Requiring unnecessary work is the antithesis of C++.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.
+</p>
+
+<ol>
+<li><p>Modify 31.7.1 <a href="https://wg21.link/atomics.ref.ops">[atomics.ref.ops]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+</pre>
+<blockquote>
+<p>
 </p>
 </blockquote>
 </blockquote>
