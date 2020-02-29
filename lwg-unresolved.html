@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-02-24 at 20:37:04 UTC</p>
+<p><p>Revised 2020-02-29 at 13:37:23 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -35768,6 +35768,40 @@ Furthermore, the pertinent subrange constructor is only available when <tt>subra
 <tt>false</tt> (i.e., when either the <tt>subrange</tt> specialization's third template argument is 
 not <tt>subrange_kind::sized</tt> or its iterator and sentinel types <tt>I</tt> and <tt>S</tt> model 
 <tt>sized_sentinel_for&lt;S, I&gt;</tt>).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3408" href="#3408">3408</a><sup><a href="https://cplusplus.github.io/LWG/issue3408">(i)</a></sup>. LWG 3291 reveals deficiencies in <tt>counted_iterator</tt></h3>
+<p><b>Section:</b> 23.5.6.1 <a href="https://wg21.link/counted.iterator">[counted.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-25 <b>Last modified:</b> 2020-02-29</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-defects.html#3291">3291</a> makes changes to <tt>iota_view</tt> so that it no longer falsely claims
+it's a C++17 forward iterator. A side effect of this change is that the <tt>counted_iterator</tt> 
+of an <tt>iota_view</tt> can no longer model <tt>forward_iterator</tt>, no matter what the 
+properties of the underlying <tt>weakly_incrementable</tt> type are. For example, the following 
+snippet is ill-formed after LWG 3291:
+</p>
+<blockquote><pre>
+auto v = views::iota(0);
+auto i = counted_iterator{v.begin(), 5};
+static_assert(random_access_iterator&lt;decltype(i)&gt;); // fails after LWG 3291
+</pre></blockquote>
+<p>
+The problem seems to be that <tt>counted_iterator</tt> populates its <tt>iterator_traits</tt> 
+but it does not specify its <tt>iterator_concept</tt>, so we fall back to looking at its 
+<tt>iterator_category</tt> to determine its C++20 iterator-ness. It seems 
+<tt>counted_iterator</tt> should specify its <tt>iterator_concept</tt> appropriately based on 
+the <tt>iterator_concept</tt> of the iterator it wraps.
 </p>
 
 
