@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-03-11 at 18:42:45 UTC</p>
+<p><p>Revised 2020-03-11 at 18:47:25 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
@@ -1940,6 +1940,72 @@ template&lt;class T, class U, class V&gt;
     subrange&lt;uple_element_t&lt;0, P&gt;, tuple_element_t&lt;1, P&gt;, subrange_kind::sized&gt;;</del>
 [&hellip;]
 </pre></blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3405" href="#3405">3405</a><sup><a href="https://cplusplus.github.io/LWG/issue3405">(i)</a></sup>. <tt>common_view</tt>'s converting constructor is bad, too</h3>
+<p><b>Section:</b> 24.7.13.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-02-20 <b>Last modified:</b> 2020-03-11</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-defects.html#3280">3280</a> struck the problematic/extraneous converting constructor templates from the 
+<tt><i>meow</i>_view</tt> range adaptor types in the standard library with the exception of <tt>common_view</tt>. 
+The omission of <tt>common_view</tt> seems to have been simply an oversight: its converting constructor 
+template is no less problematic or extraneous. We should remove <tt>common_view</tt>'s converting 
+constructor template as well to finish the task. Both <tt>cmcstl2</tt> and <tt>range-v3</tt> removed 
+the converting constructor template from <tt>common_view</tt> when removing the other converting 
+constructor templates, so we have implementation experience that this change is good as well as 
+consistent with the general thrust of LWG <a href="lwg-defects.html#3280">3280</a>.
+</p>
+
+<p><i>[2020-03-11 Issue Prioritization]</i></p>
+ 
+<p>
+Status set to Tentatively Ready after seven positive votes on the reflector.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.7.13.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a>, class template <tt>common_view</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+  
+  [&hellip;]
+  constexpr explicit common_view(V r);
+  
+  <del>template&lt;viewable_range R&gt;
+    requires (!common_range&lt;R&gt; &amp;&amp; constructible_from&lt;V, all_view&lt;R&gt;&gt;)
+  constexpr explicit common_view(R&amp;&amp; r);</del>
+  
+  constexpr V base() const&amp; requires copy_constructible&lt;V&gt; { return base_; }
+  [&hellip;]
+  
+</pre>
+[&hellip;]
+<pre>
+<del>template&lt;viewable_range R&gt;
+  requires (!common_range&lt;R&gt; &amp;&amp; constructible_from&lt;V, all_view&lt;R&gt;&gt;)
+constexpr explicit common_view(R&amp;&amp; r);</del>
+</pre>
+<blockquote>
+<p>
+<del>-2- <i>Effects:</i> Initializes <tt>base_</tt> with <tt>views::all(std::forward&lt;R&gt;(r))</tt>.</del>
+</p>
+</blockquote>
+</blockquote>
 </li>
 </ol>
 
