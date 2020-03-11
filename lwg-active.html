@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2020-03-05</td>
+  <td align="left">2020-03-11</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-03-05 at 19:23:23 UTC</p>
+<p><p>Revised 2020-03-11 at 18:42:45 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -165,7 +165,7 @@ ownership of it.
 </ul></li>
 <li><b>Details:</b><ul>
 <li>No issues added.</li>
-<li>No issues changed.</li>
+<li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3404">3404</a>.</li>
 </ul></li>
 </ul>
 </li>
@@ -38907,12 +38907,12 @@ expression, I think it's an improvement?
 
 <hr>
 <h3><a name="3404" href="#3404">3404</a><sup><a href="https://cplusplus.github.io/LWG/issue3404">(i)</a></sup>. Finish removing <tt>subrange</tt>'s conversions from <tt><i>pair-like</i></tt></h3>
-<p><b>Section:</b> 24.5.3 <a href="https://wg21.link/range.subrange">[range.subrange]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-02-20 <b>Last modified:</b> 2020-02-23</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 24.5.3 <a href="https://wg21.link/range.subrange">[range.subrange]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-02-20 <b>Last modified:</b> 2020-03-11</p>
+<p><b>Priority: </b>0
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.subrange">issues</a> in [range.subrange].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Both LWG <a href="lwg-defects.html#3281">3281</a> "Conversion from <tt><i>pair-like</i></tt> types to <tt>subrange</tt> is a 
@@ -38921,6 +38921,12 @@ disallow derived to base conversions" removed <tt>subrange</tt>'s hated implicit
 <tt><i>pair-like</i></tt> types. Notably, neither issue removed the two "<tt><i>iterator-sentinel-pair</i></tt>" 
 deduction guides which target the removed constructors nor the exposition-only <tt><i>iterator-sentinel-pair</i></tt> 
 concept itself, all of which are now useless.
+</p>
+
+<p><i>[2020-03-11 Issue Prioritization]</i></p>
+ 
+<p>
+Status set to Tentatively Ready after seven positive votes on the reflector.
 </p>
 
 
