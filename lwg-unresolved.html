@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-03-21 at 11:16:58 UTC</p>
+<p><p>Revised 2020-03-21 at 11:40:21 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36087,6 +36087,45 @@ We could resolve this by changing the return type of <tt>operator*</tt> to a pro
 We should consider having a standing LWG/LEWG policy that iterators are not their own proxy 
 <tt>operator*</tt> type if we intend to leave the door open to more incomplete type support in 
 the standard library.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3416" href="#3416">3416</a><sup><a href="https://cplusplus.github.io/LWG/issue3416">(i)</a></sup>. The <i>Throws:</i> specification <tt>std::any</tt> does not mention allocation</h3>
+<p><b>Section:</b> 20.8.3 <a href="https://wg21.link/any.class">[any.class]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Thomas K&ouml;ppe  <b>Opened:</b> 2020-03-04 <b>Last modified:</b> 2020-03-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#any.class">issues</a> in [any.class].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Several of the function specifications in 20.8.3 <a href="https://wg21.link/any.class">[any.class]</a> have <i>Throws:</i> elements, 
+but those only mention "exceptions thrown by a constructor". It seems necessary for <tt>std::any</tt> 
+to perform dynamic allocation in general, and so in general there should be a possibility of an 
+exception raised by such dynamic allocation. (This may come from a user-provided 
+<tt>T::operator new</tt>, as far as I can tell.)
+<p/>
+We should revise the specifications to add relevant sources of exceptions.
+<p/>
+The functions that should probably mention allocations are:
+<p/>
+<ul>
+<li><p><tt>any(const any&amp; other)</tt></p></li>
+<li><p><tt>template&lt;class T&gt; any(T&amp;&amp; value)</tt></p></li>
+<li><p>both <tt>any(in_place_t&lt;T&gt;, &hellip;)</tt> overloads</p></li>
+<li><p><tt>any&amp; operator=(const any&amp; rhs)</tt></p></li>
+<li><p><tt>template&lt;class T&gt; any&amp; operator=(T&amp;&amp; rhs)</tt></p></li>
+<li><p>all <tt>emplace</tt> overloads</p></li>
+</ul>
+<p/>
+Proposed wording: None yet. Maybe insert something like "thrown by unspecified, internal bookkeeping logic" 
+into each <i>Throws:</i> element, but perhaps something more specific is necessary.
 </p>
 
 
