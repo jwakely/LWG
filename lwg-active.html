@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-03-30 at 16:50:05 UTC</p>
+<p><p>Revised 2020-03-30 at 17:13:31 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -39619,9 +39619,14 @@ template &lt;class T&gt;
 <p>
 <ins>-?- <i>Constraints:</i> <tt>is_swappable_v&lt;T&gt;</tt> is <tt>true</tt>.</ins>
 <p/>
--2- <ins><i>Remarks:</i></ins> The constant-expression in the exception-specification is <tt>noexcept(pt1.swap(pt2))</tt>.
+<del>-2- The constant-expression in the exception-specification is <tt>noexcept(pt1.swap(pt2))</tt>.</del>
 <p/>
 -3- <i>Effects:</i> <tt>pt1.swap(pt2)</tt>. 
+<p/>
+<ins>-?- <i>Remarks:</i> The expression inside <tt>noexcept</tt> is equivalent to:</ins>
+<blockquote><pre>
+<ins>noexcept(pt1.swap(pt2))</ins>
+</pre></blockquote>
 </p>
 </blockquote>
 </blockquote>
