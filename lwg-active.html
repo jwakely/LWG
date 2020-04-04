@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2020-03-30</td>
+  <td align="left">2020-04-04</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-03-30 at 20:06:27 UTC</p>
+<p><p>Revised 2020-04-04 at 18:43:05 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -164,7 +164,8 @@ ownership of it.
 <li>2942 issues total, up by 7.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 7 New issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3417">3417</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3419">3419</a>, <a href="lwg-active.html#3420">3420</a>.</li>
+<li>Added the following Tentatively Ready issue: <a href="lwg-active.html#3420">3420</a>.</li>
+<li>Added the following 6 New issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3417">3417</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3419">3419</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>.</li>
 </ul></li>
 </ul>
@@ -39063,8 +39064,8 @@ constexpr explicit common_view(R&amp;&amp; r);</del>
 <h3><a name="3406" href="#3406">3406</a><sup><a href="https://cplusplus.github.io/LWG/issue3406">(i)</a></sup>. <tt>elements_view::begin()</tt> and <tt>elements_view::end()</tt> have incompatible
 constraints</h3>
 <p><b>Section:</b> 24.7.15.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-02-23</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-04-04</p>
+<p><b>Priority: </b>1
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.elements.view">issues</a> in [range.elements.view].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -39132,6 +39133,10 @@ and on <tt>elements_view::end()</tt> are consistent and compatible. The followin
 resolution seems to be one way to achieve that and takes inspiration from the design of 
 <tt>transform_view</tt>.
 </p>
+
+<p><i>[2020-04-04 Issue Prioritization]</i></p>
+
+<p>Priority to 1 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -39304,8 +39309,8 @@ the <tt>iterator_concept</tt> of the iterator it wraps.
 <hr>
 <h3><a name="3409" href="#3409">3409</a><sup><a href="https://cplusplus.github.io/LWG/issue3409">(i)</a></sup>. Too lax description of <tt>atomic_ref&lt;T&gt;::required_alignment</tt></h3>
 <p><b>Section:</b> 31.7.1 <a href="https://wg21.link/atomics.ref.ops">[atomics.ref.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Andrey Semashev <b>Opened:</b> 2020-02-27 <b>Last modified:</b> 2020-03-01</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Andrey Semashev <b>Opened:</b> 2020-02-27 <b>Last modified:</b> 2020-04-04</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -39355,6 +39360,10 @@ To avoid the confusion, I propose to remove the sentence. The rest of
 the note can stay intact. However, this second edit is less important
 than the first one and can be omitted in case of disagreement.
 </p>
+
+<p><i>[2020-04-04 Issue Prioritization]</i></p>
+
+<p>Priority to 3 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -40121,13 +40130,13 @@ called with explicitly-specified template argument lists</del>. &mdash; <i>end n
 
 <hr>
 <h3><a name="3420" href="#3420">3420</a><sup><a href="https://cplusplus.github.io/LWG/issue3420">(i)</a></sup>. <tt><i>cpp17-iterator</i></tt> should check that the type looks like an iterator first</h3>
-<p><b>Section:</b> 23.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-02-29 <b>Last modified:</b> 2020-03-30</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 23.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-02-29 <b>Last modified:</b> 2020-04-04</p>
+<p><b>Priority: </b>0
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#iterator.traits">active issues</a> in [iterator.traits].</p>
 <p><b>View all other</b> <a href="lwg-index.html#iterator.traits">issues</a> in [iterator.traits].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 It is common in pre-C++20 code to rely on SFINAE-friendly <tt>iterator_traits</tt> 
@@ -40154,6 +40163,12 @@ checks whether <tt>Foo</tt> is <tt>copyable</tt> [&hellip;].
 <p/>
 To reduce the risk of constraint recursion, we should change <tt><i>cpp17-iterator</i></tt> 
 so that it does not ask about copyability until the type is known to resemble an iterator.
+</p>
+
+<p><i>[2020-04-04 Issue Prioritization]</i></p>
+ 
+<p>
+Status set to Tentatively Ready after six positive votes on the reflector.
 </p>
 
 
