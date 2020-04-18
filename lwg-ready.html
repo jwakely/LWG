@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2020-04-18 at 12:08:40 UTC</p>
+<td align="left"><p>Revised 2020-04-18 at 12:13:21 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1434,6 +1434,49 @@ concept <i>cpp17-iterator</i> =
 [&hellip;]
 </pre>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3421" href="#3421">3421</a><sup><a href="https://cplusplus.github.io/LWG/issue3421">(i)</a></sup>. Imperfect ADL emulation for <tt><i>boolean-testable</i></tt></h3>
+<p><b>Section:</b> 99 [concept.booleantestable] <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Davis Herring <b>Opened:</b> 2020-03-24 <b>Last modified:</b> 2020-04-18</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+99 [concept.booleantestable]/4 checks for "a specialization of a class template that is a member of 
+the same namespace as <tt>D</tt>", which ignores the possibility of inline namespaces.
+</p>
+
+<p><i>[2020-04-18 Issue Prioritization]</i></p>
+ 
+<p>
+Status set to Tentatively Ready after six positive votes on the reflector.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wiki.edg.com/pub/Wg21summer2020/Documents/post-prague-wd.pdf">the 
+post-Prague working draft preview</a>.
+</p>
+
+<ol>
+<li><p>Modify 99 [concept.booleantestable] as indicated:</p>
+
+<blockquote>
+<p>
+-4- A <i>key parameter</i> of a function template <tt>D</tt> is a function parameter of type <i>cv</i> <tt>X</tt> 
+or reference thereto, where <tt>X</tt> names a specialization of a class template that <ins>has the same innermost 
+enclosing non-inline</ins><del>is a member of the same</del> namespace as <tt>D</tt>, and <tt>X</tt> contains at 
+least one template parameter that participates in template argument deduction. [&hellip;]
+</p>
 </blockquote>
 </li>
 </ol>
