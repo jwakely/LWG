@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2020-04-18 at 12:19:03 UTC</p>
+<td align="left"><p>Revised 2020-04-18 at 12:23:37 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1558,6 +1558,81 @@ than one of the standard mutex types or a <tt>unique_lock</tt> wrapper for a sta
 <tt>condition_variable_any</tt>, the user should ensure that any necessary synchronization is in place with 
 respect to the predicate associated with the <tt>condition_variable_any</tt> instance. &mdash; <i>end note</i>]
 </p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3428" href="#3428">3428</a><sup><a href="https://cplusplus.github.io/LWG/issue3428">(i)</a></sup>. <tt>single_view</tt>'s in place constructor should be explicit</h3>
+<p><b>Section:</b> 24.6.2.2 <a href="https://wg21.link/range.single.view">[range.single.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-04-07 <b>Last modified:</b> 2020-04-18</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>in_place_t</tt> constructor template of <tt>single_view</tt> is not explicit:
+</p>
+<blockquote><pre>
+template&lt;class... Args&gt;
+  requires constructible_from&lt;T, Args...&gt;
+constexpr single_view(in_place_t, Args&amp;&amp;... args);
+</pre></blockquote>
+<p>
+so it defines an implicit conversion from <tt>std::in_place_t</tt> to
+<tt>single_view&lt;T&gt;</tt> whenever <tt>constructible_from&lt;T&gt;</tt> is modeled, 
+which seems unlikely to be the intent.
+</p>
+
+<p><i>[2020-04-18 Issue Prioritization]</i></p>
+ 
+<p>
+Status set to Tentatively Ready after six positive votes on the reflector.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wiki.edg.com/pub/Wg21summer2020/Documents/post-prague-wd.pdf">the 
+post-Prague working draft preview</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.6.2.2 <a href="https://wg21.link/range.single.view">[range.single.view]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;copy_constructible T&gt;
+    requires is_object_v&lt;T&gt;
+  class single_view : public view_interface&lt;single_view&lt;T&gt;&gt; {
+    [&hellip;]
+  public:
+    [&hellip;]
+    template&lt;class... Args&gt;
+      requires constructible_from&lt;T, Args...&gt;
+    constexpr <ins>explicit</ins> single_view(in_place_t, Args&amp;&amp;... args);
+
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class... Args&gt;
+constexpr <ins>explicit</ins> single_view(in_place_t, Args&amp;&amp;... args);
+</pre>
+
+<blockquote>
+<p>
+-3- <i>Effects:</i> Initializes <tt>value_</tt> as if by <tt>value_{in_place, std::forward&lt;Args&gt;(args)...}</tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ol>
