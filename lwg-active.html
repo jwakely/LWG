@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-04-18 at 12:23:37 UTC</p>
+<p><p>Revised 2020-04-18 at 12:27:24 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -164,8 +164,8 @@ ownership of it.
 <li>2951 issues total, up by 16.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 6 Tentatively Ready issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3419">3419</a>, <a href="lwg-active.html#3420">3420</a>, <a href="lwg-active.html#3421">3421</a>, <a href="lwg-active.html#3425">3425</a>, <a href="lwg-active.html#3428">3428</a>.</li>
-<li>Added the following 9 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3426">3426</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3429">3429</a>.</li>
+<li>Added the following 7 Tentatively Ready issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3419">3419</a>, <a href="lwg-active.html#3420">3420</a>, <a href="lwg-active.html#3421">3421</a>, <a href="lwg-active.html#3425">3425</a>, <a href="lwg-active.html#3426">3426</a>, <a href="lwg-active.html#3428">3428</a>.</li>
+<li>Added the following 8 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3429">3429</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>.</li>
 <li>Changed the following issue to WP (from New): <a href="lwg-defects.html#3290">3290</a>.</li>
@@ -40644,12 +40644,12 @@ respect to the predicate associated with the <tt>condition_variable_any</tt> ins
 
 <hr>
 <h3><a name="3426" href="#3426">3426</a><sup><a href="https://cplusplus.github.io/LWG/issue3426">(i)</a></sup>. <tt>operator&lt;=&gt;(const unique_ptr&lt;T, D&gt;&amp;, nullptr_t)</tt> can't get no satisfaction</h3>
-<p><b>Section:</b> 20.11.1.5 <a href="https://wg21.link/unique.ptr.special">[unique.ptr.special]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-09 <b>Last modified:</b> 2020-04-14</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 20.11.1.5 <a href="https://wg21.link/unique.ptr.special">[unique.ptr.special]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-09 <b>Last modified:</b> 2020-04-18</p>
+<p><b>Priority: </b>0
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#unique.ptr.special">issues</a> in [unique.ptr.special].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The constraint for <tt>operator&lt;=&gt;(const unique_ptr&lt;T, D&gt;&amp;, nullptr_t)</tt>
@@ -40662,6 +40662,12 @@ instead of to <tt>nullptr</tt> directly.
 
 <p><i>[2020-04-14; Replacing the functional cast by a <tt>static_cast</tt> as result of reflector discussion]</i></p>
 
+
+<p><i>[2020-04-18 Issue Prioritization]</i></p>
+ 
+<p>
+Status set to Tentatively Ready after seven positive votes on the reflector.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
