@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-04-18 at 12:17:34 UTC</p>
+<p><p>Revised 2020-04-18 at 12:19:03 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36631,8 +36631,8 @@ For the third overload, <tt>static_cast&lt;<del>T</del><ins>R</ins>&gt;(std::mov
 <hr>
 <h3><a name="3424" href="#3424">3424</a><sup><a href="https://cplusplus.github.io/LWG/issue3424">(i)</a></sup>. <tt>optional::value_or</tt> should never return a <i>cv</i>-qualified type</h3>
 <p><b>Section:</b> 20.6.3.5 <a href="https://wg21.link/optional.observe">[optional.observe]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-04-02 <b>Last modified:</b> 2020-04-05</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-04-02 <b>Last modified:</b> 2020-04-18</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#optional.observe">active issues</a> in [optional.observe].</p>
 <p><b>View all other</b> <a href="lwg-index.html#optional.observe">issues</a> in [optional.observe].</p>
@@ -36644,6 +36644,10 @@ The <tt>optional&lt;T&gt;::value_or</tt> overloads are specified to return <tt>T
 (In the <tt>volatile</tt> case, it is even deprecated since merging <a href="http://wg21.link/p1152r4">P1152R4</a> 
 "Deprecating volatile" into the working draft.) We should strip <i>cv</i>-qualifiers from these return types.
 </p>
+
+<p><i>[2020-04-18 Issue Prioritization]</i></p>
+
+<p>Priority to 3 after reflector discussion.</p>
 
 
 <p><b>Proposed resolution:</b></p>
