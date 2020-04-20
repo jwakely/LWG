@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-04-20 at 15:25:53 UTC</p>
+<p><p>Revised 2020-04-20 at 16:04:27 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -41117,6 +41117,12 @@ post-Prague working draft preview</a>.
 <ol>
 <li><p>Modify 21.4.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a> by adding a new paragraph after p3:</p>
 
+<blockquote class="note">
+<p>
+As result of reflector discussion we decided to make a drive-by fix in p3 below.
+</p>
+</blockquote>
+
 <blockquote>
 <pre>
 template&lt;class charT, class traits&gt;
@@ -41124,7 +41130,9 @@ template&lt;class charT, class traits&gt;
                                   basic_string_view&lt;charT, traits&gt; rhs) noexcept;
 </pre>
 <blockquote>
-<p>-3- Let <tt>R</tt> denote the type <tt>traits::comparison_category</tt> if it exists, otherwise <tt>R</tt> is <tt>weak_ordering</tt>.</p>
+<p>-3- Let <tt>R</tt> denote the type <tt>traits::comparison_category</tt> if <ins>that <i>qualified-id</i>
+is valid and denotes a type (13.10.2 <a href="https://wg21.link/temp.deduct">[temp.deduct]</a>)</ins><del>it exists</del>, otherwise <tt>R</tt> 
+is <tt>weak_ordering</tt>.</p>
 
 <p><ins>-?- <i>Mandates:</i> <tt>R</tt> denotes a comparison category type (17.11.2 <a href="https://wg21.link/cmp.categories">[cmp.categories]</a>).</ins></p>
 
