@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2114" href="lwg-active.html#2114">2114</a>. Incorrect "<em>contextually</em> convertible to <tt>bool</tt>" requirements</h3>
-<p><b>Section:</b> 16.5.3.3 <a href="https://wg21.link/nullablepointer.requirements">[nullablepointer.requirements]</a>, 23.3.5.2 <a href="https://wg21.link/input.iterators">[input.iterators]</a>, 23.3.5.6 <a href="https://wg21.link/random.access.iterators">[random.access.iterators]</a>, 25.1 <a href="https://wg21.link/algorithms.general">[algorithms.general]</a>, 25.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a>, 32.2.1 <a href="https://wg21.link/thread.req.paramname">[thread.req.paramname]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+<p><b>Section:</b> 16.5.3.3 <a href="https://wg21.link/nullablepointer.requirements">[nullablepointer.requirements]</a>, 23.3.5.2 <a href="https://wg21.link/input.iterators">[input.iterators]</a>, 23.3.5.6 <a href="https://wg21.link/random.access.iterators">[random.access.iterators]</a>, 25.1 <a href="https://wg21.link/algorithms.general">[algorithms.general]</a>, 25.8 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a>, 32.2.1 <a href="https://wg21.link/thread.req.paramname">[thread.req.paramname]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2011-12-09 <b>Last modified:</b> 2017-02-02</p>
 <p><b>Priority: </b>3
 </p>
@@ -105,10 +105,10 @@ wording. An expressions like "<tt>!pred(a, b)</tt>" might not be well-formed in 
 <tt>operator!</tt> might not be accessible or might have an unusual semantics (and similarly for other logical
 operations). This can indeed happen with unusual proxy return types, so the idea was that the evaluation of 
 <tt>Predicate</tt>, <tt>BinaryPredicate</tt> (25.1 <a href="https://wg21.link/algorithms.general">[algorithms.general]</a> p8+9), and <tt>Compare</tt> 
-(25.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p2) should be defined based on contextual conversion to <tt>bool</tt>. 
+(25.8 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p2) should be defined based on contextual conversion to <tt>bool</tt>. 
 Unfortunately this <em>alone</em> is not sufficient: In addition, I think, we <em>also</em> want the predicates 
 to be (implicitly) convertible to <tt>bool</tt>! Without this wording, several conditions are plain wrong, 
-e.g. 25.5.5 <a href="https://wg21.link/alg.find">[alg.find]</a> p2, which talks about "<tt>pred(*i) != false</tt>" (<tt>find_if</tt>) and 
+e.g. 25.6.5 <a href="https://wg21.link/alg.find">[alg.find]</a> p2, which talks about "<tt>pred(*i) != false</tt>" (<tt>find_if</tt>) and 
 "<tt>pred(*i) == false</tt>" (<tt>find_if_not</tt>). These expressions are not within a boolean context! 
 <p/>
 While we could simply fix all these places by proper wording to be considered in a "contextual conversion to
@@ -528,7 +528,7 @@ not apply any non-constant function through the dereferenced iterators.
 </blockquote>
 </li>
 
-<li><p>Change 25.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p2 as indicated:</p>
+<li><p>Change 25.8 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p2 as indicated:</p>
 
 <blockquote>
 <p>
@@ -724,7 +724,7 @@ following properties: [&hellip;]
 <tt>bool</tt></del><ins><tt>BT</tt></ins>
 </td>
 <td>
-<tt>&lt;</tt> is a strict weak ordering relation (25.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a>)
+<tt>&lt;</tt> is a strict weak ordering relation (25.8 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a>)
 </td>
 </tr>
 
@@ -1236,7 +1236,7 @@ shall not apply any non-constant function through <del>the dereferenced iterator
 </blockquote>
 </li>
 
-<li><p>Change 25.7 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p2 as indicated:</p>
+<li><p>Change 25.8 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p2 as indicated:</p>
 
 <blockquote>
 <p>

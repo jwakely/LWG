@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3186" href="lwg-defects.html#3186">3186</a>. <tt>ranges</tt> removal, partition, and <tt>partial_sort_copy</tt> algorithms discard useful information</h3>
-<p><b>Section:</b> 25.6.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a>, 25.6.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a>, 25.7.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a>, 25.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 25.7.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a>, 25.7.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a>, 25.8.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a>, 25.8.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2019-02-05 <b>Last modified:</b> 2019-07-27</p>
 <p><b>Priority: </b>1
 </p>
@@ -53,7 +53,7 @@ For <tt>partial_sort_copy</tt> we propose to return <code>partial_sort_copy_resu
 Proposed wording is updated to incorporate wording comments from Casey Carter:
 </p>
 <ul>
-<li><p>We don't need to repeat the definition of <tt>partial_sort_copy_result</tt> in 25.7.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a>; 
+<li><p>We don't need to repeat the definition of <tt>partial_sort_copy_result</tt> in 25.8.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a>; 
 the single definition in the synopsis is sufficient.</p></li>
 <li><p><tt><i>e</i></tt> is a potentially confusing choice of placeholder name for the end of the output range, given that 
 we use a placeholder <tt><i>E</i></tt> for predicates in the algorithm specifications.</p></li>
@@ -78,7 +78,7 @@ above algorithms.
 <blockquote>
 <pre>
 [&hellip;]
-<i>//25.6.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a>, remove</i>
+<i>//25.7.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a>, remove</i>
 [&hellip;]
 namespace ranges {
 template&lt;Permutable I, Sentinel&lt;I&gt; S, class T, class Proj = identity&gt;
@@ -99,7 +99,7 @@ template&lt;ForwardRange R, class Proj = identity,
     remove_if(R&amp;&amp; r, Pred pred, Proj proj = {});
 }
 [&hellip;]
-<i>// 25.6.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a>, unique</i>
+<i>// 25.7.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a>, unique</i>
 [&hellip;]
 namespace ranges {
   template&lt;Permutable I, Sentinel&lt;I&gt; S, class Proj = identity,
@@ -112,7 +112,7 @@ namespace ranges {
       unique(R&amp;&amp; r, C comp = {}, Proj proj = {});
 }
 [&hellip;]
-<i>// 25.7.1 <a href="https://wg21.link/alg.sort">[alg.sort]</a>, sorting</i>
+<i>// 25.8.1 <a href="https://wg21.link/alg.sort">[alg.sort]</a>, sorting</i>
 [&hellip;]
 namespace ranges {
   <ins>template&lt;class I, class O&gt; using partial_sort_copy_result = copy_result&lt;I, O&gt;;</ins>
@@ -135,7 +135,7 @@ namespace ranges {
                         Proj1 proj1 = {}, Proj2 proj2 = {});
 }
 [&hellip;]
-<i>// 25.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a>, partitions</i>
+<i>// 25.8.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a>, partitions</i>
 [&hellip;]
 namespace ranges {
   template&lt;Permutable I, Sentinel&lt;I&gt; S, class Proj = identity,
@@ -164,7 +164,7 @@ namespace ranges {
 </blockquote>
 </li>
 
-<li><p>Change 25.6.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a> as indicated:</p>
+<li><p>Change 25.7.8 <a href="https://wg21.link/alg.remove">[alg.remove]</a> as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -203,7 +203,7 @@ template&lt;ForwardRange R, class Proj = identity,
 </blockquote>
 </li>
 
-<li><p>Change 25.6.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a> as indicated:</p>
+<li><p>Change 25.7.9 <a href="https://wg21.link/alg.unique">[alg.unique]</a> as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -234,7 +234,7 @@ namespace ranges {
 </blockquote>
 </li>
 
-<li><p>Change 25.7.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a> as indicated:</p>
+<li><p>Change 25.8.1.4 <a href="https://wg21.link/partial.sort.copy">[partial.sort.copy]</a> as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -273,7 +273,7 @@ namespace ranges {
 </blockquote>
 </li>
 
-<li><p>Change 25.7.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> as indicated:</p>
+<li><p>Change 25.8.4 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
