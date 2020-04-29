@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2020-04-27</td>
+  <td align="left">2020-04-29</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-04-27 at 16:10:24 UTC</p>
+<p><p>Revised 2020-04-29 at 16:33:43 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D122: 2020-05-04 pre-Varna mailing<ul>
 <li><b>Summary:</b><ul>
-<li>334 open issues, up by 20.</li>
+<li>335 open issues, up by 21.</li>
 <li>2587 closed issues, up by 1.</li>
 <li>36 reassigned issues, up by 1.</li>
-<li>2957 issues total, up by 22.</li>
+<li>2958 issues total, up by 23.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 7 Tentatively Ready issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3419">3419</a>, <a href="lwg-active.html#3420">3420</a>, <a href="lwg-active.html#3421">3421</a>, <a href="lwg-active.html#3425">3425</a>, <a href="lwg-active.html#3426">3426</a>, <a href="lwg-active.html#3428">3428</a>.</li>
-<li>Added the following 14 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>.</li>
+<li>Added the following 15 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>.</li>
 <li>Changed the following issue to WP (from New): <a href="lwg-defects.html#3290">3290</a>.</li>
@@ -41377,6 +41377,38 @@ template&lt;class U&gt;
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3436" href="#3436">3436</a><sup><a href="https://cplusplus.github.io/LWG/issue3436">(i)</a></sup>. <tt>std::construct_at</tt> should support arrays</h3>
+<p><b>Section:</b> 20.10.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-29 <b>Last modified:</b> 2020-04-29</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>std::construct_at</tt> is ill-formed for array types, because the type of the <tt>new</tt>-expression is <tt>T</tt> 
+not <tt>T*</tt> so it cannot be converted to the return type.
+<p/>
+In C++17 <tt>allocator_traits::construct</tt> did work for arrays, because it returns <tt>void</tt> so there is no 
+ill-formed conversion. On the other hand, in C++17 <tt>allocator_traits::destroy</tt> didn't work for arrays, 
+because <tt>p-&gt;~T()</tt> isn't valid.
+<p/>
+In C++20 <tt>allocator_traits::destroy</tt> does work, because <tt>std::destroy_at</tt> treats arrays specially, 
+but <tt>allocator_traits::construct</tt> no longer works because it uses <tt>std::construct_at</tt>.
+<p/>
+It seems unnecessary and/or confusing to remove support for arrays in <tt>construct</tt> when we're adding it in <tt>destroy</tt>.
+<p/>
+I suggest that <tt>std::construct_at</tt> should also handle arrays. It might be reasonable to restrict that 
+support to the case where <tt>sizeof...(Args) == 0</tt>, if supporting parenthesized aggregate-initialization 
+is not desirable in <tt>std::construct_at</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
