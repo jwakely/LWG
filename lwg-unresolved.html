@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-05-01 at 12:12:08 UTC</p>
+<p><p>Revised 2020-05-01 at 17:33:15 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -29951,109 +29951,6 @@ Will be resolved by <a href="http://wg21.link/p2116r0">P2116R0</a>.
 
 
 <p><b>Proposed resolution:</b></p>
-
-
-
-
-<hr>
-<h3><a name="3213" href="#3213">3213</a><sup><a href="https://cplusplus.github.io/LWG/issue3213">(i)</a></sup>. <tt>for_each_n</tt> and <tt>copy_n</tt> missing requirements for <tt>Size</tt></h3>
-<p><b>Section:</b> 25.6.4 <a href="https://wg21.link/alg.foreach">[alg.foreach]</a>, 25.7.1 <a href="https://wg21.link/alg.copy">[alg.copy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-05-31 <b>Last modified:</b> 2019-08-26</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#alg.foreach">issues</a> in [alg.foreach].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-<tt>search_n</tt> and <tt>fill_n</tt> and <tt>generate_n</tt> require that "The type <tt>Size</tt> shall be
-convertible to integral type", but <tt>for_each_n</tt> and <tt>copy_n</tt> have no requirements on
-<tt>Size</tt>. Presumably it should be convertible to an integral type.
-</p>
-
-<p><i>[2019-07 Issue Prioritization]</i></p>
-
-<p>Priority to 3 after discussion on the reflector.</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note:</i> Clause [algorithms] has not yet gone through a "Mandating" cleanup of our new wording
-style for requirements expressed in <i>Requires</i> and <i>Expects</i> elements. The below wording
-changes perform this fix for the touched paragraphs and also replaces here <i>Requires</i> by
-<i>Expects</i> to prevent papers that address such wording changes to keep tracking of additional
-wording changes caused by proposed wording of issues.]
-</p>
-</blockquote>
-
-<ol>
-<li><p>Modify 25.6.4 <a href="https://wg21.link/alg.foreach">[alg.foreach]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class InputIterator, class Size, class Function&gt;
-  constexpr InputIterator for_each_n(InputIterator first, Size n, Function f);
-</pre>
-<blockquote>
-<p>
--16- <i>Requires:</i> shall satisfy the <i>Cpp17MoveConstructible</i> requirements [&hellip;]
-<p/>
--17- <i><del>Requires</del><ins>Expects</ins>:</i> <ins>The type <tt>Size</tt> is convertible to integral type
-(7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.4.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins> <tt>n &gt;= 0</tt>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Function&gt;
-  ForwardIterator for_each_n(ExecutionPolicy&amp;&amp; exec, ForwardIterator first, Size n,
-                             Function f);
-</pre>
-<blockquote>
-<p>
--21- <i>Requires:</i> shall satisfy the <i>Cpp17CopyConstructible</i> requirements [&hellip;]
-<p/>
--22- <i><del>Requires</del><ins>Expects</ins>:</i> <ins>The type <tt>Size</tt> is convertible to integral type
-(7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.4.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins> <tt>n &gt;= 0</tt>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Modify 25.7.1 <a href="https://wg21.link/alg.copy">[alg.copy]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class InputIterator, class Size, class OutputIterator&gt;
-  constexpr OutputIterator copy_n(InputIterator first, Size n,
-                                  OutputIterator result);
-template&lt;class ExecutionPolicy, class ForwardIterator1, class Size, class ForwardIterator2&gt;
-  ForwardIterator2 copy_n(ExecutionPolicy&amp;&amp; exec,
-                          ForwardIterator1 first, Size n,
-                          ForwardIterator2 result);
-template&lt;InputIterator I, WeaklyIncrementable O&gt;
-  requires IndirectlyCopyable&lt;I, O&gt;
-  constexpr ranges::copy_n_result&lt;I, O&gt;
-    ranges::copy_n(I first, iter_difference_t&lt;I&gt; n, O result);
-</pre>
-<blockquote>
-<p>
--10- Let <tt><i>M</i></tt> be <tt>max(n, 0)</tt>.
-<p/>
-<ins>-?- <i>Expects:</i> The type <tt>Size</tt> is convertible to integral type
-(7.3.8 <a href="https://wg21.link/conv.integral">[conv.integral]</a>, 11.4.7 <a href="https://wg21.link/class.conv">[class.conv]</a>).</ins>
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
 
 
 
