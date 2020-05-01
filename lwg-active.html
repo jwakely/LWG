@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-01 at 19:06:41 UTC</p>
+<p><p>Revised 2020-05-01 at 19:13:04 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,8 +158,8 @@ ownership of it.
 <ul>
 <li>D122: 2020-05-04 pre-Varna mailing<ul>
 <li><b>Summary:</b><ul>
-<li>338 open issues, up by 24.</li>
-<li>2587 closed issues, up by 1.</li>
+<li>337 open issues, up by 23.</li>
+<li>2588 closed issues, up by 2.</li>
 <li>36 reassigned issues, up by 1.</li>
 <li>2961 issues total, up by 26.</li>
 </ul></li>
@@ -170,6 +170,7 @@ ownership of it.
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>.</li>
 <li>Changed the following issue to Tentatively Resolved (from New): <a href="lwg-active.html#3213">3213</a>.</li>
 <li>Changed the following issue to WP (from New): <a href="lwg-defects.html#3290">3290</a>.</li>
+<li>Changed the following issue to Resolved (from New): <a href="lwg-defects.html#3212">3212</a>.</li>
 </ul></li>
 </ul>
 </li>
@@ -310,7 +311,7 @@ ownership of it.
 <li><b>Details:</b><ul>
 <li>Added the following 6 Tentatively Ready issues: <a href="lwg-defects.html#3198">3198</a>, <a href="lwg-defects.html#3199">3199</a>, <a href="lwg-defects.html#3202">3202</a>, <a href="lwg-defects.html#3206">3206</a>, <a href="lwg-defects.html#3208">3208</a>, <a href="lwg-defects.html#3209">3209</a>.</li>
 <li>Added the following Tentatively NAD issue: <a href="lwg-active.html#3207">3207</a>.</li>
-<li>Added the following 18 New issues: <a href="lwg-active.html#3197">3197</a>, <a href="lwg-defects.html#3200">3200</a>, <a href="lwg-defects.html#3201">3201</a>, <a href="lwg-active.html#3203">3203</a>, <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3205">3205</a>, <a href="lwg-active.html#3210">3210</a>, <a href="lwg-active.html#3211">3211</a>, <a href="lwg-active.html#3212">3212</a>, <a href="lwg-active.html#3213">3213</a>, <a href="lwg-active.html#3214">3214</a>, <a href="lwg-active.html#3215">3215</a>, <a href="lwg-active.html#3216">3216</a>, <a href="lwg-active.html#3217">3217</a>, <a href="lwg-defects.html#3218">3218</a>, <a href="lwg-active.html#3219">3219</a>, <a href="lwg-active.html#3220">3220</a>, <a href="lwg-defects.html#3221">3221</a>.</li>
+<li>Added the following 18 New issues: <a href="lwg-active.html#3197">3197</a>, <a href="lwg-defects.html#3200">3200</a>, <a href="lwg-defects.html#3201">3201</a>, <a href="lwg-active.html#3203">3203</a>, <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3205">3205</a>, <a href="lwg-active.html#3210">3210</a>, <a href="lwg-active.html#3211">3211</a>, <a href="lwg-defects.html#3212">3212</a>, <a href="lwg-active.html#3213">3213</a>, <a href="lwg-active.html#3214">3214</a>, <a href="lwg-active.html#3215">3215</a>, <a href="lwg-active.html#3216">3216</a>, <a href="lwg-active.html#3217">3217</a>, <a href="lwg-defects.html#3218">3218</a>, <a href="lwg-active.html#3219">3219</a>, <a href="lwg-active.html#3220">3220</a>, <a href="lwg-defects.html#3221">3221</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-defects.html#3191">3191</a>, <a href="lwg-defects.html#3196">3196</a>.</li>
 </ul></li>
 </ul>
@@ -32653,207 +32654,6 @@ a separate paragraph.
 </li>
 
 </ol>
-
-
-
-
-<hr>
-<h3><a name="3212" href="#3212">3212</a><sup><a href="https://cplusplus.github.io/LWG/issue3212">(i)</a></sup>. <tt>tuple_element_t&lt;1, const span&lt;int, 42&gt;&gt;</tt> is <tt>const int</tt></h3>
-<p><b>Section:</b> 99 [span.tuple] <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2019-05-31 <b>Last modified:</b> 2020-02-22</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-As currently specified, it uses the <i>cv</i>-qualified partial specialization, which incorrectly 
-adds <i>cv</i>-qualification to the element type.
-</p>
-
-<strong>Previous resolution [SUPERSEDED]:</strong>
-<blockquote class="note">
-<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
-
-<ol>
-<li><p>Modify 22.7.2 <a href="https://wg21.link/span.syn">[span.syn]</a>, header <tt>&lt;span&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-<i>// 99 [span.tuple], tuple interface</i>
-template&lt;class T&gt; class tuple_size;
-template&lt;size_t I, class T&gt; class tuple_element;
-template&lt;class ElementType, size_t Extent&gt;
-  struct tuple_size&lt;span&lt;ElementType, Extent&gt;&gt;;
-template&lt;class ElementType&gt;
-  struct tuple_size&lt;span&lt;ElementType, dynamic_extent&gt;&gt;; <i>// not defined</i>
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;;
-<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt;;
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;;</ins>
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 99 [span.tuple] before p1 as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note:</i> The representation style for the newly added wording follows the new style
-for <tt>tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;::type</tt>, which 
-  <a href="https://github.com/cplusplus/draft/pull/2868">had recently been changed editorially</a>.]
-</p>
-</blockquote>
-
-<blockquote>
-<pre>
-template&lt;class ElementType, size_t Extent&gt;
-  struct tuple_size&lt;span&lt;ElementType, Extent&gt;&gt;
-    : integral_constant&lt;size_t, Extent&gt; { };
-
-tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;::type
-
-<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt; {
-    using type = ElementType;
-  };
-
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt; {
-    using type = ElementType;
-  };
-
-template&lt;size_t I, class ElementType, size_t Extent>
-  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt; {
-    using type = ElementType;
-  };</ins>
-</pre>
-<blockquote>
-<p>
--1- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
-</blockquote>
-
-<p><i>[2020-02-13, Prague]</i></p>
-
-<p>
-Wording needs to be adjusted, because we accepted <a href="http://wg21.link/p1831r1">P1831R1</a>.
-</p>
-
-<strong>Previous resolution [SUPERSEDED]:</strong>
-<blockquote class="note">
-<p>This wording is relative to <a href="http://wg21.link/n4849">N4849</a>.</p>
-
-<ol>
-<li><p>Modify 22.7.2 <a href="https://wg21.link/span.syn">[span.syn]</a>, header <tt>&lt;span&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-<i>// 99 [span.tuple], tuple interface</i>
-template&lt;class T&gt; class tuple_size;
-template&lt;size_t I, class T&gt; class tuple_element;
-template&lt;class ElementType, size_t Extent&gt;
-  struct tuple_size&lt;span&lt;ElementType, Extent&gt;&gt;;
-template&lt;class ElementType&gt;
-  struct tuple_size&lt;span&lt;ElementType, dynamic_extent&gt;&gt;; <i>// not defined</i>
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt;;
-<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt;;</ins>
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 99 [span.tuple] before p1 as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class ElementType, size_t Extent&gt;
-  struct tuple_size&lt;span&lt;ElementType, Extent&gt;&gt;
-    : integral_constant&lt;size_t, Extent&gt; { };
-
-template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, span&lt;ElementType, Extent&gt;&gt; {
-    using type = ElementType;
-  };
-
-<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, const span&lt;ElementType, Extent&gt;&gt; {
-    using type = ElementType;
-  };</ins>
-</pre>
-<blockquote>
-<p>
--1- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Add the following wording to Annex D:</p>
-
-<blockquote>
-<p>
-<ins><b>D.? Deprecated <tt>span</tt> tuple interface [depr.span.syn]</b></ins>
-<p/>
-<ins>1 The header <tt>&lt;span&gt;</tt> (22.7.2 <a href="https://wg21.link/span.syn">[span.syn]</a>) has the following additions:</ins>
-</p>
-<blockquote><pre>
-<ins>
-namespace std {
-  template&lt;size_t I, class ElementType, size_t Extent&gt;
-    struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt;;
-  template&lt;size_t I, class ElementType, size_t Extent&gt;
-    struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt;;
-}</ins>
-</pre></blockquote>
-<p>
-<ins><b>D.1.? tuple interface [depr.span.tuple]</b></ins>
-</p>
-<blockquote><pre>
-<ins>template&lt;size_t I, class ElementType, size_t Extent&gt;
-  struct tuple_element&lt;I, volatile span&lt;ElementType, Extent&gt;&gt; {
-    using type = ElementType;
-  };
-
-template&lt;size_t I, class ElementType, size_t Extent>
-  struct tuple_element&lt;I, const volatile span&lt;ElementType, Extent&gt;&gt; {
-    using type = ElementType;
-  };</ins>
-</pre></blockquote>
-<p>
-<ins>-?- <i>Mandates:</i> <tt>Extent != dynamic_extent &amp;&amp; I &lt; Extent</tt> is <tt>true</tt>.</ins>
-</p>
-</blockquote>
-</li>
-
-</ol>
-
-</blockquote>
-
-<p><i>[2020-02-14, Prague]</i></p>
-
-<p>
-Lengthy discussion about the intended design of <tt>span</tt>'s tuple interface. Has been send to LEWG, who
-made several polls and concluded to remove the tuple interface for <tt>span</tt> for C++20.
-<p/>
-Will be resolved by <a href="http://wg21.link/p2116r0">P2116R0</a>.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
 
 
 
