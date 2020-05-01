@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-04-30 at 16:09:47 UTC</p>
+<p><p>Revised 2020-05-01 at 11:50:45 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -17315,6 +17315,8 @@ Therefore I'm suggesting that the resolution for this issue should be: Resolved 
  <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-07-08 <b>Last modified:</b> 2019-03-17</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#container.node.overview">active issues</a> in [container.node.overview].</p>
+<p><b>View all other</b> <a href="lwg-index.html#container.node.overview">issues</a> in [container.node.overview].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -37384,6 +37386,49 @@ This wording is relative to <a href="http://wg21.link/n4861">N4861</a>.
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3438" href="#3438">3438</a><sup><a href="https://cplusplus.github.io/LWG/issue3438">(i)</a></sup>. &sect;[container.node.overview] missing <tt>multiset</tt>/<tt>map</tt> cases</h3>
+<p><b>Section:</b> 22.2.4.1 <a href="https://wg21.link/container.node.overview">[container.node.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2020-04-30 <b>Last modified:</b> 2020-05-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#container.node.overview">active issues</a> in [container.node.overview].</p>
+<p><b>View all other</b> <a href="lwg-index.html#container.node.overview">issues</a> in [container.node.overview].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In 22.2.4.1 <a href="https://wg21.link/container.node.overview">[container.node.overview]</a>, there is Table 79 [tab:container.node.compat]
+which indicates which containers have compatible nodes.
+<p/>
+It appears that rows along
+</p>
+<blockquote>
+<p>
+multimap&lt;K, T, C1, A&gt;     multimap&lt;K, T, C2, A&gt;
+</p>
+</blockquote>
+<p>
+(i.e. multimaps with differing <tt>Compare</tt> functions) are missing from the table.
+<p/>
+(Same for <tt>multiset</tt> and <tt>unordered_multiset/map</tt>.)
+<p/>
+However, the introductory sentences in 22.2.4.1 <a href="https://wg21.link/container.node.overview">[container.node.overview]</a> do not relate 
+"compatible nodes" with Table 79 and do not clearly state transitivity:
+</p>
+<blockquote><p>
+A node handle is an object that accepts ownership of a single element from an associative container 
+(22.2.6 <a href="https://wg21.link/associative.reqmts">[associative.reqmts]</a>) or an unordered associative container (22.2.7 <a href="https://wg21.link/unord.req">[unord.req]</a>). 
+It may be used to transfer that ownership to another container with compatible nodes. Containers 
+with compatible nodes have the same node handle type. Elements may be transferred in either direction 
+between container types in the same row of Table 79 [tab:container.node.compat].
+</p></blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
