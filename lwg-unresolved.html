@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-05-02 at 12:23:47 UTC</p>
+<p><p>Revised 2020-05-02 at 14:04:37 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -28450,7 +28450,7 @@ namespace std {
 <hr>
 <h3><a name="3171" href="#3171">3171</a><sup><a href="https://cplusplus.github.io/LWG/issue3171">(i)</a></sup>. LWG 2989 breaks <tt>directory_entry</tt> stream insertion</h3>
 <p><b>Section:</b> 29.11.11 <a href="https://wg21.link/fs.class.directory.entry">[fs.class.directory.entry]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-12-03 <b>Last modified:</b> 2019-04-02</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-12-03 <b>Last modified:</b> 2020-05-02</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#fs.class.directory.entry">active issues</a> in [fs.class.directory.entry].</p>
@@ -28472,12 +28472,19 @@ This does not appear to be intended.
 <p>Status to Open; Marshall to move definition inline and re-vote on reflector.</p>
 <p>Jonathan to write a paper about how to specify "hidden friends".</p>
 
+<p><i>[2020-05-02; Daniel resyncs wording with recent working draft and comments]</i></p>
+
+<p>
+The paper in charge is a style guide recommendation, such as 
+<a href="https://wg21.link/p1601r0">P1601R0</a> (not yet voted in).
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4778">N4778</a>.</p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
 
 <ol>
-<li><p>Modify  [fs.class.directory_entry], class <tt>directory_entry</tt> synopsis, as follows:</p>
+<li><p>Modify 29.11.11 <a href="https://wg21.link/fs.class.directory.entry">[fs.class.directory.entry]</a>, class <tt>directory_entry</tt> synopsis, as follows:</p>
 
 <blockquote>
 <pre>
@@ -28498,9 +28505,9 @@ namespace std::filesystem {
 </blockquote>
 </li>
 <li>
-<p>Add a new subclause at the end of  [fs.class.directory_entry], as follows:</p>
+<p>Add a new subclause at the end of 29.11.11 <a href="https://wg21.link/fs.class.directory.entry">[fs.class.directory.entry]</a>, as follows:</p>
 <blockquote>
-<p><strong>28.11.11.4 Inserter [fs.dir.entry.io]</strong></p>
+<p><strong>29.11.11.4 Inserter [fs.dir.entry.io]</strong></p>
 <blockquote>
 <pre>
 template&lt;class charT, class traits&gt;
