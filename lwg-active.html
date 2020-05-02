@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-02 at 16:24:51 UTC</p>
+<p><p>Revised 2020-05-02 at 19:54:46 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -25748,7 +25748,7 @@ element without including the iteration order.
 <hr>
 <h3><a name="3064" href="#3064">3064</a><sup><a href="https://cplusplus.github.io/LWG/issue3064">(i)</a></sup>. How do uninitialized memory algorithms obtain pointer without undefined behavior?</h3>
 <p><b>Section:</b> 25.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2018-02-12 <b>Last modified:</b> 2018-03-03</p>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2018-02-12 <b>Last modified:</b> 2020-05-02</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#specialized.algorithms">active issues</a> in [specialized.algorithms].</p>
@@ -25772,7 +25772,7 @@ for (; first != last; ++first)
 However, this hides a nasty question:
 <p/>
 How do we bind a reference to an uninitialized object when dereferencing our iterator,
-so that <tt>static_cast&lt;void*&gt;(addressor(*first))</tt> does not trigger undefined behavior on
+so that <tt>static_cast&lt;void*&gt;(addressof(*first))</tt> does not trigger undefined behavior on
 the call to <tt>*first</tt>?
 <p/>
 When pointers are the only iterators we cared about, we could simply cast the iterator
@@ -30589,8 +30589,8 @@ constexpr bool <ins>begin</ins><del>start</del>s_with(const charT* x) const;
 
 <hr>
 <h3><a name="3166" href="#3166">3166</a><sup><a href="https://cplusplus.github.io/LWG/issue3166">(i)</a></sup>. No such descriptive element as <i>Value:</i></h3>
-<p><b>Section:</b> 20.4.4 <a href="https://wg21.link/pair.astuple">[pair.astuple]</a>, 20.7.4 <a href="https://wg21.link/variant.helper">[variant.helper]</a>, 22.3.7.7 <a href="https://wg21.link/array.tuple">[array.tuple]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Walter Brown <b>Opened:</b> 2018-11-08 <b>Last modified:</b> 2018-12-01</p>
+<p><b>Section:</b> 20.4.4 <a href="https://wg21.link/pair.astuple">[pair.astuple]</a>, 20.7.4 <a href="https://wg21.link/variant.helper">[variant.helper]</a>, 22.3.7.7 <a href="https://wg21.link/array.tuple">[array.tuple]</a>, 20.10.3.1 <a href="https://wg21.link/pointer.traits.types">[pointer.traits.types]</a>, 20.10.9.1 <a href="https://wg21.link/allocator.traits.types">[allocator.traits.types]</a>, 20.13.2 <a href="https://wg21.link/allocator.adaptor.types">[allocator.adaptor.types]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Walter Brown <b>Opened:</b> 2018-11-08 <b>Last modified:</b> 2020-05-02</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#pair.astuple">issues</a> in [pair.astuple].</p>
@@ -30608,6 +30608,14 @@ or else let's respecify the offending uses.
 <p><i>[2018-11 Reflector prioritization]</i></p>
 
 <p>Set Priority to 3</p>
+
+<p><i>[2020-05-01; Daniel comments]</i></p>
+
+<p>
+It should be pointed out that the originally referred to <i>Value:</i> element has since
+then be renamed to <i>Type:</i> but the reported problem (its lack of definition) still exists
+in <a href="http://wg21.link/n4861">N4861</a>.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
