@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-02 at 14:04:37 UTC</p>
+<p><p>Revised 2020-05-02 at 15:19:33 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -31087,19 +31087,12 @@ This does not appear to be intended.
 <p>Status to Open; Marshall to move definition inline and re-vote on reflector.</p>
 <p>Jonathan to write a paper about how to specify "hidden friends".</p>
 
-<p><i>[2020-05-02; Daniel resyncs wording with recent working draft and comments]</i></p>
-
-<p>
-The paper in charge is a style guide recommendation, such as 
-<a href="https://wg21.link/p1601r0">P1601R0</a> (not yet voted in).
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>This wording is relative to <a href="https://wg21.link/n4778">N4778</a>.</p>
 
 <ol>
-<li><p>Modify 29.11.11 <a href="https://wg21.link/fs.class.directory.entry">[fs.class.directory.entry]</a>, class <tt>directory_entry</tt> synopsis, as follows:</p>
+<li><p>Modify  [fs.class.directory_entry], class <tt>directory_entry</tt> synopsis, as follows:</p>
 
 <blockquote>
 <pre>
@@ -31120,9 +31113,9 @@ namespace std::filesystem {
 </blockquote>
 </li>
 <li>
-<p>Add a new subclause at the end of 29.11.11 <a href="https://wg21.link/fs.class.directory.entry">[fs.class.directory.entry]</a>, as follows:</p>
+<p>Add a new subclause at the end of  [fs.class.directory_entry], as follows:</p>
 <blockquote>
-<p><strong>29.11.11.4 Inserter [fs.dir.entry.io]</strong></p>
+<p><strong>28.11.11.4 Inserter [fs.dir.entry.io]</strong></p>
 <blockquote>
 <pre>
 template&lt;class charT, class traits&gt;
@@ -31132,6 +31125,66 @@ template&lt;class charT, class traits&gt;
 <blockquote>
 <p>
 -1- <i>Effects:</i> Equivalent to: <tt> return os &lt;&lt; d.path(); </tt>
+</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2020-05-02; Daniel resyncs wording with recent working draft and comments]</i></p>
+
+<p>
+We have now the paper <a href="https://wg21.link/p1965r0">P1965R0</a>, which introduced
+a specification of what friend functions in the library specification (see 
+16.5.5.6 <a href="https://wg21.link/hidden.friends">[hidden.friends]</a>) are supposed to mean, there is no longer an inline
+definition needed to clarify the meaning. In addition to updating the change of section
+names the provided wording has moved the friend declaration into the public part of the
+class definition as have done in all other cases where we take advantage of "hidden friends"
+declarations.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+
+<ol>
+<li><p>Modify 29.11.11 <a href="https://wg21.link/fs.class.directory.entry">[fs.class.directory.entry]</a>, class <tt>directory_entry</tt> synopsis, as follows:</p>
+
+<blockquote>
+<pre>
+namespace std::filesystem {
+  class directory_entry {
+  public:
+    [&hellip;]
+    bool operator==(const directory_entry&amp; rhs) const noexcept;
+    strong_ordering operator&lt;=&gt;(const directory_entry&amp; rhs) const noexcept;
+    
+    <ins><i>// 29.11.11.? [fs.dir.entry.io], directory_entry inserter</i>    
+    template&lt;class charT, class traits&gt;
+      friend basic_ostream&lt;charT, traits&gt;&amp;
+        operator&lt;&lt;(basic_ostream&lt;charT, traits&gt;&amp; os, const directory_entry&amp; d);</ins>
+  private:
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+<li>
+<p>Add a new subclause at the end of 29.11.11 <a href="https://wg21.link/fs.class.directory.entry">[fs.class.directory.entry]</a>, as follows:</p>
+<blockquote>
+<p><strong><ins>29.11.11.? Inserter [fs.dir.entry.io]</ins></strong></p>
+<blockquote>
+<pre>
+<ins>template&lt;class charT, class traits&gt;
+  friend basic_ostream&lt;charT, traits&gt;&amp;
+    operator&lt;&lt;(basic_ostream&lt;charT, traits&gt;&amp; os, const directory_entry&amp; d);</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Effects:</i> Equivalent to: <tt>return os &lt;&lt; d.path();</tt></ins>
 </p>
 </blockquote>
 </blockquote>
