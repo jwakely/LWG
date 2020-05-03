@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-05-03 at 20:12:09 UTC</p>
+<p><p>Revised 2020-05-03 at 20:21:31 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
@@ -1021,6 +1021,83 @@ this issue should be closed as <b>Resolved</b>.
 
 <p><b>Rationale:</b></p>
 Resolved by <a href="http://wg21.link/p0759r1">P0759R1</a>.
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3006" href="#3006">3006</a><sup><a href="https://cplusplus.github.io/LWG/issue3006">(i)</a></sup>. Constructing a <tt>basic_stringbuf</tt> from a <tt>string</tt> &mdash; where does the allocator come from?</h3>
+<p><b>Section:</b> 29.8.2.1 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-08-02 <b>Last modified:</b> 2020-05-03</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#stringbuf.cons">issues</a> in [stringbuf.cons].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Resolved">Tentatively Resolved</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Consider the following constructor from 29.8.2.1 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a> before p3:
+</p>
+<blockquote><pre>
+explicit basic_stringbuf(
+  const basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+  ios_base::openmode which = ios_base::in | ios_base::out);
+</pre></blockquote>
+<p>
+In [stringbuf.cons]/3, it says:
+</p>
+<blockquote><p>
+<i>Effects:</i> Constructs an object of class <tt>basic_stringbuf</tt>, initializing the base class with 
+<tt>basic_streambuf()</tt> (30.6.3.1), and initializing <tt>mode</tt> with <tt>which</tt>. Then calls <tt>str(s)</tt>.
+</p></blockquote>
+<p>
+But that doesn't mention where the allocator for the <tt>basic_stringbuf</tt> comes from.
+Until recently, most implementations just default constructed the allocator.
+But that requires that the allocator be default constructible.
+<p/>
+<a href="https://bugs.llvm.org/show_bug.cgi?id=33727">This bug</a> was filed against libc++ for this case.
+<p/>
+I think that the <tt>basic_stringbuf</tt> should be constructed with a copy of the allocator from the string.
+</p>
+
+<p><i>[2017-11-01, Marshall comments]</i></p>
+
+<p>
+There exist two related proposals, namely <a href="http://wg21.link/p0407r1">P0407R1</a> and 
+<a href="http://wg21.link/p0408r2">P0408R2</a>.
+</p>
+
+<p><i>[2017-11 Albuquerque Wednesday night issues processing]</i></p>
+
+<p>Priority set to 3</p>
+
+<p><i>[2020-05-02 Daniel comments]</i></p>
+
+<p>
+It seems that this issue is now resolved by the proposal 
+<a href="https://wg21.link/p0408r7">P0408R7</a>, accepted in Cologne 2019.
+<p/>
+The paper clarified that the allocator is provided based on the effect
+of initializing the exposition-only <tt>basic_string buf</tt> with the provided
+<tt>basic_string argument s</tt> (Which again is specified in terms of the
+allocator-related specification(21.3.2.1 <a href="https://wg21.link/string.require">[string.require]</a> p3).
+</p>
+
+<p><i>[2020-05-03 Reflector discussion]</i></p>
+
+<p>
+Tentatively Resolved by <a href="https://wg21.link/p0408r7">P0408R7</a> adopted in Cologne 2019.
+<p/>
+The change we approved is not what the issue recommended (and not what some implementations do), 
+so we decided with leaving it as Tentatively Resolved to give people a chance to review it.
+</p>
+
+
+<p><b>Rationale:</b></p>
+Resolved by <a href="https://wg21.link/p0408r7">P0408R7</a>.
 
 
 <p><b>Proposed resolution:</b></p>

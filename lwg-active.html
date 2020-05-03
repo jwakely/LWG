@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-03 at 20:12:09 UTC</p>
+<p><p>Revised 2020-05-03 at 20:21:31 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -168,7 +168,7 @@ ownership of it.
 <li>Added the following 19 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3437">3437</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>, <a href="lwg-active.html#3413">3413</a>.</li>
-<li>Changed the following issue to Tentatively Resolved (from New): <a href="lwg-active.html#3213">3213</a>.</li>
+<li>Changed the following 2 issues to Tentatively Resolved (from New): <a href="lwg-active.html#3006">3006</a>, <a href="lwg-active.html#3213">3213</a>.</li>
 <li>Changed the following issue to WP (from New): <a href="lwg-defects.html#3290">3290</a>.</li>
 <li>Changed the following 5 issues to Resolved (from New): <a href="lwg-defects.html#3110">3110</a>, <a href="lwg-defects.html#3135">3135</a>, <a href="lwg-defects.html#3156">3156</a>, <a href="lwg-defects.html#3212">3212</a>, <a href="lwg-defects.html#3345">3345</a>.</li>
 <li>Changed the following 2 issues to Resolved (from Tentatively Resolved): <a href="lwg-defects.html#2999">2999</a>, <a href="lwg-defects.html#3178">3178</a>.</li>
@@ -23719,12 +23719,12 @@ to allocate memory for the shared state.</del>
 
 <hr>
 <h3><a name="3006" href="#3006">3006</a><sup><a href="https://cplusplus.github.io/LWG/issue3006">(i)</a></sup>. Constructing a <tt>basic_stringbuf</tt> from a <tt>string</tt> &mdash; where does the allocator come from?</h3>
-<p><b>Section:</b> 29.8.2.1 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-08-02 <b>Last modified:</b> 2017-11-09</p>
+<p><b>Section:</b> 29.8.2.1 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2017-08-02 <b>Last modified:</b> 2020-05-03</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#stringbuf.cons">issues</a> in [stringbuf.cons].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Resolved">Tentatively Resolved</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Consider the following constructor from 29.8.2.1 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a> before p3:
@@ -23762,8 +23762,34 @@ There exist two related proposals, namely <a href="http://wg21.link/p0407r1">P04
 
 <p>Priority set to 3</p>
 
+<p><i>[2020-05-02 Daniel comments]</i></p>
+
+<p>
+It seems that this issue is now resolved by the proposal 
+<a href="https://wg21.link/p0408r7">P0408R7</a>, accepted in Cologne 2019.
+<p/>
+The paper clarified that the allocator is provided based on the effect
+of initializing the exposition-only <tt>basic_string buf</tt> with the provided
+<tt>basic_string argument s</tt> (Which again is specified in terms of the
+allocator-related specification(21.3.2.1 <a href="https://wg21.link/string.require">[string.require]</a> p3).
+</p>
+
+<p><i>[2020-05-03 Reflector discussion]</i></p>
+
+<p>
+Tentatively Resolved by <a href="https://wg21.link/p0408r7">P0408R7</a> adopted in Cologne 2019.
+<p/>
+The change we approved is not what the issue recommended (and not what some implementations do), 
+so we decided with leaving it as Tentatively Resolved to give people a chance to review it.
+</p>
+
+
+<p><b>Rationale:</b></p>
+Resolved by <a href="https://wg21.link/p0408r7">P0408R7</a>.
+
 
 <p><b>Proposed resolution:</b></p>
+
 
 
 
