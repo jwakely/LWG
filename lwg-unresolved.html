@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-05-05 at 17:49:08 UTC</p>
+<p><p>Revised 2020-05-05 at 18:09:38 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -28008,7 +28008,7 @@ template&lt;class... Args&gt;
 template&lt;class... Args&gt;
   decltype(auto) emplace(Args&amp;&amp;... args) {
     <ins>if constexpr (requires { c.emplace_back(std::forward&lt;Args&gt;(args)...); }) {</ins>
-      return c.emplace<del>_back</del>(<ins>c.end(), </ins>std::forward&lt;Args&gt;(args)...);
+      return c.emplace_back(std::forward&lt;Args&gt;(args)...);
     <ins>} else {</ins>
       <ins>return c.emplace(c.end(), std::forward&lt;Args&gt;(args)...);</ins>
     <ins>}</ins>
