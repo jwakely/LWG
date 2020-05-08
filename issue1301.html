@@ -103,7 +103,7 @@ would be to mention in Table 94 that this "may also invalidate the past-the-end
 iterator" and then to mention for all specific containers where this does not
 happen, the exception, [1] e.g. in <tt>std::vector</tt>. <tt>std::vector</tt>
 has no own specification of <tt>clear()</tt> and one aspect of the closed issue
-<a href="lwg-closed.html#1102">1102</a> was to realize just that (indirectly via <tt>erase</tt>). IMO
+<a href="lwg-active.html#1102">1102</a> was to realize just that (indirectly via <tt>erase</tt>). IMO
 we should now add an extra specification for <tt>clear()</tt>. Btw.:
 <tt>std::vector::erase</tt> reads to me that it would invalidate previous
 past-the-end values (and that seems correct in general).

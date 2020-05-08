@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2020-05-05</td>
+  <td align="left">2020-05-08</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-05 at 18:09:38 UTC</p>
+<p><p>Revised 2020-05-08 at 17:23:19 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,8 +158,8 @@ ownership of it.
 <ul>
 <li>D122: 2020-05-04 pre-Varna mailing<ul>
 <li><b>Summary:</b><ul>
-<li>332 open issues, up by 18.</li>
-<li>2594 closed issues, up by 8.</li>
+<li>333 open issues, up by 19.</li>
+<li>2593 closed issues, up by 7.</li>
 <li>36 reassigned issues, up by 1.</li>
 <li>2962 issues total, up by 27.</li>
 </ul></li>
@@ -168,6 +168,7 @@ ownership of it.
 <li>Added the following 19 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3437">3437</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>, <a href="lwg-active.html#3413">3413</a>.</li>
+<li>Changed the following issue to Open (from NAD): <a href="lwg-active.html#1102">1102</a>.</li>
 <li>Changed the following 2 issues to Tentatively Resolved (from New): <a href="lwg-active.html#3006">3006</a>, <a href="lwg-active.html#3213">3213</a>.</li>
 <li>Changed the following issue to WP (from New): <a href="lwg-defects.html#3290">3290</a>.</li>
 <li>Changed the following 5 issues to Resolved (from New): <a href="lwg-defects.html#3110">3110</a>, <a href="lwg-defects.html#3135">3135</a>, <a href="lwg-defects.html#3156">3156</a>, <a href="lwg-defects.html#3212">3212</a>, <a href="lwg-defects.html#3345">3345</a>.</li>
@@ -1884,6 +1885,151 @@ standard containers.
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="1102" href="#1102">1102</a><sup><a href="https://cplusplus.github.io/LWG/issue1102">(i)</a></sup>. <tt>std::vector</tt>'s reallocation policy still unclear</h3>
+<p><b>Section:</b> 22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2009-04-20 <b>Last modified:</b> 2020-05-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#vector.capacity">active issues</a> in [vector.capacity].</p>
+<p><b>View all other</b> <a href="lwg-index.html#vector.capacity">issues</a> in [vector.capacity].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+I have the impression that even the wording of current draft
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2857.pdf">N2857</a>
+does insufficiently express the intent of <tt>vector</tt>'s
+reallocation strategy. This has produced not too old library
+implementations which release memory in the <tt>clear()</tt> function
+and even modern articles about C++ programming cultivate
+the belief that <tt>clear</tt> is allowed to do exactly this. A typical
+example is something like this:
+</p>
+
+<blockquote><pre>
+const int buf_size = ...;
+std::vector&lt;T&gt; buf(buf_size);
+for (int i = 0; i &lt; some_condition; ++i) {
+  buf.resize(buf_size);
+  write_or_read_data(buf.data());
+  buf.clear(); // Ensure that the next round get's 'zeroed' elements
+}
+</pre></blockquote>
+<p>
+where still the myth is ubiquitous that <tt>buf</tt> might be
+allowed to reallocate it's memory <b>inside</b> the <tt>for</tt> loop.
+</p>
+<p>
+IMO the problem is due to the fact, that
+</p>
+
+<ol style="list-style-type:lower-alpha">
+<li>
+the actual memory-reallocation stability of <tt>std::vector</tt>
+is explained in 22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>/3 and /6 which
+are describing just the effects of the <tt>reserve</tt>
+function, but in many examples (like above) there
+is no explicit call to <tt>reserve</tt> involved. Further-more
+22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>/6 does only mention <em>insertions</em>
+and never mentions the consequences of erasing elements.
+</li>
+<li>
+<p>
+the effects clause of <tt>std::vector</tt>'s <tt>erase</tt> overloads in
+22.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a>/4 is silent about capacity changes. This
+easily causes a misunderstanding, because the counter
+parting insert functions described in 22.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a>/2
+explicitly say, that
+</p>
+<blockquote><p>
+Causes reallocation if the new size is greater than the
+old capacity. If no reallocation happens, all the iterators
+and references before the insertion point remain valid.
+</p></blockquote>
+<p>
+It requires a complex argumentation chain about four
+different places in the standard to provide the &mdash; possibly
+weak &mdash; proof that calling <tt>clear()</tt> also does <em>never</em> change
+the capacity of the <tt>std::vector</tt> container. Since <tt>std::vector</tt>
+is the de-facto replacement of C99's dynamic arrays this
+type is near to a built-in type and it's specification should
+be clear enough that usual programmers can trust their
+own reading.
+</p>
+</li>
+</ol>
+
+<p><i>[
+Batavia (2009-05):
+]</i></p>
+
+<blockquote>
+<p>
+Bill believes paragraph 1 of the proposed resolution is unnecessary
+because it is already implied (even if tortuously) by the current wording.
+</p>
+<p>
+Move to Review.
+</p>
+</blockquote>
+
+<p><i>[
+2009-10 Santa Cruz:
+]</i></p>
+
+
+<blockquote><p>
+Mark as NAD. Rationale: there is no consensus to clarify the standard,
+general consensus that the standard is correct as written.
+</p></blockquote>
+
+<p><i>[2020-05-08; Reopen after reflector discussions]</i></p>
+
+<p>
+"correct as written" has been disputed.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p><i>[
+This is a minimum version. I also
+suggest that the wording explaining the allocation strategy
+of <tt>std::vector</tt> in 22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>/3 and /6 is moved into
+a separate sub paragraph of 22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> <em>before</em>
+any of the prototype's are discussed, but I cannot provide
+reasonable wording changes now.
+]</i></p>
+
+
+<ol>
+<li>
+<p>
+Change 22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>/6 as follows:
+</p>
+<blockquote><p>
+It is guaranteed that no reallocation takes place during
+insertions <ins>or erasures</ins> that happen after a call
+to <tt>reserve()</tt> until the time when an insertion would make
+the size of the vector greater than the value of <tt>capacity()</tt>.
+</p></blockquote>
+</li>
+<li>
+<p>
+Change 22.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a>/4 as follows:
+</p>
+<blockquote><p>
+<i>Effects:</i> <ins>The capacity shall remain unchanged and no reallocation shall
+happen.</ins>
+Invalidates iterators and references at or after the point
+of the erase.
+</p></blockquote>
+</li>
+</ol>
 
 
 
@@ -7362,6 +7508,7 @@ When <tt>a</tt> and <tt>b</tt> are distinct objects of the same zero-sized <tt>a
  <b>Submitter:</b> Nikolay Ivchenkov <b>Opened:</b> 2012-05-08 <b>Last modified:</b> 2018-08-25</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#vector.capacity">active issues</a> in [vector.capacity].</p>
 <p><b>View all other</b> <a href="lwg-index.html#vector.capacity">issues</a> in [vector.capacity].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
