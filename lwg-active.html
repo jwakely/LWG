@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-09 at 19:56:34 UTC</p>
+<p><p>Revised 2020-05-09 at 20:14:07 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D122: 2020-05-04 pre-Varna mailing<ul>
 <li><b>Summary:</b><ul>
-<li>334 open issues, up by 20.</li>
+<li>335 open issues, up by 21.</li>
 <li>2593 closed issues, up by 7.</li>
 <li>36 reassigned issues, up by 1.</li>
-<li>2963 issues total, up by 28.</li>
+<li>2964 issues total, up by 29.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 8 Tentatively Ready issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3419">3419</a>, <a href="lwg-active.html#3420">3420</a>, <a href="lwg-active.html#3421">3421</a>, <a href="lwg-active.html#3425">3425</a>, <a href="lwg-active.html#3426">3426</a>, <a href="lwg-active.html#3428">3428</a>, <a href="lwg-active.html#3437">3437</a>.</li>
-<li>Added the following 19 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>, <a href="lwg-active.html#3441">3441</a>.</li>
+<li>Added the following 20 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from New): <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>, <a href="lwg-active.html#3413">3413</a>.</li>
 <li>Changed the following issue to Open (from NAD): <a href="lwg-active.html#1102">1102</a>.</li>
@@ -41086,6 +41086,93 @@ provided that (a) the overload's declaration depends on at least one user-define
 overload meets the standard library requirements for the customization point. (footnote 173) 
 <del>[<i>Note:</i> This permits a (qualified or unqualified) call to the customization point
 to invoke the most appropriate overload for the given arguments. &mdash; <i>end note</i>]</del>
+</p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3442" href="#3442">3442</a><sup><a href="https://cplusplus.github.io/LWG/issue3442">(i)</a></sup>. Unsatisfiable suggested implementation of customization points</h3>
+<p><b>Section:</b> 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Michael Park <b>Opened:</b> 2020-05-08 <b>Last modified:</b> 2020-05-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#namespace.std">active issues</a> in [namespace.std].</p>
+<p><b>View all other</b> <a href="lwg-index.html#namespace.std">issues</a> in [namespace.std].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Footnote 173 under [namespace.std]/7 reads (emphasis mine):
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+Any library customization point must be prepared to work adequately with any user-defined 
+overload that meets the minimum requirements of this document. <b>Therefore an implementation 
+may elect, under the as-if rule (6.9.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a>), to provide any customization 
+point in the form of an instantiated function object (20.14 <a href="https://wg21.link/function.objects">[function.objects]</a>) even 
+though the customization point's specification is in the form of a function template.</b> 
+The template parameters of each such function object and the function parameters and return 
+type of the object's <tt>operator()</tt> must match those of the corresponding customization 
+point's specification.
+</p>
+</blockquote>
+<p>
+This implementation suggestion doesn't seem to be satisfiable with the as-if rule.
+</p>
+<ol>
+<li><p>In order to maintain as-if rule for qualified calls to <tt>std::swap</tt>, <tt>std::swap</tt> 
+cannot perform ADL look-up like <tt>std::ranges::swap</tt> does.</p></li>
+<li><p>But then we cannot maintain as-if rule for two-step calls to <tt>std::swap</tt>, since ADL 
+is turned off when function objects are involved.</p>
+<blockquote><pre>
+#include &lt;iostream&gt;
+
+namespace S {
+#ifdef CPO
+  static constexpr auto swap = [](auto&amp;, auto&amp;) { std::cout &lt;&lt; "std"; };
+#else
+  template&lt;typename T&gt; swap(T&amp;, T&amp;) { std::cout &lt;&lt; "std"; }
+#endif
+}
+
+namespace N {
+  struct X {};
+  void swap(X&amp;, X&amp;) { std::cout &lt;&lt; "mine"; }
+}
+
+int main() {
+  N::X a, b;
+  S::swap(a, b);  // (1) prints `std` in both cases
+  using S::swap;
+  swap(a, b);     // (2) prints `std` with `-DCPO`, and `mine` without.
+}
+</pre></blockquote>
+</li>
+<li><p>We can try to satisfy the as-if rule for (2) by having <tt>std::swap</tt> perform ADL like 
+<tt>std::ranges::swap</tt>, but then that would break (1) since qualified calls to <tt>std::swap</tt> 
+would also ADL when it did not do so before.</p></li>
+</ol>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+
+<ol>
+<li><p>Modify 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a>, footnote 173, as indicated:</p>
+
+<blockquote>
+<p>
+footnote 173) Any library customization point must be prepared to work adequately with any user-defined overload 
+that meets the minimum requirements of this document. <del>Therefore an implementation may elect, under the 
+as-if rule (6.9.1 <a href="https://wg21.link/intro.execution">[intro.execution]</a>), to provide any customization point in the form of an 
+instantiated function object (20.14 <a href="https://wg21.link/function.objects">[function.objects]</a>) even though the customization point's 
+specification is in the form of a function template. The template parameters of each such function 
+object and the function parameters and return type of the object's <tt>operator()</tt> must match those 
+of the corresponding customization point's specification.</del>
 </p>
 </blockquote>
 </li>
