@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-05-09 at 19:22:55 UTC</p>
+<p><p>Revised 2020-05-09 at 19:31:03 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36481,45 +36481,6 @@ is not desirable in <tt>std::construct_at</tt>.
 
 
 <p><b>Proposed resolution:</b></p>
-
-
-
-
-<hr>
-<h3><a name="3437" href="#3437">3437</a><sup><a href="https://cplusplus.github.io/LWG/issue3437">(i)</a></sup>. <tt>__cpp_lib_polymorphic_allocator</tt> is in the wrong header</h3>
-<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-29 <b>Last modified:</b> 2020-04-29</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> says that <tt>__cpp_lib_polymorphic_allocator</tt> is also defined in <tt>&lt;memory&gt;</tt>, 
-but <tt>std::polymorphic_allocator</tt> is defined in <tt>&lt;memory_resource&gt;</tt>. This seems like an error in 
-<a href="http://wg21.link/p1902r1">P1902R1</a>. The macro should be in the same header as the feature it relates to.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="http://wg21.link/n4861">N4861</a>.
-</p>
-
-<ol>
-<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-#define __cpp_lib_parallel_algorithm    201603L <i>// also in &lt;algorithm&gt;, &lt;numeric&gt;</i>
-#define __cpp_lib_polymorphic_allocator 201902L <i>// also in &lt;<del>memory</del><ins>memory_resource</ins>&gt;</i>
-#define __cpp_lib_quoted_string_io      201304L <i>// also in &lt;iomanip&gt;</i>
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-</ol>
 
 
 
