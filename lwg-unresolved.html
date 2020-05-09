@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-05-08 at 17:23:19 UTC</p>
+<p><p>Revised 2020-05-09 at 19:15:48 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -28050,8 +28050,8 @@ instantiated. We could also rephrase it in terms of <tt>is_invocable_v&lt;D, uni
 <hr>
 <h3><a name="3161" href="#3161">3161</a><sup><a href="https://cplusplus.github.io/LWG/issue3161">(i)</a></sup>. Container adapters mandate use of <tt>emplace_back</tt> but don't require it</h3>
 <p><b>Section:</b> 22.6.6 <a href="https://wg21.link/stack">[stack]</a>, 22.6.4 <a href="https://wg21.link/queue">[queue]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2018-10-02 <b>Last modified:</b> 2020-05-05</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2018-10-02 <b>Last modified:</b> 2020-05-09</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#stack">issues</a> in [stack].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
@@ -28127,9 +28127,16 @@ template&lt;class... Args&gt;
 
 <p><i>[2020-05 Casey provides new wording]</i></p>
 
+<p>
 This is the "probe for <tt>emplace_back</tt> with fallback to <tt>emplace</tt>" approach that LWG
 wanted to see wording for in Kona.
+</p>
 
+<p><i>[2020-05-09; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 3 after reflector discussions.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -35936,8 +35943,8 @@ determination above is also modeled</ins>.</p></li>
 <hr>
 <h3><a name="3430" href="#3430">3430</a><sup><a href="https://cplusplus.github.io/LWG/issue3430">(i)</a></sup>. <tt>std::fstream</tt> &amp; co. should be constructible from <tt>string_view</tt></h3>
 <p><b>Section:</b> 29.9.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-15 <b>Last modified:</b> 2020-04-18</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-15 <b>Last modified:</b> 2020-05-09</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -35981,6 +35988,12 @@ Daniel:
 <p/>
 LWG <a href="lwg-active.html#2883">2883</a> has a more general view on that but does not consider potential cost differences 
 in the presence of <tt>path</tt> overloads (Which didn't exist at this point yet).
+</p>
+
+<p><i>[2020-05-09; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 3 after reflector discussions.
 </p>
 
 
@@ -36186,7 +36199,7 @@ is <tt>weak_ordering</tt>.</p>
 <hr>
 <h3><a name="3433" href="#3433">3433</a><sup><a href="https://cplusplus.github.io/LWG/issue3433">(i)</a></sup>. <tt>subrange::advance(n)</tt> has UB when <tt>n &lt; 0</tt></h3>
 <p><b>Section:</b> 24.5.3.2 <a href="https://wg21.link/range.subrange.access">[range.subrange.access]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-04-21 <b>Last modified:</b> 2020-04-25</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-04-21 <b>Last modified:</b> 2020-05-09</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
