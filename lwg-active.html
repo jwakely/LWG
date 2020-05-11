@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-11 at 15:17:26 UTC</p>
+<p><p>Revised 2020-05-11 at 16:18:12 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -18696,7 +18696,7 @@ be defined to nonsense values for integer types.
 <hr>
 <h3><a name="2731" href="#2731">2731</a><sup><a href="https://cplusplus.github.io/LWG/issue2731">(i)</a></sup>. Existence of <tt>lock_guard&lt;MutexTypes...&gt;::mutex_type</tt> typedef unclear</h3>
 <p><b>Section:</b> 32.5.4.1 <a href="https://wg21.link/thread.lock.guard">[thread.lock.guard]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-06-13 <b>Last modified:</b> 2018-03-24</p>
+ <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-06-13 <b>Last modified:</b> 2020-05-11</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#thread.lock.guard">issues</a> in [thread.lock.guard].</p>
@@ -18759,8 +18759,8 @@ public:
 </ol>
 </blockquote>
 
-
-<p><b>Proposed resolution:</b></p>
+<strong>Previous resolution: [SUPERSEDED]</strong>
+<blockquote class="note">
 <p>This wording is relative to N4727.</p>
 <ol>
 <li><p>Edit 32.5.4.1 <a href="https://wg21.link/thread.lock.guard">[thread.lock.guard]</a>/1, class template <tt>lock_guard</tt> synopsis, as indicated:</p>
@@ -18774,6 +18774,48 @@ public:
   [&hellip;]
 };
 </pre>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2020-05-11; Daniel provides improved wording]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+
+<ol>
+<li><p>Edit 32.5.4.2 <a href="https://wg21.link/thread.lock.scoped">[thread.lock.scoped]</a>/1, class template <tt>scoped_lock</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+template &lt;class... MutexTypes&gt;
+class scoped_lock {
+public:
+  <del>using mutex_type = Mutex; <i>// If</i> MutexTypes... <i>consists of the single type</i> Mutex</del>
+  <ins>using mutex_type = <i>see below</i>; <i>// Only if </i> sizeof...(MutexTypes) == 1</ins>
+  [&hellip;]
+};
+</pre>
+</blockquote>
+<p>
+-1- An object of type <tt>scoped_lock</tt> controls the ownership of lockable objects within a scope. A 
+<tt>scoped_lock</tt> object maintains ownership of lockable objects throughout the <tt>scoped_lock</tt> 
+object's lifetime (6.7.3 <a href="https://wg21.link/basic.life">[basic.life]</a>). The behavior of a program is undefined if the lockable 
+objects referenced by <tt>pm</tt> do not exist for the entire lifetime of the <tt>scoped_lock</tt> object.
+</p>
+<ul>
+<li><p><del>When</del><ins>If</ins> <tt>sizeof...(MutexTypes)</tt> is <del><tt>1</tt></del><ins>one, let <tt>Mutex</tt> 
+denote the sole type constituting the pack <tt>MutexTypes</tt> and</ins><del>,</del> the supplied <tt>Mutex</tt> 
+type shall meet the <i>Cpp17BasicLockable</i> requirements (32.2.5.2 <a href="https://wg21.link/thread.req.lockable.basic">[thread.req.lockable.basic]</a>).
+<ins>The member <i>typedef-name</i> <tt>mutex_type</tt> shall denote the same type as <tt>Mutex</tt>.</ins></p></li>
+<li><p>Otherwise, <del>each of the mutex types</del><ins>all types in the template parameter pack <tt>MutexTypes</tt></ins> 
+shall meet the <i>Cpp17Lockable</i> requirements (32.2.5.3 <a href="https://wg21.link/thread.req.lockable.req">[thread.req.lockable.req]</a>) <ins>and there shall be 
+no member <tt>mutex_type</tt></ins>.</p></li>
+</ul> 
 </blockquote>
 </li>
 </ol>
