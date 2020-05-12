@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-05-11 at 18:16:51 UTC</p>
+<p><p>Revised 2020-05-12 at 16:32:31 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
@@ -263,67 +263,6 @@ JW: think this needs proper consideration, it would make <pre>stream() &gt;&gt; 
 </p>
 <p><i>[2020-02 Resolved by the adoption of <a href="lwg-defects.html#1203">1203</a> in Prague.]</i></p>
 
-
-
-<p><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
-<h3><a name="2808" href="#2808">2808</a><sup><a href="https://cplusplus.github.io/LWG/issue2808">(i)</a></sup>. Requirements for <tt>fpos</tt> and <tt>stateT</tt></h3>
-<p><b>Section:</b> 29.5.4.2 <a href="https://wg21.link/fpos.operations">[fpos.operations]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
- <b>Submitter:</b> Great Britain <b>Opened:</b> 2016-11-09 <b>Last modified:</b> 2019-03-22</p>
-<p><b>Priority: </b>4
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#fpos.operations">active issues</a> in [fpos.operations].</p>
-<p><b>View all other</b> <a href="lwg-index.html#fpos.operations">issues</a> in [fpos.operations].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Resolved">Tentatively Resolved</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-<b>Addresses GB 60</b>
-</p>
-<p>
-The requirements on the <tt>stateT</tt> type used 
-to instantiate class template <tt>fpos</tt> are not 
-clear, and the following Table 108 &mdash; "Position 
-type requirements" is a bit of a mess. This is 
-old wording, and should be cleaned up with better
-terminology from the Clause 17 Requirements. For example, 
-<tt>stateT</tt> might be require <tt>CopyConstructible</tt>?, 
-<tt>CopyAssignable</tt>?, and <tt>Destructible</tt>. Several 
-entries in the final column of the table appear to be 
-post-conditions, but without the <tt>post</tt> markup to 
-clarify they are not assertions or preconditions. They 
-frequently refer to identifiers that do not apply to all 
-entries in their corresponding <tt>Expression</tt> 
-column, leaving some expressions without a clearly defined semantic.
-If <tt>stateT</tt> is a trivial type, is <tt>fpos</tt> also a 
-trivial type, or is a default constructor not required/supported?
-</p>
-<p>
-Proposed change:
-<p/>
-Clarify the requirements and the table.
-</p>
-
-<p><i>[Issues Telecon 16-Dec-2016]</i></p>
-
-<p>Priority 4; no consensus for any concrete change</p>
-
-<p><i>[2019-03-17; Daniel comments]</i></p>
-
-<p>
-With the acceptance of <a href="http://wg21.link/p0759r1">P0759R1</a> at the Rapperswil 2018 meeting
-this issue should be closed as <b>Resolved</b> (Please note that this paper resolves a historic
-NB comment that was originally written against C++17 but was at that time responded: "invite a paper 
-if anybody wants to change it - no concensus for change").
-</p>
-
-
-<p><b>Rationale:</b></p>
-Resolved by <a href="http://wg21.link/p0759r1">P0759R1</a>.
 
 
 <p><b>Proposed resolution:</b></p>
@@ -929,49 +868,6 @@ has a suitable <tt>fscanf</tt> length modifier for the type.</ins>
 </blockquote>
 </li>
 </ol>
-
-
-
-
-
-<hr>
-<h3><a name="2832" href="#2832">2832</a><sup><a href="https://cplusplus.github.io/LWG/issue2832">(i)</a></sup>. &sect;[fpos.operations] strange requirement for <tt>P(i)</tt></h3>
-<p><b>Section:</b> 29.5.4.2 <a href="https://wg21.link/fpos.operations">[fpos.operations]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
- <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2016-11-24 <b>Last modified:</b> 2019-03-22</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#fpos.operations">active issues</a> in [fpos.operations].</p>
-<p><b>View all other</b> <a href="lwg-index.html#fpos.operations">issues</a> in [fpos.operations].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Resolved">Tentatively Resolved</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-This is from editorial issue <a href="https://github.com/cplusplus/draft/issues/1031">#1031</a>.
-<p/>
-The first row in Table 112 "Position type requirements"
-talks about the expression <tt>P(i)</tt> and then has an assertion
-<tt>p == P(i)</tt>.  However, there are no constraints on <tt>p</tt>
-other than being of type <tt>P</tt>, so (on the face of it) this
-seems to require that <tt>operator==</tt> on <tt>P</tt> always returns
-true, which is non-sensical.
-</p>
-
-<p><i>[2017-01-27 Telecon]</i></p>
-
-<p>Priority 3</p>
-
-<p><i>[2019-03-17; Daniel comments]</i></p>
-
-<p>
-With the acceptance of <a href="http://wg21.link/p0759r1">P0759R1</a> at the Rapperswil 2018 meeting
-this issue should be closed as <b>Resolved</b>.
-</p>
-
-
-<p><b>Rationale:</b></p>
-Resolved by <a href="http://wg21.link/p0759r1">P0759R1</a>.
-
-
-<p><b>Proposed resolution:</b></p>
 
 
 
