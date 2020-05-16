@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-05-12 at 16:43:47 UTC</p>
+<p><p>Revised 2020-05-16 at 16:33:33 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -17387,79 +17387,6 @@ argument to operator <tt>new[](std::size_t)</tt> to obtain space to store supple
 
 
 <hr>
-<h3><a name="2743" href="#2743">2743</a><sup><a href="https://cplusplus.github.io/LWG/issue2743">(i)</a></sup>. p0083r3 <tt>node_handle</tt> private members missing "exposition only" comment</h3>
-<p><b>Section:</b> 22.2.4.1 <a href="https://wg21.link/container.node.overview">[container.node.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-07-08 <b>Last modified:</b> 2019-03-17</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#container.node.overview">active issues</a> in [container.node.overview].</p>
-<p><b>View all other</b> <a href="lwg-index.html#container.node.overview">issues</a> in [container.node.overview].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The private members of <tt>node_handle</tt> are missing the usual "exposition only" comment. As a consequence, 
-<tt>ptr_</tt> and <tt>alloc_</tt> now appear to be names defined by the library (so programs defining these names 
-as macros before including a library header have undefined behavior).
-<p/>
-Presumably this is unintentional and these members should be considered to be for exposition only.
-<p/>
-It's also not clear whether the name <tt>node_handle</tt> is reserved for library usage or not; 
-22.2.4.1 <a href="https://wg21.link/container.node.overview">[container.node.overview]</a>/3 says the implementation need not provide a type with this name, but 
-doesn't seem to rule out the possibility that an implementation will choose to do so regardless.
-</p>
-<p>
-<b>Daniel:</b>
-<p/>
-A similar problem seems to exist for the exposition-only type <tt><i>call_wrapper</i></tt> from 
-<a href="http://wg21.link/p0358r1">p0358r1</a>, which exposes a private data member named <tt>fd</tt> and 
-a typedef <tt>FD</tt>.
-</p>
-<p><i>[2016-07 Chicago]</i></p>
-
-<p>Jonathan says that we need to make clear that the name <tt>node_handle</tt> is not reserved</p>
-
-<p><i>[2019-03-17; Daniel comments and provides wording]</i></p>
-
-<p>
-Due to an editorial step, the previous name <tt>node_handle</tt>/<tt><i>node_handle</i></tt> has been replaced 
-by the artificial <tt><i>node-handle</i></tt> name, so I see no longer any reason to talk about a
-name <tt>node_handle</tt> reservation. The provided wording therefore only takes care of the private
-members.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4810">N4810</a>.</p>
-
-<ol>
-<li><p>Change 22.2.4.1 <a href="https://wg21.link/container.node.overview">[container.node.overview]</a>, exposition-only class template 
-<tt><i>node-handle</i></tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;<i>unspecified</i>&gt;
-class <i>node-handle</i> {
-public:
-  [&hellip;]
-private:
-  using container_node_type = <i>unspecified</i>; <ins><i>// exposition only</i></ins>
-  using ator_traits = allocator_traits&lt;allocator_type&gt;; <ins><i>// exposition only</i></ins>
-  typename ator_traits::template rebind_traits&lt;container_node_type&gt;::pointer ptr_; <ins><i>// exposition only</i></ins>
-  optional&lt;allocator_type&gt; alloc_; <ins><i>// exposition only</i></ins>
-
-public:
-  [&hellip;]
-};
-</pre>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="2746" href="#2746">2746</a><sup><a href="https://cplusplus.github.io/LWG/issue2746">(i)</a></sup>. Inconsistency between requirements for <tt>emplace</tt> between <tt>optional</tt> and <tt>variant</tt></h3>
 <p><b>Section:</b> 20.6.3.3 <a href="https://wg21.link/optional.assign">[optional.assign]</a>, 20.7.3.4 <a href="https://wg21.link/variant.mod">[variant.mod]</a>, 20.8.3.3 <a href="https://wg21.link/any.modifiers">[any.modifiers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-07-13 <b>Last modified:</b> 2020-05-10</p>
@@ -18688,7 +18615,7 @@ is to be used, the function <tt>::std::G</tt> is intended. &mdash; <i>end exampl
 <hr>
 <h3><a name="2819" href="#2819">2819</a><sup><a href="https://cplusplus.github.io/LWG/issue2819">(i)</a></sup>. Unspecified <i>Return type:</i> elements</h3>
 <p><b>Section:</b> 32.2.5 <a href="https://wg21.link/thread.req.lockable">[thread.req.lockable]</a>, 32.5.3 <a href="https://wg21.link/thread.mutex.requirements">[thread.mutex.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Agust&iacute;n K-ballo Berg&eacute; <b>Opened:</b> 2016-11-12 <b>Last modified:</b> 2017-02-02</p>
+ <b>Submitter:</b> Agust&iacute;n K-ballo Berg&eacute; <b>Opened:</b> 2016-11-12 <b>Last modified:</b> 2020-05-12</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -18703,8 +18630,221 @@ This was reported as editorial request <a href="https://github.com/cplusplus/dra
 
 <p>Priority 3; Jonathan to provide wording.</p>
 
+<p><i>[12-May-2020, Jonathan provides wording to correct the <b>13</b> occurences.]</i></p>
+
+
 
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4681</a>.</p>
+
+<ol>
+<li>
+<p>Modify 32.2.5.3 <a href="https://wg21.link/thread.req.lockable.req">[thread.req.lockable.req]</a> as indicated:</p>
+<blockquote>
+<p>-1- A type <code>L</code> meets the <i>Cpp17Lockable</i> requirements
+if it meets the <i>Cpp17BasicLockable</i> requirements
+and the following expressions are
+well-formed<ins>, have type <code>bool</code>,</ins>
+and have the specified semantics
+(<code>m</code> denotes a value of type <code>L</code>).
+</p>
+<p><code>m.try_lock()</code></p>
+<blockquote>
+<p>-2- <i>Effects:</i> [...]</p>
+<p><del>-3- <i>Return type:</i> <code>bool</code>.</del></p>
+<p>-4- <i>Returns:</i> <code>true</code> if the lock was acquired, <code>false</code> otherwise.</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li>
+<p>Modify 32.2.5.4 <a href="https://wg21.link/thread.req.lockable.timed">[thread.req.lockable.timed]</a> as indicated:</p>
+<blockquote>
+<p>-1- A type <code>L</code> meets the <i>Cpp17TimedLockable</i> requirements
+if it meets the <i>Cpp17BasicLockable</i> requirements
+and the following expressions are
+well-formed<ins>, have type <code>bool</code>,</ins>
+and have the specified semantics
+(<code>m</code> denotes a value of type <code>L</code>,
+<code>rel_time</code> denotes a value of an instantiation of
+<code>duration</code> (27.5 <a href="https://wg21.link/time.duration">[time.duration]</a>),
+and <code>abs_time</code> denotes a value of an instantiation of
+<code>time_point</code> (27.6 <a href="https://wg21.link/time.point">[time.point]</a>)).
+</p>
+<p><code>m.try_lock_for(rel_time)</code></p>
+<blockquote>
+<p>-2- <i>Effects:</i> [...]</p>
+<p><del>-3- <i>Return type:</i> <code>bool</code>.</del></p>
+<p>-4- <i>Returns:</i> <code>true</code> if the lock was acquired, <code>false</code> otherwise.</p>
+</blockquote>
+<p><code>m.try_lock_until(abs_time)</code></p>
+<blockquote>
+<p>-2- <i>Effects:</i> [...]</p>
+<p><del>-3- <i>Return type:</i> <code>bool</code>.</del></p>
+<p>-4- <i>Returns:</i> <code>true</code> if the lock was acquired, <code>false</code> otherwise.</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li>
+<p>Modify 32.5.3.2 <a href="https://wg21.link/thread.mutex.requirements.mutex">[thread.mutex.requirements.mutex]</a> as indicated:</p>
+<blockquote>
+<p>-6- The expression <code>m.lock()</code> is
+well-formed<ins>, has type <code>void</code>,</ins>
+and has the following semantics:</p>
+<blockquote>
+<p>-7- <i>Preconditions:</i> [...]</p>
+<p>-8- <i>Effects:</i> [...]</p>
+<p>-9- <i>Postconditions:</i> [...]</p>
+<p><del>-10- <i>Return type:</i> <code>void</code>.</del></p>
+<p>-11- <i>Synchronization:</i> [...]</p>
+<p>-12- <i>Throws:</i> [...]</p>
+<p>-13- <i>Error conditions:</i> [...]</p>
+</blockquote>
+<p>-14- The expression <code>m.try_lock()</code> is
+well-formed<ins>, has type <code>bool</code>,</ins>
+and has the following semantics:</p>
+<blockquote>
+<p>-15- <i>Preconditions:</i> [...]</p>
+<p>-16- <i>Effects:</i> [...]</p>
+<p><del>-17- <i>Return type:</i> <code>bool</code>.</del></p>
+<p>-18- <i>Returns:</i> <code>true</code> if ownership of the mutex was
+obtained for the calling thread, otherwise <code>false</code>.</p>
+<p>-19- <i>Synchronization:</i> [...]</p>
+<p>-20- <i>Throws:</i> Nothing.</p>
+</blockquote>
+<p>-21- The expression <code>m.unlock()</code> is
+well-formed<ins>, has type <code>void</code>,</ins>
+and has the following semantics:</p>
+<blockquote>
+<p>-22- <i>Preconditions:</i> [...]</p>
+<p>-23- <i>Effects:</i> [...]</p>
+<p><del>-24- <i>Return type:</i> <code>void</code>.</del></p>
+<p>-25- <i>Synchronization:</i> [...]</p>
+<p>-26- <i>Throws:</i> Nothing.</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li>
+<p>Modify 32.5.3.3 <a href="https://wg21.link/thread.timedmutex.requirements">[thread.timedmutex.requirements]</a> as indicated:</p>
+<blockquote>
+<p>-1- The <i>timed mutex types</i> are the standard library types [...] </p>
+<p>-2- The timed mutex types meet the <i>Cpp17TimedLockable</i> requirements
+(32.2.5.4 <a href="https://wg21.link/thread.req.lockable.timed">[thread.req.lockable.timed]</a>).</p>
+<p>-3- The expression <code>m.try_lock_for(rel_time)</code> is
+well-formed<ins>, has type <code>bool</code>,</ins>
+and has the following semantics:
+</p>
+<blockquote>
+<p>-4- <i>Preconditions:</i> [...]</p>
+<p>-5- <i>Effects:</i> [...]</p>
+<p><del>-6- <i>Return type:</i> <code>bool</code>.</del></p>
+<p>-7- <i>Returns:</i> <code>true</code> if the shared lock was acquired,
+<code>false</code> otherwise.</p>
+<p>-8- <i>Synchronization:</i> [...]</p>
+<p>-9- <i>Throws:</i> [...]</p>
+</blockquote>
+<p>-10- The expression <code>m.try_lock_until(abs_time)</code> is
+well-formed<ins>, has type <code>bool</code>,</ins>
+and has the following semantics:
+</p>
+<blockquote>
+<p>-11- <i>Preconditions:</i> [...]</p>
+<p>-12- <i>Effects:</i> [...]</p>
+<p><del>-13- <i>Return type:</i> <code>bool</code>.</del></p>
+<p>-14- <i>Returns:</i> <code>true</code> if ownership was obtained,
+otherwise <code>false</code>.</p>
+<p>-15- <i>Synchronization:</i> [...]</p>
+<p>-16- <i>Throws:</i> [...]</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li>
+<p>Modify 32.5.3.4 <a href="https://wg21.link/thread.sharedmutex.requirements">[thread.sharedmutex.requirements]</a> as indicated:</p>
+<blockquote>
+<p>-1- The standard library types <code>shared_mutex</code>
+and  <code>shared_timed_mutex</code>
+are <i>shared mutex types</i>. [...]
+</p>
+<p>-2- In addition to the exclusive lock ownership mode [...]</p>
+<p>-3- The expression <code>m.lock_shared()</code> is
+well-formed<ins>, has type <code>void</code>,</ins>
+and has the following semantics:
+</p>
+<blockquote>
+<p>-4- <i>Preconditions:</i> [...]</p>
+<p>-5- <i>Effects:</i> [...]</p>
+<p>-6- <i>Postconditions:</i> [...]</p>
+<p><del>-7- <i>Return type:</i> <code>void</code>.</del></p>
+<p>-8- <i>Synchronization:</i> [...]</p>
+<p>-9- <i>Throws:</i> [...]</p>
+<p>-10- <i>Error conditions:</i> [...]</p>
+</blockquote>
+<p>-11- The expression <code>m.unlock_shared()</code> is
+well-formed<ins>, has type <code>void</code>,</ins>
+and has the following semantics:
+</p>
+<blockquote>
+<p>-12- <i>Preconditions:</i> [...]</p>
+<p>-13- <i>Effects:</i> [...]</p>
+<p><del>-14- <i>Return type:</i> <code>void</code>.</del></p>
+<p>-15- <i>Synchronization:</i> [...]</p>
+<p>-16- <i>Throws:</i> [...]</p>
+</blockquote>
+<p>-17- The expression <code>m.try_lock_shared()</code> is
+well-formed<ins>, has type <code>bool</code>,</ins>
+and has the following semantics:
+</p>
+<blockquote>
+<p>-18- <i>Preconditions:</i> [...]</p>
+<p>-19- <i>Effects:</i> [...]</p>
+<p><del>-20- <i>Return type:</i> <code>bool</code>.</del></p>
+<p>-21- <i>Returns:</i> <code>true</code> if the shared ownership lock was acquired,
+<code>false</code> otherwise.</p>
+<p>-22- <i>Synchronization:</i> [...]</p>
+<p>-23- <i>Throws:</i> [...]</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li>
+<p>Modify 32.5.3.5 <a href="https://wg21.link/thread.sharedtimedmutex.requirements">[thread.sharedtimedmutex.requirements]</a> as indicated:</p>
+<blockquote>
+<p>-1- The standard library type <code>shared_timed_mutex</code>
+is a <i>shared timed mutex type</i>. [...]
+</p>
+<p>-2- The expression <code>m.try_lock_shared_for(rel_time)</code> is
+well-formed<ins>, has type <code>bool</code>,</ins>
+and has the following semantics:
+</p>
+<blockquote>
+<p>-3- <i>Preconditions:</i> [...]</p>
+<p>-4- <i>Effects:</i> [...]</p>
+<p><del>-5- <i>Return type:</i> <code>bool</code>.</del></p>
+<p>-6- <i>Returns:</i> <code>true</code> if the shared lock was acquired,
+<code>false</code> otherwise.</p>
+<p>-7- <i>Synchronization:</i> [...]</p>
+<p>-8- <i>Throws:</i> [...]</p>
+</blockquote>
+<p>-9- The expression <code>m.try_lock_shared_until(abs_time)</code> is
+well-formed<ins>, has type <code>bool</code>,</ins>
+and has the following semantics:
+</p>
+<blockquote>
+<p>-10- <i>Preconditions:</i> [...]</p>
+<p>-11- <i>Effects:</i> [...]</p>
+<p><del>-12- <i>Return type:</i> <code>bool</code>.</del></p>
+<p>-13- <i>Returns:</i> <code>true</code> if the shared lock was acquired,
+<code>false</code> otherwise.</p>
+<p>-14- <i>Synchronization:</i> [...]</p>
+<p>-15- <i>Throws:</i> [...]</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
 
 
 
