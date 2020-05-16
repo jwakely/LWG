@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-16 at 18:13:04 UTC</p>
+<p><p>Revised 2020-05-16 at 18:27:06 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D122: 2020-05-04 pre-Varna mailing<ul>
 <li><b>Summary:</b><ul>
-<li>335 open issues, up by 21.</li>
+<li>336 open issues, up by 22.</li>
 <li>2598 closed issues, up by 12.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2968 issues total, up by 33.</li>
+<li>2969 issues total, up by 34.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 9 Tentatively Ready issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3419">3419</a>, <a href="lwg-active.html#3420">3420</a>, <a href="lwg-active.html#3421">3421</a>, <a href="lwg-active.html#3425">3425</a>, <a href="lwg-active.html#3426">3426</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3428">3428</a>, <a href="lwg-active.html#3437">3437</a>.</li>
-<li>Added the following 23 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>, <a href="lwg-active.html#3443">3443</a>, <a href="lwg-active.html#3444">3444</a>, <a href="lwg-active.html#3445">3445</a>, <a href="lwg-active.html#3446">3446</a>.</li>
+<li>Added the following 24 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>, <a href="lwg-active.html#3443">3443</a>, <a href="lwg-active.html#3444">3444</a>, <a href="lwg-active.html#3445">3445</a>, <a href="lwg-active.html#3446">3446</a>, <a href="lwg-active.html#3447">3447</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 4 issues to Tentatively Ready (from New): <a href="lwg-active.html#2743">2743</a>, <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>, <a href="lwg-active.html#3413">3413</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from Open): <a href="lwg-active.html#2731">2731</a>.</li>
@@ -41429,6 +41429,76 @@ struct indirectly_readable_traits&lt;T&gt;
 <ins>struct indirectly_readable_traits&lt;T&gt;</ins>
   <ins>: <i>cond-value-type</i>&lt;typename T::value_type&gt; { };</ins>
   
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3447" href="#3447">3447</a><sup><a href="https://cplusplus.github.io/LWG/issue3447">(i)</a></sup>. Deduction guides for <tt>take_view</tt> and <tt>drop_view</tt> have different constraints</h3>
+<p><b>Section:</b> 24.7.6.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2020-05-15 <b>Last modified:</b> 2020-05-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.take.view">issues</a> in [range.take.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+From this <a href="https://github.com/cplusplus/draft/issues/3997">editorial issue request</a>:
+<p/>
+(Note "<tt>range R</tt>" vs "<tt>class R</tt>".)
+<p/>
+In 24.7.6.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>, the deduction guide for <tt>take_view</tt> is declared as:
+</p>
+<blockquote><pre>
+template&lt;range R&gt;
+  take_view(R&amp;&amp;, range_difference_t&lt;R&gt;)
+    -&gt; take_view&lt;views::all_t&lt;R&gt;&gt;;
+</pre></blockquote>
+<p>
+In 24.7.8.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a>, the deduction guide for <tt>drop_view</tt> is declared as:
+</p>
+<blockquote><pre>
+template&lt;class R&gt;
+  drop_view(R&amp;&amp;, range_difference_t&lt;R&gt;) -&gt; drop_view&lt;views::all_t&lt;R&gt;&gt;;
+</pre></blockquote>
+<p>
+Note the difference between their template parameter lists.
+<p/>
+Suggested resolution:
+<p/>
+Change the deduction guide of <tt>take_view</tt> from
+</p>
+<blockquote><pre>
+template&lt;range R&gt;
+</pre></blockquote>
+<p>
+to
+</p>
+<blockquote><pre>
+template&lt;class R&gt;
+</pre></blockquote>
+<p>
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+
+<ol>
+<li><p>Modify 24.7.6.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>, class template <tt>take_view</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;<del>range</del><ins>class</ins> R&gt;
+  take_view(R&amp;&amp;, range_difference_t&lt;R&gt;)
+    -&gt; take_view&lt;views::all_t&lt;R&gt;&gt;;
 [&hellip;]
 </pre>
 </blockquote>
