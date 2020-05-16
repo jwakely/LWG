@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-16 at 16:38:45 UTC</p>
+<p><p>Revised 2020-05-16 at 17:02:46 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -168,6 +168,7 @@ ownership of it.
 <li>Added the following 19 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 4 issues to Tentatively Ready (from New): <a href="lwg-active.html#2743">2743</a>, <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>, <a href="lwg-active.html#3413">3413</a>.</li>
+<li>Changed the following issue to Tentatively Ready (from Open): <a href="lwg-active.html#2731">2731</a>.</li>
 <li>Changed the following issue to Open (from NAD): <a href="lwg-active.html#1102">1102</a>.</li>
 <li>Changed the following 2 issues to Tentatively Resolved (from New): <a href="lwg-active.html#3006">3006</a>, <a href="lwg-active.html#3213">3213</a>.</li>
 <li>Changed the following issue to WP (from New): <a href="lwg-defects.html#3290">3290</a>.</li>
@@ -18696,12 +18697,12 @@ be defined to nonsense values for integer types.
 
 <hr>
 <h3><a name="2731" href="#2731">2731</a><sup><a href="https://cplusplus.github.io/LWG/issue2731">(i)</a></sup>. Existence of <tt>lock_guard&lt;MutexTypes...&gt;::mutex_type</tt> typedef unclear</h3>
-<p><b>Section:</b> 32.5.4.1 <a href="https://wg21.link/thread.lock.guard">[thread.lock.guard]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-06-13 <b>Last modified:</b> 2020-05-11</p>
+<p><b>Section:</b> 32.5.4.1 <a href="https://wg21.link/thread.lock.guard">[thread.lock.guard]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-06-13 <b>Last modified:</b> 2020-05-16</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#thread.lock.guard">issues</a> in [thread.lock.guard].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 In the synopsis of 32.5.4.2 <a href="https://wg21.link/thread.lock.scoped">[thread.lock.scoped]</a> the <tt>mutex_type</tt> typedef is specified as follows:
@@ -18782,6 +18783,10 @@ public:
 
 <p><i>[2020-05-11; Daniel provides improved wording]</i></p>
 
+
+<p><i>[2020-05-16 Reflector discussions]</i></p>
+
+<p>Status to Tentatively Ready after five positive votes on the reflector.</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -40110,7 +40115,6 @@ has eliminated relational comparisons of pointers with <tt>std::nullptr_t</tt> w
 pointers and <tt>nullptr</tt> is not supported either. For this long-term solution I'm suggesting to handle this
 via a proposal.
 </p>
-
 
 <p><i>[2020-05-16 Reflector discussions]</i></p>
 
