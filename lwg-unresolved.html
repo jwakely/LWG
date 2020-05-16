@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-05-16 at 17:02:46 UTC</p>
+<p><p>Revised 2020-05-16 at 17:25:29 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36697,6 +36697,79 @@ specification is in the form of a function template. The template parameters of 
 object and the function parameters and return type of the object's <tt>operator()</tt> must match those 
 of the corresponding customization point's specification.</del>
 </p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3443" href="#3443">3443</a><sup><a href="https://cplusplus.github.io/LWG/issue3443">(i)</a></sup>. [networking.ts] <tt>net::basic_socket_iostream</tt> should use <tt>addressof</tt></h3>
+<p><b>Section:</b> 19.2.1 [networking.ts::socket.iostream.cons] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-05-14 <b>Last modified:</b> 2020-05-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses: networking.ts</b></p>
+<p>
+19.2.1 [networking.ts::socket.iostream.cons] uses <tt>&amp;sb_</tt> which could find something bad via ADL.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4771">N4771</a>.</p>
+
+<ol>
+<li><p>Modify 19.2.1 [networking.ts::socket.iostream.cons] as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> As a drive-by fix, a missing <tt>std::</tt> qualification in front of <tt>forward</tt> has been added]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+basic_socket_iostream();
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Initializes the base class as <tt>basic_iostream&lt;char&gt;(<del>&amp;</del><ins>addressof(</ins>sb_<ins>)</ins>)</tt>, value-initializes <tt>sb_</tt>, and performs <tt>setf(std::ios_base::unitbuf)</tt>.
+</p>
+</blockquote>
+<pre>
+explicit basic_socket_iostream(basic_stream_socket&lt;protocol_type&gt; s);
+</pre>
+<blockquote>
+<p>
+-2- <i>Effects:</i> Initializes the base class as <tt>basic_iostream&lt;char&gt;(<del>&amp;</del><ins>addressof(</ins>sb_<ins>)</ins>)</tt>, 
+initializes <tt>sb_</tt> with <tt>std::move(s)</tt>, and performs <tt>setf(std::ios_base::unitbuf)</tt>.
+</p>
+</blockquote>
+<pre>
+basic_socket_iostream(basic_socket_iostream&amp;&amp; rhs);
+</pre>
+<blockquote>
+<p>
+-3- <i>Effects:</i> Move constructs from the rvalue <tt>rhs</tt>. This is accomplished by move constructing the base class, 
+and the contained <tt>basic_socket_streambuf</tt>. Next <tt>basic_iostream&lt;char&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb_<ins>)</ins>)</tt> is called to install the contained <tt>basic_socket_streambuf</tt>.
+</p>
+</blockquote>
+<pre>
+template&lt;class... Args&gt;
+  explicit basic_socket_iostream(Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-4- <i>Effects:</i> Initializes the base class as <tt>basic_iostream&lt;char&gt;(<del>&amp;</del><ins>addressof(</ins>sb_<ins>)</ins>)</tt>, 
+value-initializes <tt>sb_</tt>, and performs <tt>setf(std::ios_base::unitbuf)</tt>. Then calls 
+<tt>rdbuf()-&gt;connect(<ins>std::</ins>forward&lt;Args&gt;(args)...)</tt>. If that function returns a null pointer, calls 
+<tt>setstate(failbit)</tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
