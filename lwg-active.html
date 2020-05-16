@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-16 at 17:48:42 UTC</p>
+<p><p>Revised 2020-05-16 at 18:13:04 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D122: 2020-05-04 pre-Varna mailing<ul>
 <li><b>Summary:</b><ul>
-<li>334 open issues, up by 20.</li>
+<li>335 open issues, up by 21.</li>
 <li>2598 closed issues, up by 12.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2967 issues total, up by 32.</li>
+<li>2968 issues total, up by 33.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 9 Tentatively Ready issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3419">3419</a>, <a href="lwg-active.html#3420">3420</a>, <a href="lwg-active.html#3421">3421</a>, <a href="lwg-active.html#3425">3425</a>, <a href="lwg-active.html#3426">3426</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3428">3428</a>, <a href="lwg-active.html#3437">3437</a>.</li>
-<li>Added the following 22 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>, <a href="lwg-active.html#3443">3443</a>, <a href="lwg-active.html#3444">3444</a>, <a href="lwg-active.html#3445">3445</a>.</li>
+<li>Added the following 23 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>, <a href="lwg-active.html#3443">3443</a>, <a href="lwg-active.html#3444">3444</a>, <a href="lwg-active.html#3445">3445</a>, <a href="lwg-active.html#3446">3446</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 4 issues to Tentatively Ready (from New): <a href="lwg-active.html#2743">2743</a>, <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>, <a href="lwg-active.html#3413">3413</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from Open): <a href="lwg-active.html#2731">2731</a>.</li>
@@ -41361,6 +41361,76 @@ returns a null pointer, calls <tt>setstate(failbit)</tt> (which may throw <tt>io
 <tt>rdbuf()-&gt;connect(std::forward&lt;Args&gt;(args)...)</tt> is well-formed.</ins>
 </p>
 </blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3446" href="#3446">3446</a><sup><a href="https://cplusplus.github.io/LWG/issue3446">(i)</a></sup>. <tt>indirectly_readable_traits</tt> ambiguity for types with both <tt>value_type</tt> and <tt>element_type</tt></h3>
+<p><b>Section:</b> 23.3.2.2 <a href="https://wg21.link/readable.traits">[readable.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-05-15 <b>Last modified:</b> 2020-05-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Per 23.3.2.2 <a href="https://wg21.link/readable.traits">[readable.traits]</a>, <tt>indirectly_readable_traits&lt;T&gt;::value_type</tt> is the same type as 
+<tt>remove_cv_t&lt;T::value_type&gt;</tt> if it denotes an object type, or <tt>remove_cv_t&lt;T::element_type&gt;</tt> 
+if it denotes an object type. If both <tt>T::value_type</tt> and <tt>T::element_type</tt> denote types,  
+<tt>indirectly_readable_traits&lt;T&gt;::value_type</tt> is ill-formed. This was perhaps not the best design, 
+given that there are iterators in the wild (Boost's unordered containers) that define both nested types. 
+<tt>indirectly_readable_traits</tt> should tolerate iterators that define both nested types consistently.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+
+<ol>
+<li><p>Modify 23.3.2.2 <a href="https://wg21.link/readable.traits">[readable.traits]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class&gt; struct <i>cond-value-type</i> { }; <i>// exposition only</i>
+
+template&lt;class T&gt;
+  requires is_object_v&lt;T&gt;
+struct <i>cond-value-type</i>&lt;T&gt; {
+  using value_type = remove_cv_t&lt;T&gt;;
+};
+
+template&lt;class&gt; struct indirectly_readable_traits { };
+
+[&hellip;]
+
+template&lt;class T&gt;
+  requires requires { typename T::value_type; }
+struct indirectly_readable_traits&lt;T&gt;
+  : <i>cond-value-type</i>&lt;typename T::value_type&gt; { };
+  
+template&lt;class T&gt;
+  requires requires { typename T::element_type; }
+struct indirectly_readable_traits&lt;T&gt;
+  : <i>cond-value-type</i>&lt;typename T::element_type&gt; { };
+  
+<ins>template&lt;class T&gt;</ins>
+  <ins>requires requires {</ins>
+    <ins>typename T::element_type;</ins>
+    <ins>typename T::value_type;</ins>
+    <ins>requires same_as&lt;</ins>
+      <ins>remove_cv_t&lt;typename T::element_type&gt;,</ins>
+      <ins>remove_cv_t&lt;typename T::value_type&gt;&gt;;</ins>
+  <ins>}</ins>
+<ins>struct indirectly_readable_traits&lt;T&gt;</ins>
+  <ins>: <i>cond-value-type</i>&lt;typename T::value_type&gt; { };</ins>
+  
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 
