@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-05-16 at 17:30:29 UTC</p>
+<p><p>Revised 2020-05-16 at 17:48:42 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D122: 2020-05-04 pre-Varna mailing<ul>
 <li><b>Summary:</b><ul>
-<li>333 open issues, up by 19.</li>
+<li>334 open issues, up by 20.</li>
 <li>2598 closed issues, up by 12.</li>
 <li>35 reassigned issues, up by 0.</li>
-<li>2966 issues total, up by 31.</li>
+<li>2967 issues total, up by 32.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 9 Tentatively Ready issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3419">3419</a>, <a href="lwg-active.html#3420">3420</a>, <a href="lwg-active.html#3421">3421</a>, <a href="lwg-active.html#3425">3425</a>, <a href="lwg-active.html#3426">3426</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3428">3428</a>, <a href="lwg-active.html#3437">3437</a>.</li>
-<li>Added the following 21 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>, <a href="lwg-active.html#3443">3443</a>, <a href="lwg-active.html#3444">3444</a>.</li>
+<li>Added the following 22 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3440">3440</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>, <a href="lwg-active.html#3443">3443</a>, <a href="lwg-active.html#3444">3444</a>, <a href="lwg-active.html#3445">3445</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 4 issues to Tentatively Ready (from New): <a href="lwg-active.html#2743">2743</a>, <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>, <a href="lwg-active.html#3413">3413</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from Open): <a href="lwg-active.html#2731">2731</a>.</li>
@@ -41201,6 +41201,8 @@ of the corresponding customization point's specification.</del>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-05-14 <b>Last modified:</b> 2020-05-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#networking.ts::socket.iostream.cons">active issues</a> in [networking.ts::socket.iostream.cons].</p>
+<p><b>View all other</b> <a href="lwg-index.html#networking.ts::socket.iostream.cons">issues</a> in [networking.ts::socket.iostream.cons].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p><b>Addresses: networking.ts</b></p>
@@ -41214,12 +41216,6 @@ of the corresponding customization point's specification.</del>
 
 <ol>
 <li><p>Modify 19.2.1 [networking.ts::socket.iostream.cons] as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note:</i> As a drive-by fix, a missing <tt>std::</tt> qualification in front of <tt>forward</tt> has been added]
-</p>
-</blockquote>
 
 <blockquote>
 <pre>
@@ -41256,8 +41252,7 @@ template&lt;class... Args&gt;
 <p>
 -4- <i>Effects:</i> Initializes the base class as <tt>basic_iostream&lt;char&gt;(<del>&amp;</del><ins>addressof(</ins>sb_<ins>)</ins>)</tt>, 
 value-initializes <tt>sb_</tt>, and performs <tt>setf(std::ios_base::unitbuf)</tt>. Then calls 
-<tt>rdbuf()-&gt;connect(<ins>std::</ins>forward&lt;Args&gt;(args)...)</tt>. If that function returns a null pointer, calls 
-<tt>setstate(failbit)</tt>.
+<tt>rdbuf()-&gt;connect(forward&lt;Args&gt;(args)...)</tt>. If that function returns a null pointer, calls <tt>setstate(failbit)</tt>.
 </p>
 </blockquote>
 </blockquote>
@@ -41287,6 +41282,89 @@ timing out if the expiry time was reached before iterating through all endpoints
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+<hr>
+<h3><a name="3445" href="#3445">3445</a><sup><a href="https://cplusplus.github.io/LWG/issue3445">(i)</a></sup>. [networking.ts] <tt>net::basic_socket_istream::connect</tt> should be constrained</h3>
+<p><b>Section:</b> 19.2.1 [networking.ts::socket.iostream.cons], 19.2.2 [networking.ts::socket.iostream.members] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-05-14 <b>Last modified:</b> 2020-05-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#networking.ts::socket.iostream.cons">active issues</a> in [networking.ts::socket.iostream.cons].</p>
+<p><b>View all other</b> <a href="lwg-index.html#networking.ts::socket.iostream.cons">issues</a> in [networking.ts::socket.iostream.cons].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses: networking.ts</b></p>
+<p>
+<tt>basic_socket_streambuf&lt;P, C, W&gt;::connect(Args&amp;&amp;...)</tt> is constrained to only exist when 
+<tt>P</tt> meets the <tt>InternetProtocol</tt> requirements, but <tt>basic_socket_iostream&lt;P, C, W&gt;::connect(Args&amp;&amp;...)</tt> 
+is not constrained. Since it just passes those arguments straight to the <tt>streambuf</tt>, the outer 
+<tt>connect(Args&amp;&amp;...)</tt> should be constrained too.
+<p/>
+In addition to that, the <tt>basic_socket_iostream(Args&amp;&amp;...)</tt> constructor should be constrained, so that 
+<tt>is_constructible</tt> gives the right answer.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4771">N4771</a>.</p>
+
+<ol>
+<li><p>Modify 19.2.1 [networking.ts::socket.iostream.cons] as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> As a drive-by fix, a missing <tt>std::</tt> qualification in front of <tt>forward</tt> has been added]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+template&lt;class... Args&gt;
+  explicit basic_socket_iostream(Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-4- <i>Effects:</i> Initializes the base class as <tt>basic_iostream&lt;char&gt;(&amp;sb_))</tt>, 
+value-initializes <tt>sb_</tt>, and performs <tt>setf(std::ios_base::unitbuf)</tt>. Then calls 
+<tt>rdbuf()-&gt;connect(<ins>std::</ins>forward&lt;Args&gt;(args)...)</tt>. If that function returns a null pointer, 
+calls <tt>setstate(failbit)</tt>.
+<p/>
+<ins>-?- <i>Remarks:</i> This function shall not participate in overload resolution unless the expression 
+<tt>rdbuf()-&gt;connect(std::forward&lt;Args&gt;(args)...)</tt> is well-formed.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 19.2.2 [networking.ts::socket.iostream.members] as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> As a drive-by fix, a missing <tt>std::</tt> qualification in front of <tt>forward</tt> has been added]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+template&lt;class... Args&gt;
+  void connect(Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Calls <tt>rdbuf()-&gt;connect(<ins>std::</ins>forward&lt;Args&gt;(args)...)</tt>. If that function 
+returns a null pointer, calls <tt>setstate(failbit)</tt> (which may throw <tt>ios_base::failure</tt>).
+<p/>
+<ins>-?- <i>Remarks:</i> This function shall not participate in overload resolution unless the expression 
+<tt>rdbuf()-&gt;connect(std::forward&lt;Args&gt;(args)...)</tt> is well-formed.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
 
 
 
