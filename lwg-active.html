@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-06-13 at 17:38:08 UTC</p>
+<p><p>Revised 2020-06-13 at 18:17:21 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -158,14 +158,14 @@ ownership of it.
 <ul>
 <li>D122: 2020-05-04 pre-Varna mailing<ul>
 <li><b>Summary:</b><ul>
-<li>343 open issues, up by 29.</li>
+<li>344 open issues, up by 30.</li>
 <li>2599 closed issues, up by 13.</li>
 <li>30 reassigned issues, down by 5.</li>
-<li>2972 issues total, up by 37.</li>
+<li>2973 issues total, up by 38.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 9 Tentatively Ready issues: <a href="lwg-active.html#3414">3414</a>, <a href="lwg-active.html#3419">3419</a>, <a href="lwg-active.html#3420">3420</a>, <a href="lwg-active.html#3421">3421</a>, <a href="lwg-active.html#3425">3425</a>, <a href="lwg-active.html#3426">3426</a>, <a href="lwg-active.html#3427">3427</a>, <a href="lwg-active.html#3428">3428</a>, <a href="lwg-active.html#3437">3437</a>.</li>
-<li>Added the following 26 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>, <a href="lwg-active.html#3443">3443</a>, <a href="lwg-active.html#3444">3444</a>, <a href="lwg-active.html#3445">3445</a>, <a href="lwg-active.html#3446">3446</a>, <a href="lwg-active.html#3447">3447</a>, <a href="lwg-active.html#3448">3448</a>, <a href="lwg-active.html#3449">3449</a>, <a href="lwg-active.html#3450">3450</a>.</li>
+<li>Added the following 27 New issues: <a href="lwg-active.html#3415">3415</a>, <a href="lwg-active.html#3416">3416</a>, <a href="lwg-active.html#3418">3418</a>, <a href="lwg-active.html#3422">3422</a>, <a href="lwg-active.html#3423">3423</a>, <a href="lwg-active.html#3424">3424</a>, <a href="lwg-active.html#3429">3429</a>, <a href="lwg-active.html#3430">3430</a>, <a href="lwg-active.html#3431">3431</a>, <a href="lwg-active.html#3432">3432</a>, <a href="lwg-active.html#3433">3433</a>, <a href="lwg-active.html#3434">3434</a>, <a href="lwg-active.html#3435">3435</a>, <a href="lwg-active.html#3436">3436</a>, <a href="lwg-active.html#3438">3438</a>, <a href="lwg-active.html#3439">3439</a>, <a href="lwg-active.html#3441">3441</a>, <a href="lwg-active.html#3442">3442</a>, <a href="lwg-active.html#3443">3443</a>, <a href="lwg-active.html#3444">3444</a>, <a href="lwg-active.html#3445">3445</a>, <a href="lwg-active.html#3446">3446</a>, <a href="lwg-active.html#3447">3447</a>, <a href="lwg-active.html#3448">3448</a>, <a href="lwg-active.html#3449">3449</a>, <a href="lwg-active.html#3450">3450</a>, <a href="lwg-active.html#3451">3451</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3440">3440</a>.</li>
 <li>Added the following SG1 issue: <a href="lwg-active.html#3417">3417</a>.</li>
 <li>Changed the following 4 issues to Tentatively Ready (from New): <a href="lwg-active.html#2743">2743</a>, <a href="lwg-active.html#3404">3404</a>, <a href="lwg-active.html#3405">3405</a>, <a href="lwg-active.html#3413">3413</a>.</li>
@@ -42731,6 +42731,143 @@ namespace std::ranges {
 }
 </pre>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3451" href="#3451">3451</a><sup><a href="https://cplusplus.github.io/LWG/issue3451">(i)</a></sup>. Inconsistently explicit deduction guides</h3>
+<p><b>Section:</b> 21.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a>, 24.7.10.2 <a href="https://wg21.link/range.join.view">[range.join.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2020-06-11 <b>Last modified:</b> 2020-06-13</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#basic.string">active issues</a> in [basic.string].</p>
+<p><b>View all other</b> <a href="lwg-index.html#basic.string">issues</a> in [basic.string].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The library inconsistently marks deduction guides as <tt>explicit</tt>. <tt>join_view</tt> and <tt>basic_string</tt> 
+account for the only two occurrences of unconditionally explicit deduction guides. All other deduction
+guides have no <tt>explicit</tt>-specifier. Following is a list of unconditionally explicit constructors 
+with their deduction guides.
+</p>
+<blockquote><pre>
+template&lt;class Y&gt;
+  explicit shared_ptr(const weak_ptr&lt;Y&gt;&amp; r);
+
+template&lt;class T&gt;
+  shared_ptr(weak_ptr&lt;T&gt;) -&gt; shared_ptr&lt;T&gt;;
+
+template&lt;class T&gt;
+  constexpr explicit basic_string(const T&amp; t, const Allocator&amp; a = Allocator());
+
+template&lt;class charT,
+         class traits,
+         class Allocator = allocator&lt;charT&gt;&gt;
+  explicit basic_string(basic_string_view&lt;charT, traits&gt;, const Allocator&amp; = Allocator())
+    -&gt; basic_string&lt;charT, traits, Allocator&gt;;
+
+explicit queue(const Container&amp;);
+explicit queue(Container&amp;&amp;);
+
+template&lt;class Container&gt;
+  queue(Container) -&gt; queue&lt;typename Container::value_type, Container&gt;;
+
+explicit stack(const Container&amp;);
+explicit stack(Container&amp;&amp;);
+
+template&lt;class Container&gt;
+  stack(Container) -&gt; stack&lt;typename Container::value_type, Container&gt;;
+
+constexpr explicit join_view(V base);
+
+template&lt;class R&gt;
+  explicit join_view(R&amp;&amp;) -&gt; join_view&lt;views::all_t&lt;R&gt;&gt;;
+
+constexpr explicit common_view(V r);
+
+template&lt;class R&gt;
+  common_view(R&amp;&amp;) -&gt; common_view&lt;views::all_t&lt;R&gt;&gt;;
+
+constexpr explicit reverse_view(V r);
+
+template&lt;class R&gt;
+  reverse_view(R&amp;&amp;) -&gt; reverse_view&lt;views::all_t&lt;R&gt;&gt;;
+
+
+explicit zoned_time(TimeZonePtr z);
+explicit zoned_time(string_view name);
+
+template&lt;class TimeZonePtrOrName&gt;
+  zoned_time(TimeZonePtrOrName&amp;&amp;)
+    -&gt; zoned_time&lt;seconds, time-zone-representation&lt;TimeZonePtrOrName&gt;&gt;;
+
+template&lt;class C&gt;
+explicit stop_callback(const stop_token&amp; st, C&amp;&amp; cb)
+    noexcept(is_nothrow_constructible_v&lt;Callback, C&gt;);
+template&lt;class C&gt;
+explicit stop_callback(stop_token&amp;&amp; st, C&amp;&amp; cb)
+    noexcept(is_nothrow_constructible_v&lt;Callback, C&gt;);
+
+template&lt;class Callback&gt;
+  stop_callback(stop_token, Callback) -&gt; stop_callback&lt;Callback&gt;;
+</pre></blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+
+<ol>
+<li>
+<p>Modify 21.3.2 <a href="https://wg21.link/basic.string">[basic.string]</a>, class template <tt>basic_string</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class charT,
+         class traits,
+         class Allocator = allocator&lt;charT&gt;&gt;
+  <del>explicit</del> basic_string(basic_string_view&lt;charT, traits&gt;, const Allocator&amp; = Allocator())
+    -&gt; basic_string&lt;charT, traits, Allocator&gt;;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li>
+<p>Modify 21.3.2.2 <a href="https://wg21.link/string.cons">[string.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class charT,
+         class traits,
+         class Allocator = allocator&lt;charT&gt;&gt;
+  <del>explicit</del> basic_string(basic_string_view&lt;charT, traits&gt;, const Allocator&amp; = Allocator())
+    -&gt; basic_string&lt;charT, traits, Allocator&gt;;
+[&hellip;]
+</pre>
+<blockquote>
+<p>
+-22- <i>Constraints:</i> <tt>Allocator</tt> is a type that qualifies as an allocator (22.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>).
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li>
+<p>Modify 24.7.10.2 <a href="https://wg21.link/range.join.view">[range.join.view]</a>, class template <tt>join_view</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class R&gt;
+  <del>explicit</del> join_view(R&amp;&amp;) -&gt; join_view&lt;views::all_t&lt;R&gt;&gt;;
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 </ol>
