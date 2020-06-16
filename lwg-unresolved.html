@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-06-15 at 09:04:11 UTC</p>
+<p><p>Revised 2020-06-16 at 15:41:08 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -19195,7 +19195,7 @@ The revised wording provided by LWG <a href="lwg-active.html#2833">2833</a> shou
 <hr>
 <h3><a name="2833" href="#2833">2833</a><sup><a href="https://cplusplus.github.io/LWG/issue2833">(i)</a></sup>. Library needs to specify what it means when it declares a function <tt>constexpr</tt></h3>
 <p><b>Section:</b> 20.7.3.1 <a href="https://wg21.link/variant.ctor">[variant.ctor]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-11-28 <b>Last modified:</b> 2020-06-15</p>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-11-28 <b>Last modified:</b> 2020-06-16</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#variant.ctor">active issues</a> in [variant.ctor].</p>
@@ -19711,15 +19711,16 @@ template&lt;class To, class From&gt;
 <p>
 -1- [&hellip;]
 <p/>
-<del>-3- <i>Remarks:</i> This function is <tt>constexpr</tt> if and only if <tt>To</tt>, <tt>From</tt>, and 
-the types of all subobjects of <tt>To</tt> and From are types <tt>T</tt> such that:</del>
+-3- <i>Remarks:</i> This function <del>is <tt>constexpr</tt></del><ins>can be used in a constant expression</ins> 
+if and only if <tt>To</tt>, <tt>From</tt>, and the types of all subobjects of <tt>To</tt> and From are types 
+<tt>T</tt> such that:
 </p>
 <ol style="list-style-type: none">
-<li><p><del>(3.1) &mdash; <tt>is_union_v&lt;T&gt;</tt> is <tt>false</tt>;</del></p></li>
-<li><p><del>(3.2) &mdash; <tt>is_pointer_v&lt;T&gt;</tt> is <tt>false</tt>;</del></p></li>
-<li><p><del>(3.3) &mdash; <tt>is_member_pointer_v&lt;T&gt;</tt> is <tt>false</tt>;</del></p></li>
-<li><p><del>(3.4) &mdash; <tt>is_volatile_v&lt;T&gt;</tt> is <tt>false</tt>; and</del></p></li>
-<li><p><del>(3.5) &mdash; <tt>T</tt> has no non-static data members of reference type.</del></p></li>
+<li><p>(3.1) &mdash; <tt>is_union_v&lt;T&gt;</tt> is <tt>false</tt>;</p></li>
+<li><p>(3.2) &mdash; <tt>is_pointer_v&lt;T&gt;</tt> is <tt>false</tt>;</p></li>
+<li><p>(3.3) &mdash; <tt>is_member_pointer_v&lt;T&gt;</tt> is <tt>false</tt>;</p></li>
+<li><p>(3.4) &mdash; <tt>is_volatile_v&lt;T&gt;</tt> is <tt>false</tt>; and</p></li>
+<li><p>(3.5) &mdash; <tt>T</tt> has no non-static data members of reference type.</p></li>
 </ol>
 </blockquote>
 </blockquote>
@@ -38194,7 +38195,7 @@ friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&
 <hr>
 <h3><a name="3449" href="#3449">3449</a><sup><a href="https://cplusplus.github.io/LWG/issue3449">(i)</a></sup>. <tt>take_view</tt> and <tt>take_while_view</tt>'s <tt><i>sentinel</i>&lt;false&gt;</tt> not comparable with their const iterator</h3>
 <p><b>Section:</b> 24.7.6.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a>, 24.7.7.3 <a href="https://wg21.link/range.take.while.sentinel">[range.take.while.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-06-06 <b>Last modified:</b> 2020-06-07</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-06-06 <b>Last modified:</b> 2020-06-16</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -38204,6 +38205,10 @@ During reflector discussion it was noted that the issue observed in
 LWG <a href="lwg-active.html#3448">3448</a> applies to <tt>take_view::<i>sentinel</i></tt>
 and <tt>take_while_view::<i>sentinel</i></tt> as well.
 </p>
+
+<p><i>[2020-06-15 Tim corrects a typo in the PR]</i></p>
+
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -38230,7 +38235,7 @@ namespace std::ranges {
   private:
     using <i>Base</i> = conditional_t&lt;Const, const V, V&gt;;  // exposition only
     <ins>template&lt;bool OtherConst&gt;</ins>
-    using <i>CI</i> = counted_iterator&lt;iterator_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;Const, V&gt;</ins>&gt;&gt;;  // exposition only
+    using <i>CI</i> = counted_iterator&lt;iterator_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;&gt;;  // exposition only
 
     [&hellip;]
 
