@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-06-22 at 12:51:01 UTC</p>
+<p><p>Revised 2020-06-22 at 13:19:41 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38753,6 +38753,97 @@ returns <tt>addressof(r)</tt>.
 <p/>
 -4- <i>Remarks:</i> If <tt>element_type</tt> is <i>cv</i> <tt>void</tt>, the type of <tt>r</tt> is unspecified; 
 otherwise, it <tt>is element_type&amp;</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3><a name="3455" href="#3455">3455</a><sup><a href="https://cplusplus.github.io/LWG/issue3455">(i)</a></sup>. Incorrect <i>Postcondition</i> on <tt>unique_ptr</tt> move assignment</h3>
+<p><b>Section:</b> 20.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2020-06-22 <b>Last modified:</b> 2020-06-22</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#unique.ptr.single.asgn">issues</a> in [unique.ptr.single.asgn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+20.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a>/p5 says this about the <tt>unique_ptr</tt> move assignment operator:
+</p>
+<blockquote>
+<p>
+<i>Postconditions:</i> <tt>u.get() == nullptr</tt>.
+</p>
+</blockquote>
+<p>
+But this is only true if <tt>this != &amp;u</tt>. For example:
+</p>
+<blockquote>
+<pre>
+#include &lt;iostream&gt;
+#include &lt;memory&gt;
+
+int main()
+{
+  auto x = std::unique_ptr&lt;int&gt;(new int{3});
+  x = std::move(x);
+  if (x)
+    std::cout &lt;&lt; *x &lt;&lt; '\n';
+  else
+    std::cout &lt;&lt; "nullptr\n";
+}
+</pre>
+</blockquote>
+<p>
+Output:
+</p>
+<blockquote>
+<pre>
+3
+</pre>
+</blockquote>
+<p>
+An alternative resolution to that proposed below is to just delete the <i>Postcondition</i> altogether as 
+the <i>Effects</i> element completely specifies everything. If we do that, then we should also remove p10, 
+the <i>Postconditions</i> element for the converting move assignment operator. I have a slight preference 
+for the proposed change below as it is more informative, at the expense of being a little more repetitive.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4861">N4861</a>. 
+</p>
+
+<ol>
+<li><p>Modify 20.11.1.2.3 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+unique_ptr&amp; operator=(unique_ptr&amp;&amp; u) noexcept;
+</pre>
+<blockquote>
+<p>
+-1- <i>Constraints:</i> <tt>is_move_assignable_v&lt;D&gt;</tt> is <tt>true</tt>.
+<p/>
+-2- <i>Preconditions:</i> If <tt>D</tt> is not a reference type, <tt>D</tt> meets the 
+<i>Cpp17MoveAssignable</i> requirements (Table [tab:cpp17.moveassignable]) and assignment of the 
+deleter from an rvalue of type <tt>D</tt> does not throw an exception. Otherwise, <tt>D</tt> is a
+reference type; <tt>remove_reference_t&lt;D&gt;</tt> meets the <i>Cpp17CopyAssignable</i> 
+requirements and assignment of the deleter from an lvalue of type <tt>D</tt> does not throw an exception.
+<p/>
+-3- <i>Effects:</i> Calls <tt>reset(u.release())</tt> followed by <tt>get_deleter() = std::forward&lt;D&gt;(u.get_deleter())</tt>.
+<p/>
+-4- <i>Returns:</i> <tt>*this</tt>.
+<p/>
+-5- <i>Postconditions:</i> <ins>If <tt>this != addressof(u)</tt>,</ins> <tt>u.get() == nullptr</tt> <ins>, 
+otherwise <tt>u.get()</tt> is unchanged</ins>.
 </p>
 </blockquote>
 </blockquote>
