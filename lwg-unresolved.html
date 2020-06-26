@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-06-26 at 13:07:53 UTC</p>
+<p><p>Revised 2020-06-26 at 13:21:16 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -24738,6 +24738,7 @@ throw an exception of type <tt>domain_error</tt>, or is it that they behave as s
  <b>Submitter:</b> Antony Polukhin <b>Opened:</b> 2018-02-19 <b>Last modified:</b> 2020-05-31</p>
 <p><b>Priority: </b>2
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#string.view.template">active issues</a> in [string.view.template].</p>
 <p><b>View all other</b> <a href="lwg-index.html#string.view.template">issues</a> in [string.view.template].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -38846,6 +38847,51 @@ In any case, the resulting <tt>value</tt> is one of at most two floating-point v
 string matching the pattern.
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3><a name="3457" href="#3457">3457</a><sup><a href="https://cplusplus.github.io/LWG/issue3457">(i)</a></sup>. <tt>*this</tt> is not invalidated</h3>
+<p><b>Section:</b> 21.4.2 <a href="https://wg21.link/string.view.template">[string.view.template]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2020-06-26 <b>Last modified:</b> 2020-06-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#string.view.template">active issues</a> in [string.view.template].</p>
+<p><b>View all other</b> <a href="lwg-index.html#string.view.template">issues</a> in [string.view.template].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+21.4.2 <a href="https://wg21.link/string.view.template">[string.view.template]</a> states:
+</p>
+<blockquote><p>
+For a <tt>basic_string_view str</tt>, any operation that invalidates a pointer in the range <tt>[str.data(), 
+str.data() + str.size())</tt> invalidates pointers, iterators, and references returned from <tt>str</tt>'s member functions.
+</p></blockquote>
+<p>
+The assignment operators return a reference to <tt>*this</tt>, but <tt>*this</tt> is not invalidated.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4861">N4861</a>. 
+</p>
+
+<ol>
+<li><p>Modify 21.4.2 <a href="https://wg21.link/string.view.template">[string.view.template]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- For a <tt>basic_string_view str</tt>, any operation that invalidates a pointer in the range <tt>[str.data(),
+str.data() + str.size())</tt> invalidates pointers, iterators, and references <ins>other than <tt>*this</tt></ins> 
+returned from <tt>str</tt>'s member functions.
+</p>
 </blockquote>
 </li>
 </ol>
