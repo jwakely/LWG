@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-07-05 at 14:53:29 UTC</p>
+<p><p>Revised 2020-07-05 at 15:14:19 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39005,6 +39005,63 @@ and return value of the member function <tt>get</tt>, as set out in its descript
 </li>
 </ol>
 
+
+
+
+
+
+<hr>
+<h3><a name="3459" href="#3459">3459</a><sup><a href="https://cplusplus.github.io/LWG/issue3459">(i)</a></sup>. Why doesn't <tt>std::convertible_to</tt> have semantic requirement when <tt>To</tt> is reference-to-function type?</h3>
+<p><b>Section:</b> 18.4.4 <a href="https://wg21.link/concept.convertible">[concept.convertible]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2020-06-30 <b>Last modified:</b> 2020-07-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#concept.convertible">active issues</a> in [concept.convertible].</p>
+<p><b>View all other</b> <a href="lwg-index.html#concept.convertible">issues</a> in [concept.convertible].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+18.4.4 <a href="https://wg21.link/concept.convertible">[concept.convertible]</a> p2:
+</p>
+<blockquote>
+<p>
+Types <tt>From</tt> and <tt>To</tt> model <tt>convertible_to&lt;From, To&gt;</tt> only if:
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; <tt>To</tt> is not an object or reference-to-object type, or <tt>static_cast&lt;To&gt;(f())</tt> is 
+equal to <tt>test(f)</tt>.</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+</blockquote>
+<p>
+This requires the implicit and explicit conversions to produce equal results.
+<p/>
+However, it seems that when <tt>To</tt> is a reference-to-function type, this restriction does not apply. 
+This makes it possible to create a class that models <tt>convertible_to</tt>, but produces different 
+results depending on the kind of conversion:
+</p>
+<blockquote><pre>
+#include &lt;concepts&gt;
+
+int foo() { return 0; }
+int bar() { return 42; }
+
+using FT = int();
+struct A 
+{
+  operator FT&amp;() const { return foo; }
+  explicit operator FT&amp;() { return bar; }
+};
+
+static_assert(std::convertible_to&lt;A, FT&amp;&gt;);
+
+A a;
+FT&amp; x = a;                    // x == foo
+auto y = static_cast&lt;FT&amp;&gt;(a); // y == bar
+</pre></blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
