@@ -25,8 +25,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3460" href="lwg-active.html#3460">3460</a>. Unimplementable <tt>noop_coroutine_handle</tt> guarantees</h3>
 <p><b>Section:</b> 17.12.4.2.2 <a href="https://wg21.link/coroutine.handle.noop.resumption">[coroutine.handle.noop.resumption]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-07-01 <b>Last modified:</b> 2020-07-05</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-07-01 <b>Last modified:</b> 2020-07-12</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -55,6 +55,12 @@ requires <tt>coroutine_handle&lt;&gt;::resume</tt> to determine if <tt>*this</tt
 default-initialized <tt>coroutine_handle&lt;&gt;</tt> to a <tt>noop_coroutine_handle</tt> must result in 
 <tt>ptr</tt> having a null pointer value &mdash; another contradiction between the requirements of 
 <tt>noop_coroutine_handle</tt> and <tt>coroutine_handle&lt;&gt;</tt>.
+</p>
+
+<p><i>[2020-07-12; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 2 after reflector discussions.
 </p>
 
 
