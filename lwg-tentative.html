@@ -21,8 +21,69 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-07-17 at 23:03:34 UTC</p>
+<p><p>Revised 2020-07-17 at 23:14:17 UTC</p>
 </p><h2>Tentative Issues</h2>
+<hr>
+<h3><a name="1396" href="#1396">1396</a><sup><a href="https://cplusplus.github.io/LWG/issue1396">(i)</a></sup>. <tt>regex</tt> should support allocators</h3>
+<p><b>Section:</b> 30.8 <a href="https://wg21.link/re.regex">[re.regex]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> INCITS <b>Opened:</b> 2010-08-25 <b>Last modified:</b> 2020-07-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#re.regex">active issues</a> in [re.regex].</p>
+<p><b>View all other</b> <a href="lwg-index.html#re.regex">issues</a> in [re.regex].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Duplicate of:</b> <a href="lwg-closed.html#1451">1451</a></p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses US-104, US-141</b></p>
+<p>
+<tt>std::basic_regex</tt> should have an allocator for all the
+reasons that a <tt>std::string</tt> does. For example, I can use
+<tt>boost::interprocess</tt> to put a <tt>string</tt> or <tt>vector</tt>
+in shared memory, but not a <tt>regex</tt>.
+</p>
+
+<p><i>[
+Resolution proposed by ballot comment
+]</i></p>
+
+<p>
+Add allocators to regexes
+</p>
+
+<p><i>[
+2010-10-24 Daniel adds:
+]</i></p>
+
+
+<blockquote><p>
+Accepting <a href="http://wg21.link/n3171.pdf">n3171</a> would solve this issue.
+</p></blockquote>
+
+<p><i>[2011-03-22 Madrid]</i></p>
+
+<p>Close 1396 as NAD Future.</p>
+
+<p><i>[LEWG Kona 2017]</i></p>
+
+<p>Recommend Open: Covered in LEWG9, P0269, which is in wording review.</p>
+
+<p><i>[2020-07-17; status changed to Tentatively NAD in issue processing telecon]</i></p>
+
+<p>
+P0269R0 has been superseded by P1294R0.
+Requested LEWG to confirm which version they forwarded to LWG.
+In any case, this is a feature request, not a defect, and will be dealt with as a proposal not an issue.
+</p>
+
+
+<p><b>Rationale:</b></p><p>No consensus for a change at this time</p>
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
 <hr>
 <h3><a name="2155" href="#2155">2155</a><sup><a href="https://cplusplus.github.io/LWG/issue2155">(i)</a></sup>. Macro <tt>__bool_true_false_are_defined</tt> should be removed</h3>
 <p><b>Section:</b> 17.13 <a href="https://wg21.link/support.runtime">[support.runtime]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
