@@ -22,20 +22,26 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
 <h3><a name="3434" href="lwg-active.html#3434">3434</a>. <tt>ios_base</tt> never reclaims memory for <tt>iarray</tt> and <tt>parray</tt></h3>
-<p><b>Section:</b> 29.5.3.7 <a href="https://wg21.link/ios.base.cons">[ios.base.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-04-26 <b>Last modified:</b> 2020-04-26</p>
+<p><b>Section:</b> 29.5.3.7 <a href="https://wg21.link/ios.base.cons">[ios.base.cons]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-04-26 <b>Last modified:</b> 2020-07-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#ios.base.cons">issues</a> in [ios.base.cons].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 According to 29.5.3.5 <a href="https://wg21.link/ios.base.storage">[ios.base.storage]</a> the class <tt>ios_base</tt> allocates memory,
 represented by two exposition-only pointers, <tt>iarray</tt> and <tt>parray</tt> in response
 to calls to <tt>iword</tt> and <tt>pword</tt>. However, the specification for the destructor
 in 29.5.3.7 <a href="https://wg21.link/ios.base.cons">[ios.base.cons]</a> says nothing about reclaiming any allocated memory.
+</p>
+
+<p><i>[2020-07-17; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 0 and status to Tentatively Ready after six votes in favour during reflector discussions.
 </p>
 
 
