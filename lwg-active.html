@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2020-07-21</td>
+  <td align="left">2020-07-23</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-07-21 at 15:48:15 UTC</p>
+<p><p>Revised 2020-07-23 at 18:35:46 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -39083,25 +39083,25 @@ removing the note might not be the only option to consider.
 <hr>
 <h3><a name="3403" href="#3403">3403</a><sup><a href="https://cplusplus.github.io/LWG/issue3403">(i)</a></sup>. Domain of <tt>ranges::ssize(E)</tt> doesn't match <tt>ranges::size(E)</tt></h3>
 <p><b>Section:</b> 24.3.10 <a href="https://wg21.link/range.prim.ssize">[range.prim.ssize]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-02-19 <b>Last modified:</b> 2020-03-11</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-02-19 <b>Last modified:</b> 2020-07-23</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-<tt>ranges::size(E)</tt> works with a non-range for which <tt>E.size()</tt> or <tt>size(E)</tt> is valid. 
-But <tt>ranges::ssize(E)</tt> requires the type <tt>range_difference_t</tt> which requires 
-<tt>ranges::begin(E)</tt> to be valid. This means there are types for which <tt>ranges::size(E)</tt> 
+<tt>ranges::size(E)</tt> works with a non-range for which <tt>E.size()</tt> or <tt>size(E)</tt> is valid.
+But <tt>ranges::ssize(E)</tt> requires the type <tt>range_difference_t</tt> which requires
+<tt>ranges::begin(E)</tt> to be valid. This means there are types for which <tt>ranges::size(E)</tt>
 is valid but <tt>ranges::ssize(E)</tt> is not.
 <p/>
 Casey's reaction to this is:
 <p/>
-I believe we want <tt>ranges::ssize</tt> to work with any argument that <tt>ranges::size</tt> accepts. 
-That suggest to me that we're going to need <tt><i>make-signed-like-t</i>&lt;T&gt;</tt> after all, 
-so we can "Let <tt>E</tt> be an expression, and let <tt>D</tt> be the wider of <tt>ptrdiff_t</tt> 
-or <tt>decltype(ranges::size(E))</tt>. Then <tt>ranges::ssize(E)</tt> is expression-equivalent to 
-<tt>static_cast&lt;<i>make-signed-like-t</i>&lt;D&gt;&gt;(ranges::size(E))</tt>." Although this wording 
-is still slightly icky since <tt>D</tt> isn't a valid type when <tt>ranges::size(E)</tt> isn't a valid 
+I believe we want <tt>ranges::ssize</tt> to work with any argument that <tt>ranges::size</tt> accepts.
+That suggest to me that we're going to need <tt><i>make-signed-like-t</i>&lt;T&gt;</tt> after all,
+so we can "Let <tt>E</tt> be an expression, and let <tt>D</tt> be the wider of <tt>ptrdiff_t</tt>
+or <tt>decltype(ranges::size(E))</tt>. Then <tt>ranges::ssize(E)</tt> is expression-equivalent to
+<tt>static_cast&lt;<i>make-signed-like-t</i>&lt;D&gt;&gt;(ranges::size(E))</tt>." Although this wording
+is still slightly icky since <tt>D</tt> isn't a valid type when <tt>ranges::size(E)</tt> isn't a valid
 expression, I think it's an improvement?
 </p>
 
@@ -39109,8 +39109,68 @@ expression, I think it's an improvement?
 
 <p>Priority to 2 after reflector discussion.</p>
 
+<p><i>[2020-07-22 Casey provides wording]</i></p>
+
+
 
 <p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4861">N4861</a>.
+</p>
+
+<ol>
+<li><p>Add a new paragraph after paragraph 1 in 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>:</p>
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The following does not define
+an analog <tt><i>to-signed-like</i></tt> for <tt><i>to-unsigned-like</i></tt>
+since we don't need it at this time.]
+</p>
+</blockquote>
+<blockquote>
+<ins>
+-?- Also within this clause,
+<tt><i>make-signed-like-t</i>&lt;X&gt;</tt>
+for an integer-like type <tt>X</tt>
+denotes <tt>make_signed_t&lt;X&gt;</tt>
+if <tt>X</tt> is an integer type;
+otherwise, it denotes a corresponding
+unspecified signed-integer-like type
+of the same width as <tt>X</tt>.
+</ins>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.10 <a href="https://wg21.link/range.prim.ssize">[range.prim.ssize]</a> as indicated:</p>
+
+<blockquote>
+<p>-1- The name <tt>ranges::ssize</tt> denotes
+a customization point object (16.4.2.2.6 <a href="https://wg21.link/customization.point.object">[customization.point.object]</a>).
+<del>The expression <tt>ranges::ssize(E)</tt>
+for a subexpression <tt>E</tt> of type <tt>T</tt>
+is expression-equivalent to:</del>
+</p><p>
+<del>(1.1) &mdash; If <tt>range_difference_t&lt;T&gt;</tt> has
+width less than <tt>ptrdiff_t</tt>,
+<tt>static_cast&lt;ptrdiff_t&gt;(ranges::size(E))</tt>.</del>
+</p><p>
+<del>(1.2) &mdash; Otherwise,
+<tt>static_cast&lt;range_difference_t&lt;T&gt;&gt;(ranges::size(E))</tt>.</del>
+</p><p>
+<ins>
+-?- Given a subexpression <tt>E</tt> with type <tt>T</tt>,
+let <tt>t</tt> be an lvalue that denotes the reified object for <tt>E</tt>.
+If <tt>ranges::size(t)</tt> is ill-formed,
+<tt>ranges::ssize(E)</tt> is ill-formed.
+Otherwise, let <tt>D</tt> be the wider of
+<tt>ptrdiff_t</tt> or <tt>decltype(ranges::size(t))</tt>;
+<tt>ranges::ssize(E)</tt> is expression-equivalent to
+<tt>static_cast&lt;<i>make-signed-like-t</i>&lt;D&gt;&gt;(ranges::size(t))</tt>.
+</ins>
+</p>
+</blockquote>
+</li>
+</ol>
 
 
 
@@ -42412,25 +42472,25 @@ returns a null pointer, calls <tt>setstate(failbit)</tt> (which may throw <tt>io
 <hr>
 <h3><a name="3446" href="#3446">3446</a><sup><a href="https://cplusplus.github.io/LWG/issue3446">(i)</a></sup>. <tt>indirectly_readable_traits</tt> ambiguity for types with both <tt>value_type</tt> and <tt>element_type</tt></h3>
 <p><b>Section:</b> 23.3.2.2 <a href="https://wg21.link/readable.traits">[readable.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-05-15 <b>Last modified:</b> 2020-07-18</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-05-15 <b>Last modified:</b> 2020-07-23</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Per 23.3.2.2 <a href="https://wg21.link/readable.traits">[readable.traits]</a>, <tt>indirectly_readable_traits&lt;T&gt;::value_type</tt> is the same type as 
-<tt>remove_cv_t&lt;T::value_type&gt;</tt> if it denotes an object type, or <tt>remove_cv_t&lt;T::element_type&gt;</tt> 
-if it denotes an object type. If both <tt>T::value_type</tt> and <tt>T::element_type</tt> denote types,  
-<tt>indirectly_readable_traits&lt;T&gt;::value_type</tt> is ill-formed. This was perhaps not the best design, 
-given that there are iterators in the wild (Boost's unordered containers) that define both nested types. 
+Per 23.3.2.2 <a href="https://wg21.link/readable.traits">[readable.traits]</a>, <tt>indirectly_readable_traits&lt;T&gt;::value_type</tt> is the same type as
+<tt>remove_cv_t&lt;T::value_type&gt;</tt> if it denotes an object type, or <tt>remove_cv_t&lt;T::element_type&gt;</tt>
+if it denotes an object type. If both <tt>T::value_type</tt> and <tt>T::element_type</tt> denote types,
+<tt>indirectly_readable_traits&lt;T&gt;::value_type</tt> is ill-formed. This was perhaps not the best design,
+given that there are iterators in the wild (Boost's unordered containers) that define both nested types.
 <tt>indirectly_readable_traits</tt> should tolerate iterators that define both nested types consistently.
 </p>
 
 <p><i>[2020-07-17; Priority set to 2 in telecon]</i></p>
 
 
-
-<p><b>Proposed resolution:</b></p>
+<strong>Previous resolution [SUPERSEDED]:</strong>
+<blockquote class="note">
 <p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
 
 <ol>
@@ -42455,12 +42515,12 @@ template&lt;class T&gt;
   requires requires { typename T::value_type; }
 struct indirectly_readable_traits&lt;T&gt;
   : <i>cond-value-type</i>&lt;typename T::value_type&gt; { };
-  
+
 template&lt;class T&gt;
   requires requires { typename T::element_type; }
 struct indirectly_readable_traits&lt;T&gt;
   : <i>cond-value-type</i>&lt;typename T::element_type&gt; { };
-  
+
 <ins>template&lt;class T&gt;</ins>
   <ins>requires requires {</ins>
     <ins>typename T::element_type;</ins>
@@ -42471,7 +42531,63 @@ struct indirectly_readable_traits&lt;T&gt;
   <ins>}</ins>
 <ins>struct indirectly_readable_traits&lt;T&gt;</ins>
   <ins>: <i>cond-value-type</i>&lt;typename T::value_type&gt; { };</ins>
-  
+
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2020-07-23; Casey improves wording per reflector discussion]</i></p>
+
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+
+<ol>
+<li><p>Modify 23.3.2.2 <a href="https://wg21.link/readable.traits">[readable.traits]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class&gt; struct <i>cond-value-type</i> { }; <i>// exposition only</i>
+
+template&lt;class T&gt;
+  requires is_object_v&lt;T&gt;
+struct <i>cond-value-type</i>&lt;T&gt; {
+  using value_type = remove_cv_t&lt;T&gt;;
+};
+
+<ins>template&lt;class T&gt;</ins>
+<ins>concept <i>has-member-value-type</i> = requires { typename T::value_type; }; <i>// exposition only</i></ins>
+
+<ins>template&lt;class T&gt;</ins>
+<ins>concept <i>has-member-element-type</i> = requires { typename T::element_type; }; <i>// exposition only</i></ins>
+
+template&lt;class&gt; struct indirectly_readable_traits { };
+
+[&hellip;]
+
+template&lt;<del>class</del><ins><i>has-member-value-type</i></ins> T&gt;
+  <del>requires requires { typename T::value_type; }</del>
+struct indirectly_readable_traits&lt;T&gt;
+  : <i>cond-value-type</i>&lt;typename T::value_type&gt; { };
+
+template&lt;<del>class</del><ins><i>has-member-element-type</i></ins> T&gt;
+  <del>requires requires { typename T::element_type; }</del>
+struct indirectly_readable_traits&lt;T&gt;
+  : <i>cond-value-type</i>&lt;typename T::element_type&gt; { };
+
+<ins>template&lt;<del>class</del><ins><i>has-member-value-type</i></ins> T&gt;</ins>
+  <ins>requires <i>has-member-element-type</i>&lt;T&gt; &amp;&amp;</ins>
+           <ins>same_as&lt;remove_cv_t&lt;typename T::element_type&gt;, remove_cv_t&lt;typename T::value_type&gt;&gt;</ins>
+<ins>struct indirectly_readable_traits&lt;T&gt;</ins>
+  <ins>: <i>cond-value-type</i>&lt;typename T::value_type&gt; { };</ins>
+
 [&hellip;]
 </pre>
 </blockquote>
