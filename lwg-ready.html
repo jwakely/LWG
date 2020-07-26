@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2020-07-23 at 18:35:46 UTC</p>
+<td align="left"><p>Revised 2020-07-26 at 12:26:36 UTC</p>
 </td>
 </tr>
 <tr>
@@ -3746,6 +3746,70 @@ above).
 the object. <ins>If the number cannot be represented, returns <tt>numeric_limits&lt;streamsize&gt;::max()</tt>.</ins>
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3465" href="#3465">3465</a><sup><a href="https://cplusplus.github.io/LWG/issue3465">(i)</a></sup>. <tt>compare_partial_order_fallback</tt> requires <tt>F &lt; E</tt></h3>
+<p><b>Section:</b> 17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2020-07-18 <b>Last modified:</b> 2020-07-26</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#cmp.alg">issues</a> in [cmp.alg].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>compare_partial_order_fallback</tt> uses three expressions, but requires only two. The decayed types 
+of <tt>E</tt> and <tt>F</tt> are required to be identical, but variations in constness might make a difference.
+</p>
+
+<p><i>[2020-07-26; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 0 and status to Tentatively Ready after seven votes in favour during reflector discussions.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4861">N4861</a>. 
+</p>
+
+<ol>
+<li><p>Modify 17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-6- The name <tt>compare_partial_order_fallback</tt> denotes a customization point object 
+(16.4.2.2.6 <a href="https://wg21.link/customization.point.object">[customization.point.object]</a>). Given subexpressions <tt>E</tt> and <tt>F</tt>, 
+the expression <tt>compare_partial_order_fallback(E, F)</tt> is expression-equivalent
+(16.3.11 <a href="https://wg21.link/defns.expression-equivalent">[defns.expression-equivalent]</a>) to:
+</p>
+<ol style="list-style-type: none">
+<li><p>(6.1) &mdash; If the decayed types of <tt>E</tt> and <tt>F</tt> differ, 
+<tt>compare_partial_order_fallback(E, F)</tt> is ill-formed.</p></li>
+<li><p>(6.2) &mdash; Otherwise, <tt>partial_order(E, F)</tt> if it is a well-formed expression.</p></li>
+<li><p>(6.3) &mdash; Otherwise, if the expressions <tt>E == F</tt><ins>,</ins> <del>and</del> 
+<tt>E &lt; F</tt><ins>, and <tt>F &lt; E</tt></ins> are <ins>all</ins><del>both</del> well-formed 
+and convertible to <tt>bool</tt>,</p>
+<blockquote>
+<pre>
+E == F ? partial_ordering::equivalent :
+E &lt; F  ? partial_ordering::less :
+F &lt; E  ? partial_ordering::greater :
+         partial_ordering::unordered
+</pre>
+</blockquote>
+<p>
+except that <tt>E</tt> and <tt>F</tt> are evaluated only once.
+</p>
+</li>
+<li><p>(6.4) &mdash; Otherwise, <tt>compare_partial_order_fallback(E, F)</tt> is ill-formed.</p></li></ol>
 </blockquote>
 </li>
 </ol>
