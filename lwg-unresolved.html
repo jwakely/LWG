@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-07-26 at 14:02:43 UTC</p>
+<p><p>Revised 2020-07-26 at 14:32:23 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38203,6 +38203,85 @@ This should probably go in 22.2.7 <a href="https://wg21.link/unord.req">[unord.r
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3469" href="#3469">3469</a><sup><a href="https://cplusplus.github.io/LWG/issue3469">(i)</a></sup>. Precondition of <tt>coroutine_handle::promise</tt> may be insufficient</h3>
+<p><b>Section:</b> 17.12.3.5 <a href="https://wg21.link/coroutine.handle.promise">[coroutine.handle.promise]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2020-07-25 <b>Last modified:</b> 2020-07-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The issue is related to LWG <a href="lwg-active.html#3460">3460</a>.
+<p/>
+Because the <tt>coroutine_handle&lt;&gt;</tt> base subobject of a <tt>coroutine_handle&lt;P1&gt;</tt> 
+can be assigned from the one of a <tt>coroutine_handle&lt;P2&gt;</tt>, a <tt>coroutine_handle&lt;P1&gt;</tt> 
+may refer to a coroutine whose promise type is <tt>P2</tt>. If a <tt>coroutine_handle&lt;P&gt;</tt> refers 
+to a coroutine with difference, a call to <tt>promise()</tt> should result in undefined behavior IMO.
+<p/>
+I think that 17.12.3.5 <a href="https://wg21.link/coroutine.handle.promise">[coroutine.handle.promise]</a>/1 should be changed to: "<i>Preconditions:</i> 
+<tt>*this</tt> refers to a coroutine whose promise type is <tt>Promise</tt>.", and the same precondition 
+should be added to 17.12.4.2.3 <a href="https://wg21.link/coroutine.handle.noop.promise">[coroutine.handle.noop.promise]</a>, and hence <tt>noexcept</tt> should be 
+removed from <tt>coroutine_handle&lt;noop_coroutine_promise&gt;::promise</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4861">N4861</a>. 
+</p>
+
+<ol>
+<li><p>Modify 17.12.3.5 <a href="https://wg21.link/coroutine.handle.promise">[coroutine.handle.promise]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+Promise&amp; promise() const;
+</pre>
+<blockquote>
+<p>
+-1- <i>Preconditions:</i> <tt>*this</tt> refers to a coroutine <ins>whose promise type is <tt>Promise</tt></ins>.
+<p/>
+-2- <i>Returns:</i> A reference to the promise of the coroutine.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 17.12.4.2 <a href="https://wg21.link/coroutine.handle.noop">[coroutine.handle.noop]</a>, class <tt>coroutine_handle&lt;noop_coroutine_promise&gt;</tt> 
+synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 17.12.4.2.3 <a href="https://wg21.link/coroutine.handle.noop.promise">[coroutine.handle.noop.promise]</a>, promise access</i>
+noop_coroutine_promise&amp; promise() const <del>noexcept</del>;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 17.12.4.2.3 <a href="https://wg21.link/coroutine.handle.noop.promise">[coroutine.handle.noop.promise]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+noop_coroutine_promise&amp; promise() const <del>noexcept</del>;
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Preconditions:</i> <tt>*this</tt> refers to a coroutine whose promise type is <tt>noop_coroutine_promise</tt>.</ins>
+<p/>
+-1- <i>Returns:</i> A reference to the promise object associated with this coroutine handle.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
