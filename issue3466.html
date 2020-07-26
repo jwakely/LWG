@@ -25,8 +25,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3466" href="lwg-active.html#3466">3466</a>. Specify the requirements for <tt>promise</tt>/<tt>future</tt>/<tt>shared_future</tt> consistently</h3>
 <p><b>Section:</b> 32.9.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2020-07-18 <b>Last modified:</b> 2020-07-21</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2020-07-18 <b>Last modified:</b> 2020-07-26</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#futures.promise">active issues</a> in [futures.promise].</p>
 <p><b>View all other</b> <a href="lwg-index.html#futures.promise">issues</a> in [futures.promise].</p>
@@ -44,6 +44,16 @@ any call to <tt>get_future()</tt> would be ill-formed, if <tt>T</tt> is of array
 [Note: <tt>promise&lt;int[10]&gt;</tt> is ill-formed for libstdc++ and libc++, see
 <a href="https://godbolt.org/z/ffTW99">this code</a>]
 </p>
+
+<p><i>[2020-07-26; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 3 after reflector discussions. Tim Song made the suggestion to replace the P/R wording
+by the following alternative wording:
+</p>
+<blockquote><p>
+<ins>For the primary template, <tt>R</tt> shall be an object type that meets the <i>Cpp17Destructible</i> requirements.</ins>
+</p></blockquote>
 
 
 <p><b>Proposed resolution:</b></p>
