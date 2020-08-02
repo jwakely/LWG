@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-08-02 at 18:07:03 UTC</p>
+<p><p>Revised 2020-08-02 at 18:22:16 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="1396" href="#1396">1396</a><sup><a href="https://cplusplus.github.io/LWG/issue1396">(i)</a></sup>. <tt>regex</tt> should support allocators</h3>
@@ -3631,6 +3631,60 @@ except that <tt>E</tt> and <tt>F</tt> are evaluated only once.
 </p>
 </li>
 <li><p>(6.4) &mdash; Otherwise, <tt>compare_partial_order_fallback(E, F)</tt> is ill-formed.</p></li></ol>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3467" href="#3467">3467</a><sup><a href="https://cplusplus.github.io/LWG/issue3467">(i)</a></sup>. <tt>bool</tt> can't be an integer-like type</h3>
+<p><b>Section:</b> 23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-07-23 <b>Last modified:</b> 2020-08-02</p>
+<p><b>Priority: </b>0
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.concept.winc">active issues</a> in [iterator.concept.winc].</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.concept.winc">issues</a> in [iterator.concept.winc].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Per 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>/1, the Standard Library believes it can convert an integer-like type <tt>X</tt>
+to an unsigned integer-like type with the exposition-only type alias <tt><i>make-unsigned-like-t</i></tt>.
+<tt><i>make-unsigned-like-t</i>&lt;X&gt;</tt> is specified as being equivalent to
+<tt>make_unsigned_t&lt;X&gt;</tt> when <tt>X</tt> is an integral type. However, despite being an integral type,
+<tt>bool</tt> is not a valid template type argument for <tt>make_unsigned_t</tt> per [tab:meta.trans.sign].
+<p/>
+This problem with <tt>bool</tt> was an oversight when we added support for integer-like types: it was certainly
+not the design intent to allow <tt>ranges::size(r)</tt> to return <tt>false</tt>! While we could devise some
+more-complicated metaprogramming to allow use of <tt>bool</tt>, it seems easier &mdash; and consistent with the
+design intent &mdash; to simply exclude <tt>bool</tt> from the set of integer-like types.
+</p>
+
+<p><i>[2020-08-02; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 0 and status to Tentatively Ready after six votes in favour during reflector discussions.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4861">N4861</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-11- A type <tt>I</tt> <ins>other than <tt><i>cv</i> bool</tt></ins> is <i>integer-like</i> if it models <tt>integral&lt;I&gt;</tt>
+or if it is an integer-class type. A<ins>n integer-like</ins> type <tt>I</tt> is <i>signed-integer-like</i> if it
+models <tt>signed_integral&lt;I&gt;</tt> or if it is a signed-integer-class type. A<ins>n integer-like</ins>
+type <tt>I</tt> is <i>unsigned-integer-like</i> if it models <tt>unsigned_integral&lt;I&gt;</tt> or if it is an
+unsigned-integer-class type.
+</p>
 </blockquote>
 </li>
 </ol>
