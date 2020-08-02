@@ -29,7 +29,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2020-07-30 at 14:54:34 UTC</p>
+<td align="left"><p>Revised 2020-08-02 at 16:28:52 UTC</p>
 </td>
 </tr>
 <tr>
@@ -3599,98 +3599,6 @@ requirements and assignment of the deleter from an lvalue of type <tt>D</tt> doe
 otherwise <tt>u.get()</tt> is unchanged</ins>.
 </p>
 </blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-
-<hr>
-<h3><a name="3458" href="#3458">3458</a><sup><a href="https://cplusplus.github.io/LWG/issue3458">(i)</a></sup>. Is <tt>shared_future</tt> intended to work with arrays or function types?</h3>
-<p><b>Section:</b> 32.9.7 <a href="https://wg21.link/futures.unique.future">[futures.unique.future]</a>, 32.9.8 <a href="https://wg21.link/futures.shared.future">[futures.shared.future]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2020-06-28 <b>Last modified:</b> 2020-07-18</p>
-<p><b>Priority: </b>0
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-Currently there is no prohibition of creating <code>shared_future&lt;T&gt;</code> where <code>T</code> is 
-either an array type or a function type. However such objects cannot be constructed, as the corresponding 
-<code>future&lt;T&gt;</code>, is ill-formed due the signature <code>get()</code> method being ill-formed &mdash; 
-it will be declared as function returning an array or function type, respectively. [<i>Note:</i> For 
-<code>shared_future</code> <tt>get</tt> always returns an reference, so it is well-formed for array or function 
-types.]
-</p>
-
-<p><i>[2020-07-17; Reflector prioritization]</i></p>
-
-<p>
-Set priority to 0 and status to Tentatively Ready after six votes in favour during reflector discussions.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="http://wg21.link/n4861">N4861</a>. 
-</p>
-
-<blockquote class="note">
-<p>
-Ideally the wording below would use a <i>Mandates:</i> element, but due to the still open
-issue LWG <a href="lwg-active.html#3193">3193</a> the wording below uses instead the more general "ill-formed"
-vocabulary.
-</p>
-</blockquote>
-
-<ol>
-<li><p>Modify 32.9.7 <a href="https://wg21.link/futures.unique.future">[futures.unique.future]</a> as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class R&gt;
-  class future {
-    [&hellip;]
-  };
-}
-</pre>
-</blockquote>
-<p>
-<ins>-?- If <tt>is_array_v&lt;R&gt;</tt> is <tt>true</tt> or <tt>is_function_v&lt;R&gt;</tt> is <tt>true</tt>, 
-the program is ill-formed.</ins>
-<p/>
--4- The implementation provides the template <tt>future</tt> and two specializations, <tt>future&lt;R&amp;&gt;</tt> and 
-<tt>future&lt;void&gt;</tt>. These differ only in the return type and return value of the member function <tt>get</tt>, 
-as set out in its description, below.
-</p>
-</blockquote>
-</li>
-
-<li><p>Modify 32.9.8 <a href="https://wg21.link/futures.shared.future">[futures.shared.future]</a> as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class R&gt;
-  class shared_future {
-    [&hellip;]
-  };
-}
-</pre>
-</blockquote>
-<p>
-<ins>-?- If <tt>is_array_v&lt;R&gt;</tt> is <tt>true</tt> or <tt>is_function_v&lt;R&gt;</tt> is <tt>true</tt>, 
-the program is ill-formed.</ins>
-<p/>
--4- The implementation provides the template <tt>shared_future</tt> and two specializations, 
-<tt>shared_future&lt;R&amp;&gt;</tt> and <tt>shared_future&lt;void&gt;</tt>. These differ only in the return type 
-and return value of the member function <tt>get</tt>, as set out in its description, below.
-</p>
 </blockquote>
 </li>
 </ol>
