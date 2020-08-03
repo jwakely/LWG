@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3471" href="lwg-active.html#3471">3471</a>. <tt>polymorphic_allocator::allocate</tt> does not satisfy <i>Cpp17Allocator</i> requirements</h3>
 <p><b>Section:</b> 20.12 <a href="https://wg21.link/mem.res">[mem.res]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-07-27 <b>Last modified:</b> 2020-08-02</p>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-07-27 <b>Last modified:</b> 2020-08-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#mem.res">issues</a> in [mem.res].</p>
@@ -39,6 +39,13 @@ for an array of <tt>n T</tt>s (but not initialize any of those elements).
 <tt>std::pmr::polymorphic_allocator</tt> calls its underlying memory resource to allocate
 sufficient bytes of storage, but it does not create (and start the lifetime of) the array
 object within that storage.
+</p>
+
+<p><i>[2020-08-03; Billy comments]</i></p>
+
+<p>
+It's worth noting that the resolution of <a href="http://wg21.link/cwg2382">CWG 2382</a>
+has impact on implementors for this issue.
 </p>
 
 

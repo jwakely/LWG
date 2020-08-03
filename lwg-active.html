@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-08-03 at 16:14:49 UTC</p>
+<p><p>Revised 2020-08-03 at 19:45:57 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -45147,7 +45147,7 @@ I think <tt>subrange</tt> should allow such qualification conversion, just like 
 <hr>
 <h3><a name="3471" href="#3471">3471</a><sup><a href="https://cplusplus.github.io/LWG/issue3471">(i)</a></sup>. <tt>polymorphic_allocator::allocate</tt> does not satisfy <i>Cpp17Allocator</i> requirements</h3>
 <p><b>Section:</b> 20.12 <a href="https://wg21.link/mem.res">[mem.res]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-07-27 <b>Last modified:</b> 2020-08-02</p>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-07-27 <b>Last modified:</b> 2020-08-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#mem.res">issues</a> in [mem.res].</p>
@@ -45161,6 +45161,13 @@ for an array of <tt>n T</tt>s (but not initialize any of those elements).
 <tt>std::pmr::polymorphic_allocator</tt> calls its underlying memory resource to allocate
 sufficient bytes of storage, but it does not create (and start the lifetime of) the array
 object within that storage.
+</p>
+
+<p><i>[2020-08-03; Billy comments]</i></p>
+
+<p>
+It's worth noting that the resolution of <a href="http://wg21.link/cwg2382">CWG 2382</a>
+has impact on implementors for this issue.
 </p>
 
 
