@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-08-03 at 19:45:57 UTC</p>
+<p><p>Revised 2020-08-09 at 09:45:25 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38891,68 +38891,6 @@ template&lt;indirectly_swappable&lt;I&gt; I2&gt;
 </blockquote>
 </blockquote>
 </li>
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3473" href="#3473">3473</a><sup><a href="https://cplusplus.github.io/LWG/issue3473">(i)</a></sup>. Normative encouragement in non-normative note</h3>
-<p><b>Section:</b> 20.20.6.3 <a href="https://wg21.link/format.args">[format.args]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-07-31 <b>Last modified:</b> 2020-08-03</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The note in the final paragraph of 20.20.6.3 <a href="https://wg21.link/format.args">[format.args]</a> gives encouragement to implementations, which is not allowed in a note.
-<p/>
-It needs to be normative text, possibly using "should", or if left as a note could be phrased as "Implementations can optimize 
-the representation ...". 
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="http://wg21.link/n4861">N4861</a>.
-</p>
-
-<ol>
-<li><p>Modify 20.20.6.3 <a href="https://wg21.link/format.args">[format.args]</a> as indicated:</p>
-
-<blockquote>
-<p>
--1- An instance of <tt>basic_format_args</tt> provides access to formatting arguments. <ins>Implementations 
-should optimize the representation of <tt>basic_format_args</tt> for a small number of formatting arguments. 
-[<i>Note:</i> For example, by storing indices of type alternatives separately from values and packing the 
-former. &mdash; <i>end note</i>]</ins>
-</p>
-<pre>
-basic_format_args() noexcept;
-</pre>
-<blockquote>
-<p>
--2- <i>Effects:</i> Initializes <tt>size_</tt> with <tt>0</tt>.
-</p>
-</blockquote>
-[&hellip;]
-<pre>
-basic_format_arg&lt;Context&gt; get(size_t i) const noexcept;
-</pre>
-<blockquote>
-<p>
--4- <i>Returns:</i> <tt>i &lt; size_ ? data_[i] : basic_format_arg&lt;Context&gt;()</tt>.
-</p>
-</blockquote>
-<p>
-<del>[<i>Note:</i> Implementations are encouraged to optimize the representation of 
-<tt>basic_format_args</tt> for small number of formatting arguments by storing indices of type 
-alternatives separately from values and packing the former. &mdash; <i>end note</i>]</del>
-</p>
-</blockquote>
-</li>
-
 </ol>
 
 
