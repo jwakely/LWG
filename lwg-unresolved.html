@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-08-15 at 20:50:41 UTC</p>
+<p><p>Revised 2020-08-17 at 17:56:00 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39020,15 +39020,15 @@ namespace std::ranges {
 
 <hr>
 <h3><a name="3475" href="#3475">3475</a><sup><a href="https://cplusplus.github.io/LWG/issue3475">(i)</a></sup>. <tt>std::thread</tt>'s constructor needs to be able to report general memory allocation failures</h3>
-<p><b>Section:</b> 32.4.2.2 <a href="https://wg21.link/thread.thread.constr">[thread.thread.constr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2020-08-14 <b>Last modified:</b> 2020-08-15</p>
+<p><b>Section:</b> 32.4.2.2 <a href="https://wg21.link/thread.thread.constr">[thread.thread.constr]</a>, 32.4.3.1 <a href="https://wg21.link/thread.jthread.cons">[thread.jthread.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2020-08-14 <b>Last modified:</b> 2020-08-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#thread.thread.constr">issues</a> in [thread.thread.constr].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-<tt>thread</tt>'s constructor needs to <tt><i>decay-copy</i></tt> the supplied parameters and callable over to the started 
+<tt>(j)thread</tt>'s constructor needs to <tt><i>decay-copy</i></tt> the supplied parameters and callable over to the started 
 thread through an operating system API that generally only accepts a single <tt>void*</tt>. The MSVC++ and libc++ 
 implementations do this by putting the parameters in a <tt>std::tuple</tt> allocated from the heap, passing a 
 pointer to that tuple through the operating system API, and leaving ownership of the parameters to the other thread.
@@ -39087,6 +39087,35 @@ to create another thread, or the system-imposed limit on the number of threads i
 </blockquote>
 </li>
 
+<li><p>Modify 32.4.3.1 <a href="https://wg21.link/thread.jthread.cons">[thread.jthread.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class F, class... Args&gt; explicit jthread(F&amp;&amp; f, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-3- <i>Constraints:</i> [&hellip;]
+<p/>
+[&hellip;]
+<p/>
+-8- <i>Postconditions:</i> <tt>get_id() != id()</tt> is <tt>true</tt> and <tt>ssource.stop_possible()</tt> 
+is <tt>true</tt> and <tt>*this</tt> represents the newly started thread. [<i>Note:</i> The calling thread 
+can make a stop request only once, because it cannot replace this stop token. &mdash; <i>end note</i>]
+<p/>
+-9- <i>Throws:</i> <ins><tt>bad_alloc</tt> if memory to transfer parameters to the new thread cannot be obtained.</ins> 
+<tt>system_error</tt> if unable to start the new thread.
+<p/>
+-10- <i>Error conditions:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p>(10.1) &mdash; <tt>resource_unavailable_try_again</tt> &mdash; the system lacked the necessary resources 
+to create another thread, or the system-imposed limit on the number of threads in a process would be exceeded.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
 </ol>
 
 <p>
@@ -39113,7 +39142,37 @@ template&lt;class F, class... Args&gt; explicit thread(F&amp;&amp; f, Args&amp;&
 -10- <i>Error conditions:</i>
 </p>
 <ol style="list-style-type: none">
-<li><p><ins>(10.?) &mdash; <tt>out_of_memory</tt> &mdash; the system lacked memory resources to transfer parameters 
+<li><p><ins>(10.?) &mdash; <tt>not_enough_memory</tt> &mdash; the system lacked memory resources to transfer parameters 
+to the new thread.</ins></p></li>
+<li><p>(10.1) &mdash; <tt>resource_unavailable_try_again</tt> &mdash; the system lacked the necessary resources 
+to create another thread, or the system-imposed limit on the number of threads in a process would be exceeded.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 32.4.3.1 <a href="https://wg21.link/thread.jthread.cons">[thread.jthread.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class F, class... Args&gt; explicit jthread(F&amp;&amp; f, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-3- <i>Constraints:</i> [&hellip;]
+<p/>
+[&hellip;]
+<p/>
+-8- <i>Postconditions:</i> <tt>get_id() != id()</tt> is <tt>true</tt> and <tt>ssource.stop_possible()</tt> 
+is <tt>true</tt> and <tt>*this</tt> represents the newly started thread. [<i>Note:</i> The calling thread 
+can make a stop request only once, because it cannot replace this stop token. &mdash; <i>end note</i>]
+<p/>
+-9- <i>Throws:</i> <tt>system_error</tt> if unable to start the new thread.
+<p/>
+-10- <i>Error conditions:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p><ins>(10.?) &mdash; <tt>not_enough_memory</tt> &mdash; the system lacked memory resources to transfer parameters 
 to the new thread.</ins></p></li>
 <li><p>(10.1) &mdash; <tt>resource_unavailable_try_again</tt> &mdash; the system lacked the necessary resources 
 to create another thread, or the system-imposed limit on the number of threads in a process would be exceeded.</p></li>
