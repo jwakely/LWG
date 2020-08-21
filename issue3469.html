@@ -25,8 +25,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3469" href="lwg-active.html#3469">3469</a>. Precondition of <tt>coroutine_handle::promise</tt> may be insufficient</h3>
 <p><b>Section:</b> 17.12.3.5 <a href="https://wg21.link/coroutine.handle.promise">[coroutine.handle.promise]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2020-07-25 <b>Last modified:</b> 2020-07-30</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2020-07-25 <b>Last modified:</b> 2020-08-21</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -42,6 +42,12 @@ I think that 17.12.3.5 <a href="https://wg21.link/coroutine.handle.promise">[cor
 <tt>*this</tt> refers to a coroutine whose promise type is <tt>Promise</tt>.", and the same precondition 
 should be added to 17.12.4.2.3 <a href="https://wg21.link/coroutine.handle.noop.promise">[coroutine.handle.noop.promise]</a>, and hence <tt>noexcept</tt> should be 
 removed from <tt>coroutine_handle&lt;noop_coroutine_promise&gt;::promise</tt>.
+</p>
+
+<p><i>[2020-08-21; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 2 after reflector discussions.
 </p>
 
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
