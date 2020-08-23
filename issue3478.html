@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3478: views::split drops trailing empty range</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3478" href="lwg-active.html#3478">3478</a>. <tt>views::split</tt> drops trailing empty range</h3>
+<p><b>Section:</b> 24.7.11 <a href="https://wg21.link/range.split">[range.split]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2020-08-20 <b>Last modified:</b> 2020-08-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+From <a href="https://stackoverflow.com/q/63497978/2069064">StackOverflow</a>, the program:
+</p>
+<blockquote><pre>
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;ranges&gt;
+
+int main() 
+{
+  std::string s = " text ";
+  auto sv = std::ranges::views::split(s, ' ');                    
+  std::cout &lt;&lt; std::ranges::distance(sv.begin(), sv.end());
+}
+</pre></blockquote>
+<p>
+prints 2 (as specified), but it really should print 3. If a range has <tt>N</tt> delimiters in it, 
+splitting should produce <tt>N+1</tt> pieces. If the <tt>N</tt><sup>th</sup> delimiter is the last 
+element in the input range, <tt>views::split</tt> produces only <tt>N</tt> pieces &mdash; it doesn't 
+emit a trailing empty range.
+<p/>
+For other language comparisons, Python and Rust both give you three pieces in this example.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+</body>
+</html>
