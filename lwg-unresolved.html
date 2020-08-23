@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-08-23 at 16:09:43 UTC</p>
+<p><p>Revised 2020-08-23 at 16:33:37 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -37708,6 +37708,80 @@ is_invocable_v&lt;decay_t&lt;F&gt;, stop_token, decay_t&lt;Args&gt;...&gt;</tt>.
 </blockquote>
 </blockquote>
 
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3477" href="#3477">3477</a><sup><a href="https://cplusplus.github.io/LWG/issue3477">(i)</a></sup>. Simplify constraints for <tt><i>semiregular-box</i></tt></h3>
+<p><b>Section:</b> 24.7.2 <a href="https://wg21.link/range.semi.wrap">[range.semi.wrap]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-08-19 <b>Last modified:</b> 2020-08-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The exposition-only <tt><i>semiregular-box</i></tt> class template specified in 24.7.2 <a href="https://wg21.link/range.semi.wrap">[range.semi.wrap]</a> 
+implements a default constructor, copy assignment operator, and move assignment operator atop the facilities 
+provided by <tt>std::optional</tt> when the wrapped type is not default constructible, copy assignable, or 
+move assignable (respectively). The constraints on the copy and move assignment operator implementations go 
+out of their way to be unnecessarily minimal. The meaning of the constraint on the copy assignment operator 
+&mdash; <tt>!assignable&lt;T, const T&amp;&gt;</tt> &mdash; has even changed since this wording was written 
+as a result of LWG reformulating the implicit expression variations wording in 18.2 <a href="https://wg21.link/concepts.equality">[concepts.equality]</a>.
+<p/>
+It would be much simpler for implementors and users if we recall that minimality is not the primary goal of 
+constraints and instead constrain these assignment operators more simply with 
+<tt>!movable&lt;T&gt;</tt> and <tt>!copyable&lt;T&gt;</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4861">N4861</a>.
+</p>
+
+<ol>
+<li><p>Modify 32.4.2.2 <a href="https://wg21.link/thread.thread.constr">[thread.thread.constr]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- Many types in this subclause are specified in terms of an exposition-only class template 
+<tt><i>semiregular-box</i></tt>. <tt><i>semiregular-box</i>&lt;T&gt;</tt> behaves exactly like 
+<tt>optional&lt;T&gt;</tt> with the following differences:
+</p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; [&hellip;]</p></li>
+<li><p>(1.2) &mdash; [&hellip;]</p></li>
+<li><p>(1.3) &mdash; If <tt><del>assignable_from&lt;T&amp;, const T&amp;&gt;</del><ins>copyable&lt;T&gt;</ins></tt> 
+is not modeled, the copy assignment operator is equivalent to:</p>
+<pre>
+<i>semiregular-box</i>&amp; operator=(const <i>semiregular-box</i>&amp; that)
+  noexcept(is_nothrow_copy_constructible_v&lt;T&gt;)
+{
+  if (that) emplace(*that);
+  else reset();
+  return *this;
+}
+</pre>
+</li>
+<li><p>(1.4) &mdash; If <tt><del>assignable_from&lt;T&amp;, T&gt;</del><ins>movable&lt;T&gt;</ins></tt> 
+is not modeled, the move assignment operator is equivalent to:</p>
+<pre>
+<i>semiregular-box</i>&amp; operator=(<i>semiregular-box</i>&amp;&amp; that)
+  noexcept(is_nothrow_move_constructible_v&lt;T&gt;)
+{
+  if (that) emplace(std::move(*that));
+  else reset();
+  return *this;
+}
+</pre>
+</li>
+</ol>
+</blockquote>
 </li>
 
 </ol>
