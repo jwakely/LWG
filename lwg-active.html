@@ -28,7 +28,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2020-08-23</td>
+  <td align="left">2020-08-24</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-08-23 at 16:41:37 UTC</p>
+<p><p>Revised 2020-08-24 at 07:55:22 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -45822,7 +45822,7 @@ is not modeled, the move assignment operator is equivalent to:</p>
 <hr>
 <h3><a name="3478" href="#3478">3478</a><sup><a href="https://cplusplus.github.io/LWG/issue3478">(i)</a></sup>. <tt>views::split</tt> drops trailing empty range</h3>
 <p><b>Section:</b> 24.7.11 <a href="https://wg21.link/range.split">[range.split]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2020-08-20 <b>Last modified:</b> 2020-08-23</p>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2020-08-20 <b>Last modified:</b> 2020-08-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -45848,7 +45848,20 @@ splitting should produce <tt>N+1</tt> pieces. If the <tt>N</tt><sup>th</sup> del
 element in the input range, <tt>views::split</tt> produces only <tt>N</tt> pieces &mdash; it doesn't 
 emit a trailing empty range.
 <p/>
-For other language comparisons, Python and Rust both give you three pieces in this example.
+Going through a bunch of languages gets a sense of what they all do here. There are basically two 
+groups (and Haskell goes in both because it has several different split functions)
+</p>
+<ol>
+<li><p>Rust, Python, Javascript, Go, Kotlin, Haskell's <tt>"splitOn"</tt> all provide <tt>N+1</tt> parts 
+if there were <tt>N</tt> delimiters.</p></li>
+<li><p>APL, D, Elixir, Java, Haskell's <tt>"words"</tt>, Ruby, and Clojure all compress all empty words. 
+Splitting <tt>" x "</tt> on <tt>" "</tt> would give <tt>["x"]</tt> here, whereas the languages in the 
+above group would give <tt>["", "x", ""]</tt></p></li>
+</ol>
+<p>
+I think C++20/range-v3's <tt>split</tt> intends to be in that first category, and it very nearly is except 
+for the case where the last character is the delimiter. That's why I think the current behavior is just 
+a specification error. 
 </p>
 
 
