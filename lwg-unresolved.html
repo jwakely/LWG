@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-08-27 at 19:40:52 UTC</p>
+<p><p>Revised 2020-08-27 at 19:59:15 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -34158,7 +34158,7 @@ removing the note might not be the only option to consider.
 <h3><a name="3406" href="#3406">3406</a><sup><a href="https://cplusplus.github.io/LWG/issue3406">(i)</a></sup>. <tt>elements_view::begin()</tt> and <tt>elements_view::end()</tt> have incompatible
 constraints</h3>
 <p><b>Section:</b> 24.7.15.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-07-18</p>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-08-27</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.elements.view">issues</a> in [range.elements.view].</p>
@@ -34336,6 +34336,7 @@ namespace std::ranges {
 
     constexpr auto begin() requires (!<i>simple-view</i>&lt;V&gt;)
     { return <i>iterator</i>&lt;false&gt;(ranges::begin(<i>base_</i>)); }
+
     constexpr auto begin() const requires <del><i>simple-view</i>&lt;V&gt;</del><ins>range&lt;const V&gt;</ins>
     { return <i>iterator</i>&lt;true&gt;(ranges::begin(<i>base_</i>)); }
 
@@ -34350,7 +34351,7 @@ namespace std::ranges {
 
     constexpr auto end() const requires common_range&lt;const V&gt;
     { return iterator&lt;true&gt;{ranges::end(<i>base_</i>)}; }
-  [&hellip;]
+    [&hellip;]
   };
 }
 </pre>
@@ -34360,11 +34361,11 @@ namespace std::ranges {
 <li><p>Modify 24.7.15.4 <a href="https://wg21.link/range.elements.sentinel">[range.elements.sentinel]</a> as indicated:</p>
 <blockquote class="note">
 <p>
-<i>Drafting note</i>: Unlike the current P/R of LWG 3448, this P/R also changes
+[<i>Drafting note</i>: Unlike the current P/R of LWG <a href="lwg-active.html#3448">3448</a>, this P/R also changes
 the return type of <tt>operator-</tt> to depend on the constness of iterator
 rather than that of the sentinel. This is consistent with
 <tt>sized_sentinel_for&lt;S, I&gt;</tt> (23.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a>),
-which requires <tt>decltype(i - s)</tt> to be <tt>iter_difference_t&lt;I&gt;</tt>.
+which requires <tt>decltype(i - s)</tt> to be <tt>iter_difference_t&lt;I&gt;</tt>.]
 </p>
 </blockquote>
 <blockquote>
