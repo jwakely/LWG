@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-08-29 at 12:29:21 UTC</p>
+<p><p>Revised 2020-08-29 at 17:00:03 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38020,7 +38020,7 @@ is not modeled, the move assignment operator is equivalent to:</p>
 <hr>
 <h3><a name="3480" href="#3480">3480</a><sup><a href="https://cplusplus.github.io/LWG/issue3480">(i)</a></sup>. <tt>directory_iterator</tt> and <tt>recursive_directory_iterator</tt> are not C++20 ranges</h3>
 <p><b>Section:</b> 29.11.12 <a href="https://wg21.link/fs.class.directory.iterator">[fs.class.directory.iterator]</a>, 29.11.13 <a href="https://wg21.link/fs.class.rec.dir.itr">[fs.class.rec.dir.itr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Barry Revzin  <b>Opened:</b> 2020-08-27 <b>Last modified:</b> 2020-08-29</p>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2020-08-27 <b>Last modified:</b> 2020-08-29</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -38066,6 +38066,63 @@ causes harm.
 
 <p><b>Proposed resolution:</b></p>
 
+
+
+
+
+<hr>
+<h3><a name="3481" href="#3481">3481</a><sup><a href="https://cplusplus.github.io/LWG/issue3481">(i)</a></sup>. <tt>viewable_range</tt> mishandles lvalue move-only views</h3>
+<p><b>Section:</b> 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-08-29 <b>Last modified:</b> 2020-08-29</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.refinements">issues</a> in [range.refinements].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>viewable_range concept</tt> (24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a>) and the <tt>views:all</tt> 
+range adaptor (24.7.3 <a href="https://wg21.link/range.all">[range.all]</a>) are duals: <tt>viewable_range</tt> is intended to admit 
+exactly types <tt>T</tt> for which <tt>views::all(declval&lt;T&gt;())</tt> is well-formed. (Recall 
+that <tt>views::all(<i>meow</i>)</tt> is a prvalue whose type models <tt>view</tt> when it is 
+well-formed.) Before the addition of move-only view types to the design, this relationship was in 
+place (modulo an incredibly pathological case: a <tt>volatile</tt> value of a view type with 
+<tt>volatile</tt>-qualified <tt>begin</tt> and <tt>end</tt> models <tt>viewable_range</tt> but is 
+rejected by <tt>views::all</tt> unless it also has a <tt>volatile</tt>-qualified copy constructor 
+and copy assignment operator). Adding move-only views to the design punches a bigger hole, however: 
+<tt>viewable_range</tt> admits lvalues of move-only view types for which <tt>views::all</tt> is 
+ill-formed because these lvalues cannot be decay-copied.
+<p/>
+It behooves us to restore the correspondence between <tt>viewable_range</tt> and <tt>views::all</tt> 
+so that instantiations of components constrained with <tt>viewable_range</tt> (which often appears 
+indirectly as <tt>views::all_t&lt;R&gt;</tt> in deduction guides) continue to be well-formed when 
+the constraints are satisfied.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="http://wg21.link/n4861">N4861</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-5- The <tt>viewable_range</tt> concept specifies the requirements of a <tt>range</tt> 
+type that can be converted to a <tt>view</tt> safely.
+</p>
+<pre>
+template&lt;class T&gt;
+  concept viewable_range =
+    range&lt;T&gt; &amp;&amp; <del>(borrowed_range&lt;T&gt; || view&lt;remove_cvref_t&lt;T&gt;&gt;);</del>
+    <ins>((view&lt;remove_cvref_t&lt;T&gt;&gt; &amp;&amp; constructible_from&lt;remove_cvref_t&lt;T&gt;, T&gt;) ||</ins>
+    <ins>(!view&lt;remove_cvref_t&lt;T&gt;&gt; &amp;&amp; borrowed_range&lt;T&gt;));</ins>
+</pre>
+</blockquote>
+</li>
+
+</ol>
 
 
 
