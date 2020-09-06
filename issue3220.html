@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3220" href="lwg-active.html#3220">3220</a>. P0558 broke conforming C++14 uses of atomic <tt>shared_ptr</tt></h3>
 <p><b>Section:</b> 31.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-06-11 <b>Last modified:</b> 2019-08-26</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-06-11 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#atomics.syn">active issues</a> in [atomics.syn].</p>
@@ -48,7 +48,7 @@ int main() {
 }
 </pre></blockquote>
 <p>
-is ill-formed in C++17. <a href="http://wg21.link/p0558">P0558</a> changed the non-member
+is ill-formed in C++17. <a href="https://wg21.link/p0558">P0558</a> changed the non-member
 non-<tt>shared_ptr</tt> atomic functions to avoid deducing from their second argument,
 e.g. C++14 <tt>atomic_store</tt>:
 </p>
@@ -92,7 +92,7 @@ in the type of the second parameter is non-deduced.
 
 
 <p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="http://wg21.link/n4810">N4810</a>.</p>
+<p>This wording is relative to <a href="https://wg21.link/n4810">N4810</a>.</p>
 
 <ol>
 <li><p>Modify 31.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a>, header <tt>&lt;atomic&gt;</tt> synopsis, as indicated:</p>
