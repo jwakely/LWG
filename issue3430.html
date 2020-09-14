@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="3430" href="lwg-active.html#3430">3430</a>. <tt>std::fstream</tt> &amp; co. should be constructible from <tt>string_view</tt></h3>
 <p><b>Section:</b> 29.9.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-15 <b>Last modified:</b> 2020-09-13</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-15 <b>Last modified:</b> 2020-09-14</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
@@ -174,7 +174,7 @@ explicit basic_ifstream(const <del>filesystem::path</del><ins>T</ins>&amp; s,
 </pre>
 <blockquote>
 <p>
-<ins>-?- <i>Constraints:</i> <tt>std::is_same_v&lt;T, filesystem::path&gt;</tt> is <tt>true</tt>.</ins>
+<ins>-?- <i>Constraints:</i> <tt>is_same_v&lt;T, filesystem::path&gt;</tt> is <tt>true</tt>.</ins>
 <p/>
 -3- <i>Effects:</i> Equivalent to: <tt>basic_ifstream(s.c_str(), mode)</tt>.
 </p>
@@ -216,7 +216,7 @@ explicit basic_ofstream(const <del>filesystem::path</del><ins>T</ins>&amp; s,
 </pre>
 <blockquote>
 <p>
-<ins>-?- <i>Constraints:</i> <tt>std::is_same_v&lt;T, filesystem::path&gt;</tt> is <tt>true</tt>.</ins>
+<ins>-?- <i>Constraints:</i> <tt>is_same_v&lt;T, filesystem::path&gt;</tt> is <tt>true</tt>.</ins>
 <p/>
 -3- <i>Effects:</i> Equivalent to: <tt>basic_ofstream(s.c_str(), mode)</tt>.
 </p>
@@ -262,7 +262,7 @@ explicit basic_fstream(
 </pre>
 <blockquote>
 <p>
-<ins>-?- <i>Constraints:</i> <tt>std::is_same_v&lt;T, filesystem::path&gt;</tt> is <tt>true</tt>.</ins>
+<ins>-?- <i>Constraints:</i> <tt>is_same_v&lt;T, filesystem::path&gt;</tt> is <tt>true</tt>.</ins>
 <p/>
 -3- <i>Effects:</i> Equivalent to: <tt>basic_fstream(s.c_str(), mode)</tt>.
 </p>
