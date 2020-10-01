@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-09-29 at 17:39:14 UTC</p>
+<p><p>Revised 2020-10-01 at 12:57:51 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38351,6 +38351,238 @@ do anything.
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3486" href="#3486">3486</a><sup><a href="https://cplusplus.github.io/LWG/issue3486">(i)</a></sup>. <tt>is_constructible&lt;T[], T...&gt;</tt> may be misleading in C++20</h3>
+<p><b>Section:</b> 20.15.4.3 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-10-01 <b>Last modified:</b> 2020-10-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#meta.unary.prop">active issues</a> in [meta.unary.prop].</p>
+<p><b>View all other</b> <a href="lwg-index.html#meta.unary.prop">issues</a> in [meta.unary.prop].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+According to the current wording,
+<tt>std::is_constructible&lt;int[], int&gt;</tt>
+should be true, because the preconditions are met
+(all types are complete types or unbounded arrays)
+and the variable definition is well-formed since C++20:
+</p>
+<blockquote><pre>
+using T = int[];
+T t(declval&lt;int&gt;()); <i>// equiv. to</i> int t[] = {1};
+</pre></blockquote>
+
+<p>
+However, this doesn't construct an object of type <tt>int[]</tt>
+because it deduces the array bound from the initializers,
+and so constructs <tt>int[1]</tt>, which is not the type being asked about.
+It seems more logical for the trait to give a false result
+for an unbounded array, because it's an incomplete type,
+and no <tt>int[]</tt> can ever be constructed.
+</p>
+
+<p>
+On the reflector Tim Song noted:
+</p>
+<blockquote>
+On the other hand, the result is something to which an <tt>int(&amp;)[]</tt>
+can be bound directly thanks to another C++20 change,
+so a lot of things might Just Work (for some definition of "Work")
+despite the type difference.
+</blockquote>
+
+<p>
+This seems to me a reasonable rationale for
+<tt>is_constructible&lt;int(&amp;&amp;)[], int&gt;</tt>
+to be true (which it is today),
+but not for <tt>int[]</tt>.
+</p>
+
+<p>
+Peter Dimov replied:
+</p>
+<blockquote>
+Placement new, which is often the way to construct we're interested in,
+is not going to work even for <tt>T[2]</tt>.
+</blockquote>
+
+<p>For example:</p>
+<blockquote><pre>
+using T2 = int[2];
+T2 x;
+new(x) T2(1, 2); <i>// ill-formed</i>
+</pre></blockquote>
+
+<p>
+We need to decide what behaviour we want here.
+Do we just want <tt>is_constructible</tt>
+to reflect the <tt>T(declval&lt;Args...&gt;);</tt> construct
+as currently specified in 20.15.4.3 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> p8,
+or do we want to give a more useful/meaningful answer here?
+</p>
+
+<p>
+Should we revisit 20.15.4.3 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> p8
+in the light of parenthesized aggregate init,
+so that <tt>is_constructible&lt;T[], T&gt;</tt>
+and <tt>is_constructible&lt;T[1], T&gt;</tt> are false?
+</p>
+
+<p>
+There may be some interaction with LWG <a href="lwg-active.html#3436">3436</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+</p>
+
+
+
+
+
+<hr>
+<h3><a name="3487" href="#3487">3487</a><sup><a href="https://cplusplus.github.io/LWG/issue3487">(i)</a></sup>. Missing precondition on input and output aliasing of [numeric.ops]</h3>
+<p><b>Section:</b> 25.10 <a href="https://wg21.link/numeric.ops">[numeric.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Matthias Kretz <b>Opened:</b> 2020-10-01 <b>Last modified:</b> 2020-10-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#numeric.ops">issues</a> in [numeric.ops].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The algorithms
+<tt>partial_sum</tt>,
+<tt>exclusive_scan</tt>,
+<tt>inclusive_scan</tt>,
+<tt>transform_exclusive_scan</tt>,
+<tt>transform_inclusive_scan</tt>,
+and
+<tt>adjacent_difference</tt>
+with no <tt>ExecutionPolicy</tt> do not have a precondition
+"<tt>result</tt> is not in the range [<tt>first</tt>, <tt>last</tt>)".
+But they explicitly allow "<tt>result</tt> may be equal to <tt>first</tt>".
+This suggests the precondition got lost,
+because otherwise the permission is redundant.
+</p>
+
+<p>
+Suggested fix:
+Add
+"<tt>result</tt> is not in the range [<tt>first + 1</tt>, <tt>last</tt>)."
+to the <i>Preconditions</i> paragraphs
+of the affected generalized numeric operations.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3488" href="#3488">3488</a><sup><a href="https://cplusplus.github.io/LWG/issue3488">(i)</a></sup>. Is <tt>array&lt;const int, 0&gt;</tt> swappable or not?</h3>
+<p><b>Section:</b> 22.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-10-01 <b>Last modified:</b> 2020-10-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Per 22.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a>/1,
+<tt>std::array</tt>'s non-member swap participates in overload resolution
+when the array has size 0 or swappable elements.
+The effects of non-member swap are "As if by [member swap]",
+but member swap's effects are simply
+"Equivalent to swap_ranges(begin(), end(), y.begin())"
+per 22.3.7.3 <a href="https://wg21.link/array.members">[array.members]</a>/4.
+In effect, we've gone out of our way to ensure that
+<tt>is_swappable_v&lt;array&lt;T, 0&gt;&gt;</tt>
+and <tt>swappable&lt;array&lt;T, 0&gt;&gt;</tt>
+are always true
+despite that actually swapping such an array may be ill-formed.
+</p>
+
+<p>
+It seems that the wording stops half-way to making
+<tt>array&lt;T, 0&gt;</tt> swappable regardless of <tt>T</tt>.
+I personally find that design distasteful
+- it seems a gratuitous difference between
+<tt>array&lt;T, N&gt;</tt> and <tt>array&lt;T, 0&gt;</tt>
+- but I'd prefer a consistent design over the status quo
+even if it's the "wrong" design.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+Wording relative to N4861. This resolution proposes two wording alternatives:
+Option A makes <tt>array&lt;T, 0&gt;</tt> swappable regardless of <tt>T</tt>,
+and the clearly superior Option B makes <tt>array&lt;T, N&gt;</tt> swappable
+only if <tt>T</tt> is swappable (i.e., regardless of <tt>N</tt>)
+removing gratuitous special-case behavior for the <tt>N == 0</tt> case.
+</p>
+
+<p><b>Option A:</b></p>
+<ol>
+<li>
+<p>Change 22.3.7.3 <a href="https://wg21.link/array.members">[array.members]</a> as follows:</p>
+<blockquote>
+<pre>
+constexpr void swap(array&amp; y) noexcept(<ins>N == 0 || </ins>is_nothrow_swappable_v&lt;T&gt;);
+</pre>
+</blockquote>
+<p>
+-4- <i>Effects:</i> <ins>If <tt>N == 0</tt>, no effects. Otherwise, equivalent</ins> <del>Equivalent</del> to <tt>swap_ranges(begin(), end(), y.begin())</tt>.
+</p>
+<p>-5- [&hellip;]</p>
+</li>
+<li>
+<p>
+Also remove the now-redundant paragraph four from 22.3.7.5 <a href="https://wg21.link/array.zero">[array.zero]</a> as follows:
+</p>
+<blockquote>
+<p>
+<del>-4- Member function <tt>swap()</tt> shall have a non-throwing exception specification.</del>
+</p>
+</blockquote>
+</li>
+</ol>
+
+<p><b>Option B:</b></p>
+<ol>
+<li>
+<p>Change 22.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a> as follows:</p>
+<blockquote>
+<pre>
+template&lt;class T, size_t N&gt;
+constexpr void swap(array&lt;T, N&gt;&amp; x, array&lt;T, N&gt;&amp; y) noexcept(noexcept(x.swap(y)));
+</pre>
+</blockquote>
+<p>
+-1- <i>Constraints:</i> <del><tt>N == 0</tt> or</del> <tt>is_swappable_v&lt;T&gt;</tt> is <tt>true</tt>.
+</p>
+</li>
+<li>
+<p>
+Also remove paragraph four from 22.3.7.5 <a href="https://wg21.link/array.zero">[array.zero]</a> as follows:
+</p>
+<blockquote>
+<p>
+<del>-4- Member function <tt>swap()</tt> shall have a non-throwing exception specification.</del>
+</p>
+</blockquote>
+</li>
+</ol>
+
 
 
 
