@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-10-01 at 12:57:51 UTC</p>
+<p><p>Revised 2020-10-02 at 21:04:26 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -5460,8 +5460,8 @@ the flags specified in <tt>f</tt>. If an exception is thrown, <tt>*this</tt> is 
 <hr>
 <h3><a name="2146" href="#2146">2146</a><sup><a href="https://cplusplus.github.io/LWG/issue2146">(i)</a></sup>. Are reference types <tt>Copy</tt>&#47;<tt>Move-Constructible</tt>&#47;<tt>Assignable</tt> or <tt>Destructible</tt>?</h3>
 <p><b>Section:</b> 16.5.3.1 <a href="https://wg21.link/utility.arg.requirements">[utility.arg.requirements]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Nikolay Ivchenkov <b>Opened:</b> 2012-03-23 <b>Last modified:</b> 2019-07-22</p>
-<p><b>Priority: </b>2
+ <b>Submitter:</b> Nikolay Ivchenkov <b>Opened:</b> 2012-03-23 <b>Last modified:</b> 2020-10-02</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#utility.arg.requirements">issues</a> in [utility.arg.requirements].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
@@ -5580,6 +5580,23 @@ argument just by providing an lvalue function argument.
 <p><i>[2019 Cologne Wednesday night]</i></p>
 
 <p>Daniel will start working on this again; Marshall to provide rationale why some of the examples are not well-formed.</p>
+
+<p><i>[2020-10-02; Issue processing telecon: change from P2 to P3]</i></p>
+
+<p>
+For the examples given in the original report, the <tt>for_each</tt>
+case is now banned, because 25.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> p15
+forbids explicit template argument lists. <tt>std::thread</tt>'s constructor
+has also been fixed to describe the requirements on <tt>decay_t&lt;T&gt;</tt>
+instead of <tt>T</tt>.
+</p>
+<p>
+We believe we're more careful these days about using <tt>remove_cvref</tt>
+or <tt>decay</tt> as needed, but there are still places where we incorrectly
+state requirements in terms of types that might be references.
+The <tt>swap</tt> case still needs solving. Still need a survey.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -5727,7 +5744,7 @@ Apply <a href="https://wg21.link/P0178">P0178</a>.
 <hr>
 <h3><a name="2153" href="#2153">2153</a><sup><a href="https://cplusplus.github.io/LWG/issue2153">(i)</a></sup>. Narrowing of the non-member <tt>swap</tt> contract</h3>
 <p><b>Section:</b> 20.2.2 <a href="https://wg21.link/utility.swap">[utility.swap]</a>, 16.5.3.2 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>, 22.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
- <b>Submitter:</b> Robert Shearer <b>Opened:</b> 2012-04-13 <b>Last modified:</b> 2020-09-06</p>
+ <b>Submitter:</b> Robert Shearer <b>Opened:</b> 2012-04-13 <b>Last modified:</b> 2020-10-02</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#utility.swap">issues</a> in [utility.swap].</p>
@@ -5778,16 +5795,7 @@ equal; non-member <tt>swap</tt> would test allocator equality and then dispatch 
 Moved to Open.
 </p>
 <p>
-This topic deserves more attention than can be given in the telocon, and there is no proposed resolution.
-</p>
-
-<p><i>[2013-03-15 Issues Teleconference]</i></p>
-
-<p>
-Moved to Open.
-</p>
-<p>
-This topic deserves more attention than can be given in the telocon, and there is no proposed resolution.
+This topic deserves more attention than can be given in the telecon, and there is no proposed resolution.
 </p>
 
 <p><i>[2016-03 Jacksonville]</i></p>
@@ -5806,8 +5814,10 @@ Alisdair says that his paper <a href="https://wg21.link/P0178">P0178</a> address
 <p>Thursday Morning: A joint LWG/LEWG meeting declined to adopt <a href="https://wg21.link/P0178">P0178</a>.</p>
 
 
+<p><i>[2020-10-02; remove P0178 as Proposed Resolution]</i></p>
+
+
 <p><b>Proposed resolution:</b></p>
-Apply <a href="https://wg21.link/P0178">P0178</a>.
 
 
 
@@ -28659,143 +28669,6 @@ operator.  If this <em>is</em> the case, then I suggest a note to that effect in
 
 
 <hr>
-<h3><a name="3170" href="#3170">3170</a><sup><a href="https://cplusplus.github.io/LWG/issue3170">(i)</a></sup>. <tt>is_always_equal</tt> added to <tt>std::allocator</tt> makes the standard library treat 
-derived types as always equal</h3>
-<p><b>Section:</b> 20.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-11-29 <b>Last modified:</b> 2019-07-22</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#default.allocator">issues</a> in [default.allocator].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-I (Billy O'Neal) attempted to change MSVC++'s standard library to avoid instantiating allocators' <tt>operator==</tt> 
-for allocators that are declared <tt>is_always_equal</tt> to reduce the number of template instantiations emitted into .objs.
-<p/>
-In so doing I introduced an unrelated bug related to POCMA handling, but it brought my attention to 
-<a href="https://github.com/boostorg/poly_collection/blob/5ed5d5e99336130783bdb33126d8629890235aed/test/test_utilities.hpp#L324">this 
-allocator</a>. This allocator doesn't meet the allocator requirements because it is getting <tt>std::allocator</tt>'s 
-<tt>operator==</tt> and <tt>operator!=</tt> which don't compare the root member. However, if this had been a conforming C++14 
-allocator with its own <tt>==</tt> and <tt>!=</tt> we would still be treating it as <tt>is_always_equal</tt>, as it picks that 
-up by deriving from <tt>std::allocator</tt>.
-<p/>
-<tt>std::allocator</tt> doesn't actually need <tt>is_always_equal</tt> because the defaults provided by <tt>allocator_traits</tt> 
-will say <tt>true_type</tt> for it, since implementers don't make <tt>std::allocator</tt> stateful.
-<p/>
-Billy O'Neal thinks this is NAD on the grounds that we need to be able to add things or change the behavior of standard library types.
-<p/>
-Stephan T Lavavej thinks we should resolve this anyway because we don't know of an implementation for which this would change 
-the default answer provided by <tt>allocator_traits</tt>.
-</p>
-
-<p><i>[2019-02 Priority set to 2 after reflector discussion]</i></p>
-
-
-<strong>Previous resolution [SUPERSEDED]:</strong>
-<blockquote class="note">
-<p>This wording is relative to <a href="https://wg21.link/n4778">N4778</a>.</p>
-
-<ol>
-<li><p>Modify 20.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> as follows:</p>
-
-<blockquote>
-<p>
--1- All specializations of the default allocator satisfy the allocator completeness requirements (16.5.3.5.1 <a href="https://wg21.link/allocator.requirements.completeness">[allocator.requirements.completeness]</a>).
-</p>
-<pre>
-namespace std {
-  template&lt;class T&gt; class allocator {
-  public:
-    using value_type = T;
-    using size_type = size_t;
-    using difference_type = ptrdiff_t;
-    using propagate_on_container_move_assignment = true_type;
-    <del>using is_always_equal = true_type;</del>
-    constexpr allocator() noexcept;
-    constexpr allocator(const allocator&amp;) noexcept;
-    template&lt;class U&gt; constexpr allocator(const allocator&lt;U&gt;&amp;) noexcept;
-    ~allocator();
-    allocator&amp; operator=(const allocator&amp;) = default;
-    [[nodiscard]] T* allocate(size_t n);
-    void deallocate(T* p, size_t n);
-  };
-}
-</pre>
-<p>
-<ins>-?- <tt>allocator_traits&lt;allocator&lt;T&gt;&gt;::is_always_equal::value</tt> is <tt>true</tt> for any <tt>T</tt>.</ins>
-</p>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2019-07 Cologne]</i></p>
-
-<p>
-Jonathan provides updated wording.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4820">N4820</a>.</p>
-
-<ol>
-<li><p>Modify 20.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> as follows:</p>
-
-<blockquote>
-<p>
--1- All specializations of the default allocator satisfy the allocator completeness requirements (16.5.3.5.1 <a href="https://wg21.link/allocator.requirements.completeness">[allocator.requirements.completeness]</a>).
-</p>
-<pre>
-namespace std {
-  template&lt;class T&gt; class allocator {
-  public:
-    using value_type = T;
-    using size_type = size_t;
-    using difference_type = ptrdiff_t;
-    using propagate_on_container_move_assignment = true_type;
-    <del>using is_always_equal = true_type;</del>
-    constexpr allocator() noexcept;
-    constexpr allocator(const allocator&amp;) noexcept;
-    template&lt;class U&gt; constexpr allocator(const allocator&lt;U&gt;&amp;) noexcept;
-    ~allocator();
-    allocator&amp; operator=(const allocator&amp;) = default;
-    [[nodiscard]] T* allocate(size_t n);
-    void deallocate(T* p, size_t n);
-  };
-}
-</pre>
-<p>
-<ins>-?- <tt>allocator_traits&lt;allocator&lt;T&gt;&gt;::is_always_equal::value</tt> is <tt>true</tt> for any <tt>T</tt>.</ins>
-</p>
-</blockquote>
-</li>
-
-<li><p>Add a new subclause in Annex D after D.12 <a href="https://wg21.link/depr.str.strstreams">[depr.str.strstreams]</a>:</p>
-
-<blockquote>
-<p>
-<b><ins>D.? The default allocator  [depr.default.allocator]</ins></b>
-<p/>
-<ins>-?- The following member is defined in addition to those specified in 20.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a>:</ins>
-</p>
-<pre>
-<ins>namespace std {
-  template &lt;class T&gt; class allocator {
-  public:
-    using is_always_equal = true_type;
-  };
-}</ins>
-</pre>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="3172" href="#3172">3172</a><sup><a href="https://cplusplus.github.io/LWG/issue3172">(i)</a></sup>. 3-arg <tt>std::hypot</tt> is underspecified compared to the 2-arg overload</h3>
 <p><b>Section:</b> 26.8.3 <a href="https://wg21.link/c.math.hypot3">[c.math.hypot3]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Matthias Kretz <b>Opened:</b> 2018-12-06 <b>Last modified:</b> 2018-12-21</p>
@@ -34216,293 +34089,6 @@ removing the note might not be the only option to consider.
 
 
 <hr>
-<h3><a name="3406" href="#3406">3406</a><sup><a href="https://cplusplus.github.io/LWG/issue3406">(i)</a></sup>. <tt>elements_view::begin()</tt> and <tt>elements_view::end()</tt> have incompatible
-constraints</h3>
-<p><b>Section:</b> 24.7.15.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-09-06</p>
-<p><b>Priority: </b>1
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.elements.view">issues</a> in [range.elements.view].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-<a href="https://wg21.link/p1994r1">P1994R1</a> (<tt>elements_view</tt> needs its own
-<tt>sentinel</tt>) introduces a distinct <tt><i>sentinel</i></tt> type for <tt>elements_view</tt>.
-In doing so, it replaces the two existing overloads of <tt>elements_view::end()</tt> with four new ones:
-</p>
-<blockquote><pre>
-<del>-    constexpr auto end() requires (!<i>simple-view</i>&lt;V&gt;)
--    { return ranges::end(<i>base_</i>); }
--
--    constexpr auto end() const requires <i>simple-view</i>&lt;V&gt;
--    { return ranges::end(<i>base_</i>); }</del>
-
-<ins>+    constexpr auto end()
-+    { return <i>sentinel</i>&lt;false&gt;{ranges::end(<i>base_</i>)}; }
-+
-+    constexpr auto end() requires common_range&lt;V&gt;
-+    { return <i>iterator</i>&lt;false&gt;{ranges::end(<i>base_</i>)}; }
-+
-+    constexpr auto end() const
-+      requires range&lt;const V&gt;
-+    { return <i>sentinel</i>&lt;true&gt;{ranges::end(<i>base_</i>)}; }
-+
-+    constexpr auto end() const
-+      requires common_range&lt;const V&gt;
-+    { return <i>iterator</i>&lt;true&gt;{ranges::end(<i>base_</i>)}; }</ins>
-</pre></blockquote>
-<p>
-But now these new overloads of <tt>elements_view::end()</tt> have constraints
-that are no longer consistent with the constraints of <tt>elements_view::begin()</tt>:
-</p>
-<blockquote><pre>
-     constexpr auto begin() requires (!<i>simple-view</i>&lt;V&gt;)
-     { return <i>iterator</i>&lt;false&gt;(ranges::begin(<i>base_</i>)); }
-
-     constexpr auto begin() const requires <i>simple-view</i>&lt;V&gt;
-     { return <i>iterator</i>&lt;true&gt;(ranges::begin(<i>base_</i>)); }
-</pre></blockquote>
-<p>
-This inconsistency means that we can easily come up with a view <tt>V</tt> for
-which <tt>elements_view&lt;V&gt;::begin()</tt> returns an <tt><i>iterator</i>&lt;true&gt;</tt>
-and <tt>elements_view&lt;V&gt;::end()</tt> returns an <tt><i>sentinel</i>&lt;false&gt;</tt>,
-i.e. incomparable things of opposite constness. For example:
-</p>
-<blockquote><pre>
-tuple&lt;int, int&gt; x[] = {{0,0}};
-ranges::subrange r = {counted_iterator(x, 1), default_sentinel};
-auto v = r | views::elements&lt;0&gt;;
-v.begin() == v.end(); <i>// ill-formed</i>
-</pre></blockquote>
-<p>
-Here, overload resolution for <tt>begin()</tt> selects the <tt>const</tt> overload because
-the subrange <tt>r</tt> models <tt><i>simple-view</i></tt>. But overload resolution for
-<tt>end()</tt> selects the non-<tt>const</tt> non-<tt>common_range</tt> overload. Hence
-the last line of this snippet is ill-formed because it is comparing an iterator and
-sentinel of opposite constness, for which we have no matching <tt>operator==</tt>
-overload. So in this example <tt>v</tt> does not even model range because its <tt>begin()</tt>
-and <tt>end()</tt> are incomparable.
-<p/>
-This issue can be resolved by making sure the constraints on <tt>elements_view::begin()</tt>
-and on <tt>elements_view::end()</tt> are consistent and compatible. The following proposed
-resolution seems to be one way to achieve that and takes inspiration from the design of
-<tt>transform_view</tt>.
-</p>
-
-<p><i>[2020-04-04 Issue Prioritization]</i></p>
-
-<p>Priority to 1 after reflector discussion.</p>
-
-<p><i>[2020-07-17; telecon]</i></p>
-
-<p>
-Should be considered together with <a href="lwg-active.html#3448">3448</a> and <a href="lwg-active.html#3449">3449</a>.
-</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>
-This wording is relative to <a href="https://wg21.link/n4849">N4849</a> after application of
-<a href="https://wg21.link/p1994r1">P1994R1</a>.
-</p>
-
-<ol>
-<li><p>Modify 24.7.15.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a>, class template <tt>elements_view</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std::ranges {
-  [&hellip;]
-  template&lt;input_range V, size_t N&gt;
-    requires view&lt;V&gt; &amp;&amp; <i>has-tuple-element</i>&lt;range_value_t&lt;V&gt;, N&gt; &amp;&amp;
-      <i>has-tuple-element</i>&lt;remove_reference_t&lt;range_reference_t&lt;V&gt;&gt;, N&gt;
-  class elements_view : public view_interface&lt;elements_view&lt;V, N&gt;&gt; {
-  public:
-    [&hellip;]
-    constexpr V base() &amp;&amp; { return std::move(<i>base_</i>); }
-
-    constexpr auto begin() <del>requires (!<i>simple-view</i>&lt;V&gt;)</del>
-    { return <i>iterator</i>&lt;false&gt;(ranges::begin(<i>base_</i>)); }
-    constexpr auto begin() const requires <del><i>simple-view</i>&lt;V&gt;</del><ins>range&lt;const V&gt;</ins>
-    { return <i>iterator</i>&lt;true&gt;(ranges::begin(<i>base_</i>)); }
-    [&hellip;]
-  };
-}
-</pre>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2020-06-05 Tim updates P/R in light of reflector discussions and LWG <a href="lwg-active.html#3448">3448</a> and comments]</i></p>
-
-<p>
-The fact that, as currently specified, <tt>sentinel&lt;false&gt;</tt> is not
-comparable with <tt>iterator&lt;true&gt;</tt> is a problem with the specification
-of this comparison, as noted in LWG <a href="lwg-active.html#3448">3448</a>. The P/R below repairs
-this problem along the lines suggested in that issue. The constraint mismatch does
-make this problem easier to observe for <tt>elements_view</tt>, but the mismatch
-is not independently a problem: since <tt>begin</tt> can only add constness on
-<tt><i>simple-view</i></tt>s for which constness is immaterial, whether
-<tt>end</tt> also adds constness or not ought not to matter.
-<p/>
-However, there is a problem with the <tt>begin</tt> overload set: if <tt>const V</tt> is a range,
-but <tt>V</tt> is not a <tt><i>simple-view</i></tt>, then a <tt>const elements_view&lt;V, N&gt;</tt>
-has no viable <tt>begin</tt> at all (the simplest example of such non-simple-views
-is probably <tt>single_view</tt>). That's simply broken; the fix is to constrain
-the <tt>const</tt> overload of <tt>begin</tt> with just <tt>range&lt;const V&gt;</tt>
-instead of <tt><i>simple-view</i>&lt;V&gt;</tt>. Notably, this is how many other
-uses of <i><tt>simple-view</tt></i> work already (see, e.g., <tt>take_view</tt> in
-24.7.6.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>).
-<p/>
-The previous <i><tt>simple-view</tt></i> constraint on <tt>end</tt> served a
-useful purpose (when done correctly): it reduces template instantiations if
-the underlying view is const-agnostic. This was lost in P1994 because that paper
-modeled the overload set on <tt>transform_view</tt>; however, discussion with
-Eric Niebler confirmed that the reason <tt>transform_view</tt> doesn't have the
-<i><tt>simple-view</tt></i> optimization is because it would add constness to
-the callable object as well, which can make a material difference in the result.
-Such concerns are not present in <tt>elements_view</tt> where the "callable
-object" is effectively hard-coded into the type and unaffected by
-const-qualification. The revised P/R below therefore restores the
-<i><tt>simple-view</tt></i> optimization.
-<p/>
-I have implemented this P/R together with P1994 on top of libstdc++ trunk and
-can confirm that no existing test cases were broken by these changes, and that
-it fixes the issue reported here as well as in LWG 3448 (as it relates to
-<tt>elements_view</tt>).
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/n4861">N4861</a>. It assumes
-the <tt><i>maybe-const</i></tt> helper introduced by the P/R of LWG <a href="lwg-active.html#3448">3448</a>.
-</p>
-
-<ol>
-<li><p>Modify 24.7.15.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a>, class template <tt>elements_view</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std::ranges {
-  [&hellip;]
-  template&lt;input_range V, size_t N&gt;
-    requires view&lt;V&gt; &amp;&amp; <i>has-tuple-element</i>&lt;range_value_t&lt;V&gt;, N&gt; &amp;&amp;
-      <i>has-tuple-element</i>&lt;remove_reference_t&lt;range_reference_t&lt;V&gt;&gt;, N&gt;
-  class elements_view : public view_interface&lt;elements_view&lt;V, N&gt;&gt; {
-  public:
-    [&hellip;]
-    constexpr V base() &amp;&amp; { return std::move(<i>base_</i>); }
-
-    constexpr auto begin() requires (!<i>simple-view</i>&lt;V&gt;)
-    { return <i>iterator</i>&lt;false&gt;(ranges::begin(<i>base_</i>)); }
-
-    constexpr auto begin() const requires <del><i>simple-view</i>&lt;V&gt;</del><ins>range&lt;const V&gt;</ins>
-    { return <i>iterator</i>&lt;true&gt;(ranges::begin(<i>base_</i>)); }
-
-    constexpr auto end() <ins>requires (!<i>simple-view</i>&lt;V&gt; &amp;&amp; !common_range&lt;V&gt;)</ins>
-    { return sentinel&lt;false&gt;{ranges::end(<i>base_</i>)}; }
-
-    constexpr auto end() requires <ins>(!<i>simple-view</i>&lt;V&gt; &amp;&amp;</ins> common_range&lt;V&gt;<ins>)</ins>
-    { return iterator&lt;false&gt;{ranges::end(<i>base_</i>)}; }
-
-    constexpr auto end() const requires range&lt;const V&gt;
-    { return sentinel&lt;true&gt;{ranges::end(<i>base_</i>)}; }
-
-    constexpr auto end() const requires common_range&lt;const V&gt;
-    { return iterator&lt;true&gt;{ranges::end(<i>base_</i>)}; }
-    [&hellip;]
-  };
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 24.7.15.4 <a href="https://wg21.link/range.elements.sentinel">[range.elements.sentinel]</a> as indicated:</p>
-<blockquote class="note">
-<p>
-[<i>Drafting note</i>: Unlike the current P/R of LWG <a href="lwg-active.html#3448">3448</a>, this P/R also changes
-the return type of <tt>operator-</tt> to depend on the constness of iterator
-rather than that of the sentinel. This is consistent with
-<tt>sized_sentinel_for&lt;S, I&gt;</tt> (23.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a>),
-which requires <tt>decltype(i - s)</tt> to be <tt>iter_difference_t&lt;I&gt;</tt>.]
-</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;input_range V, size_t N&gt;
-    requires view&lt;V&gt; &amp;&amp; <i>has-tuple-element</i>&lt;range_value_t&lt;V&gt;, N&gt; &amp;&amp;
-      <i>has-tuple-element</i>&lt;remove_reference_t&lt;range_reference_t&lt;V&gt;&gt;, N&gt;
-  template&lt;bool Const&gt;
-  class elements_view&lt;V, F&gt;::<i>sentinel</i> {
-    [&hellip;]
-    constexpr sentinel_t&lt;<i>Base</i>&gt; base() const;
-
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-    friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);
-
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-    friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
-      operator-(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y)
-        <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-    friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
-      operator-(const <i>sentinel</i>&amp; x, const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; y)
-        <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-  };
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);
-</pre>
-<blockquote>
-<p>
--4- <i>Effects:</i> Equivalent to: <tt>return x.<i>current_</i> == y.<i>end_</i>;</tt>
-</p>
-</blockquote>
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
-  operator-(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y)
-    <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-</pre>
-<blockquote>
-<p>
--5- <i>Effects:</i> Equivalent to: <tt>return x.<i>current_</i> - y.<i>end_</i>;</tt>
-</p>
-</blockquote>
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
-  operator-(const <i>sentinel</i>&amp; x, const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; y)
-    <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-</pre>
-<blockquote>
-<p>
--6- <i>Effects:</i> Equivalent to: <tt>return x.<i>end_</i> - y.<i>current_</i>;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-<hr>
 <h3><a name="3407" href="#3407">3407</a><sup><a href="https://cplusplus.github.io/LWG/issue3407">(i)</a></sup>. Some problems with the wording changes of <a href="https://wg21.link/p1739r4">P1739R4</a></h3>
 <p><b>Section:</b> 24.7.6.1 <a href="https://wg21.link/range.take.overview">[range.take.overview]</a>, 24.6.3 <a href="https://wg21.link/range.iota">[range.iota]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-09-06</p>
@@ -36037,13 +35623,13 @@ Set priority to 3 after reflector discussions.
 
 <hr>
 <h3><a name="3441" href="#3441">3441</a><sup><a href="https://cplusplus.github.io/LWG/issue3441">(i)</a></sup>. Misleading note about calls to customization points</h3>
-<p><b>Section:</b> 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Michael Park <b>Opened:</b> 2020-05-08 <b>Last modified:</b> 2020-07-17</p>
+<p><b>Section:</b> 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Michael Park <b>Opened:</b> 2020-05-08 <b>Last modified:</b> 2020-10-02</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#namespace.std">active issues</a> in [namespace.std].</p>
 <p><b>View all other</b> <a href="lwg-index.html#namespace.std">issues</a> in [namespace.std].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 <a href="https://wg21.link/p0551">P0551</a> (Thou Shalt Not Specialize <tt>std</tt> Function Templates!) 
@@ -36103,6 +35689,9 @@ customization point?  Users overload that in their own namespaces all the time.
 Walter: This clearly needs a paper.
 </p>
 
+<p><i>[2020-10-02; status to Open]</i></p>
+
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -36130,13 +35719,13 @@ to invoke the most appropriate overload for the given arguments. &mdash; <i>end 
 
 <hr>
 <h3><a name="3442" href="#3442">3442</a><sup><a href="https://cplusplus.github.io/LWG/issue3442">(i)</a></sup>. Unsatisfiable suggested implementation of customization points</h3>
-<p><b>Section:</b> 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Michael Park <b>Opened:</b> 2020-05-08 <b>Last modified:</b> 2020-07-17</p>
+<p><b>Section:</b> 16.5.4.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Michael Park <b>Opened:</b> 2020-05-08 <b>Last modified:</b> 2020-10-02</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#namespace.std">active issues</a> in [namespace.std].</p>
 <p><b>View all other</b> <a href="lwg-index.html#namespace.std">issues</a> in [namespace.std].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Footnote 173 under [namespace.std]/7 reads (emphasis mine):
@@ -36193,6 +35782,9 @@ would also ADL when it did not do so before.</p></li>
 <p><i>[2020-07-17; Priority set to 1 in telecon]</i></p>
 
 <p>Related to <a href="lwg-active.html#3441">3441</a>.</p>
+
+<p><i>[2020-10-02; status to Open]</i></p>
+
 
 
 
@@ -36328,492 +35920,6 @@ returns a null pointer, calls <tt>setstate(failbit)</tt> (which may throw <tt>io
 </blockquote>
 </li>
 
-</ol>
-
-
-
-
-<hr>
-<h3><a name="3448" href="#3448">3448</a><sup><a href="https://cplusplus.github.io/LWG/issue3448">(i)</a></sup>. <tt>transform_view</tt>'s <tt><i>sentinel</i>&lt;false&gt;</tt> not comparable with <tt><i>iterator</i>&lt;true&gt;</tt></h3>
-<p><b>Section:</b> 24.7.5.4 <a href="https://wg21.link/range.transform.sentinel">[range.transform.sentinel]</a>, 24.7.10.4 <a href="https://wg21.link/range.join.sentinel">[range.join.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-05-26 <b>Last modified:</b> 2020-08-22</p>
-<p><b>Priority: </b>1
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.transform.sentinel">issues</a> in [range.transform.sentinel].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-A user reported that this doesn't compile:
-</p>
-<blockquote><pre>
-#include &lt;list&gt;
-#include &lt;ranges&gt;
-
-std::list v{1, 2}; // works if std::vector
-auto view1 = v | std::views::take(2);
-auto view2 = view1 | std::views::transform([] (int i) { return i; });
-bool b = std::ranges::cbegin(view2) == std::ranges::end(view2);
-</pre></blockquote>
-<p>
-The comparison is supposed to use <tt>operator==(<i>iterator</i>&lt;Const&gt;, <i>sentinel</i>&lt;Const&gt;)</tt> 
-after converting <tt><i>sentinel</i>&lt;false&gt;</tt> to <tt><i>sentinel</i>&lt;true&gt;</tt>. However, the 
-<tt>operator==</tt> is a hidden friend so is not a candidate when comparing <tt><i>iterator</i>&lt;true&gt;</tt> 
-with <tt><i>sentinel</i>&lt;false&gt;</tt>. The required conversion would only happen if we'd found the operator, 
-but we can't find the operator until after the conversion happens.
-<p/>
-As Patrick noted, the <tt>join_view</tt> sentinel has a similar problem.
-<p/>
-The proposed wording shown below has been suggested by Casey and has been implemented and tested in GCC's libstdc++.
-</p>
-
-<p><i>[2020-07-17; Priority set to 1 in telecon]</i></p>
-
-<p>
-Should be considered together with <a href="lwg-active.html#3406">3406</a> and <a href="lwg-active.html#3449">3449</a>.
-</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-  
-<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
-
-<ol>
-<li><p>Modify 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note:</i> The project editor is kindly asked to consider replacing editorially all of the
-<p/>
-"<tt>using <i>Base</i> = conditional_t&lt;Const, const V, V&gt;;</tt>"
-<p/> 
-occurrences by
-<p/>
-"<tt>using <i>Base</i> = <i>maybe-const</i>&lt;Const, V&gt;;</tt>"
-<p/>
-]
-</p>
-</blockquote>
-
-<blockquote>
-<pre>
-[&hellip;]
-namespace std::ranges {
-[&hellip;]
-  namespace views { inline constexpr <i>unspecified</i> filter = <i>unspecified</i>; }
-  
-  <ins>template&lt;bool Const, class T&gt;</ins>
-    <ins>using <i>maybe-const</i> = conditional_t&lt;Const, const T, T&gt;; <i>// exposition-only</i></ins>
-  
-  <i>// 24.7.5 <a href="https://wg21.link/range.transform">[range.transform]</a>, transform view</i>
-  template&lt;input_range V, copy_constructible F&gt;
-    requires view&lt;V&gt; &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
-             regular_invocable&lt;F&amp;, range_reference_t&lt;V&gt;&gt;
-  class transform_view;
-[&hellip;]
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 24.7.5.4 <a href="https://wg21.link/range.transform.sentinel">[range.transform.sentinel]</a>, class template <tt>transform_view::<i>sentinel</i></tt> 
-synopsis, as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;input_range V, copy_constructible F&gt;
-    requires view&lt;V&gt; &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
-             regular_invocable&lt;F&amp;, range_reference_t&lt;V&gt;&gt; &amp;&amp;
-             <i>can-reference</i>&lt;invoke_result_t&lt;F&amp;, range_reference_t&lt;V&gt;&gt;&gt;
-  template&lt;bool Const&gt;
-  class transform_view&lt;V, F&gt;::<i>sentinel</i> {
-    [&hellip;]
-    constexpr sentinel_t&lt;<i>Base</i>&gt; base() const;
-    
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-    friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);
-    
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-    friend constexpr range_difference_t&lt;<i>Base</i>&gt;
-      operator-(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y)
-        <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-    friend constexpr range_difference_t&lt;<i>Base</i>&gt;
-      operator-(const <i>sentinel</i>&amp; y, const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x)
-        <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-  };
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);
-</pre>
-<blockquote>
-<p>
--4- <i>Effects:</i> Equivalent to: <tt>return x.<i>current_</i> == y.<i>end_</i>;</tt>
-</p>
-</blockquote>
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-friend constexpr range_difference_t&lt;<i>Base</i>&gt;
-  operator-(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y)
-    <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-</pre>
-<blockquote>
-<p>
--5- <i>Effects:</i> Equivalent to: <tt>return x.<i>current_</i> - y.<i>end_</i>;</tt>
-</p>
-</blockquote>
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-friend constexpr range_difference_t&lt;<i>Base</i>&gt;
-  operator-(const <i>sentinel</i>&amp; y, const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x)
-    <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-</pre>
-<blockquote>
-<p>
--6- <i>Effects:</i> Equivalent to: <tt>return y.<i>end_</i> - x.<i>current_</i>;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-
-<li><p>Modify 24.7.10.4 <a href="https://wg21.link/range.join.sentinel">[range.join.sentinel]</a>, class template <tt>join_view::<i>sentinel</i></tt> 
-synopsis, as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;input_range V&gt;
-    requires view&lt;V&gt; &amp;&amp; input_range&lt;range_reference_t&lt;V&gt;&gt; &amp;&amp;
-             (is_reference_v&lt;range_reference_t&lt;V&gt;&gt; ||
-             view&lt;range_value_t&lt;V&gt;&gt;)
-  template&lt;bool Const&gt;
-  class join_view&lt;V&gt;::<i>sentinel</i> {
-    [&hellip;]
-
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-    friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);  
-};
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);  
-</pre>
-<blockquote>
-<p>
--3- <i>Effects:</i> Equivalent to: <tt>return x.<i>outer_</i> == y.<i>end_</i>;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
-</blockquote>
-
-<p><i>[2020-08-21 Tim updates PR per telecon discussion]</i></p>
-
-<p>As noted in the PR of LWG <a href="lwg-active.html#3406">3406</a>, the return type of <tt>operator-</tt>
-should be based on the constness of the iterator rather than that of the sentinel, as
-<tt>sized_sentinel_for&lt;S, I&gt;</tt> (23.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a>)
-requires <tt>decltype(i - s)</tt> to be <tt>iter_difference_t&lt;I&gt;</tt>.</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
-
-<ol>
-<li><p>Modify 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note:</i> The project editor is kindly asked to consider replacing editorially all of the
-<p/>
-"<tt>using <i>Base</i> = conditional_t&lt;Const, const V, V&gt;;</tt>"
-<p/> 
-occurrences by
-<p/>
-"<tt>using <i>Base</i> = <i>maybe-const</i>&lt;Const, V&gt;;</tt>"
-<p/>
-]
-</p>
-</blockquote>
-
-<blockquote>
-<pre>
-[&hellip;]
-namespace std::ranges {
-[&hellip;]
-  namespace views { inline constexpr <i>unspecified</i> filter = <i>unspecified</i>; }
-  
-  <ins>template&lt;bool Const, class T&gt;</ins>
-    <ins>using <i>maybe-const</i> = conditional_t&lt;Const, const T, T&gt;; <i>// exposition-only</i></ins>
-  
-  <i>// 24.7.5 <a href="https://wg21.link/range.transform">[range.transform]</a>, transform view</i>
-  template&lt;input_range V, copy_constructible F&gt;
-    requires view&lt;V&gt; &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
-             regular_invocable&lt;F&amp;, range_reference_t&lt;V&gt;&gt;
-  class transform_view;
-[&hellip;]
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 24.7.5.4 <a href="https://wg21.link/range.transform.sentinel">[range.transform.sentinel]</a>, class template <tt>transform_view::<i>sentinel</i></tt> 
-synopsis, as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;input_range V, copy_constructible F&gt;
-    requires view&lt;V&gt; &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
-             regular_invocable&lt;F&amp;, range_reference_t&lt;V&gt;&gt; &amp;&amp;
-             <i>can-reference</i>&lt;invoke_result_t&lt;F&amp;, range_reference_t&lt;V&gt;&gt;&gt;
-  template&lt;bool Const&gt;
-  class transform_view&lt;V, F&gt;::<i>sentinel</i> {
-    [&hellip;]
-    constexpr sentinel_t&lt;<i>Base</i>&gt; base() const;
-    
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-    friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);
-    
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-    friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
-      operator-(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y)
-        <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-    friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
-      operator-(const <i>sentinel</i>&amp; y, const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x)
-        <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-  };
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);
-</pre>
-<blockquote>
-<p>
--4- <i>Effects:</i> Equivalent to: <tt>return x.<i>current_</i> == y.<i>end_</i>;</tt>
-</p>
-</blockquote>
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
-  operator-(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y)
-    <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-</pre>
-<blockquote>
-<p>
--5- <i>Effects:</i> Equivalent to: <tt>return x.<i>current_</i> - y.<i>end_</i>;</tt>
-</p>
-</blockquote>
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins> 
-friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
-  operator-(const <i>sentinel</i>&amp; y, const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x)
-    <del>requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;</del>;
-</pre>
-<blockquote>
-<p>
--6- <i>Effects:</i> Equivalent to: <tt>return y.<i>end_</i> - x.<i>current_</i>;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-
-<li><p>Modify 24.7.10.4 <a href="https://wg21.link/range.join.sentinel">[range.join.sentinel]</a>, class template <tt>join_view::<i>sentinel</i></tt> 
-synopsis, as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;input_range V&gt;
-    requires view&lt;V&gt; &amp;&amp; input_range&lt;range_reference_t&lt;V&gt;&gt; &amp;&amp;
-             (is_reference_v&lt;range_reference_t&lt;V&gt;&gt; ||
-             view&lt;range_value_t&lt;V&gt;&gt;)
-  template&lt;bool Const&gt;
-  class join_view&lt;V&gt;::<i>sentinel</i> {
-    [&hellip;]
-
-    <ins>template&lt;bool OtherConst&gt;</ins>
-      <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-    friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);  
-};
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-<ins>template&lt;bool OtherConst&gt;</ins>
-  <ins>requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;</ins>
-friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&gt;&amp; x, const <i>sentinel</i>&amp; y);  
-</pre>
-<blockquote>
-<p>
--3- <i>Effects:</i> Equivalent to: <tt>return x.<i>outer_</i> == y.<i>end_</i>;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-<hr>
-<h3><a name="3449" href="#3449">3449</a><sup><a href="https://cplusplus.github.io/LWG/issue3449">(i)</a></sup>. <tt>take_view</tt> and <tt>take_while_view</tt>'s <tt><i>sentinel</i>&lt;false&gt;</tt> not comparable with their const iterator</h3>
-<p><b>Section:</b> 24.7.6.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a>, 24.7.7.3 <a href="https://wg21.link/range.take.while.sentinel">[range.take.while.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-06-06 <b>Last modified:</b> 2020-08-27</p>
-<p><b>Priority: </b>1
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-During reflector discussion it was noted that the issue observed in
-LWG <a href="lwg-active.html#3448">3448</a> applies to <tt>take_view::<i>sentinel</i></tt>
-and <tt>take_while_view::<i>sentinel</i></tt> as well.
-</p>
-
-<p><i>[2020-06-15 Tim corrects a typo in the PR]</i></p>
-
-
-<p><i>[2020-07-17; Priority set to 1 in telecon]</i></p>
-
-<p>
-Should be considered together with <a href="lwg-active.html#3406">3406</a> and <a href="lwg-active.html#3448">3448</a>.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>. It assumes
-the <tt><i>maybe-const</i></tt> helper introduced by the P/R of LWG <a href="lwg-active.html#3448">3448</a>.</p>
-
-<ol>
-<li><p>Modify 24.7.6.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a> as indicated:</p>
-
-<blockquote class="note"> 
-<p>
-[<i>Drafting note</i>: Unlike LWG <a href="lwg-active.html#3448">3448</a>, these operators can't be easily templatized,
-so the approach taken here is to add an overload for the opposite constness instead.
-However, because <tt>const V</tt> may not even be a range (and therefore
-<tt>iterator_t&lt;const V&gt;</tt> may not be well-formed), we need to defer
-instantiating the signature of the new overload until the point of use. ]
-</p>
-</blockquote>
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;view V&gt;
-  template&lt;bool Const&gt;
-  class take_view&lt;V&gt;::<i>sentinel</i> {
-  private:
-    using <i>Base</i> = conditional_t&lt;Const, const V, V&gt;;  // exposition only
-    <ins>template&lt;bool OtherConst&gt;</ins>
-    using <i>CI</i> = counted_iterator&lt;iterator_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;&gt;;  // exposition only
-
-    [&hellip;]
-
-    constexpr sentinel_t&lt;<i>Base</i>&gt; base() const;
-
-    friend constexpr bool operator==(const <i>CI</i><ins>&lt;Const&gt;</ins>&amp; y, const <i>sentinel</i>&amp; x);
-    <ins>
-    template&lt;bool OtherConst = !Const&gt;
-        requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
-    friend constexpr bool operator==(const <i>CI</i>&lt;OtherConst&gt;&amp; y, const <i>sentinel</i>&amp; x);
-    </ins>
-  };
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-friend constexpr bool operator==(const <i>CI</i><ins>&lt;Const&gt;</ins>&amp; y, const <i>sentinel</i>&amp; x);
-<ins>
-template&lt;bool OtherConst = !Const&gt;
-    requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
-friend constexpr bool operator==(const <i>CI</i>&lt;OtherConst&gt;&amp; y, const <i>sentinel</i>&amp; x);
-</ins>
-</pre>
-<blockquote>
-<p>
--4- <i>Effects:</i> Equivalent to: <tt>return y.count() == 0 || y.base() == x.<i>end_</i>;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-<li><p>Modify 24.7.7.3 <a href="https://wg21.link/range.take.while.sentinel">[range.take.while.sentinel]</a> as indicated:</p>
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-    template&lt;view V, class Pred&gt;
-    requires input_range&lt;V&gt; &amp;&amp; is_object_v&lt;Pred&gt; &amp;&amp;
-                indirect_unary_predicate&lt;const Pred, iterator_t&lt;V&gt;&gt;
-    template&lt;bool Const&gt;
-    class take_while_view&lt;V&gt;::<i>sentinel</i> {
-      [&hellip;]
-
-      constexpr sentinel_t&lt;<i>Base</i>&gt; base() const { return <i>end_</i>; }
-
-      friend constexpr bool operator==(const iterator_t&lt;<i>Base</i>&gt;&amp; x, const <i>sentinel</i>&amp; y);
-      <ins>
-      template&lt;bool OtherConst = !Const&gt;
-          requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
-      friend constexpr bool operator==(const iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&amp; x, const <i>sentinel</i>&amp; y);
-      </ins>
-    };
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-friend constexpr bool operator==(const iterator_t&lt;<i>Base</i>&gt;&amp; x, const <i>sentinel</i>&amp; y);
-<ins>
-template&lt;bool OtherConst = !Const&gt;
-    requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
-friend constexpr bool operator==(const iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&amp; x, const <i>sentinel</i>&amp; y);
-</ins>
-</pre>
-<blockquote>
-<p>
--3- <i>Effects:</i> Equivalent to: <tt>return y.<i>end_</i> == x || !invoke(*y.<i>pred_</i>, *x);</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
 </ol>
 
 
@@ -38450,8 +37556,8 @@ There may be some interaction with LWG <a href="lwg-active.html#3436">3436</a>.
 <hr>
 <h3><a name="3487" href="#3487">3487</a><sup><a href="https://cplusplus.github.io/LWG/issue3487">(i)</a></sup>. Missing precondition on input and output aliasing of [numeric.ops]</h3>
 <p><b>Section:</b> 25.10 <a href="https://wg21.link/numeric.ops">[numeric.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Matthias Kretz <b>Opened:</b> 2020-10-01 <b>Last modified:</b> 2020-10-01</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Matthias Kretz <b>Opened:</b> 2020-10-01 <b>Last modified:</b> 2020-10-02</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#numeric.ops">issues</a> in [numeric.ops].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -38480,6 +37586,9 @@ to the <i>Preconditions</i> paragraphs
 of the affected generalized numeric operations.
 </p>
 
+<p><i>[2020-10-02; Issue processing telecon: Priority set to P3.]</i></p>
+
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -38490,11 +37599,11 @@ of the affected generalized numeric operations.
 
 <hr>
 <h3><a name="3488" href="#3488">3488</a><sup><a href="https://cplusplus.github.io/LWG/issue3488">(i)</a></sup>. Is <tt>array&lt;const int, 0&gt;</tt> swappable or not?</h3>
-<p><b>Section:</b> 22.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-10-01 <b>Last modified:</b> 2020-10-01</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 22.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-10-01 <b>Last modified:</b> 2020-10-02</p>
+<p><b>Priority: </b>3
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Per 22.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a>/1,
@@ -38520,6 +37629,16 @@ I personally find that design distasteful
 - but I'd prefer a consistent design over the status quo
 even if it's the "wrong" design.
 </p>
+
+<p><i>[2020-10-02; Issue processing telecon]</i></p>
+
+<p>
+Preference for Option B, and successful vote to move to Tentatively Ready.
+But on the reflector Tim Song pointed out a conflict with
+<a href="lwg-active.html#2157">2157</a> and question the decision. Status to Open instead.
+Priority set to P3 in line with <a href="lwg-active.html#2157">2157</a>.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
