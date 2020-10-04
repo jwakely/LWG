@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-10-04 at 12:52:27 UTC</p>
+<p><p>Revised 2020-10-04 at 20:18:42 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -21730,6 +21730,29 @@ specified in the description of <tt>F</tt>'s semantics can be used in a constant
 Specifically the wording for 16.5.5.7 <a href="https://wg21.link/constexpr.functions">[constexpr.functions]</a> needs improvement and is updated below.
 </p>
 
+<p><i>[2020-10-02 Tim Song comments]</i></p>
+
+<p>
+The new wording doesn't cover the following example:
+</p>
+<blockquote><pre>
+// global scope
+int x;
+int y;
+
+constexpr int j = (std::swap(x, y), 0); // error
+</pre></blockquote>
+<ul>
+<li><p><tt>swap</tt> is a "standard library function template...declared <tt>constexpr</tt>"</p></li>
+<li><p><tt>x</tt> and <tt>y</tt> are (lvalue) constant expressions</p></li>
+<li><p><tt>std::swap(x, y)</tt> is plainly not a constant expression</p></li>
+</ul>
+
+<p><i>[2020-10-04 Jens Maurer comments]</i></p>
+
+<p>
+Yes, we're still lacking text for that (and maybe Nina's old text helps for that).
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
