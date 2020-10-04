@@ -25,7 +25,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2833" href="lwg-active.html#2833">2833</a>. Library needs to specify what it means when it declares a function <tt>constexpr</tt></h3>
 <p><b>Section:</b> 20.7.3.1 <a href="https://wg21.link/variant.ctor">[variant.ctor]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-11-28 <b>Last modified:</b> 2020-09-06</p>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-11-28 <b>Last modified:</b> 2020-10-04</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#variant.ctor">active issues</a> in [variant.ctor].</p>
@@ -121,6 +121,47 @@ corresponding definitions.
 The revised wording draft also resolves LWG <a href="lwg-active.html#2289">2289</a>, LWG <a href="lwg-active.html#2829">2829</a>, and LWG <a href="lwg-active.html#3215">3215</a>.
 </p>
 
+<strong>Previous resolution from Daniel [SUPERSEDED]:</strong>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.
+</p>
+
+<ol style="list-style-type: none">
+<li>
+<p>
+1. Modify 16.5.5.7 <a href="https://wg21.link/constexpr.functions">[constexpr.functions]</a> as indicated:
+</p>
+<blockquote>
+<p>
+-1- This document explicitly requires that certain standard library functions are <tt>constexpr</tt> 
+(9.2.5 <a href="https://wg21.link/dcl.constexpr">[dcl.constexpr]</a>). An implementation shall not declare any standard library function signature 
+as <tt>constexpr</tt> except for those where it is explicitly required. Within any header 
+that provides any non-defining declarations of constexpr functions or constructors an implementation 
+shall provide corresponding definitions.
+<p/>
+<ins>-?- Let <tt>F</tt> denote a standard library function template or member function of a class
+template. If the specification of <tt>F</tt> declares it to be <tt>constexpr</tt>, unless otherwise specified, 
+then <tt>F</tt> can be used in a constant expression if and only if all the expressions that are evaluated as 
+specified in the description of <tt>F</tt>'s semantics can be used in a constant expression.</ins>
+</p>
+</blockquote>
+</li>
+
+<li>
+<p>
+2. - 10. [&hellip;] // Remainder of Nina's update
+</p>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2020-10-02 Jens Maurer improves wording]</i></p>
+
+<p>
+Specifically the wording for 16.5.5.7 <a href="https://wg21.link/constexpr.functions">[constexpr.functions]</a> needs improvement and is updated below.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -141,10 +182,10 @@ as <tt>constexpr</tt> except for those where it is explicitly required. Within a
 that provides any non-defining declarations of constexpr functions or constructors an implementation 
 shall provide corresponding definitions.
 <p/>
-<ins>-?- Let <tt>F</tt> denote a standard library function template or member function of a class
-template. If the specification of <tt>F</tt> declares it to be <tt>constexpr</tt>, unless otherwise specified, 
-then <tt>F</tt> can be used in a constant expression if and only if all the expressions that are evaluated as 
-specified in the description of <tt>F</tt>'s semantics can be used in a constant expression.</ins>
+<ins>-?- Let <tt>F</tt> denote a standard library function template or member function of a class template 
+declared <tt>constexpr</tt>. Unless otherwise specified, a function call expression (7.6.1.2 <a href="https://wg21.link/expr.call">[expr.call]</a>) 
+whose <i>postfix-expression</i> names <tt>F</tt> is a constant expression if all of the argument subexpressions 
+are constant expressions.</ins>
 </p>
 </blockquote>
 </li>

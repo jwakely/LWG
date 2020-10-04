@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3489: CPOs inhibit guaranteed copy elision and are unimplementable as specified</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3489" href="lwg-active.html#3489">3489</a>. CPOs inhibit guaranteed copy elision and are unimplementable as specified</h3>
+<p><b>Section:</b> 16.3.11 <a href="https://wg21.link/defns.expression-equivalent">[defns.expression-equivalent]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2020-10-02 <b>Last modified:</b> 2020-10-04</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+To take one example, 24.3.1 <a href="https://wg21.link/range.access.begin">[range.access.begin]</a>/p2.5
+</p>
+<blockquote><p>
+Otherwise, if [&hellip;] then <tt>ranges::begin(E)</tt> is expression-equivalent to 
+<tt><i>decay-copy</i>(begin(t))</tt> [&hellip;]
+</p></blockquote>
+<p>
+Expression-equivalent is defined in 16.3.11 <a href="https://wg21.link/defns.expression-equivalent">[defns.expression-equivalent]</a>:
+</p>
+<blockquote><p>
+expressions that all have the same effects, either are all potentially-throwing (14.5) or are 
+all not potentially throwing, and either are all constant subexpressions or are all not 
+constant subexpressions.
+<p/>
+[<i>Example:</i> For a value <tt>x</tt> of type <tt>int</tt> and a function <tt>f</tt> that 
+accepts integer arguments, the expressions <tt>f(x +2)</tt>, <tt>f(2 + x)</tt>, and <tt>f(1 + x + 1)</tt> 
+are expression-equivalent. &mdash; <i>end example</i>]
+</p></blockquote>
+<p>
+But according to <a href="https://en.cppreference.com/w/cpp/language/copy_elision">cppreference</a>, 
+only PRvalues are subject to guaranteed copy elision. So it is possible that in <tt><i>decay-copy</i>(begin(t))</tt>, 
+the elision of the copy of <tt>t</tt> is required, but for <tt>ranges::begin(E)</tt> 
+&mdash; which necessarily forwards <tt>E</tt> as an Xvalue &mdash; copy elision <em>may</em> 
+happen, but it is not required.
+<p/>
+Therefore, they are not expression-equivalent expressions, as that term of power is currently specified.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+</body>
+</html>
