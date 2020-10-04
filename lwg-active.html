@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-10-04 at 12:43:13 UTC</p>
+<p><p>Revised 2020-10-04 at 12:52:27 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -30137,7 +30137,7 @@ different <tt>streamoff</tt> values are not equal.
 <hr>
 <h3><a name="3120" href="#3120">3120</a><sup><a href="https://cplusplus.github.io/LWG/issue3120">(i)</a></sup>. Unclear behavior of <tt>monotonic_buffer_resource::release()</tt></h3>
 <p><b>Section:</b> 20.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2018-06-10 <b>Last modified:</b> 2020-09-06</p>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2018-06-10 <b>Last modified:</b> 2020-10-04</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#mem.res.monotonic.buffer.mem">issues</a> in [mem.res.monotonic.buffer.mem].</p>
@@ -30254,8 +30254,8 @@ this have not been deallocated from this. <ins>This function has an unspecified 
 
 <p>We liked Pablo's wording from the reflector discussion. Status to Open.</p>
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>This wording is relative to <a href="https://wg21.link/n4750">N4750</a>.</p>
 
 <ol>
@@ -30268,6 +30268,36 @@ void release();
 <p>
 -1- <i>Effects:</i> Calls <tt>upstream_rsrc-&gt;deallocate()</tt> as necessary to release all allocated memory. 
 <ins>Resets <tt>*this</tt> to its initial state at construction.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2020-10-03; Daniel comments and provides improved wording]</i></p>
+
+<p>
+The recent wording introduces the very generic term "state" without giving a concrete
+definition of that term. During reflector discussions different interpretations of that term
+were expressed. The revised wording below gets rid of that word and replaces it by the
+actually involved exposition-only members.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+
+<ol>
+<li><p>Modify 20.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> as indicated:</p>
+<blockquote>
+<pre>
+void release();
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Calls <tt>upstream_rsrc-&gt;deallocate()</tt> as necessary to release all allocated memory. 
+<ins>Resets <tt>current_buffer</tt> and <tt>next_buffer_size</tt> to their initial values at construction.</ins>
 </p>
 </blockquote>
 </blockquote>
