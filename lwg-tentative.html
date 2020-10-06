@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-10-05 at 23:36:36 UTC</p>
+<p><p>Revised 2020-10-06 at 16:41:50 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="1396" href="#1396">1396</a><sup><a href="https://cplusplus.github.io/LWG/issue1396">(i)</a></sup>. <tt>regex</tt> should support allocators</h3>
@@ -240,7 +240,7 @@ Resolved by <a href="https://wg21.link/p0619r4">P0619R4</a>.
 <hr>
 <h3><a name="2335" href="#2335">2335</a><sup><a href="https://cplusplus.github.io/LWG/issue2335">(i)</a></sup>. <tt>array&lt;array&lt;int, 3&gt;, 4&gt;</tt> should be layout-compatible with <tt>int[4][3]</tt></h3>
 <p><b>Section:</b> 22.3.7 <a href="https://wg21.link/array">[array]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Jeffrey Yasskin <b>Opened:</b> 2013-10-04 <b>Last modified:</b> 2020-02-16</p>
+ <b>Submitter:</b> Jeffrey Yasskin <b>Opened:</b> 2013-10-04 <b>Last modified:</b> 2020-02-22</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#array">issues</a> in [array].</p>
@@ -298,7 +298,7 @@ multi-dimensional view on an array).
 <h3><a name="2498" href="#2498">2498</a><sup><a href="https://cplusplus.github.io/LWG/issue2498">(i)</a></sup>. <tt>operator&gt;&gt;(basic_istream&amp;&amp;, T&amp;&amp;)</tt> returns <tt>basic_istream&amp;</tt>, but should probably return 
 <tt>basic_istream&amp;&amp;</tt></h3>
 <p><b>Section:</b> 29.7.4.5 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
- <b>Submitter:</b> Richard Smith <b>Opened:</b> 2015-05-08 <b>Last modified:</b> 2020-02-14</p>
+ <b>Submitter:</b> Richard Smith <b>Opened:</b> 2015-05-08 <b>Last modified:</b> 2020-02-22</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#istream.rvalue">issues</a> in [istream.rvalue].</p>
@@ -1287,6 +1287,183 @@ Resolved by <a href="https://wg21.link/p0408r7">P0408R7</a>.
 
 
 <hr>
+<h3><a name="3120" href="#3120">3120</a><sup><a href="https://cplusplus.github.io/LWG/issue3120">(i)</a></sup>. Unclear behavior of <tt>monotonic_buffer_resource::release()</tt></h3>
+<p><b>Section:</b> 20.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2018-06-10 <b>Last modified:</b> 2020-10-06</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#mem.res.monotonic.buffer.mem">issues</a> in [mem.res.monotonic.buffer.mem].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The effects of <tt>monotonic_buffer_resource::release()</tt> are defined as:
+</p>
+<blockquote>
+<p>
+Calls <tt>upstream_rsrc-&gt;deallocate()</tt> as necessary to release all allocated memory.
+</p>
+</blockquote>
+<p>
+This doesn't give any instruction on what to do with the memory controlled by the <tt>monotonic_buffer_resource</tt> which 
+was not allocated, i.e., what to do with the initial buffer provided to its constructor.
+<p/>
+Boost.Container's pmr implementation expels its initial buffer after a <tt>release()</tt>.
+Arthur O'Dwyer's proposed pmr implementation for libc++ reuses the initial buffer after a <tt>release()</tt>, on the 
+assumption that this is what the average library user will be expecting.
+</p>
+<blockquote>
+<pre>
+#include &lt;memory_resource&gt;
+
+int main() 
+{
+  char buffer[100];
+  {
+    std::pmr::monotonic_buffer_resource mr(buffer, 100, std::pmr::null_memory_resource());
+    mr.release();
+    mr.allocate(60);  // A
+  }
+  {
+    std::pmr::monotonic_buffer_resource mr(buffer, 100, std::pmr::null_memory_resource());
+    mr.allocate(60);  // B
+    mr.release();
+    mr.allocate(60);  // C
+  }
+}
+</pre>
+</blockquote>
+<p>
+Assume that allocation "B" always succeeds.<br/>
+With the proposed libc++ implementation, allocations "A" and "C" both succeed.<br/>
+With Boost.Container's implementation, allocations "A" and "C" both fail.<br/>
+Using another plausible implementation strategy, allocation "A" could succeed but allocation "C" 
+could fail. I have been informed that MSVC's implementation does this.
+<p/>
+Which of these strategies should be permitted by the Standard?
+<p/>
+Arthur considers "A and C both succeed" to be the obviously most user-friendly strategy, and really 
+really hopes it's going to be permitted. Requiring "C" to succeed is unnecessary (and would render MSVC's 
+current implementation non-conforming) but could help programmers concerned with portability between 
+different implementations.
+<p/>
+Another side-effect of <tt>release()</tt> which goes underspecified by the Standard is the effect of 
+<tt>release()</tt> on <tt>next_buffer_size</tt>. As currently written, my interpretation is that 
+<tt>release()</tt> is not permitted to decrease <tt>current_buffer_size</tt>; I'm not sure if this 
+is a feature or a bug.
+<p/>
+Consider this test case (taken from <a href="https://reviews.llvm.org/D47111#inline-421469">here</a>):
+</p>
+<blockquote>
+<pre>
+std::pmr::monotonic_buffer_resource mr(std::pmr::new_delete_resource());
+for (int i=0; i &lt; 100; ++i) {
+  mr.allocate(1);  // D
+  mr.release();
+}
+</pre>
+</blockquote>
+<p>
+Arthur believes it is important that the 100<sup>th</sup> invocation of line "D" does not attempt to allocate 
+2<sup>100</sup> bytes from the upstream resource.
+</p>
+
+<p><i>[2018-06-23 after reflector discussion]</i></p>
+
+<p>Priority set to 2</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>This wording is relative to <a href="https://wg21.link/n4750">N4750</a>.</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The resolution depicted below would make MSVC's and my-proposed-libc++'s implementations 
+both conforming.]</p>
+</blockquote>
+
+<ol>
+<li><p>Modify 20.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> as indicated:</p>
+<blockquote>
+<pre>
+void release();
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Calls <tt>upstream_rsrc-&gt;deallocate()</tt> as necessary to release all allocated memory. 
+<ins>Resets the state of the initial buffer.</ins>
+<p/>
+-2- [<i>Note:</i> The memory is released back to <tt>upstream_rsrc</tt> even if some blocks that were allocated from
+this have not been deallocated from this. <ins>This function has an unspecified effect on <tt>next_buffer_size</tt>.</ins> 
+&mdash; <i>end note</i>]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2018-08-23 Batavia Issues processing]</i></p>
+
+<p>We liked Pablo's wording from the reflector discussion. Status to Open.</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>This wording is relative to <a href="https://wg21.link/n4750">N4750</a>.</p>
+
+<ol>
+<li><p>Modify 20.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> as indicated:</p>
+<blockquote>
+<pre>
+void release();
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Calls <tt>upstream_rsrc-&gt;deallocate()</tt> as necessary to release all allocated memory. 
+<ins>Resets <tt>*this</tt> to its initial state at construction.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2020-10-03; Daniel comments and provides improved wording]</i></p>
+
+<p>
+The recent wording introduces the very generic term "state" without giving a concrete
+definition of that term. During reflector discussions different interpretations of that term
+were expressed. The revised wording below gets rid of that word and replaces it by the
+actually involved exposition-only members.
+</p>
+
+<p><i>[2020-10-06; moved to Tentatively Ready after seven votes in favour in reflector poll]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.</p>
+
+<ol>
+<li><p>Modify 20.12.6.2 <a href="https://wg21.link/mem.res.monotonic.buffer.mem">[mem.res.monotonic.buffer.mem]</a> as indicated:</p>
+<blockquote>
+<pre>
+void release();
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Calls <tt>upstream_rsrc-&gt;deallocate()</tt> as necessary to release all allocated memory. 
+<ins>Resets <tt>current_buffer</tt> and <tt>next_buffer_size</tt> to their initial values at construction.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3125" href="#3125">3125</a><sup><a href="https://cplusplus.github.io/LWG/issue3125">(i)</a></sup>. <tt>duration</tt> streaming precondition should be a SFINAE condition</h3>
 <p><b>Section:</b> 27.5.10 <a href="https://wg21.link/time.duration.io">[time.duration.io]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
  <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2018-06-23 <b>Last modified:</b> 2020-09-06</p>
@@ -1385,7 +1562,7 @@ Will be resolved by LWG <a href="lwg-defects.html#3317">3317</a>.
 <hr>
 <h3><a name="3151" href="#3151">3151</a><sup><a href="https://cplusplus.github.io/LWG/issue3151">(i)</a></sup>. <tt>ConvertibleTo</tt> rejects conversions from array and function types</h3>
 <p><b>Section:</b> 18.4.4 <a href="https://wg21.link/concept.convertible">[concept.convertible]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2020-02-13</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2020-02-22</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#concept.convertible">active issues</a> in [concept.convertible].</p>
@@ -1465,7 +1642,7 @@ template&lt;class From, class To&gt;
 <h3><a name="3170" href="#3170">3170</a><sup><a href="https://cplusplus.github.io/LWG/issue3170">(i)</a></sup>. <tt>is_always_equal</tt> added to <tt>std::allocator</tt> makes the standard library treat 
 derived types as always equal</h3>
 <p><b>Section:</b> 20.10.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-11-29 <b>Last modified:</b> 2020-10-02</p>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-11-29 <b>Last modified:</b> 2020-10-04</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#default.allocator">issues</a> in [default.allocator].</p>
@@ -1605,7 +1782,7 @@ namespace std {
 <hr>
 <h3><a name="3171" href="#3171">3171</a><sup><a href="https://cplusplus.github.io/LWG/issue3171">(i)</a></sup>. LWG 2989 breaks <tt>directory_entry</tt> stream insertion</h3>
 <p><b>Section:</b> 29.11.11 <a href="https://wg21.link/fs.class.directory.entry">[fs.class.directory.entry]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-12-03 <b>Last modified:</b> 2020-08-21</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-12-03 <b>Last modified:</b> 2020-08-23</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#fs.class.directory.entry">active issues</a> in [fs.class.directory.entry].</p>
@@ -1960,7 +2137,7 @@ Resolved by <a href="https://wg21.link/p1957r2">P1957R2</a>.
 <hr>
 <h3><a name="3306" href="#3306">3306</a><sup><a href="https://cplusplus.github.io/LWG/issue3306">(i)</a></sup>. <tt>ranges::advance</tt> violates its preconditions</h3>
 <p><b>Section:</b> 23.4.3.1 <a href="https://wg21.link/range.iter.op.advance">[range.iter.op.advance]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-10-27 <b>Last modified:</b> 2020-08-21</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2019-10-27 <b>Last modified:</b> 2020-08-23</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.iter.op.advance">active issues</a> in [range.iter.op.advance].</p>
@@ -2251,7 +2428,7 @@ expression and the types <tt>I</tt> and <tt>S</tt> of
 <hr>
 <h3><a name="3394" href="#3394">3394</a><sup><a href="https://cplusplus.github.io/LWG/issue3394">(i)</a></sup>. <tt>ranges::basic_istream_view::<i>iterator</i></tt> has an empty <tt>iterator_traits</tt></h3>
 <p><b>Section:</b> 24.6.4.3 <a href="https://wg21.link/range.istream.iterator">[range.istream.iterator]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-09 <b>Last modified:</b> 2020-02-14</p>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-09 <b>Last modified:</b> 2020-02-22</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.istream.iterator">issues</a> in [range.istream.iterator].</p>
@@ -2785,7 +2962,7 @@ constexpr explicit common_view(R&amp;&amp; r);</del>
 <h3><a name="3406" href="#3406">3406</a><sup><a href="https://cplusplus.github.io/LWG/issue3406">(i)</a></sup>. <tt>elements_view::begin()</tt> and <tt>elements_view::end()</tt> have incompatible
 constraints</h3>
 <p><b>Section:</b> 24.7.15.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-10-02</p>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-10-04</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.elements.view">issues</a> in [range.elements.view].</p>
@@ -4214,7 +4391,7 @@ remove_reference_t&lt;U&gt;&gt;&gt;&gt;</tt> is <tt>false</tt></ins>.
 <hr>
 <h3><a name="3446" href="#3446">3446</a><sup><a href="https://cplusplus.github.io/LWG/issue3446">(i)</a></sup>. <tt>indirectly_readable_traits</tt> ambiguity for types with both <tt>value_type</tt> and <tt>element_type</tt></h3>
 <p><b>Section:</b> 23.3.2.2 <a href="https://wg21.link/readable.traits">[readable.traits]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-05-15 <b>Last modified:</b> 2020-08-21</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-05-15 <b>Last modified:</b> 2020-08-23</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -4346,7 +4523,7 @@ struct indirectly_readable_traits&lt;T&gt;
 <hr>
 <h3><a name="3448" href="#3448">3448</a><sup><a href="https://cplusplus.github.io/LWG/issue3448">(i)</a></sup>. <tt>transform_view</tt>'s <tt><i>sentinel</i>&lt;false&gt;</tt> not comparable with <tt><i>iterator</i>&lt;true&gt;</tt></h3>
 <p><b>Section:</b> 24.7.5.4 <a href="https://wg21.link/range.transform.sentinel">[range.transform.sentinel]</a>, 24.7.10.4 <a href="https://wg21.link/range.join.sentinel">[range.join.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-05-26 <b>Last modified:</b> 2020-10-02</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-05-26 <b>Last modified:</b> 2020-10-04</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.transform.sentinel">issues</a> in [range.transform.sentinel].</p>
@@ -4709,7 +4886,7 @@ friend constexpr bool operator==(const <i>iterator</i>&lt;<ins>Other</ins>Const&
 <hr>
 <h3><a name="3449" href="#3449">3449</a><sup><a href="https://cplusplus.github.io/LWG/issue3449">(i)</a></sup>. <tt>take_view</tt> and <tt>take_while_view</tt>'s <tt><i>sentinel</i>&lt;false&gt;</tt> not comparable with their const iterator</h3>
 <p><b>Section:</b> 24.7.6.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a>, 24.7.7.3 <a href="https://wg21.link/range.take.while.sentinel">[range.take.while.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-06-06 <b>Last modified:</b> 2020-10-02</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-06-06 <b>Last modified:</b> 2020-10-04</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -6412,7 +6589,7 @@ is not modeled, the move assignment operator is equivalent to:</p>
 <hr>
 <h3><a name="3482" href="#3482">3482</a><sup><a href="https://cplusplus.github.io/LWG/issue3482">(i)</a></sup>. <tt>drop_view</tt>'s <tt>const begin</tt> should additionally require <tt>sized_range</tt></h3>
 <p><b>Section:</b> 24.7.8.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-08-31 <b>Last modified:</b> 2020-09-29</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-08-31 <b>Last modified:</b> 2020-10-04</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
