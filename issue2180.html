@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++14">C++14</a> status.</em></p>
 <h3><a name="2180" href="lwg-defects.html#2180">2180</a>. Exceptions from <tt>std::seed_seq</tt> operations</h3>
-<p><b>Section:</b> 26.6.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
+<p><b>Section:</b> 26.6.8.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2012-08-18 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -34,10 +34,10 @@
 <p><b>Discussion:</b></p>
 
 <p>
-26.6.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> p1 says upfront:
+26.6.8.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> p1 says upfront:
 </p>
 <blockquote><p>
-No function described in this section 26.6.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> throws an exception.
+No function described in this section 26.6.8.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> throws an exception.
 </p></blockquote>
 <p>
 This constraint seems non-implementable to me when looking especially at the members
@@ -91,14 +91,14 @@ discussion of LWG <a href="lwg-closed.html#2124">2124</a>.
 I suggest to remove the general no-exception constraints for operations of <tt>std::seed_seq</tt> except for
 member <tt>size()</tt> and the default constructor and to provide specific wording for <tt>generate()</tt> and
 <tt>param()</tt> to ensure that the algorithm itself is a nothrow operation, which is especially for
-<tt>generate()</tt> important, because the templates specified in 26.6.3 <a href="https://wg21.link/rand.eng">[rand.eng]</a> and 
-26.6.4 <a href="https://wg21.link/rand.adapt">[rand.adapt]</a> also depend on this property indirectly, which is further discussed in LWG 
+<tt>generate()</tt> important, because the templates specified in 26.6.4 <a href="https://wg21.link/rand.eng">[rand.eng]</a> and 
+26.6.5 <a href="https://wg21.link/rand.adapt">[rand.adapt]</a> also depend on this property indirectly, which is further discussed in LWG 
 <a href="lwg-defects.html#2181">2181</a>.
 <p/>
 <u>Howard</u>:
 <p/>
 I suggest to use a different form for the exception specification, something similar to 
-20.14.14.3 <a href="https://wg21.link/func.bind.bind">[func.bind.bind]</a> p4:
+20.14.15.4 <a href="https://wg21.link/func.bind.bind">[func.bind.bind]</a> p4:
 </p>
 <blockquote><p>
 <i>Throws</i>: Nothing unless an operation on <tt>RandomAccessIterator</tt> throws an exception.
@@ -107,7 +107,7 @@ I suggest to use a different form for the exception specification, something sim
 <u>Daniel</u>:
 <p/>
 The currently suggested "what and when" form seems a bit more specific and harmonizes with the form used for
-function template <tt>generate_canonical</tt> from 26.6.7.2 <a href="https://wg21.link/rand.util.canonical">[rand.util.canonical]</a>.
+function template <tt>generate_canonical</tt> from 26.6.8.2 <a href="https://wg21.link/rand.util.canonical">[rand.util.canonical]</a>.
 </p>
 
 <p><i>[2013-04-20, Bristol]</i></p>
@@ -131,16 +131,16 @@ Apply to Working Paper
 <p>This wording is relative to N3376.</p>
 
 <ol>
-<li><p>Edit 26.6.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> p1 as indicated:</p>
+<li><p>Edit 26.6.8.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> p1 as indicated:</p>
 
 <blockquote>
 <p>
-<del>-1- No function described in this section 26.6.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> throws an exception.</del>
+<del>-1- No function described in this section 26.6.8.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> throws an exception.</del>
 </p>
 </blockquote>
 </li>
 
-<li><p>Edit 26.6.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> around p2 as indicated:</p>
+<li><p>Edit 26.6.8.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> around p2 as indicated:</p>
 
 <blockquote><pre>
 seed_seq();
@@ -153,7 +153,7 @@ seed_seq();
 </blockquote></blockquote>
 </li>
 
-<li><p>Edit 26.6.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> around p7 as indicated:</p>
+<li><p>Edit 26.6.8.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> around p7 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class RandomAccessIterator&gt;
@@ -172,7 +172,7 @@ an unsigned integer type capable of accommodating 32-bit quantities.
 </blockquote></blockquote>
 </li>
 
-<li><p>Edit 26.6.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> around p9 as indicated:</p>
+<li><p>Edit 26.6.8.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> around p9 as indicated:</p>
 
 <blockquote><pre>
 size_t size() const;
@@ -187,7 +187,7 @@ size_t size() const;
 </blockquote></blockquote>
 </li>
 
-<li><p>Edit 26.6.7.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> around p11 as indicated:</p>
+<li><p>Edit 26.6.8.1 <a href="https://wg21.link/rand.util.seedseq">[rand.util.seedseq]</a> around p11 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class OutputIterator&gt;

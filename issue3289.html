@@ -74,7 +74,7 @@ iterator's <tt>iterator_category</tt> typedef (as distinct from the iterator con
 <tt>iterator_concept</tt> that is used to indicate conformance to the iterator concepts 
 (23.3.4 <a href="https://wg21.link/iterator.concepts">[iterator.concepts]</a>). <ins>[<i>Example:</i> To indicate conformance to the 
 <tt>input_iterator</tt> concept but a lack of conformance to the <i>Cpp17InputIterator</i> 
-requirements (23.3.5.2 <a href="https://wg21.link/input.iterators">[input.iterators]</a>), an <tt>iterator_traits</tt> 
+requirements (23.3.5.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>), an <tt>iterator_traits</tt> 
 specialization might have <tt>iterator_concept</tt> denote <tt>input_iterator_tag</tt> and 
 <tt>iterator_category</tt> denote <tt>output_iterator_tag</tt>. &mdash; <i>end example</i>]</ins>
 </p>
@@ -101,7 +101,7 @@ of that expression. Otherwise, pointer denotes <tt>void</tt>.</p></li>
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.4.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a> as indicated:</p>
+<li><p>Modify 24.7.5.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -118,7 +118,7 @@ of that expression. Otherwise, pointer denotes <tt>void</tt>.</p></li>
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.10.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
+<li><p>Modify 24.7.11.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -146,7 +146,7 @@ denote <tt>iterator_traits&lt;iterator_t&lt;range_reference_t&lt;Base&gt;&gt;&gt
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.11.3 <a href="https://wg21.link/range.split.outer">[range.split.outer]</a> as indicated:</p>
+<li><p>Modify 24.7.12.3 <a href="https://wg21.link/range.split.outer">[range.split.outer]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -180,7 +180,7 @@ namespace std::ranges {
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.11.5 <a href="https://wg21.link/range.split.inner">[range.split.inner]</a> as indicated:</p>
+<li><p>Modify 24.7.12.5 <a href="https://wg21.link/range.split.inner">[range.split.inner]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -217,7 +217,7 @@ The issue is out of sync with the current working draft, Daniel provides a synch
 <tt>iterator_concept</tt> that is used to indicate conformance to the iterator concepts 
 (23.3.4 <a href="https://wg21.link/iterator.concepts">[iterator.concepts]</a>). <ins>[<i>Example:</i> To indicate conformance to the 
 <tt>input_iterator</tt> concept but a lack of conformance to the <i>Cpp17InputIterator</i> 
-requirements (23.3.5.2 <a href="https://wg21.link/input.iterators">[input.iterators]</a>), an <tt>iterator_traits</tt> 
+requirements (23.3.5.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>), an <tt>iterator_traits</tt> 
 specialization might have <tt>iterator_concept</tt> denote <tt>input_iterator_tag</tt> and 
 <tt>iterator_category</tt> denote <tt>output_iterator_tag</tt>. &mdash; <i>end example</i>]</ins>
 </p>
@@ -244,7 +244,7 @@ of that expression. Otherwise, pointer denotes <tt>void</tt>.</p></li>
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.4.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a> as indicated:</p>
+<li><p>Modify 24.7.5.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -261,7 +261,7 @@ of that expression. Otherwise, pointer denotes <tt>void</tt>.</p></li>
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.10.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
+<li><p>Modify 24.7.11.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -288,11 +288,11 @@ denotes <tt>forward_iterator_tag</tt>.</p></li>
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.11.3 <a href="https://wg21.link/range.split.outer">[range.split.outer]</a> as indicated:</p>
+<li><p>Modify 24.7.12.3 <a href="https://wg21.link/range.split.outer">[range.split.outer]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>
-[<i>Drafting note:</i> The previous wording change has been adjusted to follow the pattern used in 24.7.11.5 <a href="https://wg21.link/range.split.inner">[range.split.inner]</a> p1.]
+[<i>Drafting note:</i> The previous wording change has been adjusted to follow the pattern used in 24.7.12.5 <a href="https://wg21.link/range.split.inner">[range.split.inner]</a> p1.]
 </p>
 </blockquote>
 

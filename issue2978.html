@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="2978" href="lwg-defects.html#2978">2978</a>. Hash support for <tt>pmr::string</tt> and friends</h3>
-<p><b>Section:</b> 21.3.5 <a href="https://wg21.link/basic.string.hash">[basic.string.hash]</a>, 21.3.1 <a href="https://wg21.link/string.syn">[string.syn]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 21.3.6 <a href="https://wg21.link/basic.string.hash">[basic.string.hash]</a>, 21.3.2 <a href="https://wg21.link/string.syn">[string.syn]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-06-14 <b>Last modified:</b> 2017-11-13</p>
 <p><b>Priority: </b>0
 </p>
@@ -51,7 +51,7 @@ specialization of <tt>hash</tt> for <tt>vector&lt;bool&gt;</tt>.
 This wording is relative to <a href="https://wg21.link/n4659">N4659</a>.
 </p>
 <ol>
-<li><p> Edit 21.3.1 <a href="https://wg21.link/string.syn">[string.syn]</a>, header <tt>&lt;string&gt;</tt> synopsis, as indicated:</p>
+<li><p> Edit 21.3.2 <a href="https://wg21.link/string.syn">[string.syn]</a>, header <tt>&lt;string&gt;</tt> synopsis, as indicated:</p>
 <blockquote>
 <pre>
 <ins>  namespace pmr {
@@ -64,7 +64,7 @@ This wording is relative to <a href="https://wg21.link/n4659">N4659</a>.
     using wstring   = basic_string&lt;wchar_t&gt;;
   }</ins>
   
-  // 21.3.5 <a href="https://wg21.link/basic.string.hash">[basic.string.hash]</a>, hash support
+  // 21.3.6 <a href="https://wg21.link/basic.string.hash">[basic.string.hash]</a>, hash support
   template&lt;class T&gt; struct hash;
   template&lt;&gt; struct hash&lt;string&gt;;
   template&lt;&gt; struct hash&lt;u16string&gt;;
@@ -87,7 +87,7 @@ This wording is relative to <a href="https://wg21.link/n4659">N4659</a>.
 </pre>
 </blockquote>
 </li>
-<li><p> Edit 21.3.5 <a href="https://wg21.link/basic.string.hash">[basic.string.hash]</a> as indicated:</p>
+<li><p> Edit 21.3.6 <a href="https://wg21.link/basic.string.hash">[basic.string.hash]</a> as indicated:</p>
 <blockquote>
 <pre>
   template&lt;&gt; struct hash&lt;string&gt;;

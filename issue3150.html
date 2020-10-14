@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3150" href="lwg-defects.html#3150">3150</a>. <tt>UniformRandomBitGenerator</tt> should validate <tt>min</tt> and <tt>max</tt></h3>
-<p><b>Section:</b> 26.6.2.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 26.6.3.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-08-09 <b>Last modified:</b> 2020-02-24</p>
 <p><b>Priority: </b>3
 </p>
@@ -32,7 +32,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-26.6.2.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a>
+26.6.3.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a>
 <a href="https://wg21.link/rand.req.urng#2">paragraph 2</a> specifies axioms for
 the <tt>UniformRandomBitGenerator</tt> concept:
 </p>
@@ -66,7 +66,7 @@ validated by the concept.
 <p>This wording is relative to <a href="https://wg21.link/n4791">N4791</a>.</p>
 
 <ol>
-<li><p>Modify 26.6.2.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> as follows:</p>
+<li><p>Modify 26.6.3.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> as follows:</p>
 
 <blockquote>
 <p>1 A <i>uniform random bit generator</i> <tt>g</tt> of type <tt>G</tt> is a
@@ -109,7 +109,7 @@ expressions (7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>),</del>
 3 A class <tt>G</tt> meets the <i>uniform random bit generator</i> requirements
 if <tt>G</tt> models <tt>UniformRandomBitGenerator</tt>,
 <tt>invoke_­result_­t&lt;G&amp;&gt;</tt> is an unsigned integer type
-(6.8.1 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>), and <tt>G</tt> provides a nested
+(6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>), and <tt>G</tt> provides a nested
 <i>typedef-name</i> <tt>result_­type</tt> that denotes the same type as
 <tt>invoke_­result_­t&lt;G&amp;&gt;</tt>.
 </p>
@@ -131,7 +131,7 @@ LWG provided some improved wording.
 <p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
 
 <ol>
-<li><p>Modify 26.6.2.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> as follows:</p>
+<li><p>Modify 26.6.3.3 <a href="https://wg21.link/rand.req.urng">[rand.req.urng]</a> as follows:</p>
 
 <blockquote>
 <p>1 A <i>uniform random bit generator</i> <tt>g</tt> of type <tt>G</tt> is a
@@ -170,7 +170,7 @@ expressions (7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>),</del>
 3 A class <tt>G</tt> meets the <i>uniform random bit generator</i> requirements
 if <tt>G</tt> models <tt>uniform_random_bit_generator</tt>,
 <tt>invoke_­result_­t&lt;G&amp;&gt;</tt> is an unsigned integer type
-(6.8.1 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>), and <tt>G</tt> provides a nested
+(6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>), and <tt>G</tt> provides a nested
 <i>typedef-name</i> <tt>result_­type</tt> that denotes the same type as
 <tt>invoke_­result_­t&lt;G&amp;&gt;</tt>.
 </p>

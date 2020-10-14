@@ -24,7 +24,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="2942" href="lwg-defects.html#2942">2942</a>. LWG 2873's resolution missed <tt>weak_ptr::owner_before</tt></h3>
-<p><b>Section:</b> 20.11.4.5 <a href="https://wg21.link/util.smartptr.weak.obs">[util.smartptr.weak.obs]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 20.11.4.6 <a href="https://wg21.link/util.smartptr.weak.obs">[util.smartptr.weak.obs]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-03-09 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -50,7 +50,7 @@ This wording is relative to <a href="https://wg21.link/n4659">N4659</a>.
 <blockquote>
 <pre>
 [&hellip;]
-<i>// 20.11.4.5 <a href="https://wg21.link/util.smartptr.weak.obs">[util.smartptr.weak.obs]</a>, observers</i>
+<i>// 20.11.4.6 <a href="https://wg21.link/util.smartptr.weak.obs">[util.smartptr.weak.obs]</a>, observers</i>
 [&hellip;]
 template&lt;class U&gt; bool owner_before(const shared_ptr&lt;U&gt;&amp; b) const <ins>noexcept</ins>;
 template&lt;class U&gt; bool owner_before(const weak_ptr&lt;U&gt;&amp; b) const <ins>noexcept</ins>;
@@ -58,7 +58,7 @@ template&lt;class U&gt; bool owner_before(const weak_ptr&lt;U&gt;&amp; b) const 
 </blockquote>
 </li>
 
-<li><p>Edit 20.11.4.5 <a href="https://wg21.link/util.smartptr.weak.obs">[util.smartptr.weak.obs]</a> immediately before p4 as indicated:</p>
+<li><p>Edit 20.11.4.6 <a href="https://wg21.link/util.smartptr.weak.obs">[util.smartptr.weak.obs]</a> immediately before p4 as indicated:</p>
 <blockquote>
 <pre>
 template&lt;class U&gt; bool owner_before(const shared_ptr&lt;U&gt;&amp; b) const <ins>noexcept</ins>;
