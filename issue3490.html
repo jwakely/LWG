@@ -53,13 +53,22 @@ This wording is relative to <a href="https://wg21.link/n4868">N4868</a>.
 <p>
 Modify 24.7.10.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a> as indicated:
 </p>
+
+<blockquote class="note">
+<p>
+Since we usually don't rely on implicit <tt>bool</tt> conversion in <i>Preconditions:</i> elements 
+an explicit "is <tt>true</tt>" has been added. Editorial fixes of the referenced paragraph
+24.7.10.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a> p3 and similar places have been requested separately.
+</p>
+</blockquote>
+
 <blockquote>
 <pre>
 constexpr auto begin();
 </pre>
 <blockquote>
 <p>
-<ins>-?- <i>Preconditions:</i> <tt><i>pred_</i>.has_value()</tt>.</ins>
+<ins>-?- <i>Preconditions:</i> <tt><i>pred_</i>.has_value()</tt> is <tt>true</tt>.</ins>
 <p/>
 -3- <i>Returns:</i> <tt>ranges::find_if_not(<i>base_</i>, cref(*<i>pred_</i>))</tt>.
 <p/>
