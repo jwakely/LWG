@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-10-26 at 18:52:23 UTC</p>
+<p><p>Revised 2020-11-01 at 15:27:24 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -37756,6 +37756,43 @@ constexpr auto begin();
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3491" href="#3491">3491</a><sup><a href="https://cplusplus.github.io/LWG/issue3491">(i)</a></sup>. What is a "decayed type"?</h3>
+<p><b>Section:</b> 17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a>, 24.7.4.1 <a href="https://wg21.link/range.all.general">[range.all.general]</a>, 17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-10-27 <b>Last modified:</b> 2020-11-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#cmp.alg">active issues</a> in [cmp.alg].</p>
+<p><b>View all other</b> <a href="lwg-index.html#cmp.alg">issues</a> in [cmp.alg].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Some of our newer wording for C++20 uses the term "decayed type" as if it were 
+a defined term of art.  While I have intuition for what may be intended in these 
+cases, it turns out the "function to function pointer decay" and "array to array 
+pointer decay" where never actually Core terms of art &mdash; having searched all 
+standards going back as far as C++03.
+<p/>
+We should either define this term for library use, or find a way to state
+our intent using existing well-defined terms of art.
+<p/>
+Affected clauses:
+<p/>
+<ul>
+<li><p>17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a>: Most heavily used here.</p></li>
+<li><p>24.7.4.1 <a href="https://wg21.link/range.all.general">[range.all.general]</a></p></li>
+<li><p>17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a></p></li>
+</ul>
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
