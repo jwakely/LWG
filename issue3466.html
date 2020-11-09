@@ -22,18 +22,18 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
-<h3><a name="3466" href="lwg-active.html#3466">3466</a>. Specify the requirements for <tt>promise</tt>/<tt>future</tt>/<tt>shared_future</tt> consistently</h3>
-<p><b>Section:</b> 32.9.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2020-07-18 <b>Last modified:</b> 2020-09-06</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3><a name="3466" href="lwg-defects.html#3466">3466</a>. Specify the requirements for <tt>promise</tt>/<tt>future</tt>/<tt>shared_future</tt> consistently</h3>
+<p><b>Section:</b> 32.9.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2020-07-18 <b>Last modified:</b> 2020-11-09</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#futures.promise">active issues</a> in [futures.promise].</p>
 <p><b>View all other</b> <a href="lwg-index.html#futures.promise">issues</a> in [futures.promise].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The resolution of the LWG <a href="lwg-active.html#3458">3458</a> clearly specified the requirement that
+The resolution of the LWG <a href="lwg-defects.html#3458">3458</a> clearly specified the requirement that
 <tt>future</tt>/<tt>shared_future</tt> are ill-formed in situations when <tt>T</tt> is native array
 or function type. This requirement was not strictly necessary for <tt>future&lt;T&gt;</tt> 
 as it was already ill-formed due the signature of the <tt>get</tt> function (that would be 
@@ -97,7 +97,7 @@ the program is ill-formed.</ins>
 
 <p>
 Following the suggestion of Tim Song a revised wording is provided which is intended to replace the currently agreed on wording
-for LWG <a href="lwg-active.html#3458">3458</a>.
+for LWG <a href="lwg-defects.html#3458">3458</a>.
 </p>
 
 <p><i>[2020-08-21; Issue processing telecon: Tentatively Ready]</i></p>
@@ -107,6 +107,8 @@ Discussed a note clarifying that <em>Cpp17Destructible</em> disallows
 arrays (as well as types without accessible destructors).
 Can be added editorially.
 </p>
+
+<p><i>[2020-11-09 Approved In November virtual meeting. Status changed: Tentatively Ready &rarr; WP.]</i></p>
 
 
 

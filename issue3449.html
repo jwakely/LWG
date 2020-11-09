@@ -22,17 +22,17 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
-<h3><a name="3449" href="lwg-active.html#3449">3449</a>. <tt>take_view</tt> and <tt>take_while_view</tt>'s <tt><i>sentinel</i>&lt;false&gt;</tt> not comparable with their const iterator</h3>
-<p><b>Section:</b> 24.7.7.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a>, 24.7.8.3 <a href="https://wg21.link/range.take.while.sentinel">[range.take.while.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-06-06 <b>Last modified:</b> 2020-10-04</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3><a name="3449" href="lwg-defects.html#3449">3449</a>. <tt>take_view</tt> and <tt>take_while_view</tt>'s <tt><i>sentinel</i>&lt;false&gt;</tt> not comparable with their const iterator</h3>
+<p><b>Section:</b> 24.7.7.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a>, 24.7.8.3 <a href="https://wg21.link/range.take.while.sentinel">[range.take.while.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-06-06 <b>Last modified:</b> 2020-11-09</p>
 <p><b>Priority: </b>1
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 During reflector discussion it was noted that the issue observed in
-LWG <a href="lwg-active.html#3448">3448</a> applies to <tt>take_view::<i>sentinel</i></tt>
+LWG <a href="lwg-defects.html#3448">3448</a> applies to <tt>take_view::<i>sentinel</i></tt>
 and <tt>take_while_view::<i>sentinel</i></tt> as well.
 </p>
 
@@ -42,24 +42,26 @@ and <tt>take_while_view::<i>sentinel</i></tt> as well.
 <p><i>[2020-10-02; Priority set to 1 in telecon]</i></p>
 
 <p>
-Should be considered together with <a href="lwg-active.html#3406">3406</a> and <a href="lwg-active.html#3448">3448</a>.
+Should be considered together with <a href="lwg-defects.html#3406">3406</a> and <a href="lwg-defects.html#3448">3448</a>.
 </p>
 
 <p><i>[2020-10-02; Status to Tentatively Ready after five positive votes on the reflector]</i></p>
 
 
+<p><i>[2020-11-09 Approved In November virtual meeting. Status changed: Tentatively Ready &rarr; WP.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>. It assumes
-the <tt><i>maybe-const</i></tt> helper introduced by the P/R of LWG <a href="lwg-active.html#3448">3448</a>.</p>
+the <tt><i>maybe-const</i></tt> helper introduced by the P/R of LWG <a href="lwg-defects.html#3448">3448</a>.</p>
 
 <ol>
 <li><p>Modify 24.7.7.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a> as indicated:</p>
 
 <blockquote class="note"> 
 <p>
-[<i>Drafting note</i>: Unlike LWG <a href="lwg-active.html#3448">3448</a>, these operators can't be easily templatized,
+[<i>Drafting note</i>: Unlike LWG <a href="lwg-defects.html#3448">3448</a>, these operators can't be easily templatized,
 so the approach taken here is to add an overload for the opposite constness instead.
 However, because <tt>const V</tt> may not even be a range (and therefore
 <tt>iterator_t&lt;const V&gt;</tt> may not be well-formed), we need to defer

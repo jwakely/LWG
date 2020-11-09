@@ -23,15 +23,15 @@ constraints</title>
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
-<h3><a name="3406" href="lwg-active.html#3406">3406</a>. <tt>elements_view::begin()</tt> and <tt>elements_view::end()</tt> have incompatible
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3><a name="3406" href="lwg-defects.html#3406">3406</a>. <tt>elements_view::begin()</tt> and <tt>elements_view::end()</tt> have incompatible
 constraints</h3>
-<p><b>Section:</b> 24.7.16.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-10-04</p>
+<p><b>Section:</b> 24.7.16.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2020-11-09</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.elements.view">issues</a> in [range.elements.view].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 <a href="https://wg21.link/p1994r1">P1994R1</a> (<tt>elements_view</tt> needs its own
@@ -104,7 +104,7 @@ resolution seems to be one way to achieve that and takes inspiration from the de
 <p><i>[2020-07-17; telecon]</i></p>
 
 <p>
-Should be considered together with <a href="lwg-active.html#3448">3448</a> and <a href="lwg-active.html#3449">3449</a>.
+Should be considered together with <a href="lwg-defects.html#3448">3448</a> and <a href="lwg-defects.html#3449">3449</a>.
 </p>
 
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
@@ -142,12 +142,12 @@ namespace std::ranges {
 </ol>
 </blockquote>
 
-<p><i>[2020-06-05 Tim updates P/R in light of reflector discussions and LWG <a href="lwg-active.html#3448">3448</a> and comments]</i></p>
+<p><i>[2020-06-05 Tim updates P/R in light of reflector discussions and LWG <a href="lwg-defects.html#3448">3448</a> and comments]</i></p>
 
 <p>
 The fact that, as currently specified, <tt>sentinel&lt;false&gt;</tt> is not
 comparable with <tt>iterator&lt;true&gt;</tt> is a problem with the specification
-of this comparison, as noted in LWG <a href="lwg-active.html#3448">3448</a>. The P/R below repairs
+of this comparison, as noted in LWG <a href="lwg-defects.html#3448">3448</a>. The P/R below repairs
 this problem along the lines suggested in that issue. The constraint mismatch does
 make this problem easier to observe for <tt>elements_view</tt>, but the mismatch
 is not independently a problem: since <tt>begin</tt> can only add constness on
@@ -184,12 +184,14 @@ it fixes the issue reported here as well as in LWG 3448 (as it relates to
 <p><i>[2020-10-02; Status to Tentatively Ready after five positive votes on the reflector]</i></p>
 
 
+<p><i>[2020-11-09 Approved In November virtual meeting. Status changed: Tentatively Ready &rarr; WP.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
 <p>
 This wording is relative to <a href="https://wg21.link/n4861">N4861</a>. It assumes
-the <tt><i>maybe-const</i></tt> helper introduced by the P/R of LWG <a href="lwg-active.html#3448">3448</a>.
+the <tt><i>maybe-const</i></tt> helper introduced by the P/R of LWG <a href="lwg-defects.html#3448">3448</a>.
 </p>
 
 <ol>
@@ -234,7 +236,7 @@ namespace std::ranges {
 <li><p>Modify 24.7.16.4 <a href="https://wg21.link/range.elements.sentinel">[range.elements.sentinel]</a> as indicated:</p>
 <blockquote class="note">
 <p>
-[<i>Drafting note</i>: Unlike the current P/R of LWG <a href="lwg-active.html#3448">3448</a>, this P/R also changes
+[<i>Drafting note</i>: Unlike the current P/R of LWG <a href="lwg-defects.html#3448">3448</a>, this P/R also changes
 the return type of <tt>operator-</tt> to depend on the constness of iterator
 rather than that of the sentinel. This is consistent with
 <tt>sized_sentinel_for&lt;S, I&gt;</tt> (23.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a>),

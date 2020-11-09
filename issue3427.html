@@ -22,17 +22,17 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
-<h3><a name="3427" href="lwg-active.html#3427">3427</a>. <tt>operator&lt;=&gt;(const shared_ptr&lt;T&gt;&amp;, nullptr_t)</tt> definition ill-formed</h3>
-<p><b>Section:</b> 20.11.3.8 <a href="https://wg21.link/util.smartptr.shared.cmp">[util.smartptr.shared.cmp]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2020-04-11 <b>Last modified:</b> 2020-09-06</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3><a name="3427" href="lwg-defects.html#3427">3427</a>. <tt>operator&lt;=&gt;(const shared_ptr&lt;T&gt;&amp;, nullptr_t)</tt> definition ill-formed</h3>
+<p><b>Section:</b> 20.11.3.8 <a href="https://wg21.link/util.smartptr.shared.cmp">[util.smartptr.shared.cmp]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2020-04-11 <b>Last modified:</b> 2020-11-09</p>
 <p><b>Priority: </b>0
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#util.smartptr.shared.cmp">issues</a> in [util.smartptr.shared.cmp].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-This is similar to LWG <a href="lwg-active.html#3426">3426</a>: This time the definition of 
+This is similar to LWG <a href="lwg-defects.html#3426">3426</a>: This time the definition of 
 <tt>operator&lt;=&gt;(const shared_ptr&lt;T&gt;&amp;, nullptr_t)</tt> is ill-formed, whose effects are essentially 
 specified as calling:
 </p>
@@ -43,7 +43,7 @@ compare_three_way()(a.get(), nullptr)
 This call will be ill-formed by constraint-violation, because both <tt>nullptr &lt;=&gt; nullptr</tt> as well as 
 <tt>((T*) 0) &lt;=&gt; nullptr</tt> are ill-formed.
 <p/>
-As a short-term solution we can make it work as intended &mdash; equivalent to LWG <a href="lwg-active.html#3426">3426</a> &mdash; by 
+As a short-term solution we can make it work as intended &mdash; equivalent to LWG <a href="lwg-defects.html#3426">3426</a> &mdash; by 
 comparing <tt>a.get()</tt> to <tt>(element_type*) nullptr</tt> instead of to <tt>nullptr</tt> directly.
 <p/>
 As a long-term solution we should at least consider to deprecate the mixed relational operators as well as the 
@@ -58,6 +58,8 @@ via a proposal.
 <p><i>[2020-05-16 Reflector discussions]</i></p>
 
 <p>Status to Tentatively Ready and priority to 0 after five positive votes on the reflector.</p>
+<p><i>[2020-11-09 Approved In November virtual meeting. Status changed: Tentatively Ready &rarr; WP.]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
