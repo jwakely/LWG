@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-11-15 at 15:35:49 UTC</p>
+<p><p>Revised 2020-11-15 at 15:46:42 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -37954,9 +37954,9 @@ It's unclear what "uniquely associated" means. Is it required to be a one-to-one
 <tt>streambuf*</tt> that is wrapped is associated with a different lock?
 <p/>
 I believe the intention is only that for a given <tt>streambuf*</tt> every <tt>syncbuf</tt> that wraps it 
-uses the same lock. It is supposed to be OK for the same lock to be used for more than one <tt>streambuf*</tt> 
-(e.g. using a table of <tt>N</tt> locks which are indexed by a hash of the <tt>streambuf* value)</tt>. 
-The current wording can be interpreted to forbid that implementation.
+uses the same lock. The intention was that it's a valid implementation for the same lock to be used for more 
+than one <tt>streambuf*</tt> (e.g. using a table of <tt>N</tt> locks which are indexed by a hash of the 
+<tt>streambuf* value)</tt>. The current wording can be interpreted to forbid that implementation.
 </p>
 
 
