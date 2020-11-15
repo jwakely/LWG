@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-11-15 at 15:46:42 UTC</p>
+<p><p>Revised 2020-11-15 at 15:57:36 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38013,6 +38013,35 @@ Daniel:
 This mismatch is already present in the originally accepted paper 
 <a href="https://wg21.link/p0053r7">P0053R7</a>, so this is nothing that could be resolved editorially.
 </p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3499" href="#3499">3499</a><sup><a href="https://cplusplus.github.io/LWG/issue3499">(i)</a></sup>. Timed lockable and mutex requirements are imprecise about <tt>duration</tt> and <tt>time_point</tt></h3>
+<p><b>Section:</b> 32.2.5.4 <a href="https://wg21.link/thread.req.lockable.timed">[thread.req.lockable.timed]</a>, 32.5.4.3 <a href="https://wg21.link/thread.timedmutex.requirements">[thread.timedmutex.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-11-14 <b>Last modified:</b> 2020-11-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The timed lockable and mutex requirements currently use "<tt>rel_time</tt> denotes an object of an 
+instantiation of duration, and <tt>abs_time</tt> denotes an object of an instantiation of <tt>time_point</tt>" 
+to define the variables used to specify the timed lock functions. During LWG review of 
+<a href="https://wg21.link/p2160r0">P2160R0</a>, it was noted that this definition is deficient in two
+aspects:
+</p>
+<ul>
+<li><p>It doesn't allow for <i>cv</i>-qualification of <tt>rel_time</tt> and <tt>abs_time</tt></p></li>
+<li><p>For <tt>time_point</tt>s, it should require that the clock is a real <i>Cpp17Clock</i>. We impose 
+that requirement via 32.2.1 <a href="https://wg21.link/thread.req.paramname">[thread.req.paramname]</a>, but there are no template parameters named 
+<tt>Clock</tt> here.</p></li>
+</ul>
 
 
 <p><b>Proposed resolution:</b></p>
