@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-11-21 at 16:10:13 UTC</p>
+<p><p>Revised 2020-11-21 at 16:14:39 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -40010,8 +40010,8 @@ Here <tt>*<i>current_</i></tt> is a prvalue, and so the <tt>get&lt;N&gt;</tt> pr
 into the materialized temporary that becomes dangling as soon as <tt>operator*</tt> returns.
 <p/>
 We should either ban this case altogether, or make <tt>operator*</tt> (and <tt>operator[]</tt>) return by
-value when <tt>*<i>current_</i></tt> is a prvalue (since this <tt>get</tt> is <tt>std::get</tt>, we need
-not worry about weird user-defined overloads.)
+value when <tt>*<i>current_</i></tt> is a prvalue and the corresponding tuple element is not a reference 
+(since this <tt>get</tt> is <tt>std::get</tt>, we need not worry about weird user-defined overloads.)
 </p>
 
 
