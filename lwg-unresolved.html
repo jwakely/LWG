@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-11-21 at 14:05:09 UTC</p>
+<p><p>Revised 2020-11-21 at 14:15:47 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38132,6 +38132,44 @@ for the purpose of exposition</del>, calls <tt><ins>p</ins><del>buf</del>-&gt;em
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3502" href="#3502">3502</a><sup><a href="https://cplusplus.github.io/LWG/issue3502">(i)</a></sup>. <tt>elements_view</tt> should not be allowed to return dangling references</h3>
+<p><b>Section:</b> 24.7.16.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2020-11-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.elements.iterator">active issues</a> in [range.elements.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.elements.iterator">issues</a> in [range.elements.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+This compiles but the resulting view is full of dangling references:
+<blockquote><pre>
+std::vector&lt;int&gt; vec = {42};
+auto r = vec | std::views::transform([](auto c) { return std::make_tuple(c, c); })
+             | std::views::keys;
+</pre></blockquote>
+<p>
+This is because <tt>elements_view::iterator::operator*</tt> is specified as
+</p>
+<blockquote><pre>
+constexpr decltype(auto) operator*() const { return get&lt;N&gt;(*<i>current_</i>); }
+</pre></blockquote>
+<p>
+Here <tt>*<i>current_</i></tt> is a prvalue, and so the <tt>get&lt;N&gt;</tt> produces a reference
+into the materialized temporary that becomes dangling as soon as <tt>operator*</tt> returns.
+<p/>
+We should either ban this case altogether, or make <tt>operator*</tt> (and <tt>operator[]</tt>) return by
+value when <tt>*<i>current_</i></tt> is a prvalue (since this <tt>get</tt> is <tt>std::get</tt>, we need
+not worry about weird user-defined overloads.)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
