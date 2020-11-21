@@ -40,7 +40,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-11-21 at 13:42:36 UTC</p>
+<p><p>Revised 2020-11-21 at 13:47:10 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -39534,8 +39534,8 @@ by <tt><i>Z</i></tt>, or the immediately-enclosing array object if <tt><i>Z</i><
 <hr>
 <h3><a name="3496" href="#3496">3496</a><sup><a href="https://cplusplus.github.io/LWG/issue3496">(i)</a></sup>. What does "uniquely associated" mean for <tt>basic_syncbuf::emit()</tt>?</h3>
 <p><b>Section:</b> 29.10.2.4 <a href="https://wg21.link/syncstream.syncbuf.members">[syncstream.syncbuf.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-10 <b>Last modified:</b> 2020-11-15</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-10 <b>Last modified:</b> 2020-11-21</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#syncstream.syncbuf.members">active issues</a> in [syncstream.syncbuf.members].</p>
 <p><b>View all other</b> <a href="lwg-index.html#syncstream.syncbuf.members">issues</a> in [syncstream.syncbuf.members].</p>
@@ -39552,6 +39552,12 @@ I believe the intention is only that for a given <tt>streambuf*</tt> every <tt>s
 uses the same lock. The intention was that it's a valid implementation for the same lock to be used for more 
 than one <tt>streambuf*</tt> (e.g. using a table of <tt>N</tt> locks which are indexed by a hash of the 
 <tt>streambuf* value)</tt>. The current wording can be interpreted to forbid that implementation.
+</p>
+
+<p><i>[2020-11-21; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 3 during reflector discussions.
 </p>
 
 
