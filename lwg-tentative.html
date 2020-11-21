@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-11-15 at 18:49:45 UTC</p>
+<p><p>Revised 2020-11-21 at 13:42:36 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2818" href="#2818">2818</a><sup><a href="https://cplusplus.github.io/LWG/issue2818">(i)</a></sup>. <tt>"::std::"</tt> everywhere rule needs tweaking</h3>
@@ -185,6 +185,77 @@ performing qualified name lookup (6.5.4 <a href="https://wg21.link/basic.lookup.
 <del>-1- Unless otherwise specified, references to entities described in subclause 29.11 <a href="https://wg21.link/filesystems">[filesystems]</a> 
 are assumed to be qualified with <tt>::std::filesystem::</tt>.</del>
 </p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3052" href="#3052">3052</a><sup><a href="https://cplusplus.github.io/LWG/issue3052">(i)</a></sup>. <tt>visit</tt> is underconstrained</h3>
+<p><b>Section:</b> 20.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-01-23 <b>Last modified:</b> 2020-11-21</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#variant.visit">issues</a> in [variant.visit].</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>std::visit</tt> accepts a parameter pack of forwarding references named
+<tt>vars</tt> whose types are the parameter pack <tt>Variants</tt>. Despite that:
+<ol>
+<li>the names of both packs are variants of "variant",</li>
+<li>para 1 passes the types in <tt>Variants</tt> (modified) to <tt>variant_size_v</tt>,</li>
+<li>para 3 uses the expression <tt>vars<sub><i>i</i></sub>.index()</tt>,</li>
+<li>para 4 says "...if any <tt>variant</tt> in <tt>vars</tt> is <tt>valueless_by_exception</tt>,
+and</li>
+<li>para 5 mentions "..the number of alternative types of <tt>Variants<sub>0</sub></tt>"</li>
+</ol>
+the <i>Requires</i> element imposes no explicit requirements on the types in <tt>Variants</tt>.
+Notably, the <tt>Variants</tt> are not required to be <tt>variant</tt>s. This lack of constraints
+appears to be simply an oversight.
+</p>
+
+<p><i>[2018-01-24, Daniel comments]</i></p>
+
+<p>
+This issue should be reviewed in common with LWG <a href="lwg-defects.html#2970">2970</a>.
+</p>
+
+<p><i>[2018-06-18 after reflector discussion]</i></p>
+
+<p>Priority set to 2; status to LEWG</p>
+
+<p><i>[2020-11-18; this will be resolved by <a href="https://wg21.link/p2162">P2162</a>.]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4727">N4727</a>.</p>
+
+<ol>
+<li><p>Modify 20.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Visitor, class... Variants&gt;
+  constexpr <i>see below</i> visit(Visitor&amp;&amp; vis, Variants&amp;&amp;... vars);
+</pre>
+<blockquote>
+<p>[&hellip;]</p>
+<p>
+-4- <i>Throws:</i> <tt>bad_variant_access</tt> if <del>any <tt>variant</tt> in <tt>vars</tt> is
+<tt>valueless_by_exception()</tt></del><ins><tt>(vars.valueless_by_exception() || ...)</tt> is
+<tt>true</tt></ins>.
+</p>
+<p>-5- <i>Complexity:</i> [&hellip;]</p>
+<p>
+<ins>-?- <i>Remarks:</i> This function shall not participate in overload resolution unless
+<tt>remove_cvref_t&lt;Variants<sub><i>i</i></sub>&gt;</tt> is a specialization of <tt>variant</tt>
+for all <tt>0 &lt;= i &lt; n</tt>.</ins>
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ol>

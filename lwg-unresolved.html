@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-11-15 at 18:49:45 UTC</p>
+<p><p>Revised 2020-11-21 at 13:42:36 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -23610,75 +23610,6 @@ template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Func
 
 
 <hr>
-<h3><a name="3052" href="#3052">3052</a><sup><a href="https://cplusplus.github.io/LWG/issue3052">(i)</a></sup>. <tt>visit</tt> is underconstrained</h3>
-<p><b>Section:</b> 20.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-01-23 <b>Last modified:</b> 2020-09-06</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#variant.visit">issues</a> in [variant.visit].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-<tt>std::visit</tt> accepts a parameter pack of forwarding references named
-<tt>vars</tt> whose types are the parameter pack <tt>Variants</tt>. Despite that:
-<ol>
-<li>the names of both packs are variants of "variant",</li>
-<li>para 1 passes the types in <tt>Variants</tt> (modified) to <tt>variant_size_v</tt>,</li>
-<li>para 3 uses the expression <tt>vars<sub><i>i</i></sub>.index()</tt>,</li>
-<li>para 4 says "...if any <tt>variant</tt> in <tt>vars</tt> is <tt>valueless_by_exception</tt>,
-and</li>
-<li>para 5 mentions "..the number of alternative types of <tt>Variants<sub>0</sub></tt>"</li>
-</ol>
-the <i>Requires</i> element imposes no explicit requirements on the types in <tt>Variants</tt>.
-Notably, the <tt>Variants</tt> are not required to be <tt>variant</tt>s. This lack of constraints
-appears to be simply an oversight.
-</p>
-
-<p><i>[2018-01-24, Daniel comments]</i></p>
-
-<p>
-This issue should be reviewed in common with LWG <a href="lwg-defects.html#2970">2970</a>.
-</p>
-
-<p><i>[2018-06-18 after reflector discussion]</i></p>
-
-<p>Priority set to 2; status to LEWG</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4727">N4727</a>.</p>
-
-<ol>
-<li><p>Modify 20.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class Visitor, class... Variants&gt;
-  constexpr <i>see below</i> visit(Visitor&amp;&amp; vis, Variants&amp;&amp;... vars);
-</pre>
-<blockquote>
-<p>[&hellip;]</p>
-<p>
--4- <i>Throws:</i> <tt>bad_variant_access</tt> if <del>any <tt>variant</tt> in <tt>vars</tt> is
-<tt>valueless_by_exception()</tt></del><ins><tt>(vars.valueless_by_exception() || ...)</tt> is
-<tt>true</tt></ins>.
-</p>
-<p>-5- <i>Complexity:</i> [&hellip;]</p>
-<p>
-<ins>-?- <i>Remarks:</i> This function shall not participate in overload resolution unless
-<tt>remove_cvref_t&lt;Variants<sub><i>i</i></sub>&gt;</tt> is a specialization of <tt>variant</tt>
-for all <tt>0 &lt;= i &lt; n</tt>.</ins>
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="3053" href="#3053">3053</a><sup><a href="https://cplusplus.github.io/LWG/issue3053">(i)</a></sup>. Prohibit <tt>error_code</tt> construction from rvalues of <tt>error_category</tt></h3>
 <p><b>Section:</b> 19.5.4.1 <a href="https://wg21.link/syserr.errcode.overview">[syserr.errcode.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Antony Polukhin <b>Opened:</b> 2018-01-24 <b>Last modified:</b> 2020-09-06</p>
@@ -38220,8 +38151,8 @@ constexpr <ins><i>InnerIter</i></ins><del>iterator_t&lt;<i>Base</i>&gt;</del> op
 <hr>
 <h3><a name="3501" href="#3501">3501</a><sup><a href="https://cplusplus.github.io/LWG/issue3501">(i)</a></sup>. <tt>basic_syncbuf</tt>-related manipulators refer to some <tt>Allocator</tt> without defining it</h3>
 <p><b>Section:</b> 29.7.5.5 <a href="https://wg21.link/ostream.manip">[ostream.manip]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-15 <b>Last modified:</b> 2020-11-15</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-15 <b>Last modified:</b> 2020-11-21</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#ostream.manip">issues</a> in [ostream.manip].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -38247,6 +38178,12 @@ By introducing an expository <tt><i>SYNCBUF</i></tt> to detect <tt>basic_syncbuf
 on the above mentioned editorial issue to solve these problems it turned out that the suggested wording 
 fix would introduce an apparently normative change that the <tt>syncbuf</tt> type must not use a 
 program-defined specialization.
+</p>
+
+<p><i>[2020-11-21; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 3 during reflector discussions.
 </p>
 
 
