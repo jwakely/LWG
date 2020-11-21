@@ -32,7 +32,9 @@
 <p><b>View all other</b> <a href="lwg-index.html#range.elements.iterator">issues</a> in [range.elements.iterator].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
+<p>
 This compiles but the resulting view is full of dangling references:
+</p>
 <blockquote><pre>
 std::vector&lt;int&gt; vec = {42};
 auto r = vec | std::views::transform([](auto c) { return std::make_tuple(c, c); })

@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-11-21 at 14:20:58 UTC</p>
+<p><p>Revised 2020-11-21 at 14:33:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38153,7 +38153,9 @@ for the purpose of exposition</del>, calls <tt><ins>p</ins><del>buf</del>-&gt;em
 <p><b>View all other</b> <a href="lwg-index.html#range.elements.iterator">issues</a> in [range.elements.iterator].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
+<p>
 This compiles but the resulting view is full of dangling references:
+</p>
 <blockquote><pre>
 std::vector&lt;int&gt; vec = {42};
 auto r = vec | std::views::transform([](auto c) { return std::make_tuple(c, c); })
@@ -38172,6 +38174,59 @@ into the materialized temporary that becomes dangling as soon as <tt>operator*</
 We should either ban this case altogether, or make <tt>operator*</tt> (and <tt>operator[]</tt>) return by
 value when <tt>*<i>current_</i></tt> is a prvalue (since this <tt>get</tt> is <tt>std::get</tt>, we need
 not worry about weird user-defined overloads.)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3503" href="#3503">3503</a><sup><a href="https://cplusplus.github.io/LWG/issue3503">(i)</a></sup>. <tt>chrono::ceil</tt> has surprising requirement</h3>
+<p><b>Section:</b> 27.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2020-11-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.duration.cast">issues</a> in [time.duration.cast].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+27.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a> p7 requires that the return value is "The least result <tt>t</tt> 
+representable in <tt>ToDuration</tt> for which <tt>t &gt;= d</tt>".
+<p/>
+This means that <tt>chrono::ceil&lt;chrono::microseconds&gt;(chrono::duration&lt;float, milli&gt;(m)).count()</tt> 
+is required to be the smallest integer <tt>n</tt> such that <tt>(float)n == m*1000.0f</tt>, which might be less 
+than the mathematically correct value of <tt>m x 1000</tt>.
+<p/>
+(The specific values below assume <tt>float</tt> uses the IEEE binary32 format and default rounding, but 
+similar problems will exist for other formats, even if the specific values are different.)
+<p/>
+For example, if <tt>m == 13421772.0f</tt> then the naively expected result is <tt>n == 13421772000</tt>, but 
+the standard requires <tt>n == 13421771265</tt>, a significantly lower value. This surprising result is a 
+consequence of how the <tt>chrono::ceil</tt> spec interacts with floating-point arithmetic, due to the fact that 
+for the integers in the range <tt>[13421770753, 13421772799]</tt>, only one can be exactly represented as 
+32-bit <tt>float</tt>. All but that one will be rounded to a different value when converted to <tt>float</tt>.
+<p/>
+A straightforward implementation of <tt>chrono::ceil</tt> will produce <tt>(long long)(13421772.0f * 1000)</tt> 
+which is <tt>13421771776</tt>, which is less than the expected result, but compares equal using the <tt>t &gt;= d</tt> 
+expression. That expression converts both operands to their <tt>common_type</tt>, which is 
+<tt>chrono::duration&lt;float, micro&gt;</tt>. That means we compare <tt>(float)13421771776 &gt;= (13421772.0f * 1000)</tt> 
+which is <tt>true</tt>. But the spec requires an even worse result. All integers in <tt>[13421771265, 13421771776)</tt> 
+are also rounded to that value when converted to <tt>float</tt>. That means <tt>chrono::microseconds(13421771265)</tt> 
+is "the least result representable in <tt>ToDuration</tt> for which <tt>t &gt;= d</tt>".
+<p/>
+Meeting the "least result" requirement is impractical, and unhelpful. The straightforward result <tt>13421771776</tt> 
+is already lower than the naively expected result (which is surprising for a "ceil" function). To meet the 
+standard's requirements the implementation would have to do extra work, just to produce an even lower (and even 
+more surprising) result.
+<p/>
+It might be impractical to require the naively expected value to be returned (the additional work might have 
+unacceptable performance implications), but the standard  should at least permit the straightforward result 
+instead of requiring an even worse one.
+<p/>
+The same problem almost certainly exists for <tt>chrono::floor</tt> in reverse.
 </p>
 
 
