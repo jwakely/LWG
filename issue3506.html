@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3189: Missing requirement for std::priority_queue</title>
+<title>Issue 3506: Missing allocator-extended constructors for priority_queue</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -23,29 +23,32 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3189" href="lwg-active.html#3189">3189</a>. Missing requirement for <tt>std::priority_queue</tt></h3>
+<h3><a name="3506" href="lwg-active.html#3506">3506</a>. Missing allocator-extended constructors for <tt>priority_queue</tt></h3>
 <p><b>Section:</b> 22.6.5 <a href="https://wg21.link/priority.queue">[priority.queue]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-02-21 <b>Last modified:</b> 2019-03-05</p>
-<p><b>Priority: </b>3
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-11-21 <b>Last modified:</b> 2020-11-21</p>
+<p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#priority.queue">active issues</a> in [priority.queue].</p>
 <p><b>View all other</b> <a href="lwg-index.html#priority.queue">issues</a> in [priority.queue].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-We don't require that the <tt>Compare</tt> template parameter can be invoked with arguments of the queue's value type. 
-It seems like something we can use <i>Mandates:</i> for, since it'll be ill-formed otherwise. Something like 
-<tt>is_invocable_r_v&lt;bool, Compare&amp;, value_type&amp;, value_type&amp;&gt;</tt>.
-<p/>
-This might also apply to the <tt>Compare</tt> parameter for the <tt>merge</tt> and <tt>sort</tt> functions of 
-<tt>forward_list</tt> and <tt>list</tt>.
+<tt>priority_queue</tt> has two constructor templates taking a pair of input
+iterators in addition to a comparator and a container, but it does not have 
+allocator-extended constructors corresponding to these constructor templates:
 </p>
-
-<p><i>[2019-03-05 Priority set to 3 after reflector discussion]</i></p>
-
+<blockquote><pre>
+template&lt;class InputIterator&gt;
+  priority_queue(InputIterator first, InputIterator last, const Compare&amp; x,
+                 const Container&amp;);
+template&lt;class InputIterator&gt;
+  priority_queue(InputIterator first, InputIterator last,
+                 const Compare&amp; x = Compare(), Container&amp;&amp; = Container());
+</pre></blockquote>
 
 
 <p><b>Proposed resolution:</b></p>
+
 
 
 
