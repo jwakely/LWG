@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2020-11-29 at 13:54:18 UTC</p>
+<p><p>Revised 2020-11-29 at 14:05:15 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -40023,8 +40023,8 @@ for the purpose of exposition</del>, calls <tt><ins>p</ins><del>buf</del>-&gt;em
 <hr>
 <h3><a name="3502" href="#3502">3502</a><sup><a href="https://cplusplus.github.io/LWG/issue3502">(i)</a></sup>. <tt>elements_view</tt> should not be allowed to return dangling references</h3>
 <p><b>Section:</b> 24.7.16.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2020-11-21</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2020-11-29</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.elements.iterator">active issues</a> in [range.elements.iterator].</p>
 <p><b>View all other</b> <a href="lwg-index.html#range.elements.iterator">issues</a> in [range.elements.iterator].</p>
@@ -40051,6 +40051,12 @@ into the materialized temporary that becomes dangling as soon as <tt>operator*</
 We should either ban this case altogether, or make <tt>operator*</tt> (and <tt>operator[]</tt>) return by
 value when <tt>*<i>current_</i></tt> is a prvalue and the corresponding tuple element is not a reference 
 (since this <tt>get</tt> is <tt>std::get</tt>, we need not worry about weird user-defined overloads.)
+</p>
+
+<p><i>[2020-11-29; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 2 during reflector discussions.
 </p>
 
 
