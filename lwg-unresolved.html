@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-11-22 at 13:25:59 UTC</p>
+<p><p>Revised 2020-11-29 at 13:54:18 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -16269,7 +16269,7 @@ void pop(error_code&amp; ec);
 <hr>
 <h3><a name="2713" href="#2713">2713</a><sup><a href="https://cplusplus.github.io/LWG/issue2713">(i)</a></sup>. More missing allocator-extended constructors for unordered containers</h3>
 <p><b>Section:</b> 22.5 <a href="https://wg21.link/unord">[unord]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Billy Robert O'Neal III <b>Opened:</b> 2016-05-20 <b>Last modified:</b> 2020-09-06</p>
+ <b>Submitter:</b> Billy Robert O'Neal III <b>Opened:</b> 2016-05-20 <b>Last modified:</b> 2020-11-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#unord">issues</a> in [unord].</p>
@@ -16677,6 +16677,13 @@ to the more elaborate form:
 <i>Remarks:</i> The initial number of buckets supplied by the <tt>size_type</tt> argument is implementation-defined.
 </p>
 </blockquote>
+
+<p><i>[2020-11-29; Reflector discussions]</i></p>
+
+<p>
+It has been pointed out that this issue is related to LWG <a href="lwg-defects.html#1199">1199</a>, LWG <a href="lwg-defects.html#2210">2210</a>, 
+and LWG <a href="lwg-active.html#3506">3506</a>. 
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -38389,8 +38396,8 @@ value when <tt>*<i>current_</i></tt> is a prvalue and the corresponding tuple el
 <hr>
 <h3><a name="3503" href="#3503">3503</a><sup><a href="https://cplusplus.github.io/LWG/issue3503">(i)</a></sup>. <tt>chrono::ceil</tt> has surprising requirement</h3>
 <p><b>Section:</b> 27.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2020-11-21</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2020-11-29</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#time.duration.cast">issues</a> in [time.duration.cast].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -38432,6 +38439,12 @@ instead of requiring an even worse one.
 The same problem almost certainly exists for <tt>chrono::floor</tt> in reverse.
 </p>
 
+<p><i>[2020-11-29; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 3 during reflector discussions.
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
 
@@ -38442,8 +38455,8 @@ The same problem almost certainly exists for <tt>chrono::floor</tt> in reverse.
 <hr>
 <h3><a name="3504" href="#3504">3504</a><sup><a href="https://cplusplus.github.io/LWG/issue3504">(i)</a></sup>. <tt>condition_variable::wait_for</tt> is overspecified</h3>
 <p><b>Section:</b> 32.6.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2020-11-21</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2020-11-29</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#thread.condition.condvar">issues</a> in [thread.condition.condvar].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -38478,6 +38491,12 @@ or processes only run for a few seconds and use the process start as the steady 
 <p/>
 This also affects the other overload of <tt>condition_variable::wait_for</tt>, and both overloads of 
 <tt>condition_variable_any::wait_for</tt>.
+</p>
+
+<p><i>[2020-11-29; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 3 during reflector discussions.
 </p>
 
 
@@ -38599,7 +38618,7 @@ return *this;
 <hr>
 <h3><a name="3506" href="#3506">3506</a><sup><a href="https://cplusplus.github.io/LWG/issue3506">(i)</a></sup>. Missing allocator-extended constructors for <tt>priority_queue</tt></h3>
 <p><b>Section:</b> 22.6.5 <a href="https://wg21.link/priority.queue">[priority.queue]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-11-21 <b>Last modified:</b> 2020-11-21</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-11-21 <b>Last modified:</b> 2020-11-29</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#priority.queue">active issues</a> in [priority.queue].</p>
@@ -38619,6 +38638,13 @@ template&lt;class InputIterator&gt;
   priority_queue(InputIterator first, InputIterator last,
                  const Compare&amp; x = Compare(), Container&amp;&amp; = Container());
 </pre></blockquote>
+
+<p><i>[2020-11-29; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 3 during reflector discussions. It has been pointed out that this issue
+is related to LWG <a href="lwg-defects.html#1199">1199</a>, LWG <a href="lwg-defects.html#2210">2210</a>, and LWG <a href="lwg-active.html#2713">2713</a>. 
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
