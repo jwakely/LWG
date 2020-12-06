@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-12-06 at 19:52:10 UTC</p>
+<p><p>Revised 2020-12-06 at 20:06:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38685,6 +38685,45 @@ We should consult implementers about this.
 <p/>
 I don't have a proposed resolution, but if we want to keep "actual", then perhaps we should define 
 both "presumed" and "actual" in 15.11 <a href="https://wg21.link/cpp.predefined">[cpp.predefined]</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3508" href="#3508">3508</a><sup><a href="https://cplusplus.github.io/LWG/issue3508">(i)</a></sup>. <tt>atomic_ref&lt;<i>cv</i> T&gt;</tt> is not well-specified</h3>
+<p><b>Section:</b> 31.7.1 <a href="https://wg21.link/atomics.ref.generic.general">[atomics.ref.generic.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-12-02 <b>Last modified:</b> 2020-12-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>atomic_ref&lt;T&gt;</tt> requires only that its template parameter <tt>T</tt> is trivially copyable, 
+which is not sufficient to implement many of the class template's member functions. Consider, for example:
+</p>
+<blockquote><pre>
+int main() {
+  static const int x = 42;
+  std::atomic_ref&lt;const int&gt; meow{x};
+  meow.store(0);
+  return meow.load();
+}
+</pre></blockquote>
+<p>
+Since <tt>const int</tt> is trivially copyable, this is a well-formed C++20 program that returns <tt>0</tt>. 
+That said, the <tt>store</tt> call that mutates the value of a constant object is (a) not implementable with 
+library technology, and (b) pure madness that violates the language semantics. <tt>atomic_ref::store</tt> 
+should presumably require <tt>is_copy_constructible_v&lt;T&gt;</tt>, and other operations need to have their 
+requirements audited as well. (Related: LWG <a href="lwg-defects.html#3012">3012</a> made similar changes to atomic.)
+<p/>
+As a related issue, <tt>volatile atomic&lt;T&gt;</tt> recently had its member functions deprecated when they 
+are not lock-free. Presumably <tt>atomic_ref&lt;volatile T&gt;</tt> should require that atomic operations on 
+<tt>T</tt> be lock-free for consistency.
 </p>
 
 
