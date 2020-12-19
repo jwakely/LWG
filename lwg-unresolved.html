@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2020-12-19 at 19:09:40 UTC</p>
+<p><p>Revised 2020-12-19 at 19:17:22 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38766,7 +38766,7 @@ Set priority to 2 during reflector discussions.
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-There is implementation divergence in the handling of this example::
+There is implementation divergence in the handling of this example:
 </p>
 <blockquote><pre>
 template&lt;class F&gt;
@@ -38796,6 +38796,34 @@ equivalent to <tt>adaptor(args...)(range)</tt> may even rule out the ability to
 make an extra copy. Certainly nothing in the wording guarantees that
 it is safe to reuse lvalue range pipelines (that is, <tt>v | f</tt> doesn't
 move from <tt>f</tt>).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3510" href="#3510">3510</a><sup><a href="https://cplusplus.github.io/LWG/issue3510">(i)</a></sup>. Customization point objects should be invocable as non-<tt>const</tt> too</h3>
+<p><b>Section:</b> 16.3.3.3.6 <a href="https://wg21.link/customization.point.object">[customization.point.object]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-12-15 <b>Last modified:</b> 2020-12-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#customization.point.object">issues</a> in [customization.point.object].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+16.3.3.3.6 <a href="https://wg21.link/customization.point.object">[customization.point.object]</a> promises that customization point objects
+are semiregular and that all copies are equal, which permits copies to
+be freely made. In C++, making copies tends to drop <i>cv</i>-qualification,
+but there does not appear to be anything that guarantees that you can
+invoke these objects as non-<tt>const</tt> (or as rvalues, for that matter).
+<p/>
+It is possible that the use of <tt>invocable&lt;const F&amp;, Args...&gt;</tt> here was
+meant to bring in implicit expression variations, but <a href="https://wg21.link/p2102r0">P2102R0</a> 
+has since clarified that this formulation doesn't do that.
 </p>
 
 
