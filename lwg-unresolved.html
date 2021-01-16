@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-01-16 at 16:57:27 UTC</p>
+<p><p>Revised 2021-01-16 at 17:32:03 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38969,6 +38969,71 @@ and internal types used by the library. &mdash; <i>end note</i>]
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3514" href="#3514">3514</a><sup><a href="https://cplusplus.github.io/LWG/issue3514">(i)</a></sup>. Range algorithms do not compose with <tt>input_iterator</tt>'s</h3>
+<p><b>Section:</b> 25 <a href="https://wg21.link/algorithms">[algorithms]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Michael Schellenberger Costa <b>Opened:</b> 2021-01-04 <b>Last modified:</b> 2021-01-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#algorithms">active issues</a> in [algorithms].</p>
+<p><b>View all other</b> <a href="lwg-index.html#algorithms">issues</a> in [algorithms].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Consider a simple algorithm that finds something and does whatever he needs to do with it 
+(Projections and predicates are omitted here) :
+</p>
+<blockquote><pre>
+template&lt;input_iterator it,  sentinel_for&lt;it&gt; sen&gt;
+void find_and_do_something(it first, sen last, const std::ranges::iter_value_t&lt;it&gt;&amp; target) 
+{
+  auto result = std::ranges::find(first, last, target);
+  if (result != last) {
+    <i>// Do something fancy</i>
+  }
+  [&hellip;]
+}
+</pre></blockquote>
+<p>
+Now this is actually broken. <tt>input_iterator</tt>`s are not required to be copyable, so we need 
+to move them around:
+</p>
+<blockquote><pre>
+template&lt;input_iterator it,  sentinel_for&lt;it&gt; sen&gt;
+void find_and_do_something(it first, sen last, const std::ranges::iter_value_t&lt;it&gt;&amp; target) 
+{
+  auto result = std::ranges::find(std::move(first), std::move(last), target);
+  if (result != last) { <i>//</i> <span style="color:#C80000;font-weight:bold">&lt;- URGH</span>
+    <i>// Do something fancy</i>
+  }
+  [&hellip;]
+}
+</pre></blockquote>
+<p>
+As shown above, we cannot do anything here after the call to <tt>std::ranges::find</tt>, because the 
+algorithm ate an iterator/sentinel pair but only gave us back an iterator. If we indeed feed a move 
+only non copyable input iterator to that algorithm we are done. 
+<p/>
+I got an iterator that tells me whether I found something, but I cannot compare it to anything because 
+my sentinel is gone.
+<p/>
+This is true for essentially all algorithms that take input iterators but return something derived from `in_meow_result` or as in the example a plain iterator.
+
+The worst part is that we still must consider them in our algorithms, but a user cannot ever use those 
+algorithms if he wants to do anything else with that range.
+<p/>
+At least there is a simple solution to this problem. We need to return a <tt>subrange</tt> just as for example 
+<tt>std::ranges::search</tt> does. With that we get our full range/iterator-sentinel-pair back and can 
+go on with our lives.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3514: Range algorithms do not compose with input_iterator's</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+  @media (prefers-color-scheme: dark) {
+     html {
+        color: #ddd;
+        background-color: black;
+     }
+     ins {
+        background-color: #225522
+     }
+     del {
+        background-color: #662222
+     }
+     a {
+        color: #6af
+     }
+     a:visited {
+        color: #6af
+     }
+     blockquote.note
+     {
+        background-color: rgba(255, 255, 255, .10)
+     }
+  }
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3514" href="lwg-active.html#3514">3514</a>. Range algorithms do not compose with <tt>input_iterator</tt>'s</h3>
+<p><b>Section:</b> 25 <a href="https://wg21.link/algorithms">[algorithms]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Michael Schellenberger Costa <b>Opened:</b> 2021-01-04 <b>Last modified:</b> 2021-01-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#algorithms">active issues</a> in [algorithms].</p>
+<p><b>View all other</b> <a href="lwg-index.html#algorithms">issues</a> in [algorithms].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Consider a simple algorithm that finds something and does whatever he needs to do with it 
+(Projections and predicates are omitted here) :
+</p>
+<blockquote><pre>
+template&lt;input_iterator it,  sentinel_for&lt;it&gt; sen&gt;
+void find_and_do_something(it first, sen last, const std::ranges::iter_value_t&lt;it&gt;&amp; target) 
+{
+  auto result = std::ranges::find(first, last, target);
+  if (result != last) {
+    <i>// Do something fancy</i>
+  }
+  [&hellip;]
+}
+</pre></blockquote>
+<p>
+Now this is actually broken. <tt>input_iterator</tt>`s are not required to be copyable, so we need 
+to move them around:
+</p>
+<blockquote><pre>
+template&lt;input_iterator it,  sentinel_for&lt;it&gt; sen&gt;
+void find_and_do_something(it first, sen last, const std::ranges::iter_value_t&lt;it&gt;&amp; target) 
+{
+  auto result = std::ranges::find(std::move(first), std::move(last), target);
+  if (result != last) { <i>//</i> <span style="color:#C80000;font-weight:bold">&lt;- URGH</span>
+    <i>// Do something fancy</i>
+  }
+  [&hellip;]
+}
+</pre></blockquote>
+<p>
+As shown above, we cannot do anything here after the call to <tt>std::ranges::find</tt>, because the 
+algorithm ate an iterator/sentinel pair but only gave us back an iterator. If we indeed feed a move 
+only non copyable input iterator to that algorithm we are done. 
+<p/>
+I got an iterator that tells me whether I found something, but I cannot compare it to anything because 
+my sentinel is gone.
+<p/>
+This is true for essentially all algorithms that take input iterators but return something derived from `in_meow_result` or as in the example a plain iterator.
+
+The worst part is that we still must consider them in our algorithms, but a user cannot ever use those 
+algorithms if he wants to do anything else with that range.
+<p/>
+At least there is a simple solution to this problem. We need to return a <tt>subrange</tt> just as for example 
+<tt>std::ranges::search</tt> does. With that we get our full range/iterator-sentinel-pair back and can 
+go on with our lives.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+</body>
+</html>
