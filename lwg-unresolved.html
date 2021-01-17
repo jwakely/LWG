@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-01-16 at 19:16:44 UTC</p>
+<p><p>Revised 2021-01-17 at 14:44:30 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38967,6 +38967,59 @@ thereof</ins>
 [<i>Note 1 to entry:</i> Types defined by the implementation include extensions (4.1 <a href="https://wg21.link/intro.compliance">[intro.compliance]</a>) 
 and internal types used by the library. &mdash; <i>end note</i>]
 </blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3514" href="#3514">3514</a><sup><a href="https://cplusplus.github.io/LWG/issue3514">(i)</a></sup>. <tt>stacktrace</tt> should add type alias <tt>pmr::stacktrace</tt></h3>
+<p><b>Section:</b> 99 [stacktrace.syn] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hiroaki Ando <b>Opened:</b> 2021-01-11 <b>Last modified:</b> 2021-01-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>std::stacktrace</tt> is almost <tt>std::vector&lt;stacktrace_entry&gt;</tt>. This
+makes it an abvious candidate to define an alias for <tt>std::polymorphic_allocator</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4878">N4878</a>. 
+</p>
+
+<ol>
+<li><p>Modify 99 [stacktrace.syn], header <tt>&lt;stacktrace&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote><pre>
+namespace std {
+  <i>//  [stacktrace.entry], class stacktrace_entry</i>
+  class stacktrace_entry;
+  
+  <i>//  [stacktrace.basic], class template basic_stacktrace</i>
+  template&lt;class Allocator&gt;
+  class basic_stacktrace;
+  
+  // basic_stacktrace typedef names
+  using stacktrace = basic_stacktrace&lt;allocator&lt;stacktrace_entry&gt;&gt;;
+
+  [&hellip;]
+  
+  <i>//  [stacktrace.basic.hash], hash support</i>
+  template&lt;class T&gt; struct hash;
+  template&lt;&gt; struct hash&lt;stacktrace_entry&gt;;
+  template&lt;class Allocator&gt; struct hash&lt;basic_stacktrace&lt;Allocator&gt;&gt;;
+  
+  <ins>namespace pmr {
+    using stacktrace = std::basic_stacktrace&lt;polymorphic_allocator&lt;stacktrace_entry&gt;&gt;;
+  }</ins>
+}
+</pre></blockquote>
 </li>
 </ol>
 

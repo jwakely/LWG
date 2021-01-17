@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3514: Range algorithms do not compose with input_iterator's</title>
+<title>Issue 3514: stacktrace should add type alias pmr::stacktrace</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,65 +45,53 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3514" href="lwg-active.html#3514">3514</a>. Range algorithms do not compose with <tt>input_iterator</tt>'s</h3>
-<p><b>Section:</b> 25 <a href="https://wg21.link/algorithms">[algorithms]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Michael Schellenberger Costa <b>Opened:</b> 2021-01-04 <b>Last modified:</b> 2021-01-16</p>
+<h3><a name="3514" href="lwg-active.html#3514">3514</a>. <tt>stacktrace</tt> should add type alias <tt>pmr::stacktrace</tt></h3>
+<p><b>Section:</b> 99 [stacktrace.syn] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hiroaki Ando <b>Opened:</b> 2021-01-11 <b>Last modified:</b> 2021-01-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#algorithms">active issues</a> in [algorithms].</p>
-<p><b>View all other</b> <a href="lwg-index.html#algorithms">issues</a> in [algorithms].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Consider a simple algorithm that finds something and does whatever he needs to do with it 
-(Projections and predicates are omitted here) :
-</p>
-<blockquote><pre>
-template&lt;input_iterator it,  sentinel_for&lt;it&gt; sen&gt;
-void find_and_do_something(it first, sen last, const std::ranges::iter_value_t&lt;it&gt;&amp; target) 
-{
-  auto result = std::ranges::find(first, last, target);
-  if (result != last) {
-    <i>// Do something fancy</i>
-  }
-  [&hellip;]
-}
-</pre></blockquote>
-<p>
-Now this is actually broken. <tt>input_iterator</tt>`s are not required to be copyable, so we need 
-to move them around:
-</p>
-<blockquote><pre>
-template&lt;input_iterator it,  sentinel_for&lt;it&gt; sen&gt;
-void find_and_do_something(it first, sen last, const std::ranges::iter_value_t&lt;it&gt;&amp; target) 
-{
-  auto result = std::ranges::find(std::move(first), std::move(last), target);
-  if (result != last) { <i>//</i> <span style="color:#C80000;font-weight:bold">&lt;- URGH</span>
-    <i>// Do something fancy</i>
-  }
-  [&hellip;]
-}
-</pre></blockquote>
-<p>
-As shown above, we cannot do anything here after the call to <tt>std::ranges::find</tt>, because the 
-algorithm ate an iterator/sentinel pair but only gave us back an iterator. If we indeed feed a move 
-only non copyable input iterator to that algorithm we are done. 
-<p/>
-I got an iterator that tells me whether I found something, but I cannot compare it to anything because 
-my sentinel is gone.
-<p/>
-This is true for essentially all algorithms that take input iterators but return something derived from `in_meow_result` or as in the example a plain iterator.
-
-The worst part is that we still must consider them in our algorithms, but a user cannot ever use those 
-algorithms if he wants to do anything else with that range.
-<p/>
-At least there is a simple solution to this problem. We need to return a <tt>subrange</tt> just as for example 
-<tt>std::ranges::search</tt> does. With that we get our full range/iterator-sentinel-pair back and can 
-go on with our lives.
+<tt>std::stacktrace</tt> is almost <tt>std::vector&lt;stacktrace_entry&gt;</tt>. This
+makes it an abvious candidate to define an alias for <tt>std::polymorphic_allocator</tt>.
 </p>
 
 
 <p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4878">N4878</a>. 
+</p>
+
+<ol>
+<li><p>Modify 99 [stacktrace.syn], header <tt>&lt;stacktrace&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote><pre>
+namespace std {
+  <i>//  [stacktrace.entry], class stacktrace_entry</i>
+  class stacktrace_entry;
+  
+  <i>//  [stacktrace.basic], class template basic_stacktrace</i>
+  template&lt;class Allocator&gt;
+  class basic_stacktrace;
+  
+  // basic_stacktrace typedef names
+  using stacktrace = basic_stacktrace&lt;allocator&lt;stacktrace_entry&gt;&gt;;
+
+  [&hellip;]
+  
+  <i>//  [stacktrace.basic.hash], hash support</i>
+  template&lt;class T&gt; struct hash;
+  template&lt;&gt; struct hash&lt;stacktrace_entry&gt;;
+  template&lt;class Allocator&gt; struct hash&lt;basic_stacktrace&lt;Allocator&gt;&gt;;
+  
+  <ins>namespace pmr {
+    using stacktrace = std::basic_stacktrace&lt;polymorphic_allocator&lt;stacktrace_entry&gt;&gt;;
+  }</ins>
+}
+</pre></blockquote>
+</li>
+</ol>
 
 
 
