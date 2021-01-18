@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3514" href="lwg-active.html#3514">3514</a>. <tt>stacktrace</tt> should add type alias <tt>pmr::stacktrace</tt></h3>
-<p><b>Section:</b> 99 [stacktrace.syn] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 20.21.2 <a href="https://wg21.link/stacktrace.syn">[stacktrace.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hiroaki Ando <b>Opened:</b> 2021-01-11 <b>Last modified:</b> 2021-01-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -64,14 +64,14 @@ This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
 </p>
 
 <ol>
-<li><p>Modify 99 [stacktrace.syn], header <tt>&lt;stacktrace&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 20.21.2 <a href="https://wg21.link/stacktrace.syn">[stacktrace.syn]</a>, header <tt>&lt;stacktrace&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote><pre>
 namespace std {
-  <i>//  [stacktrace.entry], class stacktrace_entry</i>
+  <i>// 20.21.3 <a href="https://wg21.link/stacktrace.entry">[stacktrace.entry]</a>, class stacktrace_entry</i>
   class stacktrace_entry;
   
-  <i>//  [stacktrace.basic], class template basic_stacktrace</i>
+  <i>// 20.21.4 <a href="https://wg21.link/stacktrace.basic">[stacktrace.basic]</a>, class template basic_stacktrace</i>
   template&lt;class Allocator&gt;
   class basic_stacktrace;
   
@@ -80,7 +80,7 @@ namespace std {
 
   [&hellip;]
   
-  <i>//  [stacktrace.basic.hash], hash support</i>
+  <i>// 20.21.4.7 <a href="https://wg21.link/stacktrace.basic.hash">[stacktrace.basic.hash]</a>, hash support</i>
   template&lt;class T&gt; struct hash;
   template&lt;&gt; struct hash&lt;stacktrace_entry&gt;;
   template&lt;class Allocator&gt; struct hash&lt;basic_stacktrace&lt;Allocator&gt;&gt;;

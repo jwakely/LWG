@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-01-18 at 11:42:08 UTC</p>
+<p><p>Revised 2021-01-18 at 12:15:16 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -9968,7 +9968,7 @@ return <tt>traits::eof()</tt> when a read position is not available.
 The semantics of <tt>basic_stringbuf</tt> require, and existing libraries implement it so that this function makes 
 a read position available if possible to do so, e.g. if some characters were inserted into the stream since the 
 last call to <tt>overflow()</tt>, resulting in <tt>pptr() &gt; egptr()</tt>. Compare to the conceptually similar 
-D.13.2.4 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a>/15.
+D.14.2.4 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a>/15.
 </p>
 
 <p><i>[2018-06-06, Billy argues for NAD]</i></p>
@@ -12327,7 +12327,7 @@ The term "character type" is used in 3.36 <a href="https://wg21.link/defns.ntcts
 29.7.5.3.4 <a href="https://wg21.link/ostream.inserters.character">[ostream.inserters.character]</a>, but the core language only defines
 "narrow character types" (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>).
 <p/>
-"wide-character type" is used in D.21 <a href="https://wg21.link/depr.locale.stdcvt">[depr.locale.stdcvt]</a>, but the core
+"wide-character type" is used in D.24 <a href="https://wg21.link/depr.locale.stdcvt">[depr.locale.stdcvt]</a>, but the core
 language only defines a "wide-character set" and "wide-character literal".
 </p>
 
@@ -13422,7 +13422,7 @@ This is then unambiguously chosen over the other options in the preceding case. 
 
 <hr>
 <h3><a name="2478" href="#2478">2478</a><sup><a href="https://cplusplus.github.io/LWG/issue2478">(i)</a></sup>. Unclear how <tt>wstring_convert</tt> uses <tt>cvtstate</tt></h3>
-<p><b>Section:</b> D.22.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> D.25.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2015-03-04 <b>Last modified:</b> 2017-04-22</p>
 <p><b>Priority: </b>4
 </p>
@@ -13449,7 +13449,7 @@ simpler ways to say so.
 
 <hr>
 <h3><a name="2479" href="#2479">2479</a><sup><a href="https://cplusplus.github.io/LWG/issue2479">(i)</a></sup>. Unclear how <tt>wbuffer_convert</tt> uses <tt>cvtstate</tt></h3>
-<p><b>Section:</b> D.22.3 <a href="https://wg21.link/depr.conversions.buffer">[depr.conversions.buffer]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> D.25.3 <a href="https://wg21.link/depr.conversions.buffer">[depr.conversions.buffer]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2015-03-04 <b>Last modified:</b> 2017-04-22</p>
 <p><b>Priority: </b>4
 </p>
@@ -13476,7 +13476,7 @@ state of the get area is unrelated to the put area.
 
 <hr>
 <h3><a name="2480" href="#2480">2480</a><sup><a href="https://cplusplus.github.io/LWG/issue2480">(i)</a></sup>. Error handling of <tt>wbuffer_convert</tt> unclear</h3>
-<p><b>Section:</b> D.22.3 <a href="https://wg21.link/depr.conversions.buffer">[depr.conversions.buffer]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> D.25.3 <a href="https://wg21.link/depr.conversions.buffer">[depr.conversions.buffer]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2015-03-04 <b>Last modified:</b> 2017-04-22</p>
 <p><b>Priority: </b>4
 </p>
@@ -13501,7 +13501,7 @@ error lose information?
 
 <hr>
 <h3><a name="2481" href="#2481">2481</a><sup><a href="https://cplusplus.github.io/LWG/issue2481">(i)</a></sup>. <tt>wstring_convert</tt> should be more precise regarding "byte-error string" etc.</h3>
-<p><b>Section:</b> D.22.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> D.25.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2015-03-04 <b>Last modified:</b> 2017-04-22</p>
 <p><b>Priority: </b>4
 </p>
@@ -13510,7 +13510,7 @@ error lose information?
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Paragraph 4 of D.22.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a> introduces <tt>byte_err_string</tt> 
+Paragraph 4 of D.25.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a> introduces <tt>byte_err_string</tt> 
 as "a byte string to display on errors". What does display mean? The string is returned 
 on error, it's not displayed anywhere.
 <p/>
@@ -13877,7 +13877,7 @@ We would welcome a paper to make those definitions more explicit, and revise the
 
 <hr>
 <h3><a name="2507" href="#2507">2507</a><sup><a href="https://cplusplus.github.io/LWG/issue2507">(i)</a></sup>. <tt>codecvt_mode</tt> should be a bitmask type</h3>
-<p><b>Section:</b> D.21 <a href="https://wg21.link/depr.locale.stdcvt">[depr.locale.stdcvt]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> D.24 <a href="https://wg21.link/depr.locale.stdcvt">[depr.locale.stdcvt]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2015-06-08 <b>Last modified:</b> 2017-04-22</p>
 <p><b>Priority: </b>3
 </p>
@@ -18750,9 +18750,9 @@ as <tt>::std::x</tt>, unless explicitly described otherwise. For example, if the
 is described as calling library function <tt>G</tt>, the function <tt>::std::G</tt> is meant.</del><ins>Let <tt>x</tt> be a name
 specified by the standard library via a declaration in namespace <tt>std</tt> or in a subnamespace of namespace <tt>std</tt>.
 Whenever <tt>x</tt> is used as an unqualified name in a further specification, it is assumed to correspond
-to the same <tt>x</tt> that would be found via unqualified name lookup (6.5.2 <a href="https://wg21.link/basic.lookup.unqual">[basic.lookup.unqual]</a>) performed at that point 
+to the same <tt>x</tt> that would be found via unqualified name lookup (6.5.3 <a href="https://wg21.link/basic.lookup.unqual">[basic.lookup.unqual]</a>) performed at that point 
 of use. Similarly, whenever <tt>x</tt> is used as a qualified name in a further specification, it is assumed to correspond
-to the same <tt>x</tt> that would be found via qualified name lookup (6.5.4 <a href="https://wg21.link/basic.lookup.qual">[basic.lookup.qual]</a>) performed at that point 
+to the same <tt>x</tt> that would be found via qualified name lookup (6.5.5 <a href="https://wg21.link/basic.lookup.qual">[basic.lookup.qual]</a>) performed at that point 
 of use. [<i>Note:</i> Such lookups can never fail in a well-formed program. &mdash; <i>end note</i>] 
 [<i>Example:</i> If an <i>Effects:</i> element for a library function <tt>F</tt> specifies that library function <tt>G</tt>
 is to be used, the function <tt>::std::G</tt> is intended. &mdash; <i>end example</i>]</ins>
@@ -18784,9 +18784,9 @@ Whenever an unqualified name <tt>x</tt> is used
 in the specification of a declaration <tt>D</tt>
 in clauses 16-32,
 its meaning is established as-if by performing unqualified name lookup
-(6.5.2 <a href="https://wg21.link/basic.lookup.unqual">[basic.lookup.unqual]</a>) in the context of <tt>D</tt>.
+(6.5.3 <a href="https://wg21.link/basic.lookup.unqual">[basic.lookup.unqual]</a>) in the context of <tt>D</tt>.
 Similarly, the meaning of a qualified-id is established as-if by
-performing qualified name lookup (6.5.4 <a href="https://wg21.link/basic.lookup.qual">[basic.lookup.qual]</a>)
+performing qualified name lookup (6.5.5 <a href="https://wg21.link/basic.lookup.qual">[basic.lookup.qual]</a>)
 in the context of <tt>D</tt>.
 <i>[Example:</i>
 The reference to <tt>is_array_v</tt> in the
@@ -18794,7 +18794,7 @@ specification of <tt>std::to_array</tt> (22.3.7.6 <a href="https://wg21.link/arr
 refers to <tt>::std::is_array_v</tt>.
 -- <i>end example]</i>
 <i>[Note:</i>
-Operators in expressions 12.4.2.3 <a href="https://wg21.link/over.match.oper">[over.match.oper]</a>
+Operators in expressions 12.2.2.3 <a href="https://wg21.link/over.match.oper">[over.match.oper]</a>
 are not so constrained; see 16.4.6.4 <a href="https://wg21.link/global.functions">[global.functions]</a>.
 -- <i>end note]</i>
 </ins>
@@ -18845,12 +18845,12 @@ if the <i>Effects:</i> element for library function <tt>F</tt> is described as c
 <tt>G</tt>, the function <tt>::std::G</tt> is meant.</del>
 <ins>Whenever an unqualified name <tt>x</tt> is used in the specification of a declaration <tt>D</tt>
 in clauses 16-32 or Annex D, its meaning is established as-if by performing unqualified name lookup
-(6.5.2 <a href="https://wg21.link/basic.lookup.unqual">[basic.lookup.unqual]</a>) in the context of <tt>D</tt>. [<i>Note ?:</i> Argument-dependent lookup 
+(6.5.3 <a href="https://wg21.link/basic.lookup.unqual">[basic.lookup.unqual]</a>) in the context of <tt>D</tt>. [<i>Note ?:</i> Argument-dependent lookup 
 is not performed. &mdash; <i>end note</i>] Similarly, the meaning of a qualified-id is established as-if by 
-performing qualified name lookup (6.5.4 <a href="https://wg21.link/basic.lookup.qual">[basic.lookup.qual]</a>) in the context of <tt>D</tt>.
+performing qualified name lookup (6.5.5 <a href="https://wg21.link/basic.lookup.qual">[basic.lookup.qual]</a>) in the context of <tt>D</tt>.
 [<i>Example:</i> The reference to <tt>is_array_v</tt> in the specification of <tt>std::to_array</tt> 
 (22.3.7.6 <a href="https://wg21.link/array.creation">[array.creation]</a>) refers to <tt>::std::is_array_v</tt>. &mdash; <i>end example</i>]
-[<i>Note ?:</i> Operators in expressions (12.4.2.3 <a href="https://wg21.link/over.match.oper">[over.match.oper]</a>) are not so constrained; see 
+[<i>Note ?:</i> Operators in expressions (12.2.2.3 <a href="https://wg21.link/over.match.oper">[over.match.oper]</a>) are not so constrained; see 
 16.4.6.4 <a href="https://wg21.link/global.functions">[global.functions]</a>. &mdash; <i>end note</i>]
 </ins>
 </p>
@@ -25918,7 +25918,7 @@ available whenever either <tt>&lt;cstdlib&gt;</tt> or <tt>&lt;cinttypes&gt;</tt>
 
 <hr>
 <h3><a name="3095" href="#3095">3095</a><sup><a href="https://cplusplus.github.io/LWG/issue3095">(i)</a></sup>. <tt>strstreambuf</tt> refers to nonexistent member of <tt>fpos</tt>, <tt>fpos::offset</tt></h3>
-<p><b>Section:</b> D.13.2.4 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> D.14.2.4 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-04-04 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>4
 </p>
@@ -25927,7 +25927,7 @@ available whenever either <tt>&lt;cstdlib&gt;</tt> or <tt>&lt;cinttypes&gt;</tt>
 <p><b>Discussion:</b></p>
 <p>
 <tt>strstreambuf</tt> refers to a nonexistent member function of <tt>fpos</tt> in the specification of the member function
-<tt>seekpos</tt>, D.13.2.4 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a>/18 (emphasize mine): 
+<tt>seekpos</tt>, D.14.2.4 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a>/18 (emphasize mine): 
 </p>
 <blockquote><p>
 For a sequence to be positioned, if its next pointer is a null pointer, the positioning operation fails.
@@ -25951,7 +25951,7 @@ This wording is relative to <a href="https://wg21.link/n4727">N4727</a>.
 
 <ol>
 <li>
-<p>Edit D.13.2.4 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a> as indicated:</p>
+<p>Edit D.14.2.4 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a> as indicated:</p>
 <blockquote>
 <pre>
 pos_type seekpos(pos_type sp, ios_base::openmode which
@@ -26373,7 +26373,7 @@ namespace std {
 
 <hr>
 <h3><a name="3109" href="#3109">3109</a><sup><a href="https://cplusplus.github.io/LWG/issue3109">(i)</a></sup>. <tt>strstreambuf</tt> is copyable</h3>
-<p><b>Section:</b> D.13.2 <a href="https://wg21.link/depr.strstreambuf">[depr.strstreambuf]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> D.14.2 <a href="https://wg21.link/depr.strstreambuf">[depr.strstreambuf]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-05-02 <b>Last modified:</b> 2018-06-19</p>
 <p><b>Priority: </b>4
 </p>
@@ -29229,7 +29229,7 @@ struct common_comparison_category {
 </pre>
 <p>
 -2- <i>Remarks:</i> The member <i>typedef-name</i> <tt>type</tt> denotes the common comparison type
-(11.11.3 <a href="https://wg21.link/class.spaceship">[class.spaceship]</a>) of <tt>Ts...</tt>, the expanded parameter pack. [&hellip;]
+(11.10.3 <a href="https://wg21.link/class.spaceship">[class.spaceship]</a>) of <tt>Ts...</tt>, the expanded parameter pack. [&hellip;]
 </p>
 </blockquote>
 <p>
@@ -29378,12 +29378,12 @@ element results in undefined behavior.
 </blockquote>
 </li>
 
-<li><p>Change D.11 <a href="https://wg21.link/depr.res.on.required">[depr.res.on.required]</a>, as indicated:</p>
+<li><p>Change D.12 <a href="https://wg21.link/depr.res.on.required">[depr.res.on.required]</a>, as indicated:</p>
 
 <blockquote class="note">
 <p>
 [<i>Drafting note:</i> Interestingly, albey the <i>Requires:</i> element has nearly vanished, the
-issue is still relevant, see D.14 <a href="https://wg21.link/depr.meta.types">[depr.meta.types]</a>]
+issue is still relevant, see D.17 <a href="https://wg21.link/depr.meta.types">[depr.meta.types]</a>]
 </p>
 </blockquote>
 
@@ -30346,7 +30346,7 @@ template&lt;class T&gt; void atomic_store(atomic&lt;T&gt;*, typename atomic&lt;T
 </pre></blockquote>
 <p>
 The program intends to call the "other" <tt>atomic_store</tt> from
-D.19 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>:
+D.22 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>:
 </p>
 <blockquote><pre>
 template&lt;class T&gt; void atomic_store(shared_ptr&lt;T&gt;*, shared_ptr&lt;T&gt;); <i>// #3</i>
@@ -30365,7 +30365,7 @@ argument <tt>T</tt> shall be trivially copyable"
 <p/>
 The fix is fairly straightforward since <tt>atomic&lt;T&gt;::value_type</tt> is always an alias
 for <tt>T</tt>: for those non-member atomic functions with overloads defined in
-D.19 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>, use a different form to require that <tt>T</tt>
+D.22 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>, use a different form to require that <tt>T</tt>
 in the type of the second parameter is non-deduced.
 </p>
 
@@ -34511,7 +34511,7 @@ void notify_all() noexcept;
 </blockquote>
 </li>
 
-<li><p>Modify D.25.2 <a href="https://wg21.link/depr.atomics.volatile">[depr.atomics.volatile]</a>, annex D, as indicated:</p>
+<li><p>Modify D.28.2 <a href="https://wg21.link/depr.atomics.volatile">[depr.atomics.volatile]</a>, annex D, as indicated:</p>
 
 <blockquote>
 <p>
@@ -34601,7 +34601,7 @@ code sequence containing the <tt><i>f</i></tt> invocation specified in this subc
 </blockquote>
 </li>
 
-<li><p>Modify D.25.2 <a href="https://wg21.link/depr.atomics.volatile">[depr.atomics.volatile]</a>, annex D, as indicated:</p>
+<li><p>Modify D.28.2 <a href="https://wg21.link/depr.atomics.volatile">[depr.atomics.volatile]</a>, annex D, as indicated:</p>
 
 <blockquote>
 <p>
@@ -37231,7 +37231,7 @@ template&lt;class T&gt;
 
 <hr>
 <h3><a name="3484" href="#3484">3484</a><sup><a href="https://cplusplus.github.io/LWG/issue3484">(i)</a></sup>. Should <tt>&lt;stddef.h&gt;</tt> declare <tt>::nullptr_t</tt>?</h3>
-<p><b>Section:</b> D.10.7 <a href="https://wg21.link/depr.c.headers.other">[depr.c.headers.other]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> D.11.7 <a href="https://wg21.link/depr.c.headers.other">[depr.c.headers.other]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2020-09-06 <b>Last modified:</b> 2020-09-13</p>
 <p><b>Priority: </b>3
 </p>
@@ -37240,7 +37240,7 @@ template&lt;class T&gt;
 <p>
 From this <a href="https://github.com/cplusplus/draft/issues/4144">editorial issue request</a>: 
 <p/>
-The header <tt>&lt;stddef.h&gt;</tt> is currently specified in D.10.7 <a href="https://wg21.link/depr.c.headers.other">[depr.c.headers.other]</a> 
+The header <tt>&lt;stddef.h&gt;</tt> is currently specified in D.11.7 <a href="https://wg21.link/depr.c.headers.other">[depr.c.headers.other]</a> 
 to not declare a global name corresponding to <tt>std::byte</tt>, but no similar exclusion exists for 
 <tt>std::nullptr_t</tt>.
 <p/>
@@ -37272,20 +37272,20 @@ This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.
 </p>
 
 <ol>
-<li><p>Modify D.10.7 <a href="https://wg21.link/depr.c.headers.other">[depr.c.headers.other]</a> as indicated:</p>
+<li><p>Modify D.11.7 <a href="https://wg21.link/depr.c.headers.other">[depr.c.headers.other]</a> as indicated:</p>
 
 <blockquote>
 <p>
--1- Every C header other than <tt>&lt;complex.h&gt;</tt> (D.10.2 <a href="https://wg21.link/depr.complex.h.syn">[depr.complex.h.syn]</a>), 
-<tt>&lt;iso646.h&gt;</tt> (D.10.3 <a href="https://wg21.link/depr.iso646.h.syn">[depr.iso646.h.syn]</a>), <tt>&lt;stdalign.h&gt;</tt> 
-(D.10.4 <a href="https://wg21.link/depr.stdalign.h.syn">[depr.stdalign.h.syn]</a>), <tt>&lt;stdbool.h&gt;</tt> (D.10.5 <a href="https://wg21.link/depr.stdbool.h.syn">[depr.stdbool.h.syn]</a>), 
-and <tt>&lt;tgmath.h&gt;</tt> (D.10.6 <a href="https://wg21.link/depr.tgmath.h.syn">[depr.tgmath.h.syn]</a>), each of which has a name of the form 
+-1- Every C header other than <tt>&lt;complex.h&gt;</tt> (D.11.2 <a href="https://wg21.link/depr.complex.h.syn">[depr.complex.h.syn]</a>), 
+<tt>&lt;iso646.h&gt;</tt> (D.11.3 <a href="https://wg21.link/depr.iso646.h.syn">[depr.iso646.h.syn]</a>), <tt>&lt;stdalign.h&gt;</tt> 
+(D.11.4 <a href="https://wg21.link/depr.stdalign.h.syn">[depr.stdalign.h.syn]</a>), <tt>&lt;stdbool.h&gt;</tt> (D.11.5 <a href="https://wg21.link/depr.stdbool.h.syn">[depr.stdbool.h.syn]</a>), 
+and <tt>&lt;tgmath.h&gt;</tt> (D.11.6 <a href="https://wg21.link/depr.tgmath.h.syn">[depr.tgmath.h.syn]</a>), each of which has a name of the form 
 <tt>&lt;<i>name</i>.h&gt;</tt>, behaves as if each name placed in the standard library namespace by the 
 corresponding <tt>&lt;c<i>name</i>&gt;</tt> header is placed within the global namespace scope, except 
 for the functions described in 26.8.6 <a href="https://wg21.link/sf.cmath">[sf.cmath]</a>, the declaration of <tt>std::byte</tt> <ins>and
 <tt>std::nullptr_t</tt></ins> (17.2.1 <a href="https://wg21.link/cstddef.syn">[cstddef.syn]</a>), and the functions and function templates 
 described in 17.2.5 <a href="https://wg21.link/support.types.byteops">[support.types.byteops]</a>. It is unspecified whether these names are first
-declared or defined within namespace scope (6.4.6 <a href="https://wg21.link/basic.scope.namespace">[basic.scope.namespace]</a>) of the namespace 
+declared or defined within namespace scope (6.4.5 <a href="https://wg21.link/basic.scope.namespace">[basic.scope.namespace]</a>) of the namespace 
 <tt>std</tt> and are then injected into the global namespace scope by explicit <i>using-declaration</i>s 
 (9.9 <a href="https://wg21.link/namespace.udecl">[namespace.udecl]</a>).
 </p>
@@ -37296,7 +37296,7 @@ declared or defined within namespace scope (6.4.6 <a href="https://wg21.link/bas
 
 <blockquote>
 <p>
-<ins><b>Affected subclause:</b> D.10.7 <a href="https://wg21.link/depr.c.headers.other">[depr.c.headers.other]</a><br/>
+<ins><b>Affected subclause:</b> D.11.7 <a href="https://wg21.link/depr.c.headers.other">[depr.c.headers.other]</a><br/>
 <b>Change:</b> Removal of name <tt>::nullptr_t</tt> from header <tt>&lt;stddef.h&gt;</tt>.<br/>
 <b>Rationale:</b> <tt>std::nullptr_t</tt> is a C++-only feature that is not useful for interoperability with ISO C.<br/>
 <b>Effect on original feature:</b> Valid C++20 code may fail to compile in this International Standard. Occurrences 
@@ -38595,14 +38595,14 @@ is related to LWG <a href="lwg-defects.html#1199">1199</a>, LWG <a href="lwg-def
 
 <hr>
 <h3><a name="3507" href="#3507">3507</a><sup><a href="https://cplusplus.github.io/LWG/issue3507">(i)</a></sup>. P0881R7 ("stacktrace") does not define "actual file name", "actual line number"</h3>
-<p><b>Section:</b> 99 [stacktrace.entry.query] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 20.21.3.4 <a href="https://wg21.link/stacktrace.entry.query">[stacktrace.entry.query]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2020-12-02 <b>Last modified:</b> 2021-01-15</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The specification of 99 [stacktrace.entry.query] uses the terms "presumed or actual name 
+The specification of 20.21.3.4 <a href="https://wg21.link/stacktrace.entry.query">[stacktrace.entry.query]</a> uses the terms "presumed or actual name 
 of the source file" and "actual line number". It makes reference to 15.11 <a href="https://wg21.link/cpp.predefined">[cpp.predefined]</a>, 
 which introduces the term "presumed". It does not clearly define the term, but it describes how the 
 presumed values can be modified with preprocessor directives. However, there is no definition whatsoever 
@@ -39014,7 +39014,7 @@ and internal types used by the library. &mdash; <i>end note</i>]
 
 <hr>
 <h3><a name="3514" href="#3514">3514</a><sup><a href="https://cplusplus.github.io/LWG/issue3514">(i)</a></sup>. <tt>stacktrace</tt> should add type alias <tt>pmr::stacktrace</tt></h3>
-<p><b>Section:</b> 99 [stacktrace.syn] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 20.21.2 <a href="https://wg21.link/stacktrace.syn">[stacktrace.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hiroaki Ando <b>Opened:</b> 2021-01-11 <b>Last modified:</b> 2021-01-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -39032,14 +39032,14 @@ This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
 </p>
 
 <ol>
-<li><p>Modify 99 [stacktrace.syn], header <tt>&lt;stacktrace&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 20.21.2 <a href="https://wg21.link/stacktrace.syn">[stacktrace.syn]</a>, header <tt>&lt;stacktrace&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote><pre>
 namespace std {
-  <i>//  [stacktrace.entry], class stacktrace_entry</i>
+  <i>// 20.21.3 <a href="https://wg21.link/stacktrace.entry">[stacktrace.entry]</a>, class stacktrace_entry</i>
   class stacktrace_entry;
   
-  <i>//  [stacktrace.basic], class template basic_stacktrace</i>
+  <i>// 20.21.4 <a href="https://wg21.link/stacktrace.basic">[stacktrace.basic]</a>, class template basic_stacktrace</i>
   template&lt;class Allocator&gt;
   class basic_stacktrace;
   
@@ -39048,7 +39048,7 @@ namespace std {
 
   [&hellip;]
   
-  <i>//  [stacktrace.basic.hash], hash support</i>
+  <i>// 20.21.4.7 <a href="https://wg21.link/stacktrace.basic.hash">[stacktrace.basic.hash]</a>, hash support</i>
   template&lt;class T&gt; struct hash;
   template&lt;&gt; struct hash&lt;stacktrace_entry&gt;;
   template&lt;class Allocator&gt; struct hash&lt;basic_stacktrace&lt;Allocator&gt;&gt;;
