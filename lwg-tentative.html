@@ -43,12 +43,12 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-01-18 at 17:45:38 UTC</p>
+<p><p>Revised 2021-01-28 at 10:06:30 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="3052" href="#3052">3052</a><sup><a href="https://cplusplus.github.io/LWG/issue3052">(i)</a></sup>. <tt>visit</tt> is underconstrained</h3>
 <p><b>Section:</b> 20.7.7 <a href="https://wg21.link/variant.visit">[variant.visit]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Tentatively Resolved</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-01-23 <b>Last modified:</b> 2020-11-21</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-01-23 <b>Last modified:</b> 2020-11-18</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#variant.visit">issues</a> in [variant.visit].</p>
@@ -117,9 +117,132 @@ for all <tt>0 &lt;= i &lt; n</tt>.</ins>
 
 
 <hr>
+<h3><a name="3391" href="#3391">3391</a><sup><a href="https://cplusplus.github.io/LWG/issue3391">(i)</a></sup>. Problems with <tt>counted_iterator/move_iterator::base() const &amp;</tt></h3>
+<p><b>Section:</b> 23.5.3 <a href="https://wg21.link/move.iterators">[move.iterators]</a>, 23.5.6 <a href="https://wg21.link/iterators.counted">[iterators.counted]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-02-10</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#move.iterators">issues</a> in [move.iterators].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It is not possible to use the <tt>const &amp;</tt> overloads of <tt>counted_iterator::base()</tt> or
+<tt>move_iterator::base()</tt> to get at an underlying move-only iterator in order to compare it 
+against a sentinel.
+<p/>
+More concretely, assuming issue LWG <a href="lwg-defects.html#3389">3389</a> is fixed, this means that
+</p>
+<blockquote><pre>
+auto v = r | views::take(5);
+ranges::begin(v) == ranges::end(v);
+</pre></blockquote>
+<p>
+is invalid when <tt>r</tt> is a <tt>view</tt> whose <tt>begin()</tt> is a move-only input iterator.
+The code is invalid because <tt>ranges::take_view::sentinel::operator==()</tt> must call 
+<tt>counted_iterator::base()</tt> to compare the underlying iterator against its sentinel, and 
+therefore this <tt>operator==()</tt> requires that the underlying iterator is <tt>copy_constructible</tt>.
+<p/>
+Suggested resolution:
+<p/>
+Make these <tt>const &amp; base()</tt> overloads return the underlying iterator by <tt>const</tt> reference.  
+Remove the <tt>copy_constructible</tt> constraint on these overloads. Perhaps the <tt>base()</tt> 
+overloads for the iterator wrappers in 24.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a> could use the same treatment?
+</p>
+
+<p><i>[2020-02 Prioritized as P2 Monday morning in Prague]</i></p>
+
+
+<p><i>[2021-01-28; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
+
+<ol>
+<li><p>Modify 23.5.3.2 <a href="https://wg21.link/move.iterator">[move.iterator]</a>, class template <tt>move_iterator</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class Iterator&gt;
+  class move_iterator {
+  public:
+    using iterator_type = Iterator;
+    [&hellip;]
+    constexpr <ins>const</ins> iterator_type<ins>&amp;</ins> base() const &amp;;
+    constexpr iterator_type base() &amp;&amp;;
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.3.5 <a href="https://wg21.link/move.iter.op.conv">[move.iter.op.conv]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr <ins>const</ins> Iterator<ins>&amp;</ins> base() const &amp;;
+</pre>
+<blockquote>
+<p>
+<del>-1- <i>Constraints:</i> <tt>Iterator</tt> satisfies <tt>copy_constructible</tt>.</del>
+<p/>
+<del>-2- <i>Preconditions:</i> <tt>Iterator</tt> models <tt>copy_constructible</tt>.</del>
+<p/>
+-3- <i>Returns:</i> <tt>current</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.6.1 <a href="https://wg21.link/counted.iterator">[counted.iterator]</a>, class template <tt>counted_iterator</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;input_or_output_iterator I&gt;
+  class counted_iterator {
+  public:
+    using iterator_type = I;
+    [&hellip;]
+    constexpr <ins>const</ins> I<ins>&amp;</ins> base() const &amp; <del>requires copy_constructible&lt;I&gt;</del>;
+    constexpr I base() &amp;&amp;;
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.6.3 <a href="https://wg21.link/counted.iter.access">[counted.iter.access]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr <ins>const</ins> I<ins>&amp;</ins> base() const &amp; <del>requires copy_constructible&lt;I&gt;</del>;
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Equivalent to: <tt>return current;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3433" href="#3433">3433</a><sup><a href="https://cplusplus.github.io/LWG/issue3433">(i)</a></sup>. <tt>subrange::advance(n)</tt> has UB when <tt>n &lt; 0</tt></h3>
 <p><b>Section:</b> 24.5.4.3 <a href="https://wg21.link/range.subrange.access">[range.subrange.access]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-04-21 <b>Last modified:</b> 2021-01-16</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-04-21 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -391,7 +514,7 @@ constexpr <i>iterator</i> operator++(int) requires forward_range&lt;<i>Base</i>&
 <hr>
 <h3><a name="3494" href="#3494">3494</a><sup><a href="https://cplusplus.github.io/LWG/issue3494">(i)</a></sup>. Allow ranges to be conditionally borrowed</h3>
 <p><b>Section:</b> 24.7.15 <a href="https://wg21.link/range.reverse">[range.reverse]</a>, 24.7.7 <a href="https://wg21.link/range.take">[range.take]</a>, 24.7.9 <a href="https://wg21.link/range.drop">[range.drop]</a>, 24.7.10 <a href="https://wg21.link/range.drop.while">[range.drop.while]</a>, 24.7.14 <a href="https://wg21.link/range.common">[range.common]</a>, 24.7.10 <a href="https://wg21.link/range.drop.while">[range.drop.while]</a>, 24.7.16 <a href="https://wg21.link/range.elements">[range.elements]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2020-11-01 <b>Last modified:</b> 2021-01-16</p>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2020-11-01 <b>Last modified:</b> 2021-01-15</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
