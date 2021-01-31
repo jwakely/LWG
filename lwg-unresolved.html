@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-01-31 at 13:17:24 UTC</p>
+<p><p>Revised 2021-01-31 at 13:38:54 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39068,6 +39068,82 @@ template&lt;<del>class charT, class traits, </del>class Allocator&gt;
 <blockquote>
 <p>
 -5- <i>Effects:</i> Equivalent to: <tt>return os &lt;&lt; to_string(st);</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3516" href="#3516">3516</a><sup><a href="https://cplusplus.github.io/LWG/issue3516">(i)</a></sup>. <tt>thread::id</tt> spaceship may be inconsistent with equality</h3>
+<p><b>Section:</b> 32.4.3.2 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-01-26 <b>Last modified:</b> 2021-01-31</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#thread.thread.id">issues</a> in [thread.thread.id].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+32.4.3.2 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a>/5-7 specify the behavior of <tt>==</tt> and <tt>&lt;=&gt;</tt> for 
+<tt>std::thread::id</tt>:
+</p>
+<blockquote>
+<pre>
+bool operator==(thread::id x, thread::id y) noexcept;
+</pre>
+<blockquote>
+<p>
+-5- <i>Returns:</i> <tt>true</tt> only if <tt>x</tt> and <tt>y</tt> represent the same thread of execution 
+or neither <tt>x</tt> nor <tt>y</tt> represents a thread of execution.
+</p>
+</blockquote>
+<pre>
+strong_ordering operator&lt;=&gt;(thread::id x, thread::id y) noexcept;
+</pre>
+<blockquote>
+<p>
+-6- Let <tt><i>P</i>(x, y)</tt> be an unspecified total ordering over <tt>thread::id</tt> as described in 25.8.
+<p/>
+-7- <i>Returns:</i> <tt>strong_ordering::less</tt> if <tt><i>P</i>(x, y)</tt> is <tt>true</tt>. Otherwise, 
+<tt>strong_ordering::greater</tt> if <tt><i>P</i>(y, x)</tt> is <tt>true</tt>. Otherwise, <tt>strong_ordering::equal</tt>.
+</p>
+</blockquote>
+</blockquote>
+<p>
+"Unspecified total ordering" provides too much freedom, since it does not require that <tt>!P(x, y)</tt> 
+holds when <tt>x</tt> and <tt>y</tt> both represent the same thread of execution or both represent no 
+thread of execution. A conforming implementation could return <tt>strong_ordering::equal</tt> from 
+<tt>&lt;=&gt;</tt> for a pair of <tt>thread::id</tt> values for which <tt>==</tt> returns <tt>false</tt>. 
+We should guarantee consistency of <tt>==</tt> and <tt>&lt;=&gt;</tt> for <tt>thread::id</tt> to 
+preserve sanity of the programming model.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4878">N4878</a>. 
+</p>
+
+<ol>
+<li><p>Modify 32.4.3.2 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+strong_ordering operator&lt;=&gt;(thread::id x, thread::id y) noexcept;
+</pre>
+<blockquote>
+<p>
+-6- Let <tt><i>P</i>(x, y)</tt> be <del>an unspecified</del><ins>a</ins> total ordering over <tt>thread::id</tt> 
+as described in 25.8 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a><ins>, unspecified except that <tt><i>P</i>(x, y)</tt> is <tt>false</tt> 
+when <tt>x</tt> and <tt>y</tt> both represent the same thread of execution, or when neither represents a thread 
+of execution</ins>.
+<p/>
+-7- <i>Returns:</i> <tt>strong_ordering::less</tt> if <tt><i>P</i>(x, y)</tt> is <tt>true</tt>. Otherwise, 
+<tt>strong_ordering::greater</tt> if <tt><i>P</i>(y, x)</tt> is <tt>true</tt>. Otherwise, <tt>strong_ordering::equal</tt>.
 </p>
 </blockquote>
 </blockquote>
