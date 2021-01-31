@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-01-31 at 13:38:54 UTC</p>
+<p><p>Revised 2021-01-31 at 14:12:38 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39144,6 +39144,98 @@ of execution</ins>.
 <p/>
 -7- <i>Returns:</i> <tt>strong_ordering::less</tt> if <tt><i>P</i>(x, y)</tt> is <tt>true</tt>. Otherwise, 
 <tt>strong_ordering::greater</tt> if <tt><i>P</i>(y, x)</tt> is <tt>true</tt>. Otherwise, <tt>strong_ordering::equal</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3517" href="#3517">3517</a><sup><a href="https://cplusplus.github.io/LWG/issue3517">(i)</a></sup>. <tt>join_view::<i>iterator</i></tt>'s <tt>iter_swap</tt> is underconstrained</h3>
+<p><b>Section:</b> 24.7.11.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-01-28 <b>Last modified:</b> 2021-01-31</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.join.iterator">active issues</a> in [range.join.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.join.iterator">issues</a> in [range.join.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>std::ranges::join_view::<i>iterator</i></tt>'s hidden friend <tt>iter_swap</tt> is specified in 
+24.7.11.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a>/16 as:
+</p>
+<blockquote>
+<pre>
+friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+  noexcept(noexcept(ranges::iter_swap(x.<i>inner_</i>, y.<i>inner_</i>)));
+</pre>
+<blockquote>
+<p>
+-16- <i>Effects:</i> Equivalent to: <tt>return ranges::iter_swap(x.<i>inner_</i>, y.<i>inner_</i>);</tt>
+</p>
+</blockquote>
+</blockquote>
+<p>
+Notably, the expression <tt>ranges::iter_swap(<i>meow</i>, <i>woof</i>)</tt> is not valid for all 
+iterators <tt><i>meow</i></tt> and <tt><i>woof</i></tt>, or even all input iterators of the same 
+type as is the case here. This <tt>iter_swap</tt> overload should be constrained to require the 
+type of <tt>iterator::<i>inner_</i></tt> (<tt>iterator_t&lt;range_reference_t&lt;<i>maybe-const</i>&lt;Const, V&gt;&gt;&gt;)</tt> 
+to satisfy <tt>indirectly_swappable</tt>. Notably this is already the case for <tt>iter_swap</tt> 
+friends of every other iterator adaptor in the Standard Library (<tt>reverse_iterator</tt>, <tt>move_iterator</tt>, 
+<tt>common_iterator</tt>, <tt>counted_iterator</tt>, <tt>filter_view::iterator</tt>, <tt>transform_view::iterator</tt>, and <tt>split_view::<i>inner-iterator</i></tt>). The omission for <tt>join_view::<i>iterator</i></tt> seems to 
+have simply been an oversight.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4878">N4878</a>. 
+</p>
+
+<ol>
+<li><p>Modify 24.7.11.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> If <a href="lwg-active.html#3500">3500</a> is accepted before this issue, it is 
+kindly suggested to the Project Editor to apply the equivalent replacement of
+"<tt>iterator_t&lt;range_reference_t&lt;<i>Base</i>&gt;&gt;</tt>" by "<tt><i>InnerIter</i></tt>" to
+the newly inserted <tt>requires</tt>.
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;input_range V&gt;
+    requires view&lt;V&gt; &amp;&amp; input_range&lt;range_reference_t&lt;V&gt;&gt; &amp;&amp;
+             (is_reference_v&lt;range_reference_t&lt;V&gt;&gt; ||
+             view&lt;range_value_t&lt;V&gt;&gt;)
+  template&lt;bool Const&gt;
+  struct join_view&lt;V&gt;::<i>iterator</i> {
+    [&hellip;]
+    
+    friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      noexcept(noexcept(ranges::iter_swap(x.<i>inner_</i>, y.<i>inner_</i>)))
+      <ins>requires indirectly_swappable&lt;iterator_t&lt;range_reference_t&lt;<i>Base</i>&gt;&gt;&gt;</ins>;
+  };
+}
+</pre>
+</blockquote>
+[&hellip;]
+<blockquote>
+<pre>
+friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+  noexcept(noexcept(ranges::iter_swap(x.<i>inner_</i>, y.<i>inner_</i>)))
+  <ins>requires indirectly_swappable&lt;iterator_t&lt;range_reference_t&lt;<i>Base</i>&gt;&gt;&gt;</ins>;
+</pre>
+<blockquote>
+<p>
+-16- <i>Effects:</i> Equivalent to: <tt>return ranges::iter_swap(x.<i>inner_</i>, y.<i>inner_</i>);</tt>
 </p>
 </blockquote>
 </blockquote>
