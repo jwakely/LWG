@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-02-01 at 17:59:53 UTC</p>
+<p><p>Revised 2021-02-01 at 18:26:50 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -41327,12 +41327,30 @@ friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator<
 </p>
 </blockquote>
 <p>
-It should be clarified what "operations on <tt>X</tt>" means.
+It should be clarified what "operations on <tt>X</tt>" means. For example, in <a href="https://reviews.llvm.org/D95251">this 
+patch</a>, there was some confusion around the exact meaning of "operations on <tt>X</tt>". If it refers to 
+the expressions specified in [tab:char.traits.req] or if it refers to all member functions of <tt>X</tt>, 
+this should be worded in some clearer way. 
 </p>
 
 
 <p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4878">N4878</a>. 
+</p>
 
+<ol>
+<li><p>Modify 21.2.2 <a href="https://wg21.link/char.traits.require">[char.traits.require]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- In Table [tab:char.traits.req], <tt>X</tt> denotes a traits class defining types and functions for the 
+character container type <tt>C</tt>; [&hellip;] <del>Operations on <tt>X</tt></del><ins><tt>X</tt>'s 
+member functions</ins> shall not throw exceptions.
+</p>
+</blockquote>
+</li>
+</ol>
 
 
 
