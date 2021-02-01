@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-02-01 at 18:33:23 UTC</p>
+<p><p>Revised 2021-02-01 at 20:15:21 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39394,8 +39394,9 @@ This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
 <blockquote>
 <p>
 -1- In Table [tab:char.traits.req], <tt>X</tt> denotes a traits class defining types and functions for the 
-character container type <tt>C</tt>; [&hellip;] <del>Operations on <tt>X</tt></del><ins><tt>X</tt>'s 
-member functions</ins> shall not throw exceptions.
+character container type <tt>C</tt>; [&hellip;] <del>Operations on <tt>X</tt> shall not throw exceptions</del><ins>No
+expression which is part of the character traits requirements specified in this subclause shall exit via
+an exception</ins>.
 </p>
 </blockquote>
 </li>
