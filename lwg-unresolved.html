@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-02-23 at 17:18:59 UTC</p>
+<p><p>Revised 2021-02-23 at 17:37:07 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -22080,7 +22080,7 @@ name the same type</del> <ins>is not the same type</ins> as <tt>charT</tt><ins>,
 <hr>
 <h3><a name="2997" href="#2997">2997</a><sup><a href="https://cplusplus.github.io/LWG/issue2997">(i)</a></sup>. LWG 491 and the specification of <tt>{forward_,}list::unique</tt></h3>
 <p><b>Section:</b> 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, 22.3.9.6 <a href="https://wg21.link/forwardlist.ops">[forwardlist.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-07-07 <b>Last modified:</b> 2021-02-22</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-07-07 <b>Last modified:</b> 2021-02-23</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#list.ops">issues</a> in [list.ops].</p>
@@ -22189,7 +22189,7 @@ This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
 <blockquote><p>
 -1- Since lists allow fast insertion and erasing from the middle of a list,
 certain operations are provided specifically for them.<sup>222</sup>
-In this subclause, arguments for a template parameter named <tt>Predicate</tt>> or
+In this subclause, arguments for a template parameter named <tt>Predicate</tt> or
 <tt>BinaryPredicate</tt> shall meet the corresponding requirements in
 25.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>. <ins>The semantics of <tt>i + n</tt>
 and <tt>i - n</tt>, where <tt>i</tt> is an iterator into the list and <tt>n</tt>
@@ -22198,16 +22198,16 @@ respectively.</ins>
 For <tt>merge</tt> and <tt>sort</tt>, the definitions and requirements in
 25.8 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> apply.
 <p/>
-[...]
+[&hellip;]
 </p>
 <pre>
 void unique();
-template &lt;class BinaryPredicate&gt; void unique(BinaryPredicate binary_pred);
+template&lt;class BinaryPredicate&gt; void unique(BinaryPredicate binary_pred);
 </pre>
 <blockquote><p>
-<ins>-?- Let <tt>binary_pred</tt> be <tt>equal_to&lt;&gt;{}</tt> for the first overload. </ins>
+<ins>-?- Let <tt>binary_pred</tt> be <tt>equal_to&lt;&gt;{}</tt> for the first overload.</ins>
 <p/>
-<ins>-?- <i>Preconditions:</i> <tt>binary_pred</tt> is an equivalence relation. </ins>
+<ins>-?- <i>Preconditions:</i> <tt>binary_pred</tt> is an equivalence relation.</ins>
 <p/>
 -20- <i>Effects:</i> Erases all but the first element from every consecutive
 group of <del>equal</del><ins>equivalent</ins> elements<ins>. That is, for a nonempty list, erases all elements</ins>
@@ -22216,7 +22216,7 @@ for which <del><tt>*i == *(i-1)</tt> (for the version of <tt>unique</tt> with no
 <tt><ins>binary_</ins>pred(*i, *(i - 1))</tt> <ins>is <tt>true</tt></ins><del>(for the version of <tt>unique</tt> with a predicate argument) holds</del>.
 Invalidates only the iterators and references to the erased elements.
 <p/>
--21- <i>Returns</i>:The number of elements erased.
+-21- <i>Returns</i>: The number of elements erased.
 <p/>
 -22- <i>Throws:</i> Nothing unless an exception is thrown by <del><tt>*i == *(i-1)</tt> or <tt>pred(*i, *(i - 1))</tt></del><ins>the predicate</ins>.
 <p/>
@@ -22241,16 +22241,16 @@ is an integer, means an iterator <tt>j</tt> such that <tt>j + n == i</tt> is
 For <tt>merge</tt> and <tt>sort</tt>, the definitions and requirements in
 25.8 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> apply.
 <p/>
-[...]
+[&hellip;]
 </p>
 <pre>
 void unique();
-template &lt;class BinaryPredicate&gt; void unique(BinaryPredicate binary_pred);
+template&lt;class BinaryPredicate&gt; void unique(BinaryPredicate binary_pred);
 </pre>
 <blockquote><p>
-<ins>-?- Let <tt>binary_pred</tt> be <tt>equal_to&lt;&gt;{}</tt> for the first overload. </ins>
+<ins>-?- Let <tt>binary_pred</tt> be <tt>equal_to&lt;&gt;{}</tt> for the first overload.</ins>
 <p/>
-<ins>-?- <i>Preconditions:</i> <tt>binary_pred</tt> is an equivalence relation. </ins>
+<ins>-?- <i>Preconditions:</i> <tt>binary_pred</tt> is an equivalence relation.</ins>
 <p/>
 -18- <i>Effects:</i> Erases all but the first element from every consecutive
 group of <del>equal</del><ins>equivalent</ins> elements<ins>. That is, for a nonempty list, erases all elements</ins>
@@ -22259,7 +22259,7 @@ for which <del><tt>*i == *(i-1)</tt> (for the version with no arguments) or</del
 <tt><ins>binary_</ins>pred(*i, *(i - 1))</tt> <ins>is <tt>true</tt></ins> <del>(for the version with a predicate argument) holds</del>.
 Invalidates only the iterators and references to the erased elements.
 <p/>
--19- <i>Returns</i>:The number of elements erased.
+-19- <i>Returns</i>: The number of elements erased.
 <p/>
 -20- <i>Throws:</i> Nothing unless an exception is thrown by <del>the equality comparison or</del> the predicate.
 <p/>
