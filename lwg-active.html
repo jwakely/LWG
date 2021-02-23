@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-02-23 at 17:46:06 UTC</p>
+<p><p>Revised 2021-02-23 at 17:50:46 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -23476,7 +23476,7 @@ applications of the corresponding predicate, otherwise no applications of the pr
 <li><p>Edit 22.3.9.6 <a href="https://wg21.link/forwardlist.ops">[forwardlist.ops]</a> as indicated:</p>
 <blockquote>
 <p>
--1- In this subclause, arguments for a template parameter named <tt>Predicate</tt>> or
+-1- In this subclause, arguments for a template parameter named <tt>Predicate</tt> or
 <tt>BinaryPredicate</tt> shall meet the corresponding requirements in
 25.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>. <ins>The semantics of <tt>i + n</tt>,
 where <tt>i</tt> is an iterator into the list and <tt>n</tt>
@@ -23499,19 +23499,22 @@ template&lt;class BinaryPredicate&gt; void unique(BinaryPredicate binary_pred);
 <ins>-?- <i>Preconditions:</i> <tt>binary_pred</tt> is an equivalence relation.</ins>
 <p/>
 -18- <i>Effects:</i> Erases all but the first element from every consecutive
-group of <del>equal</del><ins>equivalent</ins> elements<ins>. That is, for a nonempty list, erases all elements</ins>
-referred to by the iterator <tt>i</tt> in the range <tt><del>[first + 1, last)</del><ins>[begin() + 1, end())</ins></tt>
+group of <del>equal</del><ins>equivalent</ins> elements<ins>. That is, for a nonempty list, 
+erases all elements</ins> referred to by the iterator <tt>i</tt> in the range 
+<tt><del>[first + 1, last)</del><ins>[begin() + 1, end())</ins></tt>
 for which <del><tt>*i == *(i-1)</tt> (for the version with no arguments) or</del>
-<tt><ins>binary_</ins>pred(*i, *(i - 1))</tt> <ins>is <tt>true</tt></ins> <del>(for the version with a predicate argument) holds</del>.
-Invalidates only the iterators and references to the erased elements.
+<tt><ins>binary_</ins>pred(*i, *(i - 1))</tt> <ins>is <tt>true</tt></ins> <del>(for the 
+version with a predicate argument) holds</del>. Invalidates only the iterators and references 
+to the erased elements.
 <p/>
 -19- <i>Returns</i>: The number of elements erased.
 <p/>
--20- <i>Throws:</i> Nothing unless an exception is thrown by <del>the equality comparison or</del> the predicate.
+-20- <i>Throws:</i> Nothing unless an exception is thrown by <del>the equality comparison or</del> 
+the predicate.
 <p/>
--21- <i>Complexity:</i> If <del>the range <tt>[first, last)</tt> is not empty</del><ins><tt>empty()</tt> is <tt>false</tt></ins>, exactly
-<tt><del>(last - first) - 1</del><ins>distance(begin(), end()) - 1</ins></tt> applications of the corresponding predicate,
-otherwise no applications of the predicate.
+-21- <i>Complexity:</i> If <del>the range <tt>[first, last)</tt> is not empty</del><ins><tt>empty()</tt> 
+is <tt>false</tt></ins>, exactly <tt><del>(last - first) - 1</del><ins>distance(begin(), end()) - 1</ins></tt> 
+applications of the corresponding predicate, otherwise no applications of the predicate.
 </p>
 </blockquote>
 </blockquote>
