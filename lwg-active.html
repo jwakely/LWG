@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-02-28 at 14:47:25 UTC</p>
+<p><p>Revised 2021-02-28 at 19:30:23 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -42352,9 +42352,10 @@ return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-<tt>make_from_tuple</tt> is specified to return <tt>return T(get&lt;I&gt;(std::forward&lt;Tuple&gt;(t))...);</tt>.
-When there is only a single argument, this is equivalent to a C-style cast
-that may be an <tt>reinterpret_cast</tt> or an access-bypassing <tt>static_cast</tt>.
+<tt>make_from_tuple</tt> is specified to return <tt>T(get&lt;I&gt;(std::forward&lt;Tuple&gt;(t))...)</tt>.
+When there is only a single tuple element, this is equivalent to a C-style cast
+that may be a <tt>reinterpret_cast</tt>, a <tt>const_cast</tt>,
+or an access-bypassing <tt>static_cast</tt>.
 </p>
 
 

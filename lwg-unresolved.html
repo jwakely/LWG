@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-02-28 at 14:47:25 UTC</p>
+<p><p>Revised 2021-02-28 at 19:30:23 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40771,9 +40771,10 @@ return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-<tt>make_from_tuple</tt> is specified to return <tt>return T(get&lt;I&gt;(std::forward&lt;Tuple&gt;(t))...);</tt>.
-When there is only a single argument, this is equivalent to a C-style cast
-that may be an <tt>reinterpret_cast</tt> or an access-bypassing <tt>static_cast</tt>.
+<tt>make_from_tuple</tt> is specified to return <tt>T(get&lt;I&gt;(std::forward&lt;Tuple&gt;(t))...)</tt>.
+When there is only a single tuple element, this is equivalent to a C-style cast
+that may be a <tt>reinterpret_cast</tt>, a <tt>const_cast</tt>,
+or an access-bypassing <tt>static_cast</tt>.
 </p>
 
 
