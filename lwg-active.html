@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-02-28 at 12:23:22 UTC</p>
+<p><p>Revised 2021-02-28 at 14:23:30 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -42051,14 +42051,14 @@ return make_tuple(<i>pair-constructor</i>{alloc, u});</ins>
 struct <i>pair-constructor</i> {
   using <i>pair-type</i> = remove_cv_t&lt;T&gt;;            // exposition only
 
-  operator <i>pair-type</i>() const {
+  constexpr operator <i>pair-type</i>() const {
     return <i>do-construct</i>(std::forward&lt;U&gt;(<i>u</i>));
   }
 
-  auto <i>do-construct</i>(const <i>pair-type</i>&amp; p) const {  // exposition only
+  constexpr auto <i>do-construct</i>(const <i>pair-type</i>&amp; p) const {  // exposition only
     return make_obj_using_allocator&lt;<i>pair-type</i>&gt;(<i>alloc</i>, p);
   }
-  auto <i>do-construct</i>(<i>pair-type</i>&amp;&amp; p) const {  // exposition only
+  constexpr auto <i>do-construct</i>(<i>pair-type</i>&amp;&amp; p) const {  // exposition only
     return make_obj_using_allocator&lt;<i>pair-type</i>&gt;(<i>alloc</i>, std::move(p));
   }
 

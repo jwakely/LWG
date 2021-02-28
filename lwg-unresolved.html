@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-02-28 at 12:23:22 UTC</p>
+<p><p>Revised 2021-02-28 at 14:23:30 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40470,14 +40470,14 @@ return make_tuple(<i>pair-constructor</i>{alloc, u});</ins>
 struct <i>pair-constructor</i> {
   using <i>pair-type</i> = remove_cv_t&lt;T&gt;;            // exposition only
 
-  operator <i>pair-type</i>() const {
+  constexpr operator <i>pair-type</i>() const {
     return <i>do-construct</i>(std::forward&lt;U&gt;(<i>u</i>));
   }
 
-  auto <i>do-construct</i>(const <i>pair-type</i>&amp; p) const {  // exposition only
+  constexpr auto <i>do-construct</i>(const <i>pair-type</i>&amp; p) const {  // exposition only
     return make_obj_using_allocator&lt;<i>pair-type</i>&gt;(<i>alloc</i>, p);
   }
-  auto <i>do-construct</i>(<i>pair-type</i>&amp;&amp; p) const {  // exposition only
+  constexpr auto <i>do-construct</i>(<i>pair-type</i>&amp;&amp; p) const {  // exposition only
     return make_obj_using_allocator&lt;<i>pair-type</i>&gt;(<i>alloc</i>, std::move(p));
   }
 
