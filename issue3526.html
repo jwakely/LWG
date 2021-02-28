@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3526" href="lwg-active.html#3526">3526</a>. Return types of <tt>uses_allocator_construction_args</tt> unspecified</h3>
 <p><b>Section:</b> 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-02-25 <b>Last modified:</b> 2021-02-27</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-02-25 <b>Last modified:</b> 2021-02-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
@@ -111,23 +111,23 @@ namespace std {
   [&hellip;]
   <i>// 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>, uses-allocator construction</i>
   template&lt;class T, class Alloc, class... Args&gt;
-  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
-                                                  Args&amp;&amp;... args) noexcept <del>-&gt; <i>see below</i></del>;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    Args&amp;&amp;... args) noexcept <del>-&gt; <i>see below</i></del>;
   template&lt;class T, class Alloc, class Tuple1, class Tuple2&gt;
-  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, piecewise_construct_t,
-                                                  Tuple1&amp;&amp; x, Tuple2&amp;&amp; y)
-                                                  noexcept <del>-&gt; <i>see below</i></del>;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, piecewise_construct_t,
+                                                    Tuple1&amp;&amp; x, Tuple2&amp;&amp; y)
+                                                    noexcept <del>-&gt; <i>see below</i></del>;
   template&lt;class T, class Alloc&gt;
-  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc) noexcept <del>-&gt; <i>see below</i></del>;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc) noexcept <del>-&gt; <i>see below</i></del>;
   template&lt;class T, class Alloc, class U, class V&gt;
-  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
-                                                  U&amp;&amp; u, V&amp;&amp; v) noexcept <del>-&gt; <i>see below</i></del>;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    U&amp;&amp; u, V&amp;&amp; v) noexcept <del>-&gt; <i>see below</i></del>;
   template&lt;class T, class Alloc, class U, class V&gt;
-  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
-                                                  const pair&lt;U, V&gt;&amp; pr) noexcept <del>-&gt; <i>see below</i></del>;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    const pair&lt;U, V&gt;&amp; pr) noexcept <del>-&gt; <i>see below</i></del>;
   template&lt;class T, class Alloc, class U, class V&gt;
-  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
-                                                  pair&lt;U, V&gt;&amp;&amp; pr) noexcept <del>-&gt; <i>see below</i></del>;   
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    pair&lt;U, V&gt;&amp;&amp; pr) noexcept <del>-&gt; <i>see below</i></del>;   
   [&hellip;]
 }
 </pre>
