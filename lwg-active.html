@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-03-01 at 15:09:15 UTC</p>
+<p><p>Revised 2021-03-01 at 16:17:22 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -42524,7 +42524,7 @@ template&lt;class InputIterator&gt;
 template&lt;class InputIterator&gt;
     priority_queue(InputIterator first, InputIterator last, const Compare&amp; x, const Container&amp; y);
 template&lt;class InputIterator&gt;
-    priority_queue(InputIterator first, InputIterator last, const Compare&amp; x, Container&amp;&amp; y<del> = Container()</del>);
+    priority_queue(InputIterator first, InputIterator last, const Compare&amp; x<del><del> = Compare()</del></del>, Container&amp;&amp; y<del> = Container()</del>);
 </pre>
 </blockquote>
 </li>
@@ -42556,7 +42556,7 @@ Initializes <code>c</code> with <code>first</code> as the first argument and <co
 template&lt;class InputIterator&gt;
     priority_queue(InputIterator first, InputIterator last, const Compare&amp; x, const Container&amp; y);
 template&lt;class InputIterator&gt;
-    priority_queue(InputIterator first, InputIterator last, const Compare&amp; x, Container&amp;&amp; y<del> = Container()</del>);
+    priority_queue(InputIterator first, InputIterator last, const Compare&amp; x<del> = Compare()</del>, Container&amp;&amp; y<del> = Container()</del>);
 </pre>
 <p>
 <i>Preconditions:</i>
