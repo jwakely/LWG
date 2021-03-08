@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3530" href="lwg-active.html#3530">3530</a>. <tt><i>BUILTIN-PTR-MEOW</i></tt> should not opt the type out of syntactic checks</h3>
 <p><b>Section:</b> 20.14.8.8 <a href="https://wg21.link/comparisons.three.way">[comparisons.three.way]</a>, 20.14.9 <a href="https://wg21.link/range.cmp">[range.cmp]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-03-04 <b>Last modified:</b> 2021-03-05</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-03-04 <b>Last modified:</b> 2021-03-08</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -298,7 +298,7 @@ constexpr bool operator()(T&amp;&amp; t, U&amp;&amp; u) const;</ins>
 <p>
 <ins>-?- <i>Constraints:</i> <tt>T</tt> and <tt>U</tt> satisfy <tt>totally_ordered_with</tt>.</ins>
 <p/>
--8- <tt>operator()</tt> has effects equivalent to:</p>
+-8- <del><tt>operator()</tt> has effects e</del><ins><i>Effects:</i> E</ins>quivalent to:</p>
 <blockquote><pre>
 return !ranges::less{}(std::forward&lt;T&gt;(t), std::forward&lt;U&gt;(u));
 </pre></blockquote>
