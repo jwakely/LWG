@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-03-14 at 21:37:34 UTC</p>
+<p><p>Revised 2021-03-15 at 16:43:47 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40522,7 +40522,7 @@ return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
 <hr>
 <h3><a name="3531" href="#3531">3531</a><sup><a href="https://cplusplus.github.io/LWG/issue3531">(i)</a></sup>. LWG 3025 broke previous valid code</h3>
 <p><b>Section:</b> 22.4.4.1 <a href="https://wg21.link/map.overview">[map.overview]</a>, 22.4.5.1 <a href="https://wg21.link/multimap.overview">[multimap.overview]</a>, 22.5.4.1 <a href="https://wg21.link/unord.map.overview">[unord.map.overview]</a>, 22.5.5.1 <a href="https://wg21.link/unord.multimap.overview">[unord.multimap.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Mike Spertus <b>Opened:</b> 2021-03-09 <b>Last modified:</b> 2021-03-14</p>
+ <b>Submitter:</b> Mike Spertus <b>Opened:</b> 2021-03-09 <b>Last modified:</b> 2021-03-15</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#map.overview">issues</a> in [map.overview].</p>
@@ -40583,7 +40583,7 @@ template&lt;class Key, class T, class Compare = less&lt;Key&gt;,
 template&lt;class InputIterator, class Allocator&gt;
   map(InputIterator, InputIterator, Allocator)
     -&gt; map&lt;<i>iter-key-type</i>&lt;InputIterator&gt;, <i>iter-mapped-type</i>&lt;InputIterator&gt;,
-           less&lt;<i>iter-key-type</i>&gt;InputIterator&gt;&gt;, Allocator&gt;;
+           less&lt;<i>iter-key-type</i>&lt;InputIterator&gt;&gt;, Allocator&gt;;
            
 template&lt;class Key, class T, class Allocator&gt;
   map(initializer_list&lt;pair&lt;Key, T&gt;&gt;, Allocator) -&gt; map&lt;Key, T, less&lt;Key&gt;, Allocator&gt;;           
@@ -40619,7 +40619,7 @@ template&lt;class Key, class T, class Compare = less&lt;<ins>remove_const_t&lt;<
 template&lt;class InputIterator, class Allocator&gt;
   map(InputIterator, InputIterator, Allocator)
     -&gt; map&lt;<i>iter-key-type</i>&lt;InputIterator&gt;, <i>iter-mapped-type</i>&lt;InputIterator&gt;,
-           less&lt;<i>iter-key-type</i>&gt;InputIterator&gt;&gt;, Allocator&gt;;
+           less&lt;<i>iter-key-type</i>&lt;InputIterator&gt;&gt;, Allocator&gt;;
            
 template&lt;class Key, class T, class Allocator&gt;
   map(initializer_list&lt;pair&lt;Key, T&gt;&gt;, Allocator) 
