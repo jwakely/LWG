@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-04-11 at 10:44:48 UTC</p>
+<p><p>Revised 2021-04-13 at 20:47:27 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41627,7 +41627,7 @@ user provides an enabled specialization of formatter for that pointer to member 
 <hr>
 <h3><a name="3541" href="#3541">3541</a><sup><a href="https://cplusplus.github.io/LWG/issue3541">(i)</a></sup>. <tt>indirectly_readable_traits</tt> should be SFINAE-friendly for all types</h3>
 <p><b>Section:</b> 23.3.2.2 <a href="https://wg21.link/readable.traits">[readable.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Christopher Di Bella <b>Opened:</b> 2021-04-08 <b>Last modified:</b> 2021-04-11</p>
+ <b>Submitter:</b> Christopher Di Bella <b>Opened:</b> 2021-04-08 <b>Last modified:</b> 2021-04-13</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#readable.traits">issues</a> in [readable.traits].</p>
@@ -41669,16 +41669,16 @@ struct indirectly_readable_traits&lt;T&gt;
 template&lt;<i>has-member-element-type</i> T&gt;
 struct indirectly_readable_traits&lt;T&gt;
   : <i>cond-value-type</i>&lt;typename T::element_type&gt; { };
+
+<ins>template&lt;<i>has-member-value-type</i> T&gt;
+  requires <i>has-member-element-type</i>&lt;T&gt;
+struct indirectly_readable_traits&lt;T&gt; { };</ins>
   
 template&lt;<i>has-member-value-type</i> T&gt;
   requires <i>has-member-element-type</i>&lt;T&gt; &amp;&amp;
            same_as&lt;remove_cv_t&lt;typename T::element_type&gt;, remove_cv_t&lt;typename T::value_type&gt;&gt;
 struct indirectly_readable_traits&lt;T&gt;
   : <i>cond-value-type</i>&lt;typename T::value_type&gt; { };
-
-<ins>template&lt;<i>has-member-value-type</i> T&gt;
-  requires <i>has-member-element-type</i>&lt;T&gt;
-struct indirectly_readable_traits&lt;T&gt; { };</ins>
 [&hellip;]
 </pre>
 </blockquote>
