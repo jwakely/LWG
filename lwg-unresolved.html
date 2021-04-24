@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-04-24 at 16:42:16 UTC</p>
+<p><p>Revised 2021-04-24 at 17:12:08 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36249,6 +36249,7 @@ be done in constant time. &mdash; <i>end example</i>]
  <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-06-21 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#pointer.traits">active issues</a> in [pointer.traits].</p>
 <p><b>View all other</b> <a href="lwg-index.html#pointer.traits">issues</a> in [pointer.traits].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -40334,8 +40335,6 @@ refer to the same (possibly past-the-end) element.</p>
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-04-22 <b>Last modified:</b> 2021-04-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#format.arg.store">active issues</a> in [format.arg.store].</p>
-<p><b>View all other</b> <a href="lwg-index.html#format.arg.store">issues</a> in [format.arg.store].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -40405,12 +40404,12 @@ namespace std {
 
 <hr>
 <h3><a name="3545" href="#3545">3545</a><sup><a href="https://cplusplus.github.io/LWG/issue3545">(i)</a></sup>. <tt>std::pointer_traits</tt> should be SFINAE-friendly</h3>
-<p><b>Section:</b> 20.20.6.2 <a href="https://wg21.link/format.arg.store">[format.arg.store]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 20.10.3 <a href="https://wg21.link/pointer.traits">[pointer.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Glen Joseph Fernandes <b>Opened:</b> 2021-04-20 <b>Last modified:</b> 2021-04-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#format.arg.store">active issues</a> in [format.arg.store].</p>
-<p><b>View all other</b> <a href="lwg-index.html#format.arg.store">issues</a> in [format.arg.store].</p>
+<p><b>View other</b> <a href="lwg-index-open.html#pointer.traits">active issues</a> in [pointer.traits].</p>
+<p><b>View all other</b> <a href="lwg-index.html#pointer.traits">issues</a> in [pointer.traits].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -40424,11 +40423,94 @@ template of <tt>std::pointer_traits&lt;Ptr&gt;</tt> requires that either
 ill-formed. This requires specializing <tt>pointer_traits</tt> for those contiguous iterator 
 types which is inconvenient for users. <a href="https://wg21.link/p1474">P1474</a>
 should have also made <tt>pointer_traits</tt> SFINAE friendly.
-
 </p>
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3546" href="#3546">3546</a><sup><a href="https://cplusplus.github.io/LWG/issue3546">(i)</a></sup>. <tt>common_iterator</tt>'s <tt><i>postfix-proxy</i></tt> is not quite right</h3>
+<p><b>Section:</b> 23.5.4.5 <a href="https://wg21.link/common.iter.nav">[common.iter.nav]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-04-23 <b>Last modified:</b> 2021-04-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/p2259r1">P2259R1</a> modeled <tt>common_iterator::operator++(int)</tt>'s 
+<tt><i>postfix-proxy</i></tt> class on the existing proxy class used by <tt>common_iterator::operator-&gt;</tt>, 
+but in doing so it overlooked two differences:
+</p>
+<ul>
+<li><p><tt>operator-&gt;</tt>'s proxy is only used when <tt>iter_reference_t&lt;I&gt;</tt> is not a
+reference type; this is not the case for <tt><i>postfix-proxy</i></tt>;</p></li>
+<li><p><tt>operator-&gt;</tt> returns a prvalue proxy, while <tt>operator++</tt>'s <tt><i>postfix-proxy</i></tt>
+is returned by (elidable) move, so the latter needs to require <tt>iter_value_t&lt;I&gt;</tt> to be 
+<tt>move_constructible</tt>.</p></li>
+</ul>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.5.4.5 <a href="https://wg21.link/common.iter.nav">[common.iter.nav]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+decltype(auto) operator++(int);
+</pre>
+<blockquote>
+<p>
+-4- <i>Preconditions:</i> <tt>holds_alternative&lt;I&gt;(v_)</tt> is <tt>true</tt>.
+<p/>
+-5- <i>Effects:</i> If <tt>I</tt> models <tt>forward_iterator</tt>, equivalent to:
+</p>
+<blockquote><pre>
+common_iterator tmp = *this;
+++*this;
+return tmp;
+</pre></blockquote>
+<p>
+Otherwise, if <tt>requires (I&amp; i) { { *i++ } -&gt; <i>can-reference</i>; }</tt> is <tt>true</tt> 
+or <tt>constructible_from&lt;iter_value_t&lt;I&gt;, iter_reference_t&lt;I&gt;&gt; <ins>&amp;&amp;
+move_constructible&lt;iter_value_t&lt;I&gt;&gt;</ins></tt> is <tt>false</tt>, equivalent to:
+</p>
+<blockquote><pre>
+return get&lt;I&gt;(v_)++;
+</pre></blockquote>
+<p>
+Otherwise, equivalent to:
+</p>
+<blockquote><pre>
+<i>postfix-proxy</i> p(**this);
+++*this;
+return p;
+</pre></blockquote>
+<p>
+where <tt><i>postfix-proxy</i></tt> is the exposition-only class:
+</p>
+<blockquote><pre>
+class <i>postfix-proxy</i> {
+  iter_value_t&lt;I&gt; keep_;
+  <i>postfix-proxy</i>(iter_reference_t&lt;I&gt;&amp;&amp; x)
+    : keep_(std::<del>move</del><ins>forward&lt;iter_reference_t&lt;I&gt;&gt;</ins>(x)) {}
+public:
+  const iter_value_t&lt;I&gt;&amp; operator*() const {
+    return keep_;
+  }
+};
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
