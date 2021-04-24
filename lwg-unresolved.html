@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-04-24 at 15:44:00 UTC</p>
+<p><p>Revised 2021-04-24 at 15:51:10 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40194,6 +40194,83 @@ Priority set to 2.
 
 <p><b>Proposed resolution:</b></p>
 
+
+
+
+
+<hr>
+<h3><a name="3542" href="#3542">3542</a><sup><a href="https://cplusplus.github.io/LWG/issue3542">(i)</a></sup>. <tt>basic_format_arg</tt> mis-handles <tt>basic_string_view</tt> with custom traits</h3>
+<p><b>Section:</b> 20.20.6.1 <a href="https://wg21.link/format.arg">[format.arg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-04-20 <b>Last modified:</b> 2021-04-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.arg">active issues</a> in [format.arg].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.arg">issues</a> in [format.arg].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>basic_format_arg</tt> has a constructor that accepts a <tt>basic_string_view</tt> of an appropriate character type, 
+with <em>any</em> <tt>traits</tt> type. The constructor is specified in 20.20.6.1 <a href="https://wg21.link/format.arg">[format.arg]</a> as:
+</p>
+<blockquote><pre>
+template&lt;class traits&gt;
+explicit basic_format_arg(basic_string_view&lt;char_type, traits&gt; s) noexcept;
+</pre>
+<blockquote>
+<p>
+-9- <i>Effects:</i> Initializes <tt>value</tt> with <tt>s</tt>.
+</p>
+</blockquote>
+</blockquote>
+<p>
+Recall that <tt>value</tt> is a <tt>variant&lt;monostate, bool, char_type, int, unsigned int, long long int, 
+unsigned long long int, float, double, long double, const char_type*, basic_string_view&lt;char_type&gt;, const void*, handle&gt;</tt> 
+as specified earlier in the subclause. Since <tt>basic_string_view&lt;<i>meow</i>, <i>woof</i>&gt;</tt> cannot be 
+initialized with an lvalue <tt>basic_string_view&lt;<i>meow</i>, <i>quack</i>&gt;</tt> &mdash; and certainly none 
+of the other alternative types can be initialized by such an lvalue &mdash; the effects of this constructor are 
+ill-formed when <tt>traits</tt> is not <tt>std::char_traits&lt;char_type&gt;</tt>.
+<p/>
+The <tt>basic_string</tt> constructor deals with this same issue by ignoring the deduced traits type when initializing 
+<tt>value</tt>'s <tt>basic_string_view</tt> member:
+</p>
+<blockquote><pre>
+template&lt;class traits, class Allocator&gt;
+  explicit basic_format_arg(
+    const basic_string&lt;char_type, traits, Allocator&gt;&amp; s) noexcept;
+</pre>
+<blockquote>
+<p>
+-10- <i>Effects:</i> Initializes <tt>value</tt> with <tt>basic_string_view&lt;char_type&gt;(s.data(), s.size())</tt>.
+</p>
+</blockquote>
+</blockquote>
+<p>
+which immediately begs the question of "why doesn't the <tt>basic_string_view</tt> constructor do the same?"
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.20.6.1 <a href="https://wg21.link/format.arg">[format.arg]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class traits&gt;
+  explicit basic_format_arg(basic_string_view&lt;char_type, traits&gt; s) noexcept;
+</pre>
+<blockquote>
+<p>
+-9- <i>Effects:</i> Initializes <tt>value</tt> with <tt><del>s</del><ins>basic_string_view&lt;char_type&gt;(s.data(), s.size())</ins></tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
 
 
 
