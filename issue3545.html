@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3545: std::pointer_traits should be SFINAE-friendly</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+  @media (prefers-color-scheme: dark) {
+     html {
+        color: #ddd;
+        background-color: black;
+     }
+     ins {
+        background-color: #225522
+     }
+     del {
+        background-color: #662222
+     }
+     a {
+        color: #6af
+     }
+     a:visited {
+        color: #6af
+     }
+     blockquote.note
+     {
+        background-color: rgba(255, 255, 255, .10)
+     }
+  }
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3545" href="lwg-active.html#3545">3545</a>. <tt>std::pointer_traits</tt> should be SFINAE-friendly</h3>
+<p><b>Section:</b> 20.20.6.2 <a href="https://wg21.link/format.arg.store">[format.arg.store]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Glen Joseph Fernandes <b>Opened:</b> 2021-04-20 <b>Last modified:</b> 2021-04-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.arg.store">active issues</a> in [format.arg.store].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.arg.store">issues</a> in [format.arg.store].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/p1474r1">P1474R1</a> chose to use <tt>std::to_address</tt> 
+(a mechanism of converting pointer-like types to raw pointers) for contiguous iterators.
+<tt>std::to_address</tt> provides an optional customization point via an optional member in 
+<tt>std::pointer_traits</tt>. However all iterators are not pointers, and the primary 
+template of <tt>std::pointer_traits&lt;Ptr&gt;</tt> requires that either 
+<tt>Ptr::element_type</tt> is valid or <tt>Ptr</tt> is of the form 
+<tt>template&lt;T, Args...&gt;</tt> or the <tt>pointer_traits</tt> specialization is
+ill-formed. This requires specializing <tt>pointer_traits</tt> for those contiguous iterator 
+types which is inconvenient for users. <a href="https://wg21.link/p1474">P1474</a>
+should have also made <tt>pointer_traits</tt> SFINAE friendly.
+
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+</body>
+</html>
