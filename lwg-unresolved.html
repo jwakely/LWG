@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-05-19 at 11:01:05 UTC</p>
+<p><p>Revised 2021-05-20 at 08:38:31 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -32788,21 +32788,21 @@ before calling reseed. [<i>Note:</i> <tt>reseed</tt> also resets any instances o
 <hr>
 <h3><a name="3361" href="#3361">3361</a><sup><a href="https://cplusplus.github.io/LWG/issue3361">(i)</a></sup>. <tt>safe_range&lt;<i>SomeRange</i>&amp;></tt> case</h3>
 <p><b>Section:</b> 24.4.2 <a href="https://wg21.link/range.range">[range.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2019-12-19 <b>Last modified:</b> 2020-01-14</p>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2019-12-19 <b>Last modified:</b> 2021-05-20</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-24.5.5 <a href="https://wg21.link/range.dangling">[range.dangling]</a> p2 hints at how <tt>safe_range</tt> should allow lvalue ranges to model it. 
+24.5.5 <a href="https://wg21.link/range.dangling">[range.dangling]</a> p2 hints at how <tt>safe_range</tt> should allow lvalue ranges to model it.
 However, its wording doesn't take into account that case.
 </p>
 
 <p><i>[2020-01 Priority set to 3 after review on the reflector.]</i></p>
 
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>This wording is relative to <a href="https://wg21.link/n4842">N4842</a>.</p>
 
 <ol>
@@ -32817,24 +32817,68 @@ template&lt;class T&gt;
 </pre>
 <blockquote>
 <p>
--5- <del>Given an expression <tt>E</tt> such that <tt>decltype((E))</tt> is <tt>T</tt>,</del><ins>A type</ins> 
+-5- <del>Given an expression <tt>E</tt> such that <tt>decltype((E))</tt> is <tt>T</tt>,</del><ins>A type</ins>
 <tt>T</tt> models <tt>safe_range</tt> <del>only</del> <ins>if:</ins>
 <ol style="list-style-type: none">
 <li><p><ins>(5.1) &mdash; <tt>is_lvalue_reference_v&lt;T&gt;</tt> is <tt>true</tt>, or</ins></p></li>
 <li><p><ins>(5.2) &mdash; given an expression <tt>E</tt> such that <tt>decltype((E))</tt> is <tt>T</tt>,</ins>
-<del>if</del> the validity of iterators obtained from the object denoted by <tt>E</tt> is not tied to the lifetime of 
+<del>if</del> the validity of iterators obtained from the object denoted by <tt>E</tt> is not tied to the lifetime of
 that object.</p></li>
 </ol>
 <p/>
--6- [<i>Note:</i> <del>Since the validity of iterators is not tied to the lifetime of an object 
-whose type models <tt>safe_range</tt>, a</del><ins>A</ins> function can accept arguments of <del>such</del> a 
-type <ins>that models <tt>safe_range</tt></ins> <del>by value</del> and return iterators obtained from it 
+-6- [<i>Note:</i> <del>Since the validity of iterators is not tied to the lifetime of an object
+whose type models <tt>safe_range</tt>, a</del><ins>A</ins> function can accept arguments of <del>such</del> a
+type <ins>that models <tt>safe_range</tt></ins> <del>by value</del> and return iterators obtained from it
 without danger of dangling. &mdash; <i>end note</i>]
 </p>
 </blockquote>
 </blockquote>
 </li>
+</ol>
+</blockquote>
 
+<p><i>[2021-05-19 Tim updates wording]</i></p>
+
+<p>
+The new wording below attempts to keep the "borrowed" property generally
+applicable to all models of <tt>borrowed_range</tt>, instead of bluntly carving
+out lvalue reference types.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.</p>
+
+<ol>
+<li><p>Modify 24.4.2 <a href="https://wg21.link/range.range">[range.range]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt;
+  concept borrowed_range =
+    range&lt;T&gt; &amp;&amp;
+      (is_lvalue_reference_v&lt;T&gt; || enable_borrowed_range&lt;remove_cvref_t&lt;T&gt;&gt;);
+</pre>
+<blockquote>
+<p>
+-5- <ins>Let <tt>U</tt> be <tt>remove_reference_t&lt;T&gt;</tt> if <tt>T</tt>
+is an rvalue reference type, and <tt>T</tt> otherwise.</ins>
+Given <del>an expression <tt>E</tt> such that <tt>decltype((E))</tt> is <tt>T</tt></del>
+<ins>a variable <tt>u</tt> of type <tt>U</tt></ins>,
+<tt>T</tt> models <tt>borrowed_range</tt> only if the validity of iterators
+obtained from <del>the object denoted by <tt>E</tt></del> <ins>u</ins> is not tied
+to the lifetime of that <del>object</del> <ins>variable</ins>.
+<p/>
+-6- [<i>Note:</i> Since the validity of iterators is not tied to the lifetime of
+<del>an object</del><ins>a variable</ins> whose type models <tt>borrowed_range</tt>,
+a function <del>can accept arguments of</del> <ins>with a parameter of</ins>
+such a type <del>by value and</del> <ins>can</ins> return iterators
+obtained from it without danger of dangling.
+&mdash; <i>end note</i>]
+</p>
+</blockquote>
+</blockquote>
+</li>
 </ol>
 
 
@@ -33224,7 +33268,7 @@ template&lt;size_t I, class... Types&gt;
 <hr>
 <h3><a name="3392" href="#3392">3392</a><sup><a href="https://cplusplus.github.io/LWG/issue3392">(i)</a></sup>. <tt>ranges::distance()</tt> cannot be used on a move-only iterator with a sized sentinel</h3>
 <p><b>Section:</b> 23.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2020-05-31</p>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2021-05-19</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
@@ -33280,10 +33324,8 @@ SF F N A SA
 </pre>
 </blockquote>
 
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
-
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <ol>
 <li><p>Modify 23.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
 
@@ -33322,11 +33364,11 @@ template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
 </pre>
 <blockquote>
 <p>
--1- <i>Preconditions:</i> <tt>[first, last)</tt> denotes a range<del>, or <tt>[last, first)</tt> denotes a range 
+-1- <i>Preconditions:</i> <tt>[first, last)</tt> denotes a range<del>, or <tt>[last, first)</tt> denotes a range
 and <tt>S</tt> and <tt>I</tt> model <tt>same_as&lt;S, I&gt; &amp;&amp; sized_sentinel_for&lt;S, I&gt;</tt></del>.
 <p/>
--2- <i>Effects:</i> <del>If <tt>S</tt> and <tt>I</tt> model <tt>sized_sentinel_for&lt;S, I&gt;</tt>, returns 
-<tt>(last - first)</tt>; otherwise, r</del><ins>R</ins>eturns the number of increments needed to get from 
+-2- <i>Effects:</i> <del>If <tt>S</tt> and <tt>I</tt> model <tt>sized_sentinel_for&lt;S, I&gt;</tt>, returns
+<tt>(last - first)</tt>; otherwise, r</del><ins>R</ins>eturns the number of increments needed to get from
 <tt>first</tt> to <tt>last</tt>.
 </p>
 </blockquote>
@@ -33337,13 +33379,89 @@ and <tt>S</tt> and <tt>I</tt> model <tt>same_as&lt;S, I&gt; &amp;&amp; sized_sen
 <blockquote>
 <p>
 <ins>-?- <i>Preconditions:</i> <tt>S</tt> and <tt>I</tt> model <tt>sized_sentinel_for&lt;S, I&gt;</tt> and either:</ins>
-<ol style="list-style-type: none"> 
+<ol style="list-style-type: none">
 <li><p><ins>(?.1) &mdash; <tt>[first, last)</tt> denotes a range, or</ins></p></li>
-<li><p><ins>(?.2) &mdash; <tt>[last, first)</tt> denotes a range and <tt>S</tt> and <tt>I</tt> model 
+<li><p><ins>(?.2) &mdash; <tt>[last, first)</tt> denotes a range and <tt>S</tt> and <tt>I</tt> model
 <tt>same_as&lt;S, I&gt;</tt>.</ins></p></li>
 </ol>
 <p/>
 <ins>-? <i>Effects:</i> Returns <tt>(last - first)</tt>;</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+<p><i>[2021-05-19 Tim updates wording]</i></p>
+
+<p>
+The wording below removes the explicit precondition on the <tt>sized_sentinel_for</tt>
+overload of <tt>distance</tt>, relying instead on the semantic requirements of
+that concept and the "Effects: Equivalent to:" word of power. This also removes
+the potentially surprising inconsistency that given a non-empty
+<tt>std::vector&lt;int&gt; v</tt>,
+<tt>ranges::distance(v.begin(), v.cend())</tt> is well-defined but
+<tt>ranges::distance(v.cend(), v.begin())</tt> is currently undefined.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.</p>
+
+<ol>
+<li><p>Modify 23.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+
+namespace std {
+  [&hellip;]
+  <i>// 23.4.4 <a href="https://wg21.link/range.iter.ops">[range.iter.ops]</a>, range iterator operations</i>
+  namespace ranges {
+    [&hellip;]
+    <i>// 23.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
+    template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
+      <ins>requires (!sized_sentinel_for&lt;S, I&gt;)</ins>
+        constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
+    <ins>template&lt;input_or_output_iterator I, sized_sentinel_for&lt;I&gt; S&gt;
+      constexpr iter_difference_t&lt;I&gt; distance(const I&amp; first, const S&amp; last);</ins>
+    template&lt;range R&gt;
+      constexpr range_difference_t&lt;R&gt; distance(R&amp;&amp; r);
+    [&hellip;]
+  }
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
+  <ins>requires (!sized_sentinel_for&lt;S, I&gt;)</ins>
+    constexpr iter_difference_t&lt;I&gt; ranges::distance(I first, S last);
+</pre>
+<blockquote>
+<p>
+-1- <i>Preconditions:</i> <tt>[first, last)</tt> denotes a range<del>, or <tt>[last, first)</tt> denotes a range
+and <tt>S</tt> and <tt>I</tt> model <tt>same_as&lt;S, I&gt; &amp;&amp; sized_sentinel_for&lt;S, I&gt;</tt></del>.
+<p/>
+-2- <del><i>Effects:</i> If <tt>S</tt> and <tt>I</tt> model <tt>sized_sentinel_for&lt;S, I&gt;</tt>, returns
+<tt>(last - first)</tt>; otherwise, returns the</del> <ins><i>Returns:</i> The</ins> number of increments needed to get from
+<tt>first</tt> to <tt>last</tt>.
+</p>
+</blockquote>
+<pre>
+<ins>template&lt;input_or_output_iterator I, sized_sentinel_for&lt;I&gt; S&gt;
+  constexpr iter_difference_t&lt;I&gt; ranges::distance(const I&amp; first, const S&amp; last);</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Effects:</i> Equivalent to <tt>return last - first;</tt></ins>
 </p>
 </blockquote>
 </blockquote>
@@ -33875,15 +33993,15 @@ could be supported only if aligned to <tt>2*alignof(double)</tt>. &mdash; <i>end
 <hr>
 <h3><a name="3410" href="#3410">3410</a><sup><a href="https://cplusplus.github.io/LWG/issue3410">(i)</a></sup>. <tt>lexicographical_compare_three_way</tt> is overspecified</h3>
 <p><b>Section:</b> 25.8.12 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-02-27 <b>Last modified:</b> 2020-03-29</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-02-27 <b>Last modified:</b> 2021-05-20</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#alg.three.way">issues</a> in [alg.three.way].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-25.8.12 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a>/2 specifies the effects of the <tt>lexicographical_compare_three_way</tt> 
-algorithm via a large "equivalent to" codeblock. This codeblock specifies one more iterator comparison 
+25.8.12 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a>/2 specifies the effects of the <tt>lexicographical_compare_three_way</tt>
+algorithm via a large "equivalent to" codeblock. This codeblock specifies one more iterator comparison
 than necessary when the first input sequence is greater than the second, and two more than necessary
 in other cases. Requiring unnecessary work is the antithesis of C++.
 </p>
@@ -33892,8 +34010,61 @@ in other cases. Requiring unnecessary work is the antithesis of C++.
 
 <p>Priority to 3 after reflector discussion.</p>
 
+<p><i>[2021-05-19 Tim adds wording]</i></p>
+
+<p>The wording below simply respecifies the algorithm in words. It seems pointless
+to try to optimize the code when the reading in the discussion above would
+entirely rule out things like <tt>memcmp</tt> optimizations for arbitrary
+contiguous iterators of bytes.
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.</p>
+
+<ol>
+<li><p>Modify 25.8.12 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class InputIterator1, class InputIterator2, class Cmp&gt;
+  constexpr auto
+    lexicographical_compare_three_way(InputIterator1 b1, InputIterator1 e1,
+                                      InputIterator2 b2, InputIterator2 e2,
+                                      Cmp comp)
+        -&gt; decltype(comp(*b1, *b2));
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <i>N</i> be min(<tt>e1 - b1, e2 - b2</tt>). Let <i>E(n)</i>
+be <tt>comp(*(b1 + <i>n</i>), *(b2 + <i>n</i>))</tt>.</ins>
+<p/>
+-1- <i>Mandates:</i> <tt>decltype(comp(*b1, *b2))</tt> is a comparison category type.
+<p/>
+<ins>-?- <i>Returns:</i> <i>E(i)</i>, where <i>i</i> is the smallest integer
+in [0, <i>N</i>) such that <i>E(i)</i> <tt>!= 0</tt> is <tt>true</tt>, or
+<tt>(e1 - b1) &lt;=&gt; (e2 - b2)</tt> if no such integer exists.</ins>
+<p/>
+<ins>-?- <i>Complexity</i>: At most <i>N</i> applications of <tt>comp</tt>.</ins>
+<p/>
+<del>
+-2- <i>Effects:</i> Lexicographically compares two ranges and produces a result
+of the strongest applicable comparison category type. Equivalent to:</del>
+</p>
+<blockquote>
+<pre>
+<del>for ( ; b1 != e1 &amp;&amp; b2 != e2; void(++b1), void(++b2) )
+  if (auto cmp = comp(*b1,*b2); cmp != 0)
+      return cmp;
+return b1 != e1 ? strong_ordering::greater :
+       b2 != e2 ? strong_ordering::less :
+                  strong_ordering::equal;</del>
+</pre>
+</blockquote>
+
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
@@ -36262,7 +36433,7 @@ template&lt;class ExecutionPolicy,
 <hr>
 <h3><a name="3470" href="#3470">3470</a><sup><a href="https://cplusplus.github.io/LWG/issue3470">(i)</a></sup>. <tt><i>convertible-to-non-slicing</i></tt> seems to reject valid case</h3>
 <p><b>Section:</b> 24.5.4 <a href="https://wg21.link/range.subrange">[range.subrange]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2020-07-26 <b>Last modified:</b> 2020-08-21</p>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2020-07-26 <b>Last modified:</b> 2021-05-20</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.subrange">issues</a> in [range.subrange].</p>
@@ -36274,7 +36445,7 @@ Consider
 <blockquote><pre>
 #include &lt;ranges&gt;
 
-int main() 
+int main()
 {
   int a[3] = { 1, 2, 3 };
   int* b[3] = { &amp;a[2], &amp;a[0], &amp;a[1] };
@@ -36282,7 +36453,7 @@ int main()
 }
 </pre></blockquote>
 <p>
-The construction of <tt>c</tt> is ill-formed because <tt><i>convertible-to-non-slicing</i>&lt;int**, const int*const*&gt;</tt> 
+The construction of <tt>c</tt> is ill-formed because <tt><i>convertible-to-non-slicing</i>&lt;int**, const int*const*&gt;</tt>
 is <tt>false</tt>, although the conversion does not involve object slicing.
 <p/>
 I think <tt>subrange</tt> should allow such qualification conversion, just like <tt>unique_ptr&lt;T[]&gt;</tt> already does.
@@ -36295,10 +36466,45 @@ I think <tt>subrange</tt> should allow such qualification conversion, just like 
 <p>
 Set priority to 3 after reflector discussions.
 </p>
+<p><i>[2021-05-19 Tim adds wording]</i></p>
 
+<p>
+The wording below, which has been implemented and tested on top of libstdc++,
+uses the same technique we use for <tt>unique_ptr</tt>, <tt>shared_ptr</tt>,
+and <tt>span</tt>. It seems especially appropriate to have feature parity between
+<tt>subrange</tt> and <tt>span</tt> in this respect.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.</p>
+
+<ol>
+<li><p>Modify 24.5.4 <a href="https://wg21.link/range.subrange">[range.subrange]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  <ins>template&lt;class From, class To&gt;
+    concept <i>uses-nonqualification-pointer-conversion</i> = <i>// exposition only</i>
+      is_pointer_v&lt;From&gt; &amp;&amp; is_pointer_v&lt;To&gt; &amp;&amp;
+      !convertible_to&lt;remove_pointer_t&lt;From&gt;(*)[], remove_pointer_t&lt;To&gt;(*)[]&gt;;</ins>
+
+  template&lt;class From, class To&gt;
+    concept <i>convertible-to-non-slicing</i> = <i>// exposition only</i>
+      convertible_to&lt;From, To&gt; &amp;&amp;
+      <ins>!<i>uses-nonqualification-pointer-conversion</i>&lt;decay_t&lt;From&gt;, decay_t&lt;To&gt;&gt;;</ins>
+      <del>!(is_pointer_v&lt;decay_t&lt;From&gt;&gt; &amp;&amp;
+      is_pointer_v&lt;decay_t&lt;To&gt;&gt; &amp;&amp;
+      <i>not-same-as</i>&lt;remove_pointer_t&lt;decay_t&lt;From&gt;&gt;, remove_pointer_t&lt;decay_t&lt;To&gt;&gt;&gt;
+      );</del>
+  [&hellip;]
+}
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+</ol>
 
 
 
