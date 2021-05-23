@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-05-22 at 22:16:12 UTC</p>
+<p><p>Revised 2021-05-23 at 06:56:48 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39825,15 +39825,14 @@ Priority set to 3.
 <hr>
 <h3><a name="3553" href="#3553">3553</a><sup><a href="https://cplusplus.github.io/LWG/issue3553">(i)</a></sup>. Useless constraint in <tt>split_view::<i>outer-iterator</i>::value_type::begin()</tt></h3>
 <p><b>Section:</b> 24.7.12.4 <a href="https://wg21.link/range.split.outer.value">[range.split.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-05-18 <b>Last modified:</b> 2021-05-22</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-05-18 <b>Last modified:</b> 2021-05-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.split.outer.value">issues</a> in [range.split.outer.value].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-From <a href="https://stackoverflow.com/questions/67586442/under-what-circumstances-does-the-iterator-of-rangessplit-view-not-satisfy-cop">
-stack overflow</a>: The <tt>copyable</tt> constraint in <tt>split_view::<i>outer-iterator</i>::value_type::begin()</tt> 
+The <tt>copyable</tt> constraint in <tt>split_view::<i>outer-iterator</i>::value_type::begin()</tt> 
 is useless because <tt><i>outer-iterator</i></tt> always satisfies <tt>copyable</tt>.
 <p/>
 When <tt>V</tt> does not model <tt>forward_range</tt>, the <tt><i>outer-iterator</i></tt> only contains a pointer, so it 
@@ -40019,7 +40018,7 @@ namespace chrono {
 <p>
 <ins>is well-formed when treated as an unevaluated operand.</ins>
 <p/>
-<ins>-?- <i>Effects:</i> Equivalent to <tt>parse(basic_string&lt;charT&gt;{fmt}, tp)</tt></ins>
+<ins>-?- <i>Effects:</i> Equivalent to <tt>return parse(basic_string&lt;charT&gt;{fmt}, tp);</tt></ins>
 </p>
 </blockquote>
 <pre>
@@ -40037,7 +40036,7 @@ namespace chrono {
 <p>
 <ins>is well-formed when treated as an unevaluated operand.</ins>
 <p/>
-<ins>-?- <i>Effects:</i> Equivalent to <tt>parse(basic_string&lt;charT, traits&gt;{fmt}, tp)</tt></ins>
+<ins>-?- <i>Effects:</i> Equivalent to <tt>return parse(basic_string&lt;charT, traits&gt;{fmt}, tp);</tt></ins>
 </p>
 </blockquote>
 <pre>
@@ -40056,7 +40055,7 @@ namespace chrono {
 <p>
 <ins>is well-formed when treated as an unevaluated operand.</ins>
 <p/>
-<ins>-?- <i>Effects:</i> Equivalent to <tt>parse(basic_string&lt;charT, traits, Alloc&gt;{fmt}, tp, abbrev)</tt></ins>
+<ins>-?- <i>Effects:</i> Equivalent to <tt>return parse(basic_string&lt;charT, traits, Alloc&gt;{fmt}, tp, abbrev);</tt></ins>
 </p>
 </blockquote>
 <pre>
@@ -40075,7 +40074,7 @@ namespace chrono {
 <p>
 <ins>is well-formed when treated as an unevaluated operand.</ins>
 <p/>
-<ins>-?- <i>Effects:</i> Equivalent to <tt>parse(basic_string&lt;charT, traits, Alloc&gt;{fmt}, tp, abbrev)</tt></ins>
+<ins>-?- <i>Effects:</i> Equivalent to <tt>return parse(basic_string&lt;charT, traits, Alloc&gt;{fmt}, tp, abbrev);</tt></ins>
 </p>
 </blockquote>
 <pre>
@@ -40095,7 +40094,7 @@ namespace chrono {
 <p>
 <ins>is well-formed when treated as an unevaluated operand.</ins>
 <p/>
-<ins>-?- <i>Effects:</i> Equivalent to <tt>parse(basic_string&lt;charT&gt;{fmt}, tp, offset)</tt></ins>
+<ins>-?- <i>Effects:</i> Equivalent to <tt>return parse(basic_string&lt;charT&gt;{fmt}, tp, offset);</tt></ins>
 </p>
 </blockquote>
 <pre>
@@ -40115,7 +40114,7 @@ namespace chrono {
 <p>
 <ins>is well-formed when treated as an unevaluated operand.</ins>
 <p/>
-<ins>-?- <i>Effects:</i> Equivalent to <tt>parse(basic_string&lt;charT, traits&gt;{fmt}, tp, offset)</tt></ins>
+<ins>-?- <i>Effects:</i> Equivalent to <tt>return parse(basic_string&lt;charT, traits&gt;{fmt}, tp, offset);</tt></ins>
 </p>
 </blockquote>
 <pre>
@@ -40134,7 +40133,7 @@ namespace chrono {
 <p>
 <ins>is well-formed when treated as an unevaluated operand.</ins>
 <p/>
-<ins>-?- <i>Effect:</i> Equivalent to <tt>parse(basic_string&lt;charT, traits, Alloc&gt;{fmt}, tp, abbrev, offset)</tt></ins>
+<ins>-?- <i>Effects:</i> Equivalent to <tt>return parse(basic_string&lt;charT, traits, Alloc&gt;{fmt}, tp, abbrev, offset);</tt></ins>
 </p>
 </blockquote>
 <pre>
@@ -40153,7 +40152,7 @@ namespace chrono {
 <p>
 <ins>is well-formed when treated as an unevaluated operand.</ins>
 <p/>
-<ins>-?- <i>Effect:</i> Equivalent to <tt>parse(basic_string&lt;charT, traits, Alloc&gt;{fmt}, tp, abbrev, offset)</tt></ins>
+<ins>-?- <i>Effects:</i> Equivalent to <tt>return parse(basic_string&lt;charT, traits, Alloc&gt;{fmt}, tp, abbrev, offset);</tt></ins>
 </p>
 </blockquote><pre>
 template&lt;class charT, class traits, class Alloc, class Parsable&gt;
