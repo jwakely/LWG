@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-05-23 at 06:56:48 UTC</p>
+<p><p>Revised 2021-05-23 at 13:54:11 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40177,6 +40177,112 @@ has value <tt>is</tt>, and calls <tt>from_stream(is, fmt.c_str(), tp)</tt>.
 </li>
 </ol>
 
+
+
+
+
+<hr>
+<h3><a name="3555" href="#3555">3555</a><sup><a href="https://cplusplus.github.io/LWG/issue3555">(i)</a></sup>. <tt>{transform,elements}_view::<i>iterator</i>::iterator_concept</tt>
+should consider const-qualification of the underlying range</h3>
+<p><b>Section:</b> 24.7.6.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>, 24.7.16.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-05-23 <b>Last modified:</b> 2021-05-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.transform.iterator">active issues</a> in [range.transform.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.transform.iterator">issues</a> in [range.transform.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>transform_view::<i>iterator&lt;true&gt;</i>::iterator_concept</tt> and
+<tt>elements_view::<i>iterator&lt;true&gt;</i>::iterator_concept</tt> (i.e.,
+the const versions) are currently specified as looking at the properties of <tt>V</tt>
+(i.e., the underlying view without const), while the actual iterator operations
+are all correctly specified as using <tt><i>Base</i></tt> (which includes
+the const). <tt>iterator_concept</tt> should do so too.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4885">N4885</a>.
+</p>
+<ol>
+<li>
+<p>Modify 24.7.6.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> as indicated:</p>
+<blockquote>
+<p>-1- <tt>iterator::iterator_concept</tt> is defined as follows: </p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>random_access_range</tt>, then
+<tt>iterator_concept</tt> denotes <tt>random_access_iterator_tag</tt>.</p></li>
+<li><p>(1.2) &mdash; Otherwise, if <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>bidirectional_range</tt>,
+then <tt>iterator_concept</tt> denotes <tt>bidirectional_iterator_tag</tt>.</p></li>
+<li><p>(1.3) &mdash; Otherwise, if <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>forward_range</tt>,
+then <tt>iterator_concept</tt> denotes <tt>forward_iterator_tag</tt>.</p></li>
+<li><p>(1.4) &mdash; Otherwise, <tt>iterator_concept</tt> denotes <tt>input_iterator_tag</tt>.</p></li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p>Modify 24.7.16.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as indicated:</p>
+<blockquote>
+<p>-1- The member <i>typedef-name</i> <tt>iterator_concept</tt> is defined as follows: </p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>random_access_range</tt>, then
+<tt>iterator_concept</tt> denotes <tt>random_access_iterator_tag</tt>.</p></li>
+<li><p>(1.2) &mdash; Otherwise, if <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>bidirectional_range</tt>,
+then <tt>iterator_concept</tt> denotes <tt>bidirectional_iterator_tag</tt>.</p></li>
+<li><p>(1.3) &mdash; Otherwise, if <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>forward_range</tt>,
+then <tt>iterator_concept</tt> denotes <tt>forward_iterator_tag</tt>.</p></li>
+<li><p>(1.4) &mdash; Otherwise, <tt>iterator_concept</tt> denotes <tt>input_iterator_tag</tt>.</p></li>
+</ol>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3556" href="#3556">3556</a><sup><a href="https://cplusplus.github.io/LWG/issue3556">(i)</a></sup>. Specification of when semantic constraints are imposed by use of concepts
+is unclear</h3>
+<p><b>Section:</b> 16.3.2.3 <a href="https://wg21.link/structure.requirements">[structure.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-05-23 <b>Last modified:</b> 2021-05-23</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#structure.requirements">issues</a> in [structure.requirements].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+16.3.2.3 <a href="https://wg21.link/structure.requirements">[structure.requirements]</a> p9 says:
+</p>
+<blockquote>
+<p>
+A declaration may explicitly impose requirements through its associated
+constraints (13.5.3 <a href="https://wg21.link/temp.constr.decl">[temp.constr.decl]</a>). When the associated constraints
+refer to a concept (13.7.9 <a href="https://wg21.link/temp.concept">[temp.concept]</a>), the semantic constraints
+specified for that concept are additionally imposed on the use of the declaration.
+</p>
+</blockquote>
+<p>
+There are at least two issues with this wording:
+</p>
+<ol>
+<li><p>
+First, "associated constraints" is a Core term that refers to the constraints
+on a declaration <i>after normalization</i>, at which point direct uses of
+concepts have been decomposed into the constituent atomic constraints and are
+no longer visible.
+</p></li>
+<li><p>
+Second, "refers to" is too vague. Does <tt>!C&lt;T&gt;</tt> "refer to"
+<tt>C</tt> and impose its semantic constraints? Does <tt>C1&lt;T&gt; || C2&lt;T&gt;</tt>
+"refer to" both <tt>C1</tt> and <tt>C2</tt> and therefore impose the semantic
+constraints of both?
+</p></li>
+</ol>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
