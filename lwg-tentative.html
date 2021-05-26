@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-05-24 at 21:00:24 UTC</p>
+<p><p>Revised 2021-05-26 at 10:54:45 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2774" href="#2774">2774</a><sup><a href="https://cplusplus.github.io/LWG/issue2774">(i)</a></sup>. <tt>std::function</tt> construction vs assignment</h3>
@@ -882,6 +882,92 @@ the predicate.
 is <tt>false</tt></ins>, exactly <tt><del>(last - first) - 1</del><ins>distance(begin(), end()) - 1</ins></tt> 
 applications of the corresponding predicate, otherwise no applications of the predicate.
 </p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3410" href="#3410">3410</a><sup><a href="https://cplusplus.github.io/LWG/issue3410">(i)</a></sup>. <tt>lexicographical_compare_three_way</tt> is overspecified</h3>
+<p><b>Section:</b> 25.8.12 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-02-27 <b>Last modified:</b> 2021-05-26</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#alg.three.way">issues</a> in [alg.three.way].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+25.8.12 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a>/2 specifies the effects of the <tt>lexicographical_compare_three_way</tt>
+algorithm via a large "equivalent to" codeblock. This codeblock specifies one more iterator comparison
+than necessary when the first input sequence is greater than the second, and two more than necessary
+in other cases. Requiring unnecessary work is the antithesis of C++.
+</p>
+
+<p><i>[2020-03-29 Issue Prioritization]</i></p>
+
+<p>Priority to 3 after reflector discussion.</p>
+
+<p><i>[2021-05-19 Tim adds wording]</i></p>
+
+<p>The wording below simply respecifies the algorithm in words. It seems pointless
+to try to optimize the code when the reading in the discussion above would
+entirely rule out things like <tt>memcmp</tt> optimizations for arbitrary
+contiguous iterators of bytes.
+</p>
+
+<p><i>[2021-05-26; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.</p>
+
+<ol>
+<li><p>Modify 25.8.12 <a href="https://wg21.link/alg.three.way">[alg.three.way]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class InputIterator1, class InputIterator2, class Cmp&gt;
+  constexpr auto
+    lexicographical_compare_three_way(InputIterator1 b1, InputIterator1 e1,
+                                      InputIterator2 b2, InputIterator2 e2,
+                                      Cmp comp)
+        -&gt; decltype(comp(*b1, *b2));
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <i>N</i> be min(<tt>e1 - b1, e2 - b2</tt>). Let <i>E(n)</i>
+be <tt>comp(*(b1 + <i>n</i>), *(b2 + <i>n</i>))</tt>.</ins>
+<p/>
+-1- <i>Mandates:</i> <tt>decltype(comp(*b1, *b2))</tt> is a comparison category type.
+<p/>
+<ins>-?- <i>Returns:</i> <i>E(i)</i>, where <i>i</i> is the smallest integer
+in [0, <i>N</i>) such that <i>E(i)</i> <tt>!= 0</tt> is <tt>true</tt>, or
+<tt>(e1 - b1) &lt;=&gt; (e2 - b2)</tt> if no such integer exists.</ins>
+<p/>
+<ins>-?- <i>Complexity</i>: At most <i>N</i> applications of <tt>comp</tt>.</ins>
+<p/>
+<del>
+-2- <i>Effects:</i> Lexicographically compares two ranges and produces a result
+of the strongest applicable comparison category type. Equivalent to:</del>
+</p>
+<blockquote>
+<pre>
+<del>for ( ; b1 != e1 &amp;&amp; b2 != e2; void(++b1), void(++b2) )
+  if (auto cmp = comp(*b1,*b2); cmp != 0)
+      return cmp;
+return b1 != e1 ? strong_ordering::greater :
+       b2 != e2 ? strong_ordering::less :
+                  strong_ordering::equal;</del>
+</pre>
+</blockquote>
+
 </blockquote>
 </blockquote>
 </li>
@@ -2945,6 +3031,236 @@ from <tt>value</tt>. When <tt>W</tt> and <tt>Bound</tt> model <tt>totally_­orde
 
 
 <hr>
+<h3><a name="3526" href="#3526">3526</a><sup><a href="https://cplusplus.github.io/LWG/issue3526">(i)</a></sup>. Return types of <tt>uses_allocator_construction_args</tt> unspecified</h3>
+<p><b>Section:</b> 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-02-25 <b>Last modified:</b> 2021-05-26</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
+<p><b>View all other</b> <a href="lwg-index.html#allocator.uses.construction">issues</a> in [allocator.uses.construction].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The synopsis of <tt>&lt;memory&gt;</tt> in 20.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a> declares six overloads of 
+<tt>uses_allocator_construction_args</tt> with return types "<i>see below</i>":
+</p>
+<blockquote><pre>
+template&lt;class T, class Alloc, class... Args&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  Args&amp;&amp;... args) noexcept -&gt; <i>see below</i>;
+template&lt;class T, class Alloc, class Tuple1, class Tuple2&gt;>
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, piecewise_construct_t,
+                                                  Tuple1&amp;&amp; x, Tuple2&amp;&amp; y)
+                                                  noexcept -&gt; see below;
+template&lt;class T, class Alloc&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc) noexcept -&gt; <i>see below</i>;
+template&lt;class T, class Alloc, class U, class V&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  U&amp;&amp; u, V&amp;&amp; v) noexcept -&gt; <i>see below</i>;
+template&lt;class T, class Alloc, class U, class V&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  const pair&lt;U, V&gt;&amp; pr) noexcept -&gt; <i>see below</i>;
+template&lt;class T, class Alloc, class U, class V>
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  pair&lt;U, V&gt;&amp;&amp; pr) noexcept -&gt; <i>see below</i>;
+</pre></blockquote>
+<p>
+The "<i>see below</i>s" also appear in the detailed specification of these overloaded function templates 
+in 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> para 4 through 15. Despite that the values these function 
+templates return are specified therein, the return types are not. Presumably LWG wanted to specify deduced 
+return types, but couldn't figure out how to do so, and just gave up?
+</p>
+
+<p><i>[2021-02-27; Daniel comments and provides wording]</i></p>
+
+<p>
+My interpretation is that the appearance of the <i>trailing-return-type</i> was actually unintended and that
+these functions where supposed to use the return type placeholder to signal the intention that the actual
+return type is deduced by the consistent sum of all return statements as they appear in the prototype specifications.
+Given that at least one implementation has indeed realized this form, I suggest to simply adjust the specification
+to remove the <i>trailing-return-type</i>. Specification-wise we have already existing practice for this 
+approach (See e.g. <tt>to_address</tt>).
+</p>
+
+<p><i>[2021-03-12; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 following reflector poll.
+</p>
+
+
+<p><i>[2021-05-26; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after nine votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
+</p>
+
+<ol>
+<li><p>Edit 20.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  <i>// 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>, uses-allocator construction</i>
+  template&lt;class T, class Alloc, class... Args&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    Args&amp;&amp;... args) noexcept <del>-&gt; <i>see below</i></del>;
+  template&lt;class T, class Alloc, class Tuple1, class Tuple2&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, piecewise_construct_t,
+                                                    Tuple1&amp;&amp; x, Tuple2&amp;&amp; y)
+                                                    noexcept <del>-&gt; <i>see below</i></del>;
+  template&lt;class T, class Alloc&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc) noexcept <del>-&gt; <i>see below</i></del>;
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    U&amp;&amp; u, V&amp;&amp; v) noexcept <del>-&gt; <i>see below</i></del>;
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    const pair&lt;U, V&gt;&amp; pr) noexcept <del>-&gt; <i>see below</i></del>;
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    pair&lt;U, V&gt;&amp;&amp; pr) noexcept <del>-&gt; <i>see below</i></del>;   
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Edit 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T, class Alloc, class... Args&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  Args&amp;&amp;... args) noexcept <del>-&gt; <i>see below</i></del>;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-5- <i>Returns:</i> A <tt>tuple</tt> value determined as follows:
+</p>
+<ol style="list-style-type: none">
+<li><p>(5.1) &mdash; if [&hellip;], return <tt>forward_as_tuple(std::forward&lt;Args&gt;(args)...)</tt>.</p></li>
+<li><p>(5.2) &mdash; Otherwise, if [&hellip;], return</p>
+<blockquote><pre>
+tuple&lt;allocator_arg_t, const Alloc&amp;, Args&amp;&amp;...&gt;(
+  allocator_arg, alloc, std::forward&lt;Args&gt;(args)...)
+</pre></blockquote>
+</li>
+<li><p>(5.3) &mdash; Otherwise, if [&hellip;], return <tt>forward_as_tuple(std::forward&lt;Args&gt;(args)..., alloc)</tt>.</p></li>
+<li><p>(5.4) &mdash; Otherwise, the program is ill-formed.</p></li>
+</ol>
+</blockquote>
+<pre>
+template&lt;class T, class Alloc, class Tuple1, class Tuple2&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, piecewise_construct_t,
+                                                  Tuple1&amp;&amp; x, Tuple2&amp;&amp; y)
+                                                  noexcept <del>-&gt; <i>see below</i></del>;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-7- <i>Effects:</i> For <tt>T</tt> specified as <tt>pair&lt;T1, T2&gt;</tt>, equivalent to:
+</p>
+<blockquote><pre>
+return make_tuple(
+  piecewise_construct,
+  apply([&amp;alloc](auto&amp;&amp;... args1) {
+          return uses_allocator_construction_args&lt;T1&gt;(
+            alloc, std::forward&lt;decltype(args1)&gt;(args1)...);
+        }, std::forward&lt;Tuple1&gt;(x)),
+  apply([&amp;alloc](auto&amp;&amp;... args2) {
+          return uses_allocator_construction_args&lt;T2&gt;(
+            alloc, std::forward&lt;decltype(args2)&gt;(args2)...);
+        }, std::forward&lt;Tuple2&gt;(y)));
+</pre></blockquote>
+</blockquote>
+<pre>
+template&lt;class T, class Alloc&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc) noexcept <del>-&gt; <i>see below</i></del>;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-9- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
+                                           tuple&lt;&gt;{}, tuple&lt;&gt;{});
+</pre></blockquote>
+</blockquote>
+<pre>
+template&lt;class T, class Alloc, class U, class V&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  U&amp;&amp; u, V&amp;&amp; v) noexcept <del>-&gt; <i>see below</i></del>;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-11- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
+                                           forward_as_tuple(std::forward&lt;U&gt;(u)),
+                                           forward_as_tuple(std::forward&lt;V&gt;(v));
+</pre></blockquote>
+</blockquote>
+<pre>
+template&lt;class T, class Alloc, class U, class V&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  const pair&lt;U, V&gt;&amp; pr) noexcept <del>-&gt; <i>see below</i></del>;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-13- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
+                                           forward_as_tuple(pr.first),
+                                           forward_as_tuple(pr.second));
+</pre></blockquote>
+</blockquote>
+<pre>
+template&lt;class T, class Alloc, class U, class V&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  pair&lt;U, V&gt;&amp;&amp; pr) noexcept <del>-&gt; <i>see below</i></del>;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-15- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
+                                           forward_as_tuple(std::move(pr).first),
+                                           forward_as_tuple(std::move(pr).second));
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3527" href="#3527">3527</a><sup><a href="https://cplusplus.github.io/LWG/issue3527">(i)</a></sup>. <tt>uses_allocator_construction_args</tt> handles rvalue pairs of rvalue references incorrectly</h3>
 <p><b>Section:</b> 20.10.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-02-27 <b>Last modified:</b> 2021-02-27</p>
@@ -4654,6 +4970,104 @@ the constructor has no effect.
 
 
 <hr>
+<h3><a name="3549" href="#3549">3549</a><sup><a href="https://cplusplus.github.io/LWG/issue3549">(i)</a></sup>. <tt>view_interface</tt> is overspecified to derive from <tt>view_base</tt></h3>
+<p><b>Section:</b> 24.5.3 <a href="https://wg21.link/view.interface">[view.interface]</a>, 24.4.4 <a href="https://wg21.link/range.view">[range.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-05-09 <b>Last modified:</b> 2021-05-26</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>view_interface&lt;D&gt;</tt> is currently specified to publicly derive from
+<tt>view_base</tt>. This derivation requires unnecessary padding in range adaptors
+like <tt>reverse_view&lt;V&gt;</tt>: the <tt>view_base</tt> subobject of the
+<tt>reverse_view</tt> is required to reside at a different address than the
+<tt>view_base</tt> subobject of <tt>V</tt> (assuming that <tt>V</tt> similarly
+opted into being a view through derivation from <tt>view_interface</tt> or
+<tt>view_base</tt>).
+<p/>
+This appears to be a case of overspecification: we want public and unambiguous
+derivation from <tt>view_interface</tt> to make the class a <tt>view</tt>; the exact
+mechanism of how that opt-in is accomplished should have been left as an
+implementation detail.
+<p/>
+The proposed resolution below has been implemented on top of libstdc++ master
+and passes its ranges testsuite, with the exception of a test that checks for the size of
+various range adaptors (and therefore asserts the existence of
+<tt>view_base</tt>-induced padding).
+</p>
+
+<p><i>[2021-05-17; Reflector poll]</i></p>
+
+<p>
+Priority set to 2.
+</p>
+
+
+<p><i>[2021-05-26; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.4.4 <a href="https://wg21.link/range.view">[range.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+<ins>template&lt;class T&gt;
+  inline constexpr bool <i>is-derived-from-view-interface</i> = <i>see below</i>;   // exposition only</ins>
+template&lt;class T&gt;
+  inline constexpr bool enable_view = derived_from&lt;T, view_base&gt; <ins>|| <i>is-derived-from-view-interface</i>&lt;T&gt;</ins>;
+</pre>
+<blockquote>
+<p>
+<ins>-?- For a type <tt>T</tt>, <tt><i>is-derived-from-view-interface</i>&lt;T&gt;</tt>
+is <tt>true</tt> if and only if <tt>T</tt> has exactly one public base class
+<tt>view_interface&lt;U&gt;</tt> for some type <tt>U</tt> and
+<tt>T</tt> has no base classes of type <tt>view_interface&lt;V&gt;</tt> for any
+other type <tt>V</tt>.</ins>
+<p/>
+-5- Remarks: Pursuant to 16.4.5.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a>, users may specialize
+<tt>enable_view</tt> to <tt>true</tt> for cv-unqualified program-defined types which
+model <tt>view</tt>, and <tt>false</tt> for types which do not. Such specializations
+shall be usable in constant expressions (7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>) and have
+type <tt>const bool</tt>.
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+<li>
+<p>Modify 24.5.3.1 <a href="https://wg21.link/view.interface.general">[view.interface.general]</a> as indicated: </p>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class D&gt;
+    requires is_class_v&lt;D&gt; &amp;&amp; same_as&lt;D, remove_cv_t&lt;D&gt;&gt;
+  class view_interface <del>: public view_base</del> {
+
+  [&hellip;]
+
+  };
+}
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3551" href="#3551">3551</a><sup><a href="https://cplusplus.github.io/LWG/issue3551">(i)</a></sup>. <tt>borrowed_{iterator,subrange}_t</tt> are overspecified</h3>
 <p><b>Section:</b> 24.5.5 <a href="https://wg21.link/range.dangling">[range.dangling]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-05-12 <b>Last modified:</b> 2021-05-20</p>
@@ -4820,6 +5234,163 @@ namespace std {
 </li>
 </ol>
 
+
+
+
+
+<hr>
+<h3><a name="3553" href="#3553">3553</a><sup><a href="https://cplusplus.github.io/LWG/issue3553">(i)</a></sup>. Useless constraint in <tt>split_view::<i>outer-iterator</i>::value_type::begin()</tt></h3>
+<p><b>Section:</b> 24.7.12.4 <a href="https://wg21.link/range.split.outer.value">[range.split.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-05-18 <b>Last modified:</b> 2021-05-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.split.outer.value">issues</a> in [range.split.outer.value].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>copyable</tt> constraint in <tt>split_view::<i>outer-iterator</i>::value_type::begin()</tt> 
+is useless because <tt><i>outer-iterator</i></tt> always satisfies <tt>copyable</tt>.
+<p/>
+When <tt>V</tt> does not model <tt>forward_range</tt>, the <tt><i>outer-iterator</i></tt> only contains a pointer, so it 
+is obviously copyable; When <tt>V</tt> is a <tt>forward_range</tt>, the <tt>iterator_t&lt;Base&gt;</tt> is a 
+<tt>forward_iterator</tt>, so it is copyable, which makes <tt><i>outer-iterator</i></tt> also copyable.
+<p/>
+Suggested resolution: Remove the no-<tt>const begin()</tt> and useless <tt>copyable</tt> constraint in
+24.7.12.4 <a href="https://wg21.link/range.split.outer.value">[range.split.outer.value]</a>.
+</p>
+
+<p><i>[2021-05-26; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.7.12.4 <a href="https://wg21.link/range.split.outer.value">[range.split.outer.value]</a>, class <tt>split_view::<i>outer-iterator</i>::value_type</tt> synopsis, 
+as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;input_range V, forward_range Pattern&gt;
+    requires view&lt;V&gt; &amp;&amp; view&lt;Pattern&gt; &amp;&amp;
+             indirectly_comparable&lt;iterator_t&lt;V&gt;, iterator_t&lt;Pattern&gt;, ranges::equal_to&gt; &amp;&amp;
+             (forward_range&lt;V&gt; || <i>tiny-range</i>&lt;Pattern&gt;)
+  template&lt;bool Const&gt;
+  struct split_view&lt;V, Pattern&gt;::<i>outer-iterator</i>&lt;Const&gt;::value_type
+    : view_interface&lt;value_type&gt; {
+  private:
+    <i>outer-iterator i_</i> = <i>outer-iterator</i>(); <i>// exposition only</i>
+  public:
+    value_type() = default;
+    constexpr explicit value_type(<i>outer-iterator</i> i);
+    constexpr <i>inner-iterator</i>&lt;Const&gt; begin() const <del>requires copyable&lt;<i>outer-iterator</i>&gt;</del>;
+    <del>constexpr <i>inner-iterator</i>&lt;Const&gt; begin() requires (!copyable&lt;<i>outer-iterator</i>&gt;);</del>
+    constexpr default_sentinel_t end() const;
+  };
+}
+</pre>
+</blockquote>
+[&hellip;]
+<pre>
+constexpr <i>inner-iterator</i>&lt;Const&gt; begin() const <del>requires copyable&lt;<i>outer-iterator</i>&gt;</del>;
+</pre>
+<blockquote>
+<p>
+-2- <i>Effects:</i> Equivalent to: <tt>return <i>inner-iterator</i>&lt;Const&gt;{<i>i_</i>};</tt>
+</p>
+</blockquote>
+<pre>
+<del>constexpr <i>inner-iterator</i>&lt;Const&gt; begin() requires (!copyable&lt;<i>outer-iterator</i>&gt;)</del>;
+</pre>
+<blockquote>
+<p>
+<del>-3- <i>Effects:</i> Equivalent to: <tt>return <i>inner-iterator</i>&lt;Const&gt;{std::move(<i>i_</i>)};</tt></del>
+</p>
+</blockquote>
+[&hellip;]
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3555" href="#3555">3555</a><sup><a href="https://cplusplus.github.io/LWG/issue3555">(i)</a></sup>. <tt>{transform,elements}_view::<i>iterator</i>::iterator_concept</tt>
+should consider const-qualification of the underlying range</h3>
+<p><b>Section:</b> 24.7.6.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>, 24.7.16.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-05-23 <b>Last modified:</b> 2021-05-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.transform.iterator">active issues</a> in [range.transform.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.transform.iterator">issues</a> in [range.transform.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>transform_view::<i>iterator&lt;true&gt;</i>::iterator_concept</tt> and
+<tt>elements_view::<i>iterator&lt;true&gt;</i>::iterator_concept</tt> (i.e.,
+the const versions) are currently specified as looking at the properties of <tt>V</tt>
+(i.e., the underlying view without const), while the actual iterator operations
+are all correctly specified as using <tt><i>Base</i></tt> (which includes
+the const). <tt>iterator_concept</tt> should do so too.
+<p/>
+The proposed resolution has been implemented and tested on top of libstdc++.
+</p>
+
+<p><i>[2021-05-26; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4885">N4885</a>.
+</p>
+<ol>
+<li>
+<p>Modify 24.7.6.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> as indicated:</p>
+<blockquote>
+<p>-1- <tt>iterator::iterator_concept</tt> is defined as follows: </p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>random_access_range</tt>, then
+<tt>iterator_concept</tt> denotes <tt>random_access_iterator_tag</tt>.</p></li>
+<li><p>(1.2) &mdash; Otherwise, if <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>bidirectional_range</tt>,
+then <tt>iterator_concept</tt> denotes <tt>bidirectional_iterator_tag</tt>.</p></li>
+<li><p>(1.3) &mdash; Otherwise, if <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>forward_range</tt>,
+then <tt>iterator_concept</tt> denotes <tt>forward_iterator_tag</tt>.</p></li>
+<li><p>(1.4) &mdash; Otherwise, <tt>iterator_concept</tt> denotes <tt>input_iterator_tag</tt>.</p></li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p>Modify 24.7.16.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as indicated:</p>
+<blockquote>
+<p>-1- The member <i>typedef-name</i> <tt>iterator_concept</tt> is defined as follows: </p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>random_access_range</tt>, then
+<tt>iterator_concept</tt> denotes <tt>random_access_iterator_tag</tt>.</p></li>
+<li><p>(1.2) &mdash; Otherwise, if <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>bidirectional_range</tt>,
+then <tt>iterator_concept</tt> denotes <tt>bidirectional_iterator_tag</tt>.</p></li>
+<li><p>(1.3) &mdash; Otherwise, if <tt><del>V</del><ins><i>Base</i></ins></tt> models <tt>forward_range</tt>,
+then <tt>iterator_concept</tt> denotes <tt>forward_iterator_tag</tt>.</p></li>
+<li><p>(1.4) &mdash; Otherwise, <tt>iterator_concept</tt> denotes <tt>input_iterator_tag</tt>.</p></li>
+</ol>
+</blockquote>
+</li>
+</ol>
 
 
 
