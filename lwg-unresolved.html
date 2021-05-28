@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-05-27 at 17:19:04 UTC</p>
+<p><p>Revised 2021-05-28 at 17:56:51 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39299,6 +39299,64 @@ template&lt;class From, class To&gt;
       static_cast&lt;To&gt;(<del>f</del><ins>declval&lt;From&gt;</ins>());
     };
 </pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3558" href="#3558">3558</a><sup><a href="https://cplusplus.github.io/LWG/issue3558">(i)</a></sup>. <tt>elements_view::<i>sentinel</i></tt>'s first <tt>operator-</tt> has wrong return type</h3>
+<p><b>Section:</b> 24.7.16.4 <a href="https://wg21.link/range.elements.sentinel">[range.elements.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-05-28 <b>Last modified:</b> 2021-05-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Because the iterator type of the first <tt>operator-</tt> is <tt>const <i>iterator</i>&lt;OtherConst&gt;&amp;</tt>, its 
+return type should be <tt>range_difference_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.7.16.4 <a href="https://wg21.link/range.elements.sentinel">[range.elements.sentinel]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+    [&hellip;]
+    template&lt;bool OtherConst&gt;
+      requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
+    friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
+      operator-(const <i>iterator</i>&lt;OtherConst&gt;&amp; x, const <i>sentinel</i>&amp; y);
+    
+    template&lt;bool OtherConst&gt;
+      requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
+    friend constexpr range_difference_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;
+      operator-(const <i>sentinel</i>&amp; x, const <i>iterator</i>&lt;OtherConst&gt;&amp; y);
+  };
+}
+</pre>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;bool OtherConst&gt;
+  requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
+friend constexpr range_difference_t&lt;<del><i>Base</i></del><ins><i>maybe-const</i>&lt;OtherConst, V&gt;</ins>&gt;
+  operator-(const <i>iterator</i>&lt;OtherConst&gt;&amp; x, const <i>sentinel</i>&amp; y);
+</pre>
+<blockquote>
+<p>
+-5- <i>Effects:</i> Equivalent to: <tt>return x.<i>current_</i> - y.<i>end_</i>;</tt>
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ol>
