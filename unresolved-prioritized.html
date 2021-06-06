@@ -48,7 +48,7 @@
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>This document is the Table of Contents for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.</p>
-<p><p>Revised 2021-06-06 at 16:04:05 UTC</p>
+<p><p>Revised 2021-06-06 at 16:28:25 UTC</p>
 </p><h2><a name="Priority 1"</a>Priority 1 (2 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -2407,19 +2407,19 @@ arguments when no insertion happens</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3126">3126</a><sup><a href="https://cplusplus.github.io/LWG/issue3126">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3126"></a></td>
+<td align="right"><a href="lwg-active.html#3204">3204</a><sup><a href="https://cplusplus.github.io/LWG/issue3204">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3204"></a></td>
 <td align="left">30.8 [re.submatch]<a name="re.submatch"></a></td>
-<td align="left">There's no <tt>std::sub_match::compare(string_view)</tt> overload</td>
+<td align="left"><tt>sub_match::swap</tt> only swaps the base class</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3204">3204</a><sup><a href="https://cplusplus.github.io/LWG/issue3204">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3204"></a></td>
+<td align="right"><a href="lwg-active.html#3126">3126</a><sup><a href="https://cplusplus.github.io/LWG/issue3126">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3126"></a></td>
 <td align="left">30.8 [re.submatch]</td>
-<td align="left"><tt>sub_match::swap</tt> only swaps the base class</td>
+<td align="left">There's no <tt>std::sub_match::compare(string_view)</tt> overload</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -3052,25 +3052,25 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2480">2480</a><sup><a href="https://cplusplus.github.io/LWG/issue2480">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="2480"></a></td>
-<td align="left">D.25.3 [depr.conversions.buffer]<a name="depr.conversions.buffer"></a></td>
-<td align="left">Error handling of <tt>wbuffer_convert</tt> unclear</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">4</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#2479">2479</a><sup><a href="https://cplusplus.github.io/LWG/issue2479">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="2479"></a></td>
-<td align="left">D.25.3 [depr.conversions.buffer]</td>
+<td align="left">D.25.3 [depr.conversions.buffer]<a name="depr.conversions.buffer"></a></td>
 <td align="left">Unclear how <tt>wbuffer_convert</tt> uses <tt>cvtstate</tt></td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
 <td align="left"></td>
 </tr>
+<tr>
+<td align="right"><a href="lwg-active.html#2480">2480</a><sup><a href="https://cplusplus.github.io/LWG/issue2480">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="2480"></a></td>
+<td align="left">D.25.3 [depr.conversions.buffer]</td>
+<td align="left">Error handling of <tt>wbuffer_convert</tt> unclear</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center">4</td>
+<td align="left"></td>
+</tr>
 </table>
-<h2><a name="Priority 99"</a>Not Prioritized (28 issues)</h2>
+<h2><a name="Priority 99"</a>Not Prioritized (29 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -3164,20 +3164,20 @@ don't support <tt>DynamicBuffer</tt> lvalues</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2885">2885</a><sup><a href="https://cplusplus.github.io/LWG/issue2885">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2885"></a></td>
+<td align="right"><a href="lwg-active.html#2884">2884</a><sup><a href="https://cplusplus.github.io/LWG/issue2884">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2884"></a></td>
 <td align="left">22 [containers]<a name="containers"></a></td>
-<td align="left">The relational operators of <tt>optional</tt> and <tt>variant</tt> completely reflect the semantics of the element 
-types &mdash; this is inconsistent with other types in the library</td>
+<td align="left">Relational operators for containers should sfinae; if the underlying type is not comparable, neither should the container be</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#2884">2884</a><sup><a href="https://cplusplus.github.io/LWG/issue2884">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2884"></a></td>
+<td align="right"><a href="lwg-active.html#2885">2885</a><sup><a href="https://cplusplus.github.io/LWG/issue2885">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="2885"></a></td>
 <td align="left">22 [containers]</td>
-<td align="left">Relational operators for containers should sfinae; if the underlying type is not comparable, neither should the container be</td>
+<td align="left">The relational operators of <tt>optional</tt> and <tt>variant</tt> completely reflect the semantics of the element 
+types &mdash; this is inconsistent with other types in the library</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"></td>
@@ -3256,6 +3256,15 @@ use <tt>const F&amp;</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3565">3565</a><sup><a href="https://cplusplus.github.io/LWG/issue3565">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3565"></a></td>
+<td align="left">27.12 [time.format]<a name="time.format"></a></td>
+<td align="left">Handling of encodings in localized formatting of <tt>chrono</tt> types is underspecified</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#2236">2236</a><sup><a href="https://cplusplus.github.io/LWG/issue2236">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#SG1">SG1</a><a name="2236"></a></td>
 <td align="left">31.2 [atomics.syn]<a name="atomics.syn"></a></td>
@@ -3292,18 +3301,9 @@ use <tt>const F&amp;</tt></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#936">936</a><sup><a href="https://cplusplus.github.io/LWG/issue936">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
-<td align="left">32.5.4 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
-<td align="left">Mutex type overspecified</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center"></td>
-<td align="left"><a href="lwg-active.html#961">961</a></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#1493">1493</a><sup><a href="https://cplusplus.github.io/LWG/issue1493">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="1493"></a></td>
-<td align="left">32.5.4 [thread.mutex.requirements]</td>
+<td align="left">32.5.4 [thread.mutex.requirements]<a name="thread.mutex.requirements"></a></td>
 <td align="left">Add <tt>mutex</tt>, <tt>recursive_mutex</tt>, <tt>is_locked</tt> function</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
@@ -3317,6 +3317,15 @@ use <tt>const F&amp;</tt></td>
 <td align="center"><font color="red">No</font></td>
 <td align="center"></td>
 <td align="left"><a href="lwg-active.html#936">936</a></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#936">936</a><sup><a href="https://cplusplus.github.io/LWG/issue936">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="936"></a></td>
+<td align="left">32.5.4 [thread.mutex.requirements]</td>
+<td align="left">Mutex type overspecified</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center"></td>
+<td align="left"><a href="lwg-active.html#961">961</a></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#2533">2533</a><sup><a href="https://cplusplus.github.io/LWG/issue2533">(i)</a></sup></td>
