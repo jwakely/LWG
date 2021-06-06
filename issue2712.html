@@ -46,11 +46,11 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++17">C++17</a> status.</em></p>
 <h3><a name="2712" href="lwg-defects.html#2712">2712</a>. <tt>copy_file(from, to, ...)</tt> has a number of unspecified error conditions</h3>
-<p><b>Section:</b> 99 [fs.op.copy_file] <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
- <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-05-10 <b>Last modified:</b> 2017-07-30</p>
+<p><b>Section:</b> 29.11.13.5 <a href="https://wg21.link/fs.op.copy.file">[fs.op.copy.file]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
+ <b>Submitter:</b> Eric Fiselier <b>Opened:</b> 2016-05-10 <b>Last modified:</b> 2021-06-06</p>
 <p><b>Priority: </b>2
 </p>
-<p><b>View all other</b> <a href="lwg-index.html#fs.op.copy_file">issues</a> in [fs.op.copy_file].</p>
+<p><b>View all other</b> <a href="lwg-index.html#fs.op.copy.file">issues</a> in [fs.op.copy.file].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++17">C++17</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -83,7 +83,7 @@ Eric to provide wording.
 <p><b>Proposed resolution:</b></p>
 <p>This wording is relative to N4582.</p>
 <ol>
-<li><p>Modify 99 [fs.op.copy_file] as indicated:</p>
+<li><p>Modify  [fs.op.copy_file] as indicated:</p>
 
 <blockquote>
 <pre>
@@ -102,7 +102,7 @@ bool copy_file(const path&amp; from, const path&amp; to, copy_options options,
 <li><ins><tt>!is_regular_file(from)</tt>, or</ins></li>
 <li><ins><tt>exists(to)</tt> and <tt>!is_regular_file(to)</tt>, or</ins></li>
 <li><tt>exists(to)</tt> and <tt>equivalent(from, to)</tt>, or</li>
-<li><tt>exists(to)</tt> and <tt>(options &amp; (copy_options::skip_existing | copy_options::overwrite_existing | 
+<li><tt>exists(to)</tt> and <tt>(options &amp; (copy_options::skip_existing | copy_options::overwrite_existing |
 copy_options::update_existing)) == copy_options::none</tt>.</li>
 </ul>
 </blockquote>

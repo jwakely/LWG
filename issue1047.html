@@ -46,11 +46,11 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
 <h3><a name="1047" href="lwg-defects.html#1047">1047</a>. Ensure that future's <tt>get()</tt> blocks when not ready</h3>
-<p><b>Section:</b> 99 [futures.unique_future] <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2009-03-12 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 32.9.7 <a href="https://wg21.link/futures.unique.future">[futures.unique.future]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2009-03-12 <b>Last modified:</b> 2021-06-06</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View all other</b> <a href="lwg-index.html#futures.unique_future">issues</a> in [futures.unique_future].</p>
+<p><b>View all other</b> <a href="lwg-index.html#futures.unique.future">issues</a> in [futures.unique.future].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Resolved">Resolved</a> status.</p>
 <p><b>Discussion:</b></p>
 
@@ -88,14 +88,14 @@ Suggested wording:
 </p>
 
 <p>
-Add a paragraph to 99 [futures.shared_future]:
+Add a paragraph to  [futures.shared_future]:
 </p>
 
 <blockquote><pre>
 void shared_future&lt;void&gt;::get() const;
 </pre>
 <blockquote><p>
-<i>Effects:</i> If <tt>is_ready()</tt> would return <tt>false</tt>, block on the asynchronous 
+<i>Effects:</i> If <tt>is_ready()</tt> would return <tt>false</tt>, block on the asynchronous
 result associated with <tt>*this</tt>.
 </p></blockquote>
 </blockquote>
@@ -126,12 +126,12 @@ Keep in Review status.
 
 <p><b>Proposed resolution:</b></p>
 <p>
-Add a paragraph to 99 [futures.unique_future]:
+Add a paragraph to  [futures.unique_future]:
 </p>
 
 <blockquote><pre>
-R&amp;&amp; unique_future::get(); 
-R&amp; unique_future&lt;R&amp;&gt;::get(); 
+R&amp;&amp; unique_future::get();
+R&amp; unique_future&lt;R&amp;&gt;::get();
 void unique_future&lt;void&gt;::get();
 </pre>
 <blockquote>
