@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-06-12 at 12:48:41 UTC</p>
+<p><p>Revised 2021-06-12 at 13:16:17 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40246,6 +40246,71 @@ with value <tt>true</tt> when <tt>A</tt> denotes a specialization of the class t
 otherwise.</ins>
 <p/>
 -25- <i>Effects:</i> Equivalent to: <tt>return bool(x) ? *x &lt;=&gt; v : strong_ordering::less;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3567" href="#3567">3567</a><sup><a href="https://cplusplus.github.io/LWG/issue3567">(i)</a></sup>. Formatting move-only iterators take two</h3>
+<p><b>Section:</b> 20.20.5.4 <a href="https://wg21.link/format.context">[format.context]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-06-08 <b>Last modified:</b> 2021-06-12</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-defects.html#3539">3539</a> fixed copies of potentially-move-only iterators in the <tt>format_to</tt> and 
+<tt>vformat_to</tt> overloads, but missed the fact that member functions of <tt>basic_format_context</tt> 
+are specified to copy iterators as well. In particular, 20.20.5.4 <a href="https://wg21.link/format.context">[format.context]</a> states:
+</p>
+<blockquote>
+<pre>
+iterator out();
+</pre>
+<blockquote><p>
+-7- <i>Returns:</i> <tt>out_</tt>.
+</p></blockquote>
+<pre>
+void advance_to(iterator it);
+</pre>
+<blockquote><p>
+-8- <i>Effects:</i> Equivalent to: <tt>out_ = it;</tt>
+</p></blockquote>
+</blockquote>
+<p>
+both of which appear to require copyability.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.20.5.4 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+iterator out();
+</pre>
+<blockquote>
+<p>
+-7- <del><i>Returns:</i> <tt>out_</tt>.</del><ins><i>Effects:</i> Equivalent to: <tt>return std::move(out_);</tt></ins>
+</p>
+</blockquote>
+<pre>
+void advance_to(iterator it);
+</pre>
+<blockquote>
+<p>
+-8- <i>Effects:</i> Equivalent to: <tt>out_ = <ins>std::move(</ins>it<ins>)</ins>;</tt>
 </p>
 </blockquote>
 </blockquote>
