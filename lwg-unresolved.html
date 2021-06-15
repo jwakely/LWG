@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-06-15 at 16:08:53 UTC</p>
+<p><p>Revised 2021-06-15 at 16:52:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39376,7 +39376,7 @@ an exception of type <tt>format_error</tt> is thrown.
 <hr>
 <h3><a name="3566" href="#3566">3566</a><sup><a href="https://cplusplus.github.io/LWG/issue3566">(i)</a></sup>. Constraint recursion for <tt>operator&lt;=&gt;(optional&lt;T&gt;, U)</tt></h3>
 <p><b>Section:</b> 20.6.8 <a href="https://wg21.link/optional.comp.with.t">[optional.comp.with.t]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-06-07 <b>Last modified:</b> 2021-06-14</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-06-07 <b>Last modified:</b> 2021-06-15</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#optional.comp.with.t">issues</a> in [optional.comp.with.t].</p>
@@ -39502,7 +39502,7 @@ template&lt;class T, <del>three_way_comparable_with&lt;T&gt;</del><ins>class</in
 template&lt;class T, <del>three_way_comparable_with&lt;T&gt;</del><ins>class</ins> U&gt;
   <ins>requires (!<i>is-optional</i>&lt;U&gt;) &amp;&amp; three_way_comparable_with&lt;T, U&gt;</ins>
     constexpr compare_three_way_result_t&lt;T, U&gt;
-      operator&lt;=&gt;(const optional&lt;T&gt;&amp;, const U&amp;);
+      operator&lt;=&gt;(const optional&lt;T&gt;&amp; x, const U&amp; v);
 </pre>
 <blockquote>
 <p>
