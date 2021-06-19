@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-06-19 at 14:29:03 UTC</p>
+<p><p>Revised 2021-06-19 at 14:52:33 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39771,6 +39771,58 @@ friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator<
 <blockquote>
 <p>
 -16- <i>Effects:</i> Equivalent to: return <tt>ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>);</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3570" href="#3570">3570</a><sup><a href="https://cplusplus.github.io/LWG/issue3570">(i)</a></sup>. <tt>basic_osyncstream::emit</tt> should be an unformatted output function</h3>
+<p><b>Section:</b> 24.7.11.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-06-19 <b>Last modified:</b> 2021-06-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.join.iterator">active issues</a> in [range.join.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.join.iterator">issues</a> in [range.join.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>basic_osyncstream::emit</tt> seems rather similar to <tt>basic_ostream::flush</tt> &mdash;
+both are "flushing" operations that forward to member functions of the
+<tt>streambuf</tt> and set <tt>badbit</tt> if those functions fail. But the former isn't
+currently specified as an unformatted output function, so it a) doesn't construct or check a 
+<tt>sentry</tt> and b) doesn't set <tt>badbit</tt> if <tt>emit</tt> exits via an exception. At 
+least the latter appears to be clearly desirable &mdash; a <tt>streambuf</tt> operation that throws 
+ordinarily results in <tt>badbit</tt> being set.
+<p/>
+The reference implementation in <a href="https://wg21.link/P0053R7">P0053R7</a> constructs a <tt>sentry</tt> and only
+calls <tt>emit</tt> on the <tt>streambuf</tt> if the <tt>sentry</tt> converts to <tt>true</tt>, 
+so this seems to be an accidental omission in the wording.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 29.10.3.3 <a href="https://wg21.link/syncstream.osyncstream.members">[syncstream.osyncstream.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+void emit();
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> <ins>Behaves as an unformatted output function (29.7.5.4 <a href="https://wg21.link/ostream.unformatted">[ostream.unformatted]</a>). 
+After constructing a <tt>sentry</tt> object, c</ins><del>C</del>alls <tt>sb.emit()</tt>. If that call 
+returns <tt>false</tt>, calls <tt>setstate(ios_base::badbit)</tt>.
 </p>
 </blockquote>
 </blockquote>
