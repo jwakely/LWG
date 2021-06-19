@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-06-15 at 16:52:14 UTC</p>
+<p><p>Revised 2021-06-19 at 13:47:53 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39574,6 +39574,52 @@ void advance_to(iterator it);
 -8- <i>Effects:</i> Equivalent to: <tt>out_ = <ins>std::move(</ins>it<ins>)</ins>;</tt>
 </p>
 </blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3568" href="#3568">3568</a><sup><a href="https://cplusplus.github.io/LWG/issue3568">(i)</a></sup>. <tt>basic_istream_view</tt> needs to initialize <tt><i>value_</i></tt></h3>
+<p><b>Section:</b> 24.6.5.2 <a href="https://wg21.link/range.istream.view">[range.istream.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-06-15 <b>Last modified:</b> 2021-06-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/P2325R3">P2325R3</a> removes the default member initializers for <tt>basic_istream_view</tt>'s exposition-only 
+<tt><i>stream_</i></tt> and <tt><i>value_</i></tt> members. Consequently, copying a <tt>basic_istream_view</tt> 
+before the first call to <tt>begin</tt> may produce undefined behavior since doing so necessarily copies the 
+uninitialized <tt><i>value_</i></tt>. We should restore <tt><i>value_</i></tt>'s default member initializer and 
+remove this particular footgun.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+Wording relative to the post-202106 working draft (as near as possible). This PR is currently being implemented in MSVC.
+</p>
+
+<ol>
+<li><p>Modify 24.6.5.2 <a href="https://wg21.link/range.istream.view">[range.istream.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  [&hellip;]
+  template&lt;movable Val, class CharT, class Traits>
+    requires default_initializable&lt;Val&gt; &amp;&amp;
+             <i>stream-extractable</i>&lt;Val, CharT, Traits&gt;
+  class basic_istream_view : public view_interface&lt;basic_istream_view&lt;Val, CharT, Traits&gt;&gt; {
+    [&hellip;]
+    Val <i>value_</i> <ins>= Val()</ins>; <i>// exposition only</i>
+  };
+}
+</pre>
 </blockquote>
 </li>
 
