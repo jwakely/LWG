@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-06-19 at 14:52:33 UTC</p>
+<p><p>Revised 2021-06-19 at 15:10:02 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36605,6 +36605,7 @@ Set priority to 3 during reflector discussions.
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-15 <b>Last modified:</b> 2020-11-21</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#ostream.manip">active issues</a> in [ostream.manip].</p>
 <p><b>View all other</b> <a href="lwg-index.html#ostream.manip">issues</a> in [ostream.manip].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -39783,12 +39784,10 @@ friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator<
 
 <hr>
 <h3><a name="3570" href="#3570">3570</a><sup><a href="https://cplusplus.github.io/LWG/issue3570">(i)</a></sup>. <tt>basic_osyncstream::emit</tt> should be an unformatted output function</h3>
-<p><b>Section:</b> 24.7.11.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 29.10.3.3 <a href="https://wg21.link/syncstream.osyncstream.members">[syncstream.osyncstream.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-06-19 <b>Last modified:</b> 2021-06-19</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.join.iterator">active issues</a> in [range.join.iterator].</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.join.iterator">issues</a> in [range.join.iterator].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -39823,6 +39822,62 @@ void emit();
 -1- <i>Effects:</i> <ins>Behaves as an unformatted output function (29.7.5.4 <a href="https://wg21.link/ostream.unformatted">[ostream.unformatted]</a>). 
 After constructing a <tt>sentry</tt> object, c</ins><del>C</del>alls <tt>sb.emit()</tt>. If that call 
 returns <tt>false</tt>, calls <tt>setstate(ios_base::badbit)</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3571" href="#3571">3571</a><sup><a href="https://cplusplus.github.io/LWG/issue3571">(i)</a></sup>. <tt>flush_emit</tt> should set <tt>badbit</tt> if the <tt>emit</tt> call fails</h3>
+<p><b>Section:</b> 29.7.5.5 <a href="https://wg21.link/ostream.manip">[ostream.manip]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-06-19 <b>Last modified:</b> 2021-06-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#ostream.manip">active issues</a> in [ostream.manip].</p>
+<p><b>View all other</b> <a href="lwg-index.html#ostream.manip">issues</a> in [ostream.manip].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>basic_osyncstream::emit</tt> is specified to set <tt>badbit</tt> if it fails
+(29.10.3.3 <a href="https://wg21.link/syncstream.osyncstream.members">[syncstream.osyncstream.members]</a> p1), but the <tt>emit</tt> part of the
+<tt>flush_emit</tt> manipulator isn't, even though the <tt>flush</tt> part does set
+<tt>badbit</tt> if it fails.
+<p/>
+More generally, given an <tt>osyncstream s</tt>, <tt>s &lt;&lt; flush_emit;</tt> should
+probably have the same behavior as <tt>s.flush(); s.emit()</tt>.
+<p/>
+The reference implementation linked in <a href="https://wg21.link/P0753R2">P0753R2</a> does set <tt>badbit</tt> on
+failure, so at least this part appears to be an oversight. As
+discussed in LWG <a href="lwg-active.html#3570">3570</a>, <tt>basic_osyncstream::emit</tt> should probably be an
+unformatted output function, so the <tt>emit</tt> part of <tt>flush_emit</tt> should do so too.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 29.7.5.5 <a href="https://wg21.link/ostream.manip">[ostream.manip]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class charT, class traits&gt;
+  basic_ostream&lt;charT, traits&gt;&amp; flush_emit(basic_ostream&lt;charT, traits&gt;&amp; os);
+</pre>
+<blockquote>
+<p>
+-12- <i>Effects:</i> Calls <tt>os.flush()</tt>. Then, if <tt>os.rdbuf()</tt> is a 
+<tt>basic_syncbuf&lt;charT, traits, Allocator&gt;*</tt>, called <tt>buf</tt> for the purpose of exposition, 
+<ins>behaves as an unformatted output function (29.7.5.4 <a href="https://wg21.link/ostream.unformatted">[ostream.unformatted]</a>) of <tt>os</tt>. After 
+constructing a <tt>sentry</tt> object,</ins> calls <tt>buf-&gt;emit()</tt>. <ins>If that call returns 
+<tt>false</tt>, calls <tt>os.setstate(ios_base::badbit)</tt>.</ins>
 </p>
 </blockquote>
 </blockquote>
