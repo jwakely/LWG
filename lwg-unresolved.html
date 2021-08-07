@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-08-07 at 17:37:20 UTC</p>
+<p><p>Revised 2021-08-07 at 18:12:22 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38056,6 +38056,8 @@ option are absent. &mdash; <i>end note</i>]
  <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2021-08-07</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#associative.reqmts.general">active issues</a> in [associative.reqmts.general].</p>
+<p><b>View all other</b> <a href="lwg-index.html#associative.reqmts.general">issues</a> in [associative.reqmts.general].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -38097,6 +38099,48 @@ For context, analogous operations for <tt>std::list</tt> take inconsistent appro
 as the case <tt>position == i</tt> is taken care of.</p></li>
 <li><p><tt>std::list::merge</tt> explicitly allows the case <tt>addressof(x) == this</tt> (resulting in a no-op).</p></li>
 </ul>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3578" href="#3578">3578</a><sup><a href="https://cplusplus.github.io/LWG/issue3578">(i)</a></sup>. Iterator SCARYness in the context of associative container merging</h3>
+<p><b>Section:</b> 22.2.6.1 <a href="https://wg21.link/associative.reqmts.general">[associative.reqmts.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2021-08-07</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#associative.reqmts.general">active issues</a> in [associative.reqmts.general].</p>
+<p><b>View all other</b> <a href="lwg-index.html#associative.reqmts.general">issues</a> in [associative.reqmts.general].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For the expression <tt>a.merge(a2)</tt>, postconditions say that "iterators referring to the transferred elements 
+[&hellip;] now behave as iterators into <tt>a</tt> [&hellip;]". When <tt>a</tt> and <tt>a2</tt> are of different 
+types, this seems to imply, under the widest interpretation for "behaving as", that <tt>a</tt>- iterators and 
+<tt>a2</tt>-iterators are actually of the same type, that is, that associative containers have SCARY iterators,
+ which is, to the best of my knowledge, not currently mandated by the standard.
+<p/>
+There's (at least) three possible resolutions to this ambiguity, ordered by intrusiveness:
+</p>
+<ul>
+<li><p>Indicate that "behaving as" only applies to the case where <tt>a</tt> and <tt>a2</tt> are of the same type.</p></li>
+<li><p>Clarify what "behaving as" means. A non-SCARY interpretation is that an <tt>a2</tt>-iterator to a transferred 
+element can still be dereferenced, incremented (if not past the last element of <tt>a</tt>) and decremented (if 
+not pointing to the first element of <tt>a</tt>), while comparison with <tt>a</tt>-iterators and use in the 
+interface of <tt>a</tt> is not guaranteed.</p></li>
+<li><p>Mandate SCARY iterators by, for instance, requiring that associative containers with compatible nodes 
+(22.2.4.1 <a href="https://wg21.link/container.node.overview">[container.node.overview]</a>/1) have the same iterator types.</p></li>
+</ul>
+<p>
+Note that this issue does not extend to unordered associative containers, as there (22.2.7.1 <a href="https://wg21.link/unord.req.general">[unord.req.general]</a>) 
+iterators to transferred elements are invalidated, which makes the point of SCARYness irrelevant. That said, 
+if SCARY iterators are finally required for associative containers, it makes much sense to extend the requirement 
+to unordered associative containers as well.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
