@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3577" href="lwg-active.html#3577">3577</a>. Merging an (unordered) associative container with itself</h3>
 <p><b>Section:</b> 22.2.6.1 <a href="https://wg21.link/associative.reqmts.general">[associative.reqmts.general]</a>, 22.2.7.1 <a href="https://wg21.link/unord.req.general">[unord.req.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2021-08-07</p>
+ <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2021-08-08</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#associative.reqmts.general">active issues</a> in [associative.reqmts.general].</p>
@@ -82,13 +82,13 @@ if <tt>a</tt> and <tt>a2</tt> are the same, an iterator can't both be invalidate
 <p>
 Even if a provision is made that, when <tt>a</tt> and <tt>a2</tt> are the same, no elements are transferred by 
 convention, 22.2.7.1 <a href="https://wg21.link/unord.req.general">[unord.req.general]</a> would still implicitly ban the case, as all iterators would be 
-invalidated but the iterators to the remaining elements (again, all iterators) would remain invalid, which is 
+invalidated but the iterators to the remaining elements (again, all iterators) would remain valid, which is 
 contradictory.
 <p/>
 For context, analogous operations for <tt>std::list</tt> take inconsistent approaches:
 </p>
 <ul>
-<li><p><tt>splice(const_iterator position, list&amp; x)</tt> requires that source and destination are not the same.</p></li>
+<li><p><tt>splice(const_iterator position, list&amp; x)</tt> requires that source and destination be not the same.</p></li>
 <li><p><tt>splice(const_iterator position, list&amp; x, const_iterator i)</tt> implicitly allows <tt>addressof(x) == this</tt>, 
 as the case <tt>position == i</tt> is taken care of.</p></li>
 <li><p><tt>std::list::merge</tt> explicitly allows the case <tt>addressof(x) == this</tt> (resulting in a no-op).</p></li>

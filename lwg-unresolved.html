@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-08-07 at 18:12:22 UTC</p>
+<p><p>Revised 2021-08-08 at 11:36:57 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38053,7 +38053,7 @@ option are absent. &mdash; <i>end note</i>]
 <hr>
 <h3><a name="3577" href="#3577">3577</a><sup><a href="https://cplusplus.github.io/LWG/issue3577">(i)</a></sup>. Merging an (unordered) associative container with itself</h3>
 <p><b>Section:</b> 22.2.6.1 <a href="https://wg21.link/associative.reqmts.general">[associative.reqmts.general]</a>, 22.2.7.1 <a href="https://wg21.link/unord.req.general">[unord.req.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2021-08-07</p>
+ <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2021-08-08</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#associative.reqmts.general">active issues</a> in [associative.reqmts.general].</p>
@@ -38088,13 +38088,13 @@ if <tt>a</tt> and <tt>a2</tt> are the same, an iterator can't both be invalidate
 <p>
 Even if a provision is made that, when <tt>a</tt> and <tt>a2</tt> are the same, no elements are transferred by 
 convention, 22.2.7.1 <a href="https://wg21.link/unord.req.general">[unord.req.general]</a> would still implicitly ban the case, as all iterators would be 
-invalidated but the iterators to the remaining elements (again, all iterators) would remain invalid, which is 
+invalidated but the iterators to the remaining elements (again, all iterators) would remain valid, which is 
 contradictory.
 <p/>
 For context, analogous operations for <tt>std::list</tt> take inconsistent approaches:
 </p>
 <ul>
-<li><p><tt>splice(const_iterator position, list&amp; x)</tt> requires that source and destination are not the same.</p></li>
+<li><p><tt>splice(const_iterator position, list&amp; x)</tt> requires that source and destination be not the same.</p></li>
 <li><p><tt>splice(const_iterator position, list&amp; x, const_iterator i)</tt> implicitly allows <tt>addressof(x) == this</tt>, 
 as the case <tt>position == i</tt> is taken care of.</p></li>
 <li><p><tt>std::list::merge</tt> explicitly allows the case <tt>addressof(x) == this</tt> (resulting in a no-op).</p></li>
@@ -38110,7 +38110,7 @@ as the case <tt>position == i</tt> is taken care of.</p></li>
 <hr>
 <h3><a name="3578" href="#3578">3578</a><sup><a href="https://cplusplus.github.io/LWG/issue3578">(i)</a></sup>. Iterator SCARYness in the context of associative container merging</h3>
 <p><b>Section:</b> 22.2.6.1 <a href="https://wg21.link/associative.reqmts.general">[associative.reqmts.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2021-08-07</p>
+ <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2021-08-08</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#associative.reqmts.general">active issues</a> in [associative.reqmts.general].</p>
@@ -38120,11 +38120,11 @@ as the case <tt>position == i</tt> is taken care of.</p></li>
 <p>
 For the expression <tt>a.merge(a2)</tt>, postconditions say that "iterators referring to the transferred elements 
 [&hellip;] now behave as iterators into <tt>a</tt> [&hellip;]". When <tt>a</tt> and <tt>a2</tt> are of different 
-types, this seems to imply, under the widest interpretation for "behaving as", that <tt>a</tt>- iterators and 
+types, this seems to imply, under the widest interpretation for "behaving as", that <tt>a</tt>-iterators and 
 <tt>a2</tt>-iterators are actually of the same type, that is, that associative containers have SCARY iterators,
  which is, to the best of my knowledge, not currently mandated by the standard.
 <p/>
-There's (at least) three possible resolutions to this ambiguity, ordered by intrusiveness:
+There are (at least) three possible resolutions to this ambiguity, ordered by intrusiveness:
 </p>
 <ul>
 <li><p>Indicate that "behaving as" only applies to the case where <tt>a</tt> and <tt>a2</tt> are of the same type.</p></li>
