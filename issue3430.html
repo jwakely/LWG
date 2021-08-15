@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3430" href="lwg-defects.html#3430">3430</a>. <tt>std::fstream</tt> &amp; co. should be constructible from <tt>string_view</tt></h3>
-<p><b>Section:</b> 29.9.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 29.10.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-15 <b>Last modified:</b> 2021-06-12</p>
 <p><b>Priority: </b>3
 </p>
@@ -86,7 +86,7 @@ will still implicitly convert to <tt>filesystem::path</tt>, but that seems reaso
 encoding conversion is necessary. For Windows we support construction from <tt>const wchar_t*</tt> but not 
 from <tt>wstring</tt> or <tt>wstring_view</tt>, which means those types will convert to <tt>filesystem::path</tt>. 
 That seems suboptimal, so we might also want to add <tt>wstring</tt> and <tt>wstring_view</tt> overloads for 
-"wide systems only", as per 29.9.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a> p3.
+"wide systems only", as per 29.10.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a> p3.
 <p/>
 Daniel:
 <p/>
@@ -171,7 +171,7 @@ This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.
 </p>
 
 <ol>
-<li><p>Modify 29.9.3 <a href="https://wg21.link/ifstream">[ifstream]</a>, class template <tt>basic_ifstream</tt> synopsis, as indicated:</p>
+<li><p>Modify 29.10.3 <a href="https://wg21.link/ifstream">[ifstream]</a>, class template <tt>basic_ifstream</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -186,7 +186,7 @@ explicit basic_ifstream(const <del>filesystem::path</del><ins>T</ins>&amp; s,
 </blockquote>
 </li>
 
-<li><p>Modify 29.9.3.2 <a href="https://wg21.link/ifstream.cons">[ifstream.cons]</a> as indicated:</p>
+<li><p>Modify 29.10.3.2 <a href="https://wg21.link/ifstream.cons">[ifstream.cons]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -213,7 +213,7 @@ explicit basic_ifstream(const <del>filesystem::path</del><ins>T</ins>&amp; s,
 </blockquote>
 </li>
 
-<li><p>Modify 29.9.4 <a href="https://wg21.link/ofstream">[ofstream]</a>, class template <tt>basic_ofstream</tt> synopsis, as indicated:</p>
+<li><p>Modify 29.10.4 <a href="https://wg21.link/ofstream">[ofstream]</a>, class template <tt>basic_ofstream</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -228,7 +228,7 @@ explicit basic_ofstream(const <del>filesystem::path</del><ins>T</ins>&amp; s,
 </blockquote>
 </li>
 
-<li><p>Modify 29.9.4.2 <a href="https://wg21.link/ofstream.cons">[ofstream.cons]</a> as indicated:</p>
+<li><p>Modify 29.10.4.2 <a href="https://wg21.link/ofstream.cons">[ofstream.cons]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -255,7 +255,7 @@ explicit basic_ofstream(const <del>filesystem::path</del><ins>T</ins>&amp; s,
 </blockquote>
 </li>
 
-<li><p>Modify 29.9.5 <a href="https://wg21.link/fstream">[fstream]</a>, class template <tt>basic_fstream</tt> synopsis, as indicated:</p>
+<li><p>Modify 29.10.5 <a href="https://wg21.link/fstream">[fstream]</a>, class template <tt>basic_fstream</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -272,7 +272,7 @@ explicit basic_fstream(
 </blockquote>
 </li>
 
-<li><p>Modify 29.9.5.2 <a href="https://wg21.link/fstream.cons">[fstream.cons]</a> as indicated:</p>
+<li><p>Modify 29.10.5.2 <a href="https://wg21.link/fstream.cons">[fstream.cons]</a> as indicated:</p>
 
 <blockquote>
 <pre>

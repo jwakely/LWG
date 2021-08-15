@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3><a name="2943" href="lwg-defects.html#2943">2943</a>. Problematic specification of the wide version of <tt>basic_filebuf::open</tt></h3>
-<p><b>Section:</b> 29.9.2.4 <a href="https://wg21.link/filebuf.members">[filebuf.members]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 29.10.2.4 <a href="https://wg21.link/filebuf.members">[filebuf.members]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-03-09 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>2
 </p>
@@ -87,12 +87,12 @@ it (which should allow <tt>_fwopen</tt>), I think they'll still meet the spirit 
 <p>This wording is relative to <a href="https://wg21.link/n4713">N4713</a>.</p>
 
 <ol>
-<li><p>Edit 29.9.2.4 <a href="https://wg21.link/filebuf.members">[filebuf.members]</a> as indicated:</p>
+<li><p>Edit 29.10.2.4 <a href="https://wg21.link/filebuf.members">[filebuf.members]</a> as indicated:</p>
 <blockquote>
 <pre>
 basic_filebuf* open(const char* s, ios_base::openmode mode);
 basic_filebuf* open(const filesystem::path::value_type* s,
-                    ios_base::openmode mode); <i>// wide systems only; see 29.9.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a></i>
+                    ios_base::openmode mode); <i>// wide systems only; see 29.10.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a></i>
 </pre>
 <blockquote>
 <p>
@@ -131,12 +131,12 @@ returned by calling <tt>fopen</tt></ins>).(footnote 330)
 <p>This wording is relative to <a href="https://wg21.link/n4713">N4713</a>.</p>
 
 <ol>
-<li><p>Edit 29.9.2.4 <a href="https://wg21.link/filebuf.members">[filebuf.members]</a> as indicated:</p>
+<li><p>Edit 29.10.2.4 <a href="https://wg21.link/filebuf.members">[filebuf.members]</a> as indicated:</p>
 <blockquote>
 <pre>
 basic_filebuf* open(const char* s, ios_base::openmode mode);
 basic_filebuf* open(const filesystem::path::value_type* s,
-                    ios_base::openmode mode); <i>// wide systems only; see 29.9.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a></i>
+                    ios_base::openmode mode); <i>// wide systems only; see 29.10.1 <a href="https://wg21.link/fstream.syn">[fstream.syn]</a></i>
 </pre>
 <blockquote>
 <p>

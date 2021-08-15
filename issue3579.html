@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3579" href="lwg-active.html#3579">3579</a>. Complexity guarantees for <tt>resize()</tt> and <tt>append()</tt> functions across the library</h3>
-<p><b>Section:</b> 21.3.3.5 <a href="https://wg21.link/string.capacity">[string.capacity]</a>, 22.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a>, 22.3.10.3 <a href="https://wg21.link/list.capacity">[list.capacity]</a>, 22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>, 99 [forward.list.modifiers], 26.7.2.8 <a href="https://wg21.link/valarray.members">[valarray.members]</a>, 21.3.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a>, 29.11.6.5.3 <a href="https://wg21.link/fs.path.append">[fs.path.append]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 21.3.3.5 <a href="https://wg21.link/string.capacity">[string.capacity]</a>, 22.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a>, 22.3.10.3 <a href="https://wg21.link/list.capacity">[list.capacity]</a>, 22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>, 22.3.9.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a>, 26.7.2.8 <a href="https://wg21.link/valarray.members">[valarray.members]</a>, 21.3.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a>, 29.12.6.5.3 <a href="https://wg21.link/fs.path.append">[fs.path.append]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Louis Dionne <b>Opened:</b> 2021-08-11 <b>Last modified:</b> 2021-08-14</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -79,7 +79,7 @@ The following classes have a <tt>resize()</tt> member function and also a <tt>pu
 The following classes have a <tt>resize()</tt> member function but do not support <tt>push_back()</tt>:
 </p>
 <ul>
-<li><p>99 [forward.list.modifiers]</p></li>
+<li><p>22.3.9.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a></p></li>
 <li><p>26.7.2.8 <a href="https://wg21.link/valarray.members">[valarray.members]</a></p></li>
 </ul>
 <p>
@@ -87,7 +87,7 @@ The following classes have an <tt>append()</tt> member function:
 </p>
 <ul>
 <li><p>21.3.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a></p></li>
-<li><p>29.11.6.5.3 <a href="https://wg21.link/fs.path.append">[fs.path.append]</a></p></li>
+<li><p>29.12.6.5.3 <a href="https://wg21.link/fs.path.append">[fs.path.append]</a></p></li>
 </ul>
 <p>
 None of them specify a complexity requirement. I think we should update all of them to describe 
