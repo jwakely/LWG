@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-09-04 at 16:09:25 UTC</p>
+<p><p>Revised 2021-09-05 at 16:04:51 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38028,6 +38028,74 @@ to the value contained in <tt>*this</tt>.</p></li>
 <tt><del>operator=(variant(std::forward&lt;T&gt;(t)))</del><ins>emplace&lt;<i>j</i>&gt;(T<sub><i>j</i></sub>(std::forward&lt;T&gt;(t)))</ins></tt>.</p></li>
 </ol>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3586" href="#3586">3586</a><sup><a href="https://cplusplus.github.io/LWG/issue3586">(i)</a></sup>. Formatting character alignment inconsistencies</h3>
+<p><b>Section:</b> 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2021-09-05 <b>Last modified:</b> 2021-09-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.string.std">active issues</a> in [format.string.std].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.string.std">issues</a> in [format.string.std].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The alignment options specified in 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a>, Table [tab:format.align] 
+causes an inconsistency when formatting characters. The output differs depending on whether 
+an integer is formatted using a character presentation type or when using a character directly:
+</p>
+<blockquote><pre>
+format("{:3}", '*'); -&gt; "*  " <i>// aligned at the start of the available space</i>
+format("{:3c}", 42); -&gt; "  *" <i>// aligned at the end of the available space</i>
+</pre></blockquote>
+<p>
+I expect both calls to return the same value: <tt>"*  "</tt>. The current wording
+mixes the type and the presentation type. To me, it seems clearer to adjust to wording 
+to only use the presentation type. Another approach would be adjusting the wording to 
+add an exception when an integer type uses the character presentation.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a>, Table [tab:format.align], as indicated:</p>
+
+<blockquote>
+<table border="1">
+<caption>Table 59 &mdash; Meaning of <i>align</i> options  [tab:format.align]</caption>
+<tr style="text-align:center">
+<th>Option</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td><tt>&lt;</tt></td>
+<td>Forces the field to be aligned to the start of the available space. This is the default <ins>when 
+the presentation type is a non-arithmetic type</ins><del>for non-arithmetic types, <tt>charT</tt>, and 
+<tt>bool</tt>, unless an integer presentation type is specified</del>.</td>
+</tr>
+<tr>
+<td><tt>&gt;</tt></td>
+<td>Forces the field to be aligned to the end of the available space. This is the default <ins>when 
+the presentation type is an arithmetic type</ins><del>for arithmetic types other than <tt>charT</tt> 
+and <tt>bool</tt> or when an integer presentation type is specified</del>.</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<tt>[&hellip;]</tt>
+</td>
+</tr>
+</table>
 </blockquote>
 </li>
 </ol>
