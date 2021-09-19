@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-09-18 at 17:20:54 UTC</p>
+<p><p>Revised 2021-09-19 at 12:28:30 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38939,6 +38939,114 @@ if <tt>is_constructible_v&lt;Smart, SP, Args...&gt;</tt> is <tt>true</tt>;
 </li>
 <li><p>(11.4) &mdash; otherwise, the program is ill-formed.</p></li>
 </ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3595" href="#3595">3595</a><sup><a href="https://cplusplus.github.io/LWG/issue3595">(i)</a></sup>. Exposition-only class <tt><i>proxy</i></tt> and <tt><i>postfix-proxy</i></tt> for <tt>common_iterator</tt> 
+should be fully <tt>constexpr</tt></h3>
+<p><b>Section:</b> 23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a>, 23.5.4.5 <a href="https://wg21.link/common.iter.nav">[common.iter.nav]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-18 <b>Last modified:</b> 2021-09-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-active.html#3574">3574</a> added <tt>constexpr</tt> to all member functions and friends of <tt>common_iterator</tt> to make it 
+fully <tt>constexpr</tt>, but accidentally omitted the exposition-only classes <tt><i>proxy</i></tt> and 
+<tt><i>postfix-proxy</i></tt> defined for some member functions. We should make these two classes fully <tt>constexpr</tt>, too.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+decltype(auto) operator-&gt;() const
+  requires <i>see below</i>;
+</pre>
+<blockquote>
+<p>
+-3- [&hellip;]
+<p/>
+-4- [&hellip;]
+<p/>
+-5- <i>Effects:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p>(5.1) &mdash; [&hellip;]</p></li>
+<li><p>(5.2) &mdash; [&hellip;]</p></li>
+<li><p>(5.3) &mdash; Otherwise, equivalent to: <tt>return <i>proxy</i>(*get&lt;I&gt;(<i>v_</i>));</tt> 
+where <tt><i>proxy</i></tt> is the exposition-only class:</p>
+<blockquote><pre>
+class <i>proxy</i> {
+  iter_value_t&lt;I&gt; keep_;
+  <ins>constexpr</ins> <i>proxy</i>(iter_reference_t&lt;I&gt;&amp;&amp; x)
+    : keep_(std::move(x)) {}
+public:
+  <ins>constexpr</ins> const iter_value_t&lt;I&gt;* operator-&gt;() const <ins>noexcept</ins> {
+    return addressof(keep_);
+  }
+};
+</pre></blockquote>
+</li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.4.5 <a href="https://wg21.link/common.iter.nav">[common.iter.nav]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+decltype(auto) operator++(int);
+</pre>
+<blockquote>
+<p>
+-4- [&hellip;]
+<p/>
+-5- <i>Effects:</i> If I models forward_iterator, equivalent to:
+<p/>
+[&hellip;]
+<p/>
+Otherwise, if [&hellip;]
+<p/>
+[&hellip;]
+<p/>
+Otherwise, equivalent to:
+</p>
+<blockquote><pre>
+<i>postfix-proxy</i> p(**this);
+++*this;
+return p;
+</pre></blockquote>
+<p>
+where <tt><i>postfix-proxy</i></tt> is the exposition-only class:
+</p>
+<blockquote><pre>
+class <i>postfix-proxy</i> {
+  iter_value_t&lt;I&gt; keep_;
+  <ins>constexpr</ins> <i>postfix-proxy</i>(iter_reference_t&lt;I&gt;&amp;&amp; x)
+    : keep_(std::forward&lt;iter_reference_t&lt;I&gt;&gt;(x)) {}
+public:
+  <ins>constexpr</ins> const iter_value_t&lt;I&gt;&amp; operator*() const <ins>noexcept</ins> {
+    return keep_;
+  }
+};
+</pre></blockquote>
 </blockquote>
 </blockquote>
 </li>
