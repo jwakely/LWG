@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3592" href="lwg-active.html#3592">3592</a>. <tt>lazy_split_view</tt> needs to check the simpleness of <tt>Pattern</tt></h3>
 <p><b>Section:</b> 24.7.13.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-09-15 <b>Last modified:</b> 2021-09-17</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-09-15 <b>Last modified:</b> 2021-09-19</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -106,16 +106,11 @@ namespace std::ranges {
 
     [&hellip;]
   };
+  
+  [&hellip;]
+  
+}
 </pre>
-</blockquote>
-[&hellip;]
-<pre>
-constexpr iterator_t&lt;<i>Base</i>&gt; base() &amp;&amp; <ins>requires forward_range&lt;V&gt;</ins>;
-</pre>
-<blockquote>
-<p>
--4- <i>Effects:</i> Equivalent to: <tt>return std::move(<i>i_.current</i>);</tt>
-</p>
 </blockquote>
 </blockquote>
 </li>
