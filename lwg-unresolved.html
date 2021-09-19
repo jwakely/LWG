@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-09-19 at 12:28:30 UTC</p>
+<p><p>Revised 2021-09-19 at 12:38:18 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38950,7 +38950,7 @@ if <tt>is_constructible_v&lt;Smart, SP, Args...&gt;</tt> is <tt>true</tt>;
 
 
 <hr>
-<h3><a name="3595" href="#3595">3595</a><sup><a href="https://cplusplus.github.io/LWG/issue3595">(i)</a></sup>. Exposition-only class <tt><i>proxy</i></tt> and <tt><i>postfix-proxy</i></tt> for <tt>common_iterator</tt> 
+<h3><a name="3595" href="#3595">3595</a><sup><a href="https://cplusplus.github.io/LWG/issue3595">(i)</a></sup>. Exposition-only classes <tt><i>proxy</i></tt> and <tt><i>postfix-proxy</i></tt> for <tt>common_iterator</tt> 
 should be fully <tt>constexpr</tt></h3>
 <p><b>Section:</b> 23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a>, 23.5.4.5 <a href="https://wg21.link/common.iter.nav">[common.iter.nav]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-18 <b>Last modified:</b> 2021-09-19</p>
@@ -39052,6 +39052,32 @@ public:
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3596" href="#3596">3596</a><sup><a href="https://cplusplus.github.io/LWG/issue3596">(i)</a></sup>. <tt>ranges::starts_with</tt> and <tt>ranges::ends_with</tt> are underspecified</h3>
+<p><b>Section:</b> 25.6.14 <a href="https://wg21.link/alg.starts.with">[alg.starts.with]</a>, 25.6.15 <a href="https://wg21.link/alg.ends.with">[alg.ends.with]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Michael Schellenberger Costa <b>Opened:</b> 2021-09-17 <b>Last modified:</b> 2021-09-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+When implementing C++23 new <tt>ranges::starts_with</tt> and <tt>ranges::ends_with</tt> 
+<a href="https://github.com/microsoft/STL/pull/1997">for MSVC</a> we came around some issues regarding infinite ranges.
+<p/>
+In short, there is no possible answers to <tt>ends_with</tt>, if the second range is infinite. Similarly, there 
+is no meaningful answer to <tt>starts_with</tt> if both ranges are infinite.
+<p/>
+We should constraint both algorithms to forbid those corner cases (preferred resolution), or explicitly specify a 
+given return value for those (The reasonable choice would be "<tt>return false;</tt>")
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
