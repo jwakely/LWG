@@ -44,15 +44,15 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
 <h3><a name="3585" href="lwg-active.html#3585">3585</a>. Variant converting assignment with immovable alternative</h3>
-<p><b>Section:</b> 20.7.3.4 <a href="https://wg21.link/variant.assign">[variant.assign]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2021-09-01 <b>Last modified:</b> 2021-09-04</p>
+<p><b>Section:</b> 20.7.3.4 <a href="https://wg21.link/variant.assign">[variant.assign]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2021-09-01 <b>Last modified:</b> 2021-09-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#variant.assign">active issues</a> in [variant.assign].</p>
 <p><b>View all other</b> <a href="lwg-index.html#variant.assign">issues</a> in [variant.assign].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Example originally from <a href="https://stackoverflow.com/q/68998153/2069064">StackOverflow</a> but with a more reasonable example from Tim Song:
@@ -85,6 +85,13 @@ But we don't actually have to do a full move assignment here, since we know the 
 changing the alternative, so the fact that <tt>A</tt> isn't move-assignable shouldn't matter. libc++ and 
 msvc instead do something more direct, allowing the above program.
 </p>
+
+<p><i>[2021-09-20; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>

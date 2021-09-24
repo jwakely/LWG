@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-09-19 at 14:24:17 UTC</p>
+<p><p>Revised 2021-09-24 at 14:38:44 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -11565,253 +11565,6 @@ the iterators should compare equal.
 
 
 <p><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
-<h3><a name="2381" href="#2381">2381</a><sup><a href="https://cplusplus.github.io/LWG/issue2381">(i)</a></sup>. Inconsistency in parsing floating point numbers</h3>
-<p><b>Section:</b> 28.4.3.2.3 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2014-04-30 <b>Last modified:</b> 2021-08-27</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#facet.num.get.virtuals">active issues</a> in [facet.num.get.virtuals].</p>
-<p><b>View all other</b> <a href="lwg-index.html#facet.num.get.virtuals">issues</a> in [facet.num.get.virtuals].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-In 28.4.3.2.3 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a> we have:
-</p>
-<blockquote><p>
-Stage 3: The sequence of chars accumulated in stage 2 (the field) is converted to a numeric value by the
-rules of one of the functions declared in the header <tt>&lt;cstdlib&gt;</tt>:
-</p>
-<ul>
-<li><p>For a signed integer value, the function <tt>strtoll</tt>.</p></li>
-<li><p>For an unsigned integer value, the function <tt>strtoull</tt>.</p></li>
-<li><p>For a floating-point value, the function <tt>strtold</tt>.</p></li>
-</ul>
-</blockquote>
-<p>
-This implies that for many cases, this routine should return true:
-</p>
-<blockquote><pre>
-bool is_same(const char* p)
-{
-  std::string str{p};
-  double val1 = std::strtod(str.c_str(), nullptr);
-  std::stringstream ss(str);
-  double val2;
-  ss &gt;&gt; val2;
-  return std::isinf(val1) == std::isinf(val2) &amp;&amp;                 // either they're both infinity
-         std::isnan(val1) == std::isnan(val2) &amp;&amp;                 // or they're both NaN
-         (std::isinf(val1) || std::isnan(val1) || val1 == val2); // or they're equal
-}
-</pre></blockquote>
-<p>
-and this is indeed true, for many strings:
-</p>
-<blockquote><pre>
-assert(is_same("0"));
-assert(is_same("1.0"));
-assert(is_same("-1.0"));
-assert(is_same("100.123"));
-assert(is_same("1234.456e89"));
-</pre></blockquote>
-<p>
-but not for others
-</p>
-<blockquote><pre>
-assert(is_same("0xABp-4")); // hex float
-assert(is_same("inf"));
-assert(is_same("+inf"));
-assert(is_same("-inf"));
-assert(is_same("nan"));
-assert(is_same("+nan"));
-assert(is_same("-nan"));
-
-assert(is_same("infinity"));
-assert(is_same("+infinity"));
-assert(is_same("-infinity"));
-</pre></blockquote>
-<p>
-These are all strings that are correctly parsed by <tt>std::strtod</tt>, but not by the stream extraction operators.
-They contain characters that are deemed invalid in stage 2 of parsing.
-<p/>
-If we're going to say that we're converting by the rules of <tt>strtold</tt>, then we should accept all the things that
-<tt>strtold</tt> accepts.
-</p>
-
-<p><i>[2016-04, Issues Telecon]</i></p>
-
-<p>
-People are much more interested in round-tripping hex floats than handling <tt>inf</tt> and <tt>nan</tt>. Priority changed to P2.
-</p>
-<p>
-Marshall says he'll try to write some wording, noting that this is a very closely specified part of the standard, and has remained unchanged for a long time. Also, there will need to be a sample implementation.
-</p>
-
-<p><i>[2016-08, Chicago]</i></p>
-
-<p>Zhihao provides wording</p>
-<p>The <tt>src</tt> array in Stage 2 does narrowing only.  The actual
-input validation is delegated to <tt>strtold</tt> (independent from
-the parsing in Stage 3 which is again being delegated
-to <tt>strtold</tt>) by saying:</p>
-
-<p>  [...] If it is not discarded, then a check is made to determine
-  if c is allowed as the next character of an input field of the
-  conversion specifier returned by Stage 1.</p>
-
-<p>So a conforming C++11 <tt>num_get</tt> is supposed to magically
-accept an hexfloat without an exponent</p>
-
-<p>  0x3.AB</p>
-
-<p>because we refers to C99, and the fix to this issue should be
-just expanding the <tt>src</tt> array.</p>
-
-<p>Support for Infs and NaNs are not proposed because of the
-complexity of nan(n-chars).</p>
-
-<p><i>[2016-08, Chicago]</i></p>
-
-<p>Tues PM: Move to Open</p>
-
-<p><i>[2016-09-08, Zhihao Yuan comments and updates proposed wording]</i></p>
-
-<p>
-Examples added.
-</p>
-
-<p><i>[2018-08-23 Batavia Issues processing]</i></p>
-
-<p>Needs an Annex C entry. Tim to write Annex C.</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>This wording is relative to N4606.</p>
-
-<ol>
-<li><p>Change 28.4.3.2.3 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a>/3 Stage 2 as indicated:</p>
-
-<blockquote>
-<p><tt>static const char src[] = "0123456789abcdef<ins>p</ins>xABCDEF<ins>P</ins>X+-";</tt></p>
-</blockquote>
-</li>
-
-<li><p>Append the following examples to 28.4.3.2.3 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a>/3 Stage 2 as indicated:</p>
-<blockquote>
-<p>
-<ins>[<i>Example:</i></ins>
-</p>
-<blockquote>
-<p>
-<ins>Given an input sequence of <tt>"0x1a.bp+07p"</tt>,</ins>
-</p>
-<ul>
-<li><p><ins>if Stage 1 returns <tt>%d</tt>, <tt>"0"</tt> is accumulated;</ins></p></li>
-<li><p><ins>if Stage 1 returns <tt>%i</tt>, <tt>"0x1a"</tt> are accumulated;</ins></p></li>
-<li><p><ins>if Stage 1 returns <tt>%g</tt>, <tt>"0x1a.bp+07"</tt> are accumulated.</ins></p></li>
-</ul>
-<p>
-<ins>In all cases, leaving the rest in the input.</ins>
-</p>
-</blockquote>
-<p><ins>&mdash; end example]</ins></p>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2021-05-18 Tim updates wording]</i></p>
-
-<p>Based on the git history, libc++ appears to have always included
-<tt>p</tt> and <tt>P</tt> in <tt>src</tt>.</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.</p>
-
-<ol>
-<li><p>Change 28.4.3.2.3 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a>/3 Stage 2 as indicated:</p>
-
-<blockquote>
-<p>
-&mdash; Stage 2:
-<p/>
-If <tt>in == end</tt> then stage 2 terminates. Otherwise a <tt>charT</tt>
-is taken from <tt>in</tt> and local variables are initialized as if by
-</p>
-<blockquote>
-<pre>
-char_type ct = *in;
-char c = src[find(atoms, atoms + sizeof(src) - 1, ct) - atoms];
-if (ct == use_facet&lt;numpunct&lt;charT&gt;&gt;(loc).decimal_point())
-c = '.';
-bool discard =
-  ct == use_facet&lt;numpunct&lt;charT&gt;&gt;(loc).thousands_sep()
-  &amp;&amp; use_facet&lt;numpunct&lt;charT&gt;&gt;(loc).grouping().length() != 0;
-</pre>
-</blockquote>
-<p>
-where the values <tt>src</tt> and <tt>atoms</tt> are defined as if by:
-</p>
-<blockquote>
-<pre>
-static const char src[] = "0123456789abcdef<ins>p</ins>xABCDEF<ins>P</ins>X+-";
-char_type atoms[sizeof(src)];
-use_facet&lt;ctype&lt;charT&gt;&gt;(loc).widen(src, src + sizeof(src), atoms);
-</pre>
-</blockquote>
-<p>
-for this value of <tt>loc</tt>.
-<p/>
-If <tt>discard</tt> is true, then if <tt>'.'</tt> has not yet been accumulated,
-then the position of the character is remembered, but the character is otherwise
-ignored. Otherwise, if <tt>'.'</tt> has already been accumulated, the character
-is discarded and Stage 2 terminates. If it is not discarded, then a check is
-made to determine if <tt>c</tt> is allowed as the next character of an input
-field of the conversion specifier returned by Stage 1. If so, it is accumulated.
-<p/>
-If the character is either discarded or accumulated then <tt>in</tt> is advanced
-by <tt>++in</tt> and processing returns to the beginning of stage 2.
-<p/>
-<ins>[<i>Example:</i></ins>
-</p>
-<blockquote>
-<p>
-<ins>Given an input sequence of <tt>"0x1a.bp+07p"</tt>,</ins>
-</p>
-<ul>
-<li><p><ins>if the conversion specifier returned by Stage 1 is <tt>%d</tt>, <tt>"0"</tt> is accumulated;</ins></p></li>
-<li><p><ins>if the conversion specifier returned by Stage 1 is <tt>%i</tt>, <tt>"0x1a"</tt> are accumulated;</ins></p></li>
-<li><p><ins>if the conversion specifier returned by Stage 1 is <tt>%g</tt>, <tt>"0x1a.bp+07"</tt> are accumulated.</ins></p></li>
-</ul>
-<p>
-<ins>In all cases, the remainder is left in the input.</ins>
-</p>
-</blockquote>
-<p><ins>&mdash; end example]</ins></p>
-</blockquote>
-</li>
-<li>
-<p>Add the following new subclause to C.5 <a href="https://wg21.link/diff.cpp03">[diff.cpp03]</a>:</p>
-<blockquote>
-<p>
-<ins><b>C.4.? [locale]: localization library [diff.cpp03.locale]</b></ins>
-<p/>
-<ins><b>Affected subclause:</b> 28.4.3.2.3 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a><br/>
-<b>Change:</b> The <tt>num_get</tt> facet recognizes hexadecimal floating point values.<br/>
-<b>Rationale:</b> Required by new feature.<br/>
-<b>Effect on original feature:</b> Valid C++2003 code may have different behavior in this
-revision of C++.
-</ins>
-</p>
-</blockquote>
-</li>
-</ol>
 
 
 
@@ -26036,140 +25789,6 @@ different <tt>streamoff</tt> values are not equal.
 
 
 <hr>
-<h3><a name="3123" href="#3123">3123</a><sup><a href="https://cplusplus.github.io/LWG/issue3123">(i)</a></sup>. <tt>duration</tt> constructor from representation shouldn't be effectively non-throwing</h3>
-<p><b>Section:</b> 27.5 <a href="https://wg21.link/time.duration">[time.duration]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2018-06-22 <b>Last modified:</b> 2020-09-06</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#time.duration">issues</a> in [time.duration].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-[time.duration]/4 states:
-</p>
-<blockquote><p>
-Members of duration shall not throw exceptions other than those thrown by the indicated operations on their representations.
-</p></blockquote>
-<p>
-Where representation is defined in the non-normative, brief description at [time.duration]/1:
-</p>
-<blockquote><p>
-[&hellip;] A duration has a representation which holds a count of ticks and a tick period. [&hellip;]
-</p></blockquote>
-<p>
-[time.duration.cons]/2 doesn't indicate the operation undergone by its representation, merely stating a postcondition in [time.duration.cons]/3:
-</p>
-<blockquote>
-<p>
-<i>Effects:</i> Constructs an object of type <tt>duration</tt>.
-<p/>
-<i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.
-</p>
-</blockquote>
-<p>
-I suggest this reformulation that follows the format of [time.duration.cons]/5.
-</p>
-<blockquote>
-<p>
-<i>Effects:</i> Constructs an object of type duration, constructing <tt>rep_</tt> from <tt>r</tt>.
-</p>
-</blockquote>
-<p>
-Now it is clear why the constructor would throw.
-</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>
-This wording is relative to <a href="https://wg21.link/n4750">N4750</a>.
-</p>
-
-<p>Change 27.5.2 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class Rep2&gt;
-  constexpr explicit duration(const Rep2&amp; r);
-</pre>
-<blockquote>
-<p>
--1- <i>Remarks:</i> This constructor shall not participate in overload resolution unless [&hellip;]
-<p/>
--2- <i>Effects:</i> Constructs an object of type <tt>duration</tt><ins>, constructing <tt>rep_</tt> from <tt>r</tt></ins>.
-<p/>
--3- <i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.
-</p>
-</blockquote>
-</blockquote></blockquote>
-
-<p><i>[2018-06-27 after reflector discussion]</i></p>
-
-<p>Priority set to 3. Improved wording as result of that discussion.</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>
-This wording is relative to <a href="https://wg21.link/n4750">N4750</a>.
-</p>
-
-<p>Change 27.5.2 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class Rep2&gt;
-  constexpr explicit duration(const Rep2&amp; r);
-</pre>
-<blockquote>
-<p>
--1- <i>Remarks:</i> This constructor shall not participate in overload resolution unless [&hellip;]
-<p/>
--2- <i>Effects:</i> <del>Constructs an object of type <tt>duration</tt></del><ins>Initializes <tt>rep_</tt> with <tt>r</tt></ins>.
-<p/>
-<del>-3- <i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.</del>
-</p>
-</blockquote>
-</blockquote>
-</blockquote>
-
-<p><i>[2020-05-02; Daniel resyncs wording with recent working draft]</i></p>
-
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.
-</p>
-
-<p>Change 27.5.2 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class Rep2&gt;
-  constexpr explicit duration(const Rep2&amp; r);
-</pre>
-<blockquote>
-<p>
--1- <i>Constraints:</i> <tt>is_convertible_v&lt;const Rep2&amp;, rep&gt;</tt> is <tt>true</tt> and
-</p>
-<ol style="list-style-type: none">
-<li><p>(1.1) &mdash; <tt>treat_as_floating_point_v&lt;rep&gt;</tt> is <tt>true</tt> or</p></li>
-<li><p>(1.2) &mdash; <tt>treat_as_floating_point_v&lt;Rep2&gt;</tt> is <tt>false</tt>.</p></li>
-</ol>
-<p>
-[<i>Example:</i> [&hellip;] <i>end example</i>]
-<p/>
-<ins>-?- <i>Effects:</i> Initializes <tt>rep_</tt> with <tt>r</tt>.</ins>
-<p/>
-<del>-2- <i>Postconditions:</i> <tt>count() == static_cast&lt;rep&gt;(r)</tt>.</del>
-</p>
-</blockquote>
-</blockquote>
-
-
-
-
-
-<hr>
 <h3><a name="3124" href="#3124">3124</a><sup><a href="https://cplusplus.github.io/LWG/issue3124">(i)</a></sup>. [networking.ts] Unclear how <tt>execution_context</tt> is intended to store services</h3>
 <p><b>Section:</b> 13.7.5 [networking.ts::async.exec.ctx.globals] <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2018-06-23 <b>Last modified:</b> 2020-09-06</p>
@@ -30998,105 +30617,6 @@ before calling reseed. [<i>Note:</i> <tt>reseed</tt> also resets any instances o
 </blockquote>
 </li>
 
-</ol>
-
-
-
-
-<hr>
-<h3><a name="3361" href="#3361">3361</a><sup><a href="https://cplusplus.github.io/LWG/issue3361">(i)</a></sup>. <tt>safe_range&lt;<i>SomeRange</i>&amp;></tt> case</h3>
-<p><b>Section:</b> 24.4.2 <a href="https://wg21.link/range.range">[range.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2019-12-19 <b>Last modified:</b> 2021-05-22</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-24.5.5 <a href="https://wg21.link/range.dangling">[range.dangling]</a> p2 hints at how <tt>safe_range</tt> should allow lvalue ranges to model it.
-However, its wording doesn't take into account that case.
-</p>
-
-<p><i>[2020-01 Priority set to 3 after review on the reflector.]</i></p>
-
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>This wording is relative to <a href="https://wg21.link/n4842">N4842</a>.</p>
-
-<ol>
-<li><p>Modify 24.4.2 <a href="https://wg21.link/range.range">[range.range]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class T&gt;
-  concept safe_range =
-    range&lt;T&gt; &amp;&amp;
-      (is_lvalue_reference_v&lt;T&gt; || enable_safe_range&lt;remove_cvref_t&lt;T&gt;&gt;);
-</pre>
-<blockquote>
-<p>
--5- <del>Given an expression <tt>E</tt> such that <tt>decltype((E))</tt> is <tt>T</tt>,</del><ins>A type</ins>
-<tt>T</tt> models <tt>safe_range</tt> <del>only</del> <ins>if:</ins>
-<ol style="list-style-type: none">
-<li><p><ins>(5.1) &mdash; <tt>is_lvalue_reference_v&lt;T&gt;</tt> is <tt>true</tt>, or</ins></p></li>
-<li><p><ins>(5.2) &mdash; given an expression <tt>E</tt> such that <tt>decltype((E))</tt> is <tt>T</tt>,</ins>
-<del>if</del> the validity of iterators obtained from the object denoted by <tt>E</tt> is not tied to the lifetime of
-that object.</p></li>
-</ol>
-<p/>
--6- [<i>Note:</i> <del>Since the validity of iterators is not tied to the lifetime of an object
-whose type models <tt>safe_range</tt>, a</del><ins>A</ins> function can accept arguments of <del>such</del> a
-type <ins>that models <tt>safe_range</tt></ins> <del>by value</del> and return iterators obtained from it
-without danger of dangling. &mdash; <i>end note</i>]
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2021-05-19 Tim updates wording]</i></p>
-
-<p>
-The new wording below attempts to keep the "borrowed" property generally
-applicable to all models of <tt>borrowed_range</tt>, instead of bluntly carving
-out lvalue reference types.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.</p>
-
-<ol>
-<li><p>Modify 24.4.2 <a href="https://wg21.link/range.range">[range.range]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class T&gt;
-  concept borrowed_range =
-    range&lt;T&gt; &amp;&amp;
-      (is_lvalue_reference_v&lt;T&gt; || enable_borrowed_range&lt;remove_cvref_t&lt;T&gt;&gt;);
-</pre>
-<blockquote>
-<p>
--5- <ins>Let <tt>U</tt> be <tt>remove_reference_t&lt;T&gt;</tt> if <tt>T</tt>
-is an rvalue reference type, and <tt>T</tt> otherwise.</ins>
-Given <del>an expression <tt>E</tt> such that <tt>decltype((E))</tt> is <tt>T</tt></del>
-<ins>a variable <tt>u</tt> of type <tt>U</tt></ins>,
-<tt>T</tt> models <tt>borrowed_range</tt> only if the validity of iterators
-obtained from <del>the object denoted by <tt>E</tt></del> <ins>u</ins> is not tied
-to the lifetime of that <del>object</del> <ins>variable</ins>.
-<p/>
--6- [<i>Note:</i> Since the validity of iterators is not tied to the lifetime of
-<del>an object</del><ins>a variable</ins> whose type models <tt>borrowed_range</tt>,
-a function <del>can accept arguments of</del> <ins>with a parameter of</ins>
-such a type <del>by value and</del> <ins>can</ins> return iterators
-obtained from it without danger of dangling.
-&mdash; <i>end note</i>]
-</p>
-</blockquote>
-</blockquote>
-</li>
 </ol>
 
 
@@ -36610,217 +36130,6 @@ Set priority to 3 after reflector poll.
 
 
 <hr>
-<h3><a name="3563" href="#3563">3563</a><sup><a href="https://cplusplus.github.io/LWG/issue3563">(i)</a></sup>. <tt>keys_view</tt> example is broken</h3>
-<p><b>Section:</b> 24.7.18.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2021-05-29 <b>Last modified:</b> 2021-06-19</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-In 24.7.18.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> we have:
-</p>
-<blockquote><p>
-<tt>keys_view</tt> is an alias for <tt>elements_view&lt;views::all_t&lt;R&gt;, 0&gt;</tt>, and
-is useful for extracting keys from associative containers.
-<p/>
-[<i>Example 2:</i>
-</p>
-<blockquote><pre>
-auto names = keys_view{historical_figures};
-for (auto&amp;&amp; name : names) {
-  cout &lt;&lt; name &lt;&lt; ' ';  <i>// prints Babbage Hamilton Lovelace Turing</i>
-}
-</pre></blockquote>
-<p>
-&mdash; <i>end example</i>]
-</p>
-</blockquote>
-<p>
-Where <tt>keys_view</tt> is defined as:
-</p>
-<blockquote><pre>
-template&lt;class R&gt;
-  using keys_view = elements_view&lt;views::all_t&lt;R&gt;, 0&gt;;
-</pre></blockquote>
-<p>
-There's a similar example for <tt>values_view</tt>.
-<p/>
-But class template argument deduction cannot work here, <tt>keys_view(r)</tt> cannot deduce <tt>R</tt> &mdash;
-it's a non-deduced context. At the very least, the example is wrong and should be rewritten as
-<tt>views::keys(historical_figures)</tt>. Or, I guess, as
-<tt>keys_view&lt;decltype(historical_figures)&gt;(historical_figures)&gt;</tt> (but really, not).
-</p>
-
-<p><i>[2021-05-29 Tim comments and provides wording]</i></p>
-
-<p>
-I have some ideas about making CTAD work for <tt>keys_view</tt> and
-<tt>values_view</tt>, but current implementations of alias template CTAD are
-not yet in a shape to permit those ideas to be tested.
-What <em>is</em> clear, though, is that the current definitions of <tt>keys_view</tt>
-and <tt>values_view</tt> can't possibly ever work for CTAD, because <tt>R</tt> is only
-used in a non-deduced context and so they can never meet the "deducible" constraint in
-12.2.2.9 <a href="https://wg21.link/over.match.class.deduct">[over.match.class.deduct]</a> p2.3.
-<p/>
-The proposed resolution below removes the <tt>views::all_t</tt> transformation
-in those alias templates. This makes these aliases transparent enough to support CTAD out
-of the box when a view is used, and any questions about deduction guides on
-<tt>elements_view</tt> can be addressed later once the implementations become more mature.
-This also makes them consistent with all the other views: you can't write
-<tt>elements_view&lt;map&lt;int, int&gt;&amp;, 0&gt;</tt> or
-<tt>reverse_view&lt;map&lt;int, int&gt;&amp;&gt;</tt>, so why do we allow
-<tt>keys_view&lt;map&lt;int, int&gt;&amp;&gt;</tt>? It is, however, a breaking change,
-so it is important that we get this in sooner rather than later.
-<p/>
-The proposed resolution has been implemented and tested.
-</p>
-
-<p><i>[2021-06-14; Reflector poll]</i></p>
-
-<p>
-Set priority to 3 after reflector poll.
-Partially addressed by an
-<a href="https://github.com/cplusplus/draft/pull/4659">editorial change</a>.
-</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>
-This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
-</p>
-
-<ol>
-<li><p>Modify 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-namespace std::ranges {
-[&hellip;]
-
-  <i>// 24.7.18 <a href="https://wg21.link/range.elements">[range.elements]</a>, elements view</i>
-  template&lt;input_range V, size_t N&gt;
-    requires <i>see below</i>
-  class elements_view;
-
-  template&lt;class T, size_t N&gt;
-    inline constexpr bool enable_borrowed_range&lt;elements_view&lt;T, N&gt;&gt; = enable_borrowed_range&lt;T&gt;;
-
-  template&lt;class R&gt;
-    using keys_view = elements_view&lt;<del>views::all_t&lt;</del>R<del>&gt;</del>, 0&gt;;
-  template&lt;class R&gt;
-    using values_view = elements_view&lt;<del>views::all_t&lt;</del>R<del>&gt;</del>, 1&gt;;
-
-[&hellip;]
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 24.7.18.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> as indicated:</p>
-
-<blockquote>
-<p>
--3- <tt>keys_view</tt> is an alias for <tt>elements_view&lt;<del>views::all_t&lt;</del>R<del>&gt;</del>, 0&gt;</tt>,
-and is useful for extracting keys from associative containers.
-<p/>
-[<i>Example 2</i>:
-</p>
-<blockquote>
-<pre>
-auto names = keys_view{<ins>views::all(</ins>historical_figures<ins>)</ins>};
-for (auto&amp;&amp; name : names) {
-  cout &lt;&lt; name &lt;&lt; ' '; <i>// prints Babbage Hamilton Lovelace Turing</i>
-}
-</pre>
-</blockquote>
-<p>
-&mdash; <i>end example</i>]
-<p/>
--4- <tt>values_view</tt> is an alias for <tt>elements_view&lt;<del>views::all_t&lt;</del>R<del>&gt;</del>, 1&gt;</tt>,
-and is useful for extracting values from associative containers.
-<p/>
-[<i>Example 3</i>:
-</p>
-<blockquote>
-<pre>
-auto is_even = [](const auto x) { return x % 2 == 0; };
-cout &lt;&lt; ranges::count_if(values_view{<ins>views::all(</ins>historical_figures<ins>)</ins>}, is_even); <i>// prints 2</i>
-</pre>
-</blockquote>
-<p>
-&mdash; <i>end example</i>]
-</p>
-</blockquote>
-</li>
-
-</ol>
-</blockquote>
-<p><i>[2021-06-18 Tim syncs wording to latest working draft]</i></p>
-
-<p>
-The examples have been editorially corrected, so the new wording simply changes the
-definition of <tt>keys_view</tt> and <tt>values_view</tt>.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4892">N4892</a>.
-</p>
-
-<ol>
-<li><p>Modify 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-namespace std::ranges {
-[&hellip;]
-
-  <i>// 24.7.18 <a href="https://wg21.link/range.elements">[range.elements]</a>, elements view</i>
-  template&lt;input_range V, size_t N&gt;
-    requires <i>see below</i>
-  class elements_view;
-
-  template&lt;class T, size_t N&gt;
-    inline constexpr bool enable_borrowed_range&lt;elements_view&lt;T, N&gt;&gt; = enable_borrowed_range&lt;T&gt;;
-
-  template&lt;class R&gt;
-    using keys_view = elements_view&lt;<del>views::all_t&lt;</del>R<del>&gt;</del>, 0&gt;;
-  template&lt;class R&gt;
-    using values_view = elements_view&lt;<del>views::all_t&lt;</del>R<del>&gt;</del>, 1&gt;;
-
-[&hellip;]
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 24.7.18.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> as indicated:</p>
-
-<blockquote>
-<p>
--3- <tt>keys_view</tt> is an alias for <tt>elements_view&lt;<del>views::all_t&lt;</del>R<del>&gt;</del>, 0&gt;</tt>,
-and is useful for extracting keys from associative containers.
-<p/>
-[<i>Example 2</i>: &hellip; &mdash; <i>end example</i>]
-<p/>
--4- <tt>values_view</tt> is an alias for <tt>elements_view&lt;<del>views::all_t&lt;</del>R<del>&gt;</del>, 1&gt;</tt>,
-and is useful for extracting values from associative containers.
-<p/>
-[<i>Example 3</i>: &hellip; &mdash; <i>end example</i>]
-</p>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-<hr>
 <h3><a name="3564" href="#3564">3564</a><sup><a href="https://cplusplus.github.io/LWG/issue3564">(i)</a></sup>. <tt>transform_view::<i>iterator</i>&lt;true&gt;::value_type</tt> and <tt>iterator_category</tt> should 
 use <tt>const F&amp;</tt></h3>
 <p><b>Section:</b> 24.7.7.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> <b>Status:</b> <a href="lwg-active.html#SG9">SG9</a>
@@ -37670,88 +36979,10 @@ Set priority to 3 and status to "LEWG" after reflector poll.
 
 
 <hr>
-<h3><a name="3581" href="#3581">3581</a><sup><a href="https://cplusplus.github.io/LWG/issue3581">(i)</a></sup>. The range constructor makes <tt>basic_string_view</tt> not trivially move constructible</h3>
-<p><b>Section:</b> 21.4.3.2 <a href="https://wg21.link/string.view.cons">[string.view.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An, Casey Carter <b>Opened:</b> 2021-08-16 <b>Last modified:</b> 2021-08-27</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#string.view.cons">active issues</a> in [string.view.cons].</p>
-<p><b>View all other</b> <a href="lwg-index.html#string.view.cons">issues</a> in [string.view.cons].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-<b>Jiang An</b>:
-</p>
-<p>
- The issue is found in <a href="https://github.com/microsoft/STL/pull/2128">this Microsoft STL pull request</a>.
-<p/>
-I think an additional constraint should be added to 21.4.3.2 <a href="https://wg21.link/string.view.cons">[string.view.cons]</a>/11 (a similar constraint is 
-already present for <tt>reference_wrapper</tt>):
-</p>
-<blockquote><p>
-<ins>(11.?) &mdash; <tt>is_same_v&lt;remove_cvref_t&lt;R&gt;, basic_string_view&gt;</tt> is <tt>false</tt>.</ins>
-</p></blockquote>
-<p>
-<b>Casey Carter</b>:
-</p>
-<p>
-<a href="https://wg21.link/p1989R2">P1989R2</a> "Range constructor for <tt>std::string_view</tt> 2: Constrain Harder" 
-added a converting constructor to <tt>basic_string_view</tt> that accepts (by forwarding reference) any sized 
-contiguous range with a compatible element type. This constructor unfortunately intercepts attempts at move 
-construction which previously would have resulted in a call to the copy constructor. (I suspect the authors of 
-P1989 were under the mistaken impression that <tt>basic_string_view</tt> had a defaulted move constructor, which 
-would sidestep this issue by being chosen by overload resolution via the "non-template vs. template" tiebreaker.)
-<p/>
-The resulting inefficiency could be corrected by adding a defaulted move constructor and move assignment operator 
-to <tt>basic_string_view</tt>, but it would be awkward to add text to specify that these moves always leave the 
-source intact. Presumably this is why the move operations were omitted in the first place. We therefore recommend 
-constraining the conversion constructor template to reject arguments whose decayed type is <tt>basic_string_view</tt> 
-(which we should probably do for all conversion constructor templates in the Standard Library).
-<p/>
-Implementation experience: MSVC STL is in the process of implementing this fix. Per Jonathan Wakely, libstdc++ has a 
-similar constraint.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
-</p>
-
-<ol>
-<li><p>Modify 21.4.3.2 <a href="https://wg21.link/string.view.cons">[string.view.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class R&gt;
-  constexpr basic_string_view(R&amp;&amp; r);
-</pre>
-<blockquote>
-<p>
--10- Let <tt>d</tt> be an lvalue of type <tt>remove_cvref_t&lt;R&gt;</tt>.
-<p/>
--11- <i>Constraints</i>:
-</p>
-<ol style="list-style-type: none">
-<li><p><ins>(11.?) &mdash; <tt>remove_cvref_t&lt;R&gt;</tt> is not the same type as <tt>basic_string_view</tt>,</ins></p></li>
-<li><p>(11.1) &mdash; <tt>R</tt> models <tt>ranges::contiguous_range</tt> and <tt>ranges::sized_range</tt>,</p></li>
-<li><p>(11.2) &mdash; <tt>is_same_v&lt;ranges::range_value_t&lt;R&gt;, charT&gt;</tt> is <tt>true</tt>,</p></li>
-<li><p>[&hellip;]</p></li>
-</ol>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-<hr>
 <h3><a name="3582" href="#3582">3582</a><sup><a href="https://cplusplus.github.io/LWG/issue3582">(i)</a></sup>. Unclear where <tt>std::async</tt> exceptions are handled</h3>
 <p><b>Section:</b> 32.9.9 <a href="https://wg21.link/futures.async">[futures.async]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-08-23 <b>Last modified:</b> 2021-08-27</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-08-23 <b>Last modified:</b> 2021-09-24</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#futures.async">active issues</a> in [futures.async].</p>
 <p><b>View all other</b> <a href="lwg-index.html#futures.async">issues</a> in [futures.async].</p>
@@ -37777,6 +37008,13 @@ calls to <tt><i>decay-copy</i></tt>. Exceptions from the <tt><i>decay-copy</i></
 to the caller of <tt>std::async</tt>. We should clarify that that's what the standard means.
 </p>
 
+<p><i>[2021-09-20; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
+
 
 <p><b>Proposed resolution:</b></p>
 <p>
@@ -37784,7 +37022,7 @@ This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
 </p>
 
 <ol>
-<li><p>Modify 21.4.3.2 <a href="https://wg21.link/string.view.cons">[string.view.cons]</a> as indicated:</p>
+<li><p>Modify 32.9.9 <a href="https://wg21.link/futures.async">[futures.async]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -37831,8 +37069,8 @@ the shared state and affects the behavior of any asynchronous return objects tha
 <hr>
 <h3><a name="3583" href="#3583">3583</a><sup><a href="https://cplusplus.github.io/LWG/issue3583">(i)</a></sup>. Clarify if/when short circuiting applies to conditions in <i>Constraints:</i> elements</h3>
 <p><b>Section:</b> 20.5.3.1 <a href="https://wg21.link/tuple.cnstr">[tuple.cnstr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-08-23 <b>Last modified:</b> 2021-08-27</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-08-23 <b>Last modified:</b> 2021-09-24</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#tuple.cnstr">active issues</a> in [tuple.cnstr].</p>
 <p><b>View all other</b> <a href="lwg-index.html#tuple.cnstr">issues</a> in [tuple.cnstr].</p>
@@ -37858,6 +37096,13 @@ We should clarify what is intended, and refactor any <i>Constraints:</i> element
 different is required.
 </p>
 
+<p><i>[2021-09-20; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
+
 
 <p><b>Proposed resolution:</b></p>
 
@@ -37868,8 +37113,8 @@ different is required.
 <hr>
 <h3><a name="3584" href="#3584">3584</a><sup><a href="https://cplusplus.github.io/LWG/issue3584">(i)</a></sup>. Clarify common comparison category conversions</h3>
 <p><b>Section:</b> 17.11.3 <a href="https://wg21.link/cmp.common">[cmp.common]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Peter Brett <b>Opened:</b> 2021-08-23 <b>Last modified:</b> 2021-08-27</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Peter Brett <b>Opened:</b> 2021-08-23 <b>Last modified:</b> 2021-09-24</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -37909,8 +37154,20 @@ Delete 17.11.3 <a href="https://wg21.link/cmp.common">[cmp.common]</a>/1, becaus
 already more precisely included in 17.11.3 <a href="https://wg21.link/cmp.common">[cmp.common]</a>/2.
 </p>
 
+<p><i>[2021-09-20; Reflector poll]</i></p>
 
-<p><b>Proposed resolution:</b></p>
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
+<p><i>[2021-09-20; Reflector poll]</i></p>
+
+<p>
+Jens suggests alternative wording.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
 </p>
@@ -37939,51 +37196,8 @@ of <tt>Ts...</tt>, the expanded parameter pack, or <tt>void</tt> if any element 
 </li>
 </ol>
 
+</blockquote>
 
-
-
-
-<hr>
-<h3><a name="3585" href="#3585">3585</a><sup><a href="https://cplusplus.github.io/LWG/issue3585">(i)</a></sup>. Variant converting assignment with immovable alternative</h3>
-<p><b>Section:</b> 20.7.3.4 <a href="https://wg21.link/variant.assign">[variant.assign]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2021-09-01 <b>Last modified:</b> 2021-09-04</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#variant.assign">active issues</a> in [variant.assign].</p>
-<p><b>View all other</b> <a href="lwg-index.html#variant.assign">issues</a> in [variant.assign].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-Example originally from <a href="https://stackoverflow.com/q/68998153/2069064">StackOverflow</a> but with a more reasonable example from Tim Song:
-</p>
-<blockquote><pre>
-#include &lt;variant&gt;
-#include &lt;string&gt;
-
-struct A {
-  A() = default;
-  A(A&amp;&amp;) = delete;
-};
-
-int main() {
-  std::variant&lt;A, std::string&gt; v;
-  v = "hello";
-}
-</pre></blockquote>
-<p>
-There is implementation divergence here: libstdc++ rejects, libc++ and msvc accept.
-<p/>
-20.7.3.4 <a href="https://wg21.link/variant.assign">[variant.assign]</a> bullet (13.3) says that if we're changing the alternative in assignment 
-and it is not the case that the converting construction won't throw (as in the above), then "Otherwise, 
-equivalent to <tt>operator=(variant(std::forward&lt;T&gt;(t)))</tt>." That is, we defer to move assignment.
-<p/>
-<tt>variant&lt;A, string&gt;</tt> isn't move-assignable (because <tt>A</tt> isn't move constructible). Per 
-the wording in the standard, we have to reject this. libstdc++ follows the wording of the standard.
-<p/>
-But we don't actually have to do a full move assignment here, since we know the situation we're in is 
-changing the alternative, so the fact that <tt>A</tt> isn't move-assignable shouldn't matter. libc++ and 
-msvc instead do something more direct, allowing the above program.
-</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -37992,42 +37206,26 @@ This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
 </p>
 
 <ol>
-<li><p>Modify 20.7.3.4 <a href="https://wg21.link/variant.assign">[variant.assign]</a> as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note:</i> This should cover the case that we want to cover: that if construction of <tt>T<sub><i>j</i></sub></tt> 
-from <tt>T</tt> throws, we haven't yet changed any state in the variant.]
-</p>
-</blockquote>
+<li><p>Modify 17.11.3 <a href="https://wg21.link/cmp.common">[cmp.common]</a> as indicated:</p>
 
 <blockquote>
+<p>
+-1- The type <tt>common_comparison_category</tt> provides an alias for the strongest comparison category <del>to which
+all of the template arguments can be converted</del>
+<ins>among all the template arguments</ins>.
+[<i>Note 1</i>: A comparison category type is stronger than another if they are distinct types and an instance of the former
+can be converted to an instance of the latter. &mdash; <i>end note</i>]
+</p>
 <pre>
-template&lt;class T&gt; constexpr variant&amp; operator=(T&amp;&amp; t) noexcept(<i>see below</i>);
+template&lt;class... Ts&gt;
+struct common_comparison_category {
+  using type = <i>see below</i>;
+};
 </pre>
-<blockquote>
 <p>
--11- Let <tt>T<sub><i>j</i></sub></tt> be a type that is determined as follows: build an imaginary function 
-<tt><i>FUN</i>(T<sub><i>i</i></sub>)</tt> for each alternative type <tt>T<sub><i>i</i></sub></tt> for which 
-<tt>T<sub><i>i</i></sub> x[] = {std::forward&lt;T&gt;(t)};</tt> is well-formed for some invented variable 
-<tt>x</tt>. The overload <tt><i>FUN</i>(T<sub><i>j</i></sub>)</tt> selected by overload resolution for the 
-expression <tt><i>FUN</i>(std::forward&lt;T&gt;(t))</tt> defines the alternative <tt>T<sub><i>j</i></sub></tt> 
-which is the type of the contained value after assignment.
-<p/>
--12- <i>Constraints:</i> [&hellip;]
-<p/>
--13- <i>Effects:</i>
+-2- <i>Remarks:</i> The member <i>typedef-name</i> <tt>type</tt> denotes the common comparison type (11.10.3 <a href="https://wg21.link/class.spaceship">[class.spaceship]</a>)
+of <tt>Ts...</tt>, the expanded parameter pack, or <tt>void</tt> if any element of <tt>Ts</tt> is not a comparison category type.
 </p>
-<ol style="list-style-type: none">
-<li><p>(13.1) &mdash; If <tt>*this</tt> holds a <tt>T<sub><i>j</i></sub></tt>, assigns <tt>std::forward&lt;T&gt;(t)</tt> 
-to the value contained in <tt>*this</tt>.</p></li>
-<li><p>(13.2) &mdash; Otherwise, if <tt>is_nothrow_constructible_v&lt;T<sub><i>j</i></sub>, T&gt; || 
-!is_nothrow_move_constructible_v&lt;T<sub><i>j</i></sub>&gt;</tt> is <tt>true</tt>, equivalent to 
-<tt>emplace&lt;<i>j</i>&gt;(std::forward&lt;T&gt;(t))</tt>.</p></li>
-<li><p>(13.3) &mdash; Otherwise, equivalent to 
-<tt><del>operator=(variant(std::forward&lt;T&gt;(t)))</del><ins>emplace&lt;<i>j</i>&gt;(T<sub><i>j</i></sub>(std::forward&lt;T&gt;(t)))</ins></tt>.</p></li>
-</ol>
-</blockquote>
 </blockquote>
 </li>
 </ol>
@@ -38039,8 +37237,8 @@ to the value contained in <tt>*this</tt>.</p></li>
 <hr>
 <h3><a name="3586" href="#3586">3586</a><sup><a href="https://cplusplus.github.io/LWG/issue3586">(i)</a></sup>. Formatting character alignment inconsistencies</h3>
 <p><b>Section:</b> 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2021-09-05 <b>Last modified:</b> 2021-09-05</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2021-09-05 <b>Last modified:</b> 2021-09-24</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.string.std">active issues</a> in [format.string.std].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.string.std">issues</a> in [format.string.std].</p>
@@ -38061,6 +37259,17 @@ mixes the type and the presentation type. To me, it seems clearer to adjust to w
 to only use the presentation type. Another approach would be adjusting the wording to 
 add an exception when an integer type uses the character presentation.
 </p>
+
+<p><i>[2021-09-20; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+</p>
+<p>
+Victor said "It mostly looks correct but I think the wording needs a bit more
+work because we don't mention arithmetic presentation types anywhere."
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -38107,8 +37316,8 @@ and <tt>bool</tt> or when an integer presentation type is specified</del>.</td>
 <hr>
 <h3><a name="3587" href="#3587">3587</a><sup><a href="https://cplusplus.github.io/LWG/issue3587">(i)</a></sup>. <tt>std::three_way_comparable_with&lt;T, U, void&gt;</tt> can be satisfied but can't be modeled</h3>
 <p><b>Section:</b> 17.11.4 <a href="https://wg21.link/cmp.concept">[cmp.concept]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-09-06 <b>Last modified:</b> 2021-09-11</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-09-06 <b>Last modified:</b> 2021-09-24</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#cmp.concept">issues</a> in [cmp.concept].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -38136,280 +37345,15 @@ has "regular" definition or its return type is not a comparison category type, b
 has "regular" semantics)
 </p>
 
+<p><i>[2021-09-20; Reflector poll]</i></p>
 
-<p><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
-<h3><a name="3588" href="#3588">3588</a><sup><a href="https://cplusplus.github.io/LWG/issue3588">(i)</a></sup>. Strike out purposeless UB involving the deleter in members functions of <tt>unique_ptr</tt></h3>
-<p><b>Section:</b> 20.11.1.3.1 <a href="https://wg21.link/unique.ptr.single.general">[unique.ptr.single.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2021-09-07 <b>Last modified:</b> 2021-09-11</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
 <p>
-This originated from the editorial issues <a href="https://github.com/cplusplus/draft/pull/4871">#4871</a> 
-and <a href="https://github.com/cplusplus/draft/pull/4872">#4872</a>.
-<p/>
-Several member functions of <tt>unique_ptr</tt> are <tt>noexcept</tt>, and yet, they have the precondition 
-that an expression involving the deleter does not exit via an exception. There's nothing an implementation 
-or user can take advantage of in presence of this UB. Since the behavior otherwise would be a call to 
-<tt>std::terminate</tt>, these preconditions should be striked out.
-<p/>
-Note that although <tt>~unique_ptr()</tt> is not <tt>noexcept</tt>, 16.4.6.13 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a> p3 
-specifies it to behave as if it were.
+Set priority to 3 after reflector poll.
 </p>
+
 
 
 <p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
-</p>
-
-<ol>
-<li><p>Modify 20.11.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-constexpr unique_ptr() noexcept;
-constexpr unique_ptr(nullptr_t) noexcept;
-</pre>
-<blockquote>
-<p>
--1- [&hellip;]
-<p/>
--2- <i>Preconditions:</i> <tt>D</tt> meets the <i>Cpp17DefaultConstructible</i> requirements (Table 27)<del>, 
-and that construction does not throw an exception</del>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-explicit unique_ptr(pointer p) noexcept;
-</pre>
-<blockquote>
-<p>
--5- <i>Constraints:</i> [&hellip;]
-<p/>
--6- <i>Mandates:</i> [&hellip;]
-<p/>
--7- <i>Preconditions:</i> <tt>D</tt> meets the <i>Cpp17DefaultConstructible</i> requirements (Table 27)<del>, 
-and that construction does not throw an exception</del>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-unique_ptr(pointer p, const D&amp; d) noexcept;
-unique_ptr(pointer p, remove_reference_t&lt;D&gt;&amp;&amp; d) noexcept;
-</pre>
-<blockquote>
-<p>
--10- <i>Constraints:</i> [&hellip;]
-<p/>
--11- <i>Mandates:</i> [&hellip;]
-<p/>
--12- <i>Preconditions:</i> For the first constructor, if <tt>D</tt> is not a reference type, <tt>D</tt> 
-meets the <i>Cpp17CopyConstructible</i> requirements <del>and such construction does not exit via an exception</del>. 
-For the second constructor, if <tt>D</tt> is not a reference type, <tt>D</tt> meets the <i>Cpp17MoveConstructible</i> 
-requirements <del>and such construction does not exit via an exception</del>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-unique_ptr(unique_ptr&amp;&amp; u) noexcept;
-</pre>
-<blockquote>
-<p>
--17- <i>Constraints:</i> [&hellip;]
-<p/>
--18- <i>Preconditions:</i> If <tt>D</tt> is not a reference type, <tt>D</tt> meets the <i>Cpp17MoveConstructible</i> 
-requirements (Table 28). <del>Construction of the deleter from an rvalue of type <tt>D</tt> does not throw an exception.</del>
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template&lt;class U, class E&gt; unique_ptr(unique_ptr&lt;U, E&gt;&amp;&amp; u) noexcept;
-</pre>
-<blockquote>
-<p>
--21- <i>Constraints:</i> [&hellip;]
-<p/>
--22- <i>Preconditions:</i> If <tt>E</tt> is not a reference type, construction of the deleter from an rvalue of type 
-<tt>E</tt> is well-formed <del>and does not throw an exception</del>. Otherwise, <tt>E</tt> is a reference type and 
-construction of the deleter from an lvalue of type <tt>E</tt> is well-formed <del>and does not throw an exception</del>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Modify 20.11.1.3.3 <a href="https://wg21.link/unique.ptr.single.dtor">[unique.ptr.single.dtor]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-~unique_ptr();
-</pre>
-<blockquote>
-<p>
--1- <i>Preconditions:</i> The expression <tt>get_deleter()(get())</tt> is well-formed<del>,</del>
-<ins>and</ins> has well-defined behavior<del>, and does not throw exceptions</del>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Modify 20.11.1.3.4 <a href="https://wg21.link/unique.ptr.single.asgn">[unique.ptr.single.asgn]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-unique_ptr&amp; operator=(unique_ptr&amp;&amp; u) noexcept;
-</pre>
-<blockquote>
-<p>
--1- <i>Constraints:</i> [&hellip;]
-<p/>
--2- <i>Preconditions:</i> If <tt>D</tt> is not a reference type, <tt>D</tt> meets the 
-<i>Cpp17MoveAssignable</i> requirements (Table 30) <del>and assignment of the deleter from an 
-rvalue of type <tt>D</tt> does not throw an exception</del>. Otherwise, <tt>D</tt> is a
-reference type; <tt>remove_reference_t&lt;D&gt;</tt> meets the <i>Cpp17CopyAssignable</i> 
-requirements <del>and assignment of the deleter from an lvalue of type <tt>D</tt> does not 
-throw an exception</del>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-template&lt;class U, class E&gt; unique_ptr&amp; operator=(unique_ptr&lt;U, E&gt;&amp;&amp; u) noexcept;
-</pre>
-<blockquote>
-<p>
--6- <i>Constraints:</i> [&hellip;]
-<p/>
--7- <i>Preconditions:</i> If <tt>E</tt> is not a reference type, assignment of the deleter from an rvalue 
-of type <tt>E</tt> is well-formed <del>and does not throw an exception</del>. Otherwise, <tt>E</tt> is a 
-reference type and assignment of the deleter from an lvalue of type <tt>E</tt> is well-formed <del>and 
-does not throw an exception</del>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-<li><p>Modify 20.11.1.3.6 <a href="https://wg21.link/unique.ptr.single.modifiers">[unique.ptr.single.modifiers]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-void reset(pointer p = pointer()) noexcept;
-</pre>
-<blockquote>
-<p>
--3- <i>Preconditions:</i> The expression <tt>get_deleter()(get())</tt> is well-formed<del>,</del> 
-<ins>and</ins> has well-defined behavior<del>, and does not throw exceptions</del>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-<pre>
-void swap(unique_ptr&amp; u) noexcept;
-</pre>
-<blockquote>
-<p>
--6- <i>Preconditions:</i> <tt>get_deleter()</tt> is swappable (16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>) <del>and 
-does not throw an exception under <tt>swap</tt></del>.
-<p/>
-[&hellip;]
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3589" href="#3589">3589</a><sup><a href="https://cplusplus.github.io/LWG/issue3589">(i)</a></sup>. The <tt>const</tt> lvalue reference overload of <tt>get</tt> for <tt>subrange</tt> 
-does not constrain <tt>I</tt> to be <tt>copyable</tt> when <tt>N == 0</tt></h3>
-<p><b>Section:</b> 24.5.4 <a href="https://wg21.link/range.subrange">[range.subrange]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-08 <b>Last modified:</b> 2021-09-11</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.subrange">active issues</a> in [range.subrange].</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.subrange">issues</a> in [range.subrange].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The <tt>const</tt> lvalue reference overload of <tt>get</tt> used for <tt>subrange</tt> 
-only constraint that <tt>N &lt; 2</tt>, this will cause the "discards qualifiers" error 
-inside the function body when applying <tt>get</tt> to the lvalue <tt>subrange</tt> that 
-stores a non-<tt>copyable</tt> iterator since its <tt>begin()</tt> is non-<tt>const</tt> 
-qualified, we probably need to add a constraint for it.
-</p>
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
-</p>
-
-<ol>
-<li><p>Modify 24.5.4 <a href="https://wg21.link/range.subrange">[range.subrange]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std::ranges {
-  [&hellip;]
-  template&lt;size_t N, class I, class S, subrange_kind K&gt;
-    requires <ins>(</ins>(N <del>&lt; 2</del><ins>== 0 &amp;&amp; copyable&lt;I&gt;) || N == 1</ins>)
-    constexpr auto get(const subrange&lt;I, S, K&gt;&amp; r);
-
-  template&lt;size_t N, class I, class S, subrange_kind K&gt;
-    requires (N &lt; 2)
-    constexpr auto get(subrange&lt;I, S, K&gt;&amp;&amp; r);
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 24.5.4.3 <a href="https://wg21.link/range.subrange.access">[range.subrange.access]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-  [&hellip;]
-  template&lt;size_t N, class I, class S, subrange_kind K&gt;
-    requires <ins>(</ins>(N <del>&lt; 2</del><ins>== 0 &amp;&amp; copyable&lt;I&gt;) || N == 1</ins>)
-    constexpr auto get(const subrange&lt;I, S, K&gt;&amp; r);
-  template&lt;size_t N, class I, class S, subrange_kind K&gt;
-    requires (N &lt; 2)
-    constexpr auto get(subrange&lt;I, S, K&gt;&amp;&amp; r);
-</pre>
-<blockquote>
-<p>
--10- <i>Effects</i>: Equivalent to:
-</p>
-<pre>
-if constexpr (N == 0)
-  return r.begin();
-else
-  return r.end();
-</pre>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
 
 
 
@@ -39069,6 +38013,53 @@ is no meaningful answer to <tt>starts_with</tt> if both ranges are infinite.
 <p/>
 We should constraint both algorithms to forbid those corner cases (preferred resolution), or explicitly specify a 
 given return value for those (The reasonable choice would be "<tt>return false;</tt>")
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3597" href="#3597">3597</a><sup><a href="https://cplusplus.github.io/LWG/issue3597">(i)</a></sup>. Unsigned integer types don't model <tt><i>advanceable</i></tt></h3>
+<p><b>Section:</b> 24.6.4.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-09-23 <b>Last modified:</b> 2021-09-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.iota.view">issues</a> in [range.iota.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Unsigned integer types satisfy <tt><i>advanceable</i></tt>, but don't model it, since
+</p>
+<blockquote><p>
+every two values of an unsigned integer type are reachable from each other, and
+modular arithmetic is performed on unsigned integer types,
+</p></blockquote>
+<p>
+which makes the last three bullets of the semantic requirements of <tt><i>advanceable</i></tt> 
+(24.6.4.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a>/5) can't be satisfied, and some (if not all) uses of 
+<tt>iota_view</tt>s of unsigned integer types ill-formed, no diagnostic required.
+<p/>
+Some operations that are likely to expect the semantic requirements of <tt><i>advanceable</i></tt> 
+behave incorrectly for unsigned integer types. E.g. according to 24.6.4.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a>/6 
+and 24.6.4.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a>/16, <tt>std::ranges::iota_view&lt;std::uint8_t, std::uint8_t&gt;(std::uint8_t(1)).size()</tt> 
+is well-defined IMO, because
+</p>
+<blockquote><p>
+<tt>Bound()</tt> is <tt>std::uint8_t(0)</tt>, which is reachable from <tt>std::uint8_t(1)</tt>, and
+not modeling <tt><i>advanceable</i></tt> shouldn't affect the validity, as both <tt>W</tt> and 
+<tt>Bound</tt> are integer types.
+</p></blockquote>
+<p>
+However, it returns <tt>unsigned(-1)</tt> on common implementations (where <tt>sizeof(int) &gt; sizeof(std::uint8_t))</tt>, 
+which is wrong.
+<p/>
+Perhaps the semantic requirements of <tt><i>advanceable</i></tt> should be adjusted, 
+and a refined definition of reachability in 24.6.4 <a href="https://wg21.link/range.iota">[range.iota]</a> is needed to avoid reaching 
+<tt>a</tt> from <tt>b</tt> when <tt>a &gt; b</tt> (the iterator type is also affected).
 </p>
 
 
