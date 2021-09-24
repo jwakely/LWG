@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3592: lazy_split_view needs to check the simpleness of Pattern</title>
+<title>Issue 3599: The const overload of lazy_split_view::begin should be constrained by const Pattern</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,9 +45,9 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3592" href="lwg-active.html#3592">3592</a>. <tt>lazy_split_view</tt> needs to check the simpleness of <tt>Pattern</tt></h3>
+<h3><a name="3599" href="lwg-active.html#3599">3599</a>. The <tt>const</tt> overload of <tt>lazy_split_view::begin</tt> should be constrained by <tt>const Pattern</tt></h3>
 <p><b>Section:</b> 24.7.13.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-09-15 <b>Last modified:</b> 2021-09-19</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-23 <b>Last modified:</b> 2021-09-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.lazy.split.view">active issues</a> in [range.lazy.split.view].</p>
@@ -55,12 +55,37 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-For forward ranges, the non-<tt>const</tt> versions of <tt>lazy_split_view::begin()</tt>
-and <tt>lazy_split_view::end()</tt> returns an <tt><i>outer-iterator</i>&lt;<i>simple-view</i>&lt;V&gt;&gt;</tt>,
-promoting to <tt>const</tt> if <tt>V</tt> models <tt><i>simple-view</i></tt>. However, this failed to
-take <tt>Pattern</tt> into account, even though that will also be accessed as <tt>const</tt> if 
-<tt>const</tt>-promotion takes place. There is no requirement that <tt>const Pattern</tt> is a range, 
-however.
+ Consider the following code snippet:
+</p>
+<blockquote>
+<pre>
+#include &lt;ranges&gt;
+
+int main() {
+  auto p = std::views::iota(0)
+         | std::views::take(1)
+         | std::views::reverse;
+  auto r = std::views::single(42)
+         | std::views::lazy_split(p);
+  auto f = r.front();
+}
+</pre>
+</blockquote>
+<p>
+<tt>r.front()</tt> is ill-formed even if <tt>r</tt> is a <tt>forward_range</tt>.
+</p>
+<p>
+This is because the <tt>const</tt> overload of <tt>lazy_split_view::begin</tt> is not constrained by the
+<tt>const Pattern</tt>, which makes it still well-formed in such cases. When the <tt>const</tt> overload 
+of <tt>view_interface&lt;lazy_split_view&lt;V, Pattern&gt;&gt;::front</tt> is instantiated, the 
+<tt>subrange{parent_-&gt;pattern_}</tt> inside <tt>lazy_split_view::<i>outer-iterator</i>&lt;true&gt;::operator++()</tt> 
+will cause a hard error since <tt>const Pattern</tt> is not a <tt>range</tt>.
+</p>
+
+<p><i>[2021-09-24; Daniel comments]</i></p>
+
+<p>
+This issue is related to LWG <a href="lwg-active.html#3592">3592</a>.
 </p>
 
 
@@ -90,23 +115,25 @@ namespace std::ranges {
     [&hellip;]
 
     constexpr auto begin() {
-      if constexpr (forward_range&lt;V&gt;)
-        return <i>outer-iterator</i>&lt;<i>simple-view</i>&lt;V&gt;<ins> &amp;&amp;
-          <i>simple-view</i>&lt;Pattern&gt;</ins>&gt;{*this, ranges::begin(<i>base_</i>)};
-      else {
-        <i>current_</i> = ranges::begin(<i>base_</i>);
-        return <i>outer-iterator</i>&lt;false&gt;{*this};
-      }
+      [&hellip;]
     }
     
-    [&hellip;]
+    constexpr auto begin() const requires forward_range&lt;V&gt; &amp;&amp; forward_range&lt;const V&gt; <ins>&amp;&amp;
+                                          forward_range&lt;const Pattern&gt;</ins>{
+      return <i>outer-iterator</i>&lt;true&gt;{*this, ranges::begin(<i>base_</i>)};
+    }
     
     constexpr auto end() requires forward_range&lt;V&gt; &amp;&amp; common_range&lt;V&gt; {
-      return <i>outer-iterator</i>&lt;<i>simple-view</i>&lt;V&gt;<ins> &amp;&amp;
-        <i>simple-view</i>&lt;Pattern&gt;</ins>&gt;{*this, ranges::end(<i>base_</i>)};
+      [&hellip;]
     }
 
-    [&hellip;]
+    constexpr auto end() const {
+      if constexpr (forward_range&lt;V&gt; &amp;&amp; forward_range&lt;const V&gt; &amp;&amp; common_range&lt;const V&gt; <ins>&amp;&amp;
+                    forward_range&lt;const Pattern&gt;</ins>)
+        return <i>outer-iterator</i>&lt;true&gt;{*this, ranges::end(<i>base_</i>)};
+      else
+        return default_sentinel;
+    }
   };
   
   [&hellip;]
