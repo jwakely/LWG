@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-09-24 at 16:14:27 UTC</p>
+<p><p>Revised 2021-09-24 at 16:39:44 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38243,6 +38243,82 @@ namespace std::ranges {
   
 }
 </pre>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3600" href="#3600">3600</a><sup><a href="https://cplusplus.github.io/LWG/issue3600">(i)</a></sup>. Making <tt>istream_iterator</tt> copy constructor trivial is an ABI break</h3>
+<p><b>Section:</b> 23.6.2.2 <a href="https://wg21.link/istream.iterator.cons">[istream.iterator.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-09-23 <b>Last modified:</b> 2021-09-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#istream.iterator.cons">issues</a> in [istream.iterator.cons].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Libstdc++ never implemented this change made between C++03 and C++11 (by <a href="https://wg21.link/n2994">N2994</a>):
+</p>
+24.6.1.1 [istream.iterator.cons] p3:
+<blockquote>
+<pre>
+istream_iterator(const istream_iterator&lt;T,charT,traits,Distance&gt;&amp; x) = default;
+</pre>
+<blockquote>
+<p>
+-3- <i>Effects:</i> Constructs a copy of <tt>x</tt>. If <tt>T</tt> is a literal type, then this constructor shall 
+be a trivial copy constructor.
+</p>
+</blockquote>
+</blockquote>
+<p>
+This breaks our ABI, as it changes the argument passing convention for the type, meaning this function segfaults 
+if compiled with today's libstdc++ and called from one that makes the triviality change:
+</p>
+<blockquote><pre>
+#include &lt;iterator&gt;
+#include &lt;istream&gt;
+
+int f(std::istream_iterator&lt;int&gt; i)
+{
+  return *i++;
+}
+</pre></blockquote>
+<p>
+As a result, it's likely that libstdc++ will never implement the change.
+<p/>
+There is no reason to require this constructor to be trivial. It was required for C++0x at one point, so the type 
+could be literal, but that is not true in the current language. We should strike the requirement, to reflect reality. 
+MSVC and libc++ are free to continue to define it as defaulted (and so trivial when appropriate) but we should not 
+require it from libstdc++. The cost of an ABI break is not worth the negligible benefit from making it trivial.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.6.2.2 <a href="https://wg21.link/istream.iterator.cons">[istream.iterator.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+istream_iterator(const istream_iterator&amp; x) = default;
+</pre>
+<blockquote>
+<p>
+-5- <i>Postconditions:</i> <tt>in_stream == x.in_stream</tt> is <tt>true</tt>.
+<p/>
+<del>-6- <i>Remarks:</i> If <tt>is_trivially_copy_constructible_v&lt;T&gt;</tt> is <tt>true</tt>, 
+then this constructor is trivial.</del>
+</p>
 </blockquote>
 </blockquote>
 </li>
