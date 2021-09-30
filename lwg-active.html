@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2021-09-29</td>
+  <td align="left">2021-09-30</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-09-29 at 12:57:06 UTC</p>
+<p><p>Revised 2021-09-30 at 15:57:36 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -42937,7 +42937,7 @@ template&lt;class R&gt;
 <hr>
 <h3><a name="3582" href="#3582">3582</a><sup><a href="https://cplusplus.github.io/LWG/issue3582">(i)</a></sup>. Unclear where <tt>std::async</tt> exceptions are handled</h3>
 <p><b>Section:</b> 32.9.9 <a href="https://wg21.link/futures.async">[futures.async]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-08-23 <b>Last modified:</b> 2021-09-20</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-08-23 <b>Last modified:</b> 2021-09-30</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#futures.async">active issues</a> in [futures.async].</p>
@@ -42970,9 +42970,14 @@ to the caller of <tt>std::async</tt>. We should clarify that that's what the sta
 Set priority to 3 after reflector poll.
 </p>
 
+<p><i>[2021-09-20;
+Jonathan updates wording to change the <i>Throws:</i> and attempt to
+align the <i>Effects:</i> with the deferred function case.
+]</i></p>
 
 
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
 </p>
@@ -43012,6 +43017,69 @@ calls are propagated to the caller. &mdash; <i>end note</i>]</ins> The <tt>threa
 the shared state and affects the behavior of any asynchronous return objects that reference that state.</p></li>
 <li><p>[&hellip;]</p></li>
 </ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 32.9.9 <a href="https://wg21.link/futures.async">[futures.async]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class F, class... Args&gt;
+  [[nodiscard]] future&lt;invoke_result_t&lt;decay_t&lt;F&gt;, decay_t&lt;Args&gt;...&gt;&gt;
+    async(F&amp;&amp; f, Args&amp;&amp;... args);
+template&lt;class F, class... Args&gt;
+  [[nodiscard]] future&lt;invoke_result_t&lt;decay_t&lt;F&gt;, decay_t&lt;Args&gt;...&gt;&gt;
+    async(launch policy, F&amp;&amp; f, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-2- <i>Mandates</i>: [&hellip;]
+<p/>
+-3- <i>Effects</i>: The first function behaves the same as a call to the second function with a <tt>policy</tt> argument of
+<tt>launch::async | launch::deferred</tt> and the same arguments for <tt>F</tt> and <tt>Args</tt>. The second function
+creates a shared state that is associated with the returned <tt>future</tt> object. The further behavior of the second function 
+depends on the <tt>policy</tt> argument as follows (if more than one of these conditions applies, the implementation may 
+choose any of the corresponding policies):
+</p>
+<ol style="list-style-type: none">
+<li><p>(3.1) &mdash; If <tt>launch::async</tt> is set in <tt>policy</tt>, calls 
+<tt>invoke(<i>decay-copy</i>(std::forward&lt;F&gt;(f)), <i>decay-copy</i>(std::forward&lt;Args&gt;(args))...)</tt> 
+(20.14.4 <a href="https://wg21.link/func.require">[func.require]</a>, 32.4.3.3 <a href="https://wg21.link/thread.thread.constr">[thread.thread.constr]</a>) as if in a new thread of execution
+represented by a <tt>thread</tt> object with the calls to <tt><i>decay-copy</i></tt> being evaluated 
+in the thread that called <tt>async</tt>. Any return value is stored as the result in the shared state. Any 
+exception propagated from the execution of <tt>invoke(<del><i>decay-copy</i>(std::forward&lt;F&gt;(f)), 
+<i>decay-copy</i>(std::forward&lt;Args&gt;(args)...)</del><ins>std::move(g), std::move(xyz)</ins>)</tt> is stored as 
+the exceptional result in the shared state<ins>,
+where <tt>g</tt> is the result of
+<tt><i>decay-copy</i>(std::forward&lt;F&gt;(f))</tt>
+and <tt>xyz</tt> is the result of
+<tt><i>decay-copy</i>(std::forward&lt;Args&gt;(args))...</tt>
+</ins>.
+<ins>[<i>Note ?:</i> Exceptions from the <tt><i>decay-copy</i></tt> 
+calls are propagated to the caller. &mdash; <i>end note</i>]</ins> The <tt>thread</tt> object is stored in 
+the shared state and affects the behavior of any asynchronous return objects that reference that state.</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+<p>[&hellip;]</p>
+<p>-6- <i>Throws:</i>
+<tt>system_error</tt> if <tt>policy == launch::async</tt>
+and the implementation is unable to start a new thread;
+<tt><del>std::</del>bad_alloc</tt> if memory for the internal data structures
+  cannot be allocated<ins>;
+or any exception thrown by the initialization of the objects returned by the
+  <tt><i>decay-copy</i></tt> calls</ins>.</p>
 </blockquote>
 </blockquote>
 </li>
@@ -44418,7 +44486,7 @@ namespace std::ranges {
 <hr>
 <h3><a name="3600" href="#3600">3600</a><sup><a href="https://cplusplus.github.io/LWG/issue3600">(i)</a></sup>. Making <tt>istream_iterator</tt> copy constructor trivial is an ABI break</h3>
 <p><b>Section:</b> 23.6.2.2 <a href="https://wg21.link/istream.iterator.cons">[istream.iterator.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-09-23 <b>Last modified:</b> 2021-09-24</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-09-23 <b>Last modified:</b> 2021-09-30</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#istream.iterator.cons">issues</a> in [istream.iterator.cons].</p>
@@ -44461,8 +44529,11 @@ MSVC and libc++ are free to continue to define it as defaulted (and so trivial w
 require it from libstdc++. The cost of an ABI break is not worth the negligible benefit from making it trivial.
 </p>
 
+<p><i>[2021-09-30; Jonathan revises wording after reflector discussion]</i></p>
 
-<p><b>Proposed resolution:</b></p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
 </p>
@@ -44480,6 +44551,53 @@ istream_iterator(const istream_iterator&amp; x) = default;
 <p/>
 <del>-6- <i>Remarks:</i> If <tt>is_trivially_copy_constructible_v&lt;T&gt;</tt> is <tt>true</tt>, 
 then this constructor is trivial.</del>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify the class synopsis in 23.6.2.1 <a href="https://wg21.link/istream.iterator.general">[istream.iterator.general]</a>
+as indicated:</p>
+<blockquote>
+<pre>
+constexpr istream_iterator();
+constexpr istream_iterator(default_sentinel_t);
+istream_iterator(istream_type&amp; s);
+<ins>constexpr</ins> istream_iterator(const istream_iterator&amp; x)<del> = default</del>;
+~istream_iterator() = default;
+istream_iterator&amp; operator=(const istream_iterator&amp;) = default;
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.6.2.2 <a href="https://wg21.link/istream.iterator.cons">[istream.iterator.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+  <ins>constexpr</ins> istream_iterator(const istream_iterator&amp; x)<del> = default</del>;
+</pre>
+<blockquote>
+<p>
+-5- <i>Postconditions:</i> <tt>in_stream == x.in_stream</tt> is <tt>true</tt>.
+</p>
+<p>
+-6- <i>Remarks:</i> <del>If <tt>is_trivially_copy_constructible_v&lt;T&gt;</tt> is <tt>true</tt>, 
+then this constructor is trivial.</del>
+<ins>If the initializer <tt>T(x.value)</tt> in the declaration
+<tt>auto val = T(x.value);</tt>
+is a constant initializer ([expr.const]),
+  then this constructor is a constexpr constructor.</ins>
 </p>
 </blockquote>
 </blockquote>
