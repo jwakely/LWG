@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-02 at 15:53:10 UTC</p>
+<p><p>Revised 2021-10-02 at 16:11:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38005,6 +38005,46 @@ The POSIX rule is because those interfaces are specified with NTBS arguments, so
 distinguish <tt>"a\0b"</tt> and <tt>"a"</tt>. The C++ interfaces could allow it, but we never specify 
 any divergence from POSIX, so presumably the rule still applies. Is that what was intended and is it 
 what we want?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3604" href="#3604">3604</a><sup><a href="https://cplusplus.github.io/LWG/issue3604">(i)</a></sup>. What is the effect of an invalid value of type <tt>syntax_option_type</tt>?</h3>
+<p><b>Section:</b> 30.7.2 <a href="https://wg21.link/re.regex.construct">[re.regex.construct]</a>, 30.4.2 <a href="https://wg21.link/re.synopt">[re.synopt]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-09-27 <b>Last modified:</b> 2021-10-02</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#re.regex.construct">active issues</a> in [re.regex.construct].</p>
+<p><b>View all other</b> <a href="lwg-index.html#re.regex.construct">issues</a> in [re.regex.construct].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+30.4.2 <a href="https://wg21.link/re.synopt">[re.synopt]</a> says:
+</p>
+<blockquote><p>
+A valid value of type <tt>syntax_option_type</tt> shall have at most one of the grammar elements <tt>ECMAScript</tt>, 
+<tt>basic</tt>, <tt>extended</tt>, <tt>awk</tt>, <tt>grep</tt>, <tt>egrep</tt>, set.
+</p></blockquote>
+<p>
+But then we never say what happens if an invalid value is used.
+<p/>
+What does <tt>std::regex(".", std::regex::grep|std::regex::awk)</tt> do? Is it undefined? Does it throw?
+<p/>
+It seems reasonable for <tt>basic_regex</tt> constructors to throw if <tt>f</tt> is not a valid value, i.e. 
+for each non-default constructor:
+</p>
+<blockquote><p>
+<i>Throws:</i> <tt>regex_error</tt> <ins>if <tt>f</tt> is not a valid value, or</ins> if [&hellip;] is not a valid 
+regular expression according to the grammar specified by <tt>f</tt>.
+</p></blockquote>
+<p>
+However, there is no <tt>regex_constants::error_code</tt> value suitable for this error condition.
 </p>
 
 
