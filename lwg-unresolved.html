@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-02 at 18:53:18 UTC</p>
+<p><p>Revised 2021-10-02 at 19:03:50 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38053,6 +38053,38 @@ This seems like an unnecessary restriction, and forces implementations to do ext
 <tt>ECMAScript</tt> in <tt>flags()</tt> if no grammar element was set in the flags passed to the constructor.
 <p/>
 This problem was introduced by LWG <a href="lwg-defects.html#2330">2330</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3605" href="#3605">3605</a><sup><a href="https://cplusplus.github.io/LWG/issue3605">(i)</a></sup>. <tt>regex_constants::match_prev_avail</tt> is underspecified</h3>
+<p><b>Section:</b> 30.4.3 <a href="https://wg21.link/re.matchflag">[re.matchflag]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-09-27 <b>Last modified:</b> 2021-10-02</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#re.matchflag">issues</a> in [re.matchflag].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The standard doesn't say what it means if <tt>match_prev_avail</tt> is set. Table [tab:re.matchflag] says:
+</p>
+<blockquote><p>
+<tt>--first</tt> is a valid iterator position. When this flag is set the flags 
+<tt>match_not_bol</tt> and <tt>match_not_bow</tt> shall be ignored by the regular expression
+algorithms (30.10 <a href="https://wg21.link/re.alg">[re.alg]</a>) and iterators (30.11 <a href="https://wg21.link/re.iter">[re.iter]</a>).
+</p></blockquote>
+<p>
+What difference does it make whether <tt>--first</tt> is a valid iterator position or not? 
+<p/>
+What behaviour is changed when it's a valid iterator position? The standard doesn't say anything else about that. 
+<p/>
+When do the regex algorithms care about <tt>--first</tt>?
 </p>
 
 
