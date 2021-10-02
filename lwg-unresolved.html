@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-02 at 15:33:13 UTC</p>
+<p><p>Revised 2021-10-02 at 15:53:10 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -30052,6 +30052,7 @@ See also LWG <a href="lwg-active.html#2321">2321</a> and <a href="https://wg21.l
  <b>Submitter:</b> &Dcy;&iecy;&ncy;&icy;&scy; &Zcy;&acy;&khcy;&acy;&rcy;&ocy;&vcy; <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2019-11-30</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#re.regex.construct">active issues</a> in [re.regex.construct].</p>
 <p><b>View all other</b> <a href="lwg-index.html#re.regex.construct">issues</a> in [re.regex.construct].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -37974,6 +37975,40 @@ is modeled.
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3603" href="#3603">3603</a><sup><a href="https://cplusplus.github.io/LWG/issue3603">(i)</a></sup>. Matching of null characters by regular expressions is underspecified</h3>
+<p><b>Section:</b> 30.7.2 <a href="https://wg21.link/re.regex.construct">[re.regex.construct]</a>, 30.10 <a href="https://wg21.link/re.alg">[re.alg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-09-27 <b>Last modified:</b> 2021-10-02</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#re.regex.construct">active issues</a> in [re.regex.construct].</p>
+<p><b>View all other</b> <a href="lwg-index.html#re.regex.construct">issues</a> in [re.regex.construct].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+ECMAScript says that <tt>\0</tt> is an ordinary character and can be matched. POSIX says the opposite:
+<p/>
+"The interfaces specified in POSIX.1-2017 do not permit the inclusion of a NUL character in an RE or 
+in the string to be matched. If during the operation of a standard utility a NUL is included in the 
+text designated to be matched, that NUL may designate the end of the text string for the purposes of matching."
+<p/>
+So does that mean <tt>std::regex{"", 1, regex_constants::basic}</tt> should throw an exception?
+<p/>
+And <tt>std::regex_match(string{"a\0b", 3}, regex{"a.b"}, regex_constants::basic)</tt> should fail?
+<p/>
+The POSIX rule is because those interfaces are specified with NTBS arguments, so there's no way to 
+distinguish <tt>"a\0b"</tt> and <tt>"a"</tt>. The C++ interfaces could allow it, but we never specify 
+any divergence from POSIX, so presumably the rule still applies. Is that what was intended and is it 
+what we want?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
