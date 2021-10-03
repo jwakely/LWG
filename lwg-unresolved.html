@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-03 at 10:58:13 UTC</p>
+<p><p>Revised 2021-10-03 at 12:32:25 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38217,6 +38217,44 @@ equivalent to <tt>ranges::swap(*a, *b)</tt>.</ins></p></li>
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3608" href="#3608">3608</a><sup><a href="https://cplusplus.github.io/LWG/issue3608">(i)</a></sup>. <tt>convertible_to</tt> and temporary-bound references</h3>
+<p><b>Section:</b> 18.4.4 <a href="https://wg21.link/concept.convertible">[concept.convertible]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-09-28 <b>Last modified:</b> 2021-10-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#concept.convertible">active issues</a> in [concept.convertible].</p>
+<p><b>View all other</b> <a href="lwg-index.html#concept.convertible">issues</a> in [concept.convertible].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The semantic requirements of <tt>convertible_to</tt> express implicit
+conversion by means of a function:
+</p>
+<blockquote><pre>
+To test(FromR (&amp;f)()) {
+  return f();
+}
+</pre></blockquote>
+<p>
+and it requires that <tt>static_cast&lt;To&gt;(f())</tt> be equal to <tt>test(f)</tt> for some
+equality-preserving function <tt>f</tt>. However, when <tt>To</tt> is a reference type
+but <tt>FromR</tt> is such that the conversion binds the reference to a temporary, the 
+<tt>static_cast</tt> is valid but <tt>test(f)</tt> would produce a dangling reference.
+<p/>
+We should rephrase this requirement to just perform the implicit conversion in words. Using a 
+function handles the convert-<tt>void</tt>-to-<tt>void</tt> case, but the semantic requirements 
+wording already excluded that case anyway.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
 
 
 
