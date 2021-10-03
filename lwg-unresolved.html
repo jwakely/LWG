@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-02 at 19:32:46 UTC</p>
+<p><p>Revised 2021-10-03 at 10:58:13 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38153,6 +38153,70 @@ this just an inappropriate API for <tt>basic_regex</tt>?
 
 <p><b>Proposed resolution:</b></p>
 
+
+
+
+
+<hr>
+<h3><a name="3607" href="#3607">3607</a><sup><a href="https://cplusplus.github.io/LWG/issue3607">(i)</a></sup>. <tt>contiguous_iterator</tt> should not be allowed to have custom <tt>iter_move</tt> and <tt>iter_swap</tt> behavior</h3>
+<p><b>Section:</b> 23.3.4.14 <a href="https://wg21.link/iterator.concept.contiguous">[iterator.concept.contiguous]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-09-28 <b>Last modified:</b> 2021-10-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>iter_move</tt> and <tt>iter_swap</tt> customization points were introduced
+primarily for proxy iterators. Whatever their application to non-proxy
+iterators in general, they should not be allowed to have custom
+behavior for contiguous iterators &mdash; this new iterator category was
+introduced in large part to permit better optimizations, and allowing
+custom <tt>iter_move/iter_swap</tt> prevents such optimizations for a wide
+variety of algorithms that are specified to call them.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.3.4.14 <a href="https://wg21.link/iterator.concept.contiguous">[iterator.concept.contiguous]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class I&gt;
+  concept contiguous_iterator =
+    random_access_iterator&lt;I&gt; &amp;&amp;
+    derived_from&lt;<i>ITER_CONCEPT</i>(I), contiguous_iterator_tag&gt; &amp;&amp;
+    is_lvalue_reference_v&lt;iter_reference_t&lt;I&gt;&gt; &amp;&amp;
+    same_as&lt;iter_value_t&lt;I&gt;, remove_cvref_t&lt;iter_reference_t&lt;I&gt;&gt;&gt; &amp;&amp;
+    requires(const I&amp; i) {
+      { to_address(i) } -&gt; same_as&lt;add_pointer_t&lt;iter_reference_t&lt;I&gt;&gt;&gt;;
+    };
+</pre>
+<blockquote>
+<p>
+-2- Let <tt>a</tt> and <tt>b</tt> be dereferenceable iterators and <tt>c</tt> be a non-dereferenceable 
+iterator of type <tt>I</tt> such that <tt>b</tt> is reachable from <tt>a</tt> and <tt>c</tt> is 
+reachable from <tt>b</tt>, and let <tt>D</tt> be <tt>iter_difference_t&lt;I&gt;</tt>. The type <tt>I</tt> 
+models <tt>contiguous_iterator</tt> only if
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; <tt>to_address(a) == addressof(*a)</tt>,</p></li>
+<li><p>(2.2) &mdash; <tt>to_address(b) == to_address(a) + D(b - a)</tt>, <del>and</del></p></li>
+<li><p>(2.3) &mdash; <tt>to_address(c) == to_address(a) + D(c - a)</tt><del>.</del><ins>,</ins></p></li>
+<li><p><ins>(2.?) &mdash; <tt>ranges::iter_move(a)</tt> has the same type, value category, and effects as 
+<tt>std::move(*a)</tt>, and</ins></p></li>
+<li><p><ins>(2.?) &mdash; if <tt>ranges::iter_swap(a, b)</tt> is well-formed, it has effects
+equivalent to <tt>ranges::swap(*a, *b)</tt>.</ins></p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
 
 
 
