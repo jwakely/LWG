@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-03 at 14:26:08 UTC</p>
+<p><p>Revised 2021-10-03 at 14:46:27 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38477,7 +38477,7 @@ For example:
 </p>
 <blockquote><pre>
 void* p = &hellip;
-std::format("{:#16x}", fmt::detail::bit_cast&lt;uintptr_t&gt;(p));
+std::format("{:#16x}", std::bit_cast&lt;uintptr_t&gt;(p));
 std::format("{:16}", p);
 </pre></blockquote>
 <p>
@@ -38557,6 +38557,66 @@ the presentation type is an arithmetic <ins>or pointer</ins> type.</td>
 </table>
 </blockquote>
 
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3613" href="#3613">3613</a><sup><a href="https://cplusplus.github.io/LWG/issue3613">(i)</a></sup>. Specify that <tt>nullopt_t</tt> is copyable</h3>
+<p><b>Section:</b> 20.6.4 <a href="https://wg21.link/optional.nullopt">[optional.nullopt]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Frank Birbacher <b>Opened:</b> 2021-10-01 <b>Last modified:</b> 2021-10-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#optional.nullopt">issues</a> in [optional.nullopt].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The Standard defines a number of types that are used to create overload disambiguators for constructors, 
+like <tt>nullopt_t</tt> and <tt>allocator_tag_t</tt>. Values of such types are passed by value to such 
+constructors to give it particular meaning. For pass-by-value these types need to be copy-constructible 
+and for consistency should also be copy-assignable. Of those types the specification of <tt>nullopt_t</tt> 
+doesn't clearly state that the type is copyable, 20.6.4 <a href="https://wg21.link/optional.nullopt">[optional.nullopt]</a>.
+<p/>
+The reason that <tt>nullopt_t</tt> is defined differently from other such types is to avoid ambiguity 
+in expressions that assign an empty brace initializer to an <tt>optional</tt>. The meaning of such 
+assignment should be to engage the <tt>optional</tt> instead of taking the braces to create a temporary 
+<tt>nullopt_t</tt> for assignment and thus reset the <tt>optional</tt>.
+<p/>
+Types that aren't affected: <tt>nullptr_t</tt> (fundamental type), <tt>allocator_tag_t</tt>, 
+<tt>piecewise_construct_t</tt>, <tt>in_place_t</tt>, <tt>in_place_type_t</tt>, <tt>in_place_index_t</tt> 
+(all basically defined as a <tt>class <i>T</i> { explicit <i>T</i>() = default; }</tt> which works fine for pass-by-value)
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.6.4 <a href="https://wg21.link/optional.nullopt">[optional.nullopt]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+struct nullopt_t{<i>see below</i>};
+inline constexpr nullopt_t nullopt(<i>unspecified</i>);
+</pre>
+<blockquote>
+<p>
+-1- The struct <tt>nullopt_t</tt> is an empty class type used as a unique type to indicate 
+the state of not containing a value for <tt>optional</tt> objects. In particular, 
+<tt>optional&lt;T&gt;</tt> has a constructor with <tt>nullopt_t</tt> as a single
+argument; this indicates that an optional object not containing a value shall be constructed.
+<p/>
+-2- Type <tt>nullopt_t</tt> shall not have a default constructor or an initializer-list 
+constructor, <del>and</del> shall not be an aggregate<ins>, and shall have a copy constructor 
+and a copy assignment operator, both shall be public and trivial</ins>.
+</p>
+</blockquote>
+</blockquote>
 </li>
 </ol>
 
