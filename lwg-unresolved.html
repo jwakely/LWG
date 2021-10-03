@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-03 at 13:01:54 UTC</p>
+<p><p>Revised 2021-10-03 at 13:24:49 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -37487,6 +37487,7 @@ if <tt>is_constructible_v&lt;Smart, SP, Args...&gt;</tt> is <tt>true</tt>;
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-09-23 <b>Last modified:</b> 2021-09-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.iota.view">active issues</a> in [range.iota.view].</p>
 <p><b>View all other</b> <a href="lwg-index.html#range.iota.view">issues</a> in [range.iota.view].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -38346,6 +38347,70 @@ friend constexpr <del>iter_difference_t&lt;W&gt;</del><ins><i>IOTA-DIFF-T</i>(W)
 <p>
 -4- <i>Effects:</i> Equivalent to: <tt>return -(y - x);</tt>
 </p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3610" href="#3610">3610</a><sup><a href="https://cplusplus.github.io/LWG/issue3610">(i)</a></sup>. <tt>iota_view::size</tt> sometimes rejects integer-class types</h3>
+<p><b>Section:</b> 24.6.4.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-09-29 <b>Last modified:</b> 2021-10-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.iota.view">active issues</a> in [range.iota.view].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.iota.view">issues</a> in [range.iota.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It seems that the <tt>iota_view</tt> tends to accept integer-class types as its value types, by using 
+<tt><i>is-integer-like</i></tt> or <tt><i>is-signed-integer-like</i></tt> through the specification, 
+although it's unspecified whether any of them satisfies <tt>weakly_incrementable</tt>. However, the 
+<i>requires-clause</i> of <tt>iota_view::size</tt> (24.6.4.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a> p16) uses 
+<tt>(integral&lt;W&gt; &amp;&amp; integral&lt;Bound&gt;)</tt>, which sometimes rejects integer-class types.
+<p/>
+Should we relax the restrictions by changing this part to <tt>(<i>is-integer-like</i>&lt;W&gt; &amp;&amp; 
+<i>is-integer-like</i>&lt;Bound&gt;)</tt>?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.6.4.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr auto size() const requires <i>see below</i>;
+</pre>
+<blockquote>
+<p>
+-15- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+if constexpr (<i>is-integer-like</i>&lt;W&gt; &amp;&amp; <i>is-integer-like</i>&lt;Bound&gt;)
+  return (<i>value_</i> &lt; 0)
+    ? ((<i>bound_</i> &lt; 0)
+      ? <i>to-unsigned-like</i>(-<i>value_</i>) - <i>to-unsigned-like</i>(-<i>bound_</i>)
+      : <i>to-unsigned-like</i>(<i>bound_</i>) + <i>to-unsigned-like</i>(-<i>value_</i>))
+    : <i>to-unsigned-like</i>(<i>bound_</i>) - <i>to-unsigned-like</i>(<i>value_</i>);
+else
+  return <i>to-unsigned-like</i>(<i>bound_</i> - <i>value_</i>);
+</pre></blockquote>
+<p>
+-16- <i>Remarks:</i> The expression in the <i>requires-clause</i> is equivalent to:
+</p>
+<blockquote><pre>
+(same_as&lt;W, Bound&gt; &amp;&amp; <i>advanceable</i>&lt;W&gt;) || (<del>integral</del><ins><i>is-integer-like</i></ins>&lt;W&gt; &amp;&amp; <del>integral</del><ins><i>is-integer-like</i></ins>&lt;Bound&gt;) ||
+  sized_sentinel_for&lt;Bound, W&gt;
+</pre></blockquote>
 </blockquote>
 </blockquote>
 </li>
