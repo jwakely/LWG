@@ -56,7 +56,7 @@
 LWG <a href="lwg-active.html#3498">3498</a> fixes the inconsistent <tt>noexcept</tt>-specifiers for member functions of <tt>basic_syncbuf</tt>, 
 but the proposed resolution in LWG <a href="lwg-active.html#3498">3498</a> seems to miss the non-member <tt>swap</tt>, which also has 
 inconsistent <tt>noexcept</tt>-specifier: 29.11.2.6 <a href="https://wg21.link/syncstream.syncbuf.special">[syncstream.syncbuf.special]</a> says it's <tt>noexcept</tt>, 
-while  [yncstream.sy] says it's not.
+while 29.11.1 <a href="https://wg21.link/syncstream.syn">[syncstream.syn]</a> says it's not.
 <p/>
 Since the non-member <tt>swap</tt> and the member <tt>swap</tt> have equivalent effect, and LWG 3498 removes 
 <tt>noexcept</tt> from the latter, I think it's pretty clear that the former should not be <tt>noexcept</tt>.

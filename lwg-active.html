@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-10-10 at 11:08:37 UTC</p>
+<p><p>Revised 2021-10-10 at 19:11:24 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -45580,7 +45580,7 @@ namespace std {
 LWG <a href="lwg-active.html#3498">3498</a> fixes the inconsistent <tt>noexcept</tt>-specifiers for member functions of <tt>basic_syncbuf</tt>, 
 but the proposed resolution in LWG <a href="lwg-active.html#3498">3498</a> seems to miss the non-member <tt>swap</tt>, which also has 
 inconsistent <tt>noexcept</tt>-specifier: 29.11.2.6 <a href="https://wg21.link/syncstream.syncbuf.special">[syncstream.syncbuf.special]</a> says it's <tt>noexcept</tt>, 
-while  [yncstream.sy] says it's not.
+while 29.11.1 <a href="https://wg21.link/syncstream.syn">[syncstream.syn]</a> says it's not.
 <p/>
 Since the non-member <tt>swap</tt> and the member <tt>swap</tt> have equivalent effect, and LWG 3498 removes 
 <tt>noexcept</tt> from the latter, I think it's pretty clear that the former should not be <tt>noexcept</tt>.
