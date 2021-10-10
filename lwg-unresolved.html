@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-03 at 17:54:13 UTC</p>
+<p><p>Revised 2021-10-10 at 10:40:45 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -30051,7 +30051,7 @@ See also LWG <a href="lwg-active.html#2321">2321</a> and <a href="https://wg21.l
 <hr>
 <h3><a name="3341" href="#3341">3341</a><sup><a href="https://cplusplus.github.io/LWG/issue3341">(i)</a></sup>. <tt>basic_regex</tt> range constructor: Missing requirements for iterator types</h3>
 <p><b>Section:</b> 30.7.2 <a href="https://wg21.link/re.regex.construct">[re.regex.construct]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> &Dcy;&iecy;&ncy;&icy;&scy; &Zcy;&acy;&khcy;&acy;&rcy;&ocy;&vcy; <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2019-11-30</p>
+ <b>Submitter:</b> &Dcy;&iecy;&ncy;&icy;&scy; &Zcy;&acy;&khcy;&acy;&rcy;&ocy;&vcy; <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2021-10-10</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#re.regex.construct">active issues</a> in [re.regex.construct].</p>
@@ -30091,6 +30091,16 @@ is specified.
 <p><i>[2019-11-30 Issue Prioritization]</i></p>
 
 <p>Priority to 3 after reflector discussion.</p>
+
+<p><i>[2021-10-04; Jonathan adds a comment]</i></p>
+
+<p>
+There isn't even a requirement that the arguments are iterators.
+And <tt>assign(InputIterator, InputIterator, flag_type)</tt> is not
+constrained to only accept iterators either, meaning you can call it with
+two integers and call the
+<tt>basic_string(size_type, char_type)</tt> constructor.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -38775,6 +38785,51 @@ namespace std {
   [&hellip;]
 }
 </pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3616" href="#3616">3616</a><sup><a href="https://cplusplus.github.io/LWG/issue3616">(i)</a></sup>. LWG 3498 seems to miss the non-member <tt>swap</tt> for <tt>basic_syncbuf</tt></h3>
+<p><b>Section:</b> 29.11.2.6 <a href="https://wg21.link/syncstream.syncbuf.special">[syncstream.syncbuf.special]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2021-10-07 <b>Last modified:</b> 2021-10-10</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-active.html#3498">3498</a> fixes the inconsistent <tt>noexcept</tt>-specifiers for member functions of <tt>basic_syncbuf</tt>, 
+but the proposed resolution in LWG <a href="lwg-active.html#3498">3498</a> seems to miss the non-member <tt>swap</tt>, which also has 
+inconsistent <tt>noexcept</tt>-specifier: 29.11.2.6 <a href="https://wg21.link/syncstream.syncbuf.special">[syncstream.syncbuf.special]</a> says it's <tt>noexcept</tt>, 
+while  [yncstream.sy] says it's not.
+<p/>
+Since the non-member <tt>swap</tt> and the member <tt>swap</tt> have equivalent effect, and LWG 3498 removes 
+<tt>noexcept</tt> from the latter, I think it's pretty clear that the former should not be <tt>noexcept</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 29.11.2.6 <a href="https://wg21.link/syncstream.syncbuf.special">[syncstream.syncbuf.special]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class charT, class traits, class Allocator&gt;
+  void swap(basic_syncbuf&lt;charT, traits, Allocator&gt;&amp; a,
+            basic_syncbuf&lt;charT, traits, Allocator&gt;&amp; b) <del>noexcept</del>;
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i> Equivalent to <tt>a.swap(b)</tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 </ol>
