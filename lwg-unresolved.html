@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-11 at 12:06:02 UTC</p>
+<p><p>Revised 2021-10-11 at 12:11:12 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38883,7 +38883,7 @@ template&lt;class F&gt; function(F) -&gt; function&lt;<i>see below</i>&gt;;
 -16- <i>Constraints:</i> <tt>&amp;F::operator()</tt> is well-formed when treated as an unevaluated operand and 
 <tt>decltype(&amp;F::operator())</tt> is <ins>either</ins> of the form <tt>R(G::*)(A...) <i>cv</i> 
 &amp;<sub>opt</sub> noexcept<sub>opt</sub></tt> <ins>or of the form <tt>R(*)(G <i>cv</i> &amp;<sub>opt</sub>, A...) 
-noexcept<sub>opt</sub></tt></ins> for a type <tt>G</tt>.
+noexcept<sub>opt</sub></tt></ins> for a <del>class</del> type <tt>G</tt>.
 <p/>
 -17- <i>Remarks:</i> The deduced type is <tt>function&lt;R(A...)&gt;</tt>.
 </p>
@@ -38902,7 +38902,7 @@ template&lt;class F&gt; packaged_task(F) -&gt; packaged_task&lt;<i>see below</i>
 -7- <i>Constraints:</i> <tt>&amp;F::operator()</tt> is well-formed when treated as an unevaluated operand and 
 <tt>decltype(&amp;F::operator())</tt> is <ins>either</ins> of the form <tt>R(G::*)(A...) <i>cv</i> 
 &amp;<sub>opt</sub> noexcept<sub>opt</sub></tt> <ins>or of the form <tt>R(*)(G <i>cv</i> &amp;<sub>opt</sub>, A...) 
-noexcept<sub>opt</sub></tt></ins> for a type <tt>G</tt>.
+  noexcept<sub>opt</sub></tt></ins> for a <del>class</del> type <tt>G</tt>.
 <p/>
 -8- <i>Remarks:</i> The deduced type is <tt>packaged_task&lt;R(A...)&gt;</tt>.
 </p>
