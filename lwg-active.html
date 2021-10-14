@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-10-14 at 11:35:44 UTC</p>
+<p><p>Revised 2021-10-14 at 12:55:32 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -39489,7 +39489,8 @@ else already. These should probably be made consistent one way or another.
 <p><i>[Tomasz Kamiński commented]</i></p>
 
 <p>
-The <code>move_iterator</code>/<code>reverse_iterator</code> where present C++20 classes, and this change restore their compatibility with C++17 code,
+The <code>move_iterator</code>/<code>reverse_iterator</code> were present before C++20,
+and this change restores their compatibility with C++17 code,
 where only assignment was required.
 They are materially different from adapters introduced with C++20,
 and I believe we should put more weight into backward compatibility
