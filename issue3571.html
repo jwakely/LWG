@@ -44,15 +44,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Voting">Voting</a> status.</em></p>
-<h3><a name="3571" href="lwg-active.html#3571">3571</a>. <tt>flush_emit</tt> should set <tt>badbit</tt> if the <tt>emit</tt> call fails</h3>
-<p><b>Section:</b> 29.7.5.5 <a href="https://wg21.link/ostream.manip">[ostream.manip]</a> <b>Status:</b> <a href="lwg-active.html#Voting">Voting</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-06-19 <b>Last modified:</b> 2021-09-24</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3><a name="3571" href="lwg-defects.html#3571">3571</a>. <tt>flush_emit</tt> should set <tt>badbit</tt> if the <tt>emit</tt> call fails</h3>
+<p><b>Section:</b> 29.7.5.5 <a href="https://wg21.link/ostream.manip">[ostream.manip]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-06-19 <b>Last modified:</b> 2021-10-14</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#ostream.manip">active issues</a> in [ostream.manip].</p>
 <p><b>View all other</b> <a href="lwg-index.html#ostream.manip">issues</a> in [ostream.manip].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Voting">Voting</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 <tt>basic_osyncstream::emit</tt> is specified to set <tt>badbit</tt> if it fails
@@ -65,7 +64,7 @@ probably have the same behavior as <tt>s.flush(); s.emit()</tt>.
 <p/>
 The reference implementation linked in <a href="https://wg21.link/P0753R2">P0753R2</a> does set <tt>badbit</tt> on
 failure, so at least this part appears to be an oversight. As
-discussed in LWG <a href="lwg-active.html#3570">3570</a>, <tt>basic_osyncstream::emit</tt> should probably be an
+discussed in LWG <a href="lwg-defects.html#3570">3570</a>, <tt>basic_osyncstream::emit</tt> should probably be an
 unformatted output function, so the <tt>emit</tt> part of <tt>flush_emit</tt> should do so too.
 </p>
 
@@ -74,6 +73,8 @@ unformatted output function, so the <tt>emit</tt> part of <tt>flush_emit</tt> sh
 <p>
 Set status to Tentatively Ready after six votes in favour during reflector poll.
 </p>
+
+<p><i>[2021-10-14 Approved at October 2021 virtual plenary. Status changed: Voting &rarr; WP.]</i></p>
 
 
 
