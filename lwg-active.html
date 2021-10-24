@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2021-10-23</td>
+  <td align="left">2021-10-24</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-10-23 at 17:37:52 UTC</p>
+<p><p>Revised 2021-10-24 at 08:44:35 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -40373,7 +40373,7 @@ This wording is relative to <a href="https://wg21.link/n4901">N4901</a>.
 <hr>
 <h3><a name="3622" href="#3622">3622</a><sup><a href="https://cplusplus.github.io/LWG/issue3622">(i)</a></sup>. Misspecified transitivity of equivalence in &sect;[unord.req.general]</h3>
 <p><b>Section:</b> 22.2.7.1 <a href="https://wg21.link/unord.req.general">[unord.req.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-10-20 <b>Last modified:</b> 2021-10-23</p>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-10-20 <b>Last modified:</b> 2021-10-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -40381,7 +40381,7 @@ This wording is relative to <a href="https://wg21.link/n4901">N4901</a>.
 <p>
 The paper <a href="https://wg21.link/P2077R3">P2077R3</a> ("Heterogeneous erasure overloads for associative containers") 
 adds a new variable <tt>kx</tt> with specific meaning for use in the Table of Unordered Associative 
-Container Requirements, 22.2.7.1 <a href="https://wg21.link/unord.req.general">[unord.req.general]</a> p11, which is meant to stand an 
+Container Requirements, 22.2.7.1 <a href="https://wg21.link/unord.req.general">[unord.req.general]</a> p11, which is meant to stand for an 
 equivalence class of heterogeneous values that can be compared with container keys.
 <p/>
 One property required of <tt>kx</tt> is transitivity of equality/equivalence, but this is currently specified as:
@@ -40411,6 +40411,15 @@ This wording is relative to <a href="https://wg21.link/n4901">N4901</a>.
 <blockquote>
 <ol style="list-style-type: none">
 <li><p>[&hellip;]</p></li>
+<li><p>(11.19) &mdash; <tt>ke</tt> is a value such that</p>
+<ol style="list-style-type: none">
+<li><p>(11.19.1) &mdash; <tt>eq(r1, ke) == eq(ke, r1)</tt>,</p></li>
+<li><p>(11.19.2) &mdash; <tt>hf(r1) == hf(ke)</tt> if <tt>eq(r1, ke)</tt> is <tt>true</tt>, and</p></li>
+<li><p>(11.19.3) &mdash; <del><tt>(eq(r1, ke) &amp;&amp; eq(r1, r2)) == eq(r2, ke)</tt></del><ins><tt>eq(ke, r2)</tt> 
+is <tt>true</tt> if <tt>eq(ke, r1) &amp;&amp; eq(r1, r2)</tt> is <tt>true</tt></ins>,</p></li>
+</ol>
+<p>where <tt>r1</tt> and <tt>r2</tt> are keys of elements in <tt>a_tran</tt>,</p>
+</li>
 <li><p>(11.20) &mdash; <tt>kx</tt> is a value such that</p>
 <ol style="list-style-type: none">
 <li><p>(11.20.1) &mdash; <tt>eq(r1, kx) == eq(kx, r1)</tt>,</p></li>
