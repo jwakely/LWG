@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-24 at 08:44:35 UTC</p>
+<p><p>Revised 2021-10-24 at 10:30:21 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38711,6 +38711,74 @@ is <tt>true</tt> if <tt>eq(kx, r1) &amp;&amp; eq(r1, r2)</tt> is <tt>true</tt></
 </li>
 <li><p>[&hellip;]</p></li>
 </ol>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3623" href="#3623">3623</a><sup><a href="https://cplusplus.github.io/LWG/issue3623">(i)</a></sup>. Uses of <tt>std::reverse_iterator</tt> with containers should not require manually including <tt>&lt;iterator&gt;</tt></h3>
+<p><b>Section:</b> 23.5.1.1 <a href="https://wg21.link/reverse.iterators.general">[reverse.iterators.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-10-23 <b>Last modified:</b> 2021-10-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently it is unspecified whether the definitions of <tt>std::reverse_iterator</tt> and its related 
+operators are available in <tt>&lt;vector&gt;</tt>, <tt>&lt;array&gt;</tt>, etc. So, it's unspecified 
+now whether the following program is well-formed because it's unspecified whether the equality operator 
+is available:
+</p>
+<blockquote><pre>
+#include &lt;vector&gt;
+
+int main()
+{
+  auto v = std::vector&lt;int&gt;(42);
+  for (auto it = v.rbegin(); it != v.rend(); ++it);
+  for (auto it = std::rbegin(v); it != std::rend(v); ++it);
+}</pre></blockquote>
+<p>
+ Such underspecification also leaves the guarantee that <tt>std::rbegin</tt>, <tt>std::rend</tt>, 
+ <tt>std::crbegin</tt>, and <tt>std::crend</tt> are available in some other headers seems not so meaningful. 
+ In order to guarantee these function templates can be used meaningfully with containers, users are still 
+ required to include <tt>&lt;iterator&gt;</tt> manually.
+<p/>
+I think the standard should guarantee that wherever the member <tt>rbegin</tt> (that returns <tt>std::reverse_iterator</tt>) 
+or <tt>std::rbegin</tt> is provided, the definitions of <tt>std::reverse_iterator</tt> and its related operators 
+are also provided. This strategy is already implemented by libc++, libstdc++, and MSVC STL, and thus I believe we 
+should standardize it to reduce uncertainty for users.
+<p/>
+Note that the situation for <tt>std::reverse_iterator</tt> is different from LWG <a href="lwg-closed.html#1361">1361</a>, because every 
+operation on <tt>std::size_t</tt> is still valid when the typedef-name itself is absent, but <tt>==</tt> and 
+<tt>!=</tt> on <tt>std::reverse_iterator</tt> fail if the corresponding declarations are unavailable.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.5.1.1 <a href="https://wg21.link/reverse.iterators.general">[reverse.iterators.general]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- Class template <tt>reverse_iterator</tt> is an iterator adaptor that iterates from the end of the sequence defined
+by its underlying iterator to the beginning of that sequence.
+<p/>
+<ins>-?- In addition to being available via inclusion of the <tt>&lt;iterator&gt;</tt> header, class template 
+<tt>reverse_iterator</tt> and function templates in 23.5.1.8 <a href="https://wg21.link/reverse.iter.cmp">[reverse.iter.cmp]</a> and 23.5.1.9 <a href="https://wg21.link/reverse.iter.nonmember">[reverse.iter.nonmember]</a> 
+are available when any of the following headers are included: <tt>&lt;array&gt;</tt>, <tt>&lt;deque&gt;</tt>, 
+<tt>&lt;forward_list&gt;</tt>, <tt>&lt;list&gt;</tt>, <tt>&lt;map&gt;</tt>, <tt>&lt;regex&gt;</tt>, <tt>&lt;set&gt;</tt>, 
+<tt>&lt;span&gt;</tt>, <tt>&lt;stacktrace&gt;</tt>, <tt>&lt;string&gt;</tt>, <tt>&lt;string_view&gt;</tt>, 
+<tt>&lt;unordered_map&gt;</tt>, <tt>&lt;unordered_set&gt;</tt>, and <tt>&lt;vector&gt;</tt>.</ins>
+</p>
 </blockquote>
 </li>
 </ol>
