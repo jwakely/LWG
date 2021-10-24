@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-24 at 10:30:21 UTC</p>
+<p><p>Revised 2021-10-24 at 10:56:18 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -38781,6 +38781,69 @@ are available when any of the following headers are included: <tt>&lt;array&gt;<
 </p>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3624" href="#3624">3624</a><sup><a href="https://cplusplus.github.io/LWG/issue3624">(i)</a></sup>. Inconsistency of <tt>&lt;typeinfo&gt;</tt>, <tt>&lt;initializer_list&gt;</tt>, and 
+<tt>&lt;compare&gt;</tt> in the standard library</h3>
+<p><b>Section:</b> 17.7 <a href="https://wg21.link/support.rtti">[support.rtti]</a>, 17.10 <a href="https://wg21.link/support.initlist">[support.initlist]</a>, 17.11 <a href="https://wg21.link/cmp">[cmp]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-10-23 <b>Last modified:</b> 2021-10-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+ Standard library headers <tt>&lt;typeinfo&gt;</tt>, <tt>&lt;initializer_list&gt;</tt>, and <tt>&lt;compare&gt;</tt> 
+ are required for some core language features, as specified in 7.6.1.8 <a href="https://wg21.link/expr.typeid">[expr.typeid]</a>/7, 
+ 9.4.5 <a href="https://wg21.link/dcl.init.list">[dcl.init.list]</a>/2, and 7.6.8 <a href="https://wg21.link/expr.spaceship">[expr.spaceship]</a>/8. In C++11 (via <a href="https://wg21.link/n2930">N2930</a>), 
+ every header that has dependency on <tt>std::initializer_list</tt> is required to include 
+ <tt>&lt;initializer_list&gt;</tt>. The similar requirements are added for <tt>operator&lt;=&gt;</tt> and 
+ <tt>&lt;compare&gt;</tt> in C++20 (via LWG <a href="lwg-defects.html#3330">3330</a>).
+<p/>
+As N2930 and LWG3330 have been adpoted, IMO there are some inconsistencies in the standard library now:
+</p>
+<ul>
+<li><p>No operation is done for <tt>&lt;typeinfo&gt;</tt>, although <tt>&lt;typeindex&gt;</tt> (<tt>std::type_index</tt>), 
+<tt>&lt;functional&gt;</tt> (<tt>std::function</tt>, since C++11), and <tt>&lt;any&gt;</tt> (<tt>std::any</tt>) 
+have dependency on <tt>std::type_info</tt>;</p></li>
+<li><p><tt>&lt;iterator&gt;</tt> has dependency on <tt>std::initializer_list</tt> since C++14/LWG <a href="lwg-defects.html#2128">2128</a> 
+(the <tt>std::rbegin</tt> overload and its friends), but it is not required to include <tt>&lt;initializer_list&gt;</tt>;</p></li>
+<li><p><tt>&lt;stacktrace&gt;</tt> is not required to include <tt>&lt;compare&gt;</tt> while it provides operator 
+<tt>&lt;=&gt;</tt> overloads.</p></li>
+</ul>
+<p>
+The situation may be quite serious for <tt>std::type_index</tt>. Perhaps no expected operation on <tt>std::type_index</tt> 
+is guaranteed to work when only <tt>&lt;typeindex&gt;</tt> but not <tt>&lt;typeinfo&gt;</tt> is included.
+<p/>
+libc++, libstdc++, and MSVC STL include <tt>&lt;typeinfo&gt;</tt> and <tt>&lt;initializer_list&gt;</tt> when 
+the required standard interface depends on them. I think we should standardize the existing practice (except 
+that <tt>&lt;stackstrace&gt;</tt> has not been implemented now) to reduce uncertainty for users.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4901">N4901</a>.
+</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The proposed wording below contains one conditional change, it is therefore depending upon
+a decision]
+</p>
+</blockquote>
+
+<ol>
+<li><p>Add <tt>#include &lt;typeinfo&gt;</tt> to 20.8.2 <a href="https://wg21.link/any.synop">[any.synop]</a>, 20.14.2 <a href="https://wg21.link/functional.syn">[functional.syn]</a>, and 
+20.17.1 <a href="https://wg21.link/type.index.synopsis">[type.index.synopsis]</a>.</p></li>
+<li><p>Add <tt>#include &lt;initializer_list&gt;</tt> to 23.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>.</p></li>
+<li><p>Add <tt>#include &lt;compare&gt;</tt> to 20.21.2 <a href="https://wg21.link/stacktrace.syn">[stacktrace.syn]</a>.</p></li>
+<li><p>If we decide to add range access function templates (23.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a>) to <tt>&lt;stacktrace&gt;</tt>, 
+we should also add <tt>#include &lt;initializer_list&gt;</tt> to 20.21.2 <a href="https://wg21.link/stacktrace.syn">[stacktrace.syn]</a>.</p></li>
 </ol>
 
 
