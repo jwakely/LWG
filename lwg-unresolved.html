@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-10-24 at 12:03:47 UTC</p>
+<p><p>Revised 2021-10-24 at 17:59:46 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39037,6 +39037,53 @@ const_reference at(size_type frame_no) const;
 <blockquote>
 <p>
 <ins>-?- <i>Returns:</i> <tt>frames_.data()</tt>.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3627" href="#3627">3627</a><sup><a href="https://cplusplus.github.io/LWG/issue3627">(i)</a></sup>. Inconsistent specifications for <tt>std::make_optional</tt> overloads</h3>
+<p><b>Section:</b> 20.6.9 <a href="https://wg21.link/optional.specalg">[optional.specalg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-10-23 <b>Last modified:</b> 2021-10-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Three <tt>std::make_optional</tt> overloads are specified in 20.6.9 <a href="https://wg21.link/optional.specalg">[optional.specalg]</a>. 
+The first one is specified by "<i>Returns:</i>" and the other two are specified by "<i>Effects:</i> Equivalent to:".
+According to 16.3.2.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a>/4, such uses of "<i>Effects:</i> Equivalent to:" 
+propagate the <i>Constraints</i> specified for constructors. As the selected constructor for the first 
+overload has "<i>Constraints:</i>" (20.6.3.2 <a href="https://wg21.link/optional.ctor">[optional.ctor]</a>/22), it seems that inconsistency is introduced here.
+<p/>
+Existing implementations are inconsistent: libstdc++ constrains all three overloads, 
+while libc++ and MSVC STL do not constrain any of them.
+<p/>
+IMO all three overloads should be constrained.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.21.4.3 <a href="https://wg21.link/stacktrace.basic.obs">[stacktrace.basic.obs]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt; constexpr optional&lt;decay_t&lt;T&gt;&gt; make_optional(T&amp;&amp; v);
+</pre>
+<blockquote>
+<p>
+-3- <i><del>Returns</del><ins>Effects</ins>:</i> <ins>Equivalent to: </ins><tt><ins>return </ins>optional&lt;decay_t&lt;T&gt;&gt;(std::forward&lt;T&gt;(v))<ins>;</ins></tt><del>.</del>
 </p>
 </blockquote>
 </blockquote>
