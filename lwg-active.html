@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2021-10-27</td>
+  <td align="left">2021-10-30</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2021-10-27 at 18:21:41 UTC</p>
+<p><p>Revised 2021-10-30 at 13:54:25 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -35177,7 +35177,7 @@ friend bool operator==(const <i>iterator</i>&amp; x, default_sentinel_t);
 <hr>
 <h3><a name="3491" href="#3491">3491</a><sup><a href="https://cplusplus.github.io/LWG/issue3491">(i)</a></sup>. What is a "decayed type"?</h3>
 <p><b>Section:</b> 17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a>, 24.7.5.1 <a href="https://wg21.link/range.all.general">[range.all.general]</a>, 17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-10-27 <b>Last modified:</b> 2021-01-16</p>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-10-27 <b>Last modified:</b> 2021-10-30</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#cmp.alg">issues</a> in [cmp.alg].</p>
@@ -35187,7 +35187,7 @@ friend bool operator==(const <i>iterator</i>&amp; x, default_sentinel_t);
 Some of our newer wording for C++20 uses the term "decayed type" as if it were 
 a defined term of art.  While I have intuition for what may be intended in these 
 cases, it turns out the "function to function pointer decay" and "array to array 
-pointer decay" where never actually Core terms of art &mdash; having searched all 
+pointer decay" were never actually Core terms of art &mdash; having searched all
 standards going back as far as C++03.
 <p/>
 We should either define this term for library use, or find a way to state
@@ -38343,7 +38343,7 @@ Set priority to 3 after reflector poll.
 <hr>
 <h3><a name="3594" href="#3594">3594</a><sup><a href="https://cplusplus.github.io/LWG/issue3594">(i)</a></sup>. <tt>inout_ptr</tt> &mdash; inconsistent <tt>release()</tt> in destructor</h3>
 <p><b>Section:</b> 20.11.10 <a href="https://wg21.link/inout.ptr.t">[inout.ptr.t]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> JeanHeyd Meneide <b>Opened:</b> 2021-09-16 <b>Last modified:</b> 2021-09-26</p>
+ <b>Submitter:</b> JeanHeyd Meneide <b>Opened:</b> 2021-09-16 <b>Last modified:</b> 2021-10-30</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -38399,9 +38399,8 @@ the code in 20.11.10 <a href="https://wg21.link/inout.ptr.t">[inout.ptr.t]</a> p
 Set priority to 1 after reflector poll.
 </p>
 
-
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
 </p>
@@ -38442,7 +38441,7 @@ if <tt>is_pointer_v&lt;Smart&gt;</tt> is <tt>true</tt>;
 <del>}</del>
 </pre></blockquote>
 <p>
-if the expression <tt>s.reset(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...)</tt> is wellformed;
+if the expression <tt>s.reset(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...)</tt> is well-formed;
 </p>
 </li>
 <li><p>(11.3) &mdash; otherwise,</p>
@@ -38452,6 +38451,77 @@ if the expression <tt>s.reset(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;
   <i>release-statement</i>;
   s = Smart(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
 <del>}</del>
+</pre></blockquote>
+<p>
+if <tt>is_constructible_v&lt;Smart, SP, Args...&gt;</tt> is <tt>true</tt>;
+</p>
+</li>
+<li><p>(11.4) &mdash; otherwise, the program is ill-formed.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2021-10-28; JeanHeyd Meneide provides improved wording]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.11.10 <a href="https://wg21.link/inout.ptr.t">[inout.ptr.t]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+~inout_ptr_t();
+</pre>
+<blockquote>
+<p>
+-9- Let <tt>SP</tt> be <tt><i>POINTER_OF_OR</i>(Smart, Pointer)</tt> (20.10.1 <a href="https://wg21.link/memory.general">[memory.general]</a>).
+<p/>
+-10- Let <tt><i>release-statement</i></tt> be <tt>s.release()</tt>; if an implementation does not call <tt>s.release()</tt> in the
+constructor. Otherwise, it is empty.
+<p/>
+-11- <i>Effects:</i> Equivalent to:
+</p>
+<ol style="list-style-type: none">
+<li><p>(11.1) &mdash; </p>
+<blockquote><pre>
+if (p) {
+  apply([&amp;](auto&amp;&amp;... args) {
+  s = Smart( static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
+}
+</pre></blockquote>
+<p>
+if <tt>is_pointer_v&lt;Smart&gt;</tt> is <tt>true</tt>;
+</p></li>
+<li><p>(11.2) &mdash; otherwise,</p>
+<blockquote><pre>
+<ins><i>release-statement</i>;</ins>
+if (p) {
+  apply([&amp;](auto&amp;&amp;... args) {
+  <del><i>release-statement</i>;</del>
+  s.reset(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
+}
+</pre></blockquote>
+<p>
+if the expression <tt>s.reset(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...)</tt> is well-formed;
+</p>
+</li>
+<li><p>(11.3) &mdash; otherwise,</p>
+<blockquote><pre>
+<ins><i>release-statement</i>;</ins>
+if (p) {
+  apply([&amp;](auto&amp;&amp;... args) {
+  <del><i>release-statement</i>;</del>
+  s = Smart(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
+}
 </pre></blockquote>
 <p>
 if <tt>is_constructible_v&lt;Smart, SP, Args...&gt;</tt> is <tt>true</tt>;
