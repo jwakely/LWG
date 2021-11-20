@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-11-20 at 17:03:21 UTC</p>
+<p><p>Revised 2021-11-20 at 17:48:18 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40723,6 +40723,98 @@ template&lt;class Out&gt; struct format_to_n_result {
 };
 [&hellip;]
 </pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3642" href="#3642">3642</a><sup><a href="https://cplusplus.github.io/LWG/issue3642">(i)</a></sup>. <tt>move_only_function</tt> assignment operators seem to be defined suboptimal</h3>
+<p><b>Section:</b> 20.14.17.4.3 <a href="https://wg21.link/func.wrap.move.ctor">[func.wrap.move.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Alexander Gutenev <b>Opened:</b> 2021-11-20 <b>Last modified:</b> 2021-11-20</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+20.14.17.4.3 <a href="https://wg21.link/func.wrap.move.ctor">[func.wrap.move.ctor]</a>/22 and 20.14.17.4.3 <a href="https://wg21.link/func.wrap.move.ctor">[func.wrap.move.ctor]</a>/25 define the effects 
+of assignment as following:
+</p>
+<blockquote>
+<pre>
+move_only_function&amp; operator=(move_only_function&amp;&amp; f);
+</pre>
+<blockquote>
+<p>
+<i>Effects:</i> Equivalent to: <tt>move_only_function(std::move(f)).swap(*this);</tt>
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class F&gt; move_only_function&amp; operator=(F&amp;&amp; f);
+</pre>
+<blockquote>
+<p>
+<i>Effects:</i> Equivalent to: <tt>move_only_function(std::forward&lt;F&gt;(f)).swap(*this);</tt>
+</p>
+</blockquote>
+</blockquote>
+<p>
+The assignment via <tt>swap</tt> with temporary makes the implementation to do the following:
+</p>
+<ul>
+<li><p>move out the previous target to a temporary location</p></li>
+<li><p>move in the new target</p></li>
+<li><p>finally destroy the previous target.</p></li>
+</ul>
+<p>
+As everything is <tt>noexcept</tt> here, I think it can be short cut to just:
+</p>
+<ul>
+<li><p>destroy the previous target.</p></li>
+<li><p>move in the new target</p></li>
+</ul>
+<p>
+Looks like the implementation cannot do such optimization in a generic case with small functor 
+optimization enabled and non-trivial move constructor for the new target and with non-trivial 
+destruction of the previous target, since the difference is observable.
+<p/>
+Apparently the optimization is precluded for no reason.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 20.14.17.4.3 <a href="https://wg21.link/func.wrap.move.ctor">[func.wrap.move.ctor]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+move_only_function&amp; operator=(move_only_function&amp;&amp; f);
+</pre>
+<blockquote>
+<p>
+-22- <i>Effects:</i> <ins>Sets the target object of <tt>this</tt> to the target object of <tt>f</tt> 
+before the assignment and leaves <tt>f</tt> in a valid state with an unspecified value.</ins><del>Equivalent to: <tt>move_only_function(std::move(f)).swap(*this);</tt></del>
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class F&gt; move_only_function&amp; operator=(F&amp;&amp; f);
+</pre>
+<blockquote>
+<p>
+-25- <i>Effects:</i> Equivalent to: <tt><ins>*this = </ins>move_only_function(std::forward&lt;F&gt;(f))<del>.swap(*this)</del>;</tt>
+</p>
+</blockquote>
 </blockquote>
 </li>
 
