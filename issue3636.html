@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3636" href="lwg-active.html#3636">3636</a>. <tt>formatter&lt;T&gt;::format</tt> should be <tt>const</tt>-qualified</h3>
 <p><b>Section:</b> 20.20.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-11 <b>Last modified:</b> 2021-11-14</p>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-11 <b>Last modified:</b> 2021-11-20</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#formatter.requirements">issues</a> in [formatter.requirements].</p>
@@ -75,8 +75,11 @@ Table 70: <i>BasicFormatter</i> requirements [tab:formatter.basic]
 </blockquote>
 <p>
 According to Victor Zverovich, his intent was that <tt>f.parse(pc)</tt> should modify the 
-state of <tt>f</tt>, but <tt>f.format(u, fc)</tt> should merely read <tt>f</tt>'s state. That is, 
-a typical formatter should look something like this (modulo errors introduced by me):
+state of <tt>f</tt>, but <tt>f.format(u, fc)</tt> should merely read <tt>f</tt>'s state to 
+support format string compilation where formatter objects are immutable and therefore the 
+<tt>format</tt> function must be <tt>const</tt>-qualified. 
+<p/>
+That is, a typical formatter should look something like this (modulo errors introduced by me):
 </p>
 <blockquote>
 <pre>
