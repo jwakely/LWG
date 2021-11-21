@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-11-21 at 07:53:14 UTC</p>
+<p><p>Revised 2021-11-21 at 12:04:34 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40814,6 +40814,77 @@ template&lt;class F&gt; move_only_function&amp; operator=(F&amp;&amp; f);
 <p>
 -25- <i>Effects:</i> Equivalent to: <tt><ins>*this = </ins>move_only_function(std::forward&lt;F&gt;(f))<del>.swap(*this)</del>;</tt>
 </p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3643" href="#3643">3643</a><sup><a href="https://cplusplus.github.io/LWG/issue3643">(i)</a></sup>. Missing <tt>constexpr</tt> in <tt>std::counted_iterator</tt></h3>
+<p><b>Section:</b> 23.5.6.5 <a href="https://wg21.link/counted.iter.nav">[counted.iter.nav]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-11-21 <b>Last modified:</b> 2021-11-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+One overload of <tt>std::counted_operator::operator++</tt> is not <tt>constexpr</tt> currently, 
+which is seemly because of that a try-block (specified in 23.5.6.5 <a href="https://wg21.link/counted.iter.nav">[counted.iter.nav]</a>/4) 
+is not allowed in a constexpr function until C++20. Given a try-block is allowed in a constexpr 
+function in C++20, IMO this overload should also be <tt>constexpr</tt>.
+<p/>
+MSVC STL has already added <tt>constexpr</tt> <a href="https://github.com/microsoft/STL/blob/1e42166b78f814c9150afff98cc399773eda8ddf/stl/inc/iterator#L590">at first</a>. 
+The situation of this overload is originally found by Casey Carter, but no LWG issue has been submitted.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 23.5.6.1 <a href="https://wg21.link/counted.iterator">[counted.iterator]</a>, class template synopsis <tt>counted_iterator</tt>, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+constexpr counted_iterator&amp; operator++();
+<ins>constexpr</ins> decltype(auto) operator++(int);
+constexpr counted_iterator operator++(int)
+  requires forward_iterator&lt;I&gt;;
+constexpr counted_iterator&amp; operator--()
+  requires bidirectional_iterator&lt;I&gt;;
+constexpr counted_iterator operator--(int)
+  requires bidirectional_iterator&lt;I&gt;;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.6.5 <a href="https://wg21.link/counted.iter.nav">[counted.iter.nav]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+<ins>constexpr</ins> decltype(auto) operator++(int);
+</pre>
+<blockquote>
+<p>
+-3- <i>Preconditions:</i> <tt>length &gt; 0</tt>.
+<p/>
+-4- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+--length;
+try { return current++; }
+catch(...) { ++length; throw; }
+</pre></blockquote>
 </blockquote>
 </blockquote>
 </li>
