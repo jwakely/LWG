@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3645" href="lwg-active.html#3645">3645</a>. <tt>resize_and_overwrite</tt> is overspecified to call its callback with lvalues</h3>
 <p><b>Section:</b> 21.3.3.5 <a href="https://wg21.link/string.capacity">[string.capacity]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-28 <b>Last modified:</b> 2021-11-28</p>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-28 <b>Last modified:</b> 2021-12-04</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#string.capacity">active issues</a> in [string.capacity].</p>
@@ -128,8 +128,61 @@ because once the user is receiving prvalue copies, it will no longer be physical
 user to modify the library's original variables <tt>p</tt> and <tt>n</tt>.
 </p>
 
+<p><i>[2021-11-29; Arthur O'Dwyer provides wording]</i></p>
+
+
 
 <p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 21.3.3.5 <a href="https://wg21.link/string.capacity">[string.capacity]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Operation&gt; constexpr void resize_and_overwrite(size_type n, Operation op);
+</pre>
+<blockquote>
+<p>
+-7- Let
+</p>
+<ol style="list-style-type:none">
+<li><p>(7.1) &mdash; <tt>o = size()</tt> before the call to <tt>resize_and_overwrite</tt>.</p></li>
+<li><p>(7.2) &mdash; <tt>k</tt> be <tt>min(o, n)</tt>.</p></li>
+<li><p>(7.3) &mdash; <tt>p</tt> be a <tt>charT*</tt>, such that the range <tt>[p, p + n]</tt> is valid 
+and <tt>this-&gt;compare(0, k, p, k) == 0</tt> is <tt>true</tt> before the call. The values in the range 
+<tt>[p + k, p + n]</tt> may be indeterminate (6.7.4 <a href="https://wg21.link/basic.indet">[basic.indet]</a>).</p></li>
+<li><p>(7.4) &mdash; <tt><i>OP</i></tt> be the expression <tt>std::move(op)(<ins>auto(</ins>p<ins>)</ins>, <ins>auto(</ins>n<ins>)</ins>)</tt>.</p></li>
+<li><p>(7.5) &mdash; <tt>r = <i>OP</i></tt>.</p></li>
+</ol>
+<p>
+-8- <i>Mandates:</i> <tt><i>OP</i></tt> has an integer-like type (23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a>).
+<p/>
+-9- <i>Preconditions:</i>
+</p>
+<ol style="list-style-type:none">
+<li><p>(9.1) &mdash; <tt><i>OP</i></tt> does not throw an exception <del>or modify <tt>p</tt> or <tt>n</tt></del>.</p></li>
+<li><p>(9.2) &mdash; <tt>r &ge; 0</tt>.</p></li>
+<li><p>(9.3) &mdash; <tt>r &le; n</tt>.</p></li>
+<li><p>(9.4) &mdash; After evaluating <tt><i>OP</i></tt> there are no indeterminate values in the range 
+<tt>[p, p + r)</tt>.</p></li>
+</ol>
+<p>
+-10- <i>Effects:</i> Evaluates <tt><i>OP</i></tt>, replaces the contents of <tt>*this</tt> with <tt>[p, p + r)</tt>, 
+and invalidates all pointers and references to the range <tt>[p, p + n]</tt>.
+<p/>
+-11- <i>Recommended practice:</i> Implementations should avoid unnecessary copies and allocations by, for example,
+making <tt>p</tt> a pointer into internal storage and by restoring <tt>*(p + r)</tt> to <tt>charT()</tt> 
+after evaluating <tt><i>OP</i></tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
 
 
 
