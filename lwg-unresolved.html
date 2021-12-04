@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-12-04 at 14:15:23 UTC</p>
+<p><p>Revised 2021-12-04 at 14:35:59 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41573,6 +41573,66 @@ from increment, <del>copy construction,</del> move construction, <del>copy assig
 or indirection through valid iterators.
 </p>
 </blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3648" href="#3648">3648</a><sup><a href="https://cplusplus.github.io/LWG/issue3648">(i)</a></sup>. <tt>format</tt> should not print <tt>bool</tt> with <tt>'c'</tt></h3>
+<p><b>Section:</b> 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2021-11-30 <b>Last modified:</b> 2021-12-04</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.string.std">active issues</a> in [format.string.std].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.string.std">issues</a> in [format.string.std].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/P1652R1">P1652R1</a> prints integral inputs as characters with <tt>'c'</tt> and preserves the
+wording to treat <tt>bool</tt> as a one-byte unsigned integer; this accidentally asks the 
+implementation to cast <tt>bool</tt> into a 1-bit character if a user asks for the <tt>'c'</tt> 
+presentation type.
+<p/>
+Recent wording improvements made this implied behavior obvious.
+</p>
+
+<p><i>[2021-12-04; Daniel comments]</i></p>
+
+<p>
+This issue relates to LWG <a href="lwg-active.html#3644">3644</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 20.20.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a>, Table 67 [tab:format.type.bool], as indicated:</p>
+
+<blockquote>
+<table border="1">
+<caption>Table 67 &mdash; Meaning of <i>type</i> options for <tt>bool</tt> [tab:format.type.bool]</caption>
+<tr style="text-align:center">
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+<tr>
+<td>none, <tt>s</tt></td>
+<td>Copies textual representation, either <tt>true</tt> or <tt>false</tt>, to the output.</td>
+</tr>
+<tr>
+<td><tt>b</tt>, <tt>B</tt>, <del><tt>c</tt>,</del> <tt>d</tt>, <tt>o</tt>, <tt>x</tt>, <tt>X</tt></td>
+<td>As specified in Table 65 [tab:format.type.int] for the value <tt>static_cast&lt;unsigned char&gt;(value)</tt>.</td>
+</tr>
+</table>
 </blockquote>
 </li>
 
