@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-12-04 at 14:03:17 UTC</p>
+<p><p>Revised 2021-12-04 at 14:15:23 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41522,6 +41522,57 @@ constexpr auto size() const requires forward_range&lt;const D&gt; &amp;&amp;
   }
 [&hellip;]
 </pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3647" href="#3647">3647</a><sup><a href="https://cplusplus.github.io/LWG/issue3647">(i)</a></sup>. <tt><i>nothrow-input-iterator</i></tt> constraints should not mention copying</h3>
+<p><b>Section:</b> 25.11.2 <a href="https://wg21.link/special.mem.concepts">[special.mem.concepts]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Konstantin Varlamov <b>Opened:</b> 2021-11-30 <b>Last modified:</b> 2021-12-04</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+25.11.2 <a href="https://wg21.link/special.mem.concepts">[special.mem.concepts]</a> states that a type qualifies as a <tt><i>nothrow-input-iterator</i></tt> 
+only if no exceptions are thrown from, among other things, <em>copy</em> construction and <em>copy</em> 
+assignment. However, being copyable isn't part of the requirements for an <tt>input_iterator</tt> on which 
+<tt><i>nothrow-input-iterator</i></tt> is based (indeed, one of the things <tt>forward_iterator</tt> 
+adds to <tt>input_iterator</tt> is copyability), and the <tt><i>nothrow-input-iterator</i></tt> concept 
+doesn't add any new constraints related to copyability.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 25.11.2 <a href="https://wg21.link/special.mem.concepts">[special.mem.concepts]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class I&gt;
+concept <i>nothrow-input-iterator</i> = <i>// exposition only</i>
+  input_iterator&lt;I&gt; &amp;&amp;
+  is_lvalue_reference_v&lt;iter_reference_t&lt;I&gt;&gt; &amp;&amp;
+  same_as&lt;remove_cvref_t&lt;iter_reference_t&lt;I&gt;&gt;, iter_value_t&lt;I&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+-2- A type <tt>I</tt> models <tt><i>nothrow-input-iterator</i></tt> only if no exceptions are thrown 
+from increment, <del>copy construction,</del> move construction, <del>copy assignment,</del> move assignment, 
+or indirection through valid iterators.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
