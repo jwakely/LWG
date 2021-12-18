@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2021-12-11 at 16:28:41 UTC</p>
+<p><p>Revised 2021-12-18 at 15:45:04 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -41882,6 +41882,54 @@ argument support), which implies that it should work. But it'd be nice to come o
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3652" href="#3652">3652</a><sup><a href="https://cplusplus.github.io/LWG/issue3652">(i)</a></sup>. Can we relax the preconditions of <tt>longjmp</tt>?</h3>
+<p><b>Section:</b> 17.13.3 <a href="https://wg21.link/csetjmp.syn">[csetjmp.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-12-15 <b>Last modified:</b> 2021-12-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+IMO the UB in 17.13.3 <a href="https://wg21.link/csetjmp.syn">[csetjmp.syn]</a>/2 is because of the design that "every destructor call 
+for an object shall be in effect when the lifetime of that object ends". A similar requirement is 
+in 6.7.3 <a href="https://wg21.link/basic.life">[basic.life]</a>/5, but it's more relaxed than the requirement for <tt>setjmp</tt>/<tt>longjmp</tt>.
+It seems better to harmonize the requirements in 6.7.3 <a href="https://wg21.link/basic.life">[basic.life]</a>/5 and 
+17.13.3 <a href="https://wg21.link/csetjmp.syn">[csetjmp.syn]</a>/2, which allows <tt>longjmp</tt> to skip non-trivial but no-op destructor calls. 
+Given that Microsoft UCRT's <tt>longjmp</tt> can sometimes (but not always) call destructors, 
+IMO we should say that it's unspecified whether <tt>longjmp</tt> calls destructor for any object 
+whose lifetime ends.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>. 
+</p>
+
+<ol>
+<li><p>Modify 17.13.3 <a href="https://wg21.link/csetjmp.syn">[csetjmp.syn]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- The function signature <tt>longjmp(jmp_buf jbuf, int val)</tt> has more restricted behavior 
+in this document. <del>A <tt>setjmp</tt>/<tt>longjmp</tt> call pair has undefined behavior 
+i</del><ins>I</ins>f replacing the <tt>setjmp</tt> and <tt>longjmp</tt> <ins>in a 
+<tt>setjmp</tt>/<tt>longjmp</tt> call pair</ins> by <tt>catch</tt> and <tt>throw</tt> would invoke any 
+<del>non-trivial</del> destructors for any objects with automatic storage duration<ins>, it is 
+unspecified whether the destructor is invoked for each such object. The behavior is undefined if the 
+program depends on the side effects produced by any such unspecified destructor calls</ins>. A 
+call to <tt>setjmp</tt> or <tt>longjmp</tt> has undefined behavior if invoked in a suspension 
+context of a coroutine (7.6.2.4 <a href="https://wg21.link/expr.await">[expr.await]</a>).
+</p>
+</blockquote>
+</li>
+</ol>
 
 
 
