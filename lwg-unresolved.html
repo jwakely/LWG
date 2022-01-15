@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-01-15 at 13:38:56 UTC</p>
+<p><p>Revised 2022-01-15 at 18:47:20 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42018,7 +42018,7 @@ namespace std {
     using char_type = charT;
     template&lt;class T&gt; using formatter_type = formatter&lt;T, charT&gt;;
     
-    basic_format_arg&lt;basic_format_context&lt; arg(size_t id) const <ins>noexcept</ins>;
+    basic_format_arg&lt;basic_format_context&gt; arg(size_t id) const <ins>noexcept</ins>;
     std::locale locale();
 
     iterator out();
@@ -42041,6 +42041,40 @@ basic_format_arg&lt;basic_format_context&gt; arg(size_t id) const <ins>noexcept<
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3655" href="#3655">3655</a><sup><a href="https://cplusplus.github.io/LWG/issue3655">(i)</a></sup>. The <tt><i>INVOKE</i></tt> operation and <tt>union</tt> types</h3>
+<p><b>Section:</b> 20.14.4 <a href="https://wg21.link/func.require">[func.require]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-12-29 <b>Last modified:</b> 2022-01-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#func.require">issues</a> in [func.require].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+There are two cases of the <tt><i>INVOKE</i></tt> operation specified with <tt>std::is_base_of_v</tt> 
+(20.14.4 <a href="https://wg21.link/func.require">[func.require]</a> (1.1), (1,4)), which means the following code snippet is ill-formed, as 
+<tt>std::is_base_of_v&lt;B, D&gt;</tt> is <tt>false</tt> when either <tt>B</tt> or <tt>D</tt> is a 
+<tt>union</tt> type.
+</p>
+<blockquote><pre>
+union Foo { int x; }; 
+static_assert(std::is_invocable_v&lt;int Foo::*, Foo&amp;&gt;);
+</pre></blockquote>
+<p>
+Currently libstdc++ accepts this code, because it uses slightly different conditions that handle <tt>union</tt> 
+types. libc++ and MSVC STL reject this code as specified in 20.14.4 <a href="https://wg21.link/func.require">[func.require]</a>.
+<p/>
+Should we change the conditions in 20.14.4 <a href="https://wg21.link/func.require">[func.require]</a> (1.1) and (1.4) to match libstdc++ and correctly 
+handle <tt>union</tt> types?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
 
 
 
