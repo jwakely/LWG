@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-01-15 at 18:47:20 UTC</p>
+<p><p>Revised 2022-01-15 at 19:05:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42045,6 +42045,7 @@ basic_format_arg&lt;basic_format_context&gt; arg(size_t id) const <ins>noexcept<
 
 
 
+
 <hr>
 <h3><a name="3655" href="#3655">3655</a><sup><a href="https://cplusplus.github.io/LWG/issue3655">(i)</a></sup>. The <tt><i>INVOKE</i></tt> operation and <tt>union</tt> types</h3>
 <p><b>Section:</b> 20.14.4 <a href="https://wg21.link/func.require">[func.require]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
@@ -42074,6 +42075,89 @@ handle <tt>union</tt> types?
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3656" href="#3656">3656</a><sup><a href="https://cplusplus.github.io/LWG/issue3656">(i)</a></sup>. Inconsistent bit operations returning a count</h3>
+<p><b>Section:</b> 26.5.5 <a href="https://wg21.link/bit.pow.two">[bit.pow.two]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Nicolai Josuttis <b>Opened:</b> 2021-12-30 <b>Last modified:</b> 2022-01-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Among the bit operations returning a count, <tt>bit_width()</tt> is the only one not returning an <tt>int</tt>.
+<p/>
+This has the following consequences:
+</p>
+<blockquote><pre>
+std::uint64_t b64 = 1;
+b64 = std::rotr(b64, 1);
+int count1 = std::popcount(b64);     // OK
+int count2 = std::countl_zero(b64);  // OK
+int count3 = std::bit_width(b64);    // OOPS
+</pre></blockquote>
+<p>
+The last line may result in a warning such as:
+</p>
+<blockquote><p>
+Warning: conversion from <tt>long long unsigned</tt> to <tt>int</tt> may change value
+</p></blockquote>
+<p>
+You have to use a <tt>static_cast</tt> to avoid the warning.
+<p/>
+Note that <a href="https://wg21.link/P0553R4">P0553R4</a> explicitly states the following design considerations,
+which I would also assume to apply to the later added functions from <a href="https://wg21.link/P0556R3">P0556R3</a>:
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+The counting operations return "<tt>int</tt>" quantities, consistent with the rule "use an <tt>int</tt> unless you 
+need something else". This choice does not reflect, in the type, the fact that counts are always non-negative. 
+</p>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>. 
+</p>
+
+<ol>
+<li><p>Modify 26.5.2 <a href="https://wg21.link/bit.syn">[bit.syn]</a>, header <tt>&lt;bit&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class T&gt;
+  constexpr <del>T</del><ins>int</ins> bit_width(T x) noexcept;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 26.5.5 <a href="https://wg21.link/bit.pow.two">[bit.pow.two]</a>, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class T&gt;
+  constexpr <del>T</del><ins>int</ins> bit_width(T x) noexcept;
+[&hellip;]
+</pre>
+<blockquote>
+<p>
+-11- <i>Constraints:</i> <tt>T</tt> is an unsigned integer type (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>).
+<p/>
+-12- <i>Returns:</i> If <tt>x == 0</tt>, <tt>0</tt>; otherwise one plus the base-2 logarithm of <tt>x</tt>, 
+with any fractional part discarded.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
