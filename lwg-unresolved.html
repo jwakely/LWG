@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-01-16 at 12:40:44 UTC</p>
+<p><p>Revised 2022-01-18 at 16:45:26 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42164,7 +42164,7 @@ with any fractional part discarded.
 <hr>
 <h3><a name="3657" href="#3657">3657</a><sup><a href="https://cplusplus.github.io/LWG/issue3657">(i)</a></sup>. <tt>std::hash&lt;std::filesystem::path&gt;</tt> is not enabled</h3>
 <p><b>Section:</b> 29.12.6 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-01-02 <b>Last modified:</b> 2022-01-15</p>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-01-02 <b>Last modified:</b> 2022-01-18</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#fs.class.path">issues</a> in [fs.class.path].</p>
@@ -42177,6 +42177,63 @@ specialization should be enabled, and its <tt>operator()</tt> should return the 
 </p>
 
 <p><i>[2022-01-15; Daniel provides wording]</i></p>
+
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>. 
+</p>
+
+<ol>
+<li><p>Modify 29.12.4 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header <tt>&lt;filesystem&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+#include &lt;compare&gt; <i>// see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
+
+namespace std::filesystem {
+  <i>// 29.12.6 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a>, paths</i>
+  class path;
+
+  <i>// 29.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, path non-member functions</i>
+  void swap(path&amp; lhs, path&amp; rhs) noexcept;
+  size_t hash_value(const path&amp; p) noexcept;
+
+  [&hellip;]
+}
+
+<ins><i>// [fs.path.hash], hash support</i>
+namespace std {
+  template&lt;class T&gt; struct hash;
+  template&lt;&gt; struct hash&lt;filesystem::path&gt;;
+}
+</ins>
+</pre>
+</blockquote>
+</li>
+
+<li><p>Following subclause 29.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, introduce a new subclause [fs.path.hash], as indicated:</p>
+
+<blockquote>
+<p>
+<ins><b>29.12.6.? Hash support [fs.path.hash]</b></ins>
+</p>
+<pre>
+<ins>template&lt;&gt; struct hash&lt;filesystem::path&gt;;</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- For an object <tt>p</tt> of type <tt>filesystem::path</tt>, <tt>hash&lt;filesystem::path&gt;()(p)</tt> 
+shall evaluate to the same result as <tt>hash_value(p)</tt>.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2022-01-18; Daniel improves wording based on reflector discussion feedback]</i></p>
 
 
 
@@ -42225,7 +42282,7 @@ namespace std {
 <blockquote>
 <p>
 <ins>-?- For an object <tt>p</tt> of type <tt>filesystem::path</tt>, <tt>hash&lt;filesystem::path&gt;()(p)</tt> 
-shall evaluate to the same result as <tt>hash_value(p)</tt>.</ins>
+evaluates to the same result as <tt>filesystem::hash_value(p)</tt>.</ins>
 </p>
 </blockquote>
 </blockquote>
