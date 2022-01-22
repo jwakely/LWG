@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-01-18 at 16:45:26 UTC</p>
+<p><p>Revised 2022-01-22 at 11:57:50 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42283,6 +42283,73 @@ namespace std {
 <p>
 <ins>-?- For an object <tt>p</tt> of type <tt>filesystem::path</tt>, <tt>hash&lt;filesystem::path&gt;()(p)</tt> 
 evaluates to the same result as <tt>filesystem::hash_value(p)</tt>.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3658" href="#3658">3658</a><sup><a href="https://cplusplus.github.io/LWG/issue3658">(i)</a></sup>. <tt>basic_streambuf::sputn</tt> is both overspecified and underspecified</h3>
+<p><b>Section:</b> 29.6.3.3.5 <a href="https://wg21.link/streambuf.pub.put">[streambuf.pub.put]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-01-17 <b>Last modified:</b> 2022-01-22</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The specification for <tt>basic_streambuf::sputn</tt> is:
+</p>
+<blockquote><p>
+<i>Returns:</i> <tt>xsputn(s, n)</tt>.
+</p></blockquote>
+<p>
+One interpretation of this implies that <tt>sputn</tt> can't insert characters directly into the 
+put area if there is space for them, it has to make a virtual call. That has significant overhead 
+for repeated calls, such as inserting many small strings/string_views in a loop.
+<p/>
+But another interpretation is that it doesn't use "<i>Effects:</i> Equivalent to" or anything like 
+that, so doesn't say an actual call to <tt>xsputn</tt> happens. Strictly speaking, it only says it 
+returns the value that <tt>xsputn</tt> would return, and doesn't even have to produce any of its effects!
+<p/>
+We should describe the effects, not the return value, and we should do so in a way that does not 
+overconstrain the implementation. It should not be necessary to make a virtual call to <tt>xsputn</tt> 
+if the put area has capacity for the characters. On the other hand, if it doesn't have capacity, then 
+calling <tt>xsputn</tt> is the best option; it allows the derived <tt>streambuf</tt> to decide how 
+best to handle large writes.
+<p/>
+The proposed resolution replaces the <i>Returns:</i> element with an <i>Effects:</i> element, so that 
+we specify that those effects actually occur. A normative remark is added to give the implementation 
+leeway to avoid the virtual call when it isn't needed.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>. 
+</p>
+
+<ol>
+<li><p>Modify 29.6.3.3.5 <a href="https://wg21.link/streambuf.pub.put">[streambuf.pub.put]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+streamsize sputn(const char_type* s, streamsize n);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Preconditions:</i> <tt>[s, s+n)</tt> is a valid range.</ins>
+<p/>
+<ins>-?- <i>Effects:</i> <tt>return xsputn(s, n)</tt>.</ins>
+<p/>
+<ins>-?- <i>Remarks:</i> When <tt>(epptr() - pptr()) &gt; n</tt>, it is unspecified whether the characters 
+are written directly to the output sequence without calling <tt>xsputn</tt>.</ins>
+<p/>
+-2- <i>Returns:</i> <tt>xsputn(s, n)</tt>.
 </p>
 </blockquote>
 </blockquote>
