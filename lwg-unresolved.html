@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-01-22 at 11:57:50 UTC</p>
+<p><p>Revised 2022-01-22 at 12:26:16 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42346,7 +42346,7 @@ streamsize sputn(const char_type* s, streamsize n);
 <p/>
 <ins>-?- <i>Effects:</i> <tt>return xsputn(s, n)</tt>.</ins>
 <p/>
-<ins>-?- <i>Remarks:</i> When <tt>(epptr() - pptr()) &gt; n</tt>, it is unspecified whether the characters 
+<ins>-?- <i>Remarks:</i> When <tt>(epptr() - pptr()) &gt;= n</tt>, it is unspecified whether the characters 
 are written directly to the output sequence without calling <tt>xsputn</tt>.</ins>
 <p/>
 -2- <i>Returns:</i> <tt>xsputn(s, n)</tt>.
@@ -42355,6 +42355,34 @@ are written directly to the output sequence without calling <tt>xsputn</tt>.</in
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3659" href="#3659">3659</a><sup><a href="https://cplusplus.github.io/LWG/issue3659">(i)</a></sup>. Consider <tt>ATOMIC_FLAG_INIT</tt> undeprecation</h3>
+<p><b>Section:</b> D.26.5 <a href="https://wg21.link/depr.atomics.flag">[depr.atomics.flag]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Aaron Ballman <b>Opened:</b> 2022-01-18 <b>Last modified:</b> 2022-01-22</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/P0883R2">P0883R2</a> deprecated <tt>ATOMTIC_VAR_INIT</tt> and
+<tt>ATOMIC_FLAG_INIT</tt> largely based on rationale from WG14. However, WG14
+only deprecated <tt>ATOMIC_VAR_INIT</tt> because we were told by implementers
+that <tt>ATOMIC_FLAG_INIT</tt> is still necessary for some platforms (platforms
+for which "clear" is actually not all zero bits, which I guess exist).
+<p/>
+I'd like to explore whether WG21 should undeprecate <tt>ATOMIC_FLAG_INIT</tt>
+as there was no motivation that I could find in the paper on the topic
+or in the discussion at 
+<a href="https://wiki.edg.com/bin/view/Wg21jacksonville2018/P0883R0">P0883R0 [Jacksonville 2018]</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
