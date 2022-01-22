@@ -35,6 +35,12 @@ For some reason this became a static member function of <tt>vector&lt;bool&gt;</
 <p/>
 We should restore the intended functionality, and deprecate the useless function.
 </p>
+
+<note>2022-01-22; Jonathan replaces <code>swap(x, y)</code> in the Annex D
+wording, following reflector discussion about lookup for <code>swap</code>
+finding itself in that context.
+</note>
+
 </discussion>
 
 <resolution>
@@ -187,8 +193,13 @@ template&lt;class Allocator&gt; struct hash&lt;vector&lt;bool, Allocator&gt;&gt;
 </pre>
 <blockquote>
 <p>
-<ins>-?- <i>Effects:</i> <tt>swap(x, y)</tt>.</ins>
+<ins>-?- <i>Effects:</i> Exchanges the contents of <tt>x</tt> and <tt>y</tt> as if by:</ins>
 </p>
+<blockquote><pre>
+<ins>bool b = x;
+x = y;
+y = b;</ins>
+</pre></blockquote>
 </blockquote>
 </blockquote>
 </li>
