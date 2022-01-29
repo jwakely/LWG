@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3615" href="lwg-active.html#3615">3615</a>. The last specialization of <tt>incrementable_traits</tt> has wrong operand types</h3>
 <p><b>Section:</b> 23.3.2.1 <a href="https://wg21.link/incrementable.traits">[incrementable.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-30 <b>Last modified:</b> 2021-10-03</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-30 <b>Last modified:</b> 2022-01-29</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -58,6 +58,14 @@ where the types of both operands are <tt>const</tt> lvalue reference of type <tt
 the <tt>struct</tt>, it uses <tt>decltype(declval&lt;T&gt;() - declval&lt;T&gt;())</tt> to define the 
 <tt>difference_type</tt>, that is, non-<tt>const</tt> rvalue reference of type <tt>T</tt>.
 </p>
+
+<p><i>[2022-01-29; Reflector poll]</i></p>
+
+<p>
+Not prioritized, but suggested as NAD:
+"Implicit expression variations ([concepts.equality]/6) apply here."
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -84,6 +92,7 @@ namespace std {
 </blockquote>
 </li>
 </ol>
+
 
 
 
