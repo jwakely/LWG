@@ -48,7 +48,7 @@
 <h3><a name="3637" href="lwg-active.html#3637">3637</a>. <tt>pmr::memory_resource::do_allocate</tt> needs clarification</h3>
 <p><b>Section:</b> 20.12.2 <a href="https://wg21.link/mem.res.class">[mem.res.class]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-11-12 <b>Last modified:</b> 2021-11-14</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#mem.res.class">issues</a> in [mem.res.class].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -76,6 +76,13 @@ deallocation, but that "deallocation" should not only mean a call to deallocate 
 but include things like <tt>pmr::monotonic_buffer_resource::release()</tt>, and when a memory 
 resource's destructor returns memory to an upstream resource.
 </p>
+
+<p><i>[2022-01-30; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
