@@ -43,8 +43,600 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-01-30 at 17:05:43 UTC</p>
+<p><p>Revised 2022-01-31 at 09:53:20 UTC</p>
 </p><h2>Tentative Issues</h2>
+<hr>
+<h3><a name="3088" href="#3088">3088</a><sup><a href="https://cplusplus.github.io/LWG/issue3088">(i)</a></sup>. <tt>forward_list::merge</tt> behavior unclear when passed <tt>*this</tt></h3>
+<p><b>Section:</b> 22.3.9.6 <a href="https://wg21.link/forward.list.ops">[forward.list.ops]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-03-19 <b>Last modified:</b> 2022-01-31</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-defects.html#300">300</a> changed <tt>list::merge</tt> to be a no-op when passed <tt>*this</tt>, but there's
+no equivalent rule for <tt>forward_list::merge</tt>.
+Presumably the <tt>forward_list</tt> proposal predated the adoption of LWG 300's PR and was never updated
+for the change. Everything in the discussion of that issue applies mutatis mutandis to the current
+specification of <tt>forward_list::merge</tt>.
+</p>
+
+<p><i>[2018-06-18 after reflector discussion]</i></p>
+
+<p>Priority set to 3</p>
+
+<p><i>[2019-07-30 Tim provides updated PR]</i></p>
+
+<p>Per the comments during issue prioritization, the new PR tries to synchronize the wording
+between <tt>list::merge</tt> and <tt>forward_list::merge</tt>.</p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>This wording is relative to <a href="https://wg21.link/n4727">N4727</a>.</p>
+
+<ol>
+<li><p>Edit 99 [forwardlist.ops] as indicated:</p>
+<blockquote>
+<pre>
+void merge(forward_list&amp; x);
+void merge(forward_list&amp;&amp; x);
+template&lt;class Compare&gt; void merge(forward_list&amp; x, Compare comp);
+template&lt;class Compare&gt; void merge(forward_list&amp;&amp; x, Compare comp);
+</pre>
+<blockquote>
+<p>
+-20- <i>Requires:</i> <tt>*this</tt> and <tt>x</tt> are both sorted with respect to the comparator
+<tt>operator&lt;</tt> (for the first two overloads) or <tt>comp</tt> (for the last two overloads),
+and <tt>get_allocator() == x.get_allocator()</tt> is <tt>true</tt>.
+<p/>
+-21- <i>Effects:</i> <ins>If <tt>addressof(x) == this</tt>, does nothing. Otherwise,
+m</ins><del>M</del>erges the two sorted ranges <tt>[begin(), end())</tt> and <tt>[x.begin(), x.end())</tt>.
+<ins>The result is a range that is sorted with respect to the comparator <tt>operator&lt;</tt>
+(for the first two overloads) or <tt>comp</tt> (for the last two overloads).</ins> <tt>x</tt> is
+empty after the merge. If an exception is thrown other than by a comparison there are no effects.
+Pointers and references to the moved elements of <tt>x</tt> now refer to those same elements but
+as members of <tt>*this</tt>. Iterators referring to the moved elements will continue to refer to
+their elements, but they now behave as iterators into <tt>*this</tt>, not into <tt>x</tt>.
+<p/>
+-22- <i>Remarks:</i> Stable (16.4.6.8 <a href="https://wg21.link/algorithm.stable">[algorithm.stable]</a>). The behavior is undefined if
+<tt>get_allocator() != x.get_allocator()</tt>.
+<p/>
+-23- <i>Complexity:</i> At most <tt>distance(begin(), end()) + distance(x.begin(), x.end()) - 1</tt>
+comparisons <ins>if <tt>addressof(x) != this</tt>; otherwise, no comparisons are performed</ins>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<p><i>[2021-05-22 Tim syncs wording to the current working draft]</i></p>
+
+
+<p><i>[2022-01-31; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.</p>
+
+<ol>
+<li><p>Edit 22.3.9.6 <a href="https://wg21.link/forward.list.ops">[forward.list.ops]</a> as indicated:</p>
+<blockquote>
+<pre>
+void merge(forward_list&amp; x);
+void merge(forward_list&amp;&amp; x);
+template&lt;class Compare&gt; void merge(forward_list&amp; x, Compare comp);
+template&lt;class Compare&gt; void merge(forward_list&amp;&amp; x, Compare comp);
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <tt>comp</tt> be <tt>less&lt;&gt;{}</tt> for the first two overloads.</ins>
+<p/>
+-24- <i>Preconditions:</i> <tt>*this</tt> and <tt>x</tt> are both sorted with respect to the comparator
+<del><tt>operator&lt;</tt> (for the first two overloads) or</del> <tt>comp</tt>
+<del> (for the last two overloads)</del>,
+and <tt>get_allocator() == x.get_allocator()</tt> is <tt>true</tt>.
+<p/>
+-25- <i>Effects:</i> <ins>If <tt>addressof(x) == this</tt>, there are no effects. Otherwise,
+m</ins><del>M</del>erges the two sorted ranges <tt>[begin(), end())</tt> and <tt>[x.begin(), x.end())</tt>.
+<ins>The result is a range that is sorted with respect to the comparator <tt>comp</tt>.</ins> <del><tt>x</tt> is
+empty after the merge. If an exception is thrown other than by a comparison there are no effects.</del>
+Pointers and references to the moved elements of <tt>x</tt> now refer to those same elements but
+as members of <tt>*this</tt>. Iterators referring to the moved elements will continue to refer to
+their elements, but they now behave as iterators into <tt>*this</tt>, not into <tt>x</tt>.
+<p/>
+-26- <i>Complexity:</i> At most <tt>distance(begin(), end()) + distance(x.begin(), x.end()) - 1</tt>
+comparisons <ins>if <tt>addressof(x) != this</tt>; otherwise, no comparisons are performed</ins>.
+<p/>
+-27- <i>Remarks:</i> Stable (16.4.6.8 <a href="https://wg21.link/algorithm.stable">[algorithm.stable]</a>). <ins>If <tt>addressof(x) != this</tt>,
+<tt>x</tt> is empty after the merge. No elements are copied by this operation.
+If an exception is thrown other than by a comparison there are no effects.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+<li><p>Edit 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a> as indicated:</p>
+<blockquote>
+<pre>
+void merge(list&amp; x);
+void merge(list&amp;&amp; x);
+template&lt;class Compare&gt; void merge(list&amp; x, Compare comp);
+template&lt;class Compare&gt; void merge(list&amp;&amp; x, Compare comp);
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <tt>comp</tt> be <tt>less&lt;&gt;{}</tt> for the first two overloads.</ins>
+<p/>
+-26- <i>Preconditions:</i> <del>Both the list and the argument list shall be</del><ins><tt>*this</tt> and <tt>x</tt> are both</ins>
+sorted with respect to the comparator <del><tt>operator&lt;</tt>
+(for the first two overloads) or </del><tt>comp</tt><del> (for the last two overloads)</del>, and
+<tt>get_allocator() == x.get_allocator()</tt> is <tt>true</tt>.
+<p/>
+-27- <i>Effects:</i> If <tt>addressof(x) == this</tt>, <del>does nothing; o</del><ins>there are no effects. O</ins>therwise,
+merges the two sorted ranges <tt>[begin(), end())</tt> and <tt>[x.begin(), x.end())</tt>.
+The result is a range <del>in which the elements will be sorted in non-decreasing order according to the ordering
+defined by <tt>comp</tt>; that is, for every iterator <tt>i</tt>, in the range other than the first, the condition
+<tt>comp(*i, *(i - 1))</tt> will be <tt>false</tt></del><ins>that is sorted with respect to the comparator
+<tt>comp</tt></ins>. Pointers and references to the moved elements of <tt>x</tt> now refer to those same elements
+but as members of <tt>*this</tt>. Iterators referring to the moved elements will continue to refer to their elements,
+but they now behave as iterators into <tt>*this</tt>, not into <tt>x</tt>.
+<p/>
+-28- <i>Complexity:</i> At most <tt>size() + x.size() - 1</tt> <del>applications of <tt>comp</tt></del><ins>comparisons</ins>
+if <tt>addressof(x) != this</tt>; otherwise, no <del>applications of <tt>comp</tt></del><ins>comparisons</ins> are performed.
+<del>If an exception is thrown other than by a comparison there are no effects.</del><p/>
+-29- <i>Remarks:</i> Stable (16.4.6.8 <a href="https://wg21.link/algorithm.stable">[algorithm.stable]</a>). If <tt>addressof(x) != this</tt>, <del>the range
+<tt>[x.begin(), x.end())</tt></del><ins><tt>x</tt></ins> is empty after the merge. No elements are copied by this operation.
+<ins>If an exception is thrown other than by a comparison there are no effects.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3471" href="#3471">3471</a><sup><a href="https://cplusplus.github.io/LWG/issue3471">(i)</a></sup>. <tt>polymorphic_allocator::allocate</tt> does not satisfy <i>Cpp17Allocator</i> requirements</h3>
+<p><b>Section:</b> 20.12 <a href="https://wg21.link/mem.res">[mem.res]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-07-27 <b>Last modified:</b> 2022-01-31</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#mem.res">issues</a> in [mem.res].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+With the adoption of <a href="https://wg21.link/p0593r6">P0593R6</a> in Prague,
+<tt>std::ptr::polymorphic_allocator</tt> no longer satisfies the of <i>Cpp17Allocator</i>
+requirements. Specifically, all calls to <tt>allocate(n)</tt> need to create an object
+for an array of <tt>n T</tt>s (but not initialize any of those elements).
+<tt>std::pmr::polymorphic_allocator</tt> calls its underlying memory resource to allocate
+sufficient bytes of storage, but it does not create (and start the lifetime of) the array
+object within that storage.
+</p>
+
+<p><i>[2020-08-03; Billy comments]</i></p>
+
+<p>
+It's worth noting that the resolution of <a href="https://wg21.link/cwg2382">CWG 2382</a>
+has impact on implementors for this issue.
+</p>
+
+<p><i>[2020-08-21; Reflector prioritization]</i></p>
+
+<p>
+Set priority to 3 after reflector discussions.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.
+</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The proposed wording is inspired by the example given in the "Assertion/note" column of the expression
+<tt>a.allocate(n)</tt> in table [tab:cpp17.allocator].]
+</p>
+</blockquote>
+
+<ol>
+<li><p>Modify 20.12.2.2 <a href="https://wg21.link/mem.res.public">[mem.res.public]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[[nodiscard]] void* allocate(size_t bytes, size_t alignment = max_align);
+</pre>
+<blockquote>
+<p>
+-2- <i>Effects:</i> Equivalent to: <del><tt>return do_allocate(bytes, alignment);</tt></del>
+</p>
+<blockquote><pre>
+<ins>void* p = do_allocate(bytes, alignment);
+return launder(new (p) byte[bytes]);</ins>
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2021-05-20 Tim comments and updates wording]</i></p>
+
+<p>
+<tt>memory_resource::allocate</tt> is the PMR equivalent of <tt>malloc</tt>
+and <tt>operator new</tt>. It therefore needs the "suitable created object"
+wording (see 6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>, 20.10.11 <a href="https://wg21.link/c.malloc">[c.malloc]</a>).
+This ensures that it creates the requisite array object automatically for all
+the allocation functions of <tt>polymorphic_allocator</tt>,
+and returns the correct pointer value in all cases.
+</p>
+
+<p><i>[2022-01-31; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.12.2.2 <a href="https://wg21.link/mem.res.public">[mem.res.public]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[[nodiscard]] void* allocate(size_t bytes, size_t alignment = max_align);
+</pre>
+<blockquote>
+<p>
+-2- <i>Effects:</i> <del>Equivalent to: <tt>return</tt></del>
+<ins>Allocates storage by calling</ins> <tt>do_allocate(bytes, alignment)</tt><del><tt>;</tt></del>
+<ins>and implicitly creates objects within the allocated region of storage.</ins>
+<p/>
+<ins>-?- <i>Returns:</i> A pointer to a suitable created object
+(6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>) in the allocated region of storage.</ins>
+<p/>
+<ins>-?- <i>Throws:</i> What and when the call to <tt>do_allocate</tt> throws.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3525" href="#3525">3525</a><sup><a href="https://cplusplus.github.io/LWG/issue3525">(i)</a></sup>. <tt>uses_allocator_construction_args</tt> fails to handle types convertible to <tt>pair</tt></h3>
+<p><b>Section:</b> 20.10.7.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-02-23 <b>Last modified:</b> 2022-01-31</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
+<p><b>View all other</b> <a href="lwg-index.html#allocator.uses.construction">issues</a> in [allocator.uses.construction].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+As currently specified, the following program is ill-formed (and appears to have been since LWG <a href="lwg-defects.html#2975">2975</a>):
+</p>
+<blockquote><pre>
+struct S {
+  operator std::pair&lt;const int, int&gt;() const {
+    return {};
+  }
+};
+
+void f() {
+  std::pmr::map&lt;int, int&gt; s;
+  s.emplace(S{});
+}
+</pre></blockquote>
+<p>
+There's no matching overload for <tt>uses_allocator_construction_args&lt;pair&lt;const int, int&gt;&gt;(alloc, S&amp;&amp;)</tt>,
+since <tt>S</tt> is not a <tt>pair</tt> and every overload for constructing <tt>pair</tt>s that takes one
+non-allocator argument expects a <tt>pair</tt> from which template arguments can be deduced.
+</p>
+<p><i>[2021-02-27 Tim adds PR and comments]</i></p>
+
+<p>The superseded resolution below attempts to solve this issue by adding two
+additional overloads of <tt>uses_allocator_construction_args</tt> to
+handle this case. However, the new overloads forces implicit conversions
+at the call to <tt>uses_allocator_construction_args</tt>, which requires
+the result to be consumed within the same full-expression
+before any temporary created from the conversion is destroyed.
+This is not the case for the <tt>piecewise_construct</tt> overload of
+<tt>uses_allocator_construction_args</tt>, which recursively calls
+<tt>uses_allocator_construction_args</tt> for the two elements of the pair, which
+might themselves be <tt>pair</tt>s.</p>
+<p>
+The approach taken in the revised PR is to produce an exposition-only
+<tt><i>pair-constructor</i></tt> object instead. The object holds the allocator
+and the argument by reference, implicitly converts to the specified specialization of <tt>pair</tt>,
+and when so converted return a <tt>pair</tt> that is constructed by uses-allocator
+construction with the converted value of the original argument.
+This maintains the existing design that <tt>pair</tt> itself doesn't know
+anything about allocator construction.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
+</p>
+
+<ol>
+<li><p>Edit 20.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  <i>// 20.10.7.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>, uses-allocator construction</i>
+  [&hellip;]
+
+<ins>  template&lt;class T, class Alloc&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    const remove_cv_t&lt;T&gt;&amp; pr) noexcept;</ins>
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    const pair&lt;U, V&gt;&amp; pr) noexcept -&gt; <i>see below</i>;
+
+<ins>  template&lt;class T, class Alloc&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    remove_cv_t&lt;T&gt;&amp;&amp; pr) noexcept;</ins>
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    pair&lt;U, V&gt;&amp;&amp; pr) noexcept -&gt; <i>see below</i>;
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Edit 20.10.7.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated:</p>
+<blockquote>
+<pre>
+<ins>template&lt;class T, class Alloc&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  const remove_cv_t&lt;T&gt;&amp; pr) noexcept;</ins>
+template&lt;class T, class Alloc, class U, class V&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  const pair&lt;U, V&gt;&amp; pr) noexcept -&gt; <i>see below</i>;
+</pre>
+<blockquote>
+<p>
+-12- <i>Constraints:</i> <tt>T</tt> is a specialization of <tt>pair</tt>. <ins>For the second overload, <tt>is_same_v&lt;pair&lt;U, V&gt;, remove_cv_t&lt;T&gt;&gt;</tt> is <tt>false</tt>.</ins>
+<p/>
+-13- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
+                                            forward_as_tuple(pr.first),
+                                            forward_as_tuple(pr.second));
+</pre></blockquote>
+</blockquote>
+<pre>
+<ins>template&lt;class T, class Alloc&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  remove_cv_t&lt;T&gt;&amp;&amp; pr) noexcept;</ins>
+template&lt;class T, class Alloc, class U, class V&gt;
+  constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                  pair&lt;U, V&gt;&amp;&amp; pr) noexcept -&gt; <i>see below</i>;
+</pre>
+<blockquote>
+<p>
+-14- <i>Constraints:</i> <tt>T</tt> is a specialization of <tt>pair</tt>. <ins>For the second overload, <tt>is_same_v&lt;pair&lt;U, V&gt;, remove_cv_t&lt;T&gt;&gt;</tt> is <tt>false</tt>.</ins>
+<p/>
+-15- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
+                                            forward_as_tuple(std::move(pr).first),
+                                            forward_as_tuple(std::move(pr).second));
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2021-03-12; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 following reflector poll.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
+</p>
+<ol>
+<li><p>Edit 20.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  <i>// 20.10.7.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>, uses-allocator construction</i>
+  [&hellip;]
+
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    const pair&lt;U, V&gt;&amp; pr) noexcept -&gt; <i>see below</i>;
+
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    pair&lt;U, V&gt;&amp;&amp; pr) noexcept -&gt; <i>see below</i>;
+
+
+<ins>  template&lt;class T, class Alloc, class U&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, U&amp;&amp; u) noexcept;</ins>
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Add the following to 20.10.7.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>:</p>
+<blockquote>
+<pre>
+<ins>  template&lt;class T, class Alloc, class U&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, U&amp;&amp; u) noexcept;</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <tt><i>FUN</i></tt> be the function template:</ins>
+</p>
+<blockquote><pre><ins>
+  template&lt;class A, class B&gt;
+  void <i>FUN</i>(const pair&lt;A, B&gt;&amp;);</ins>
+</pre></blockquote>
+<p>
+<ins>-?- <i>Constraints:</i> <tt>T</tt> is a specialization of <tt>pair</tt>, and the expression <tt><i>FUN</i>(u)</tt> is not well-formed when considered as an unevaluated operand.</ins>
+<p/>
+<ins>-?- <i>Effects:</i> Equivalent to:</ins>
+</p>
+<blockquote><pre><ins>
+return make_tuple(<i>pair-constructor</i>{alloc, u});</ins>
+</pre></blockquote>
+<p><ins>where <tt><i>pair-constructor</i></tt> is an exposition-only class defined as follows:</ins></p>
+<blockquote><pre><ins>
+struct <i>pair-constructor</i> {
+  using <i>pair-type</i> = remove_cv_t&lt;T&gt;;            // exposition only
+
+  constexpr operator <i>pair-type</i>() const {
+    return <i>do-construct</i>(std::forward&lt;U&gt;(<i>u</i>));
+  }
+
+  constexpr auto <i>do-construct</i>(const <i>pair-type</i>&amp; p) const {  // exposition only
+    return make_obj_using_allocator&lt;<i>pair-type</i>&gt;(<i>alloc</i>, p);
+  }
+  constexpr auto <i>do-construct</i>(<i>pair-type</i>&amp;&amp; p) const {  // exposition only
+    return make_obj_using_allocator&lt;<i>pair-type</i>&gt;(<i>alloc</i>, std::move(p));
+  }
+
+  const Alloc&amp; <i>alloc</i>;  // exposition only
+  U&amp; <i>u</i>;                // exposition only
+};
+</ins></pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2021-12-02 Tim updates PR to avoid public exposition-only members]</i></p>
+
+
+<p><i>[2022-01-31; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+<ol>
+<li><p>Edit 20.10.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  <i>// 20.10.7.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>, uses-allocator construction</i>
+  [&hellip;]
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    pair&lt;U, V&gt;&amp; pr) noexcept;
+
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    const pair&lt;U, V&gt;&amp; pr) noexcept;
+
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    pair&lt;U, V&gt;&amp;&amp; pr) noexcept;
+
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    const pair&lt;U, V&gt;&amp;&amp; pr) noexcept;
+
+<ins>  template&lt;class T, class Alloc, class U&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, U&amp;&amp; u) noexcept;</ins>
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Add the following to 20.10.7.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>:</p>
+<blockquote>
+<pre>
+<ins>  template&lt;class T, class Alloc, class U&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, U&amp;&amp; u) noexcept;</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- Let <tt><i>FUN</i></tt> be the function template:</ins>
+</p>
+<blockquote><pre><ins>
+  template&lt;class A, class B&gt;
+  void <i>FUN</i>(const pair&lt;A, B&gt;&amp;);</ins>
+</pre></blockquote>
+<p>
+<ins>-?- <i>Constraints:</i> <tt>T</tt> is a specialization of <tt>pair</tt>, and the expression <tt><i>FUN</i>(u)</tt> is not well-formed when considered as an unevaluated operand.</ins>
+<p/>
+<ins>-?- Let <tt><i>pair-constructor</i></tt> be an exposition-only class defined as follows:</ins></p>
+<blockquote><pre><ins>
+class <i>pair-constructor</i> {
+  using <i>pair-type</i> = remove_cv_t&lt;T&gt;;            // exposition only
+
+  constexpr auto <i>do-construct</i>(const <i>pair-type</i>&amp; p) const {  // exposition only
+    return make_obj_using_allocator&lt;<i>pair-type</i>&gt;(<i>alloc_</i>, p);
+  }
+  constexpr auto <i>do-construct</i>(<i>pair-type</i>&amp;&amp; p) const {  // exposition only
+    return make_obj_using_allocator&lt;<i>pair-type</i>&gt;(<i>alloc_</i>, std::move(p));
+  }
+
+  const Alloc&amp; <i>alloc_</i>;  // exposition only
+  U&amp; <i>u_</i>;                // exposition only
+
+public:
+  constexpr operator <i>pair-type</i>() const {
+    return <i>do-construct</i>(std::forward&lt;U&gt;(<i>u_</i>));
+  }
+};
+</ins></pre></blockquote>
+
+<p>
+<ins> -?- <i>Returns:</i> <tt>make_tuple(<i>pc</i>)</tt>, where <tt><i>pc</i></tt>
+is a <tt><i>pair-constructor</i></tt> object whose <tt><i>alloc_</i></tt> member is
+initialized with <tt>alloc</tt> and whose <tt><i>u_</i></tt> member is initialized with <tt>u</tt>.
+</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
 <hr>
 <h3><a name="3598" href="#3598">3598</a><sup><a href="https://cplusplus.github.io/LWG/issue3598">(i)</a></sup>. <tt>system_category().default_error_condition(0)</tt> is underspecified</h3>
 <p><b>Section:</b> 19.5.3.5 <a href="https://wg21.link/syserr.errcat.objects">[syserr.errcat.objects]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
