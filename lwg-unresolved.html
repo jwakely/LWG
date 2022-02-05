@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-02-05 at 13:35:34 UTC</p>
+<p><p>Revised 2022-02-05 at 13:48:21 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42174,6 +42174,33 @@ We need some "for the overloads with ..." wording.
 Jens pointed out that 4.1.2 <a href="https://wg21.link/intro.abstract">[intro.abstract]</a> p6.2 should be amended to talk about 
 "stuff done to the <tt>filesystem</tt>, e.g. <tt>mkdir</tt>". Sounds like an LWG issue that 
 needs CWG review.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3670" href="#3670">3670</a><sup><a href="https://cplusplus.github.io/LWG/issue3670">(i)</a></sup>. <i>Cpp17InputIterator</i>s don't have integer-class difference types</h3>
+<p><b>Section:</b> 24.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-02-04 <b>Last modified:</b> 2022-02-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.iota.iterator">issues</a> in [range.iota.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+24.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> defines 
+</p>
+<blockquote><pre>
+using iterator_category = input_iterator_tag; <i>// present only if W models incrementable</i>
+</pre></blockquote>
+<p>
+but when <tt>difference_type</tt> is an integer-class type the iterator does not meet the 
+<i>Cpp17InputIterator</i> requirements.
 </p>
 
 
