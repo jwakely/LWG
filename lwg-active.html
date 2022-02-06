@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2022-02-05</td>
+  <td align="left">2022-02-06</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D122)</h1>
-<p><p>Revised 2022-02-05 at 13:48:21 UTC</p>
+<p><p>Revised 2022-02-06 at 18:47:13 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -45570,7 +45570,7 @@ needs CWG review.
 <hr>
 <h3><a name="3670" href="#3670">3670</a><sup><a href="https://cplusplus.github.io/LWG/issue3670">(i)</a></sup>. <i>Cpp17InputIterator</i>s don't have integer-class difference types</h3>
 <p><b>Section:</b> 24.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-02-04 <b>Last modified:</b> 2022-02-05</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-02-04 <b>Last modified:</b> 2022-02-06</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.iota.iterator">issues</a> in [range.iota.iterator].</p>
@@ -45589,7 +45589,31 @@ but when <tt>difference_type</tt> is an integer-class type the iterator does not
 
 
 <p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
 
+<ol>
+<li><p>Modify 24.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a>, class <tt>iota_view::<i>iterator</i></tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;weakly_incrementable W, semiregular Bound&gt;
+    requires <i>weakly-equality-comparable-with</i>&lt;W, Bound&gt; &amp;&amp; copyable&lt;W&gt;
+  struct iota_view&lt;W, Bound&gt;::<i>iterator</i> {
+    [&hellip;]
+    using iterator_category = input_iterator_tag; <i>// present only if W models incrementable <ins>and</ins></i> 
+                                                  <i><ins>// IOTA-DIFF-T(W) is not a class type</ins></i>
+    using value_type = W;
+    using difference_type = <i>IOTA-DIFF-T</i>(W);
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+</ol>
 
 
 
