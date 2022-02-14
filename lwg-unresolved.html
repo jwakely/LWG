@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-02-14 at 15:44:25 UTC</p>
+<p><p>Revised 2022-02-14 at 16:52:57 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42500,6 +42500,7 @@ int main(void) {
  <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-02-12 <b>Last modified:</b> 2022-02-14</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#locale.members">active issues</a> in [locale.members].</p>
 <p><b>View all other</b> <a href="lwg-index.html#locale.members">issues</a> in [locale.members].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -42549,7 +42550,7 @@ string name() const;
 <p>
 -5- <i>Returns:</i> The name of <tt>*this</tt>, if it has one; otherwise, the string <tt>"*"</tt>.
 <p/>
-<ins>-?- <i>Remarks:</i> Two locales have identical names if and only if their facets have identical 
+<ins>-?- <i>Remarks:</i> Two locales have identical names only if their facets have identical 
 virtual function semantics.</ins>
 <p/>
 <ins>-?- <i>Recommended practice:</i> The name of a locale that has a name should be such that 
@@ -42626,6 +42627,46 @@ longer be valid.
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3676" href="#3676">3676</a><sup><a href="https://cplusplus.github.io/LWG/issue3676">(i)</a></sup>. Name of locale formed from two named locales by <tt>locale::combine()</tt></h3>
+<p><b>Section:</b> 28.3.1.4 <a href="https://wg21.link/locale.members">[locale.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-02-14 <b>Last modified:</b> 2022-02-14</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#locale.members">active issues</a> in [locale.members].</p>
+<p><b>View all other</b> <a href="lwg-index.html#locale.members">issues</a> in [locale.members].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In <a href="https://wg21.link/N4901">N4901</a> 28.3.1.1 <a href="https://wg21.link/locale.general">[locale.general]</a> paragraph 8:
+</p>
+<blockquote><p>
+A <tt>locale</tt> constructed from a name string (such as <tt>"POSIX"</tt>), or from
+parts of two named locales, has a name; all others do not.
+</p></blockquote>
+<p>
+In 28.3.1.4 <a href="https://wg21.link/locale.members">[locale.members]</a>, for
+</p>
+<blockquote><pre>
+template&lt;class Facet&gt; locale combine(const locale&amp; other) const;
+</pre></blockquote>
+<p>
+it says:
+</p>
+<blockquote><p>
+<i>Remarks:</i> The resulting locale has no name.
+</p></blockquote>
+<p>
+It seems the <tt>combine()</tt> interface does not match the general design description.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
