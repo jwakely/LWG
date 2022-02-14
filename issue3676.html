@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3676: Name of locale formed from two named locales by locale::combine()</title>
+<title>Issue 3676: Name of locale composed using std::locale::none</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,36 +45,37 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3676" href="lwg-active.html#3676">3676</a>. Name of locale formed from two named locales by <tt>locale::combine()</tt></h3>
-<p><b>Section:</b> 28.3.1.4 <a href="https://wg21.link/locale.members">[locale.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<h3><a name="3676" href="lwg-active.html#3676">3676</a>. Name of locale composed using <tt>std::locale::none</tt></h3>
+<p><b>Section:</b> 28.3.1.3 <a href="https://wg21.link/locale.cons">[locale.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-02-14 <b>Last modified:</b> 2022-02-14</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#locale.members">active issues</a> in [locale.members].</p>
-<p><b>View all other</b> <a href="lwg-index.html#locale.members">issues</a> in [locale.members].</p>
+<p><b>View other</b> <a href="lwg-index-open.html#locale.cons">active issues</a> in [locale.cons].</p>
+<p><b>View all other</b> <a href="lwg-index.html#locale.cons">issues</a> in [locale.cons].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-In <a href="https://wg21.link/N4901">N4901</a> 28.3.1.1 <a href="https://wg21.link/locale.general">[locale.general]</a> paragraph 8:
-</p>
-<blockquote><p>
-A <tt>locale</tt> constructed from a name string (such as <tt>"POSIX"</tt>), or from
-parts of two named locales, has a name; all others do not.
-</p></blockquote>
-<p>
-In 28.3.1.4 <a href="https://wg21.link/locale.members">[locale.members]</a>, for
+For
 </p>
 <blockquote><pre>
-template&lt;class Facet&gt; locale combine(const locale&amp; other) const;
+locale(const locale&amp; other, const locale&amp; one, category cats);
 </pre></blockquote>
 <p>
-it says:
+the <i>Remarks</i> say:
 </p>
 <blockquote><p>
-<i>Remarks:</i> The resulting locale has no name.
+The resulting locale has a name if and only if the first two arguments have names.
 </p></blockquote>
 <p>
-It seems the <tt>combine()</tt> interface does not match the general design description.
+The case where <tt>cats</tt> is <tt>locale::none</tt> seems very similar to the issue that 
+LWG <a href="lwg-active.html#2295">2295</a> reports with the case where the provided facet pointer is <tt>nullptr</tt>.
+That is, if no composition is actually occurring, then using the name of <tt>other</tt> 
+seems to be reasonable.
+<p/>
+It would help consistency if both cases are treated the same way.
+<p/>
+Note: The <tt>locale::all</tt> case should not imply using the name of <tt>one</tt>. 
+<tt>locale::all</tt> does not necessarily cover all of the C locale categories on a platform.
 </p>
 
 
