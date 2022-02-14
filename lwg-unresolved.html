@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-02-14 at 13:43:43 UTC</p>
+<p><p>Revised 2022-02-14 at 14:07:50 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42556,6 +42556,72 @@ virtual function semantics.</ins>
 <tt>setlocale(LC_ALL, name().c_str())</tt> returns a non-null pointer. [<i>Note 1:</i> With such a name 
 <tt>locale(name().c_str())</tt> succeeds and does not throw <tt>runtime_error</tt>. &mdash; <i>end note</i>]
 </ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3675" href="#3675">3675</a><sup><a href="https://cplusplus.github.io/LWG/issue3675">(i)</a></sup>. <tt>std::ios_base::iword/pword</tt> might be misspecified</h3>
+<p><b>Section:</b> 29.5.2.6 <a href="https://wg21.link/ios.base.storage">[ios.base.storage]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-02-14 <b>Last modified:</b> 2022-02-14</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#ios.base.storage">issues</a> in [ios.base.storage].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently 29.5.2.6 <a href="https://wg21.link/ios.base.storage">[ios.base.storage]</a> p5 and p8 say "On failure, a valid <tt>long&amp;/void*&amp;</tt> 
+initialized to <tt>0</tt>". Such wording seems wrong, because a <tt>long&amp;/void*&amp;</tt> variable or 
+return value can't be initialized with <tt>0</tt>. And the values of referenced objects may be underspecified, 
+because an implementation may reuse the same <tt>long/void*</tt> objects on failure, and thus it's insufficient 
+to specify the initial values of these objects only.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 29.5.2.6 <a href="https://wg21.link/ios.base.storage">[ios.base.storage]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+long&amp; iword(int idx);
+</pre>
+<blockquote>
+<p>
+-3- [&hellip;]
+<p/>
+-4- [&hellip;]
+<p/>
+-5- <i>Returns:</i> On success <tt>iarray[idx]</tt>. On failure, a valid <ins>lvalue that denotes a</ins> 
+<tt>long<del>&amp;</del></tt> <ins>object whose value is set to <tt>0L</tt> before returning</ins><del>initialized 
+to <tt>0</tt></del>.
+</p>
+</blockquote>
+<pre>
+void*&amp; pword(int idx);
+</pre>
+<blockquote>
+<p>
+-6- [&hellip;]
+<p/>
+-7- [&hellip;]
+<p/>
+-8- <i>Returns:</i> On success <tt>parray[idx]</tt>. On failure<ins>,</ins> a valid <ins>lvalue that denotes a</ins> 
+<tt>void*<del>&amp;</del></tt> <ins>object whose value is set to the null pointer before returning</ins><del>initialized 
+to <tt>0</tt></del>.
+<p/>
+-9- <i>Remarks:</i> After a subsequent call to <tt>pword(int)</tt> for the same object, the earlier return value may no
+longer be valid.
 </p>
 </blockquote>
 </blockquote>
