@@ -43,12 +43,84 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-02-18 at 16:33:07 UTC</p>
+<p><p>Revised 2022-02-24 at 09:49:49 UTC</p>
 </p><h2>Tentative Issues</h2>
+<hr>
+<h3><a name="3579" href="#3579">3579</a><sup><a href="https://cplusplus.github.io/LWG/issue3579">(i)</a></sup>. Complexity guarantees for <tt>resize()</tt> and <tt>append()</tt> functions across the library</h3>
+<p><b>Section:</b> 21.3.3.5 <a href="https://wg21.link/string.capacity">[string.capacity]</a>, 22.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a>, 22.3.10.3 <a href="https://wg21.link/list.capacity">[list.capacity]</a>, 22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>, 22.3.9.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a>, 26.7.2.8 <a href="https://wg21.link/valarray.members">[valarray.members]</a>, 21.3.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a>, 29.12.6.5.3 <a href="https://wg21.link/fs.path.append">[fs.path.append]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Louis Dionne <b>Opened:</b> 2021-08-11 <b>Last modified:</b> 2022-02-23</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#string.capacity">active issues</a> in [string.capacity].</p>
+<p><b>View all other</b> <a href="lwg-index.html#string.capacity">issues</a> in [string.capacity].</p>
+<p><b>Discussion:</b></p>
+<p>
+This issue requests to clarify the complexity requirements for <tt>resize</tt> and <tt>append</tt> 
+member functions across the library. Currently, none of them have complexity requirements associated to them, 
+which means that implementations are free to use a geometric growth approach or not. A geometric growth 
+approach (like what's required by <tt>push_back</tt>) implies that calling <tt>resize/append</tt> with 
+successively larger sizes will have amortized <tt>&#x1d4aa;(<i>N</i>)</tt> complexity, whereas using a 
+<tt>resize</tt>-exactly approach makes that pattern <tt>&#x1d4aa;(<i>N</i><sup>2</sup>)</tt>.
+<p/>
+I believe the Standard should either specify that those member functions are required to have behavior that 
+is consistent with <tt>push_back</tt>, or explicitly mention that implementations are allowed to use whatever 
+growth strategy they want. If we do the former, users could start relying on this guarantee in a portable manner. 
+If we do the latter, it would make it clear to users that they should not rely on the amortized 
+<tt>&#x1d4aa;(<i>N</i>)</tt> guarantee if they want their code to be portable.
+<p/>
+The following classes have a <tt>resize()</tt> member function and also a <tt>push_back()</tt> member function:
+</p>
+<ul>
+<li><p>21.3.3.5 <a href="https://wg21.link/string.capacity">[string.capacity]</a></p></li>
+<li><p>22.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a></p></li>
+<li><p>22.3.10.3 <a href="https://wg21.link/list.capacity">[list.capacity]</a></p></li>
+<li><p>22.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a></p></li>
+</ul>
+<p>
+The following classes have a <tt>resize()</tt> member function but do not support <tt>push_back()</tt>:
+</p>
+<ul>
+<li><p>22.3.9.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a></p></li>
+<li><p>26.7.2.8 <a href="https://wg21.link/valarray.members">[valarray.members]</a></p></li>
+</ul>
+<p>
+The following classes have an <tt>append()</tt> member function:
+</p>
+<ul>
+<li><p>21.3.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a></p></li>
+<li><p>29.12.6.5.3 <a href="https://wg21.link/fs.path.append">[fs.path.append]</a></p></li>
+</ul>
+<p>
+None of them specify a complexity requirement. I think we should update all of them to describe 
+what is expected or permitted in an implementation.
+</p>
+
+<p><i>[2021-08-20; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 and status to "LEWG" after reflector poll.
+</p>
+
+<p><i>[2022-02-22 LEWG telecon;  Status changed: LEWG &rarr; Tentatively NAD.]</i></p>
+
+<p>
+A paper would be needed.
+Such a paper would need to include discussion on whether
+<code>allocate_at_least</code> (new for C++23) has an impact.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
 <hr>
 <h3><a name="3649" href="#3649">3649</a><sup><a href="https://cplusplus.github.io/LWG/issue3649">(i)</a></sup>. [fund.ts.v3] Reinstate and bump <tt>__cpp_lib_experimental_memory_resource</tt> feature test macro</h3>
 <p><b>Section:</b> 1.5 [fund.ts.v3::general.feature.test] <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-12-03 <b>Last modified:</b> 2022-02-14</p>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-12-03 <b>Last modified:</b> 2022-02-11</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>Discussion:</b></p>
