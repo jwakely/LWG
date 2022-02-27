@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-02-26 at 13:12:28 UTC</p>
+<p><p>Revised 2022-02-27 at 10:33:25 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -40271,6 +40271,8 @@ template&lt;class Out&gt; struct format_to_n_result {
  <b>Submitter:</b> Alexander Guteniev <b>Opened:</b> 2021-11-20 <b>Last modified:</b> 2022-01-31</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#func.wrap.move.ctor">active issues</a> in [func.wrap.move.ctor].</p>
+<p><b>View all other</b> <a href="lwg-index.html#func.wrap.move.ctor">issues</a> in [func.wrap.move.ctor].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -42826,6 +42828,85 @@ I think either this should work or we should add a note to 24.6.5 <a href="https
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3680" href="#3680">3680</a><sup><a href="https://cplusplus.github.io/LWG/issue3680">(i)</a></sup>. Constructor of <tt>move_only_function</tt> with empty <tt><i>ref</i></tt>-qualifier is over-constrained</h3>
+<p><b>Section:</b> 20.14.17.4.3 <a href="https://wg21.link/func.wrap.move.ctor">[func.wrap.move.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2022-02-27 <b>Last modified:</b> 2022-02-27</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#func.wrap.move.ctor">active issues</a> in [func.wrap.move.ctor].</p>
+<p><b>View all other</b> <a href="lwg-index.html#func.wrap.move.ctor">issues</a> in [func.wrap.move.ctor].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The following test compiles and holds:
+</p>
+<blockquote><pre>
+struct X
+{
+  int operator()() &amp; { return 1; }  // #1
+  int operator()() &amp;&amp; { return 2; } // #2
+};
+
+using T = move_only_function&lt;int()&gt;;
+assert(T(X{})() == 1);
+</pre></blockquote>
+<p>
+In other words, <tt>#2</tt> is never used. But if you really remove <tt>#2</tt>, the code doesn't compile.
+<p/>
+The change was introduced between <a href="https://wg21.link/P0288R5">P0288R5</a> and <a href="https://wg21.link/P0288R6">P0288R6</a>, with 
+an intention (assumed) to require <tt>move_only_function&lt;R(Args...) <i>cv</i>&gt;</tt>
+erasing callable objects with <tt>operator()</tt> without <tt><i>ref</i></tt>-qualifiers. 
+But the actual outcome outlawed programs that were valid when using <tt>std::function</tt>.
+<p/>
+It also outlaws future programs such as
+</p>
+<blockquote><pre>
+T x = [captures](this auto&amp;) { return ...; }
+</pre></blockquote>
+<p>
+where declaring <tt>this auto&amp;&amp;</tt> without forwarding only to satisfy
+<tt>move_only_function</tt>'s constraints would be strange.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.14.17.4.3 <a href="https://wg21.link/func.wrap.move.ctor">[func.wrap.move.ctor]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class VT&gt;
+  static constexpr bool <i>is-callable-from</i> = <i>see below</i>;
+</pre>
+<blockquote>
+<p>
+-1- If <tt><i>noex</i></tt> is <tt>true</tt>, <tt><i>is-callable-from</i>&lt;VT&gt;</tt> is equal to:
+</p>
+<blockquote><pre>
+<del>is_nothrow_invocable_r_v&lt;R, VT <i>cv ref</i>, ArgTypes...&gt; &amp;&amp;</del>
+is_nothrow_invocable_r_v&lt;R, VT <i>inv-quals</i>, ArgTypes...&gt;
+</pre></blockquote>
+<p>
+Otherwise, <tt><i>is-callable-from</i>&lt;VT&gt;</tt> is equal to:
+</p>
+<blockquote><pre>
+<del>is_invocable_r_v&lt;R, VT <i>cv ref</i>, ArgTypes...&gt; &amp;&amp;</del>
+is_invocable_r_v&lt;R, VT <i>inv-quals</i>, ArgTypes...&gt;
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
