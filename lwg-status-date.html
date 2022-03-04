@@ -43,14 +43,14 @@
 </style>
 </head>
 <body>
-<h1>C++ Standard Library Issues List (Revision R122)</h1>
+<h1>C++ Standard Library Issues List (Revision D123)</h1>
 <h1>Index by Status and Date</h1>
 <p>Reference ISO/IEC IS 14882:2011(E)</p>
 <p>
 This document is the Index by Status and Date for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.
 </p>
-<p><p>Revised 2022-03-04 at 14:55:46 UTC</p>
+<p><p>Revised 2022-03-04 at 18:08:15 UTC</p>
 </p><h2><a name="Tentatively Ready"</a>Tentatively Ready (4 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -22495,6 +22495,717 @@ synchronization requirements</td>
 <td align="left"></td>
 </tr>
 </table>
+<h2><a name="TS"</a>TS (77 issues)</h2>
+<table border="1" cellpadding="4">
+<tr>
+  <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
+  <td align="center"><a href="lwg-status.html"><b>Status</b></a></td>
+  <td align="center"><a href="lwg-index.html"><b>Section</b></a></td>
+  <td align="center"><b>Title</b></td>
+  <td align="center"><b>Proposed Resolution</b></td>
+  <td align="center"><a href="unresolved-prioritized.html"><b>Priority</b></a></td>
+  <td align="center"><b>Duplicates</b></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2568">2568</a><sup><a href="https://cplusplus.github.io/LWG/issue2568">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2568"></a></td>
+<td align="left">3.3.3 [fund.ts.v2::meta.logical]<a name="fund.ts.v2::meta.logical"></a></td>
+<td align="left">[fund.ts.v2] Specification of logical operator traits uses <tt>BaseCharacteristic</tt>, which is defined only for 
+<tt>UnaryTypeTraits</tt> and <tt>BinaryTypeTraits</tt></td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2792">2792</a><sup><a href="https://cplusplus.github.io/LWG/issue2792">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2792"></a></td>
+<td align="left">13.1.2 [fund.ts.v2::numeric.ops.gcd]<a name="fund.ts.v2::numeric.ops.gcd"></a></td>
+<td align="left">[fund.ts.v2] <tt>gcd</tt> and <tt>lcm</tt> should support a wider range of input values</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2451">2451</a><sup><a href="https://cplusplus.github.io/LWG/issue2451">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2451"></a></td>
+<td align="left">5.3 [fund.ts.v2::optional.object]<a name="fund.ts.v2::optional.object"></a></td>
+<td align="left">[fund.ts.v2] <tt>optional&lt;T&gt;</tt> should 'forward' <tt>T</tt>'s implicit conversions</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2555">2555</a><sup><a href="https://cplusplus.github.io/LWG/issue2555">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2555"></a></td>
+<td align="left">5.3 [fund.ts.v2::optional.object]</td>
+<td align="left">[fund.ts.v2] No handling for over-aligned types in <tt>optional</tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2745">2745</a><sup><a href="https://cplusplus.github.io/LWG/issue2745">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2745"></a></td>
+<td align="left">5.3 [fund.ts.v2::optional.object]</td>
+<td align="left">[fund.ts.v2] Implementability of LWG 2451</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2601">2601</a><sup><a href="https://cplusplus.github.io/LWG/issue2601">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2601"></a></td>
+<td align="left">1 [filesys.ts::fs.scope]<a name="filesys.ts::fs.scope"></a></td>
+<td align="left">[filesys.ts] [PDTS] Make namespaces consistent with Library TS policy</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2602">2602</a><sup><a href="https://cplusplus.github.io/LWG/issue2602">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2602"></a></td>
+<td align="left">2.1 [filesys.ts::fs.conform.9945]<a name="filesys.ts::fs.conform.9945"></a></td>
+<td align="left">[filesys.ts] [PDTS] Tighten specification when there is no reasonable behavior</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2657">2657</a><sup><a href="https://cplusplus.github.io/LWG/issue2657">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2657"></a></td>
+<td align="left">2.1 [filesys.ts::fs.conform.9945]</td>
+<td align="left">[filesys.ts] [PDTS] Inappropriate use of "No diagnostic is required"</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2603">2603</a><sup><a href="https://cplusplus.github.io/LWG/issue2603">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2603"></a></td>
+<td align="left">4.7 [filesys.ts::fs.def.filename]<a name="filesys.ts::fs.def.filename"></a></td>
+<td align="left">[filesys.ts] [PDTS] Filename length needs bullet item</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2606">2606</a><sup><a href="https://cplusplus.github.io/LWG/issue2606">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2606"></a></td>
+<td align="left">4.15 [filesys.ts::fs.def.path]<a name="filesys.ts::fs.def.path"></a></td>
+<td align="left">[filesys.ts] [PDTS] Path depth is underspecified</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2656">2656</a><sup><a href="https://cplusplus.github.io/LWG/issue2656">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2656"></a></td>
+<td align="left">5 [filesys.ts::fs.req]<a name="filesys.ts::fs.req"></a></td>
+<td align="left">[filesys.ts] [PDTS] Feature test macro for TS version</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2662">2662</a><sup><a href="https://cplusplus.github.io/LWG/issue2662">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2662"></a></td>
+<td align="left">5 [filesys.ts::fs.req]</td>
+<td align="left">[filesys.ts] Allocator requirements unspecified</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2607">2607</a><sup><a href="https://cplusplus.github.io/LWG/issue2607">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2607"></a></td>
+<td align="left">6 [filesys.ts::fs.filesystem.synopsis]<a name="filesys.ts::fs.filesystem.synopsis"></a></td>
+<td align="left">[filesys.ts] [PDTS] Unhelpful comment for <tt>struct space_info</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2608">2608</a><sup><a href="https://cplusplus.github.io/LWG/issue2608">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2608"></a></td>
+<td align="left">6 [filesys.ts::fs.filesystem.synopsis]</td>
+<td align="left">[filesys.ts] [PDTS] <tt>file_time_type</tt> underspecified</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2609">2609</a><sup><a href="https://cplusplus.github.io/LWG/issue2609">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2609"></a></td>
+<td align="left">6 [filesys.ts::fs.filesystem.synopsis]</td>
+<td align="left">[filesys.ts] [PDTS] Unclear why range-based-for functions return different types</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2634">2634</a><sup><a href="https://cplusplus.github.io/LWG/issue2634">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2634"></a></td>
+<td align="left">6 [filesys.ts::fs.filesystem.synopsis]</td>
+<td align="left">[filesys.ts] 
+    [PDTS] <tt>enum class directory_options</tt> has no summary
+  </td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2635">2635</a><sup><a href="https://cplusplus.github.io/LWG/issue2635">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2635"></a></td>
+<td align="left">6 [filesys.ts::fs.filesystem.synopsis]</td>
+<td align="left">[filesys.ts] [PDTS] <tt>directory_options::skip_permission_denied</tt> is not used</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2655">2655</a><sup><a href="https://cplusplus.github.io/LWG/issue2655">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2655"></a></td>
+<td align="left">7 [filesys.ts::fs.err.report]<a name="filesys.ts::fs.err.report"></a></td>
+<td align="left">[filesys.ts] [PDTS] Clarify Error reporting</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2650">2650</a><sup><a href="https://cplusplus.github.io/LWG/issue2650">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2650"></a></td>
+<td align="left">8 [filesys.ts::class.path]<a name="filesys.ts::class.path"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>path::compare(const string&amp; s)</tt> wrong argument type</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2605">2605</a><sup><a href="https://cplusplus.github.io/LWG/issue2605">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2605"></a></td>
+<td align="left">8.1 [filesys.ts::path.generic]<a name="filesys.ts::path.generic"></a></td>
+<td align="left">[filesys.ts] [PDTS] Parent of root directory unspecified</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2615">2615</a><sup><a href="https://cplusplus.github.io/LWG/issue2615">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2615"></a></td>
+<td align="left">8.2.2 [filesys.ts::path.type.cvt]<a name="filesys.ts::path.type.cvt"></a></td>
+<td align="left">[filesys.ts] [PDTS] Missing behavior for characters with no representation</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2614">2614</a><sup><a href="https://cplusplus.github.io/LWG/issue2614">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2614"></a></td>
+<td align="left">8.4.1 [filesys.ts::path.construct]<a name="filesys.ts::path.construct"></a></td>
+<td align="left">[filesys.ts] [PDTS] Incorrect postconditions for <tt>path</tt> copy/move constructor</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2649">2649</a><sup><a href="https://cplusplus.github.io/LWG/issue2649">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2649"></a></td>
+<td align="left">8.4.1 [filesys.ts::path.construct]</td>
+<td align="left">[filesys.ts] [PDTS] <tt>path</tt> and <tt>directory_entry</tt> move ctors should not be <tt>noexcept</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2616">2616</a><sup><a href="https://cplusplus.github.io/LWG/issue2616">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2616"></a></td>
+<td align="left">8.4.3 [filesys.ts::path.append]<a name="filesys.ts::path.append"></a></td>
+<td align="left">[filesys.ts] [PDTS] Append behavior underspecified if target is empty </td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2648">2648</a><sup><a href="https://cplusplus.github.io/LWG/issue2648">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2648"></a></td>
+<td align="left">8.4.6 [filesys.ts::path.native.obs]<a name="filesys.ts::path.native.obs"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>path::template&lt;class charT&gt;string()</tt> conversion rules</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2618">2618</a><sup><a href="https://cplusplus.github.io/LWG/issue2618">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2618"></a></td>
+<td align="left">8.4.10 [filesys.ts::path.query]<a name="filesys.ts::path.query"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>is_absolute()</tt> return clause confusing</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2619">2619</a><sup><a href="https://cplusplus.github.io/LWG/issue2619">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2619"></a></td>
+<td align="left">8.6.1 [filesys.ts::path.io]<a name="filesys.ts::path.io"></a></td>
+<td align="left">[filesys.ts] [PDTS] Consider using quoted manipulators</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2636">2636</a><sup><a href="https://cplusplus.github.io/LWG/issue2636">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2636"></a></td>
+<td align="left">10.2 [filesys.ts::enum.copy_options]<a name="filesys.ts::enum.copy_options"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>copy_options::copy_symlinks</tt> is not used</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2644">2644</a><sup><a href="https://cplusplus.github.io/LWG/issue2644">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2644"></a></td>
+<td align="left">10.2 [filesys.ts::enum.copy_options]</td>
+<td align="left">[filesys.ts] [PDTS] enum classes <tt>copy_options</tt> and <tt>perms</tt> should be bitmask types</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2640">2640</a><sup><a href="https://cplusplus.github.io/LWG/issue2640">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2640"></a></td>
+<td align="left">12 [filesys.ts::class.directory_entry]<a name="filesys.ts::class.directory_entry"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>class directory_entry</tt> should retain <tt>operator const path&amp;()</tt> from V2</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2653">2653</a><sup><a href="https://cplusplus.github.io/LWG/issue2653">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2653"></a></td>
+<td align="left">12 [filesys.ts::class.directory_entry]</td>
+<td align="left">[filesys.ts] [PDTS] <tt>directory_entry</tt> multithreading concerns</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2621">2621</a><sup><a href="https://cplusplus.github.io/LWG/issue2621">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2621"></a></td>
+<td align="left">12.3 [filesys.ts::directory_entry.obs]<a name="filesys.ts::directory_entry.obs"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>directory_entry operator==</tt> needs clarification</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2641">2641</a><sup><a href="https://cplusplus.github.io/LWG/issue2641">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2641"></a></td>
+<td align="left">13 [filesys.ts::class.directory_iterator]<a name="filesys.ts::class.directory_iterator"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>directory_iterator</tt>, <tt>recursive_directory_iterator</tt>, move construct/assign should be <tt>noexcept</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2652">2652</a><sup><a href="https://cplusplus.github.io/LWG/issue2652">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2652"></a></td>
+<td align="left">13 [filesys.ts::class.directory_iterator]</td>
+<td align="left">[filesys.ts] [PDTS] Better to avoid deriving from <tt>std::iterator</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2622">2622</a><sup><a href="https://cplusplus.github.io/LWG/issue2622">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2622"></a></td>
+<td align="left">13.1 [filesys.ts::directory_iterator.members]<a name="filesys.ts::directory_iterator.members"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>directory_iterator</tt> underspecified</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2633">2633</a><sup><a href="https://cplusplus.github.io/LWG/issue2633">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2633"></a></td>
+<td align="left">15 [filesys.ts::fs.op.funcs]<a name="filesys.ts::fs.op.funcs"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>unique_path()</tt> is a security vulnerability</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2660">2660</a><sup><a href="https://cplusplus.github.io/LWG/issue2660">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2660"></a></td>
+<td align="left">15.1 [filesys.ts::fs.op.absolute]<a name="filesys.ts::fs.op.absolute"></a></td>
+<td align="left">[filesys.ts] [PDTS] Incorrect <i>Throws</i> specification for <tt>absolute()</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2637">2637</a><sup><a href="https://cplusplus.github.io/LWG/issue2637">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2637"></a></td>
+<td align="left">15.2 [filesys.ts::fs.op.canonical]<a name="filesys.ts::fs.op.canonical"></a></td>
+<td align="left">[filesys.ts] [PDTS] All functions with <tt>error_code</tt> arguments should be <tt>noexcept</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2624">2624</a><sup><a href="https://cplusplus.github.io/LWG/issue2624">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2624"></a></td>
+<td align="left">15.3 [filesys.ts::fs.op.copy]<a name="filesys.ts::fs.op.copy"></a></td>
+<td align="left">[filesys.ts] [PDTS] Incorrect effects clause for path <tt>copy</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2625">2625</a><sup><a href="https://cplusplus.github.io/LWG/issue2625">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2625"></a></td>
+<td align="left">15.4 [filesys.ts::fs.op.copy_file]<a name="filesys.ts::fs.op.copy_file"></a></td>
+<td align="left">[filesys.ts] [PDTS] Copying equivalent paths effects not specified</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2645">2645</a><sup><a href="https://cplusplus.github.io/LWG/issue2645">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2645"></a></td>
+<td align="left">15.7 [filesys.ts::fs.op.create_directory]<a name="filesys.ts::fs.op.create_directory"></a></td>
+<td align="left">[filesys.ts] 
+[PDTS] <tt>create_directory</tt> should refer to <tt>perms::all</tt> instead of Posix
+<tt>S_IRWXU|S_IRWXG|S_IRWXO</tt>
+</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2627">2627</a><sup><a href="https://cplusplus.github.io/LWG/issue2627">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2627"></a></td>
+<td align="left">15.14 [filesys.ts::fs.op.file_size]<a name="filesys.ts::fs.op.file_size"></a></td>
+<td align="left">[filesys.ts] [PDTS] Return value of <tt>uintmax_t</tt> on error?</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2647">2647</a><sup><a href="https://cplusplus.github.io/LWG/issue2647">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2647"></a></td>
+<td align="left">15.25 [filesys.ts::fs.op.last_write_time]<a name="filesys.ts::fs.op.last_write_time"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>last_write_time()</tt> uses ill-formed cast</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2658">2658</a><sup><a href="https://cplusplus.github.io/LWG/issue2658">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2658"></a></td>
+<td align="left">15.25 [filesys.ts::fs.op.last_write_time]</td>
+<td align="left">[filesys.ts] [PDTS] POSIX <tt>utime()</tt> is obsolescent</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2629">2629</a><sup><a href="https://cplusplus.github.io/LWG/issue2629">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2629"></a></td>
+<td align="left">15.27 [filesys.ts::fs.op.read_symlink]<a name="filesys.ts::fs.op.read_symlink"></a></td>
+<td align="left">[filesys.ts] [PDTS] Unclear semantics of <tt>read_symlink</tt> on error</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2632">2632</a><sup><a href="https://cplusplus.github.io/LWG/issue2632">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2632"></a></td>
+<td align="left">15.36 [filesys.ts::fs.op.system_complete]<a name="filesys.ts::fs.op.system_complete"></a></td>
+<td align="left">[filesys.ts] [PDTS] <tt>system_complete()</tt> example needs clarification</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2418">2418</a><sup><a href="https://cplusplus.github.io/LWG/issue2418">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2418"></a></td>
+<td align="left">3.2.2 [fund.ts::tuple.apply]<a name="fund.ts::tuple.apply"></a></td>
+<td align="left">[fund.ts] <tt>apply</tt> does not work with member pointers</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2371">2371</a><sup><a href="https://cplusplus.github.io/LWG/issue2371">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2371"></a></td>
+<td align="left">3.3.1 [fund.ts::meta.type.synop]<a name="fund.ts::meta.type.synop"></a></td>
+<td align="left">[fund.ts] No template aliases defined for new type traits</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2390">2390</a><sup><a href="https://cplusplus.github.io/LWG/issue2390">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2390"></a></td>
+<td align="left">3.3.2 [fund.ts::meta.trans.other]<a name="fund.ts::meta.trans.other"></a></td>
+<td align="left">[fund.ts] Invocation types and rvalues</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2409">2409</a><sup><a href="https://cplusplus.github.io/LWG/issue2409">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2409"></a></td>
+<td align="left">3.3.2 [fund.ts::meta.trans.other]</td>
+<td align="left">[fund.ts] SFINAE-friendly <tt>common_type/iterator_traits</tt> should be removed from the fundamental-ts</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2395">2395</a><sup><a href="https://cplusplus.github.io/LWG/issue2395">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2395"></a></td>
+<td align="left">4.2 [fund.ts::func.wrap.func]<a name="fund.ts::func.wrap.func"></a></td>
+<td align="left">[fund.ts] <i>Preconditions:</i> is defined nowhere</td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2389">2389</a><sup><a href="https://cplusplus.github.io/LWG/issue2389">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2389"></a></td>
+<td align="left">4.2.1 [fund.ts::func.wrap.func.con]<a name="fund.ts::func.wrap.func.con"></a></td>
+<td align="left">[fund.ts] <tt>function::operator=</tt> is over-specified and handles allocators incorrectly</td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2374">2374</a><sup><a href="https://cplusplus.github.io/LWG/issue2374">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2374"></a></td>
+<td align="left">5.3.5 [fund.ts::optional.object.observe]<a name="fund.ts::optional.object.observe"></a></td>
+<td align="left">[fund.ts] Remarks for <tt>optional::to_value</tt> are too restrictive</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2410">2410</a><sup><a href="https://cplusplus.github.io/LWG/issue2410">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2410"></a></td>
+<td align="left">8.2.1.1 [fund.ts::memory.smartptr.shared.const]<a name="fund.ts::memory.smartptr.shared.const"></a></td>
+<td align="left">[fund.ts] <tt>shared_ptr&lt;array&gt;</tt>'s constructor from <tt>unique_ptr</tt> should be constrained</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2463">2463</a><sup><a href="https://cplusplus.github.io/LWG/issue2463">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2463"></a></td>
+<td align="left">10.3 [fund.ts::alg.random.sample]<a name="fund.ts::alg.random.sample"></a></td>
+<td align="left">[fund.ts] Incorrect complexity for <tt>sample()</tt> algorithm</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2539">2539</a><sup><a href="https://cplusplus.github.io/LWG/issue2539">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2539"></a></td>
+<td align="left">3.3.2 [fund.ts.v2::meta.trans.other]<a name="fund.ts.v2::meta.trans.other"></a></td>
+<td align="left">[fund.ts.v2] <tt>invocation_trait</tt> definition definition doesn't work for surrogate call functions</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2558">2558</a><sup><a href="https://cplusplus.github.io/LWG/issue2558">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2558"></a></td>
+<td align="left">3.3.3 [fund.ts.v2::meta.logical]<a name="fund.ts.v2::meta.logical"></a></td>
+<td align="left">[fund.ts.v2] Logical operator traits are broken in the zero-argument case</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2570">2570</a><sup><a href="https://cplusplus.github.io/LWG/issue2570">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2570"></a></td>
+<td align="left">3.3.3 [fund.ts.v2::meta.logical]</td>
+<td align="left">[fund.ts.v2] <tt>conjunction</tt> and <tt>disjunction</tt> requirements are too strict</td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2588">2588</a><sup><a href="https://cplusplus.github.io/LWG/issue2588">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2588"></a></td>
+<td align="left">3.3.3 [fund.ts.v2::meta.logical]</td>
+<td align="left">[fund.ts.v2] "Convertible to <tt>bool</tt>" requirement in <tt>conjunction</tt> and <tt>disjunction</tt></td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2517">2517</a><sup><a href="https://cplusplus.github.io/LWG/issue2517">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2517"></a></td>
+<td align="left">3.7.5 [fund.ts.v2::propagate_const.assignment]<a name="fund.ts.v2::propagate_const.assignment"></a></td>
+<td align="left">[fund.ts.v2] Two <tt>propagate_const</tt> assignment operators have incorrect return type</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2518">2518</a><sup><a href="https://cplusplus.github.io/LWG/issue2518">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2518"></a></td>
+<td align="left">3.7.10 [fund.ts.v2::propagate_const.algorithms]<a name="fund.ts.v2::propagate_const.algorithms"></a></td>
+<td align="left">[fund.ts.v2] Non-member <tt>swap</tt> for <tt>propagate_const</tt> should call member <tt>swap</tt></td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2525">2525</a><sup><a href="https://cplusplus.github.io/LWG/issue2525">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2525"></a></td>
+<td align="left">4.2 [fund.ts.v2::func.wrap.func]<a name="fund.ts.v2::func.wrap.func"></a></td>
+<td align="left">[fund.ts.v2] <tt>get_memory_resource</tt> should be <tt>const</tt> and <tt>noexcept</tt></td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2575">2575</a><sup><a href="https://cplusplus.github.io/LWG/issue2575">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2575"></a></td>
+<td align="left">4.2 [fund.ts.v2::func.wrap.func]</td>
+<td align="left">[fund.ts.v2] <tt>experimental::function::assign</tt> should be removed</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2527">2527</a><sup><a href="https://cplusplus.github.io/LWG/issue2527">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2527"></a></td>
+<td align="left">4.2.1 [fund.ts.v2::func.wrap.func.con]<a name="fund.ts.v2::func.wrap.func.con"></a></td>
+<td align="left">[fund.ts.v2] <tt><i>ALLOCATOR_OF</i></tt> for <tt>function::operator=</tt> has incorrect default</td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2574">2574</a><sup><a href="https://cplusplus.github.io/LWG/issue2574">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2574"></a></td>
+<td align="left">4.2.1 [fund.ts.v2::func.wrap.func.con]</td>
+<td align="left">[fund.ts.v2] <tt>std::experimental::function::operator=(F&amp;&amp;)</tt> should be constrained</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2526">2526</a><sup><a href="https://cplusplus.github.io/LWG/issue2526">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2526"></a></td>
+<td align="left">4.2.2 [fund.ts.v2::func.wrap.func.mod]<a name="fund.ts.v2::func.wrap.func.mod"></a></td>
+<td align="left">[fund.ts.v2] Incorrect precondition for <tt>experimental::function::swap</tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2750">2750</a><sup><a href="https://cplusplus.github.io/LWG/issue2750">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2750"></a></td>
+<td align="left">5.3.1 [fund.ts.v2::optional.object.ctor]<a name="fund.ts.v2::optional.object.ctor"></a></td>
+<td align="left">[fund.ts.v2] LWG 2451 conversion constructor constraint</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2509">2509</a><sup><a href="https://cplusplus.github.io/LWG/issue2509">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2509"></a></td>
+<td align="left">6.4 [fund.ts.v2::any.nonmembers]<a name="fund.ts.v2::any.nonmembers"></a></td>
+<td align="left">[fund.ts.v2] <tt>any_cast</tt> doesn't work with rvalue reference targets and cannot move with a value target</td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2573">2573</a><sup><a href="https://cplusplus.github.io/LWG/issue2573">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2573"></a></td>
+<td align="left">8.2.1 [fund.ts.v2::memory.smartptr.shared]<a name="fund.ts.v2::memory.smartptr.shared"></a></td>
+<td align="left">[fund.ts.v2] <tt>std::hash&lt;std::experimental::shared_ptr&lt;T&gt;&gt;</tt> does not work for arrays</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2551">2551</a><sup><a href="https://cplusplus.github.io/LWG/issue2551">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2551"></a></td>
+<td align="left">8.2.1.1 [fund.ts.v2::memory.smartptr.shared.const]<a name="fund.ts.v2::memory.smartptr.shared.const"></a></td>
+<td align="left">[fund.ts.v2] "Exception safety" cleanup in library fundamentals required</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2500">2500</a><sup><a href="https://cplusplus.github.io/LWG/issue2500">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2500"></a></td>
+<td align="left">8.2.1.2 [fund.ts.v2::memory.smartptr.shared.obs]<a name="fund.ts.v2::memory.smartptr.shared.obs"></a></td>
+<td align="left">[fund.ts.v2] fundts.memory.smartptr.shared.obs/6 should apply to <i>cv</i>-unqualified <tt>void</tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2521">2521</a><sup><a href="https://cplusplus.github.io/LWG/issue2521">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2521"></a></td>
+<td align="left">8.2.2.1 [fund.ts.v2::memory.smartptr.weak.const]<a name="fund.ts.v2::memory.smartptr.weak.const"></a></td>
+<td align="left">[fund.ts.v2] <tt>weak_ptr</tt>'s converting move constructor should be modified as well for array support</td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2522">2522</a><sup><a href="https://cplusplus.github.io/LWG/issue2522">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2522"></a></td>
+<td align="left">8.8 [fund.ts.v2::memory.resource.global]<a name="fund.ts.v2::memory.resource.global"></a></td>
+<td align="left">[fund.ts.v2] Contradiction in <tt>set_default_resource</tt> specification</td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2516">2516</a><sup><a href="https://cplusplus.github.io/LWG/issue2516">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2516"></a></td>
+<td align="left">8.12.1 [fund.ts.v2::memory.observer.ptr.overview]<a name="fund.ts.v2::memory.observer.ptr.overview"></a></td>
+<td align="left">[fund.ts.v2] Public "exposition only" members in <tt>observer_ptr</tt></td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2515">2515</a><sup><a href="https://cplusplus.github.io/LWG/issue2515">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2515"></a></td>
+<td align="left">8.12.6 [fund.ts.v2::memory.observer.ptr.special]<a name="fund.ts.v2::memory.observer.ptr.special"></a></td>
+<td align="left">[fund.ts.v2] Certain comparison operators of <tt>observer_ptr</tt> do not match synopsis</td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2494">2494</a><sup><a href="https://cplusplus.github.io/LWG/issue2494">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2494"></a></td>
+<td align="left">10.2 [fund.ts.v2::iterator.ostream.joiner]<a name="fund.ts.v2::iterator.ostream.joiner"></a></td>
+<td align="left">[fund.ts.v2] <tt>ostream_joiner</tt> needs <tt>noexcept</tt></td>
+<td align="center">Yes</td>
+<td align="center">0</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-defects.html#2733">2733</a><sup><a href="https://cplusplus.github.io/LWG/issue2733">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2733"></a></td>
+<td align="left">13.1.2 [fund.ts.v2::numeric.ops.gcd]<a name="fund.ts.v2::numeric.ops.gcd"></a></td>
+<td align="left">[fund.ts.v2] <tt>gcd</tt> / <tt>lcm</tt> and <tt>bool</tt></td>
+<td align="center">Yes</td>
+<td align="center">4</td>
+<td align="left"></td>
+</tr>
+</table>
 <h2><a name="TRDec"</a>TRDec (8 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -28523,717 +29234,6 @@ implicitly convertible, so explicit constructors are ignored.</td>
 <td align="left">Reformulating NonemptyRange axiom</td>
 <td align="center">Yes</td>
 <td align="center"></td>
-<td align="left"></td>
-</tr>
-</table>
-<h2><a name="TS"</a>TS (77 issues)</h2>
-<table border="1" cellpadding="4">
-<tr>
-  <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
-  <td align="center"><a href="lwg-status.html"><b>Status</b></a></td>
-  <td align="center"><a href="lwg-index.html"><b>Section</b></a></td>
-  <td align="center"><b>Title</b></td>
-  <td align="center"><b>Proposed Resolution</b></td>
-  <td align="center"><a href="unresolved-prioritized.html"><b>Priority</b></a></td>
-  <td align="center"><b>Duplicates</b></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2568">2568</a><sup><a href="https://cplusplus.github.io/LWG/issue2568">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2568"></a></td>
-<td align="left">3.3.3 [fund.ts.v2::meta.logical]<a name="fund.ts.v2::meta.logical"></a></td>
-<td align="left">[fund.ts.v2] Specification of logical operator traits uses <tt>BaseCharacteristic</tt>, which is defined only for 
-<tt>UnaryTypeTraits</tt> and <tt>BinaryTypeTraits</tt></td>
-<td align="center">Yes</td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2792">2792</a><sup><a href="https://cplusplus.github.io/LWG/issue2792">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2792"></a></td>
-<td align="left">13.1.2 [fund.ts.v2::numeric.ops.gcd]<a name="fund.ts.v2::numeric.ops.gcd"></a></td>
-<td align="left">[fund.ts.v2] <tt>gcd</tt> and <tt>lcm</tt> should support a wider range of input values</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2451">2451</a><sup><a href="https://cplusplus.github.io/LWG/issue2451">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2451"></a></td>
-<td align="left">5.3 [fund.ts.v2::optional.object]<a name="fund.ts.v2::optional.object"></a></td>
-<td align="left">[fund.ts.v2] <tt>optional&lt;T&gt;</tt> should 'forward' <tt>T</tt>'s implicit conversions</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2555">2555</a><sup><a href="https://cplusplus.github.io/LWG/issue2555">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2555"></a></td>
-<td align="left">5.3 [fund.ts.v2::optional.object]</td>
-<td align="left">[fund.ts.v2] No handling for over-aligned types in <tt>optional</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2745">2745</a><sup><a href="https://cplusplus.github.io/LWG/issue2745">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2745"></a></td>
-<td align="left">5.3 [fund.ts.v2::optional.object]</td>
-<td align="left">[fund.ts.v2] Implementability of LWG 2451</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2601">2601</a><sup><a href="https://cplusplus.github.io/LWG/issue2601">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2601"></a></td>
-<td align="left">1 [filesys.ts::fs.scope]<a name="filesys.ts::fs.scope"></a></td>
-<td align="left">[filesys.ts] [PDTS] Make namespaces consistent with Library TS policy</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2602">2602</a><sup><a href="https://cplusplus.github.io/LWG/issue2602">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2602"></a></td>
-<td align="left">2.1 [filesys.ts::fs.conform.9945]<a name="filesys.ts::fs.conform.9945"></a></td>
-<td align="left">[filesys.ts] [PDTS] Tighten specification when there is no reasonable behavior</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2657">2657</a><sup><a href="https://cplusplus.github.io/LWG/issue2657">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2657"></a></td>
-<td align="left">2.1 [filesys.ts::fs.conform.9945]</td>
-<td align="left">[filesys.ts] [PDTS] Inappropriate use of "No diagnostic is required"</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2603">2603</a><sup><a href="https://cplusplus.github.io/LWG/issue2603">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2603"></a></td>
-<td align="left">4.7 [filesys.ts::fs.def.filename]<a name="filesys.ts::fs.def.filename"></a></td>
-<td align="left">[filesys.ts] [PDTS] Filename length needs bullet item</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2606">2606</a><sup><a href="https://cplusplus.github.io/LWG/issue2606">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2606"></a></td>
-<td align="left">4.15 [filesys.ts::fs.def.path]<a name="filesys.ts::fs.def.path"></a></td>
-<td align="left">[filesys.ts] [PDTS] Path depth is underspecified</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2656">2656</a><sup><a href="https://cplusplus.github.io/LWG/issue2656">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2656"></a></td>
-<td align="left">5 [filesys.ts::fs.req]<a name="filesys.ts::fs.req"></a></td>
-<td align="left">[filesys.ts] [PDTS] Feature test macro for TS version</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2662">2662</a><sup><a href="https://cplusplus.github.io/LWG/issue2662">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2662"></a></td>
-<td align="left">5 [filesys.ts::fs.req]</td>
-<td align="left">[filesys.ts] Allocator requirements unspecified</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2607">2607</a><sup><a href="https://cplusplus.github.io/LWG/issue2607">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2607"></a></td>
-<td align="left">6 [filesys.ts::fs.filesystem.synopsis]<a name="filesys.ts::fs.filesystem.synopsis"></a></td>
-<td align="left">[filesys.ts] [PDTS] Unhelpful comment for <tt>struct space_info</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2608">2608</a><sup><a href="https://cplusplus.github.io/LWG/issue2608">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2608"></a></td>
-<td align="left">6 [filesys.ts::fs.filesystem.synopsis]</td>
-<td align="left">[filesys.ts] [PDTS] <tt>file_time_type</tt> underspecified</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2609">2609</a><sup><a href="https://cplusplus.github.io/LWG/issue2609">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2609"></a></td>
-<td align="left">6 [filesys.ts::fs.filesystem.synopsis]</td>
-<td align="left">[filesys.ts] [PDTS] Unclear why range-based-for functions return different types</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2634">2634</a><sup><a href="https://cplusplus.github.io/LWG/issue2634">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2634"></a></td>
-<td align="left">6 [filesys.ts::fs.filesystem.synopsis]</td>
-<td align="left">[filesys.ts] 
-    [PDTS] <tt>enum class directory_options</tt> has no summary
-  </td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2635">2635</a><sup><a href="https://cplusplus.github.io/LWG/issue2635">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2635"></a></td>
-<td align="left">6 [filesys.ts::fs.filesystem.synopsis]</td>
-<td align="left">[filesys.ts] [PDTS] <tt>directory_options::skip_permission_denied</tt> is not used</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2655">2655</a><sup><a href="https://cplusplus.github.io/LWG/issue2655">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2655"></a></td>
-<td align="left">7 [filesys.ts::fs.err.report]<a name="filesys.ts::fs.err.report"></a></td>
-<td align="left">[filesys.ts] [PDTS] Clarify Error reporting</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2650">2650</a><sup><a href="https://cplusplus.github.io/LWG/issue2650">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2650"></a></td>
-<td align="left">8 [filesys.ts::class.path]<a name="filesys.ts::class.path"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>path::compare(const string&amp; s)</tt> wrong argument type</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2605">2605</a><sup><a href="https://cplusplus.github.io/LWG/issue2605">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2605"></a></td>
-<td align="left">8.1 [filesys.ts::path.generic]<a name="filesys.ts::path.generic"></a></td>
-<td align="left">[filesys.ts] [PDTS] Parent of root directory unspecified</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2615">2615</a><sup><a href="https://cplusplus.github.io/LWG/issue2615">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2615"></a></td>
-<td align="left">8.2.2 [filesys.ts::path.type.cvt]<a name="filesys.ts::path.type.cvt"></a></td>
-<td align="left">[filesys.ts] [PDTS] Missing behavior for characters with no representation</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2614">2614</a><sup><a href="https://cplusplus.github.io/LWG/issue2614">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2614"></a></td>
-<td align="left">8.4.1 [filesys.ts::path.construct]<a name="filesys.ts::path.construct"></a></td>
-<td align="left">[filesys.ts] [PDTS] Incorrect postconditions for <tt>path</tt> copy/move constructor</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2649">2649</a><sup><a href="https://cplusplus.github.io/LWG/issue2649">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2649"></a></td>
-<td align="left">8.4.1 [filesys.ts::path.construct]</td>
-<td align="left">[filesys.ts] [PDTS] <tt>path</tt> and <tt>directory_entry</tt> move ctors should not be <tt>noexcept</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2616">2616</a><sup><a href="https://cplusplus.github.io/LWG/issue2616">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2616"></a></td>
-<td align="left">8.4.3 [filesys.ts::path.append]<a name="filesys.ts::path.append"></a></td>
-<td align="left">[filesys.ts] [PDTS] Append behavior underspecified if target is empty </td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2648">2648</a><sup><a href="https://cplusplus.github.io/LWG/issue2648">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2648"></a></td>
-<td align="left">8.4.6 [filesys.ts::path.native.obs]<a name="filesys.ts::path.native.obs"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>path::template&lt;class charT&gt;string()</tt> conversion rules</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2618">2618</a><sup><a href="https://cplusplus.github.io/LWG/issue2618">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2618"></a></td>
-<td align="left">8.4.10 [filesys.ts::path.query]<a name="filesys.ts::path.query"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>is_absolute()</tt> return clause confusing</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2619">2619</a><sup><a href="https://cplusplus.github.io/LWG/issue2619">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2619"></a></td>
-<td align="left">8.6.1 [filesys.ts::path.io]<a name="filesys.ts::path.io"></a></td>
-<td align="left">[filesys.ts] [PDTS] Consider using quoted manipulators</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2636">2636</a><sup><a href="https://cplusplus.github.io/LWG/issue2636">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2636"></a></td>
-<td align="left">10.2 [filesys.ts::enum.copy_options]<a name="filesys.ts::enum.copy_options"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>copy_options::copy_symlinks</tt> is not used</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2644">2644</a><sup><a href="https://cplusplus.github.io/LWG/issue2644">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2644"></a></td>
-<td align="left">10.2 [filesys.ts::enum.copy_options]</td>
-<td align="left">[filesys.ts] [PDTS] enum classes <tt>copy_options</tt> and <tt>perms</tt> should be bitmask types</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2640">2640</a><sup><a href="https://cplusplus.github.io/LWG/issue2640">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2640"></a></td>
-<td align="left">12 [filesys.ts::class.directory_entry]<a name="filesys.ts::class.directory_entry"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>class directory_entry</tt> should retain <tt>operator const path&amp;()</tt> from V2</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2653">2653</a><sup><a href="https://cplusplus.github.io/LWG/issue2653">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2653"></a></td>
-<td align="left">12 [filesys.ts::class.directory_entry]</td>
-<td align="left">[filesys.ts] [PDTS] <tt>directory_entry</tt> multithreading concerns</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2621">2621</a><sup><a href="https://cplusplus.github.io/LWG/issue2621">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2621"></a></td>
-<td align="left">12.3 [filesys.ts::directory_entry.obs]<a name="filesys.ts::directory_entry.obs"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>directory_entry operator==</tt> needs clarification</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2641">2641</a><sup><a href="https://cplusplus.github.io/LWG/issue2641">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2641"></a></td>
-<td align="left">13 [filesys.ts::class.directory_iterator]<a name="filesys.ts::class.directory_iterator"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>directory_iterator</tt>, <tt>recursive_directory_iterator</tt>, move construct/assign should be <tt>noexcept</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2652">2652</a><sup><a href="https://cplusplus.github.io/LWG/issue2652">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2652"></a></td>
-<td align="left">13 [filesys.ts::class.directory_iterator]</td>
-<td align="left">[filesys.ts] [PDTS] Better to avoid deriving from <tt>std::iterator</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2622">2622</a><sup><a href="https://cplusplus.github.io/LWG/issue2622">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2622"></a></td>
-<td align="left">13.1 [filesys.ts::directory_iterator.members]<a name="filesys.ts::directory_iterator.members"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>directory_iterator</tt> underspecified</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2633">2633</a><sup><a href="https://cplusplus.github.io/LWG/issue2633">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2633"></a></td>
-<td align="left">15 [filesys.ts::fs.op.funcs]<a name="filesys.ts::fs.op.funcs"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>unique_path()</tt> is a security vulnerability</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2660">2660</a><sup><a href="https://cplusplus.github.io/LWG/issue2660">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2660"></a></td>
-<td align="left">15.1 [filesys.ts::fs.op.absolute]<a name="filesys.ts::fs.op.absolute"></a></td>
-<td align="left">[filesys.ts] [PDTS] Incorrect <i>Throws</i> specification for <tt>absolute()</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2637">2637</a><sup><a href="https://cplusplus.github.io/LWG/issue2637">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2637"></a></td>
-<td align="left">15.2 [filesys.ts::fs.op.canonical]<a name="filesys.ts::fs.op.canonical"></a></td>
-<td align="left">[filesys.ts] [PDTS] All functions with <tt>error_code</tt> arguments should be <tt>noexcept</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2624">2624</a><sup><a href="https://cplusplus.github.io/LWG/issue2624">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2624"></a></td>
-<td align="left">15.3 [filesys.ts::fs.op.copy]<a name="filesys.ts::fs.op.copy"></a></td>
-<td align="left">[filesys.ts] [PDTS] Incorrect effects clause for path <tt>copy</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2625">2625</a><sup><a href="https://cplusplus.github.io/LWG/issue2625">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2625"></a></td>
-<td align="left">15.4 [filesys.ts::fs.op.copy_file]<a name="filesys.ts::fs.op.copy_file"></a></td>
-<td align="left">[filesys.ts] [PDTS] Copying equivalent paths effects not specified</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2645">2645</a><sup><a href="https://cplusplus.github.io/LWG/issue2645">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2645"></a></td>
-<td align="left">15.7 [filesys.ts::fs.op.create_directory]<a name="filesys.ts::fs.op.create_directory"></a></td>
-<td align="left">[filesys.ts] 
-[PDTS] <tt>create_directory</tt> should refer to <tt>perms::all</tt> instead of Posix
-<tt>S_IRWXU|S_IRWXG|S_IRWXO</tt>
-</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2627">2627</a><sup><a href="https://cplusplus.github.io/LWG/issue2627">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2627"></a></td>
-<td align="left">15.14 [filesys.ts::fs.op.file_size]<a name="filesys.ts::fs.op.file_size"></a></td>
-<td align="left">[filesys.ts] [PDTS] Return value of <tt>uintmax_t</tt> on error?</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2647">2647</a><sup><a href="https://cplusplus.github.io/LWG/issue2647">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2647"></a></td>
-<td align="left">15.25 [filesys.ts::fs.op.last_write_time]<a name="filesys.ts::fs.op.last_write_time"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>last_write_time()</tt> uses ill-formed cast</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2658">2658</a><sup><a href="https://cplusplus.github.io/LWG/issue2658">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2658"></a></td>
-<td align="left">15.25 [filesys.ts::fs.op.last_write_time]</td>
-<td align="left">[filesys.ts] [PDTS] POSIX <tt>utime()</tt> is obsolescent</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2629">2629</a><sup><a href="https://cplusplus.github.io/LWG/issue2629">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2629"></a></td>
-<td align="left">15.27 [filesys.ts::fs.op.read_symlink]<a name="filesys.ts::fs.op.read_symlink"></a></td>
-<td align="left">[filesys.ts] [PDTS] Unclear semantics of <tt>read_symlink</tt> on error</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2632">2632</a><sup><a href="https://cplusplus.github.io/LWG/issue2632">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2632"></a></td>
-<td align="left">15.36 [filesys.ts::fs.op.system_complete]<a name="filesys.ts::fs.op.system_complete"></a></td>
-<td align="left">[filesys.ts] [PDTS] <tt>system_complete()</tt> example needs clarification</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2418">2418</a><sup><a href="https://cplusplus.github.io/LWG/issue2418">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2418"></a></td>
-<td align="left">3.2.2 [fund.ts::tuple.apply]<a name="fund.ts::tuple.apply"></a></td>
-<td align="left">[fund.ts] <tt>apply</tt> does not work with member pointers</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2371">2371</a><sup><a href="https://cplusplus.github.io/LWG/issue2371">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2371"></a></td>
-<td align="left">3.3.1 [fund.ts::meta.type.synop]<a name="fund.ts::meta.type.synop"></a></td>
-<td align="left">[fund.ts] No template aliases defined for new type traits</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2390">2390</a><sup><a href="https://cplusplus.github.io/LWG/issue2390">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2390"></a></td>
-<td align="left">3.3.2 [fund.ts::meta.trans.other]<a name="fund.ts::meta.trans.other"></a></td>
-<td align="left">[fund.ts] Invocation types and rvalues</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2409">2409</a><sup><a href="https://cplusplus.github.io/LWG/issue2409">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2409"></a></td>
-<td align="left">3.3.2 [fund.ts::meta.trans.other]</td>
-<td align="left">[fund.ts] SFINAE-friendly <tt>common_type/iterator_traits</tt> should be removed from the fundamental-ts</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2395">2395</a><sup><a href="https://cplusplus.github.io/LWG/issue2395">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2395"></a></td>
-<td align="left">4.2 [fund.ts::func.wrap.func]<a name="fund.ts::func.wrap.func"></a></td>
-<td align="left">[fund.ts] <i>Preconditions:</i> is defined nowhere</td>
-<td align="center">Yes</td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2389">2389</a><sup><a href="https://cplusplus.github.io/LWG/issue2389">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2389"></a></td>
-<td align="left">4.2.1 [fund.ts::func.wrap.func.con]<a name="fund.ts::func.wrap.func.con"></a></td>
-<td align="left">[fund.ts] <tt>function::operator=</tt> is over-specified and handles allocators incorrectly</td>
-<td align="center">Yes</td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2374">2374</a><sup><a href="https://cplusplus.github.io/LWG/issue2374">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2374"></a></td>
-<td align="left">5.3.5 [fund.ts::optional.object.observe]<a name="fund.ts::optional.object.observe"></a></td>
-<td align="left">[fund.ts] Remarks for <tt>optional::to_value</tt> are too restrictive</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2410">2410</a><sup><a href="https://cplusplus.github.io/LWG/issue2410">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2410"></a></td>
-<td align="left">8.2.1.1 [fund.ts::memory.smartptr.shared.const]<a name="fund.ts::memory.smartptr.shared.const"></a></td>
-<td align="left">[fund.ts] <tt>shared_ptr&lt;array&gt;</tt>'s constructor from <tt>unique_ptr</tt> should be constrained</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2463">2463</a><sup><a href="https://cplusplus.github.io/LWG/issue2463">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2463"></a></td>
-<td align="left">10.3 [fund.ts::alg.random.sample]<a name="fund.ts::alg.random.sample"></a></td>
-<td align="left">[fund.ts] Incorrect complexity for <tt>sample()</tt> algorithm</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2539">2539</a><sup><a href="https://cplusplus.github.io/LWG/issue2539">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2539"></a></td>
-<td align="left">3.3.2 [fund.ts.v2::meta.trans.other]<a name="fund.ts.v2::meta.trans.other"></a></td>
-<td align="left">[fund.ts.v2] <tt>invocation_trait</tt> definition definition doesn't work for surrogate call functions</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2558">2558</a><sup><a href="https://cplusplus.github.io/LWG/issue2558">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2558"></a></td>
-<td align="left">3.3.3 [fund.ts.v2::meta.logical]<a name="fund.ts.v2::meta.logical"></a></td>
-<td align="left">[fund.ts.v2] Logical operator traits are broken in the zero-argument case</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2570">2570</a><sup><a href="https://cplusplus.github.io/LWG/issue2570">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2570"></a></td>
-<td align="left">3.3.3 [fund.ts.v2::meta.logical]</td>
-<td align="left">[fund.ts.v2] <tt>conjunction</tt> and <tt>disjunction</tt> requirements are too strict</td>
-<td align="center">Yes</td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2588">2588</a><sup><a href="https://cplusplus.github.io/LWG/issue2588">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2588"></a></td>
-<td align="left">3.3.3 [fund.ts.v2::meta.logical]</td>
-<td align="left">[fund.ts.v2] "Convertible to <tt>bool</tt>" requirement in <tt>conjunction</tt> and <tt>disjunction</tt></td>
-<td align="center">Yes</td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2517">2517</a><sup><a href="https://cplusplus.github.io/LWG/issue2517">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2517"></a></td>
-<td align="left">3.7.5 [fund.ts.v2::propagate_const.assignment]<a name="fund.ts.v2::propagate_const.assignment"></a></td>
-<td align="left">[fund.ts.v2] Two <tt>propagate_const</tt> assignment operators have incorrect return type</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2518">2518</a><sup><a href="https://cplusplus.github.io/LWG/issue2518">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2518"></a></td>
-<td align="left">3.7.10 [fund.ts.v2::propagate_const.algorithms]<a name="fund.ts.v2::propagate_const.algorithms"></a></td>
-<td align="left">[fund.ts.v2] Non-member <tt>swap</tt> for <tt>propagate_const</tt> should call member <tt>swap</tt></td>
-<td align="center">Yes</td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2525">2525</a><sup><a href="https://cplusplus.github.io/LWG/issue2525">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2525"></a></td>
-<td align="left">4.2 [fund.ts.v2::func.wrap.func]<a name="fund.ts.v2::func.wrap.func"></a></td>
-<td align="left">[fund.ts.v2] <tt>get_memory_resource</tt> should be <tt>const</tt> and <tt>noexcept</tt></td>
-<td align="center">Yes</td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2575">2575</a><sup><a href="https://cplusplus.github.io/LWG/issue2575">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2575"></a></td>
-<td align="left">4.2 [fund.ts.v2::func.wrap.func]</td>
-<td align="left">[fund.ts.v2] <tt>experimental::function::assign</tt> should be removed</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2527">2527</a><sup><a href="https://cplusplus.github.io/LWG/issue2527">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2527"></a></td>
-<td align="left">4.2.1 [fund.ts.v2::func.wrap.func.con]<a name="fund.ts.v2::func.wrap.func.con"></a></td>
-<td align="left">[fund.ts.v2] <tt><i>ALLOCATOR_OF</i></tt> for <tt>function::operator=</tt> has incorrect default</td>
-<td align="center">Yes</td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2574">2574</a><sup><a href="https://cplusplus.github.io/LWG/issue2574">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2574"></a></td>
-<td align="left">4.2.1 [fund.ts.v2::func.wrap.func.con]</td>
-<td align="left">[fund.ts.v2] <tt>std::experimental::function::operator=(F&amp;&amp;)</tt> should be constrained</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2526">2526</a><sup><a href="https://cplusplus.github.io/LWG/issue2526">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2526"></a></td>
-<td align="left">4.2.2 [fund.ts.v2::func.wrap.func.mod]<a name="fund.ts.v2::func.wrap.func.mod"></a></td>
-<td align="left">[fund.ts.v2] Incorrect precondition for <tt>experimental::function::swap</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2750">2750</a><sup><a href="https://cplusplus.github.io/LWG/issue2750">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2750"></a></td>
-<td align="left">5.3.1 [fund.ts.v2::optional.object.ctor]<a name="fund.ts.v2::optional.object.ctor"></a></td>
-<td align="left">[fund.ts.v2] LWG 2451 conversion constructor constraint</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2509">2509</a><sup><a href="https://cplusplus.github.io/LWG/issue2509">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2509"></a></td>
-<td align="left">6.4 [fund.ts.v2::any.nonmembers]<a name="fund.ts.v2::any.nonmembers"></a></td>
-<td align="left">[fund.ts.v2] <tt>any_cast</tt> doesn't work with rvalue reference targets and cannot move with a value target</td>
-<td align="center">Yes</td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2573">2573</a><sup><a href="https://cplusplus.github.io/LWG/issue2573">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2573"></a></td>
-<td align="left">8.2.1 [fund.ts.v2::memory.smartptr.shared]<a name="fund.ts.v2::memory.smartptr.shared"></a></td>
-<td align="left">[fund.ts.v2] <tt>std::hash&lt;std::experimental::shared_ptr&lt;T&gt;&gt;</tt> does not work for arrays</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2551">2551</a><sup><a href="https://cplusplus.github.io/LWG/issue2551">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2551"></a></td>
-<td align="left">8.2.1.1 [fund.ts.v2::memory.smartptr.shared.const]<a name="fund.ts.v2::memory.smartptr.shared.const"></a></td>
-<td align="left">[fund.ts.v2] "Exception safety" cleanup in library fundamentals required</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2500">2500</a><sup><a href="https://cplusplus.github.io/LWG/issue2500">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2500"></a></td>
-<td align="left">8.2.1.2 [fund.ts.v2::memory.smartptr.shared.obs]<a name="fund.ts.v2::memory.smartptr.shared.obs"></a></td>
-<td align="left">[fund.ts.v2] fundts.memory.smartptr.shared.obs/6 should apply to <i>cv</i>-unqualified <tt>void</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2521">2521</a><sup><a href="https://cplusplus.github.io/LWG/issue2521">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2521"></a></td>
-<td align="left">8.2.2.1 [fund.ts.v2::memory.smartptr.weak.const]<a name="fund.ts.v2::memory.smartptr.weak.const"></a></td>
-<td align="left">[fund.ts.v2] <tt>weak_ptr</tt>'s converting move constructor should be modified as well for array support</td>
-<td align="center">Yes</td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2522">2522</a><sup><a href="https://cplusplus.github.io/LWG/issue2522">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2522"></a></td>
-<td align="left">8.8 [fund.ts.v2::memory.resource.global]<a name="fund.ts.v2::memory.resource.global"></a></td>
-<td align="left">[fund.ts.v2] Contradiction in <tt>set_default_resource</tt> specification</td>
-<td align="center">Yes</td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2516">2516</a><sup><a href="https://cplusplus.github.io/LWG/issue2516">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2516"></a></td>
-<td align="left">8.12.1 [fund.ts.v2::memory.observer.ptr.overview]<a name="fund.ts.v2::memory.observer.ptr.overview"></a></td>
-<td align="left">[fund.ts.v2] Public "exposition only" members in <tt>observer_ptr</tt></td>
-<td align="center">Yes</td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2515">2515</a><sup><a href="https://cplusplus.github.io/LWG/issue2515">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2515"></a></td>
-<td align="left">8.12.6 [fund.ts.v2::memory.observer.ptr.special]<a name="fund.ts.v2::memory.observer.ptr.special"></a></td>
-<td align="left">[fund.ts.v2] Certain comparison operators of <tt>observer_ptr</tt> do not match synopsis</td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2494">2494</a><sup><a href="https://cplusplus.github.io/LWG/issue2494">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2494"></a></td>
-<td align="left">10.2 [fund.ts.v2::iterator.ostream.joiner]<a name="fund.ts.v2::iterator.ostream.joiner"></a></td>
-<td align="left">[fund.ts.v2] <tt>ostream_joiner</tt> needs <tt>noexcept</tt></td>
-<td align="center">Yes</td>
-<td align="center">0</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-defects.html#2733">2733</a><sup><a href="https://cplusplus.github.io/LWG/issue2733">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#TS">TS</a><a name="2733"></a></td>
-<td align="left">13.1.2 [fund.ts.v2::numeric.ops.gcd]<a name="fund.ts.v2::numeric.ops.gcd"></a></td>
-<td align="left">[fund.ts.v2] <tt>gcd</tt> / <tt>lcm</tt> and <tt>bool</tt></td>
-<td align="center">Yes</td>
-<td align="center">4</td>
 <td align="left"></td>
 </tr>
 </table>
