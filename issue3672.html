@@ -44,14 +44,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
 <h3><a name="3672" href="lwg-active.html#3672">3672</a>. <tt>common_iterator::operator-&gt;()</tt> should return by value</h3>
-<p><b>Section:</b> 23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-02-12 <b>Last modified:</b> 2022-02-14</p>
+<p><b>Section:</b> 23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-02-12 <b>Last modified:</b> 2022-03-04</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#common.iter.access">issues</a> in [common.iter.access].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> p5 (5.1) says that <tt>common_iterator&lt;T*, S&gt;::operator-&gt;()</tt> 
@@ -69,6 +69,13 @@ we should just change <tt>common_iterator&lt;I, S&gt;::operator-&gt;()</tt> to r
 Libstdc++ has always returned by value, as an unintended consequence of using a union instead of 
 <tt>std::variant&lt;I, S&gt;</tt>, so that it doesn't use <tt>std::get&lt;I&gt;</tt> to return the member.
 </p>
+
+<p><i>[2022-03-04; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>

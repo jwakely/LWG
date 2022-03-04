@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2022-02-27 at 10:33:25 UTC</p>
+<td align="left"><p>Revised 2022-03-04 at 14:33:58 UTC</p>
 </td>
 </tr>
 <tr>
@@ -67,9 +67,10 @@
 <hr>
 <h3><a name="3649" href="#3649">3649</a><sup><a href="https://cplusplus.github.io/LWG/issue3649">(i)</a></sup>. [fund.ts.v3] Reinstate and bump <tt>__cpp_lib_experimental_memory_resource</tt> feature test macro</h3>
 <p><b>Section:</b> 1.5 [fund.ts.v3::general.feature.test] <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-12-03 <b>Last modified:</b> 2022-02-14</p>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-12-03 <b>Last modified:</b> 2022-02-11</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p><b>Addresses: fund.ts.v3</b></p>
 <p>
@@ -153,6 +154,271 @@ This wording is relative to <a href="https://wg21.link/N4853">N4853</a>.
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3670" href="#3670">3670</a><sup><a href="https://cplusplus.github.io/LWG/issue3670">(i)</a></sup>. <i>Cpp17InputIterator</i>s don't have integer-class difference types</h3>
+<p><b>Section:</b> 24.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-02-04 <b>Last modified:</b> 2022-02-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.iota.iterator">issues</a> in [range.iota.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+24.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> defines 
+</p>
+<blockquote><pre>
+using iterator_category = input_iterator_tag; <i>// present only if W models incrementable</i>
+</pre></blockquote>
+<p>
+but when <tt>difference_type</tt> is an integer-class type the iterator does not meet the 
+<i>Cpp17InputIterator</i> requirements.
+</p>
+
+<p><i>[2022-02-07; Daniel comments]</i></p>
+
+<p>
+As requested by LWG <a href="lwg-defects.html#3376">3376</a> and wording implemented by <a href="https://wg21.link/P2393R1">P2393R1</a>,
+integer-class types are no longer required to have class type.
+</p>
+
+<p>
+<strong>Previous resolution [SUPERSEDED]:</strong>
+</p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a>, class <tt>iota_view::<i>iterator</i></tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;weakly_incrementable W, semiregular Bound&gt;
+    requires <i>weakly-equality-comparable-with</i>&lt;W, Bound&gt; &amp;&amp; copyable&lt;W&gt;
+  struct iota_view&lt;W, Bound&gt;::<i>iterator</i> {
+    [&hellip;]
+    using iterator_category = input_iterator_tag; <i>// present only if W models incrementable <ins>and</ins></i> 
+                                                  <i><ins>// IOTA-DIFF-T(W) is not a class type</ins></i>
+    using value_type = W;
+    using difference_type = <i>IOTA-DIFF-T</i>(W);
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2022-02-07; Casey Carter provides improved wording]</i></p>
+
+
+<p><i>[2022-03-04; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a>, class <tt>iota_view::<i>iterator</i></tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;weakly_incrementable W, semiregular Bound&gt;
+    requires <i>weakly-equality-comparable-with</i>&lt;W, Bound&gt; &amp;&amp; copyable&lt;W&gt;
+  struct iota_view&lt;W, Bound&gt;::<i>iterator</i> {
+    [&hellip;]
+    using iterator_category = input_iterator_tag; <i>// present only if W models incrementable <ins>and</ins></i> 
+                                                  <i><ins>// IOTA-DIFF-T(W) is an integral type</ins></i>
+    using value_type = W;
+    using difference_type = <i>IOTA-DIFF-T</i>(W);
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3671" href="#3671">3671</a><sup><a href="https://cplusplus.github.io/LWG/issue3671">(i)</a></sup>. <tt>atomic_fetch_xor</tt> missing from <tt>stdatomic.h</tt></h3>
+<p><b>Section:</b> 31.12 <a href="https://wg21.link/stdatomic.h.syn">[stdatomic.h.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-02-09 <b>Last modified:</b> 2022-02-10</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://web.archive.org/web/20181230041359/http://www.open-std.org/jtc1/sc22/wg14/www/abq/c17_updated_proposed_fdis.pdf#page=208">C17 subclause 7.17.7.5</a> provides <tt>atomic_fetch_xor</tt> and <tt>atomic_fetch_xor_explicit</tt>.
+<tt>stdatomic.h</tt> in the working draft (<a href="https://wg21.link/N4901">N4901</a>) does not.
+</p>
+
+<p><i>[2022-02-09; Jonathan comments and provides wording]</i></p>
+
+<p>
+C++20 31.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> has both of them, too, so it should definitely be in the common subset.
+</p>
+
+<p><i>[2022-03-04; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after eight votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 31.12 <a href="https://wg21.link/stdatomic.h.syn">[stdatomic.h.syn]</a>, header <tt>&lt;stdatomic.h&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting Note:</i> The editor is kindly requested to reorder these "<tt>atomic_fetch_<i>KEY</i></tt>" 
+declarations to match the other synopses in Clause 31 <a href="https://wg21.link/atomics">[atomics]</a>: <tt>add</tt>, <tt>sub</tt>, 
+<tt>and</tt>, <tt>or</tt>, <tt>xor</tt>.] 
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+[&hellip;]
+using std::atomic_fetch_or;                    <i>// see below</i>
+using std::atomic_fetch_or_explicit;           <i>// see below</i>
+<ins>using std::atomic_fetch_xor;                   <i>// see below</i>
+using std::atomic_fetch_xor_explicit;          <i>// see below</i></ins>
+using std::atomic_fetch_and;                   <i>// see below</i>
+using std::atomic_fetch_and_explicit;          <i>// see below</i>
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3672" href="#3672">3672</a><sup><a href="https://cplusplus.github.io/LWG/issue3672">(i)</a></sup>. <tt>common_iterator::operator-&gt;()</tt> should return by value</h3>
+<p><b>Section:</b> 23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-02-12 <b>Last modified:</b> 2022-03-04</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#common.iter.access">issues</a> in [common.iter.access].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> p5 (5.1) says that <tt>common_iterator&lt;T*, S&gt;::operator-&gt;()</tt> 
+returns <tt>std::get&lt;T*&gt;(v_)</tt> which has type <tt>T* const&amp;</tt>. That means that 
+<tt>iterator_traits::pointer</tt> is <tt>T* const&amp;</tt> as well (this was recently clarified by LWG 
+<a href="lwg-defects.html#3660">3660</a>). We have an actual pointer here, why are we returning it by reference?
+<p/>
+For the three bullet points in 23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> p5, the second and third return by value 
+anyway, so <tt>decltype(auto)</tt> is equivalent to <tt>auto</tt>. For the first bullet, it would make a lot 
+more sense for raw pointers to be returned by value. That leaves the case where the iterator has an 
+<tt>operator-&gt;()</tt> member, which could potentially benefit from returning by reference. But it must 
+return something that is iterator-like or pointer-like, which we usually just pass by value. Casey suggested 
+we should just change <tt>common_iterator&lt;I, S&gt;::operator-&gt;()</tt> to return by value in all cases.
+<p/>
+Libstdc++ has always returned by value, as an unintended consequence of using a union instead of 
+<tt>std::variant&lt;I, S&gt;</tt>, so that it doesn't use <tt>std::get&lt;I&gt;</tt> to return the member.
+</p>
+
+<p><i>[2022-03-04; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.5.4.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a>, class template <tt>common_iterator</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+constexpr decltype(auto) operator*();
+constexpr decltype(auto) operator*() const
+  requires <i>dereferenceable</i>&lt;const I&gt;;
+constexpr <del>decltype(</del>auto<del>)</del> operator-&gt;() const
+  requires <i>see below</i>;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr <del>decltype(</del>auto<del>)</del> operator-&gt;() const
+  requires <i>see below</i>;
+</pre>
+<blockquote>
+<p>
+-3- The expression in the <i>requires-clause</i> is equivalent to: [&hellip;]
+<p/>
+-4- <i>Preconditions:</i> <tt>holds_alternative&lt;I&gt;(v_)</tt> is <tt>true</tt>.
+<p/>
+-5- <i>Effects:</i>
+</p>
+<ol style="list-style-type:none">
+<li><p>(5.1) &mdash; If <tt>I</tt> is a pointer type or if the expression <tt>get&lt;I&gt;(v_).operator-&gt;()</tt> 
+is well-formed, equivalent to: <tt>return get&lt;I&gt;(v_);</tt></p></li>
+<li><p>(5.2) &mdash; Otherwise, if <tt>iter_reference_t&lt;I&gt;</tt> is a reference type, equivalent to:</p>
+<blockquote><pre>
+auto&amp;&amp; tmp = *get&lt;I&gt;  (v_);
+return addressof(tmp);
+</pre></blockquote>
+</li>
+<li><p>(5.3) &mdash; Otherwise, equivalent to: <tt>return <i>proxy</i>(*get&lt;I&gt;(v_));</tt> where <tt><i>proxy</i></tt> 
+is the exposition-only class:</p>
+<blockquote><pre>
+class <i>proxy</i> {
+  iter_value_t&lt;I&gt; keep_;
+  constexpr <i>proxy</i>(iter_reference_t&lt;I&gt;&amp;&amp; x)
+    : keep_(std::move(x)) {}
+public:
+  constexpr const iter_value_t&lt;I&gt;* operator-&gt;() const noexcept {
+    return addressof(keep_);
+  }
+};
+</pre></blockquote>
+</li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
 </ol>
 
 
