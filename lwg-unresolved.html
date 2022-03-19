@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-03-19 at 20:13:43 UTC</p>
+<p><p>Revised 2022-03-19 at 20:20:08 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42829,6 +42829,14 @@ as a "hidden friend", such that it is found by ADL only if one argument is a <tt
 and the other argument is convertible to <tt>polymorphic_allocator</tt>. As with PR2, this PR will work 
 with any type that is convertible to <tt>polymorphic_allocator</tt>.
 </p>
+
+<blockquote class="note">
+<p>
+Note to reader: Proof of concept for the three possible resolutions can be seen at 
+<a href="https://godbolt.org/z/1oqG66qqe">this godbolt link</a>. Uncomment one of PR1, PR2, 
+or PR3 macros to see the effects of each PR.
+</p>
+</blockquote>
 
 
 <p><b>Proposed resolution:</b></p>
