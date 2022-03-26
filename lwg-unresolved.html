@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-03-26 at 14:09:36 UTC</p>
+<p><p>Revised 2022-03-26 at 15:00:29 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -43235,15 +43235,35 @@ and sets <tt><i>has_val</i></tt> to <tt>true</tt>.</p></li>
 
 
 <hr>
-<h3><a name="3688" href="#3688">3688</a><sup><a href="https://cplusplus.github.io/LWG/issue3688">(i)</a></sup>. Can <tt>std::expected&lt;T, E&gt;::value</tt> be well-formed when <tt>E</tt> is move-only?</h3>
-<p><b>Section:</b> 22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a>, 22.8.7.6 <a href="https://wg21.link/expected.void.obs">[expected.void.obs]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<h3><a name="3688" href="#3688">3688</a><sup><a href="https://cplusplus.github.io/LWG/issue3688">(i)</a></sup>. Exception specifications of copy/move member functions of <tt>std::bad_excepted_access</tt></h3>
+<p><b>Section:</b> 22.8.4 <a href="https://wg21.link/expected.bad">[expected.bad]</a>, 22.8.5 <a href="https://wg21.link/expected.bad.void">[expected.bad.void]</a>, 22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a>, 22.8.7.6 <a href="https://wg21.link/expected.void.obs">[expected.void.obs]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-03-24 <b>Last modified:</b> 2022-03-26</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-<tt>std::expected&lt;T, E&gt;::value</tt> overloads are specified to throw 
+The move constructor and the move assignment operator of standard exception types are not covered by 
+17.9.3 <a href="https://wg21.link/exception">[exception]</a>/2, and thus it is currently effectively unspecified whether these move 
+functions of <tt>std::bad_expected_access&lt;void&gt;</tt> are <tt>noexcept</tt>. Furthermore, 
+<tt>std::bad_expected_access&lt;void&gt;</tt> has protected special member functions, which overrides 
+(or conflicts with?) the general rule in 17.9.3 <a href="https://wg21.link/exception">[exception]</a>/2.
+<p/>
+The primary template <tt>std::bad_expected_access&lt;E&gt;</tt> stores an <tt>E</tt> object, and copying 
+the stored object may throw an exception. Is it intended that the copy functions of 
+<tt>std::bad_expected_access&lt;E&gt;</tt> are <tt>noexcept</tt> while those of <tt>E</tt> are not? 
+When the copy happens because a <tt>std::bad_expected_access&lt;E&gt;</tt> is caught by value, if the 
+copy constructor of <tt>E</tt> throws, <tt>std::terminate</tt> is called no matter whether that of 
+<tt>std::bad_expected_access&lt;E&gt;</tt> is <tt>noexcept</tt>. But 
+<tt>std::bad_expected_access&lt;E&gt;</tt> may be copied/moved in other circumstances.
+<p/>
+I think the move constructor and the move assignment operator of a standard exception type should be 
+specified to be public and <tt>noexcept</tt> when they exist, although sometimes whether they exist may be 
+unspecified. And the move functions should also propagate the result of <tt>what()</tt> when the source 
+and target have the same dynamic type, except that they can leave the result of <tt>what()</tt> from 
+the source valid but unspecified.
+<p/>
+Related to this, <tt>std::expected&lt;T, E&gt;::value</tt> overloads are specified to throw 
 <tt>std::bad_expected_access&lt;std::decay_t&lt;E&gt;&gt;</tt> when an <tt>E</tt> is contained. 
 However, it seems that the copy constructor of <tt>std::bad_expected_access</tt> is implicitly 
 deleted if <tt>E</tt> is move-only, so the <i>throw-expression</i> is ill-formed.
