@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-03-26 at 12:13:24 UTC</p>
+<p><p>Revised 2022-03-26 at 12:49:48 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -182,13 +182,13 @@ ownership of it.
 <ul>
 <li>D123: 2022-03-04 Since March 2022<ul>
 <li><b>Summary:</b><ul>
-<li>360 open issues, up by 5.</li>
+<li>361 open issues, up by 6.</li>
 <li>2808 closed issues, up by 0.</li>
 <li>39 reassigned issues, up by 0.</li>
-<li>3207 issues total, up by 5.</li>
+<li>3208 issues total, up by 6.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 5 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3683">3683</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>.</li>
+<li>Added the following 6 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3683">3683</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -44846,6 +44846,110 @@ namespace std::ranges {
   [&hellip;]
 }
 </pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3686" href="#3686">3686</a><sup><a href="https://cplusplus.github.io/LWG/issue3686">(i)</a></sup>. In <tt>lazy_split_view</tt>, comparing a default-constructed <tt><i>outer-iterator</i></tt> or 
+<tt><i>inner-iterator</i></tt> with <tt>std::default_sentinel</tt> results in null pointer dereference</h3>
+<p><b>Section:</b> 26.7.14.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a>, 26.7.14.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Konstantin Varlamov <b>Opened:</b> 2022-03-23 <b>Last modified:</b> 2022-03-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The internal iterator types <tt><i>outer-iterator</i></tt> and <tt><i>inner-iterator</i></tt> of 
+<tt>lazy_split_view</tt> are default-constructible, but trying to compare a default-constructed 
+instance of either of these classes to <tt>std::default_sentinel</tt> results in null pointer 
+dereference (and, in all likelihood, a crash), as demonstrated in this 
+<a href="https://godbolt.org/z/cGs9jW1c6">demo link</a>:
+</p>
+<blockquote><pre>
+// Assuming `OuterIter` is an alias for `outer-iterator` of
+// some `lazy_split_view` instantiation.
+OuterIter o;
+o == std::default_sentinel; // Null pointer dereference
+
+InnerIter i; // Similar to `OuterIter` above.
+i == std::default_sentinel; // Null pointer dereference
+</pre></blockquote>
+<p>
+This is due to unchecked pointer access in the implementation of <tt><i>outer-iterator</i></tt> 
+(26.7.14.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a> p8):
+</p>
+<blockquote><pre>
+return x.<i>current</i> == ranges::end(x.<i>parent_</i>-&gt;<i>base_</i>) &amp;&amp; !x.<i>trailing_empty_</i>;
+</pre></blockquote>
+<p>
+(<tt><i>parent_</i></tt> is null for a default-constructed iterator <tt>x</tt>, making the access 
+to <tt><i>base_</i></tt> invalid)
+<p/>
+And similarly for <tt><i>inner-iterator</i></tt> (26.7.14.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a> p7):
+</p>
+<blockquote><pre>
+auto [pcur, pend] = subrange{x.<i>i_</i>.<i>parent_</i>-&gt;<i>pattern_</i>};
+</pre></blockquote>
+<p>
+(For a default-constructed <tt><i>inner-iterator</i> x</tt>, <tt><i>i_</i></tt> is a default-constructed 
+<tt><i>outer-iterator</i></tt> member variable and <tt><i>i_</i>.<i>parent_</i></tt> is null, making the 
+access to <tt><i>pattern_</i></tt> invalid)
+<p/>
+Note that neither <tt>operator==</tt> defines any preconditions.
+<p/>
+It seems a reasonable expectation for users to expect comparing a default-constructed iterator to 
+<tt>std::default_sentinel</tt> to be a well-defined operation that returns <tt>true</tt>. Alternatively, 
+the corresponding <tt>operator==</tt> functions could have a <i>Preconditions:</i> element stating that the 
+iterator cannot be default-constructed.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.14.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+friend constexpr bool operator==(const <i>outer-iterator</i>&amp; x, default_sentinel_t);
+</pre>
+<blockquote>
+<p>
+-8- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+<ins>if (!x.<i>parent_</i>) return true;</ins>
+return x.<i>current</i> == ranges::end(x.<i>parent_</i>-&gt;<i>base_</i>) &amp;&amp; !x.<i>trailing_empty_</i>;
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+
+<li><p>Modify 26.7.14.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a>, as indicated:</p>
+
+<blockquote>
+<pre>
+friend constexpr bool operator==(const <i>inner-iterator</i>&amp; x, default_sentinel_t);
+</pre>
+<blockquote>
+<p>
+-7- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+<ins>if (!x.<i>i_</i>.<i>parent_</i>) return true;</ins>
+auto [pcur, pend] = subrange{x.<i>i_</i>.<i>parent_</i>-&gt;<i>pattern_</i>};
+[&hellip;]
+</pre></blockquote>
+</blockquote>
 </blockquote>
 </li>
 </ol>
