@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3657" href="lwg-defects.html#3657">3657</a>. <tt>std::hash&lt;std::filesystem::path&gt;</tt> is not enabled</h3>
-<p><b>Section:</b> 29.12.6 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 31.12.6 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-01-02 <b>Last modified:</b> 2022-02-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -69,17 +69,17 @@ This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
 </p>
 
 <ol>
-<li><p>Modify 29.12.4 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header <tt>&lt;filesystem&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 31.12.4 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header <tt>&lt;filesystem&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 #include &lt;compare&gt; <i>// see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
 
 namespace std::filesystem {
-  <i>// 29.12.6 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a>, paths</i>
+  <i>// 31.12.6 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a>, paths</i>
   class path;
 
-  <i>// 29.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, path non-member functions</i>
+  <i>// 31.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, path non-member functions</i>
   void swap(path&amp; lhs, path&amp; rhs) noexcept;
   size_t hash_value(const path&amp; p) noexcept;
 
@@ -96,7 +96,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Following subclause 29.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, introduce a new subclause [fs.path.hash], as indicated:</p>
+<li><p>Following subclause 31.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, introduce a new subclause [fs.path.hash], as indicated:</p>
 
 <blockquote>
 <p>
@@ -135,17 +135,17 @@ This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
 </p>
 
 <ol>
-<li><p>Modify 29.12.4 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header <tt>&lt;filesystem&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 31.12.4 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header <tt>&lt;filesystem&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 #include &lt;compare&gt; <i>// see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
 
 namespace std::filesystem {
-  <i>// 29.12.6 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a>, paths</i>
+  <i>// 31.12.6 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a>, paths</i>
   class path;
 
-  <i>// 29.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, path non-member functions</i>
+  <i>// 31.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, path non-member functions</i>
   void swap(path&amp; lhs, path&amp; rhs) noexcept;
   size_t hash_value(const path&amp; p) noexcept;
 
@@ -162,7 +162,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Following subclause 29.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, introduce a new subclause [fs.path.hash], as indicated:</p>
+<li><p>Following subclause 31.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a>, introduce a new subclause [fs.path.hash], as indicated:</p>
 
 <blockquote>
 <p>

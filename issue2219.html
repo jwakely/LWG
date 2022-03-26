@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++17">C++17</a> status.</em></p>
 <h3><a name="2219" href="lwg-defects.html#2219">2219</a>. <tt><i>INVOKE</i></tt>-ing a pointer to member with a <tt>reference_wrapper</tt> as the object expression</h3>
-<p><b>Section:</b> 20.14.4 <a href="https://wg21.link/func.require">[func.require]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
+<p><b>Section:</b> 22.10.4 <a href="https://wg21.link/func.require">[func.require]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2012-11-28 <b>Last modified:</b> 2017-07-30</p>
 <p><b>Priority: </b>2
 </p>
@@ -67,7 +67,7 @@ int i = std::mem_fn(f)(t1);
 </pre></blockquote>
 <p>
 The call expression on the last line is equivalent to <tt><i>INVOKE</i>(f, std::ref(x))</tt> 
-which according to 20.14.4 <a href="https://wg21.link/func.require">[func.require]</a>p1 results in the invalid expression <tt>(*t1).*f</tt> 
+which according to 22.10.4 <a href="https://wg21.link/func.require">[func.require]</a>p1 results in the invalid expression <tt>(*t1).*f</tt> 
 because <tt>reference_wrapper&lt;X&gt;</tt> is neither an object of type <tt>X</tt> nor a reference 
 to an object of type <tt>X</tt> nor a reference to an object of a type derived from <tt>X</tt>.
 </p>
@@ -118,7 +118,7 @@ also possible that this clause <i>is</i> that single place.
 <p>This wording is relative to N3485.</p>
 
 <ol>
-<li><p>Edit 20.14.4 <a href="https://wg21.link/func.require">[func.require]</a>:</p>
+<li><p>Edit 22.10.4 <a href="https://wg21.link/func.require">[func.require]</a>:</p>
 <blockquote><p>
 Define <tt><i>INVOKE</i>(f, t1, t2, ..., tN)</tt> as follows:
 </p>
@@ -182,7 +182,7 @@ While we're in the neighborhood, I recommend simplifying and clarifying the word
 <p>This wording is relative to N3936.</p>
 
 <ol>
-<li><p>Edit 20.14.4 <a href="https://wg21.link/func.require">[func.require]</a>:</p>
+<li><p>Edit 22.10.4 <a href="https://wg21.link/func.require">[func.require]</a>:</p>
 <blockquote><p>
 Define <tt><i>INVOKE</i>(f, t1, t2, ..., tN)</tt> as follows:
 </p>
@@ -271,7 +271,7 @@ MC: consensus move to ready
 <p>This wording is relative to N3936.</p>
 
 <ol>
-<li><p>Change 20.14.4 <a href="https://wg21.link/func.require">[func.require]</a> p1 as depicted:</p>
+<li><p>Change 22.10.4 <a href="https://wg21.link/func.require">[func.require]</a> p1 as depicted:</p>
 <blockquote><p>
 Define <tt><i>INVOKE</i>(f, t1, t2, ..., tN)</tt> as follows:
 </p>

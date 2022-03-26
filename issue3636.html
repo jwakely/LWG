@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3636" href="lwg-active.html#3636">3636</a>. <tt>formatter&lt;T&gt;::format</tt> should be <tt>const</tt>-qualified</h3>
-<p><b>Section:</b> 20.20.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-11 <b>Last modified:</b> 2022-01-31</p>
 <p><b>Priority: </b>1
 </p>
@@ -55,7 +55,7 @@
 <p><b>Discussion:</b></p>
 <p>
 In <a href="https://reviews.llvm.org/D112017">libc++ review</a>, we've noticed that we don't understand 
-the implications of 20.20.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> bullet 3.1 and Table [tab:formatter.basic]: 
+the implications of 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> bullet 3.1 and Table [tab:formatter.basic]: 
 (emphasize mine):
 </p>
 <blockquote>
@@ -131,7 +131,7 @@ This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
 
 <ol>
 
-<li><p>Modify 20.20.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> as indicated:</p>
+<li><p>Modify 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>
@@ -190,12 +190,12 @@ returns an iterator past the end of the parsed range.
 
 </li>
 
-<li><p>Modify 20.20.6.2 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
+<li><p>Modify 22.14.6.2 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
 
 <blockquote>
 <p>
 -6- An enabled specialization <tt>formatter&lt;T, charT&gt;</tt> meets the <i>BasicFormatter</i> requirements 
-(20.20.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>).
+(22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>).
 <p/>
 [<i>Example 1</i>:
 </p>
@@ -221,7 +221,7 @@ template&lt;&gt; struct std::formatter&lt;color&gt; : std::formatter&lt;const ch
 </blockquote>
 </li>
 
-<li><p>Modify 20.20.6.4 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
+<li><p>Modify 22.14.6.4 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -269,7 +269,7 @@ template&lt;&gt; struct std::formatter&lt;S&gt; {
 </blockquote>
 </li>
 
-<li><p>Modify 27.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
+<li><p>Modify 29.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
 
 <blockquote>
 <pre>

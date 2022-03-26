@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3><a name="3067" href="lwg-defects.html#3067">3067</a>. <tt>recursive_directory_iterator::pop</tt> must invalidate</h3>
-<p><b>Section:</b> 29.12.12.2 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 31.12.12.2 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2018-02-25 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>0
 </p>
@@ -58,7 +58,7 @@
 advances the iterator forward as many steps as are necessary to reach the next entry in the parent
 directory. Just as is the case for <tt>operator++</tt>, <tt>pop</tt> must be allowed to invalidate
 iterator copies to allow efficient implementation. The most efficient fix seems to be borrowing the
-invalidation wording from 23.3.5.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a> Table 87's specification for the required
+invalidation wording from 25.3.5.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a> Table 87's specification for the required
 <tt>++r</tt> expression for input iterators.
 </p>
 
@@ -77,7 +77,7 @@ This wording is relative to <a href="https://wg21.link/n4727">N4727</a>.
 </p>
 
 <ol>
-<li><p>Change 29.12.12.2 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> as indicated:</p>
+<li><p>Change 31.12.12.2 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> as indicated:</p>
 <blockquote>
 <pre>
 void pop();
@@ -94,7 +94,7 @@ iterated over, and continue iteration over the parent directory.
 required either to be dereferenceable or to be in the domain of <tt>==</tt>.</ins>
 </p>
 <p>
--27- <i>Throws</i>: As specified in 29.12.5 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
+-27- <i>Throws</i>: As specified in 31.12.5 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
 </p>
 </blockquote>
 </blockquote>

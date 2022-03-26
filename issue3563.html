@@ -46,14 +46,14 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3563" href="lwg-defects.html#3563">3563</a>. <tt>keys_view</tt> example is broken</h3>
-<p><b>Section:</b> 24.7.18.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 26.7.19.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2021-05-29 <b>Last modified:</b> 2021-10-17</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-In 24.7.18.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> we have:
+In 26.7.19.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> we have:
 </p>
 <blockquote><p>
 <tt>keys_view</tt> is an alias for <tt>elements_view&lt;views::all_t&lt;R&gt;, 0&gt;</tt>, and
@@ -126,7 +126,7 @@ This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
 </p>
 
 <ol>
-<li><p>Modify 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -134,7 +134,7 @@ This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
 namespace std::ranges {
 [&hellip;]
 
-  <i>// 24.7.18 <a href="https://wg21.link/range.elements">[range.elements]</a>, elements view</i>
+  <i>// 26.7.19 <a href="https://wg21.link/range.elements">[range.elements]</a>, elements view</i>
   template&lt;input_range V, size_t N&gt;
     requires <i>see below</i>
   class elements_view;
@@ -153,7 +153,7 @@ namespace std::ranges {
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.18.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> as indicated:</p>
+<li><p>Modify 26.7.19.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -215,7 +215,7 @@ This wording is relative to <a href="https://wg21.link/N4892">N4892</a>.
 </p>
 
 <ol>
-<li><p>Modify 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -223,7 +223,7 @@ This wording is relative to <a href="https://wg21.link/N4892">N4892</a>.
 namespace std::ranges {
 [&hellip;]
 
-  <i>// 24.7.18 <a href="https://wg21.link/range.elements">[range.elements]</a>, elements view</i>
+  <i>// 26.7.19 <a href="https://wg21.link/range.elements">[range.elements]</a>, elements view</i>
   template&lt;input_range V, size_t N&gt;
     requires <i>see below</i>
   class elements_view;
@@ -242,7 +242,7 @@ namespace std::ranges {
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.18.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> as indicated:</p>
+<li><p>Modify 26.7.19.1 <a href="https://wg21.link/range.elements.overview">[range.elements.overview]</a> as indicated:</p>
 
 <blockquote>
 <p>

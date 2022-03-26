@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
 <h3><a name="2335" href="lwg-closed.html#2335">2335</a>. <tt>array&lt;array&lt;int, 3&gt;, 4&gt;</tt> should be layout-compatible with <tt>int[4][3]</tt></h3>
-<p><b>Section:</b> 22.3.7 <a href="https://wg21.link/array">[array]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+<p><b>Section:</b> 24.3.7 <a href="https://wg21.link/array">[array]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Jeffrey Yasskin <b>Opened:</b> 2013-10-04 <b>Last modified:</b> 2020-11-15</p>
 <p><b>Priority: </b>3
 </p>
@@ -71,7 +71,7 @@ to view memory as the other type: C++14 CD [class.mem]p18.
 </p>
 I believe it's sufficient to add "<tt>array&lt;T, N&gt;</tt> shall be
 layout-compatible (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>) with <tt>T[N]</tt>." to 
-22.3.7.1 <a href="https://wg21.link/array.overview">[array.overview]</a>, but we might also need some extension to 
+24.3.7.1 <a href="https://wg21.link/array.overview">[array.overview]</a>, but we might also need some extension to 
 11.4 <a href="https://wg21.link/class.mem">[class.mem]</a> to address the possibility of layout-compatibility 
 between struct and array types.
 <p>

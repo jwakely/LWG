@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3392" href="lwg-defects.html#3392">3392</a>. <tt>ranges::distance()</tt> cannot be used on a move-only iterator with a sized sentinel</h3>
-<p><b>Section:</b> 23.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-07 <b>Last modified:</b> 2021-10-17</p>
 <p><b>Priority: </b>3
 </p>
@@ -107,7 +107,7 @@ SF F N A SA
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
 <blockquote class="note">
 <ol>
-<li><p>Modify 23.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -115,10 +115,10 @@ SF F N A SA
 
 namespace std {
   [&hellip;]
-  <i>// 23.4.4 <a href="https://wg21.link/range.iter.ops">[range.iter.ops]</a>, range iterator operations</i>
+  <i>// 25.4.4 <a href="https://wg21.link/range.iter.ops">[range.iter.ops]</a>, range iterator operations</i>
   namespace ranges {
     [&hellip;]
-    <i>// 23.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
+    <i>// 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
     template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
       <ins>requires (!sized_sentinel_for&lt;S, I&gt;)</ins>
         constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
@@ -134,7 +134,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Modify 23.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
+<li><p>Modify 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -199,7 +199,7 @@ Set status to Tentatively Ready after seven votes in favour during reflector pol
 <p>This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.</p>
 
 <ol>
-<li><p>Modify 23.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -207,10 +207,10 @@ Set status to Tentatively Ready after seven votes in favour during reflector pol
 
 namespace std {
   [&hellip;]
-  <i>// 23.4.4 <a href="https://wg21.link/range.iter.ops">[range.iter.ops]</a>, range iterator operations</i>
+  <i>// 25.4.4 <a href="https://wg21.link/range.iter.ops">[range.iter.ops]</a>, range iterator operations</i>
   namespace ranges {
     [&hellip;]
-    <i>// 23.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
+    <i>// 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
     template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
       <ins>requires (!sized_sentinel_for&lt;S, I&gt;)</ins>
         constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
@@ -226,7 +226,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Modify 23.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
+<li><p>Modify 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
 
 <blockquote>
 <pre>

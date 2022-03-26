@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3><a name="859" href="lwg-defects.html#859">859</a>. Monotonic Clock is Conditionally Supported?</h3>
-<p><b>Section:</b> 32.6 <a href="https://wg21.link/thread.condition">[thread.condition]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
+<p><b>Section:</b> 33.7 <a href="https://wg21.link/thread.condition">[thread.condition]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
  <b>Submitter:</b> Pete Becker <b>Opened:</b> 2008-06-23 <b>Last modified:</b> 2016-02-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -128,7 +128,7 @@ is the best way to proceed.  An implementation may not need to use a
 For example, on POSIX systems <tt>sleep_for</tt> can be implemented in terms of
 <tt>nanosleep</tt> which takes only a duration in terms of nanoseconds.  The current
 working paper does not describe <tt>sleep_for</tt> in terms of <tt>sleep_until</tt>.
-And paragraph 2 of 32.2.4 <a href="https://wg21.link/thread.req.timing">[thread.req.timing]</a> has the words strongly encouraging
+And paragraph 2 of 33.2.4 <a href="https://wg21.link/thread.req.timing">[thread.req.timing]</a> has the words strongly encouraging
 implementations to use monotonic clocks for <tt>sleep_for</tt>:
 </p>
 
@@ -169,7 +169,7 @@ Move to Ready.
 
 <p><b>Proposed resolution:</b></p>
 <p>
-Change 32.6.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a>, p21-22:
+Change 33.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a>, p21-22:
 </p>
 
 <blockquote>
@@ -206,7 +206,7 @@ When unblocked, calls <tt>lock.lock()</tt> (possibly blocking on the lock) and r
 <li><ins>
 The function will unblock when signaled by a call to <tt>notify_one()</tt>, a call
 to <tt>notify_all()</tt>, by 
-the elapsed time <tt>rel_time</tt> passing (32.2.4 <a href="https://wg21.link/thread.req.timing">[thread.req.timing]</a>),
+the elapsed time <tt>rel_time</tt> passing (33.2.4 <a href="https://wg21.link/thread.req.timing">[thread.req.timing]</a>),
 or spuriously.
 </ins></li>
 
@@ -253,7 +253,7 @@ equivalent error condition from <tt>lock.lock()</tt> or <tt>lock.unlock()</tt>.
 </blockquote>
 
 <p>
-Change 32.6.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a>, p26-p29:
+Change 33.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a>, p26-p29:
 </p>
 
 <blockquote>
@@ -346,7 +346,7 @@ equivalent error condition from <tt>lock.lock()</tt> or <tt>lock.unlock()</tt>.
 </blockquote>
 
 <p>
-Change 32.6.5 <a href="https://wg21.link/thread.condition.condvarany">[thread.condition.condvarany]</a>, p18-19:
+Change 33.7.5 <a href="https://wg21.link/thread.condition.condvarany">[thread.condition.condvarany]</a>, p18-19:
 </p>
 
 <blockquote>
@@ -374,7 +374,7 @@ When unblocked, calls <tt>lock.lock()</tt> (possibly blocking on the lock) and r
 <li><ins>
 The function will unblock when signaled by a call to <tt>notify_one()</tt>, a call to
 <tt>notify_all()</tt>, by
-the elapsed time <tt>rel_time</tt> passing (32.2.4 <a href="https://wg21.link/thread.req.timing">[thread.req.timing]</a>),
+the elapsed time <tt>rel_time</tt> passing (33.2.4 <a href="https://wg21.link/thread.req.timing">[thread.req.timing]</a>),
 or spuriously.
 </ins></li>
 
@@ -411,7 +411,7 @@ equivalent error condition from <tt>lock.lock()</tt> or <tt>lock.unlock()</tt>.
 </blockquote>
 
 <p>
-Change 32.6.5 <a href="https://wg21.link/thread.condition.condvarany">[thread.condition.condvarany]</a>, p23-p26:
+Change 33.7.5 <a href="https://wg21.link/thread.condition.condvarany">[thread.condition.condvarany]</a>, p23-p26:
 </p>
 
 <blockquote>

@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3><a name="1203" href="lwg-defects.html#1203">1203</a>. More useful rvalue stream insertion</h3>
-<p><b>Section:</b> 29.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>, 29.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 31.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>, 31.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2009-09-06 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>2
 </p>
@@ -54,8 +54,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-29.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a> was created to preserve the ability to insert
-into (and extract from 29.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a>) rvalue streams:
+31.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a> was created to preserve the ability to insert
+into (and extract from 31.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a>) rvalue streams:
 </p>
 
 <blockquote><pre>
@@ -147,7 +147,7 @@ LWG <a href="lwg-defects.html#2498">2498</a>.</p>
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
 <blockquote class="note">
 <p>
-Change 29.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a>:
+Change 31.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a>:
 </p>
 
 <blockquote><pre>
@@ -171,7 +171,7 @@ and only if <tt>Istream</tt> is not an lvalue reference type and is derived from
 </blockquote>
 
 <p>
-Change 29.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>:
+Change 31.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>:
 </p>
 
 <blockquote><pre>
@@ -220,7 +220,7 @@ and doesn't trigger any regressions.
 <blockquote class="note">
 <p>This resolution is relative to N4750.</p>
 <p>
-Change 29.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> as follows:
+Change 31.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> as follows:
 </p>
 
 <blockquote><pre>
@@ -244,7 +244,7 @@ well-formed<ins>, <tt>Istream</tt> is not an lvalue reference type, and
 </blockquote>
 
 <p>
-Change 29.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>:
+Change 31.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>:
 </p>
 
 <blockquote><pre>
@@ -284,7 +284,7 @@ corresponding <i>Constraints:</i> element.
 <p>This wording is relative to <a href="https://wg21.link/n4810">N4810</a>.</p>
 
 <ol>
-<li><p>Change 29.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> as follows:</p>
+<li><p>Change 31.7.4.6 <a href="https://wg21.link/istream.rvalue">[istream.rvalue]</a> as follows:</p>
 
 <blockquote><pre>
 template &lt;class <del>charT, class traits</del> <ins>Istream</ins>, class T&gt;
@@ -310,7 +310,7 @@ unless the expression <tt>is &gt;&gt; std::forward&lt;T&gt;(x)</tt> is well-form
 
 <li>
 <p>
-Change 29.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>:
+Change 31.7.5.6 <a href="https://wg21.link/ostream.rvalue">[ostream.rvalue]</a>:
 </p>
 
 <blockquote><pre>

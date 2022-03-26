@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3><a name="1207" href="lwg-defects.html#1207">1207</a>. Underspecified <tt>std::list</tt> operations?</h3>
-<p><b>Section:</b> 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
+<p><b>Section:</b> 24.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
  <b>Submitter:</b> Lo&iuml;c Joly <b>Opened:</b> 2009-09-13 <b>Last modified:</b> 2016-02-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -76,7 +76,7 @@ container). Are those assumptions correct ?
 
 <blockquote>
 <p>
-22.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> paragraph 11 says iterators
+24.2.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> paragraph 11 says iterators
 aren't invalidated unless specified, so I don't think it needs to be repeated on
 every function that doesn't invalidate iterators. <tt>list::unique</tt> says it
 "eliminates" elements, that should probably be "erases" because IMHO that term
@@ -94,7 +94,7 @@ Suggested resolution:
 </p>
 
 <p>
-In 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a> change paragraph 19
+In 24.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a> change paragraph 19
 </p>
 
 <blockquote><pre>
@@ -308,7 +308,7 @@ not affect the validity of iterators and references.</ins>
 
 <li>
 <p>
-Change 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p15:
+Change 24.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p15:
 </p>
 
 <blockquote><pre>
@@ -326,7 +326,7 @@ elements.</ins>
 
 <li>
 <p>
-Change 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p19:
+Change 24.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p19:
 </p>
 
 <blockquote><pre>
@@ -347,7 +347,7 @@ erased elements.</ins>
 
 <li>
 <p>
-Change 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p23:
+Change 24.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p23:
 </p>
 
 <blockquote><pre>
@@ -371,7 +371,7 @@ iterators into <tt>*this</tt>, not into <tt>x</tt>.</ins>
 
 <li>
 <p>
-Change 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p26:
+Change 24.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p26:
 </p>
 
 <blockquote><pre>
@@ -386,7 +386,7 @@ void reverse();
 
 <li>
 <p>
-Change 22.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p30:
+Change 24.3.10.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, p30:
 </p>
 
 <blockquote><pre>

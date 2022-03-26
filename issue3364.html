@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3><a name="3364" href="lwg-defects.html#3364">3364</a>. Initialize data members of ranges and their iterators</h3>
-<p><b>Section:</b> 24.7.9.2 <a href="https://wg21.link/range.take.while.view">[range.take.while.view]</a>, 24.7.10.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a>, 24.7.11.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a>, 24.7.18.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 26.7.9.2 <a href="https://wg21.link/range.take.while.view">[range.take.while.view]</a>, 26.7.10.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a>, 26.7.11.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a>, 26.7.19.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2020-01-07 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>0
 </p>
@@ -65,7 +65,7 @@ without initializer, so it is possible to have them have indeterminate values. W
 <p>This wording is relative to <a href="https://wg21.link/N4842">N4842</a>.</p>
 
 <ol>
-<li><p>Modify 24.7.9.2 <a href="https://wg21.link/range.take.while.view">[range.take.while.view]</a> as follows:</p>
+<li><p>Modify 26.7.9.2 <a href="https://wg21.link/range.take.while.view">[range.take.while.view]</a> as follows:</p>
 <blockquote>
 <pre>
 class take_while_view : public view_interface&lt;take_while_view&lt;V, Pred&gt;&gt; {
@@ -79,7 +79,7 @@ public:
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.10.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a> as follows:</p>
+<li><p>Modify 26.7.10.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a> as follows:</p>
 <blockquote>
 <pre>
 private:
@@ -90,7 +90,7 @@ private:
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.11.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a> as follows:</p>
+<li><p>Modify 26.7.11.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a> as follows:</p>
 <blockquote>
 <pre>
 private:
@@ -101,7 +101,7 @@ private:
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.18.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as follows:</p>
+<li><p>Modify 26.7.19.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as follows:</p>
 <blockquote>
 <pre>
 class elements_view&lt;V, N&gt;::iterator {                <i>// exposition only</i>

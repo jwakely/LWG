@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3467" href="lwg-defects.html#3467">3467</a>. <tt>bool</tt> can't be an integer-like type</h3>
-<p><b>Section:</b> 23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2020-07-23 <b>Last modified:</b> 2020-11-15</p>
 <p><b>Priority: </b>0
 </p>
@@ -54,7 +54,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Per 24.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>/1, the Standard Library believes it can convert an integer-like type <tt>X</tt>
+Per 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>/1, the Standard Library believes it can convert an integer-like type <tt>X</tt>
 to an unsigned integer-like type with the exposition-only type alias <tt><i>make-unsigned-like-t</i></tt>.
 <tt><i>make-unsigned-like-t</i>&lt;X&gt;</tt> is specified as being equivalent to
 <tt>make_unsigned_t&lt;X&gt;</tt> when <tt>X</tt> is an integral type. However, despite being an integral type,
@@ -81,7 +81,7 @@ This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.
 </p>
 
 <ol>
-<li><p>Modify 23.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> as indicated:</p>
+<li><p>Modify 25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> as indicated:</p>
 
 <blockquote>
 <p>

@@ -58,7 +58,7 @@
 Several parts of the library use the notion of "Diagnostic required"
 to indicate that
 in the corresponding situation an error diagnostic should occur, e.g.
-20.11.1.2.2 <a href="https://wg21.link/unique.ptr.dltr.dflt">[unique.ptr.dltr.dflt]</a>/2
+20.3.1.2.2 <a href="https://wg21.link/unique.ptr.dltr.dflt">[unique.ptr.dltr.dflt]</a>/2
 </p>
 <blockquote><pre>
 void operator()(T *ptr) const;
@@ -129,7 +129,7 @@ Move to NAD.
 <p>
 It's not clear that there's any important difference between
 "ill-formed" and "diagnostic required". From 4.1 <a href="https://wg21.link/intro.compliance">[intro.compliance]</a>, 
-3.25 <a href="https://wg21.link/defns.ill.formed">[defns.ill.formed]</a>, and 3.67 <a href="https://wg21.link/defns.well.formed">[defns.well.formed]</a> 
+3.25 <a href="https://wg21.link/defns.ill.formed">[defns.ill.formed]</a>, and 3.68 <a href="https://wg21.link/defns.well.formed">[defns.well.formed]</a> 
 it appears that an ill-formed program is one that is not correctly constructed 
 according to the syntax rules and diagnosable semantic rules, which means 
 that... "a conforming implementation shall issue at least one diagnostic message." The
@@ -176,7 +176,7 @@ the following approach to get rid of the usage of the term "ill-formed" from the
 library by introducing a new category to existing elements to the list of 16.3.2.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a>/3, e.g. "type requirements" or "static
 constraints" that define conditions that can be checked during compile-time and
 any violation would make the program ill-formed. As an example, the currently
-existing phrase 20.5.6 <a href="https://wg21.link/tuple.helper">[tuple.helper]</a>/1
+existing phrase 22.4.6 <a href="https://wg21.link/tuple.helper">[tuple.helper]</a>/1
 </p>
 
 <blockquote><p>
@@ -210,7 +210,7 @@ could then be written as
 <ol>
 <li>
 <p>
-Change 20.16 <a href="https://wg21.link/ratio">[ratio]</a>/2 as indicated:
+Change 21.4 <a href="https://wg21.link/ratio">[ratio]</a>/2 as indicated:
 </p>
 
 <blockquote><p>
@@ -223,7 +223,7 @@ required.</del>
 
 <li>
 <p>
-Change 20.16.3 <a href="https://wg21.link/ratio.ratio">[ratio.ratio]</a>/1 as indicated:
+Change 21.4.3 <a href="https://wg21.link/ratio.ratio">[ratio.ratio]</a>/1 as indicated:
 </p>
 
 <p>
@@ -238,7 +238,7 @@ ill-formed</ins>. <del>Diagnostic required.</del> [..]
 
 <li>
 <p>
-Change 20.16.4 <a href="https://wg21.link/ratio.arithmetic">[ratio.arithmetic]</a>/1 as indicated:
+Change 21.4.4 <a href="https://wg21.link/ratio.arithmetic">[ratio.arithmetic]</a>/1 as indicated:
 </p>
 
 <blockquote><p>
@@ -251,7 +251,7 @@ issued</del>.
 
 <li>
 <p>
-Change 20.16.5 <a href="https://wg21.link/ratio.comparison">[ratio.comparison]</a>/2 as indicated:
+Change 21.4.5 <a href="https://wg21.link/ratio.comparison">[ratio.comparison]</a>/2 as indicated:
 </p>
 
 <blockquote><p>
@@ -264,7 +264,7 @@ diagnostic is required</del>.
 
 <li>
 <p>
-Change 20.11.1.2.2 <a href="https://wg21.link/unique.ptr.dltr.dflt">[unique.ptr.dltr.dflt]</a>/2 as indicated:
+Change 20.3.1.2.2 <a href="https://wg21.link/unique.ptr.dltr.dflt">[unique.ptr.dltr.dflt]</a>/2 as indicated:
 </p>
 
 <blockquote>
@@ -283,7 +283,7 @@ ill-formed.</ins>
 
 <li>
 <p>
-Change 20.11.1.2.3 <a href="https://wg21.link/unique.ptr.dltr.dflt1">[unique.ptr.dltr.dflt1]</a>/1 as indicated:
+Change 20.3.1.2.3 <a href="https://wg21.link/unique.ptr.dltr.dflt1">[unique.ptr.dltr.dflt1]</a>/1 as indicated:
 </p>
 
 <blockquote><pre>
@@ -306,7 +306,7 @@ ill-formed.</ins>
 
 <li>
 <p>
-Change 20.11.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a> as indicated: <i>[Note: This
+Change 20.3.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a> as indicated: <i>[Note: This
 editorially improves the currently suggested wording of <a href="lwg-defects.html#932">932</a> by
 replacing</i>
 </p>
@@ -340,7 +340,7 @@ ill-formed.
 
 <li>
 <p>
-Change 20.11.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>/8 as indicated: <i>[Note: This
+Change 20.3.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>/8 as indicated: <i>[Note: This
 editorially improves the currently suggested wording of <a href="lwg-defects.html#932">932</a> by
 replacing</i>
 </p>
@@ -371,7 +371,7 @@ ill-formed.
 
 <li>
 <p>
-Change 20.11.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>/13 as indicated:
+Change 20.3.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>/13 as indicated:
 </p>
 
 <blockquote><p>
@@ -386,12 +386,12 @@ constructor of this pair. [..]
 </li>
 
 <li>
-20.11.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>/20: Solved by <a href="lwg-defects.html#950">950</a>.
+20.3.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a>/20: Solved by <a href="lwg-defects.html#950">950</a>.
 </li>
 
 <li>
 <p>
-Change 20.11.1.4 <a href="https://wg21.link/unique.ptr.runtime">[unique.ptr.runtime]</a>/1 as indicated:
+Change 20.3.1.4 <a href="https://wg21.link/unique.ptr.runtime">[unique.ptr.runtime]</a>/1 as indicated:
 </p>
 
 <blockquote>
@@ -412,7 +412,7 @@ required)</del> <ins>produce an ill-formed program</ins>.
 
 <li>
 <p>
-Change 27.5 <a href="https://wg21.link/time.duration">[time.duration]</a>/2-4 as indicated:
+Change 29.5 <a href="https://wg21.link/time.duration">[time.duration]</a>/2-4 as indicated:
 </p>
 
 <blockquote>
@@ -445,20 +445,20 @@ positive, <del>diagnostic required</del> <ins>the program is ill-formed</ins>.
 </li>
 
 <li>
-27.5.2 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a>/1+4: Apply <a href="lwg-defects.html#1177">1177</a>
+29.5.2 <a href="https://wg21.link/time.duration.cons">[time.duration.cons]</a>/1+4: Apply <a href="lwg-defects.html#1177">1177</a>
 </li>
 
 <li>
-27.5.6 <a href="https://wg21.link/time.duration.nonmember">[time.duration.nonmember]</a>/4+6+8+11: Apply <a href="lwg-defects.html#1177">1177</a>
+29.5.6 <a href="https://wg21.link/time.duration.nonmember">[time.duration.nonmember]</a>/4+6+8+11: Apply <a href="lwg-defects.html#1177">1177</a>
 </li>
 
 <li>
-27.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a>/1: Apply <a href="lwg-defects.html#1177">1177</a>
+29.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a>/1: Apply <a href="lwg-defects.html#1177">1177</a>
 </li>
 
 <li>
 <p>
-Change 27.6 <a href="https://wg21.link/time.point">[time.point]</a>/2 as indicated:
+Change 29.6 <a href="https://wg21.link/time.point">[time.point]</a>/2 as indicated:
 </p>
 <blockquote><p>
 <ins>If</ins> <tt>Duration</tt> <del>shall be</del> <ins>is not</ins> an
@@ -468,11 +468,11 @@ instance of <tt>duration</tt><ins>, the program is ill-formed</ins>.
 </li>
 
 <li>
-27.6.2 <a href="https://wg21.link/time.point.cons">[time.point.cons]</a>/3: Apply <a href="lwg-defects.html#1177">1177</a>
+29.6.2 <a href="https://wg21.link/time.point.cons">[time.point.cons]</a>/3: Apply <a href="lwg-defects.html#1177">1177</a>
 </li>
 
 <li>
-27.6.8 <a href="https://wg21.link/time.point.cast">[time.point.cast]</a>/1: Apply <a href="lwg-defects.html#1177">1177</a>
+29.6.8 <a href="https://wg21.link/time.point.cast">[time.point.cast]</a>/1: Apply <a href="lwg-defects.html#1177">1177</a>
 </li>
 
 </ol>

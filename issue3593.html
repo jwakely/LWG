@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3593" href="lwg-defects.html#3593">3593</a>. Several iterators' <tt>base() const &amp;</tt> and <tt>lazy_split_view::<i>outer-iterator</i>::value_type::end()</tt> missing <tt>noexcept</tt></h3>
-<p><b>Section:</b> 23.5.3 <a href="https://wg21.link/move.iterators">[move.iterators]</a>, 23.5.6 <a href="https://wg21.link/iterators.counted">[iterators.counted]</a>, 24.7.6.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a>, 24.7.7.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>, 24.7.13.4 <a href="https://wg21.link/range.lazy.split.outer.value">[range.lazy.split.outer.value]</a>, 24.7.13.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a>, 24.7.18.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 25.5.3 <a href="https://wg21.link/move.iterators">[move.iterators]</a>, 25.5.6 <a href="https://wg21.link/iterators.counted">[iterators.counted]</a>, 26.7.6.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a>, 26.7.7.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>, 26.7.14.4 <a href="https://wg21.link/range.lazy.split.outer.value">[range.lazy.split.outer.value]</a>, 26.7.14.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a>, 26.7.19.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-14 <b>Last modified:</b> 2021-10-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -76,7 +76,7 @@ This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
 </p>
 
 <ol>
-<li><p>Modify 23.5.3 <a href="https://wg21.link/move.iterators">[move.iterators]</a>, class template <tt>move_iterator</tt> synopsis, as indicated:</p>
+<li><p>Modify 25.5.3 <a href="https://wg21.link/move.iterators">[move.iterators]</a>, class template <tt>move_iterator</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -88,7 +88,7 @@ constexpr iterator_type base() &amp;&amp;;
 </blockquote>
 </li>
 
-<li><p>Modify 23.5.3.5 <a href="https://wg21.link/move.iter.op.conv">[move.iter.op.conv]</a> as indicated:</p>
+<li><p>Modify 25.5.3.5 <a href="https://wg21.link/move.iter.op.conv">[move.iter.op.conv]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -102,7 +102,7 @@ constexpr const Iterator&amp; base() const &amp; <ins>noexcept</ins>;
 </blockquote>
 </li>
 
-<li><p>Modify 23.5.6.1 <a href="https://wg21.link/counted.iterator">[counted.iterator]</a>, class template <tt>counted_iterator</tt> synopsis, as indicated:</p>
+<li><p>Modify 25.5.6.1 <a href="https://wg21.link/counted.iterator">[counted.iterator]</a>, class template <tt>counted_iterator</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -114,7 +114,7 @@ constexpr I base() &amp;&amp;;
 </blockquote>
 </li>
 
-<li><p>Modify 23.5.6.3 <a href="https://wg21.link/counted.iter.access">[counted.iter.access]</a> as indicated:</p>
+<li><p>Modify 25.5.6.3 <a href="https://wg21.link/counted.iter.access">[counted.iter.access]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -128,7 +128,7 @@ constexpr const I&amp; base() const &amp; <ins>noexcept</ins>;
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.6.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a> as indicated:</p>
+<li><p>Modify 26.7.6.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -151,7 +151,7 @@ constexpr const iterator_t&lt;V&gt;&amp; base() const &amp; <ins>noexcept</ins>;
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.7.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> as indicated:</p>
+<li><p>Modify 26.7.7.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -174,7 +174,7 @@ constexpr const iterator_t&lt;<i>Base</i>&gt;&amp; base() const &amp; <ins>noexc
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.13.4 <a href="https://wg21.link/range.lazy.split.outer.value">[range.lazy.split.outer.value]</a> as indicated:</p>
+<li><p>Modify 26.7.14.4 <a href="https://wg21.link/range.lazy.split.outer.value">[range.lazy.split.outer.value]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -197,7 +197,7 @@ constexpr default_sentinel_t end() const <ins>noexcept</ins>;
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.13.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a> as indicated:</p>
+<li><p>Modify 26.7.14.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -220,7 +220,7 @@ constexpr const iterator_t&lt;<i>Base</i>&gt;&amp; base() const &amp; <ins>noexc
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.18.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as indicated:</p>
+<li><p>Modify 26.7.19.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>

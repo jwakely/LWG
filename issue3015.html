@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3><a name="3015" href="lwg-defects.html#3015">3015</a>. <tt>copy_options::<i>unspecified</i></tt> underspecified</h3>
-<p><b>Section:</b> 29.12.13.4 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 31.12.13.4 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2017-08-24 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>3
 </p>
@@ -54,7 +54,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-29.12.13.4 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a>/4.8.2 says in the copy-a-directory case <tt>filesystem::copy</tt> performs:
+31.12.13.4 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a>/4.8.2 says in the copy-a-directory case <tt>filesystem::copy</tt> performs:
 <blockquote>
 <pre>
 for (const directory_entry&amp; x : directory_iterator(from))
@@ -79,7 +79,7 @@ I'm fairly sure that what's intended here is to set an otherwise-unused bit in <
 <p>This wording is relative to <a href="https://wg21.link/n4687">N4687</a>.</p>
 
 <ol>
-<li><p>Edit 29.12.13.4 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> p4, bullet 4.8.2 as indicated:</p>
+<li><p>Edit 31.12.13.4 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> p4, bullet 4.8.2 as indicated:</p>
 <blockquote>
 <ol style="list-style-type: none">
 <li><p>(4.7) &mdash; Otherwise, if <tt>is_regular_file(f)</tt>, then:</p>
@@ -107,7 +107,7 @@ for (const directory_entry&amp; x : directory_iterator(from))
   copy(x.path(), to/x.path().filename(), options | copy_options::<i><del>unspecified</del><ins>in-recursive-copy</ins></i>)<ins>;</ins>
 </pre></blockquote>
 <p>
-<ins>where <tt><i>in-recursive-copy</i></tt> is an exposition-only bitmask element of <tt>copy_options</tt> that is not one of the elements in 29.12.8.3 <a href="https://wg21.link/fs.enum.copy.opts">[fs.enum.copy.opts]</a>.</ins>
+<ins>where <tt><i>in-recursive-copy</i></tt> is an exposition-only bitmask element of <tt>copy_options</tt> that is not one of the elements in 31.12.8.3 <a href="https://wg21.link/fs.enum.copy.opts">[fs.enum.copy.opts]</a>.</ins>
 </p>
 </blockquote>
 </li>
@@ -132,7 +132,7 @@ for (const directory_entry&amp; x : directory_iterator(from))
 <p>This wording is relative to <a href="https://wg21.link/n4687">N4687</a>.</p>
 
 <ol>
-<li><p>Edit 29.12.13.4 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> p4, bullet 4.8.2 as indicated:</p>
+<li><p>Edit 31.12.13.4 <a href="https://wg21.link/fs.op.copy">[fs.op.copy]</a> p4, bullet 4.8.2 as indicated:</p>
 <blockquote>
 <ol style="list-style-type: none">
 <li><p>(4.7) &mdash; Otherwise, if <tt>is_regular_file(f)</tt>, then:</p>
@@ -160,7 +160,7 @@ for (const directory_entry&amp; x : directory_iterator(from))
   copy(x.path(), to/x.path().filename(), options | copy_options::<i><del>unspecified</del><ins>in-recursive-copy</ins></i>)<ins>;</ins>
 </pre></blockquote>
 <p>
-<ins>where <tt><i>in-recursive-copy</i></tt> is an bitmask element of <tt>copy_options</tt> that is not one of the elements in 29.12.8.3 <a href="https://wg21.link/fs.enum.copy.opts">[fs.enum.copy.opts]</a>.</ins>
+<ins>where <tt><i>in-recursive-copy</i></tt> is an bitmask element of <tt>copy_options</tt> that is not one of the elements in 31.12.8.3 <a href="https://wg21.link/fs.enum.copy.opts">[fs.enum.copy.opts]</a>.</ins>
 </p>
 </blockquote>
 </li>

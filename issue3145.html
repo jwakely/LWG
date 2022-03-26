@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3><a name="3145" href="lwg-defects.html#3145">3145</a>. <tt>file_clock</tt> breaks ABI for C++17 implementations</h3>
-<p><b>Section:</b> 27.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 29.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Billy Robert O'Neal III <b>Opened:</b> 2018-07-26 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>1
 </p>
@@ -74,12 +74,12 @@ This wording is relative to <a href="https://wg21.link/n4750">N4750</a>.
 
 <ol>
 <li>
-<p>Change 27.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
+<p>Change 29.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 [&hellip;]
-<i>// 27.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a>, <del>class</del><ins>type</ins> file_clock</i>
+<i>// 29.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a>, <del>class</del><ins>type</ins> file_clock</i>
 <del>class</del><ins>using</ins> file_clock <ins>= <i>unspecified</i></ins>;
 [&hellip;]
 </pre>
@@ -87,7 +87,7 @@ This wording is relative to <a href="https://wg21.link/n4750">N4750</a>.
 </li>
 
 <li>
-<p>Change 27.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a> as indicated:</p>
+<p>Change 29.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -97,7 +97,7 @@ This wording is relative to <a href="https://wg21.link/n4750">N4750</a>.
 </li>
 
 <li>
-<p>Change 27.7.6.1 <a href="https://wg21.link/time.clock.file.overview">[time.clock.file.overview]</a>, class <tt>file_clock</tt> synopsis, as indicated:</p>
+<p>Change 29.7.6.1 <a href="https://wg21.link/time.clock.file.overview">[time.clock.file.overview]</a>, class <tt>file_clock</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -119,8 +119,8 @@ namespace std::chrono {
 </pre>
 <p>
 -1- <del>The clock</del> <tt>file_clock</tt> <ins>is an alias for a type meeting the <tt>TrivialClock</tt> requirements 
-(27.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a>), uses a signed arithmetic type for <tt>file_clock::rep</tt>, and</ins> is used to create the 
-<tt>time_point</tt> system used for <tt>file_time_type</tt> (29.12 <a href="https://wg21.link/filesystems">[filesystems]</a>). Its epoch is unspecified.
+(29.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a>), uses a signed arithmetic type for <tt>file_clock::rep</tt>, and</ins> is used to create the 
+<tt>time_point</tt> system used for <tt>file_time_type</tt> (31.12 <a href="https://wg21.link/filesystems">[filesystems]</a>). Its epoch is unspecified.
 <ins>[<i>Note:</i> The type <tt>file_clock</tt> denotes may be in a different namespace than <tt>std::chrono</tt>, 
 such as <tt>std::filesystem</tt>. &mdash; <i>end note</i>]</ins>
 </p>
@@ -128,7 +128,7 @@ such as <tt>std::filesystem</tt>. &mdash; <i>end note</i>]</ins>
 </li>
 
 <li>
-<p>Change 27.7.6.2 <a href="https://wg21.link/time.clock.file.members">[time.clock.file.members]</a> as indicated:</p>
+<p>Change 29.7.6.2 <a href="https://wg21.link/time.clock.file.members">[time.clock.file.members]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -158,12 +158,12 @@ This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.
 
 <ol>
 <li>
-<p>Change 27.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
+<p>Change 29.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 [&hellip;]
-<i>// 27.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a>, <del>class</del><ins>type</ins> file_clock</i>
+<i>// 29.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a>, <del>class</del><ins>type</ins> file_clock</i>
 <del>class</del><ins>using</ins> file_clock <ins>= <i>see below</i></ins>;
 [&hellip;]
 </pre>
@@ -171,7 +171,7 @@ This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.
 </li>
 
 <li>
-<p>Change 27.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a> as indicated:</p>
+<p>Change 29.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -181,7 +181,7 @@ This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.
 </li>
 
 <li>
-<p>Change 27.7.6.1 <a href="https://wg21.link/time.clock.file.overview">[time.clock.file.overview]</a>, class <tt>file_clock</tt> synopsis, as indicated:</p>
+<p>Change 29.7.6.1 <a href="https://wg21.link/time.clock.file.overview">[time.clock.file.overview]</a>, class <tt>file_clock</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -203,9 +203,9 @@ namespace std::chrono {
 </pre>
 <p>
 -1- <del>The clock</del> <tt>file_clock</tt> <ins>is an alias for a type meeting the <tt>TrivialClock</tt> requirements 
-(27.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a>), which uses a signed arithmetic type for <tt>file_clock::rep</tt>. 
+(29.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a>), which uses a signed arithmetic type for <tt>file_clock::rep</tt>. 
 <tt>file_clock</tt></ins> is used to create the <tt>time_point</tt> system used for <tt>file_time_type</tt> 
-(29.12 <a href="https://wg21.link/filesystems">[filesystems]</a>). Its epoch is unspecified<ins>, and <tt>noexcept(file_clock::now())</tt> is 
+(31.12 <a href="https://wg21.link/filesystems">[filesystems]</a>). Its epoch is unspecified<ins>, and <tt>noexcept(file_clock::now())</tt> is 
 <tt>true</tt></ins>. <ins>[<i>Note:</i> The type <tt>file_clock</tt> denotes may be in a different namespace 
 than <tt>std::chrono</tt>, such as <tt>std::filesystem</tt>. &mdash; <i>end note</i>]</ins>
 </p>
@@ -213,7 +213,7 @@ than <tt>std::chrono</tt>, such as <tt>std::filesystem</tt>. &mdash; <i>end note
 </li>
 
 <li>
-<p>Change 27.7.6.2 <a href="https://wg21.link/time.clock.file.members">[time.clock.file.members]</a> as indicated:</p>
+<p>Change 29.7.6.2 <a href="https://wg21.link/time.clock.file.members">[time.clock.file.members]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -246,12 +246,12 @@ This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.
 
 <ol>
 <li>
-<p>Change 27.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
+<p>Change 29.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 [&hellip;]
-<i>// 27.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a>, <del>class</del><ins>type</ins> file_clock</i>
+<i>// 29.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a>, <del>class</del><ins>type</ins> file_clock</i>
 <del>class</del><ins>using</ins> file_clock <ins>= <i>see below</i></ins>;
 [&hellip;]
 </pre>
@@ -259,7 +259,7 @@ This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.
 </li>
 
 <li>
-<p>Change 27.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a> as indicated:</p>
+<p>Change 29.7.6 <a href="https://wg21.link/time.clock.file">[time.clock.file]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -269,7 +269,7 @@ This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.
 </li>
 
 <li>
-<p>Change 27.7.6.1 <a href="https://wg21.link/time.clock.file.overview">[time.clock.file.overview]</a>, class <tt>file_clock</tt> synopsis, as indicated:</p>
+<p>Change 29.7.6.1 <a href="https://wg21.link/time.clock.file.overview">[time.clock.file.overview]</a>, class <tt>file_clock</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -291,9 +291,9 @@ namespace std::chrono {
 </pre>
 <p>
 -1- <del>The clock</del> <tt>file_clock</tt> <ins>is an alias for a type meeting the <tt>Cpp17TrivialClock</tt> requirements 
-(27.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a>), and using a signed arithmetic type for <tt>file_clock::rep</tt>. 
+(29.3 <a href="https://wg21.link/time.clock.req">[time.clock.req]</a>), and using a signed arithmetic type for <tt>file_clock::rep</tt>. 
 <tt>file_clock</tt></ins> is used to create the <tt>time_point</tt> system used for <tt>file_time_type</tt> 
-(29.12 <a href="https://wg21.link/filesystems">[filesystems]</a>). Its epoch is unspecified<ins>, and <tt>noexcept(file_clock::now())</tt> is 
+(31.12 <a href="https://wg21.link/filesystems">[filesystems]</a>). Its epoch is unspecified<ins>, and <tt>noexcept(file_clock::now())</tt> is 
 <tt>true</tt></ins>. <ins>[<i>Note:</i> The type that <tt>file_clock</tt> denotes may be in a different namespace 
 than <tt>std::chrono</tt>, such as <tt>std::filesystem</tt>. &mdash; <i>end note</i>]</ins>
 </p>
@@ -301,7 +301,7 @@ than <tt>std::chrono</tt>, such as <tt>std::filesystem</tt>. &mdash; <i>end note
 </li>
 
 <li>
-<p>Change 27.7.6.2 <a href="https://wg21.link/time.clock.file.members">[time.clock.file.members]</a> as indicated:</p>
+<p>Change 29.7.6.2 <a href="https://wg21.link/time.clock.file.members">[time.clock.file.members]</a> as indicated:</p>
 
 <blockquote>
 <pre>

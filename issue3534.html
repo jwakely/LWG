@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#LEWG">LEWG</a> status.</em></p>
 <h3><a name="3534" href="lwg-active.html#3534">3534</a>. <tt>ranges::set_intersection</tt> and <tt>ranges::set_difference</tt> algorithm requirements are too strict</h3>
-<p><b>Section:</b> 25.8.7.4 <a href="https://wg21.link/set.intersection">[set.intersection]</a>, 25.8.7.5 <a href="https://wg21.link/set.difference">[set.difference]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
+<p><b>Section:</b> 27.8.7.4 <a href="https://wg21.link/set.intersection">[set.intersection]</a>, 27.8.7.5 <a href="https://wg21.link/set.difference">[set.difference]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
  <b>Submitter:</b> Alexander Bessonov <b>Opened:</b> 2021-03-16 <b>Last modified:</b> 2021-04-24</p>
 <p><b>Priority: </b>3
 </p>
@@ -121,13 +121,13 @@ This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
 </p>
 
 <ol>
-<li><p>Modify 23.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
   [&hellip;]
   
-  <i>// 23.3.7.7 <a href="https://wg21.link/alg.req.mergeable">[alg.req.mergeable]</a>, concept mergeable</i>
+  <i>// 25.3.7.7 <a href="https://wg21.link/alg.req.mergeable">[alg.req.mergeable]</a>, concept mergeable</i>
   <ins>template&lt;class I1, class I2, class Out, 
       class R = ranges::less, class P1 = identity, class P2 = identity&gt;
     concept <i>half-mergeable</i> = <i>see below</i>; <i>// exposition only</i></ins>
@@ -141,7 +141,7 @@ This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
 </blockquote>
 </li>
 
-<li><p>Modify 23.3.7.7 <a href="https://wg21.link/alg.req.mergeable">[alg.req.mergeable]</a> as indicated:</p>
+<li><p>Modify 25.3.7.7 <a href="https://wg21.link/alg.req.mergeable">[alg.req.mergeable]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -177,7 +177,7 @@ template&lt;class I1, class I2, class Out, class R = ranges::less,
 </blockquote>
 </li>
 
-<li><p>Modify 25.8.7.4 <a href="https://wg21.link/set.intersection">[set.intersection]</a> as indicated:</p>
+<li><p>Modify 27.8.7.4 <a href="https://wg21.link/set.intersection">[set.intersection]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -210,7 +210,7 @@ range, in order.
 </blockquote>
 </li>
 
-<li><p>Modify 25.8.7.5 <a href="https://wg21.link/set.difference">[set.difference]</a> as indicated:</p>
+<li><p>Modify 27.8.7.5 <a href="https://wg21.link/set.difference">[set.difference]</a> as indicated:</p>
 
 <blockquote>
 <pre>

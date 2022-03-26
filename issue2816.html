@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3><a name="2816" href="lwg-defects.html#2816">2816</a>. <tt>resize_file</tt> has impossible postcondition</h3>
-<p><b>Section:</b> 29.12.13.34 <a href="https://wg21.link/fs.op.resize.file">[fs.op.resize.file]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 31.12.13.34 <a href="https://wg21.link/fs.op.resize.file">[fs.op.resize.file]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Richard Smith <b>Opened:</b> 2016-11-07 <b>Last modified:</b> 2021-06-06</p>
 <p><b>Priority: </b>3
 </p>
@@ -106,7 +106,7 @@ void resize_file(const path&amp; p, uintmax_t new_size, error_code&amp; ec) noex
 the size that would be returned by <tt>file_size(p)</tt> to be equal to <tt>new_size</tt>, as if
 by POSIX <tt>truncate</tt></ins>.
 <p/>
--2- <i>Throws:</i> As specified in 29.12.5 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
+-2- <i>Throws:</i> As specified in 31.12.5 <a href="https://wg21.link/fs.err.report">[fs.err.report]</a>.
 <p/>
 <del>-3- <i>Remarks:</i> Achieves its postconditions as if by POSIX <tt>truncate()</tt>.</del>
 </p>

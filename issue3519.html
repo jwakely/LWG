@@ -46,7 +46,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3519" href="lwg-defects.html#3519">3519</a>. Incomplete synopses for <tt>&lt;random&gt;</tt> classes</h3>
-<p><b>Section:</b> 26.6.4 <a href="https://wg21.link/rand.eng">[rand.eng]</a>, 26.6.5 <a href="https://wg21.link/rand.adapt">[rand.adapt]</a>, 26.6.9 <a href="https://wg21.link/rand.dist">[rand.dist]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 28.5.4 <a href="https://wg21.link/rand.eng">[rand.eng]</a>, 28.5.5 <a href="https://wg21.link/rand.adapt">[rand.adapt]</a>, 28.5.9 <a href="https://wg21.link/rand.dist">[rand.dist]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2021-02-02 <b>Last modified:</b> 2021-06-12</p>
 <p><b>Priority: </b>3
 </p>
@@ -67,7 +67,7 @@ Add these operators as hidden friends to the respective class synopses.
 
 <p>
 The proposed wording attempts to use a conservative approach in regard to exception specifications. Albeit 
-26.6.4.1 <a href="https://wg21.link/rand.eng.general">[rand.eng.general]</a> p3 says that "no function described in 26.6.4 <a href="https://wg21.link/rand.eng">[rand.eng]</a> throws 
+28.5.4.1 <a href="https://wg21.link/rand.eng.general">[rand.eng.general]</a> p3 says that "no function described in 28.5.4 <a href="https://wg21.link/rand.eng">[rand.eng]</a> throws 
 an exception" (unless specified otherwise), not all implementations have marked the equality operators 
 as <tt>noexcept</tt> (But some do for their engines, such as VS 2019). [No implementations marks the IO 
 stream operators as <tt>noexcept</tt> of-course, because these cannot be prevented to throw exceptions in 
@@ -109,7 +109,7 @@ This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
 </p>
 
 <ol>
-<li><p>Modify 26.6.4.2 <a href="https://wg21.link/rand.eng.lcong">[rand.eng.lcong]</a> as indicated:</p>
+<li><p>Modify 28.5.4.2 <a href="https://wg21.link/rand.eng.lcong">[rand.eng.lcong]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -137,7 +137,7 @@ class linear_congruential_engine {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.4.3 <a href="https://wg21.link/rand.eng.mers">[rand.eng.mers]</a> as indicated:</p>
+<li><p>Modify 28.5.4.3 <a href="https://wg21.link/rand.eng.mers">[rand.eng.mers]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -168,7 +168,7 @@ class mersenne_twister_engine {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.4.4 <a href="https://wg21.link/rand.eng.sub">[rand.eng.sub]</a> as indicated:</p>
+<li><p>Modify 28.5.4.4 <a href="https://wg21.link/rand.eng.sub">[rand.eng.sub]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -196,7 +196,7 @@ class subtract_with_carry_engine {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.5.2 <a href="https://wg21.link/rand.adapt.disc">[rand.adapt.disc]</a> as indicated:</p>
+<li><p>Modify 28.5.5.2 <a href="https://wg21.link/rand.adapt.disc">[rand.adapt.disc]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -224,7 +224,7 @@ class discard_block_engine {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.5.3 <a href="https://wg21.link/rand.adapt.ibits">[rand.adapt.ibits]</a> as indicated:</p>
+<li><p>Modify 28.5.5.3 <a href="https://wg21.link/rand.adapt.ibits">[rand.adapt.ibits]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -252,7 +252,7 @@ class independent_bits_engine {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.5.4 <a href="https://wg21.link/rand.adapt.shuf">[rand.adapt.shuf]</a> as indicated:</p>
+<li><p>Modify 28.5.5.4 <a href="https://wg21.link/rand.adapt.shuf">[rand.adapt.shuf]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -280,7 +280,7 @@ class shuffle_order_engine {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.2.1 <a href="https://wg21.link/rand.dist.uni.int">[rand.dist.uni.int]</a> as indicated:</p>
+<li><p>Modify 28.5.9.2.1 <a href="https://wg21.link/rand.dist.uni.int">[rand.dist.uni.int]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -311,7 +311,7 @@ class uniform_int_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.2.2 <a href="https://wg21.link/rand.dist.uni.real">[rand.dist.uni.real]</a> as indicated:</p>
+<li><p>Modify 28.5.9.2.2 <a href="https://wg21.link/rand.dist.uni.real">[rand.dist.uni.real]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -342,7 +342,7 @@ class uniform_real_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.3.1 <a href="https://wg21.link/rand.dist.bern.bernoulli">[rand.dist.bern.bernoulli]</a> as indicated:</p>
+<li><p>Modify 28.5.9.3.1 <a href="https://wg21.link/rand.dist.bern.bernoulli">[rand.dist.bern.bernoulli]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -372,7 +372,7 @@ class bernoulli_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.3.2 <a href="https://wg21.link/rand.dist.bern.bin">[rand.dist.bern.bin]</a> as indicated:</p>
+<li><p>Modify 28.5.9.3.2 <a href="https://wg21.link/rand.dist.bern.bin">[rand.dist.bern.bin]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -403,7 +403,7 @@ class binomial_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.3.3 <a href="https://wg21.link/rand.dist.bern.geo">[rand.dist.bern.geo]</a> as indicated:</p>
+<li><p>Modify 28.5.9.3.3 <a href="https://wg21.link/rand.dist.bern.geo">[rand.dist.bern.geo]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -434,7 +434,7 @@ class geometric_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.3.4 <a href="https://wg21.link/rand.dist.bern.negbin">[rand.dist.bern.negbin]</a> as indicated:</p>
+<li><p>Modify 28.5.9.3.4 <a href="https://wg21.link/rand.dist.bern.negbin">[rand.dist.bern.negbin]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -465,7 +465,7 @@ class negative_binomial_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.4.1 <a href="https://wg21.link/rand.dist.pois.poisson">[rand.dist.pois.poisson]</a> as indicated:</p>
+<li><p>Modify 28.5.9.4.1 <a href="https://wg21.link/rand.dist.pois.poisson">[rand.dist.pois.poisson]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -496,7 +496,7 @@ class poisson_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.4.2 <a href="https://wg21.link/rand.dist.pois.exp">[rand.dist.pois.exp]</a> as indicated:</p>
+<li><p>Modify 28.5.9.4.2 <a href="https://wg21.link/rand.dist.pois.exp">[rand.dist.pois.exp]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -527,7 +527,7 @@ class exponential_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.4.3 <a href="https://wg21.link/rand.dist.pois.gamma">[rand.dist.pois.gamma]</a> as indicated:</p>
+<li><p>Modify 28.5.9.4.3 <a href="https://wg21.link/rand.dist.pois.gamma">[rand.dist.pois.gamma]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -558,7 +558,7 @@ class gamma_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.4.4 <a href="https://wg21.link/rand.dist.pois.weibull">[rand.dist.pois.weibull]</a> as indicated:</p>
+<li><p>Modify 28.5.9.4.4 <a href="https://wg21.link/rand.dist.pois.weibull">[rand.dist.pois.weibull]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -589,7 +589,7 @@ class weibull_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.4.5 <a href="https://wg21.link/rand.dist.pois.extreme">[rand.dist.pois.extreme]</a> as indicated:</p>
+<li><p>Modify 28.5.9.4.5 <a href="https://wg21.link/rand.dist.pois.extreme">[rand.dist.pois.extreme]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -620,7 +620,7 @@ class extreme_value_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.5.1 <a href="https://wg21.link/rand.dist.norm.normal">[rand.dist.norm.normal]</a> as indicated:</p>
+<li><p>Modify 28.5.9.5.1 <a href="https://wg21.link/rand.dist.norm.normal">[rand.dist.norm.normal]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -651,7 +651,7 @@ class normal_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.5.2 <a href="https://wg21.link/rand.dist.norm.lognormal">[rand.dist.norm.lognormal]</a> as indicated:</p>
+<li><p>Modify 28.5.9.5.2 <a href="https://wg21.link/rand.dist.norm.lognormal">[rand.dist.norm.lognormal]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -682,7 +682,7 @@ class lognormal_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.5.3 <a href="https://wg21.link/rand.dist.norm.chisq">[rand.dist.norm.chisq]</a> as indicated:</p>
+<li><p>Modify 28.5.9.5.3 <a href="https://wg21.link/rand.dist.norm.chisq">[rand.dist.norm.chisq]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -713,7 +713,7 @@ class chi_squared_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.5.4 <a href="https://wg21.link/rand.dist.norm.cauchy">[rand.dist.norm.cauchy]</a> as indicated:</p>
+<li><p>Modify 28.5.9.5.4 <a href="https://wg21.link/rand.dist.norm.cauchy">[rand.dist.norm.cauchy]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -744,7 +744,7 @@ class cauchy_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.5.5 <a href="https://wg21.link/rand.dist.norm.f">[rand.dist.norm.f]</a> as indicated:</p>
+<li><p>Modify 28.5.9.5.5 <a href="https://wg21.link/rand.dist.norm.f">[rand.dist.norm.f]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -775,7 +775,7 @@ class fisher_f_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.5.6 <a href="https://wg21.link/rand.dist.norm.t">[rand.dist.norm.t]</a> as indicated:</p>
+<li><p>Modify 28.5.9.5.6 <a href="https://wg21.link/rand.dist.norm.t">[rand.dist.norm.t]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -806,7 +806,7 @@ class student_t_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.6.1 <a href="https://wg21.link/rand.dist.samp.discrete">[rand.dist.samp.discrete]</a> as indicated:</p>
+<li><p>Modify 28.5.9.6.1 <a href="https://wg21.link/rand.dist.samp.discrete">[rand.dist.samp.discrete]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -837,7 +837,7 @@ class discrete_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.6.2 <a href="https://wg21.link/rand.dist.samp.pconst">[rand.dist.samp.pconst]</a> as indicated:</p>
+<li><p>Modify 28.5.9.6.2 <a href="https://wg21.link/rand.dist.samp.pconst">[rand.dist.samp.pconst]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -868,7 +868,7 @@ class piecewise_constant_distribution {
 </blockquote>
 </li>
 
-<li><p>Modify 26.6.9.6.3 <a href="https://wg21.link/rand.dist.samp.plinear">[rand.dist.samp.plinear]</a> as indicated:</p>
+<li><p>Modify 28.5.9.6.3 <a href="https://wg21.link/rand.dist.samp.plinear">[rand.dist.samp.plinear]</a> as indicated:</p>
 
 <blockquote>
 <pre>
