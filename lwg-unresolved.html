@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-03-26 at 12:49:48 UTC</p>
+<p><p>Revised 2022-03-26 at 13:29:47 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -43168,6 +43168,63 @@ friend constexpr bool operator==(const <i>inner-iterator</i>&amp; x, default_sen
 auto [pcur, pend] = subrange{x.<i>i_</i>.<i>parent_</i>-&gt;<i>pattern_</i>};
 [&hellip;]
 </pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3687" href="#3687">3687</a><sup><a href="https://cplusplus.github.io/LWG/issue3687">(i)</a></sup>. <tt>expected&lt;<i>cv</i> void, E&gt;</tt> move constructor should move</h3>
+<p><b>Section:</b> 22.8.7.4 <a href="https://wg21.link/expected.void.assign">[expected.void.assign]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-03-23 <b>Last modified:</b> 2022-03-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For <tt>expected&lt;<i>cv</i> void&gt;::operator=(expected&amp;&amp;)</tt> we have this 
+in the last bullet of the <i>Effects</i> element:
+</p>
+<blockquote><p>
+Otherwise, equivalent to <tt><i>unex</i> = rhs.error()</tt>.
+</p></blockquote>
+<p>
+That should be a move assignment, not a copy assignment.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.8.7.4 <a href="https://wg21.link/expected.void.assign">[expected.void.assign]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr expected&amp; operator=(expected&amp;&amp; rhs) noexcept(<i>see below</i>);
+</pre>
+<blockquote>
+<p>
+-4- <i>Effects:</i>
+</p>
+<ol style="list-style-type:none">
+<li><p>(4.1) &mdash; If <tt>this-&gt;has_value() &amp;&amp; rhs.has_value()</tt> is <tt>true</tt>, no effects.</p></li>
+<li><p>(4.2) &mdash; Otherwise, if <tt>this-&gt;has_value()</tt> is <tt>true</tt>, equivalent to:</p>
+<blockquote><pre>
+construct_at(addressof(<i>unex</i>), std::move(rhs.<i>unex</i>));
+<i>has_val</i> = false;
+</pre></blockquote>
+</li>
+<li><p>(4.3) &mdash; Otherwise, if <tt>rhs.has_value()</tt> is <tt>true</tt>, destroys <tt><i>unex</i></tt> 
+and sets <tt><i>has_val</i></tt> to <tt>true</tt>.</p></li>
+<li><p>(4.4) &mdash; Otherwise, equivalent to <tt><i>unex</i> = <ins>std::move(</ins>rhs.error()<ins>)</ins></tt>.</p></li>
+</ol>
 </blockquote>
 </blockquote>
 </li>
