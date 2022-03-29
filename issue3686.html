@@ -49,7 +49,7 @@ inner-iterator with std::default_sentinel results in null pointer dereference</t
 <h3><a name="3686" href="lwg-active.html#3686">3686</a>. In <tt>lazy_split_view</tt>, comparing a default-constructed <tt><i>outer-iterator</i></tt> or 
 <tt><i>inner-iterator</i></tt> with <tt>std::default_sentinel</tt> results in null pointer dereference</h3>
 <p><b>Section:</b> 26.7.14.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a>, 26.7.14.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Konstantin Varlamov <b>Opened:</b> 2022-03-23 <b>Last modified:</b> 2022-03-26</p>
+ <b>Submitter:</b> Konstantin Varlamov <b>Opened:</b> 2022-03-23 <b>Last modified:</b> 2022-03-29</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -91,11 +91,9 @@ auto [pcur, pend] = subrange{x.<i>i_</i>.<i>parent_</i>-&gt;<i>pattern_</i>};
 <tt><i>outer-iterator</i></tt> member variable and <tt><i>i_</i>.<i>parent_</i></tt> is null, making the 
 access to <tt><i>pattern_</i></tt> invalid)
 <p/>
-Note that neither <tt>operator==</tt> defines any preconditions.
-<p/>
 It seems a reasonable expectation for users to expect comparing a default-constructed iterator to 
 <tt>std::default_sentinel</tt> to be a well-defined operation that returns <tt>true</tt>. Alternatively, 
-the corresponding <tt>operator==</tt> functions could have a <i>Preconditions:</i> element stating that the 
+the corresponding <tt>operator==</tt> functions should add a non-normative note stating that the 
 iterator cannot be default-constructed.
 </p>
 
