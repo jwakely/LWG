@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-03-30 at 15:21:48 UTC</p>
+<p><p>Revised 2022-03-30 at 15:25:37 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42879,7 +42879,7 @@ namespace std::pmr {
 <hr>
 <h3><a name="3684" href="#3684">3684</a><sup><a href="https://cplusplus.github.io/LWG/issue3684">(i)</a></sup>. <tt>std::allocator&lt;T&gt;::allocate_at_least</tt> in constant evaluation</h3>
 <p><b>Section:</b> 20.2.9.2 <a href="https://wg21.link/allocator.members">[allocator.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-03-22 <b>Last modified:</b> 2022-03-26</p>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-03-22 <b>Last modified:</b> 2022-03-30</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#allocator.members">issues</a> in [allocator.members].</p>
@@ -42912,7 +42912,7 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 -6- <i>Mandates:</i> <tt>T</tt> is not an incomplete type (6.8.1 <a href="https://wg21.link/basic.types.general">[basic.types.general]</a>).
 <p/>
 -7- <i>Returns:</i> <tt>allocation_result&lt;T*&gt;{ptr, count}</tt>, where <tt>ptr</tt> is a pointer 
-to the initial element of an array of <tt>count T</tt> and <tt>count = n</tt>.
+to the initial element of an array of <tt>count T</tt> and <tt>count &ge; n</tt>.
 <p/>
 -8- <i>Throws:</i> <tt>bad_array_new_length</tt> if <tt>numeric_limits&lt;size_t&gt;::max() / sizeof(T) &lt; n</tt>, 
 or <tt>bad_alloc</tt> if the storage cannot be obtained.
