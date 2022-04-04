@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3689" href="lwg-active.html#3689">3689</a>. <tt>num_get</tt> overflow determination unclear and incorrect</h3>
 <p><b>Section:</b> 30.4.3.2.3 <a href="https://wg21.link/facet.num.get.virtuals">[facet.num.get.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-03-28 <b>Last modified:</b> 2022-04-03</p>
+ <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-03-28 <b>Last modified:</b> 2022-04-04</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#facet.num.get.virtuals">active issues</a> in [facet.num.get.virtuals].</p>
@@ -88,7 +88,8 @@ that do not match existing practice (and are presumably unintended). The interpr
 <tt>unsigned long long</tt> does not work as well for <tt>signed long long</tt>.
 <p/>
 If the field does not "represent" the mathematical value, then for floating-point types, it is unclear whether 
-the minus sign takes effect before or after any possible rounding.
+the minus sign takes effect before or after any possible rounding. For literals, the minus sign takes effect after 
+rounding.
 <p/>
 Issue 3: The effect of the minus sign with respect to floating-point types is unclear.
 <p/>
@@ -96,7 +97,7 @@ Lastly, for floating-point types with signed infinities, there are no finite val
 representable values; therefore, conversions of all finite values to such types are specified to "succeed". That 
 does not match existing implementation practice.
 <p/>
-Issue 4: The conditions for identifying range-related errors for conversions to floating-point types does not match 
+Issue 4: The conditions for identifying range-related errors for conversions to floating-point types do not match 
 the conditions that constitute overflow for floating-point types. There is implementation divergence: libc++ appears 
 to check for floating-point overflow; libstdc++ appears to check for infinities.
 </p>
