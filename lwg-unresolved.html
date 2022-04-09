@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-04-04 at 15:55:27 UTC</p>
+<p><p>Revised 2022-04-09 at 14:25:13 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -43333,6 +43333,39 @@ does not match existing implementation practice.
 Issue 4: The conditions for identifying range-related errors for conversions to floating-point types do not match 
 the conditions that constitute overflow for floating-point types. There is implementation divergence: libc++ appears 
 to check for floating-point overflow; libstdc++ appears to check for infinities.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3690" href="#3690">3690</a><sup><a href="https://cplusplus.github.io/LWG/issue3690">(i)</a></sup>. <tt>std::make_from_tuple</tt> etc. should find all tuple-like <tt>std::get</tt> overloads</h3>
+<p><b>Section:</b> 16.4.2.2 <a href="https://wg21.link/contents">[contents]</a>, 22.4.5 <a href="https://wg21.link/tuple.apply">[tuple.apply]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-04-06 <b>Last modified:</b> 2022-04-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#contents">issues</a> in [contents].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently it is not clear in 16.4.2.2 <a href="https://wg21.link/contents">[contents]</a>/3 whether all possible overloads in the 
+standard library are considered to be found "in the context of <tt>D</tt>". As a result, it 
+seems underspecified whether a certain <tt>std::get</tt> overload is found by <tt>std::tuple_cat</tt>, 
+<tt>std::make_from_tuple</tt>, <tt>std::apply</tt>, or exposition-only concept <tt><i>pair-like</i></tt> 
+or <tt><i>has-tuple-element</i></tt>.
+<p/>
+There is implementation divergence: MSVC STL's <tt>std::make_from_tuple</tt> accepts 
+<tt>std::ranges::subrange</tt>, but libstdc++'s doesn't, which is originally discussed in 
+<a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102301">GCC bug #102301</a>.
+<p/>
+IMO <tt>std::get</tt> overloads need some special rules: when referred by tuple-like facilities, 
+overloads for <tt>std::variant</tt> should be excluded (or at least leave whether it's found 
+unspecified), and all other overloads should be found; and the opposite rule should be used 
+when referred in 22.6 <a href="https://wg21.link/variant">[variant]</a>.
 </p>
 
 

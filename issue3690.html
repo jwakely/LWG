@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3690: std::make_from_tuple etc. should find all tuple-like std::get overloads</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+  @media (prefers-color-scheme: dark) {
+     html {
+        color: #ddd;
+        background-color: black;
+     }
+     ins {
+        background-color: #225522
+     }
+     del {
+        background-color: #662222
+     }
+     a {
+        color: #6af
+     }
+     a:visited {
+        color: #6af
+     }
+     blockquote.note
+     {
+        background-color: rgba(255, 255, 255, .10)
+     }
+  }
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3690" href="lwg-active.html#3690">3690</a>. <tt>std::make_from_tuple</tt> etc. should find all tuple-like <tt>std::get</tt> overloads</h3>
+<p><b>Section:</b> 16.4.2.2 <a href="https://wg21.link/contents">[contents]</a>, 22.4.5 <a href="https://wg21.link/tuple.apply">[tuple.apply]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-04-06 <b>Last modified:</b> 2022-04-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#contents">issues</a> in [contents].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently it is not clear in 16.4.2.2 <a href="https://wg21.link/contents">[contents]</a>/3 whether all possible overloads in the 
+standard library are considered to be found "in the context of <tt>D</tt>". As a result, it 
+seems underspecified whether a certain <tt>std::get</tt> overload is found by <tt>std::tuple_cat</tt>, 
+<tt>std::make_from_tuple</tt>, <tt>std::apply</tt>, or exposition-only concept <tt><i>pair-like</i></tt> 
+or <tt><i>has-tuple-element</i></tt>.
+<p/>
+There is implementation divergence: MSVC STL's <tt>std::make_from_tuple</tt> accepts 
+<tt>std::ranges::subrange</tt>, but libstdc++'s doesn't, which is originally discussed in 
+<a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102301">GCC bug #102301</a>.
+<p/>
+IMO <tt>std::get</tt> overloads need some special rules: when referred by tuple-like facilities, 
+overloads for <tt>std::variant</tt> should be excluded (or at least leave whether it's found 
+unspecified), and all other overloads should be found; and the opposite rule should be used 
+when referred in 22.6 <a href="https://wg21.link/variant">[variant]</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+</body>
+</html>
