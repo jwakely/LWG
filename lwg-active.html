@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-04-20 at 15:58:51 UTC</p>
+<p><p>Revised 2022-04-20 at 17:09:48 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -23090,6 +23090,46 @@ shall be equal to the value that <tt>rv</tt> had
 before this assignment.
 </p>
 <p>-20- <i>Complexity:</i> Linear.  </p>
+
+<p>[&hellip;]</p>
+
+<pre>
+  <del>a</del><ins>b</ins>.begin()
+</pre>
+<p>-24- <i>Result:</i> <tt>iterator</tt>; <tt>const_iterator</tt> for constant <del>a</del><ins>b</ins>. </p>
+<p>-25- <i>Returns:</i>
+An iterator referring to the first element in the container.
+</p>
+<p>-26- <i>Complexity:</i> Constant. </p>
+
+<pre>
+  <del>a</del><ins>b</ins>.end()
+</pre>
+<p>-27- <i>Result:</i> <tt>iterator</tt>; <tt>const_iterator</tt> for constant <del>a</del><ins>b</ins>. </p>
+<p>-28- <i>Returns:</i>
+An iterator which is the past-the-end value for the container.
+</p>
+<p>-29- <i>Complexity:</i> Constant. </p>
+
+<pre>
+  <del>a</del><ins>b</ins>.cbegin()
+</pre>
+<p>-30- <i>Result:</i> <tt>const_iterator</tt>. </p>
+<p>-31- <i>Returns:</i>
+<tt>const_cast&lt;X const&amp;>(<del>a</del><ins>b</ins>).begin()</tt>
+</p>
+<p>-32- <i>Complexity:</i> Constant. </p>
+
+<pre>
+  <del>a</del><ins>b</ins>.cend()
+</pre>
+<p>-33- <i>Result:</i> <tt>const_iterator</tt>. </p>
+<p>-34- <i>Returns:</i>
+<tt>const_cast&lt;X const&amp;>(<del>a</del><ins>b</ins>).end()</tt>
+</p>
+<p>-35- <i>Complexity:</i> Constant. </p>
+
+
 
 <p>[&hellip;]</p>
 
