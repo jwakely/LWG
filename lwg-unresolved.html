@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-04-25 at 12:34:06 UTC</p>
+<p><p>Revised 2022-04-25 at 14:12:38 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -22558,7 +22558,7 @@ from that of <tt>atomic&lt;T*&gt;</tt>. <i>end drafting note</i>]
 <hr>
 <h3><a name="3049" href="#3049">3049</a><sup><a href="https://cplusplus.github.io/LWG/issue3049">(i)</a></sup>. Missing wording allowing algorithms to use copies of function objects as substitutes for their parameters</h3>
 <p><b>Section:</b> 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jared Hoberock <b>Opened:</b> 2017-12-04 <b>Last modified:</b> 2020-09-06</p>
+ <b>Submitter:</b> Jared Hoberock <b>Opened:</b> 2017-12-04 <b>Last modified:</b> 2022-04-25</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#algorithms.requirements">issues</a> in [algorithms.requirements].</p>
@@ -22600,9 +22600,13 @@ function objects.
 
 <p>We thought that the notes in [alg.foreach]/1 and /11 should be unwrapped as well. Bryce to work with Jared on updated wording.</p>
 
-
-<p><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/n4713">N4713</a>.</p>
+<p>
+<strong>Previous resolution [SUPERSEDED]:</strong>
+</p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4713">N4713</a>.
+</p>
 
 <ol>
 <li><p>Modify 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> as indicated:</p>
@@ -22679,6 +22683,103 @@ template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Func
 [&hellip;]
 <p/>
 -18- <i>Effects:</i> Applies <ins>the function object</ins> <tt>f</tt> to the result of dereferencing every iterator in the range 
+<tt>[first, first + n).</tt> [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2022-04-25; Daniel rebases wording on <a href="https://wg21.link/N4910">N4910</a>]</i></p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-10- <del>[<i>Note 2:</i></del> Unless otherwise specified, algorithms that take function objects as arguments 
+<del>can</del><ins>are permitted to</ins> copy those function objects freely. <ins>When an algorithm's 
+specification requires the invocation of a function object parameter, such a copy may be invoked as a substitute 
+for the original function object parameter.
+[<i>Note:</i> This implies that copyable user-supplied function objects should not rely on their identity.</ins> 
+If object identity is important, a wrapper class that points to a noncopied implementation object such as 
+<tt>reference_wrapper&lt;T&gt;</tt> (22.10.6 <a href="https://wg21.link/refwrap">[refwrap]</a>), or some equivalent solution, can be used. &mdash; 
+<i>end note</i>]
+</p>
+</blockquote>
+
+</li>
+
+<li><p>Modify 27.6.4 <a href="https://wg21.link/alg.foreach">[alg.foreach]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class InputIterator, class Function&gt;
+  constexpr Function for_each(InputIterator first, InputIterator last, Function f);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-2- <i>Effects:</i> Applies <ins>the function object</ins> <tt>f</tt> to the result of dereferencing every iterator in the range 
+<tt>[first, last)</tt>, [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template&lt;class ExecutionPolicy, class ForwardIterator, class Function&gt;
+  void for_each(ExecutionPolicy&amp;&amp; exec,
+                ForwardIterator first, ForwardIterator last,
+                Function f);
+</pre>
+<blockquote>
+<p>
+<del>-6- <i>Preconditions:</i> <tt>Function</tt> meets the <i>Cpp17CopyConstructible</i> requirements.</del>
+<p/>
+-7- <i>Effects:</i> Applies <ins>the function object</ins> <tt>f</tt> to the result of dereferencing every iterator in the range 
+<tt>[first, last)</tt>. [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template&lt;class InputIterator, class Size, class Function&gt;
+constexpr InputIterator for_each_n(InputIterator first, Size n, Function f);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-18- <i>Effects:</i> Applies <ins>the function object</ins> <tt>f</tt> to the result of dereferencing every iterator in the range 
+<tt>[first, first + n)</tt> in order. [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template&lt;class ExecutionPolicy, class ForwardIterator, class Size, class Function&gt;
+  ForwardIterator for_each_n(ExecutionPolicy&amp;&amp; exec, ForwardIterator first, Size n,
+                             Function f);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-22- <i>Preconditions:</i> <tt>n &gt;= 0</tt> is <tt>true</tt>. <del><tt>Function</tt> meets the 
+<tt>Cpp17CopyConstructible</tt> requirements.</del>
+<p/>
+-23- <i>Effects:</i> Applies <ins>the function object</ins> <tt>f</tt> to the result of dereferencing every iterator in the range 
 <tt>[first, first + n).</tt> [&hellip;]
 <p/>
 [&hellip;]
