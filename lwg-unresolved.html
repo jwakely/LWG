@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-05-07 at 16:44:48 UTC</p>
+<p><p>Revised 2022-05-07 at 16:59:52 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -13427,6 +13427,7 @@ See also the discussion following <a href="http://listarchives.isocpp.org/cgi-bi
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2015-06-26 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>4
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#strings.general">active issues</a> in [strings.general].</p>
 <p><b>View all other</b> <a href="lwg-index.html#strings.general">issues</a> in [strings.general].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -44846,6 +44847,34 @@ way may be
 <li><p>using <tt>==</tt> and only imposing the requirement when <tt>char_type</tt> is an encoded 
 character type (or more generally, a scalar type, while treating an enum type as its underlying type).</p></li>
 </ul>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3695" href="#3695">3695</a><sup><a href="https://cplusplus.github.io/LWG/issue3695">(i)</a></sup>. The standard-layout property of char-like types serves for nothing</h3>
+<p><b>Section:</b> 23.1 <a href="https://wg21.link/strings.general">[strings.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-05-07 <b>Last modified:</b> 2022-05-07</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#strings.general">active issues</a> in [strings.general].</p>
+<p><b>View all other</b> <a href="lwg-index.html#strings.general">issues</a> in [strings.general].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently char-like types are defined as non-array trivial and standard-layout types (23.1 <a href="https://wg21.link/strings.general">[strings.general]</a>). 
+However, as far as I know, there is no actual operation specified in the standard or used in implementations 
+requiring a char-like type to be standard-layout (unlike the triviality, which is related to <tt>charT()</tt>, etc.). 
+Implementations are merely <tt>static_assert</tt>-ing the standard-layout property of element types.
+<p/>
+As the standard library almost never requires a user-provided type to be standard-layout now (other suspicious 
+exceptions are program-defined specializations of <tt>std::atomic&lt;T*&gt;</tt>), I think char-like types should 
+just be non-array trivial types.
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
