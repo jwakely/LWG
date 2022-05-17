@@ -47,8 +47,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3682" href="lwg-active.html#3682">3682</a>. A <i>Cpp17Allocator</i> type can't silently ignore an unsupported alignment</h3>
 <p><b>Section:</b> 16.4.4.6.1 <a href="https://wg21.link/allocator.requirements.general">[allocator.requirements.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-03-18 <b>Last modified:</b> 2022-03-19</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-03-18 <b>Last modified:</b> 2022-05-17</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -61,6 +61,25 @@ requested alignment".
 <p/>
 IMO the allowance is contradictory and should be removed.
 </p>
+
+<p><i>[2022-05-17; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p>
+"You can allocate from such an allocator but you can't construct objects
+in the allocated memory without manually checking the alignment of the
+returned pointer. That doesn't seem useful in practice."
+</p>
+<p>
+"maybe even NAD/LEWG? I can't see us declaring most in-the-wild allocators
+to no longer be allocators. If anything, a design change is necessary to have
+a protocol for allocators to declare proper support for overalignment and for
+<tt>allocator_traits</tt> to implement such support "manually" for older
+allocators."
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>

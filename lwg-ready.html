@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2022-05-14 at 12:20:01 UTC</p>
+<td align="left"><p>Revised 2022-05-17 at 11:58:26 UTC</p>
 </td>
 </tr>
 <tr>
@@ -67,7 +67,7 @@
 <hr>
 <h3><a name="3649" href="#3649">3649</a><sup><a href="https://cplusplus.github.io/LWG/issue3649">(i)</a></sup>. [fund.ts.v3] Reinstate and bump <tt>__cpp_lib_experimental_memory_resource</tt> feature test macro</h3>
 <p><b>Section:</b> 1.5 [fund.ts.v3::general.feature.test] <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-12-03 <b>Last modified:</b> 2022-02-14</p>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-12-03 <b>Last modified:</b> 2022-02-11</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -163,7 +163,7 @@ This wording is relative to <a href="https://wg21.link/N4853">N4853</a>.
 <hr>
 <h3><a name="3670" href="#3670">3670</a><sup><a href="https://cplusplus.github.io/LWG/issue3670">(i)</a></sup>. <i>Cpp17InputIterator</i>s don't have integer-class difference types</h3>
 <p><b>Section:</b> 26.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-02-04 <b>Last modified:</b> 2022-03-05</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-02-04 <b>Last modified:</b> 2022-02-09</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.iota.iterator">issues</a> in [range.iota.iterator].</p>
@@ -263,7 +263,7 @@ namespace std::ranges {
 <hr>
 <h3><a name="3671" href="#3671">3671</a><sup><a href="https://cplusplus.github.io/LWG/issue3671">(i)</a></sup>. <tt>atomic_fetch_xor</tt> missing from <tt>stdatomic.h</tt></h3>
 <p><b>Section:</b> 33.5.12 <a href="https://wg21.link/stdatomic.h.syn">[stdatomic.h.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-02-09 <b>Last modified:</b> 2022-03-05</p>
+ <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-02-09 <b>Last modified:</b> 2022-02-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -325,7 +325,7 @@ using std::atomic_fetch_and_explicit;          <i>// see below</i>
 <hr>
 <h3><a name="3672" href="#3672">3672</a><sup><a href="https://cplusplus.github.io/LWG/issue3672">(i)</a></sup>. <tt>common_iterator::operator-&gt;()</tt> should return by value</h3>
 <p><b>Section:</b> 25.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-02-12 <b>Last modified:</b> 2022-03-05</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-02-12 <b>Last modified:</b> 2022-03-04</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#common.iter.access">issues</a> in [common.iter.access].</p>
@@ -419,6 +419,335 @@ public:
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3683" href="#3683">3683</a><sup><a href="https://cplusplus.github.io/LWG/issue3683">(i)</a></sup>. <tt>operator==</tt> for <tt>polymorphic_allocator</tt> cannot deduce template argument in common cases</h3>
+<p><b>Section:</b> 20.4.3 <a href="https://wg21.link/mem.poly.allocator.class">[mem.poly.allocator.class]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2022-03-18 <b>Last modified:</b> 2022-05-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#mem.poly.allocator.class">issues</a> in [mem.poly.allocator.class].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In <tt>&lt;memory_resource&gt;</tt>, the equality comparison operator for <tt>pmr::polymorphic_allocator</tt> 
+is declared in namespace scope as:
+</p>
+<blockquote><pre>
+template&lt;class T1, class T2&gt;
+  bool operator==(const polymorphic_allocator&lt;T1&gt;&amp; a,
+                  const polymorphic_allocator&lt;T2&gt;&amp; b) noexcept;
+</pre></blockquote>
+<p>
+Since <tt>polymorphic_allocator</tt> is implicitly convertible from <tt>memory_resource*</tt>, 
+one would naively expect &mdash; and the author of <tt>polymorphic_allocator</tt> intended 
+&mdash; the following code to work:
+</p>
+<blockquote><pre>
+std::pmr::unsynchronized_pool_resource pool_rsrc;
+std::pmr::vector&lt;int&gt; vec(&amp;pool_rsrc); // Converts to std::pmr::polymorphic_allocator&lt;int&gt;
+[&hellip;]
+assert(vec.get_allocator() == &amp;pool_rsrc);  // (1) Compare polymorphic_allocator to memory_resource*
+</pre></blockquote>
+<p>
+Unfortunately, the line labeled (1) is ill-formed because the type <tt>T2</tt> in <tt>operator==</tt> cannot be deduced.
+<p/>
+Possible resolution 1 (PR1) is to supply a second <tt>operator==</tt>, overloaded for comparison to 
+<tt>memory_resource*</tt>:
+</p>
+<blockquote><pre>
+template&lt;class T1, class T2&gt;
+  bool operator==(const polymorphic_allocator&lt;T1&gt;&amp; a,
+                  const polymorphic_allocator&lt;T2&gt;&amp; b) noexcept;
+<ins>template&lt;class T&gt;
+  bool operator==(const polymorphic_allocator&lt;T&gt;&amp; a,
+                  memory_resource* b) noexcept;</ins>
+</pre></blockquote>
+<p>
+The rules for implicitly defined spaceship and comparison operators obviates defining <tt>operator!=</tt> 
+or <tt>operator==(b, a)</tt>. This PR would allow <tt>polymorphic_allocator</tt> to be compared for equality 
+with <tt>memory_resource*</tt>, but not with any other type that is convertible to <tt>polymorphic_allocator</tt>.
+<p/>
+Possible resolution 2 (PR2) is to replace <tt>operator==</tt> with a homogeneous version where type deduction 
+occurs only for one template parameter:
+</p>
+<blockquote><pre>
+<del>template&lt;class T1, class T2&gt;
+  bool operator==(const polymorphic_allocator&lt;T1&gt;&amp; a,
+                  const polymorphic_allocator&lt;T2&gt;&amp; b) noexcept;</del>
+<ins>template&lt;class T&gt;
+  bool operator==(const polymorphic_allocator&lt;T&gt;&amp; a,
+                  const type_identity_t&lt;polymorphic_allocator&lt;T&gt;&gt;&amp; b) noexcept;</ins>
+</pre></blockquote>
+<p>
+This version will work with any type that is convertible to <tt>polymorphic_allocator</tt>.
+<p/>
+Possible resolution 3 (PR3), the proposed resolution, below, is to add a homogeneous equality operator 
+as a "hidden friend", such that it is found by ADL only if one argument is a <tt>polymorphic_allocator</tt> 
+and the other argument is convertible to <tt>polymorphic_allocator</tt>. As with PR2, this PR will work 
+with any type that is convertible to <tt>polymorphic_allocator</tt>.
+</p>
+
+<blockquote class="note">
+<p>
+Note to reader: Proof of concept for the three possible resolutions can be seen at 
+<a href="https://godbolt.org/z/1oqG66qqe">this godbolt link</a>. Uncomment one of PR1, PR2, 
+or PR3 macros to see the effects of each PR.
+</p>
+</blockquote>
+
+<p><i>[2022-05-17; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.4.3 <a href="https://wg21.link/mem.poly.allocator.class">[mem.poly.allocator.class]</a>, class template <tt>polymorphic_allocator</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::pmr {
+  template&lt;class Tp = byte&gt; class polymorphic_allocator {
+    memory_resource* memory_rsrc; <i>// exposition only</i>
+
+  public:
+    using value_type = Tp;
+
+    [&hellip;]
+    memory_resource* resource() const;
+    
+    <ins><i>// friends</i>
+    friend bool operator==(const polymorphic_allocator&amp; a,
+                           const polymorphic_allocator&amp; b) noexcept {
+      return *a.resource() == *b.resource();
+    }</ins>
+  };
+}
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3687" href="#3687">3687</a><sup><a href="https://cplusplus.github.io/LWG/issue3687">(i)</a></sup>. <tt>expected&lt;<i>cv</i> void, E&gt;</tt> move constructor should move</h3>
+<p><b>Section:</b> 22.8.7.4 <a href="https://wg21.link/expected.void.assign">[expected.void.assign]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-03-23 <b>Last modified:</b> 2022-05-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For <tt>expected&lt;<i>cv</i> void&gt;::operator=(expected&amp;&amp;)</tt> we have this 
+in the last bullet of the <i>Effects</i> element:
+</p>
+<blockquote><p>
+Otherwise, equivalent to <tt><i>unex</i> = rhs.error()</tt>.
+</p></blockquote>
+<p>
+That should be a move assignment, not a copy assignment.
+</p>
+
+<p><i>[2022-05-17; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after eight votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.8.7.4 <a href="https://wg21.link/expected.void.assign">[expected.void.assign]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr expected&amp; operator=(expected&amp;&amp; rhs) noexcept(<i>see below</i>);
+</pre>
+<blockquote>
+<p>
+-4- <i>Effects:</i>
+</p>
+<ol style="list-style-type:none">
+<li><p>(4.1) &mdash; If <tt>this-&gt;has_value() &amp;&amp; rhs.has_value()</tt> is <tt>true</tt>, no effects.</p></li>
+<li><p>(4.2) &mdash; Otherwise, if <tt>this-&gt;has_value()</tt> is <tt>true</tt>, equivalent to:</p>
+<blockquote><pre>
+construct_at(addressof(<i>unex</i>), std::move(rhs.<i>unex</i>));
+<i>has_val</i> = false;
+</pre></blockquote>
+</li>
+<li><p>(4.3) &mdash; Otherwise, if <tt>rhs.has_value()</tt> is <tt>true</tt>, destroys <tt><i>unex</i></tt> 
+and sets <tt><i>has_val</i></tt> to <tt>true</tt>.</p></li>
+<li><p>(4.4) &mdash; Otherwise, equivalent to <tt><i>unex</i> = <ins>std::move(</ins>rhs.error()<ins>)</ins></tt>.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3692" href="#3692">3692</a><sup><a href="https://cplusplus.github.io/LWG/issue3692">(i)</a></sup>. <tt>zip_view::<i>iterator</i></tt>'s <tt>operator&lt;=&gt;</tt> is overconstrained</h3>
+<p><b>Section:</b> 26.7.20.3 <a href="https://wg21.link/range.zip.iterator">[range.zip.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-04-21 <b>Last modified:</b> 2022-05-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>zip_view::<i>iterator</i></tt>'s <tt>operator&lt;=&gt;</tt> is constrained with 
+<tt>(three_way_comparable&lt;iterator_t&lt;<i>maybe-const</i>&lt;Const, Views>>> &amp;&amp; ...)</tt>. 
+This is unnecessary, because the comparison is performed on the stored <tt><i>tuple-or-pair</i></tt>, 
+and both <tt>std::tuple</tt> and <tt>std::pair</tt> provide <tt>operator&lt;=&gt;</tt> regardless of 
+whether the elements are three-way comparable.
+<p/>
+Note that, because neither <tt>std::tuple</tt> nor <tt>std::pair</tt> provides <tt>operator&lt;</tt> 
+since C++20, comparing two <tt>zip::<i>iterator</i></tt>s with <tt>operator&lt;</tt> (which is specified 
+to return <tt>x.<i>current_</i> &lt; y.<i>current_</i></tt>, where <tt><i>current_</i></tt> is a 
+<tt><i>tuple-or-pair</i></tt>) eventually uses <tt>tuple</tt> or <tt>pair</tt>'s <tt>operator&lt;=&gt;</tt> 
+anyway.
+<p/>
+Thus, I think it's possible to make <tt>operator&lt;=&gt;</tt> not require <tt>three_way_comparable</tt>. 
+This also makes it possible to remove the operator functions for <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&lt;=</tt>, 
+<tt>&gt;=</tt> and rely on the operators synthesized from <tt>operator&lt;=&gt;</tt>.
+</p>
+
+<p><i>[2022-04-24; Daniel comments and provides wording]</i></p>
+
+<p>
+It should be pointed out that by still constraining <tt>operator&lt;=&gt;</tt> with 
+<tt><i>all-random-access</i>&lt;Const, Views...&gt;</tt> we also constrain by 
+<tt>random_access_iterator&lt;iterator_t&lt;<i>maybe-const</i>&lt;Const, Views&gt;&gt;&gt;</tt>
+which again means that we constrain by 
+<tt>totally_ordered&lt;iterator_t&lt;<i>maybe-const</i>&lt;Const, Views&gt;&gt;&gt;</tt>, so
+this operator will only be satisfied with iterators <tt>I</tt> that satisfy 
+<tt><i>partially-ordered-with</i>&lt;I, I&gt;</tt>. Based on this argument the delegation to
+<tt><i>tuple-or-pair</i></tt>'s <tt>operator&lt;=&gt;</tt> that solely depends on 
+<tt><i>synth-three-way</i></tt> should be appropriate.
+</p>
+
+<p><i>[2022-05-17; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.20.3 <a href="https://wg21.link/range.zip.iterator">[range.zip.iterator]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  [&hellip;]
+  template&lt;input_range... Views&gt;
+    requires (view&lt;Views&gt; &amp;&amp; ...) &amp;&amp; (sizeof...(Views) &gt; 0)
+  template&lt;bool Const&gt;
+  class zip_view&lt;Views...&gt;::<i>iterator</i> {
+    <i>tuple-or-pair</i>&lt;iterator_t&lt;<i>maybe-const</i>&lt;Const, Views&gt;&gt;...&gt; <i>current_</i>; <i>// exposition only</i>
+    constexpr explicit <i>iterator</i>(<i>tuple-or-pair</i>&lt;iterator_t&lt;<i>maybe-const</i>&lt;Const, Views&gt;&gt;...&gt;); <i>// exposition only</i>
+  public:
+    [&hellip;]
+    friend constexpr bool operator==(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      requires (equality_comparable&lt;iterator_t&lt;<i>maybe-const</i>&lt;Const, Views&gt;&gt;&gt; &amp;&amp; ...);
+    
+    <del>friend constexpr bool operator&lt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      requires <i>all-random-access</i>&lt;Const, Views...&gt;;
+    friend constexpr bool operator&gt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      requires <i>all-random-access</i>&lt;Const, Views...&gt;;
+    friend constexpr bool operator&lt;=(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      requires <i>all-random-access</i>&lt;Const, Views...&gt;;
+    friend constexpr bool operator&gt;=(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      requires <i>all-random-access</i>&lt;Const, Views...&gt;;</del>
+    friend constexpr auto operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      requires <i>all-random-access</i>&lt;Const, Views...&gt; <del>&amp;&amp;
+               three_way_comparable&lt;iterator_t&lt;<i>maybe-const</i>&lt;Const, Views&gt;&gt;&gt; &amp;&amp; ...)</del>;    
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+[&hellip;]
+<pre>
+<del>friend constexpr bool operator&lt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+  requires <i>all-random-access</i>&lt;Const, Views...&gt;;</del>
+</pre>
+<blockquote>
+<p>
+<del>-16- <i>Returns:</i> <tt>x.<i>current_</i> &lt; y.<i>current_</i></tt>.</del>
+</p>
+</blockquote>
+<pre>
+<del>friend constexpr bool operator&gt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+  requires <i>all-random-access</i>&lt;Const, Views...&gt;;</del>
+</pre>
+<blockquote>
+<p>
+<del>-17- <i>Effects:</i> Equivalent to: <tt>return y &lt; x;</tt></del>
+</p>
+</blockquote>
+<pre>
+<del>friend constexpr bool operator&lt;=(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+  requires <i>all-random-access</i>&lt;Const, Views...&gt;;</del>
+</pre>
+<blockquote>
+<p>
+<del>-18- <i>Effects:</i> Equivalent to: <tt>return !(y &lt; x);</tt></del>
+</p>
+</blockquote>
+<pre>
+<del>friend constexpr bool operator&gt;=(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+  requires <i>all-random-access</i>&lt;Const, Views...&gt;;</del>
+</pre>
+<blockquote>
+<p>
+<del>-19- <i>Effects:</i> Equivalent to: <tt>return !(x &lt; y);</tt></del>
+</p>
+</blockquote>
+<pre>
+friend constexpr auto operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+  requires <i>all-random-access</i>&lt;Const, Views...&gt; <del>&amp;&amp;
+          (three_way_comparable&lt;iterator_t&lt;<i>maybe-const</i>&lt;Const, Views&gt;&gt;&gt; &amp;&amp; ...)</del>;
+</pre>
+<blockquote>
+<p>
+-20- <i>Returns:</i> <tt>x.<i>current_</i> &lt;=&gt; y.<i>current_</i></tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
 </ol>
 
 

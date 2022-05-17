@@ -47,8 +47,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3684" href="lwg-active.html#3684">3684</a>. <tt>std::allocator&lt;T&gt;::allocate_at_least</tt> in constant evaluation</h3>
 <p><b>Section:</b> 20.2.9.2 <a href="https://wg21.link/allocator.members">[allocator.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-03-22 <b>Last modified:</b> 2022-03-30</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-03-22 <b>Last modified:</b> 2022-05-17</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#allocator.members">issues</a> in [allocator.members].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -61,6 +61,14 @@ constant evaluation, but its restrictions is not clear. Presumably the restricti
 The MSVC STL implementation returns <tt>allocation_result&lt;T*&gt;{allocate(n), n}</tt> now. Perhaps we 
 should adopt this strategy for constant evaluation to avoid additional mechanism in the compiler.
 </p>
+
+<p><i>[2022-05-17; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+Suggestion to fix this in Core instead.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>

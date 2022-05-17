@@ -44,15 +44,15 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">Tentatively NAD</a> status.</em></p>
 <h3><a name="3695" href="lwg-active.html#3695">3695</a>. The standard-layout property of char-like types serves for nothing</h3>
-<p><b>Section:</b> 23.1 <a href="https://wg21.link/strings.general">[strings.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-05-07 <b>Last modified:</b> 2022-05-07</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 23.1 <a href="https://wg21.link/strings.general">[strings.general]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-05-07 <b>Last modified:</b> 2022-05-17</p>
+<p><b>Priority: </b>4
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#strings.general">active issues</a> in [strings.general].</p>
 <p><b>View all other</b> <a href="lwg-index.html#strings.general">issues</a> in [strings.general].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Currently char-like types are defined as non-array trivial and standard-layout types (23.1 <a href="https://wg21.link/strings.general">[strings.general]</a>). 
@@ -64,6 +64,14 @@ As the standard library almost never requires a user-provided type to be standar
 exceptions are program-defined specializations of <tt>std::atomic&lt;T*&gt;</tt>), I think char-like types should 
 just be non-array trivial types.
 </p>
+
+<p><i>[2022-05-17; Reflector poll]</i></p>
+
+<p>
+Set priority to 4 after reflector poll. Six votes for NAD.
+Changing this would require a proposal through LEWG.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
