@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-05-22 at 12:16:49 UTC</p>
+<p><p>Revised 2022-05-29 at 08:31:42 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -45271,6 +45271,76 @@ friend constexpr auto operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>i
 -15- <i>Effects</i>: Equivalent to: <tt>return x.<i>inner_</i> <i>op</i> y.<i>inner_</i>;</tt>
 </p>
 </blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3703" href="#3703">3703</a><sup><a href="https://cplusplus.github.io/LWG/issue3703">(i)</a></sup>. Missing requirements for <tt>expected&lt;T, E&gt; requires is_void&lt;T&gt;</tt></h3>
+<p><b>Section:</b> 22.8.7.1 <a href="https://wg21.link/expected.void.general">[expected.void.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-05-24 <b>Last modified:</b> 2022-05-29</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The partial specialization <tt>expected&lt;T, E&gt; requires is_void&lt;T&gt;</tt> specified in 
+22.8.7.1 <a href="https://wg21.link/expected.void.general">[expected.void.general]</a> is missing some template parameter requirements that should 
+have been copied from 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a>. We should copy the pertinent 
+requirements from the first two paragraphs of the latter subclause into new paragraphs in the first 
+subclause (the pertinent requirement from the third paragraph is already present in 
+22.8.7.1 <a href="https://wg21.link/expected.void.general">[expected.void.general]</a>).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> There is some drive-by cleanup that I couldn't resist while touching this wording: (1) 
+strike the redundant "suitably aligned" guarantee, (2) Don't repeat in prose that the exposition-only members 
+are exposition-only.]
+</p>
+</blockquote>
+
+<ol>
+<li><p>Modify 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- Any object of type <tt>expected&lt;T, E&gt;</tt> either contains a value of type <tt>T</tt> or a value 
+of type <tt>E</tt> within its own storage. Implementations are not permitted to use additional storage, such 
+as dynamic memory, to allocate the object of type <tt>T</tt> or the object of type <tt>E</tt>. <del>These objects 
+are allocated in a region of the <tt>expected&lt;T, E&gt;</tt> storage suitably aligned for the types <tt>T</tt> 
+and <tt>E</tt>. Members <tt><i>has_val</i></tt>, <tt><i>val</i></tt>, and <tt><i>unex</i></tt> are provided 
+for exposition only.</del> <tt><i>has_val</i></tt> indicates whether the <tt>expected&lt;T, E&gt;</tt> object 
+contains an object of type <tt>T</tt>.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.8.7.1 <a href="https://wg21.link/expected.void.general">[expected.void.general]</a> as indicated:</p>
+
+<blockquote>
+<p>
+<ins>-?- Any object of type <tt>expected&lt;T, E&gt;</tt> either represents a value of type <tt>T</tt>, or contains 
+a value of type <tt>E</tt> within its own storage. Implementations are not permitted to use additional storage, 
+such as dynamic memory, to allocate the object of type <tt>E</tt>. <tt><i>has_val</i></tt> indicates whether the 
+<tt>expected&lt;T, E&gt;</tt> object contains an object of type <tt>T</tt>.</ins>
+<p/>
+<ins>-?- A program that instantiates the definition of the template <tt>expected&lt;T, E&gt;</tt> with a type for the 
+<tt>E</tt> parameter that is not a valid template argument for <tt>unexpected</tt> is ill-formed.</ins>
+<p/>
+-1- <tt>E</tt> shall meet the requirements of <i>Cpp17Destructible</i> (Table [tab:cpp17.destructible]).
+</p>
 </blockquote>
 </li>
 
