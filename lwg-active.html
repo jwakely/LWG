@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-06-05 at 06:45:09 UTC</p>
+<p><p>Revised 2022-06-05 at 07:12:59 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -182,15 +182,15 @@ ownership of it.
 <ul>
 <li>D123: 2022-03-04 Since March 2022<ul>
 <li><b>Summary:</b><ul>
-<li>381 open issues, up by 26.</li>
+<li>382 open issues, up by 27.</li>
 <li>2808 closed issues, up by 0.</li>
 <li>39 reassigned issues, up by 0.</li>
-<li>3228 issues total, up by 26.</li>
+<li>3229 issues total, up by 27.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3683">3683</a>, <a href="lwg-active.html#3687">3687</a>, <a href="lwg-active.html#3692">3692</a>.</li>
 <li>Added the following Tentatively NAD issue: <a href="lwg-active.html#3695">3695</a>.</li>
-<li>Added the following 22 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>.</li>
+<li>Added the following 23 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3707">3707</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -47754,6 +47754,59 @@ This issue is similar to LWG <a href="lwg-active.html#3701">3701</a>, but not th
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3707" href="#3707">3707</a><sup><a href="https://cplusplus.github.io/LWG/issue3707">(i)</a></sup>. <tt>chunk_view::<i>outer-iterator</i>::value_type::size</tt> should return unsigned type</h3>
+<p><b>Section:</b> 26.7.24.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-01 <b>Last modified:</b> 2022-06-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, the <tt>size</tt> function of <tt>chunk_view::<i>outer-iterator</i>::value_type</tt> returns 
+the result of <tt>ranges::min</tt>, since the operands are of type <tt>range_difference_t&lt;V&gt;</tt>, 
+this will return a signed type, which is inconsistent with the return type of <tt>size</tt> of the 
+<tt>forward</tt>-version of <tt>chunk_view::<i>iterator</i>::value_type</tt> (26.7.24.7 <a href="https://wg21.link/range.chunk.fwd.iter">[range.chunk.fwd.iter]</a>), 
+which always returns an unsigned type.
+</p>
+<p>
+I think it's more reasonable to return an unsigned type, since this is intentional behavior and 
+doesn't fall back to using the default <tt>view_interface::size</tt>.
+And if LWG <a href="lwg-active.html#3646">3646</a> is eventually adopted, there's no reason why it shouldn't be made 
+unsigned.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.24.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr auto size() const
+  requires sized_sentinel_for&lt;sentinel_t&lt;V&gt;, iterator_t&lt;V&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+-4- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+return <ins><i>to-unsigned-like</i>(</ins>ranges::min(<i>parent_</i>-&gt;<i>remainder_</i>, ranges::end(<i>parent_</i>-&gt;<i>base_</i>) - *<i>parent_</i>-&gt;<i>current_</i>)<ins>)</ins>;
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
 
 
 

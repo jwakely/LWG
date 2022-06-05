@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-06-05 at 06:45:09 UTC</p>
+<p><p>Revised 2022-06-05 at 07:12:59 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -45606,6 +45606,59 @@ This issue is similar to LWG <a href="lwg-active.html#3701">3701</a>, but not th
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3707" href="#3707">3707</a><sup><a href="https://cplusplus.github.io/LWG/issue3707">(i)</a></sup>. <tt>chunk_view::<i>outer-iterator</i>::value_type::size</tt> should return unsigned type</h3>
+<p><b>Section:</b> 26.7.24.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-01 <b>Last modified:</b> 2022-06-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, the <tt>size</tt> function of <tt>chunk_view::<i>outer-iterator</i>::value_type</tt> returns 
+the result of <tt>ranges::min</tt>, since the operands are of type <tt>range_difference_t&lt;V&gt;</tt>, 
+this will return a signed type, which is inconsistent with the return type of <tt>size</tt> of the 
+<tt>forward</tt>-version of <tt>chunk_view::<i>iterator</i>::value_type</tt> (26.7.24.7 <a href="https://wg21.link/range.chunk.fwd.iter">[range.chunk.fwd.iter]</a>), 
+which always returns an unsigned type.
+</p>
+<p>
+I think it's more reasonable to return an unsigned type, since this is intentional behavior and 
+doesn't fall back to using the default <tt>view_interface::size</tt>.
+And if LWG <a href="lwg-active.html#3646">3646</a> is eventually adopted, there's no reason why it shouldn't be made 
+unsigned.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.24.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr auto size() const
+  requires sized_sentinel_for&lt;sentinel_t&lt;V&gt;, iterator_t&lt;V&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+-4- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+return <ins><i>to-unsigned-like</i>(</ins>ranges::min(<i>parent_</i>-&gt;<i>remainder_</i>, ranges::end(<i>parent_</i>-&gt;<i>base_</i>) - *<i>parent_</i>-&gt;<i>current_</i>)<ins>)</ins>;
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
 
 
 
