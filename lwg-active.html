@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-06-05 at 07:12:59 UTC</p>
+<p><p>Revised 2022-06-05 at 07:46:59 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -182,15 +182,15 @@ ownership of it.
 <ul>
 <li>D123: 2022-03-04 Since March 2022<ul>
 <li><b>Summary:</b><ul>
-<li>382 open issues, up by 27.</li>
+<li>383 open issues, up by 28.</li>
 <li>2808 closed issues, up by 0.</li>
 <li>39 reassigned issues, up by 0.</li>
-<li>3229 issues total, up by 27.</li>
+<li>3230 issues total, up by 28.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3683">3683</a>, <a href="lwg-active.html#3687">3687</a>, <a href="lwg-active.html#3692">3692</a>.</li>
 <li>Added the following Tentatively NAD issue: <a href="lwg-active.html#3695">3695</a>.</li>
-<li>Added the following 23 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3707">3707</a>.</li>
+<li>Added the following 24 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3707">3707</a>, <a href="lwg-active.html#3708">3708</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -47802,6 +47802,50 @@ constexpr auto size() const
 <blockquote><pre>
 return <ins><i>to-unsigned-like</i>(</ins>ranges::min(<i>parent_</i>-&gt;<i>remainder_</i>, ranges::end(<i>parent_</i>-&gt;<i>base_</i>) - *<i>parent_</i>-&gt;<i>current_</i>)<ins>)</ins>;
 </pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3708" href="#3708">3708</a><sup><a href="https://cplusplus.github.io/LWG/issue3708">(i)</a></sup>. <tt>take_while_view::<i>sentinel</i></tt>'s conversion constructor should move</h3>
+<p><b>Section:</b> 26.7.9.3 <a href="https://wg21.link/range.take.while.sentinel">[range.take.while.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-03 <b>Last modified:</b> 2022-06-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The conversion constructor of <tt>take_while_view::<i>sentinel</i></tt> requires 
+<tt>sentinel_t&lt;V&gt;</tt> must satisfy <tt>convertible_to&lt;sentinel_t&lt;<i>Base</i>&gt;&gt;</tt>, 
+which indicates that the rvalue reference of <tt>sentinel_t&lt;V&gt;</tt> can be converted to 
+<tt>sentinel_t&lt;<i>Base</i>&gt;</tt>, but in the <i>Effects</i> element, we assign the lvalue 
+<tt>s.<i>end_</i></tt> to <tt><i>end_</i></tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.9.3 <a href="https://wg21.link/range.take.while.sentinel">[range.take.while.sentinel]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr <i>sentinel</i>(<i>sentinel</i>&lt;!Const&gt; s)
+  requires Const &amp;&amp; convertible_to&lt;sentinel_t&lt;V&gt;, sentinel_t&lt;<i>Base</i>&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+-2- <i>Effects:</i> Initializes <tt><i>end_</i></tt> with <tt><ins>std::move(</ins>s.<i>end_</i><ins>)</ins></tt> and <tt>pred_</tt> with <tt>s.<i>pred_</i></tt>.
+</p>
 </blockquote>
 </blockquote>
 </li>
