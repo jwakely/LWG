@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-05-30 at 06:19:20 UTC</p>
+<p><p>Revised 2022-06-05 at 06:45:09 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -45090,6 +45090,8 @@ namespace std::ranges {
  <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-05-17 <b>Last modified:</b> 2022-05-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.formatter.spec">active issues</a> in [format.formatter.spec].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.formatter.spec">issues</a> in [format.formatter.spec].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -45553,6 +45555,57 @@ template&lt;class A&gt; struct hash&lt;basic_string&lt;wchar_t, char_traits&lt;w
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3706" href="#3706">3706</a><sup><a href="https://cplusplus.github.io/LWG/issue3706">(i)</a></sup>. How does <tt>std::format</tt> work with character arrays of unknown bound?</h3>
+<p><b>Section:</b> 22.14.6.2 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-05-31 <b>Last modified:</b> 2022-06-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.formatter.spec">active issues</a> in [format.formatter.spec].</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.formatter.spec">issues</a> in [format.formatter.spec].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Consider
+</p>
+<blockquote>
+<pre>
+#include &lt;format&gt;
+#include &lt;iostream&gt;
+
+extern char str[];
+auto result = std::format("{}", str);
+char str[] = "hello";
+
+int main()
+{
+  std::cout &lt;&lt; result &lt;&lt; std::endl;
+}
+</pre>
+</blockquote>
+<p>
+Currently MSVC STL (as well as fmtlib when <tt>fmt::format</tt> is used instead of <tt>std::format</tt>) 
+accepts the initializer of <tt>result</tt>, while libc++ produces an error (apparently because there's no 
+<tt>formatter</tt> for <tt>char[]</tt>).
+</p>
+<p>
+Should this be valid?
+</p>
+<p>
+<b>Daniel:</b>
+<p/>
+This issue is similar to LWG <a href="lwg-active.html#3701">3701</a>, but not the same, because the latter wants 
+<tt>template&lt;size_t N&gt; struct formatter&lt;charT[N], charT&gt;</tt>, while this one needs 
+<tt>template&lt;&gt;struct formatter&lt;charT[], charT&gt;</tt> (that is, without the array bound).
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
