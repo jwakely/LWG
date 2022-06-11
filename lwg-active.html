@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-06-11 at 17:51:26 UTC</p>
+<p><p>Revised 2022-06-11 at 19:00:31 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -182,15 +182,15 @@ ownership of it.
 <ul>
 <li>D123: 2022-03-04 Since March 2022<ul>
 <li><b>Summary:</b><ul>
-<li>388 open issues, up by 33.</li>
+<li>389 open issues, up by 34.</li>
 <li>2808 closed issues, up by 0.</li>
 <li>39 reassigned issues, up by 0.</li>
-<li>3235 issues total, up by 33.</li>
+<li>3236 issues total, up by 34.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3683">3683</a>, <a href="lwg-active.html#3687">3687</a>, <a href="lwg-active.html#3692">3692</a>.</li>
 <li>Added the following Tentatively NAD issue: <a href="lwg-active.html#3695">3695</a>.</li>
-<li>Added the following 29 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3707">3707</a>, <a href="lwg-active.html#3708">3708</a>, <a href="lwg-active.html#3709">3709</a>, <a href="lwg-active.html#3710">3710</a>, <a href="lwg-active.html#3711">3711</a>, <a href="lwg-active.html#3712">3712</a>, <a href="lwg-active.html#3713">3713</a>.</li>
+<li>Added the following 30 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3707">3707</a>, <a href="lwg-active.html#3708">3708</a>, <a href="lwg-active.html#3709">3709</a>, <a href="lwg-active.html#3710">3710</a>, <a href="lwg-active.html#3711">3711</a>, <a href="lwg-active.html#3712">3712</a>, <a href="lwg-active.html#3713">3713</a>, <a href="lwg-active.html#3714">3714</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -48200,6 +48200,259 @@ is <tt>false</tt>.
 <ins>-?- A sequence is <i>sorted with respect to a <tt>comp</tt></i> for a comparator <tt>comp</tt> if it is 
 sorted with respect to <tt>comp</tt> and <tt>identity</tt> (the identity projection).</ins>
 </p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3714" href="#3714">3714</a><sup><a href="https://cplusplus.github.io/LWG/issue3714">(i)</a></sup>. Non-single-argument constructors for range adaptors should not be <tt>explicit</tt></h3>
+<p><b>Section:</b> 26.7.21.2 <a href="https://wg21.link/range.zip.transform.view">[range.zip.transform.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2022-06-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+All C++20 range adaptors' non-single-argument constructors are not declared as <tt>explicit</tt>, which makes 
+the following initialization well-formed:
+</p>
+<blockquote><pre>
+std::vector v{42};
+std::ranges::take_view r1 = {v, 1};
+std::ranges::filter_view r2 = {v, [](int) { return true; }};
+</pre></blockquote>
+<p>
+However, the non-single-argument constructors of C++23 range adaptors, except for <tt>join_with_view</tt>, 
+are all <tt>explicit</tt>, which makes us no longer able to
+</p>
+<blockquote><pre>
+std::ranges::chunk_view r1 = {v, 1}; // <span style="color:red;font-weight:bolder">ill-formed</span>
+std::ranges::chunk_by_view r2 = {v, [](int, int) { return true; }}; // <span style="color:red;font-weight:bolder">ill-formed</span>
+</pre></blockquote>
+<p>
+This seems unnecessary since I don't see the observable benefit of preventing this. In the standard, 
+non-single-argument constructors are rarely specified as <tt>explicit</tt> unless it is really undesirable, 
+I think the above initialization is what the user expects since it's clearly intentional, and I don't see 
+any good reason to reject it from C++23.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.21.2 <a href="https://wg21.link/range.zip.transform.view">[range.zip.transform.view]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;copy_constructible F, input_range... Views&gt;
+    requires (view&lt;Views&gt; &amp;&amp; ...) &amp;&amp; (sizeof...(Views) &gt; 0) &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
+              regular_invocable&lt;F&amp;, range_reference_t&lt;Views&gt;...&gt; &amp;&amp;
+              <i>can-reference</i>&lt;invoke_result_t&lt;F&amp;, range_reference_t&lt;Views&gt;...&gt;&gt;
+  class zip_transform_view : public view_interface&lt;zip_transform_view&lt;F, Views...&gt;&gt; {
+    <i>copyable-box</i>&lt;F&gt; <i>fun_</i>;                   <i>// exposition only</i>
+    zip_view&lt;Views...&gt; <i>zip_</i>;                <i>// exposition only</i>
+    [&hellip;]
+  public:
+    zip_transform_view() = default;
+
+    constexpr <del>explicit</del> zip_transform_view(F fun, Views... views);
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+<pre>
+constexpr <del>explicit</del> zip_transform_view(F fun, Views... views);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects</i>: Initializes <tt><i>fun_</i></tt> with <tt>std::move(fun)</tt> and <tt><i>zip_</i></tt> 
+with <tt>std::move(views)...</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 26.7.23.2 <a href="https://wg21.link/range.adjacent.transform.view">[range.adjacent.transform.view]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;forward_range V, copy_constructible F, size_t N&gt;
+    requires view&lt;V&gt; &amp;&amp; (N &gt; 0) &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
+             regular_invocable&lt;F&amp;, <i>REPEAT</i>(range_reference_t&lt;V&gt;, N)...&gt; &amp;&amp;
+             <i>can-reference</i>&lt;invoke_result_t&lt;F&amp;, <i>REPEAT</i>(range_reference_t&lt;V&gt;, N)...&gt;&gt;
+  class adjacent_transform_view : public view_interface&lt;adjacent_transform_view&lt;V, F, N&gt;&gt; {
+    <i>copyable-box</i>&lt;F&gt; <i>fun_</i>;                       <i>// exposition only</i>
+    adjacent_view&lt;V, N&gt; <i>inner_</i>;                 <i>// exposition only</i>
+    [&hellip;]
+  public:
+    adjacent_transform_view() = default;
+    constexpr <del>explicit</del> adjacent_transform_view(V base, F fun);
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+<pre>
+constexpr <del>explicit</del> adjacent_transform_view(V base, F fun);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects</i>: Initializes <tt><i>fun_</i></tt> with <tt>std::move(fun)</tt> and 
+<tt><i>inner_</i></tt> with <tt>std::move(base)</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  [&hellip;]
+  template&lt;view V&gt;
+    requires input_range&lt;V&gt;
+  class chunk_view : public view_interface&lt;chunk_view&lt;V&gt;&gt; {
+    V <i>base_</i> = V();                                        <i>// exposition only</i>
+    range_difference_t&lt;V&gt; <i>n_</i> = 0;                         <i>// exposition only</i>
+    [&hellip;]
+  public:
+    chunk_view() requires default_initializable&lt;V&gt; = default;
+    constexpr <del>explicit</del> chunk_view(V base, range_difference_t&lt;V&gt; n);
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+<pre>
+constexpr <del>explicit</del> chunk_view(V base, range_difference_t&lt;V&gt; n);
+</pre>
+<blockquote>
+<p>
+-1- <i>Preconditions:</i> <tt>n &gt; 0</tt> is <tt>true</tt>.
+<p/>
+-2- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and 
+<tt><i>n_</i></tt> with <tt>n</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 26.7.24.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+    requires forward_range&lt;V&gt;
+  class chunk_view&lt;V&gt; : public view_interface&lt;chunk_view&lt;V&gt;&gt; {
+    V <i>base_</i> = V();                      <i>// exposition only</i>
+    range_difference_t&lt;V&gt; <i>n_</i> = 0;       <i>// exposition only</i>
+    [&hellip;]
+  public:
+    chunk_view() requires default_initializable&lt;V&gt; = default;
+    constexpr <del>explicit</del> chunk_view(V base, range_difference_t&lt;V&gt; n);
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+<pre>
+constexpr <del>explicit</del> chunk_view(V base, range_difference_t&lt;V&gt; n);
+</pre>
+<blockquote>
+<p>
+-1- <i>Preconditions:</i> <tt>n &gt; 0</tt> is <tt>true</tt>.
+<p/>
+-2- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and 
+<tt><i>n_</i></tt> with <tt>n</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  [&hellip;]
+  template&lt;forward_range V&gt;
+    requires view&lt;V&gt;
+  class slide_view : public view_interface&lt;slide_view&lt;V&gt;&gt; {
+    V <i>base_</i> = V();                      <i>// exposition only</i>
+    range_difference_t&lt;V&gt; <i>n_</i> = 0;       <i>// exposition only</i>
+    [&hellip;]
+  public:
+    slide_view() requires default_initializable&lt;V&gt; = default;
+    constexpr <del>explicit</del> slide_view(V base, range_difference_t&lt;V&gt; n);
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+<pre>
+constexpr <del>explicit</del> slide_view(V base, range_difference_t&lt;V&gt; n);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and 
+<tt><i>n_</i></tt> with <tt>n</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 26.7.26.2 <a href="https://wg21.link/range.chunk.by.view">[range.chunk.by.view]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;forward_range V, indirect_binary_predicate&lt;iterator_t&lt;V&gt;, iterator_t&lt;V&gt;&gt; Pred&gt;
+    requires view&lt;V&gt; &amp;&amp; is_object_v&lt;Pred&gt;
+  class chunk_by_view : public view_interface&lt;chunk_by_view&lt;V, Pred&gt;&gt; {
+    V <i>base_</i> = V();                                <i>// exposition only</i>
+    <i>copyable-box</i>&lt;Pred&gt; <i>pred_</i> = Pred();            <i>// exposition only</i>
+    [&hellip;]
+  public:
+    chunk_by_view() requires default_initializable&lt;V&gt; &amp;&amp; default_initializable&lt;Pred&gt; = default;
+    constexpr <del>explicit</del> chunk_by_view(V base, Pred pred);
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+<pre>
+constexpr <del>explicit</del> chunk_by_view(V base, Pred pred);
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and 
+<tt><i>pred_</i></tt> with <tt>std::move(pred)</tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
