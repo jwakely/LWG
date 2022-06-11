@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-06-11 at 16:17:24 UTC</p>
+<p><p>Revised 2022-06-11 at 17:21:43 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -45966,7 +45966,7 @@ namespace std::ranges {
 namespace std::ranges {
   template&lt;view V&gt;
     requires forward_range&lt;V&gt;
-  class chunk_view : public view_interface&lt;chunk_view&lt;V&gt;&gt; {
+  class chunk_view&lt;V&gt; : public view_interface&lt;chunk_view&lt;V&gt;&gt; {
     V <i>base_</i> <del>= V()</del>;                   <i>// exposition only</i>
     range_difference_t&lt;V&gt; <i>n_</i> <del>= 0</del>;    <i>// exposition only</i>
     [&hellip;]
