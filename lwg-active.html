@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-06-11 at 14:46:33 UTC</p>
+<p><p>Revised 2022-06-11 at 15:33:38 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -182,15 +182,15 @@ ownership of it.
 <ul>
 <li>D123: 2022-03-04 Since March 2022<ul>
 <li><b>Summary:</b><ul>
-<li>385 open issues, up by 30.</li>
+<li>386 open issues, up by 31.</li>
 <li>2808 closed issues, up by 0.</li>
 <li>39 reassigned issues, up by 0.</li>
-<li>3232 issues total, up by 30.</li>
+<li>3233 issues total, up by 31.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3683">3683</a>, <a href="lwg-active.html#3687">3687</a>, <a href="lwg-active.html#3692">3692</a>.</li>
 <li>Added the following Tentatively NAD issue: <a href="lwg-active.html#3695">3695</a>.</li>
-<li>Added the following 26 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3707">3707</a>, <a href="lwg-active.html#3708">3708</a>, <a href="lwg-active.html#3709">3709</a>, <a href="lwg-active.html#3710">3710</a>.</li>
+<li>Added the following 27 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3707">3707</a>, <a href="lwg-active.html#3708">3708</a>, <a href="lwg-active.html#3709">3709</a>, <a href="lwg-active.html#3710">3710</a>, <a href="lwg-active.html#3711">3711</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -47983,6 +47983,56 @@ constexpr default_sentinel_t end() <ins>const</ins> noexcept;
 <blockquote>
 <p>
 -4- <i>Returns</i>: <tt>default_sentinel</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3711" href="#3711">3711</a><sup><a href="https://cplusplus.github.io/LWG/issue3711">(i)</a></sup>. Missing preconditions for <tt>slide_view</tt> constructor</h3>
+<p><b>Section:</b> 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2022-06-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It doesn't make sense for <tt>slide_view</tt> when <tt>n</tt> is not positive, 
+we should therefore add a precondition for its constructor just like we did for 
+<tt>chunk_view</tt>.
+<p/>
+<i>Daniel:</i>
+<p/>
+Indeed the accepted paper describes the intention in
+<a href="https://wg21.link/p2442r1#slide">P2442R1 Section 4.2</a> by saying that 
+"It is a precondition that <tt>N</tt> is positive" in the design wording
+but omitted to add a normative precondition in the proposed wording.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr explicit slide_view(V base, range_difference_t&lt;V&gt; n);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Preconditions</i>: <tt>n &gt; 0</tt> is <tt>true</tt>.</ins>
+<p/>
+-1- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and <tt><i>n_</i></tt> with <tt>n</tt>.
 </p>
 </blockquote>
 </blockquote>

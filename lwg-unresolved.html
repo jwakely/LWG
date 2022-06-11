@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-06-11 at 14:46:33 UTC</p>
+<p><p>Revised 2022-06-11 at 15:33:38 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -45835,6 +45835,56 @@ constexpr default_sentinel_t end() <ins>const</ins> noexcept;
 <blockquote>
 <p>
 -4- <i>Returns</i>: <tt>default_sentinel</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3711" href="#3711">3711</a><sup><a href="https://cplusplus.github.io/LWG/issue3711">(i)</a></sup>. Missing preconditions for <tt>slide_view</tt> constructor</h3>
+<p><b>Section:</b> 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2022-06-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It doesn't make sense for <tt>slide_view</tt> when <tt>n</tt> is not positive, 
+we should therefore add a precondition for its constructor just like we did for 
+<tt>chunk_view</tt>.
+<p/>
+<i>Daniel:</i>
+<p/>
+Indeed the accepted paper describes the intention in
+<a href="https://wg21.link/p2442r1#slide">P2442R1 Section 4.2</a> by saying that 
+"It is a precondition that <tt>N</tt> is positive" in the design wording
+but omitted to add a normative precondition in the proposed wording.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr explicit slide_view(V base, range_difference_t&lt;V&gt; n);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Preconditions</i>: <tt>n &gt; 0</tt> is <tt>true</tt>.</ins>
+<p/>
+-1- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and <tt><i>n_</i></tt> with <tt>n</tt>.
 </p>
 </blockquote>
 </blockquote>
