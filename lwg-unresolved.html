@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-06-11 at 14:08:38 UTC</p>
+<p><p>Revised 2022-06-11 at 14:46:33 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -45762,6 +45762,81 @@ is allocated within the storage of the <tt>variant</tt> object. Implementations 
 additional storage, such as dynamic memory, to allocate the contained value. <del>The contained value shall 
 be allocated in a region of the variant storage suitably aligned for all types in <tt>Types</tt>.</del>
 </p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3710" href="#3710">3710</a><sup><a href="https://cplusplus.github.io/LWG/issue3710">(i)</a></sup>. The <tt>end</tt> of <tt>chunk_view</tt> for input ranges can be <tt>const</tt></h3>
+<p><b>Section:</b> 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-09 <b>Last modified:</b> 2022-06-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The input range version of <tt>chunk_view</tt>'s <tt>end</tt> is a very simple function that only returns 
+<tt>default_sentinel</tt>, and simple <tt>end</tt>s like this also appear in other range adaptors, such 
+as <tt>basic_istream_view</tt>, <tt>lazy_split_view::<i>outer-iterator</i>::value_type</tt>, and 
+<tt>chunk_view::<i>outer-iterator</i>::value_type</tt>. 
+<p/>
+However, unlike <tt>chunk_view</tt>, their <tt>end</tt>s all are <tt>const</tt>-qualified, 
+which allows us to freely get <tt>default_sentinel</tt> through the <tt>end</tt> of these <tt>const</tt> 
+objects even though they may not themselves be <tt>range</tt>s.
+<p/>
+I think we should add <tt>const</tt> to this <tt>chunk_view</tt>'s <tt>end</tt> as 
+I don't see any harm in doing this, and in some cases, it may have a certain value. Also, this makes it 
+consistent with <tt>basic_istream_view</tt> and the upcoming <tt>std::generator</tt>, which, like it, only 
+has a non-<tt>const begin</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  [&hellip;]
+ 
+  template&lt;view V&gt;
+    requires input_range&lt;V&gt;
+  class chunk_view : public view_interface&lt;chunk_view&lt;V&gt;&gt; {
+    V <i>base_</i> = V();                                        <i>// exposition only</i>
+    [&hellip;]
+  public:
+    [&hellip;]
+
+    constexpr <i>outer-iterator</i> begin();
+    constexpr default_sentinel_t end() <ins>const</ins> noexcept;
+
+    constexpr auto size() requires sized_range&lt;V&gt;;
+    constexpr auto size() const requires sized_range&lt;const V&gt;;
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+[&hellip;]
+<pre>
+constexpr default_sentinel_t end() <ins>const</ins> noexcept;
+</pre>
+<blockquote>
+<p>
+-4- <i>Returns</i>: <tt>default_sentinel</tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
