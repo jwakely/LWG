@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-06-13 at 16:54:17 UTC</p>
+<p><p>Revised 2022-06-15 at 17:49:45 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46447,6 +46447,29 @@ namespace std::ranges {
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3716" href="#3716">3716</a><sup><a href="https://cplusplus.github.io/LWG/issue3716">(i)</a></sup>. &sect;[iterator.concept.forward][forward.iterators] Two different definitions of multi-pass guarantee</h3>
+<p><b>Section:</b> 25.3.4.11 <a href="https://wg21.link/iterator.concept.forward">[iterator.concept.forward]</a>, 25.3.5.5 <a href="https://wg21.link/forward.iterators">[forward.iterators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-06-15 <b>Last modified:</b> 2022-06-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+here are two different definitions of multi-pass guarantee since <a href="https://wg21.link/P0896R4">P0896R4</a>. The old one (perhaps 
+introduced by <a href="https://wg21.link/N3066">N3066</a>) seems less reasonable because it requires increment on rvalue iterators of 
+class types, and the semantics of such increment is largely unspecified.
+<p/>
+Perhaps only the new definition should be used.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
