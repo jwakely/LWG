@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-06-15 at 17:49:45 UTC</p>
+<p><p>Revised 2022-06-15 at 18:13:58 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46470,6 +46470,89 @@ Perhaps only the new definition should be used.
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3717" href="#3717">3717</a><sup><a href="https://cplusplus.github.io/LWG/issue3717">(i)</a></sup>. <tt>common_view::end</tt> should improve <tt>random_access_range</tt> case</h3>
+<p><b>Section:</b> 26.7.17.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-15 <b>Last modified:</b> 2022-06-15</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.common.view">issues</a> in [range.common.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In view of the fact that random access iterators are only required to work with its difference type, 
+<a href="https://wg21.link/P2393R1">P2393R1</a> improves the wording of <tt>take_view</tt>, which first convert the integer type 
+to difference type and then operate with the iterator. However, the paper omits the handling of random 
+access iterators in <tt>common_view::end</tt>, which directly operates on the return types of 
+<tt>ranges::begin</tt> and <tt>ranges::size</tt>. We should improve this, too.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.17.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+    requires (!common_range&lt;V&gt; &amp;&amp; copyable&lt;iterator_t&lt;V&gt;&gt;)
+  class common_view : public view_interface&lt;common_view&lt;V&gt;&gt; {
+  private:
+    V <i>base_</i> = V();  <i>// exposition only</i>
+  public:
+    [&hellip;]
+    constexpr auto begin() {
+      if constexpr (random_access_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
+        return ranges::begin(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;V&gt;, sentinel_t&lt;V&gt;&gt;(ranges::begin(<i>base_</i>));
+    }
+
+    constexpr auto begin() const requires range&lt;const V&gt; {
+      if constexpr (random_access_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
+        return ranges::begin(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;const V&gt;, sentinel_t&lt;const V&gt;&gt;(ranges::begin(<i>base_</i>));
+    }
+    
+    constexpr auto end() {
+      if constexpr (random_access_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
+        return ranges::begin(<i>base_</i>) + <ins>range_difference_t&lt;V&gt;(size())</ins><del>ranges::size(<i>base_</i>)</del>;
+      else
+        return common_iterator&lt;iterator_t&lt;V&gt;, sentinel_t&lt;V&gt;&gt;(ranges::end(<i>base_</i>));
+    }
+
+    constexpr auto end() const requires range&lt;const V&gt; {
+      if constexpr (random_access_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
+        return ranges::begin(<i>base_</i>) + <ins>range_difference_t&lt;const V&gt;(size())</ins><del>ranges::size(<i>base_</i>)</del>;
+      else
+        return common_iterator&lt;iterator_t&lt;const V&gt;, sentinel_t&lt;const V&gt;&gt;(ranges::end(<i>base_</i>));
+    }
+
+    constexpr auto size() requires sized_range&lt;V&gt; {
+      return ranges::size(<i>base_</i>);
+    }
+    constexpr auto size() const requires sized_range&lt;const V&gt; {
+      return ranges::size(<i>base_</i>);
+    }
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
 
 
 
