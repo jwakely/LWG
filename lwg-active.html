@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-06-17 at 18:09:42 UTC</p>
+<p><p>Revised 2022-06-17 at 18:37:24 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -182,15 +182,15 @@ ownership of it.
 <ul>
 <li>D123: 2022-03-04 Since March 2022<ul>
 <li><b>Summary:</b><ul>
-<li>393 open issues, up by 38.</li>
+<li>394 open issues, up by 39.</li>
 <li>2808 closed issues, up by 0.</li>
 <li>39 reassigned issues, up by 0.</li>
-<li>3240 issues total, up by 38.</li>
+<li>3241 issues total, up by 39.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 3 Tentatively Ready issues: <a href="lwg-active.html#3683">3683</a>, <a href="lwg-active.html#3687">3687</a>, <a href="lwg-active.html#3692">3692</a>.</li>
 <li>Added the following Tentatively NAD issue: <a href="lwg-active.html#3695">3695</a>.</li>
-<li>Added the following 34 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3707">3707</a>, <a href="lwg-active.html#3708">3708</a>, <a href="lwg-active.html#3709">3709</a>, <a href="lwg-active.html#3710">3710</a>, <a href="lwg-active.html#3711">3711</a>, <a href="lwg-active.html#3712">3712</a>, <a href="lwg-active.html#3713">3713</a>, <a href="lwg-active.html#3714">3714</a>, <a href="lwg-active.html#3715">3715</a>, <a href="lwg-active.html#3716">3716</a>, <a href="lwg-active.html#3717">3717</a>, <a href="lwg-active.html#3718">3718</a>.</li>
+<li>Added the following 35 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3707">3707</a>, <a href="lwg-active.html#3708">3708</a>, <a href="lwg-active.html#3709">3709</a>, <a href="lwg-active.html#3710">3710</a>, <a href="lwg-active.html#3711">3711</a>, <a href="lwg-active.html#3712">3712</a>, <a href="lwg-active.html#3713">3713</a>, <a href="lwg-active.html#3714">3714</a>, <a href="lwg-active.html#3715">3715</a>, <a href="lwg-active.html#3716">3716</a>, <a href="lwg-active.html#3717">3717</a>, <a href="lwg-active.html#3718">3718</a>, <a href="lwg-active.html#3719">3719</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
 </ul>
@@ -48854,6 +48854,82 @@ sizeof(unsigned long long int)</tt>, initializes <tt>value</tt> with <tt>static_
 
 </blockquote>
 
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3719" href="#3719">3719</a><sup><a href="https://cplusplus.github.io/LWG/issue3719">(i)</a></sup>. Directory iterators should be usable with default sentinel</h3>
+<p><b>Section:</b> 31.12.11.1 <a href="https://wg21.link/fs.class.directory.iterator.general">[fs.class.directory.iterator.general]</a>, 31.12.12.1 <a href="https://wg21.link/fs.class.rec.dir.itr.general">[fs.class.rec.dir.itr.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-06-17 <b>Last modified:</b> 2022-06-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+We added comparisons with <tt>default_sentinel_t</tt> to the stream and streambuf iterators, because their 
+past-the-end iterator is just a default-constructed iterator. We didn't do the same for filesystem directory 
+iterators, but they also use a default-constructed value as the sentinel.
+<p/>
+The proposed resolution addresses this oversight.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 31.12.11.1 <a href="https://wg21.link/fs.class.directory.iterator.general">[fs.class.directory.iterator.general]</a>, class <tt>directory_iterator</tt> synopsis, 
+as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::filesystem {
+  class directory_iterator {
+    [&hellip;]
+
+    const directory_entry&amp; operator*() const;
+    const directory_entry* operator-&gt;() const;
+    directory_iterator&amp; operator++();
+    directory_iterator&amp; increment(error_code&amp; ec);
+    
+    <ins>friend bool operator==(const directory_iterator&amp; lhs, default_sentinel_t) noexcept
+    { return lhs == end(lhs); }</ins>
+
+    <i>// other members as required by 25.3.5.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>, input iterators</i>
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 31.12.12.1 <a href="https://wg21.link/fs.class.rec.dir.itr.general">[fs.class.rec.dir.itr.general]</a>, class <tt>recursive_directory_iterator</tt> synopsis, 
+as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::filesystem {
+  class recursive_directory_iterator {
+    [&hellip;]
+
+    void pop();
+    void pop(error_code&amp; ec);
+    void disable_recursion_pending();
+    
+    <ins>friend bool operator==(const recursive_directory_iterator&amp; lhs, default_sentinel_t) noexcept
+    { return lhs == end(lhs); }</ins>
+
+    <i>// other members as required by 25.3.5.3 <a href="https://wg21.link/input.iterators">[input.iterators]</a>, input iterators</i>
+  };
+}
+</pre>
+</blockquote>
 </li>
 
 </ol>
