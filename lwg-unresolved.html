@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-06-26 at 07:51:11 UTC</p>
+<p><p>Revised 2022-06-26 at 08:50:43 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46084,6 +46084,80 @@ by <tt>make_heap(c.begin(), c.end(), comp)</tt></ins>.
 <p/>
 -4- <i>Postconditions</i>: <tt>is_heap(c.begin(), c.end(), comp)</tt> is <tt>true</tt>. 
 </p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3724" href="#3724">3724</a><sup><a href="https://cplusplus.github.io/LWG/issue3724">(i)</a></sup>. <tt><i>decay-copy</i></tt> should be constrained</h3>
+<p><b>Section:</b> 16.3.3.2 <a href="https://wg21.link/expos.only.func">[expos.only.func]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hui Xie <b>Opened:</b> 2022-06-23 <b>Last modified:</b> 2022-06-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#expos.only.func">issues</a> in [expos.only.func].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The spec of <tt>views::all</tt> 26.7.5.1 <a href="https://wg21.link/range.all.general">[range.all.general]</a> p2 says:
+</p>
+<blockquote><p>
+Given a subexpression <tt>E</tt>, the expression <tt>views::all(E)</tt> is expression-equivalent to:
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; <tt><i>decay-copy</i>(E)</tt> if the decayed type of E models <tt>view</tt>.</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+</blockquote>
+<p>
+If <tt>E</tt> is an lvalue move-only <tt>view</tt>, according to the spec, <tt>views::all(E)</tt> 
+would be expression-equivalent to <tt><i>decay-copy</i>(E)</tt>.
+<p/>
+However, 16.3.3.2 <a href="https://wg21.link/expos.only.func">[expos.only.func]</a> p2 defines <tt><i>decay-copy</i></tt> as follows
+</p>
+<blockquote><pre>
+template&lt;class T&gt; constexpr decay_t&lt;T&gt; <i>decay-copy</i>(T&amp;&amp; v)
+    noexcept(is_nothrow_convertible_v&lt;T, decay_t&lt;T&gt;&gt;)         <i>// exposition only</i>
+  { return std::forward&lt;T&gt;(v); }
+</pre></blockquote>
+<p>
+It is unconstrained.  As a result, for the above example, <tt>views::all(E)</tt> is a well-formed 
+expression and it would only error on the template instantiation of the function body of 
+<tt><i>decay-copy</i></tt>, because <tt>E</tt> is an lvalue of move-only type and not copyable.
+<p/>
+I think this behaviour is wrong, instead, we should make <tt><i>decay-copy(E)</i></tt> ill-formed 
+if it is not copyable, so that <tt>views::all(E)</tt> can be SFINAE friendly.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 16.3.3.2 <a href="https://wg21.link/expos.only.func">[expos.only.func]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- The following are defined for exposition only to aid in the specification of the library:
+</p>
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class T&gt; 
+    <ins>requires convertible_to&lt;T, decay_t&lt;T&gt;&gt;</ins>
+      constexpr decay_t&lt;T&gt; decay-copy(T&amp;&amp; v)
+        noexcept(is_nothrow_convertible_v&lt;T, decay_t&lt;T&gt;&gt;) <i>// exposition only</i>
+      { return std::forward&lt;T&gt;(v); }
+  [&hellip;]
+}
+</pre>
 </blockquote>
 </blockquote>
 </li>

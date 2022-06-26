@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-06-26 at 07:51:11 UTC</p>
+<p><p>Revised 2022-06-26 at 08:50:43 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -182,15 +182,15 @@ ownership of it.
 <ul>
 <li>D123: 2022-03-04 Since March 2022<ul>
 <li><b>Summary:</b><ul>
-<li>397 open issues, up by 42.</li>
+<li>398 open issues, up by 43.</li>
 <li>2808 closed issues, up by 0.</li>
 <li>40 reassigned issues, up by 1.</li>
-<li>3245 issues total, up by 43.</li>
+<li>3246 issues total, up by 44.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 16 Tentatively Ready issues: <a href="lwg-active.html#3683">3683</a>, <a href="lwg-active.html#3687">3687</a>, <a href="lwg-active.html#3692">3692</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3707">3707</a>, <a href="lwg-active.html#3708">3708</a>, <a href="lwg-active.html#3709">3709</a>, <a href="lwg-active.html#3710">3710</a>, <a href="lwg-active.html#3711">3711</a>, <a href="lwg-active.html#3712">3712</a>, <a href="lwg-active.html#3713">3713</a>, <a href="lwg-active.html#3715">3715</a>.</li>
 <li>Added the following Tentatively NAD issue: <a href="lwg-active.html#3695">3695</a>.</li>
-<li>Added the following 25 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3716">3716</a>, <a href="lwg-active.html#3717">3717</a>, <a href="lwg-active.html#3718">3718</a>, <a href="lwg-active.html#3719">3719</a>, <a href="lwg-active.html#3720">3720</a>, <a href="lwg-active.html#3721">3721</a>, <a href="lwg-active.html#3722">3722</a>, <a href="lwg-active.html#3723">3723</a>.</li>
+<li>Added the following 26 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3716">3716</a>, <a href="lwg-active.html#3717">3717</a>, <a href="lwg-active.html#3718">3718</a>, <a href="lwg-active.html#3719">3719</a>, <a href="lwg-active.html#3720">3720</a>, <a href="lwg-active.html#3721">3721</a>, <a href="lwg-active.html#3722">3722</a>, <a href="lwg-active.html#3723">3723</a>, <a href="lwg-active.html#3724">3724</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3714">3714</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
@@ -49389,6 +49389,80 @@ by <tt>make_heap(c.begin(), c.end(), comp)</tt></ins>.
 <p/>
 -4- <i>Postconditions</i>: <tt>is_heap(c.begin(), c.end(), comp)</tt> is <tt>true</tt>. 
 </p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3724" href="#3724">3724</a><sup><a href="https://cplusplus.github.io/LWG/issue3724">(i)</a></sup>. <tt><i>decay-copy</i></tt> should be constrained</h3>
+<p><b>Section:</b> 16.3.3.2 <a href="https://wg21.link/expos.only.func">[expos.only.func]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hui Xie <b>Opened:</b> 2022-06-23 <b>Last modified:</b> 2022-06-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#expos.only.func">issues</a> in [expos.only.func].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The spec of <tt>views::all</tt> 26.7.5.1 <a href="https://wg21.link/range.all.general">[range.all.general]</a> p2 says:
+</p>
+<blockquote><p>
+Given a subexpression <tt>E</tt>, the expression <tt>views::all(E)</tt> is expression-equivalent to:
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; <tt><i>decay-copy</i>(E)</tt> if the decayed type of E models <tt>view</tt>.</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+</blockquote>
+<p>
+If <tt>E</tt> is an lvalue move-only <tt>view</tt>, according to the spec, <tt>views::all(E)</tt> 
+would be expression-equivalent to <tt><i>decay-copy</i>(E)</tt>.
+<p/>
+However, 16.3.3.2 <a href="https://wg21.link/expos.only.func">[expos.only.func]</a> p2 defines <tt><i>decay-copy</i></tt> as follows
+</p>
+<blockquote><pre>
+template&lt;class T&gt; constexpr decay_t&lt;T&gt; <i>decay-copy</i>(T&amp;&amp; v)
+    noexcept(is_nothrow_convertible_v&lt;T, decay_t&lt;T&gt;&gt;)         <i>// exposition only</i>
+  { return std::forward&lt;T&gt;(v); }
+</pre></blockquote>
+<p>
+It is unconstrained.  As a result, for the above example, <tt>views::all(E)</tt> is a well-formed 
+expression and it would only error on the template instantiation of the function body of 
+<tt><i>decay-copy</i></tt>, because <tt>E</tt> is an lvalue of move-only type and not copyable.
+<p/>
+I think this behaviour is wrong, instead, we should make <tt><i>decay-copy(E)</i></tt> ill-formed 
+if it is not copyable, so that <tt>views::all(E)</tt> can be SFINAE friendly.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 16.3.3.2 <a href="https://wg21.link/expos.only.func">[expos.only.func]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-2- The following are defined for exposition only to aid in the specification of the library:
+</p>
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class T&gt; 
+    <ins>requires convertible_to&lt;T, decay_t&lt;T&gt;&gt;</ins>
+      constexpr decay_t&lt;T&gt; decay-copy(T&amp;&amp; v)
+        noexcept(is_nothrow_convertible_v&lt;T, decay_t&lt;T&gt;&gt;) <i>// exposition only</i>
+      { return std::forward&lt;T&gt;(v); }
+  [&hellip;]
+}
+</pre>
 </blockquote>
 </blockquote>
 </li>
