@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-06-26 at 08:50:43 UTC</p>
+<p><p>Revised 2022-06-26 at 09:34:46 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46158,6 +46158,61 @@ namespace std {
   [&hellip;]
 }
 </pre>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3725" href="#3725">3725</a><sup><a href="https://cplusplus.github.io/LWG/issue3725">(i)</a></sup>. <tt>reverse_iterator::operator-&gt;</tt> should not use <tt>prev</tt> for non-pointer iterators</h3>
+<p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-26 <b>Last modified:</b> 2022-06-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#reverse.iter.elem">issues</a> in [reverse.iter.elem].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+When the underlying iterator is not a pointer type, <tt>reverse_iterator::operator-&gt;</tt> returns 
+<tt>prev(current).operator-&gt;()</tt>. However, <tt>prev</tt> only works with 
+<i>Cpp17BidirectionalIterator</i>, given that C++20 <tt>bidirectional_iterator</tt> may just be 
+<i>Cpp17InputIterator</i>, we shouldn't use <tt>prev</tt> here.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr pointer operator-&gt;() const
+  requires (is_pointer_v&lt;Iterator&gt; ||
+            requires(const Iterator i) { i.operator-&gt;(); });
+</pre>
+<blockquote>
+<p>
+-2- <i>Effects</i>:
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; If <tt>Iterator</tt> is a pointer type, equivalent to: <tt>return prev(current);</tt></p></li>
+<li><p>(2.2) &mdash; Otherwise, equivalent to: <del><tt>return prev(current).operator-&gt;();</tt></del></p>
+<blockquote><pre>
+<ins>Iterator tmp = current;
+--tmp;
+return tmp.operator-&gt;();</ins>
+</pre></blockquote>
+</li>
+</ol>
 </blockquote>
 </blockquote>
 </li>
