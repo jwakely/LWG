@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-06-25 at 19:12:24 UTC</p>
+<p><p>Revised 2022-06-26 at 07:51:11 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46024,6 +46024,66 @@ to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
 </pre></blockquote></li>
 <li><p>(1.3) &mdash; Otherwise, the program is ill-formed.</p></li>
 </ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3723" href="#3723">3723</a><sup><a href="https://cplusplus.github.io/LWG/issue3723">(i)</a></sup>. <tt>priority_queue::push_range</tt> needs to <tt>append_range</tt></h3>
+<p><b>Section:</b> 24.6.5.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-06-20 <b>Last modified:</b> 2022-06-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>push_range</tt> members of the <tt>queue</tt> (24.6.4.4 <a href="https://wg21.link/queue.mod">[queue.mod]</a>) and 
+<tt>stack</tt> (24.6.6.5 <a href="https://wg21.link/stack.mod">[stack.mod]</a>) container adaptors are both specified as 
+"<i>Effects</i>: Equivalent to <tt>c.append_range(std::forward&lt;R&gt;(rg))</tt> if that 
+is a valid expression, otherwise <tt>ranges::copy(rg, back_inserter(c))</tt>.". For 
+<tt>priority_queue</tt>, however, we have instead (24.6.5.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a>):
+</p>
+<blockquote><p>
+-3- <i>Effects</i>: Insert all elements of <tt>rg</tt> in <tt>c</tt>.
+<p/>
+-4- <i>Postconditions</i>: <tt>is_heap(c.begin(), c.end(), comp)</tt> is <tt>true</tt>.
+</p></blockquote>
+<p>
+Since <tt>append_range</tt> isn't one of the operations required of the underlying container, 
+"Insert all elements of <tt>rg</tt>" must be implemented via potentially less efficient means. 
+It would be nice if this <tt>push_back</tt> could take advantage of <tt>append_range</tt> 
+when it's available just as do the other two overloads.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.6.5.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;<i>container-compatible-range</i>&lt;T&gt; R&gt;
+  void push_range(R&amp;&amp; rg);
+</pre>
+<blockquote>
+<p>
+-3- <i>Effects</i>: Insert<ins>s</ins> all elements of <tt>rg</tt> in <tt>c</tt> <ins>via 
+<tt>c.append_range(std::forward&lt;R&gt;(rg))</tt> if that is a valid expression, or 
+<tt>ranges::copy(rg, back_inserter(c))</tt> otherwise. Then restores the heap property as if 
+by <tt>make_heap(c.begin(), c.end(), comp)</tt></ins>.
+<p/>
+-4- <i>Postconditions</i>: <tt>is_heap(c.begin(), c.end(), comp)</tt> is <tt>true</tt>. 
+</p>
 </blockquote>
 </blockquote>
 </li>

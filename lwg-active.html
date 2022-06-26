@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2022-06-25</td>
+  <td align="left">2022-06-26</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-06-25 at 19:12:24 UTC</p>
+<p><p>Revised 2022-06-26 at 07:51:11 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -182,15 +182,15 @@ ownership of it.
 <ul>
 <li>D123: 2022-03-04 Since March 2022<ul>
 <li><b>Summary:</b><ul>
-<li>396 open issues, up by 41.</li>
+<li>397 open issues, up by 42.</li>
 <li>2808 closed issues, up by 0.</li>
 <li>40 reassigned issues, up by 1.</li>
-<li>3244 issues total, up by 42.</li>
+<li>3245 issues total, up by 43.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 16 Tentatively Ready issues: <a href="lwg-active.html#3683">3683</a>, <a href="lwg-active.html#3687">3687</a>, <a href="lwg-active.html#3692">3692</a>, <a href="lwg-active.html#3701">3701</a>, <a href="lwg-active.html#3702">3702</a>, <a href="lwg-active.html#3703">3703</a>, <a href="lwg-active.html#3704">3704</a>, <a href="lwg-active.html#3705">3705</a>, <a href="lwg-active.html#3707">3707</a>, <a href="lwg-active.html#3708">3708</a>, <a href="lwg-active.html#3709">3709</a>, <a href="lwg-active.html#3710">3710</a>, <a href="lwg-active.html#3711">3711</a>, <a href="lwg-active.html#3712">3712</a>, <a href="lwg-active.html#3713">3713</a>, <a href="lwg-active.html#3715">3715</a>.</li>
 <li>Added the following Tentatively NAD issue: <a href="lwg-active.html#3695">3695</a>.</li>
-<li>Added the following 24 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3716">3716</a>, <a href="lwg-active.html#3717">3717</a>, <a href="lwg-active.html#3718">3718</a>, <a href="lwg-active.html#3719">3719</a>, <a href="lwg-active.html#3720">3720</a>, <a href="lwg-active.html#3721">3721</a>, <a href="lwg-active.html#3722">3722</a>.</li>
+<li>Added the following 25 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3716">3716</a>, <a href="lwg-active.html#3717">3717</a>, <a href="lwg-active.html#3718">3718</a>, <a href="lwg-active.html#3719">3719</a>, <a href="lwg-active.html#3720">3720</a>, <a href="lwg-active.html#3721">3721</a>, <a href="lwg-active.html#3722">3722</a>, <a href="lwg-active.html#3723">3723</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3714">3714</a>.</li>
 <li>No issues changed.</li>
 </ul></li>
@@ -49329,6 +49329,66 @@ to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
 </pre></blockquote></li>
 <li><p>(1.3) &mdash; Otherwise, the program is ill-formed.</p></li>
 </ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3723" href="#3723">3723</a><sup><a href="https://cplusplus.github.io/LWG/issue3723">(i)</a></sup>. <tt>priority_queue::push_range</tt> needs to <tt>append_range</tt></h3>
+<p><b>Section:</b> 24.6.5.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-06-20 <b>Last modified:</b> 2022-06-26</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <tt>push_range</tt> members of the <tt>queue</tt> (24.6.4.4 <a href="https://wg21.link/queue.mod">[queue.mod]</a>) and 
+<tt>stack</tt> (24.6.6.5 <a href="https://wg21.link/stack.mod">[stack.mod]</a>) container adaptors are both specified as 
+"<i>Effects</i>: Equivalent to <tt>c.append_range(std::forward&lt;R&gt;(rg))</tt> if that 
+is a valid expression, otherwise <tt>ranges::copy(rg, back_inserter(c))</tt>.". For 
+<tt>priority_queue</tt>, however, we have instead (24.6.5.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a>):
+</p>
+<blockquote><p>
+-3- <i>Effects</i>: Insert all elements of <tt>rg</tt> in <tt>c</tt>.
+<p/>
+-4- <i>Postconditions</i>: <tt>is_heap(c.begin(), c.end(), comp)</tt> is <tt>true</tt>.
+</p></blockquote>
+<p>
+Since <tt>append_range</tt> isn't one of the operations required of the underlying container, 
+"Insert all elements of <tt>rg</tt>" must be implemented via potentially less efficient means. 
+It would be nice if this <tt>push_back</tt> could take advantage of <tt>append_range</tt> 
+when it's available just as do the other two overloads.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.6.5.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;<i>container-compatible-range</i>&lt;T&gt; R&gt;
+  void push_range(R&amp;&amp; rg);
+</pre>
+<blockquote>
+<p>
+-3- <i>Effects</i>: Insert<ins>s</ins> all elements of <tt>rg</tt> in <tt>c</tt> <ins>via 
+<tt>c.append_range(std::forward&lt;R&gt;(rg))</tt> if that is a valid expression, or 
+<tt>ranges::copy(rg, back_inserter(c))</tt> otherwise. Then restores the heap property as if 
+by <tt>make_heap(c.begin(), c.end(), comp)</tt></ins>.
+<p/>
+-4- <i>Postconditions</i>: <tt>is_heap(c.begin(), c.end(), comp)</tt> is <tt>true</tt>. 
+</p>
 </blockquote>
 </blockquote>
 </li>
