@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2022-06-26 at 09:56:57 UTC</p>
+<td align="left"><p>Revised 2022-07-01 at 19:45:39 UTC</p>
 </td>
 </tr>
 <tr>
@@ -65,9 +65,150 @@
 </table>
 <h2>Ready Issues</h2>
 <hr>
+<h3><a name="3617" href="#3617">3617</a><sup><a href="https://cplusplus.github.io/LWG/issue3617">(i)</a></sup>. <tt>function</tt>/<tt>packaged_task</tt> deduction guides and deducing <tt>this</tt></h3>
+<p><b>Section:</b> 22.10.17.3.2 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a>, 33.10.10.2 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2021-10-09 <b>Last modified:</b> 2022-07-01</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#func.wrap.func.con">active issues</a> in [func.wrap.func.con].</p>
+<p><b>View all other</b> <a href="lwg-index.html#func.wrap.func.con">issues</a> in [func.wrap.func.con].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+With the adoption of deducing <tt>this</tt> (<a href="https://wg21.link/p0847">P0847</a>), we can now create 
+types whose call operator is an explicit object member function, which means that <tt>decltype(&amp;F::operator())</tt> 
+could have pointer-to-function type rather than pointer-to-member-function type. This means that the deduction 
+guides for <tt>std::function</tt> (22.10.17.3.2 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a>) and <tt>std::packaged_task</tt> 
+(33.10.10.2 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a>) will simply fail:
+</p>
+<blockquote><pre>
+struct F {
+  int operator()(this const F&amp;) { return 42; }
+};
+
+std::function g = F{}; // error: decltype(&amp;F::operator()) is not of the form R(G::*)(A...) <i>cv</i> &amp;<sub>opt</sub> noexcept<sub>opt</sub>
+</pre></blockquote>
+<p>
+We should update the deduction guides to keep them in line with the core language.
+</p>
+
+<p><i>[2021-10-14; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.10.17.3.2 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class F&gt; function(F) -&gt; function&lt;<i>see below</i>&gt;;
+</pre>
+<blockquote>
+<p>
+-16- <i>Constraints:</i> <tt>&amp;F::operator()</tt> is well-formed when treated as an unevaluated operand and 
+<tt>decltype(&amp;F::operator())</tt> is <ins>either</ins> of the form <tt>R(G::*)(A...) <i>cv</i> 
+&amp;<sub>opt</sub> noexcept<sub>opt</sub></tt> <ins>or of the form <tt>R(*)(G <i>cv</i> &amp;<sub>opt</sub>, A...) 
+noexcept<sub>opt</sub></tt></ins> for a <del>class</del> type <tt>G</tt>.
+<p/>
+-17- <i>Remarks:</i> The deduced type is <tt>function&lt;R(A...)&gt;</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 33.10.10.2 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class F&gt; packaged_task(F) -&gt; packaged_task&lt;<i>see below</i>&gt;;
+</pre>
+<blockquote>
+<p>
+-7- <i>Constraints:</i> <tt>&amp;F::operator()</tt> is well-formed when treated as an unevaluated operand and 
+<tt>decltype(&amp;F::operator())</tt> is <ins>either</ins> of the form <tt>R(G::*)(A...) <i>cv</i> 
+&amp;<sub>opt</sub> noexcept<sub>opt</sub></tt> <ins>or of the form <tt>R(*)(G <i>cv</i> &amp;<sub>opt</sub>, A...) 
+  noexcept<sub>opt</sub></tt></ins> for a <del>class</del> type <tt>G</tt>.
+<p/>
+-8- <i>Remarks:</i> The deduced type is <tt>packaged_task&lt;R(A...)&gt;</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2021-10-17; Improved wording based on Tim Song's suggestion]</i></p>
+
+
+<p><i>[2022-07-01; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after nine votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.10.17.3.2 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class F&gt; function(F) -&gt; function&lt;<i>see below</i>&gt;;
+</pre>
+<blockquote>
+<p>
+-16- <i>Constraints:</i> <tt>&amp;F::operator()</tt> is well-formed when treated as an unevaluated operand and 
+<tt>decltype(&amp;F::operator())</tt> is <ins>either</ins> of the form <tt>R(G::*)(A...) <i>cv</i> 
+&amp;<sub>opt</sub> noexcept<sub>opt</sub></tt> <ins>or of the form <tt>R(*)(G, A...) noexcept<sub>opt</sub></tt></ins> 
+for a <del>class</del> type <tt>G</tt>.
+<p/>
+-17- <i>Remarks:</i> The deduced type is <tt>function&lt;R(A...)&gt;</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 33.10.10.2 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class F&gt; packaged_task(F) -&gt; packaged_task&lt;<i>see below</i>&gt;;
+</pre>
+<blockquote>
+<p>
+-7- <i>Constraints:</i> <tt>&amp;F::operator()</tt> is well-formed when treated as an unevaluated operand and 
+<tt>decltype(&amp;F::operator())</tt> is <ins>either</ins> of the form <tt>R(G::*)(A...) <i>cv</i> 
+&amp;<sub>opt</sub> noexcept<sub>opt</sub></tt> <ins>or of the form <tt>R(*)(G, A...) noexcept<sub>opt</sub></tt></ins> 
+for a <del>class</del> type <tt>G</tt>.
+<p/>
+-8- <i>Remarks:</i> The deduced type is <tt>packaged_task&lt;R(A...)&gt;</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3649" href="#3649">3649</a><sup><a href="https://cplusplus.github.io/LWG/issue3649">(i)</a></sup>. [fund.ts.v3] Reinstate and bump <tt>__cpp_lib_experimental_memory_resource</tt> feature test macro</h3>
 <p><b>Section:</b> 1.5 [fund.ts.v3::general.feature.test] <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-12-03 <b>Last modified:</b> 2022-02-14</p>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2021-12-03 <b>Last modified:</b> 2022-02-11</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -163,7 +304,7 @@ This wording is relative to <a href="https://wg21.link/N4853">N4853</a>.
 <hr>
 <h3><a name="3670" href="#3670">3670</a><sup><a href="https://cplusplus.github.io/LWG/issue3670">(i)</a></sup>. <i>Cpp17InputIterator</i>s don't have integer-class difference types</h3>
 <p><b>Section:</b> 26.6.4.3 <a href="https://wg21.link/range.iota.iterator">[range.iota.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-02-04 <b>Last modified:</b> 2022-03-05</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-02-04 <b>Last modified:</b> 2022-02-09</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.iota.iterator">issues</a> in [range.iota.iterator].</p>
@@ -263,7 +404,7 @@ namespace std::ranges {
 <hr>
 <h3><a name="3671" href="#3671">3671</a><sup><a href="https://cplusplus.github.io/LWG/issue3671">(i)</a></sup>. <tt>atomic_fetch_xor</tt> missing from <tt>stdatomic.h</tt></h3>
 <p><b>Section:</b> 33.5.12 <a href="https://wg21.link/stdatomic.h.syn">[stdatomic.h.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-02-09 <b>Last modified:</b> 2022-03-05</p>
+ <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2022-02-09 <b>Last modified:</b> 2022-02-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -325,7 +466,7 @@ using std::atomic_fetch_and_explicit;          <i>// see below</i>
 <hr>
 <h3><a name="3672" href="#3672">3672</a><sup><a href="https://cplusplus.github.io/LWG/issue3672">(i)</a></sup>. <tt>common_iterator::operator-&gt;()</tt> should return by value</h3>
 <p><b>Section:</b> 25.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-02-12 <b>Last modified:</b> 2022-03-05</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-02-12 <b>Last modified:</b> 2022-03-04</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#common.iter.access">issues</a> in [common.iter.access].</p>
@@ -428,7 +569,7 @@ public:
 <hr>
 <h3><a name="3683" href="#3683">3683</a><sup><a href="https://cplusplus.github.io/LWG/issue3683">(i)</a></sup>. <tt>operator==</tt> for <tt>polymorphic_allocator</tt> cannot deduce template argument in common cases</h3>
 <p><b>Section:</b> 20.4.3 <a href="https://wg21.link/mem.poly.allocator.class">[mem.poly.allocator.class]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2022-03-18 <b>Last modified:</b> 2022-05-21</p>
+ <b>Submitter:</b> Pablo Halpern <b>Opened:</b> 2022-03-18 <b>Last modified:</b> 2022-05-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#mem.poly.allocator.class">issues</a> in [mem.poly.allocator.class].</p>
@@ -548,7 +689,7 @@ namespace std::pmr {
 <hr>
 <h3><a name="3687" href="#3687">3687</a><sup><a href="https://cplusplus.github.io/LWG/issue3687">(i)</a></sup>. <tt>expected&lt;<i>cv</i> void, E&gt;</tt> move constructor should move</h3>
 <p><b>Section:</b> 22.8.7.4 <a href="https://wg21.link/expected.void.assign">[expected.void.assign]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-03-23 <b>Last modified:</b> 2022-05-21</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-03-23 <b>Last modified:</b> 2022-05-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -612,7 +753,7 @@ and sets <tt><i>has_val</i></tt> to <tt>true</tt>.</p></li>
 <hr>
 <h3><a name="3692" href="#3692">3692</a><sup><a href="https://cplusplus.github.io/LWG/issue3692">(i)</a></sup>. <tt>zip_view::<i>iterator</i></tt>'s <tt>operator&lt;=&gt;</tt> is overconstrained</h3>
 <p><b>Section:</b> 26.7.20.3 <a href="https://wg21.link/range.zip.iterator">[range.zip.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-04-21 <b>Last modified:</b> 2022-05-21</p>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-04-21 <b>Last modified:</b> 2022-05-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -757,7 +898,7 @@ friend constexpr auto operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>i
 <hr>
 <h3><a name="3701" href="#3701">3701</a><sup><a href="https://cplusplus.github.io/LWG/issue3701">(i)</a></sup>. Make <tt>formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt;</tt> requirement explicit</h3>
 <p><b>Section:</b> 22.14.6.2 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-05-17 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-05-17 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.formatter.spec">active issues</a> in [format.formatter.spec].</p>
@@ -863,7 +1004,7 @@ template&lt;class traits&gt;
 <hr>
 <h3><a name="3702" href="#3702">3702</a><sup><a href="https://cplusplus.github.io/LWG/issue3702">(i)</a></sup>. Should <tt>zip_transform_view::<i>iterator</i></tt> remove <tt>operator&lt;</tt>?</h3>
 <p><b>Section:</b> 26.7.21.3 <a href="https://wg21.link/range.zip.transform.iterator">[range.zip.transform.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-05-21 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-05-21 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -969,7 +1110,7 @@ friend constexpr auto operator&lt;=&gt;(const <i>iterator</i>&amp; x, const <i>i
 <hr>
 <h3><a name="3703" href="#3703">3703</a><sup><a href="https://cplusplus.github.io/LWG/issue3703">(i)</a></sup>. Missing requirements for <tt>expected&lt;T, E&gt; requires is_void&lt;T&gt;</tt></h3>
 <p><b>Section:</b> 22.8.7.1 <a href="https://wg21.link/expected.void.general">[expected.void.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-05-24 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-05-24 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -1057,7 +1198,7 @@ such as dynamic memory, to allocate the object of type <tt>E</tt>. Member <tt><i
 <hr>
 <h3><a name="3704" href="#3704">3704</a><sup><a href="https://cplusplus.github.io/LWG/issue3704">(i)</a></sup>. LWG 2059 added overloads that might be ill-formed for sets</h3>
 <p><b>Section:</b> 24.4.6.1 <a href="https://wg21.link/set.overview">[set.overview]</a>, 24.4.7.1 <a href="https://wg21.link/multiset.overview">[multiset.overview]</a>, 24.5.6.1 <a href="https://wg21.link/unord.set.overview">[unord.set.overview]</a>, 24.5.7.1 <a href="https://wg21.link/unord.multiset.overview">[unord.multiset.overview]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-05-25 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-05-25 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -1137,7 +1278,7 @@ iterator erase(const_iterator position);
 <hr>
 <h3><a name="3705" href="#3705">3705</a><sup><a href="https://cplusplus.github.io/LWG/issue3705">(i)</a></sup>. Hashability shouldn't depend on <tt>basic_string</tt>'s allocator</h3>
 <p><b>Section:</b> 23.4.6 <a href="https://wg21.link/basic.string.hash">[basic.string.hash]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-05-26 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-05-26 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#basic.string.hash">issues</a> in [basic.string.hash].</p>
@@ -1279,7 +1420,7 @@ template&lt;class A&gt; struct hash&lt;basic_string&lt;wchar_t, char_traits&lt;w
 <hr>
 <h3><a name="3707" href="#3707">3707</a><sup><a href="https://cplusplus.github.io/LWG/issue3707">(i)</a></sup>. <tt>chunk_view::<i>outer-iterator</i>::value_type::size</tt> should return unsigned type</h3>
 <p><b>Section:</b> 26.7.24.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-01 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-01 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -1339,7 +1480,7 @@ return <ins><i>to-unsigned-like</i>(</ins>ranges::min(<i>parent_</i>-&gt;<i>rema
 <hr>
 <h3><a name="3708" href="#3708">3708</a><sup><a href="https://cplusplus.github.io/LWG/issue3708">(i)</a></sup>. <tt>take_while_view::<i>sentinel</i></tt>'s conversion constructor should move</h3>
 <p><b>Section:</b> 26.7.9.3 <a href="https://wg21.link/range.take.while.sentinel">[range.take.while.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-03 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-03 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -1390,7 +1531,7 @@ constexpr <i>sentinel</i>(<i>sentinel</i>&lt;!Const&gt; s)
 <hr>
 <h3><a name="3709" href="#3709">3709</a><sup><a href="https://cplusplus.github.io/LWG/issue3709">(i)</a></sup>. LWG-3703 was underly ambitious</h3>
 <p><b>Section:</b> 22.5.3.1 <a href="https://wg21.link/optional.optional.general">[optional.optional.general]</a>, 22.6.3.1 <a href="https://wg21.link/variant.variant.general">[variant.variant.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-06-08 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-06-08 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -1460,7 +1601,7 @@ be allocated in a region of the variant storage suitably aligned for all types i
 <hr>
 <h3><a name="3710" href="#3710">3710</a><sup><a href="https://cplusplus.github.io/LWG/issue3710">(i)</a></sup>. The <tt>end</tt> of <tt>chunk_view</tt> for input ranges can be <tt>const</tt></h3>
 <p><b>Section:</b> 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-09 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-09 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.chunk.view.input">active issues</a> in [range.chunk.view.input].</p>
@@ -1544,7 +1685,7 @@ constexpr default_sentinel_t end() <ins>const</ins> noexcept;
 <hr>
 <h3><a name="3711" href="#3711">3711</a><sup><a href="https://cplusplus.github.io/LWG/issue3711">(i)</a></sup>. Missing preconditions for <tt>slide_view</tt> constructor</h3>
 <p><b>Section:</b> 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -1601,7 +1742,7 @@ constexpr explicit slide_view(V base, range_difference_t&lt;V&gt; n);
 <hr>
 <h3><a name="3712" href="#3712">3712</a><sup><a href="https://cplusplus.github.io/LWG/issue3712">(i)</a></sup>. <tt>chunk_view</tt> and <tt>slide_view</tt> should not be <tt>default_initializable</tt></h3>
 <p><b>Section:</b> 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a>, 26.7.24.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a>, 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.chunk.view.input">active issues</a> in [range.chunk.view.input].</p>
@@ -1722,7 +1863,7 @@ namespace std::ranges {
 <hr>
 <h3><a name="3713" href="#3713">3713</a><sup><a href="https://cplusplus.github.io/LWG/issue3713">(i)</a></sup>. Sorted with respect to comparator (only)</h3>
 <p><b>Section:</b> 27.8.1 <a href="https://wg21.link/alg.sorting.general">[alg.sorting.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -1778,7 +1919,7 @@ if it is sorted with respect to <tt>comp</tt> and <tt>identity{}</tt> (the ident
 <hr>
 <h3><a name="3715" href="#3715">3715</a><sup><a href="https://cplusplus.github.io/LWG/issue3715">(i)</a></sup>. <tt>view_interface::empty</tt> is overconstrained</h3>
 <p><b>Section:</b> 26.5.3.1 <a href="https://wg21.link/view.interface.general">[view.interface.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-12 <b>Last modified:</b> 2022-06-22</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-12 <b>Last modified:</b> 2022-06-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#view.interface.general">active issues</a> in [view.interface.general].</p>
