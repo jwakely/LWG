@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-03 at 10:28:43 UTC</p>
+<p><p>Revised 2022-07-03 at 11:22:10 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46124,7 +46124,7 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 <pre>
 constexpr pointer operator-&gt;() const
   requires (is_pointer_v&lt;Iterator&gt; ||
-            requires(const Iterator i) { <ins>{</ins> i.operator-&gt;(); <ins>} -&gt; convertible_to&lt;pointer&gt;</ins> });
+            requires(const Iterator i) { <ins>{</ins> i.operator-&gt;() <ins>} -&gt; convertible_to&lt;pointer&gt;</ins>; });
 </pre>
 <blockquote>
 <p>
@@ -46139,6 +46139,129 @@ constexpr pointer operator-&gt;() const
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3727" href="#3727">3727</a><sup><a href="https://cplusplus.github.io/LWG/issue3727">(i)</a></sup>. <tt>reverse_iterator</tt>/<tt>common_iterator</tt>'s <tt>operator-&gt;</tt> should not require the underlying iterator's <tt>operator-&gt;</tt> to be a <tt>const</tt> member function</h3>
+<p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a>, 25.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-07-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#reverse.iter.elem">active issues</a> in [reverse.iter.elem].</p>
+<p><b>View all other</b> <a href="lwg-index.html#reverse.iter.elem">issues</a> in [reverse.iter.elem].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For non-pointer types, <tt>reverse_iterator::operator-&gt;</tt> requires that the <tt>Iterator</tt> 
+must have an <tt>operator-&gt;()</tt> with <tt>const</tt>-qualifier, whereas in the <i>Effects</i> clause, 
+it always invokes the non-<tt>const</tt> object's <tt>operator-&gt;()</tt>.
+<p/>
+<tt>common_iterator::operator-&gt;</tt> also requires that <tt>I::operator-&gt;()</tt> must be 
+<tt>const</tt>-qualified, which seems reasonable since the return type of <tt>get&lt;I&gt;(v_)</tt> 
+is <tt>const I&amp;</tt>. However, LWG <a href="lwg-active.html#3672">3672</a> makes <tt>common_iterator::operator-&gt;()</tt> 
+always return a value, which makes it unnecessary to detect the constness of <tt>I::operator-&gt;()</tt>, 
+because it will be invoked with a non-<tt>const</tt> returned object anyway.
+<p/>
+I think we should remove this constraint as I don't see the benefit of doing that.
+Constraining iterator's <tt>operator-&gt;()</tt> to be <tt>const</tt> and finally invoking non-<tt>const</tt> 
+overload doesn't feel right to me either. In <tt>&lt;ranges&gt;</tt>, the exposition-only constraint 
+<tt><i>has-arrow</i></tt> (26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>) for <tt>operator-&gt;()</tt> does not 
+require that the underlying iterator's <tt>operator-&gt;()</tt> to be <tt>const</tt>, we should make them 
+consistent, and I believe this relaxation of constraints can bring some value.
+<p/>
+<b>Daniel:</b>
+<p/>
+This issue's second part of the resolution actually depends on <a href="lwg-active.html#3672">3672</a> being applied. But
+note that the reference wording below is still <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr pointer operator-&gt;() const
+  requires (is_pointer_v&lt;Iterator&gt; ||
+            requires(<del>const</del> Iterator i) { i.operator-&gt;(); });
+</pre>
+<blockquote>
+<p>
+-2- <i>Effects</i>:
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; If <tt>Iterator</tt> is a pointer type, equivalent to: <tt>return prev(current);</tt></p></li>
+<li><p>(2.2) &mdash; Otherwise, equivalent to: <tt>return prev(current).operator-&gt;();</tt></p>
+</li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 25.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr decltype(auto) operator-&gt;() const
+  requires <i>see below</i>;
+</pre>
+  <blockquote>
+  <p>
+  -3- The expression in the <i>requires-clause</i> is equivalent to:
+  </p>
+  <blockquote><pre>
+  indirectly_readable&lt;const I&gt; &amp;&amp;
+  (requires(<del>const</del> I<del>&amp;</del> i) { i.operator-&gt;(); } ||
+  is_reference_v&lt;iter_reference_t&lt;I&gt;&gt; ||
+  constructible_from&lt;iter_value_t&lt;I&gt;, iter_reference_t&lt;I&gt;&gt;)
+  </pre></blockquote>
+  <p>
+  -4- <i>Preconditions</i>: <tt>holds_alternative&lt;I&gt;(v_)</tt> is <tt>true</tt>.
+  <p/>
+  -5- <i>Effects</i>:
+  </p>
+  <ol style="list-style-type: none">
+  <li><p>(5.1) &mdash; If <tt>I</tt> is a pointer type or if <del>the expression 
+  <tt>get&lt;I&gt;(v_).operator-&gt;()</tt> is 
+  well-formed</del><ins><tt>requires(I i) { i.operator-&gt;(); }</tt> is <tt>true</tt></ins>, 
+  equivalent to: <tt>return get&lt;I&gt;(v_);</tt>  
+  </p></li>
+  <li><p>(5.2) &mdash; Otherwise, if <tt>iter_reference_t&lt;I&gt;</tt> is a reference type, equivalent to:</p>
+  <blockquote><pre>
+  auto&amp;&amp; tmp = *get&lt;I&gt;(v_);
+  return addressof(tmp);
+  </pre></blockquote>
+  </li>
+  <li><p>(5.3) &mdash; Otherwise, equivalent to: <tt>return <i>proxy</i>(*get&lt;I&gt;(v_));</tt> where 
+  <tt><i>proxy</i></tt> is the exposition-only class:</p>
+  <blockquote><pre>
+  class <i>proxy</i> {
+    iter_value_t&lt;I&gt; keep_;
+    constexpr <i>proxy</i>(iter_reference_t&lt;I&gt;&amp;&amp; x)
+      : keep_(std::move(x)) {}
+  public:
+    constexpr const iter_value_t&lt;I&gt;* operator-&gt;() const noexcept {
+      return addressof(keep_);
+    }
+  };
+  </pre></blockquote>
+  </li>
+  </ol>
+  <p>
+  [&hellip;]
+  </p>
+</blockquote>
+</blockquote>
+</li>
 </ol>
 
 

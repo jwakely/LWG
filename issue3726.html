@@ -78,7 +78,7 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 <pre>
 constexpr pointer operator-&gt;() const
   requires (is_pointer_v&lt;Iterator&gt; ||
-            requires(const Iterator i) { <ins>{</ins> i.operator-&gt;(); <ins>} -&gt; convertible_to&lt;pointer&gt;</ins> });
+            requires(const Iterator i) { <ins>{</ins> i.operator-&gt;() <ins>} -&gt; convertible_to&lt;pointer&gt;</ins>; });
 </pre>
 <blockquote>
 <p>
