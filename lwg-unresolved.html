@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-03 at 12:35:54 UTC</p>
+<p><p>Revised 2022-07-03 at 13:00:58 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46385,6 +46385,76 @@ namespace std {
   struct tuple_element&lt;1, const ranges::subrange&lt;I, S, K&gt;&gt; {
     using type = <ins>remove_cv_t&lt;</ins>S<ins>&gt;</ins>;
   };
+}
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3730" href="#3730">3730</a><sup><a href="https://cplusplus.github.io/LWG/issue3730">(i)</a></sup>. <tt>std::ranges::drop_view</tt> may have different size type from its underlying view</h3>
+<p><b>Section:</b> 26.7.10.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-07-03 <b>Last modified:</b> 2022-07-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.drop.view">issues</a> in [range.drop.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The bodies of both overloads of <tt>drop_view&lt;V&gt;::size</tt> are specified as:
+</p>
+<blockquote><pre>
+const auto s = ranges::size(<i>base_</i>);
+const auto c = static_cast&lt;decltype(s)&gt;(<i>count_</i>);
+return s &lt; c ? 0 : s - c;
+</pre></blockquote>
+<p>
+Given the return type is specified with <tt>auto</tt>, the actual return type 
+is the <em>promoted type</em> of the size type of the underlying view, which may be 
+different from the underlying size type (e.g. if the underlying size is <tt>unsigned short</tt>).
+<p/>
+Note that <tt>take_view</tt> always has the same size type as its underlying view. 
+So I think the difference on the size types is an oversight. On the other hand, the 
+<tt>const</tt> used here seems redundant and inconsistent with other parts of the 
+standard wording, although implementations may tend to use it.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.10.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a>, class template <tt>drop_view</tt> synopsis, as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> <tt>s</tt> and <tt><i>count_</i></tt> usually have different types, but I think 
+it's safe to perform comparison and subtraction, as <tt><i>count_</i></tt> is non-negative as long as 
+the behavior is well-defined.]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+[&hellip;]
+constexpr auto size() requires sized_range&lt;V&gt; {
+  <del>const</del> auto s = ranges::size(<i>base_</i>);
+  <del>const auto c = static_cast&lt;decltype(s)&gt;(<i>count_</i>);</del>
+  return <ins>static_cast&lt;decltype(s)&gt;(</ins>s &lt; <del>c</del><ins><i>count_</i></ins> ? 0 : s - <del>c</del><ins><i>count_</i>)</ins>;
+}
+
+constexpr auto size() const requires sized_range&lt;const V&gt; {
+  <del>const</del> auto s = ranges::size(<i>base_</i>);
+  <del>const auto c = static_cast&lt;decltype(s)&gt;(<i>count_</i>);</del>
+  return <ins>static_cast&lt;decltype(s)&gt;(</ins>s &lt; <del>c</del><ins><i>count_</i></ins> ? 0 : s - <del>c</del><ins><i>count_</i>)</ins>;
 }
 [&hellip;]
 </pre>
