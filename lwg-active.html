@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-07-06 at 16:54:30 UTC</p>
+<p><p>Revised 2022-07-06 at 20:37:20 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -182,9 +182,9 @@ ownership of it.
 <ul>
 <li>D123: 2022-03-04 Since March 2022<ul>
 <li><b>Summary:</b><ul>
-<li>405 open issues, up by 50.</li>
+<li>406 open issues, up by 51.</li>
 <li>2808 closed issues, up by 0.</li>
-<li>39 reassigned issues, up by 0.</li>
+<li>38 reassigned issues, down by 1.</li>
 <li>3252 issues total, up by 50.</li>
 </ul></li>
 <li><b>Details:</b><ul>
@@ -193,7 +193,7 @@ ownership of it.
 <li>Added the following 32 New issues: <a href="lwg-active.html#3681">3681</a>, <a href="lwg-active.html#3682">3682</a>, <a href="lwg-active.html#3684">3684</a>, <a href="lwg-active.html#3685">3685</a>, <a href="lwg-active.html#3686">3686</a>, <a href="lwg-active.html#3688">3688</a>, <a href="lwg-active.html#3689">3689</a>, <a href="lwg-active.html#3690">3690</a>, <a href="lwg-active.html#3691">3691</a>, <a href="lwg-active.html#3693">3693</a>, <a href="lwg-active.html#3694">3694</a>, <a href="lwg-active.html#3696">3696</a>, <a href="lwg-active.html#3697">3697</a>, <a href="lwg-active.html#3698">3698</a>, <a href="lwg-active.html#3699">3699</a>, <a href="lwg-active.html#3700">3700</a>, <a href="lwg-active.html#3706">3706</a>, <a href="lwg-active.html#3716">3716</a>, <a href="lwg-active.html#3717">3717</a>, <a href="lwg-active.html#3718">3718</a>, <a href="lwg-active.html#3719">3719</a>, <a href="lwg-active.html#3720">3720</a>, <a href="lwg-active.html#3721">3721</a>, <a href="lwg-active.html#3722">3722</a>, <a href="lwg-active.html#3723">3723</a>, <a href="lwg-active.html#3724">3724</a>, <a href="lwg-active.html#3725">3725</a>, <a href="lwg-active.html#3726">3726</a>, <a href="lwg-active.html#3727">3727</a>, <a href="lwg-active.html#3728">3728</a>, <a href="lwg-active.html#3729">3729</a>, <a href="lwg-active.html#3730">3730</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3714">3714</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3617">3617</a>.</li>
-<li>Changed the following issue to Open (from SG1): <a href="lwg-active.html#3611">3611</a>.</li>
+<li>Changed the following 2 issues to Open (from SG1): <a href="lwg-active.html#3611">3611</a>, <a href="lwg-active.html#3659">3659</a>.</li>
 </ul></li>
 </ul>
 </li>
@@ -43801,11 +43801,11 @@ are written directly to the output sequence without calling <tt>xsputn</tt>.</in
 
 <hr>
 <h3><a name="3659" href="#3659">3659</a><sup><a href="https://cplusplus.github.io/LWG/issue3659">(i)</a></sup>. Consider <tt>ATOMIC_FLAG_INIT</tt> undeprecation</h3>
-<p><b>Section:</b> D.26.5 <a href="https://wg21.link/depr.atomics.flag">[depr.atomics.flag]</a> <b>Status:</b> <a href="lwg-active.html#SG1">SG1</a>
- <b>Submitter:</b> Aaron Ballman <b>Opened:</b> 2022-01-18 <b>Last modified:</b> 2022-01-22</p>
+<p><b>Section:</b> D.26.5 <a href="https://wg21.link/depr.atomics.flag">[depr.atomics.flag]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Aaron Ballman <b>Opened:</b> 2022-01-18 <b>Last modified:</b> 2022-07-06</p>
 <p><b>Priority: </b>3
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#SG1">SG1</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 <a href="https://wg21.link/P0883R2">P0883R2</a> deprecated <tt>ATOMTIC_VAR_INIT</tt> and
@@ -43830,9 +43830,79 @@ from <tt>&lt;stdatomic.h&gt;</tt>).
 Set priority to 3 after reflector poll. Send to SG1.
 </p>
 
+<p><i>[2022-07-06; SG1 confirm the direction, Jonathan adds wording]</i></p>
+
 
 
 <p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li>
+<p>
+Modify 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a>, Header <tt>&lt;atomic&gt;</tt> synopsis,
+as indicated:
+</p>
+
+<blockquote>
+<pre>
+void atomic_flag_notify_all(volatile atomic_flag*) noexcept;
+void atomic_flag_notify_all(atomic_flag*) noexcept;
+<ins>#define ATOMIC_FLAG_INIT <i>see below</i></ins>
+
+// [atomics.fences], fences
+extern "C" void atomic_thread_fence(memory_order) noexcept;
+extern "C" void atomic_signal_fence(memory_order) noexcept;
+</pre>
+</blockquote>
+</li>
+
+<li>
+<p>
+Move the content of D.26.5 <a href="https://wg21.link/depr.atomics.flag">[depr.atomics.flag]</a> from Annex D to
+the end of 33.5.10 <a href="https://wg21.link/atomics.flag">[atomics.flag]</a>.
+</p>
+<blockquote>
+<pre>
+#define ATOMIC_FLAG_INIT <i>see below</i>
+</pre>
+<blockquote>
+<p>
+<i>Remarks:</i> The macro <code>ATOMIC_FLAG_INIT</code> is defined in
+such a way that it can be used to initialize an object of type
+<code>atomic_flag</code> to the clear state. The macro can be used in the form:
+</p>
+<pre>
+  atomic_flag guard = ATOMIC_FLAG_INIT;
+</pre>
+<p>
+It is unspecified whether the macro can be used in other initialization
+contexts.
+For a complete static-duration object, that initialization shall be static.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li>
+<p>
+Modify D.26.1 <a href="https://wg21.link/depr.atomics.general">[depr.atomics.general]</a> in Annex D as indicated:
+</p>
+
+<blockquote>
+<pre>
+#define ATOMIC_VAR_INIT(value) <i>see below</i>
+
+<del>#define ATOMIC_FLAG_INIT <i>see below</i></del>
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
 
 
 
