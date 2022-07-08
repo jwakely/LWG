@@ -48,7 +48,7 @@
 <h3><a name="3730" href="lwg-active.html#3730">3730</a>. <tt>std::ranges::drop_view</tt> may have different size type from its underlying view</h3>
 <p><b>Section:</b> 26.7.10.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-07-03 <b>Last modified:</b> 2022-07-03</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.drop.view">issues</a> in [range.drop.view].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -71,6 +71,16 @@ So I think the difference on the size types is an oversight. On the other hand, 
 <tt>const</tt> used here seems redundant and inconsistent with other parts of the 
 standard wording, although implementations may tend to use it.
 </p>
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p>
+"The PR is incorrect - integer-class types do not support mixed-signedess operations, so you have to cast one of the two first."
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>

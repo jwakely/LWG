@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-07 at 09:16:11 UTC</p>
+<p><p>Revised 2022-07-08 at 20:06:16 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36678,88 +36678,6 @@ Set priority to 3 after reflector poll.
 
 
 <hr>
-<h3><a name="3564" href="#3564">3564</a><sup><a href="https://cplusplus.github.io/LWG/issue3564">(i)</a></sup>. <tt>transform_view::<i>iterator</i>&lt;true&gt;::value_type</tt> and <tt>iterator_category</tt> should 
-use <tt>const F&amp;</tt></h3>
-<p><b>Section:</b> 26.7.7.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> <b>Status:</b> <a href="lwg-active.html#SG9">SG9</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-06-06 <b>Last modified:</b> 2021-06-14</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.transform.iterator">issues</a> in [range.transform.iterator].</p>
-<p><b>Discussion:</b></p>
-<p>
-Iterators obtained from a <tt>const transform_view</tt> invoke the
-transformation function as <tt>const</tt>, but the <tt>value_type</tt> and
-<tt>iterator_category</tt> determination uses plain <tt>F&amp;</tt>, i.e., non-<tt>const</tt>.
-</p>
-
-<p><i>[2021-06-14; Reflector poll]</i></p>
-
-<p>
-Set priority to 2 after reflector poll, send to SG9 for design clarification.
-Should <code>r</code> and <code>as_const(r)</code> guarantee same elements?
-</p>
-
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
-</p>
-
-<ol>
-<li><p>Modify 26.7.7.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;input_range V, copy_constructible F&gt;
-    requires view&lt;V&gt; &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
-             regular_invocable&lt;F&amp;, range_reference_t&lt;V&gt;&gt; &amp;&amp;
-             <i>can-reference</i>&lt;invoke_result_t&lt;F&amp;, range_reference_t&lt;V&gt;&gt;&gt;
-  template&lt;bool Const&gt;
-  class transform_view&lt;V, F&gt;::<i>iterator</i> {
-  private:
-    [&hellip;]
-  public:
-    using iterator_concept = <i>see below</i>;
-    using iterator_category = <i>see below</i>; <i>// not always present</i>
-    using value_type =
-      remove_cvref_t&lt;invoke_result_t&lt;<ins><i>maybe-const</i>&lt;Const,</ins> F<ins>&gt;</ins>&amp;, 
-      range_reference_t&lt;<i>Base</i>&gt;&gt;&gt;;
-    using difference_type = range_difference_t&lt;<i>Base</i>&gt;;  
-    [&hellip;]
-  };
-}
-</pre>
-</blockquote>
-<p>
--1- [&hellip;]
-<p/>
--2- The member <i>typedef-name</i> <tt>iterator_category</tt> is defined if and only if <tt><i>Base</i></tt> 
-models <tt>forward_range</tt>. In that case, <tt>iterator::iterator_category</tt> is defined as follows: Let 
-<tt>C</tt> denote the type <tt>iterator_traits&lt;iterator_t&lt;<i>Base</i>&gt;&gt;::iterator_category</tt>.
-</p>
-<ol style="list-style-type: none">
-<li><p>(2.1) &mdash; If <tt>is_lvalue_reference_v&lt;invoke_result_t&lt;<ins><i>maybe-const</i>&lt;Const,</ins> 
-F<ins>&gt;</ins>&amp;, range_reference_t&lt;<i>Base</i>&gt;&gt;&gt;</tt> 
-is <tt>true</tt>, then</p>
-<ol style="list-style-type: none">
-<li><p>(2.1.1) &mdash; [&hellip;]</p></li>
-<li><p>(2.1.2) &mdash; [&hellip;]</p></li>
-</ol>
-</li>
-<li><p>(2.2) &mdash; Otherwise, <tt>iterator_category</tt> denotes <tt>input_iterator_tag</tt>.</p></li>
-</ol>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-<hr>
 <h3><a name="3565" href="#3565">3565</a><sup><a href="https://cplusplus.github.io/LWG/issue3565">(i)</a></sup>. Handling of encodings in localized formatting of <tt>chrono</tt> types is underspecified</h3>
 <p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#SG16">SG16</a>
  <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2021-05-31 <b>Last modified:</b> 2021-06-14</p>
@@ -42045,103 +41963,6 @@ Set priority to 3 after reflector poll.
 
 
 <hr>
-<h3><a name="3656" href="#3656">3656</a><sup><a href="https://cplusplus.github.io/LWG/issue3656">(i)</a></sup>. Inconsistent bit operations returning a count</h3>
-<p><b>Section:</b> 22.15.5 <a href="https://wg21.link/bit.pow.two">[bit.pow.two]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Nicolai Josuttis <b>Opened:</b> 2021-12-30 <b>Last modified:</b> 2022-02-23</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-Among the bit operations returning a count, <tt>bit_width()</tt> is the only one not returning an <tt>int</tt>.
-<p/>
-This has the following consequences:
-</p>
-<blockquote><pre>
-std::uint64_t b64 = 1;
-b64 = std::rotr(b64, 1);
-int count1 = std::popcount(b64);     // OK
-int count2 = std::countl_zero(b64);  // OK
-int count3 = std::bit_width(b64);    // OOPS
-</pre></blockquote>
-<p>
-The last line may result in a warning such as:
-</p>
-<blockquote><p>
-Warning: conversion from <tt>long long unsigned</tt> to <tt>int</tt> may change value
-</p></blockquote>
-<p>
-You have to use a <tt>static_cast</tt> to avoid the warning.
-<p/>
-Note that <a href="https://wg21.link/P0553R4">P0553R4</a> explicitly states the following design considerations,
-which I would also assume to apply to the later added functions from <a href="https://wg21.link/P0556R3">P0556R3</a>:
-</p>
-<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
-<p>
-The counting operations return "<tt>int</tt>" quantities, consistent with the rule "use an <tt>int</tt> unless you 
-need something else". This choice does not reflect, in the type, the fact that counts are always non-negative. 
-</p>
-</blockquote>
-
-<p><i>[2022-01-30; Reflector poll]</i></p>
-
-<p>
-Set priority to 3 after reflector poll.
-Eight votes for P0, but request LEWG confirmation before setting it to
-Tentatively Ready.
-</p>
-
-<p><i>[2022-02-22 LEWG telecon; Status changed: LEWG &rarr; Open]</i></p>
-
-<p>
-No objection to unanimous consent to send the proposed resolution for LWG3656 to LWG for C++23.
-The changes in P1956 changed the functions to be more counting than mathematical.
-</p>
-
-
-
-<p><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4901">N4901</a>. 
-</p>
-
-<ol>
-<li><p>Modify 22.15.2 <a href="https://wg21.link/bit.syn">[bit.syn]</a>, header <tt>&lt;bit&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-template&lt;class T&gt;
-  constexpr <del>T</del><ins>int</ins> bit_width(T x) noexcept;
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 22.15.5 <a href="https://wg21.link/bit.pow.two">[bit.pow.two]</a>, as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;class T&gt;
-  constexpr <del>T</del><ins>int</ins> bit_width(T x) noexcept;
-</pre>
-<blockquote>
-<p>
--11- <i>Constraints:</i> <tt>T</tt> is an unsigned integer type (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>).
-<p/>
--12- <i>Returns:</i> If <tt>x == 0</tt>, <tt>0</tt>; otherwise one plus the base-2 logarithm of <tt>x</tt>, 
-with any fractional part discarded.
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="3658" href="#3658">3658</a><sup><a href="https://cplusplus.github.io/LWG/issue3658">(i)</a></sup>. <tt>basic_streambuf::sputn</tt> is both overspecified and underspecified</h3>
 <p><b>Section:</b> 31.6.3.3.5 <a href="https://wg21.link/streambuf.pub.put">[streambuf.pub.put]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-01-17 <b>Last modified:</b> 2022-01-23</p>
@@ -45862,7 +45683,7 @@ namespace std {
 <h3><a name="3720" href="#3720">3720</a><sup><a href="https://cplusplus.github.io/LWG/issue3720">(i)</a></sup>. Restrict the valid types of <i>arg-id</i> for <i>width</i> and <i>precision</i> in <i>std-format-spec</i></h3>
 <p><b>Section:</b> 22.14.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-06-19 <b>Last modified:</b> 2022-06-26</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.string.std">active issues</a> in [format.string.std].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.string.std">issues</a> in [format.string.std].</p>
@@ -45934,6 +45755,20 @@ Instead of requiring these specializations, I propose to go the other
 direction and limit the allowed types to signed and unsigned integers.
 </p>
 
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll. Tim Song commented:
+</p>
+<blockquote><p>
+"This is technically a breaking change, so we should do it sooner rather than later.
+</p><p>
+"I don't agree with the second part of the argument though - I don't see how this wording requires adding those transcoding specializations. Nothing in this wording requires integral types that cannot be packed into basic_format_arg to be accepted.
+</p><p>
+"I also think we need to restrict this to signed or unsigned integer types with size no greater than sizeof(long long). Larger types get type-erased into a handle and the value isn't really recoverable without heroics."
+</p></blockquote>
+
+
 
 <p><b>Proposed resolution:</b></p>
 <p>
@@ -45986,8 +45821,8 @@ as <i>arg-id</i> becomes invalid. For example:</ins>
 <hr>
 <h3><a name="3721" href="#3721">3721</a><sup><a href="https://cplusplus.github.io/LWG/issue3721">(i)</a></sup>. Allow an <i>arg-id</i> with a value of zero for <i>width</i> in <i>std-format-spec</i></h3>
 <p><b>Section:</b> 22.14.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-06-19 <b>Last modified:</b> 2022-06-25</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-06-19 <b>Last modified:</b> 2022-07-08</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.string.std">active issues</a> in [format.string.std].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.string.std">issues</a> in [format.string.std].</p>
@@ -46019,6 +45854,13 @@ field. This is one of the items addressed by <a href="https://wg21.link/P2572">P
 works in combination with the wording of that paper.
 </p>
 
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
+
 
 <p><b>Proposed resolution:</b></p>
 <p>
@@ -46048,7 +45890,7 @@ or non-positive for <i>width</i></del>, an exception of type <tt>format_error</t
 <h3><a name="3722" href="#3722">3722</a><sup><a href="https://cplusplus.github.io/LWG/issue3722">(i)</a></sup>. <tt>ranges::to</tt> <tt>reserve</tt>s the wrong size</h3>
 <p><b>Section:</b> 26.5.6.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-20 <b>Last modified:</b> 2022-06-25</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>4
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -46068,6 +45910,32 @@ ranges::to&lt;std::string&gt;(std::views::single('o'), "hell");
 The size of the <tt>string</tt> created by <tt>"hell"</tt> is already <tt>4</tt>, whereas the size of 
 <tt>R</tt> is only <tt>1</tt>, which makes <tt>c.reserve(1)</tt> useless.
 </p>
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 4 after reflector poll.
+Some suggestions for NAD.
+</p>
+<ul>
+<li>
+"The intended use of those additional arguments is for allocators,
+comparators, max load factors, and the like. Not...this. I can't really bring
+myself to care about this example - and it adds some (admittedly small)
+overhead for the by far common case."
+</li>
+<li>
+"And it's not the right fix imo. if we wanted to put *some* constraints on Args, we could attempt to do so, although that might be challenging."
+</li>
+<li>
+"calling reserve() is just an attempt at an optimization."
+</li>
+<li>
+"I disagree with NAD given the fact that we have specifically designed
+the "reserve" branch of the decision tree."
+</li>
+</ul>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -46139,7 +46007,7 @@ to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
 <h3><a name="3723" href="#3723">3723</a><sup><a href="https://cplusplus.github.io/LWG/issue3723">(i)</a></sup>. <tt>priority_queue::push_range</tt> needs to <tt>append_range</tt></h3>
 <p><b>Section:</b> 24.6.5.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-06-20 <b>Last modified:</b> 2022-06-26</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -46161,6 +46029,13 @@ Since <tt>append_range</tt> isn't one of the operations required of the underlyi
 It would be nice if this <tt>push_back</tt> could take advantage of <tt>append_range</tt> 
 when it's available just as do the other two overloads.
 </p>
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -46198,8 +46073,8 @@ by <tt>make_heap(c.begin(), c.end(), comp)</tt></ins>.
 <hr>
 <h3><a name="3724" href="#3724">3724</a><sup><a href="https://cplusplus.github.io/LWG/issue3724">(i)</a></sup>. <tt><i>decay-copy</i></tt> should be constrained</h3>
 <p><b>Section:</b> 16.3.3.2 <a href="https://wg21.link/expos.only.func">[expos.only.func]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hui Xie <b>Opened:</b> 2022-06-23 <b>Last modified:</b> 2022-06-26</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Hui Xie <b>Opened:</b> 2022-06-23 <b>Last modified:</b> 2022-07-08</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#expos.only.func">issues</a> in [expos.only.func].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -46234,6 +46109,13 @@ expression and it would only error on the template instantiation of the function
 I think this behaviour is wrong, instead, we should make <tt><i>decay-copy(E)</i></tt> ill-formed 
 if it is not copyable, so that <tt>views::all(E)</tt> can be SFINAE friendly.
 </p>
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -46273,7 +46155,7 @@ namespace std {
 <h3><a name="3725" href="#3725">3725</a><sup><a href="https://cplusplus.github.io/LWG/issue3725">(i)</a></sup>. <tt>reverse_iterator::operator-&gt;</tt> should not use <tt>prev</tt> for non-pointer iterators</h3>
 <p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-26 <b>Last modified:</b> 2022-06-26</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#reverse.iter.elem">active issues</a> in [reverse.iter.elem].</p>
 <p><b>View all other</b> <a href="lwg-index.html#reverse.iter.elem">issues</a> in [reverse.iter.elem].</p>
@@ -46285,6 +46167,14 @@ When the underlying iterator is not a pointer type, <tt>reverse_iterator::operat
 <i>Cpp17BidirectionalIterator</i>, given that C++20 <tt>bidirectional_iterator</tt> may just be 
 <i>Cpp17InputIterator</i>, we shouldn't use <tt>prev</tt> here.
 </p>
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+Suggested to use <code>prev</code> instead.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -46507,7 +46397,7 @@ constexpr decltype(auto) operator-&gt;() const
 <h3><a name="3728" href="#3728">3728</a><sup><a href="https://cplusplus.github.io/LWG/issue3728">(i)</a></sup>. Can't make neither head nor tail of the description of <tt>operator&lt;=&gt;(tuple, tuple)</tt></h3>
 <p><b>Section:</b> 22.4.8 <a href="https://wg21.link/tuple.rel">[tuple.rel]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Corentin Jabot <b>Opened:</b> 2022-06-28 <b>Last modified:</b> 2022-07-03</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>4
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#tuple.rel">active issues</a> in [tuple.rel].</p>
 <p><b>View all other</b> <a href="lwg-index.html#tuple.rel">issues</a> in [tuple.rel].</p>
@@ -46523,6 +46413,15 @@ no imaginary tuple is involved.
 <p/>
 The remark is copied from the similar wording of <tt>operator==</tt>
 </p>
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 4 after reflector poll.
+Some votes for NAD and preference for the current wording, adding "in order"
+to clarify the order of elements in <code>r<sub>tail</sub></code>.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -46578,7 +46477,7 @@ accesses beyond what is required to determine the result of the comparison. &mda
 <h3><a name="3729" href="#3729">3729</a><sup><a href="https://cplusplus.github.io/LWG/issue3729">(i)</a></sup>. <tt>std::tuple_element_t&lt;std::ranges::subrange&lt;I, S, K&gt;&gt;</tt> should remove top-level <i>cv</i>-qualifiers</h3>
 <p><b>Section:</b> 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-06-30 <b>Last modified:</b> 2022-07-03</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>4
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#ranges.syn">issues</a> in [ranges.syn].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -46589,6 +46488,15 @@ accesses beyond what is required to determine the result of the comparison. &mda
 (<i>cv</i>-unqualified) <tt>auto</tt> drops top-level <i>cv</i>-qualifiers. I think <tt>get</tt> is doing the 
 right thing, and <tt>std::tuple_element_t</tt> should be consistent with the return types.
 </p>
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 4 after reflector poll.
+"This is just contrived, especially since lots of the iterator requirements
+on such a type involve deprecated operations."
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -46637,7 +46545,7 @@ namespace std {
 <h3><a name="3730" href="#3730">3730</a><sup><a href="https://cplusplus.github.io/LWG/issue3730">(i)</a></sup>. <tt>std::ranges::drop_view</tt> may have different size type from its underlying view</h3>
 <p><b>Section:</b> 26.7.10.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-07-03 <b>Last modified:</b> 2022-07-03</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.drop.view">issues</a> in [range.drop.view].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -46660,6 +46568,16 @@ So I think the difference on the size types is an oversight. On the other hand, 
 <tt>const</tt> used here seems redundant and inconsistent with other parts of the 
 standard wording, although implementations may tend to use it.
 </p>
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p>
+"The PR is incorrect - integer-class types do not support mixed-signedess operations, so you have to cast one of the two first."
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>

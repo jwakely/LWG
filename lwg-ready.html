@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2022-07-07 at 09:16:11 UTC</p>
+<td align="left"><p>Revised 2022-07-08 at 20:06:16 UTC</p>
 </td>
 </tr>
 <tr>
@@ -64,6 +64,100 @@
 </tr>
 </table>
 <h2>Ready Issues</h2>
+<hr>
+<h3><a name="3564" href="#3564">3564</a><sup><a href="https://cplusplus.github.io/LWG/issue3564">(i)</a></sup>. <tt>transform_view::<i>iterator</i>&lt;true&gt;::value_type</tt> and <tt>iterator_category</tt> should 
+use <tt>const F&amp;</tt></h3>
+<p><b>Section:</b> 26.7.7.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-06-06 <b>Last modified:</b> 2021-06-14</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.transform.iterator">issues</a> in [range.transform.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Iterators obtained from a <tt>const transform_view</tt> invoke the
+transformation function as <tt>const</tt>, but the <tt>value_type</tt> and
+<tt>iterator_category</tt> determination uses plain <tt>F&amp;</tt>, i.e., non-<tt>const</tt>.
+</p>
+
+<p><i>[2021-06-14; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll, send to SG9 for design clarification.
+Should <code>r</code> and <code>as_const(r)</code> guarantee same elements?
+</p>
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+SG9 has decided to proceed with this PR in its 2021-09-13 telecon and
+not block the issue for a paper on the more general const/non-const
+problem.
+</p>
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.7.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;input_range V, copy_constructible F&gt;
+    requires view&lt;V&gt; &amp;&amp; is_object_v&lt;F&gt; &amp;&amp;
+             regular_invocable&lt;F&amp;, range_reference_t&lt;V&gt;&gt; &amp;&amp;
+             <i>can-reference</i>&lt;invoke_result_t&lt;F&amp;, range_reference_t&lt;V&gt;&gt;&gt;
+  template&lt;bool Const&gt;
+  class transform_view&lt;V, F&gt;::<i>iterator</i> {
+  private:
+    [&hellip;]
+  public:
+    using iterator_concept = <i>see below</i>;
+    using iterator_category = <i>see below</i>; <i>// not always present</i>
+    using value_type =
+      remove_cvref_t&lt;invoke_result_t&lt;<ins><i>maybe-const</i>&lt;Const,</ins> F<ins>&gt;</ins>&amp;, 
+      range_reference_t&lt;<i>Base</i>&gt;&gt;&gt;;
+    using difference_type = range_difference_t&lt;<i>Base</i>&gt;;  
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+<p>
+-1- [&hellip;]
+<p/>
+-2- The member <i>typedef-name</i> <tt>iterator_category</tt> is defined if and only if <tt><i>Base</i></tt> 
+models <tt>forward_range</tt>. In that case, <tt>iterator::iterator_category</tt> is defined as follows: Let 
+<tt>C</tt> denote the type <tt>iterator_traits&lt;iterator_t&lt;<i>Base</i>&gt;&gt;::iterator_category</tt>.
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; If <tt>is_lvalue_reference_v&lt;invoke_result_t&lt;<ins><i>maybe-const</i>&lt;Const,</ins> 
+F<ins>&gt;</ins>&amp;, range_reference_t&lt;<i>Base</i>&gt;&gt;&gt;</tt> 
+is <tt>true</tt>, then</p>
+<ol style="list-style-type: none">
+<li><p>(2.1.1) &mdash; [&hellip;]</p></li>
+<li><p>(2.1.2) &mdash; [&hellip;]</p></li>
+</ol>
+</li>
+<li><p>(2.2) &mdash; Otherwise, <tt>iterator_category</tt> denotes <tt>input_iterator_tag</tt>.</p></li>
+</ol>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
 <hr>
 <h3><a name="3617" href="#3617">3617</a><sup><a href="https://cplusplus.github.io/LWG/issue3617">(i)</a></sup>. <tt>function</tt>/<tt>packaged_task</tt> deduction guides and deducing <tt>this</tt></h3>
 <p><b>Section:</b> 22.10.17.3.2 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a>, 33.10.10.2 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
@@ -295,6 +389,110 @@ This wording is relative to <a href="https://wg21.link/N4853">N4853</a>.
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3656" href="#3656">3656</a><sup><a href="https://cplusplus.github.io/LWG/issue3656">(i)</a></sup>. Inconsistent bit operations returning a count</h3>
+<p><b>Section:</b> 22.15.5 <a href="https://wg21.link/bit.pow.two">[bit.pow.two]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Nicolai Josuttis <b>Opened:</b> 2021-12-30 <b>Last modified:</b> 2022-07-08</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Among the bit operations returning a count, <tt>bit_width()</tt> is the only one not returning an <tt>int</tt>.
+<p/>
+This has the following consequences:
+</p>
+<blockquote><pre>
+std::uint64_t b64 = 1;
+b64 = std::rotr(b64, 1);
+int count1 = std::popcount(b64);     // OK
+int count2 = std::countl_zero(b64);  // OK
+int count3 = std::bit_width(b64);    // OOPS
+</pre></blockquote>
+<p>
+The last line may result in a warning such as:
+</p>
+<blockquote><p>
+Warning: conversion from <tt>long long unsigned</tt> to <tt>int</tt> may change value
+</p></blockquote>
+<p>
+You have to use a <tt>static_cast</tt> to avoid the warning.
+<p/>
+Note that <a href="https://wg21.link/P0553R4">P0553R4</a> explicitly states the following design considerations,
+which I would also assume to apply to the later added functions from <a href="https://wg21.link/P0556R3">P0556R3</a>:
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+The counting operations return "<tt>int</tt>" quantities, consistent with the rule "use an <tt>int</tt> unless you 
+need something else". This choice does not reflect, in the type, the fact that counts are always non-negative. 
+</p>
+</blockquote>
+
+<p><i>[2022-01-30; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+Eight votes for P0, but request LEWG confirmation before setting it to
+Tentatively Ready.
+</p>
+
+<p><i>[2022-02-22 LEWG telecon; Status changed: LEWG &rarr; Open]</i></p>
+
+<p>
+No objection to unanimous consent to send the proposed resolution for LWG3656 to LWG for C++23.
+The changes in P1956 changed the functions to be more counting than mathematical.
+</p>
+
+
+<p><i>[2022-07-08; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after ten votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>. 
+</p>
+
+<ol>
+<li><p>Modify 22.15.2 <a href="https://wg21.link/bit.syn">[bit.syn]</a>, header <tt>&lt;bit&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;class T&gt;
+  constexpr <del>T</del><ins>int</ins> bit_width(T x) noexcept;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 22.15.5 <a href="https://wg21.link/bit.pow.two">[bit.pow.two]</a>, as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt;
+  constexpr <del>T</del><ins>int</ins> bit_width(T x) noexcept;
+</pre>
+<blockquote>
+<p>
+-11- <i>Constraints:</i> <tt>T</tt> is an unsigned integer type (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>).
+<p/>
+-12- <i>Returns:</i> If <tt>x == 0</tt>, <tt>0</tt>; otherwise one plus the base-2 logarithm of <tt>x</tt>, 
+with any fractional part discarded.
+</p>
+</blockquote>
+</blockquote>
+</li>
 </ol>
 
 
