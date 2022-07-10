@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3722: ranges::to reserves the wrong size</title>
+<title>Issue 3733: ranges::to misuses cpp17-input-iterator</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,57 +45,38 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3722" href="lwg-active.html#3722">3722</a>. <tt>ranges::to</tt> <tt>reserve</tt>s the wrong size</h3>
+<h3><a name="3733" href="lwg-active.html#3733">3733</a>. <tt>ranges::to</tt> misuses <tt><i>cpp17-input-iterator</i></tt></h3>
 <p><b>Section:</b> 26.5.6.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-20 <b>Last modified:</b> 2022-07-10</p>
-<p><b>Priority: </b>4
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-07-10 <b>Last modified:</b> 2022-07-10</p>
+<p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
 <p><b>View all other</b> <a href="lwg-index.html#range.utility.conv.to">issues</a> in [range.utility.conv.to].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-In bullet 1.1.4 of <tt>ranges::to</tt>, if the <tt>Container</tt> satisfies <tt><i>container-insertable</i></tt> 
-and <tt>R</tt> models <tt>sized_range</tt>, it will first construct the <tt>Container</tt> with <tt>args...</tt> 
-and then preallocate memory by calling <tt>c.reserve()</tt>.
-</p>
-<p>
-However, this only makes sense when <tt>c</tt> is default-initialized. If instead the size of the <tt>Container</tt> 
-created by <tt>args...</tt> is not <tt>0</tt>, the value passed into <tt>c.reserve()</tt> will be wrong, for example:
+<tt>ranges::to</tt> uses <tt><i>cpp17-input-iterator</i>&lt;iterator_t&lt;R&gt;&gt;</tt> to check 
+whether an iterator is a <i>Cpp17InputIterator</i>, which misbehaves if there is a 
+<tt>std::iterator_traits</tt> specialization for that iterator (e.g. if the iterator is a 
+<tt>std::common_iterator</tt>).
 </p>
 <blockquote><pre>
-ranges::to&lt;std::string&gt;(std::views::single('o'), "hell");
+struct MyContainer {
+    template&lt;class Iter&gt;
+    MyContainer(Iter, Iter);
+
+    char* begin();
+    char* end();
+};
+
+auto nul_terminated = std::views::take_while([](char ch) { return ch != '\0'; });
+auto c = nul_terminated("") | std::views::common | std::ranges::to&lt;MyContainer&gt;();  // <span style="color:red;font-weight:bolder">error</span>
 </pre></blockquote>
 <p>
-The size of the <tt>string</tt> created by <tt>"hell"</tt> is already <tt>4</tt>, whereas the size of 
-<tt>R</tt> is only <tt>1</tt>, which makes <tt>c.reserve(1)</tt> useless.
+I believe that <tt>ranges::to</tt> should instead use 
+<tt>derived_from&lt;typename iterator_traits&lt;iterator_t&lt;R&gt;&gt;::iterator_category, input_iterator_tag&gt;</tt>, 
+which correctly detects the iterator category of a <tt>std::common_iterator</tt>.
 </p>
-
-<p><i>[2022-07-08; Reflector poll]</i></p>
-
-<p>
-Set priority to 4 after reflector poll.
-Some suggestions for NAD.
-</p>
-<ul>
-<li>
-"The intended use of those additional arguments is for allocators,
-comparators, max load factors, and the like. Not...this. I can't really bring
-myself to care about this example - and it adds some (admittedly small)
-overhead for the by far common case."
-</li>
-<li>
-"And it's not the right fix imo. if we wanted to put *some* constraints on Args, we could attempt to do so, although that might be challenging."
-</li>
-<li>
-"calling reserve() is just an attempt at an optimization."
-</li>
-<li>
-"I disagree with NAD given the fact that we have specifically designed
-the "reserve" branch of the decision tree."
-</li>
-</ul>
-
 
 
 <p><b>Proposed resolution:</b></p>
@@ -104,6 +85,7 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 </p>
 
 <ol>
+
 <li><p>Modify 26.5.6.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
 
 <blockquote>
@@ -125,7 +107,9 @@ template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
 <li><p>(1.1.3) &mdash; Otherwise, if</p></li>
 <ol style="list-style-type: none">
 <li><p>(1.1.3.1) &mdash; <tt>common_range&lt;R&gt;</tt> is <tt>true</tt>,</p></li>
-<li><p>(1.1.3.2) &mdash; <tt><i>cpp17-input-iterator</i>&lt;iterator_t&lt;R&gt;&gt;</tt> is <tt>true</tt>, and</p></li>
+<li><p>(1.1.3.2) &mdash; <tt><del><i>cpp17-input-iterator</i></del><ins>derived_from&lt;typename 
+iterator_traits</ins>&lt;iterator_t&lt;R&gt;&gt;<ins>::iterator_category, input_iterator_tag&gt;</ins></tt> 
+is <tt>true</tt>, and</p></li>
 <li><p>(1.1.3.3) &mdash; <tt>constructible_from&lt;C, iterator_t&lt;R&gt;, sentinel_t&lt;R&gt;, Args...&gt;</tt> is <tt>true</tt>:</p>
 <blockquote><tt>C(ranges::begin(r), ranges::end(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
 </ol>
@@ -134,14 +118,7 @@ template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
 <li><p>(1.1.4.1) &mdash; <tt>constructible_from&lt;C, Args...&gt;</tt> is <tt>true</tt>, and</p></li>
 <li><p>(1.1.4.2) &mdash; <tt><i>container-insertable</i>&lt;C, range_reference_t&lt;R&gt;&gt;</tt> is <tt>true</tt>:</p>
 <blockquote><pre>
-C c(std::forward&lt;Args&gt;(args)...);
-if constexpr (sized_range&lt;R&gt; &amp;&amp; <i>reservable-container</i>&lt;C&gt;) <ins>{
-  using ST = range_size_t&lt;C&gt;;
-  using CT = common_type_t&lt;ST, range_size_t&lt;R&gt;&gt;;
-  auto sz = ST(CT(ranges::size(c)) + CT(ranges::size(r)));</ins>
-  c.reserve(<ins>sz</ins><del>ranges::size(r)</del>);
-<ins>}</ins>
-ranges::copy(r, <i>container-inserter</i>&lt;range_reference_t&lt;R&gt;&gt;(c));
+[&hellip;]
 </pre></blockquote></li>
 </ol>
 </ol>
@@ -156,6 +133,7 @@ to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
 </blockquote>
 </blockquote>
 </li>
+
 
 </ol>
 
