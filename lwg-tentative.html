@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-11 at 10:09:30 UTC</p>
+<p><p>Revised 2022-07-14 at 11:38:10 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="3564" href="#3564">3564</a><sup><a href="https://cplusplus.github.io/LWG/issue3564">(i)</a></sup>. <tt>transform_view::<i>iterator</i>&lt;true&gt;::value_type</tt> and <tt>iterator_category</tt> should 
@@ -203,6 +203,61 @@ A paper would be needed.
 Such a paper would need to include discussion on whether
 <code>allocate_at_least</code> (new for C++23) has an impact.
 </p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3611" href="#3611">3611</a><sup><a href="https://cplusplus.github.io/LWG/issue3611">(i)</a></sup>. Should <tt>compare_exchange</tt> be allowed to modify the <tt>expected</tt> value on success?</h3>
+<p><b>Section:</b> 33.5.8.2 <a href="https://wg21.link/atomics.types.operations">[atomics.types.operations]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-09-29 <b>Last modified:</b> 2022-07-14</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#atomics.types.operations">active issues</a> in [atomics.types.operations].</p>
+<p><b>View all other</b> <a href="lwg-index.html#atomics.types.operations">issues</a> in [atomics.types.operations].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently a <tt>compare_exchange</tt> will only update the <tt>expected</tt> parameter if the
+<tt>compare_exchange</tt> fails. This precludes unconditionally clearing the padding bits of the
+<tt>expected</tt> object prior to doing the <tt>compare_exchange</tt>, which complicates the
+implementation by requiring additional work (e.g. making a copy of the <tt>expected</tt> value
+and clearing the copy's padding, then copying it back to expected only if the <tt>compare_exchange</tt> fails).
+<p/>
+We should consider whether we want to allow modifications to <tt>expected</tt> in the success case,
+if such modifications only affect padding bits (i.e. do not alter the value). If we want to allow it,
+we need to say so explicitly. The current wording does not permit modifications in the success case,
+and any such modification could create a data race if another thread is reading the same memory location
+(if it knows a priori that a <tt>compare_exchange_strong</tt> would succeed and so not write to that location).
+</p>
+
+<p><i>[2021-10-14; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll. Send to SG1.
+</p>
+<p>
+This is <a href="lwg-defects.html#2426">2426</a> again,
+but the new requirement to clear padding bits changes things.
+</p>
+
+<p><i>[2022-07-06; Move to "Open" following SG1 feedback]</i></p>
+
+<p>
+Allow compare_exchange to modify the expected value on success?
+<table>
+<tr><td>SF</td><td>F</td><td>N</td><td>A</td><td>SA</td></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>5</td><td>4</td></tr>
+</table>
+</p>
+
+<p><i>[2022-07-14; Move to "Tentatively NAD" following reflector poll]</i></p>
+
 
 
 
