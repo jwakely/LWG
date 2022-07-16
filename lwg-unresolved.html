@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-16 at 18:00:36 UTC</p>
+<p><p>Revised 2022-07-16 at 18:30:56 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47576,6 +47576,81 @@ auto sz = ranges::distance(<i>base_</i>) - <i>n_</i> + 1;
 if (sz &lt; 0) sz = 0;
 return <i>to-unsigned-like</i>(<ins>static_cast&lt;decltype(ranges::distance(<i>base_</i>))&gt;(</ins>sz<ins>)</ins>);
 </pre>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3741" href="#3741">3741</a><sup><a href="https://cplusplus.github.io/LWG/issue3741">(i)</a></sup>. <tt>std::abs(duration)</tt> is ill-formed with non-reduced periods</h3>
+<p><b>Section:</b> 29.5.10 <a href="https://wg21.link/time.duration.alg">[time.duration.alg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Charlie Barto <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-07-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently 29.5.10 <a href="https://wg21.link/time.duration.alg">[time.duration.alg]</a> specifies <tt>abs(duration)</tt> as:
+</p>
+<blockquote><p>
+<i>Returns:</i> if <tt>d &gt;= d.zero()</tt>, return <tt>d</tt>, otherwise return <tt>-d</tt>.
+</p></blockquote>
+<p>
+Because unary minus on durations is defined to return <tt>common_type_t&lt;duration>(-rep_)</tt>, 
+and <tt>common_type_t</tt> for durations is specified to reduce the period, this is ill-formed 
+with durations such as <tt>duration&lt;int, ratio&lt;1000, 1000&gt;&gt;</tt>, or any other 
+type where the numerator and denominator of the period are not coprime.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 29.2 <a href="https://wg21.link/time.syn">[time.syn]</a> header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 29.5.10 <a href="https://wg21.link/time.duration.alg">[time.duration.alg]</a>, specialized algorithms</i>
+template&lt;class Rep, class Period&gt;
+  constexpr <ins>common_type_t&lt;</ins>duration&lt;Rep, Period&gt;<ins>&gt;</ins> abs(duration&lt;Rep, Period&gt; d);
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 29.5.10 <a href="https://wg21.link/time.duration.alg">[time.duration.alg]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> This will cause <tt>abs</tt> to reduce the period before returning it, 
+much like the other arithmetic operators. 
+<p/>
+This is not a breaking change, because code that was using <tt>abs</tt> with a non-reduced 
+period before did not compile.
+]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+template&lt;class Rep, class Period&gt;
+  constexpr <ins>common_type_t&lt;</ins>duration&lt;Rep, Period&gt;<ins>&gt;</ins> abs(duration&lt;Rep, Period&gt; d);
+</pre>
+<blockquote>
+<p>
+-1- <i>Constraints:</i> <tt>numeric_limits&lt;Rep&gt;::is_signed</tt> is <tt>true</tt>.
+<p/>
+-2- <i>Returns:</i> If <tt>d &gt;= d.zero()</tt>, return <tt><ins>+</ins>d</tt>, otherwise return <tt>-d</tt>.
 </p>
 </blockquote>
 </blockquote>
