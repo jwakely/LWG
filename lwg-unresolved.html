@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-16 at 17:27:16 UTC</p>
+<p><p>Revised 2022-07-16 at 18:00:36 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47519,6 +47519,65 @@ namespace std::ranges {
   [&hellip;]
 }
 </pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3740" href="#3740">3740</a><sup><a href="https://cplusplus.github.io/LWG/issue3740">(i)</a></sup>. <tt>slide_view::size const</tt> should always return unsigned <tt>range_difference_t&lt;const V&gt;</tt></h3>
+<p><b>Section:</b> 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-07-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.slide.view">active issues</a> in [range.slide.view].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.slide.view">issues</a> in [range.slide.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, <tt>slide_view::size const</tt> has the following <i>Effects</i>:
+</p>
+<pre>
+auto sz = ranges::distance(<i>base_</i>) - <i>n_</i> + 1;
+if (sz &gt; 0) sz = 0;
+return <i>to-unsigned-like</i>(sz);
+</pre>
+<p>
+Since the types of <tt>ranges::distance(<i>base_</i>)</tt> and <tt><i>n_</i></tt> are 
+<tt>range_difference_t&lt;const V&gt;</tt> and <tt>range_difference_t&lt;V&gt;</tt> respectively,
+the type of <tt>sz</tt> will enter superposition states when the two are not the same, we 
+should make sure that <tt>slide_view::size const</tt> always returns unsigned 
+<tt>range_difference_t&lt;const V&gt;</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr auto size() requires sized_range&lt;V&gt;;
+constexpr auto size() const requires sized_range&lt;const V&gt;;
+</pre>
+<blockquote>
+<p>
+-8- <i>Effects:</i> Equivalent to:
+<pre>
+auto sz = ranges::distance(<i>base_</i>) - <i>n_</i> + 1;
+if (sz &lt; 0) sz = 0;
+return <i>to-unsigned-like</i>(<ins>static_cast&lt;decltype(ranges::distance(<i>base_</i>))&gt;(</ins>sz<ins>)</ins>);
+</pre>
+</p>
+</blockquote>
 </blockquote>
 </li>
 
