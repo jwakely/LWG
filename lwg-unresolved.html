@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-16 at 18:30:56 UTC</p>
+<p><p>Revised 2022-07-16 at 19:01:41 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47615,7 +47615,7 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 </p>
 
 <ol>
-<li><p>Modify 29.2 <a href="https://wg21.link/time.syn">[time.syn]</a> header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 29.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <tt>&lt;chrono&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -47651,6 +47651,70 @@ template&lt;class Rep, class Period&gt;
 -1- <i>Constraints:</i> <tt>numeric_limits&lt;Rep&gt;::is_signed</tt> is <tt>true</tt>.
 <p/>
 -2- <i>Returns:</i> If <tt>d &gt;= d.zero()</tt>, return <tt><ins>+</ins>d</tt>, otherwise return <tt>-d</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3742" href="#3742">3742</a><sup><a href="https://cplusplus.github.io/LWG/issue3742">(i)</a></sup>. <tt>deque::prepend_range</tt> needs to permute</h3>
+<p><b>Section:</b> 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-07-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#sequence.reqmts">active issues</a> in [sequence.reqmts].</p>
+<p><b>View all other</b> <a href="lwg-index.html#sequence.reqmts">issues</a> in [sequence.reqmts].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+When the range to be inserted is neither bidirectional nor sized, it's simpler to prepend 
+elements one at a time, and then reverse the prepended elements. When the range to be 
+inserted is neither forward nor sized, I believe this approach is necessary to implement 
+<tt>prepend_range</tt> at all &mdash; there is no way to determine the length of the range 
+modulo the block size of the <tt>deque</tt> ahead of time so as to insert the new elements 
+in the proper position.
+<p/>
+The container requirements do not allow <tt>prepend_range</tt> to permute elements in a 
+<tt>deque</tt>. I believe we <em>must</em> allow permutation when the range is neither 
+forward nor sized, and we <em>should</em> allow permutation when the range is not bidirectional 
+to allow implementations the freedom to make a single pass through the range.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+a.prepend_range(rg)
+</pre>
+<blockquote>
+<p>
+-94- <i>Result:</i> <tt>void</tt>
+<p/>
+-95- <i>Preconditions:</i> <tt>T</tt> is <i>Cpp17EmplaceConstructible</i> into <tt>X</tt> 
+from <tt>*ranges::begin(rg)</tt>. <ins>For <tt>deque</tt>, lvalues of type <tt>T</tt> are 
+swappable (16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>), <tt>T</tt> meets the 
+<i>Cpp17MoveConstructible</i> and <i>Cpp17MoveAssignable</i> requirements, and
+<tt>T</tt> is <i>Cpp17MoveInsertable</i> into <tt>X</tt>.</ins>
+<p/>
+-96- <i>Effects:</i> Inserts copies of elements in <tt>rg</tt> before <tt>begin()</tt>. 
+Each iterator in the range <tt>rg</tt> is dereferenced exactly once.
+<p/>
+[<i>Note 3</i>: The order of elements in <tt>rg</tt> is not reversed. &mdash; <i>end note</i>]
+<p/>
+-97- <i>Remarks:</i> Required for <tt>deque</tt>, <tt>forward_list</tt>, and <tt>list</tt>.
 </p>
 </blockquote>
 </blockquote>
