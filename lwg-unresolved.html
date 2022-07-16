@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-16 at 16:12:49 UTC</p>
+<p><p>Revised 2022-07-16 at 16:28:58 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47405,6 +47405,54 @@ friend constexpr range_difference_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&g
 <blockquote>
 <p>
 <ins>-?- <i>Effects:</i> Equivalent to: <tt>return -(y - x);</tt></ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3738" href="#3738">3738</a><sup><a href="https://cplusplus.github.io/LWG/issue3738">(i)</a></sup>. Missing preconditions for <tt>take_view</tt> constructor</h3>
+<p><b>Section:</b> 26.7.8.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-07-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.take.view">issues</a> in [range.take.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+When <tt>V</tt> does not model <tt>sized_range</tt>, <tt>take_view::begin</tt> returns 
+<tt>counted_iterator(ranges::begin(<i>base_</i>), <i>count_</i>)</tt>. Since the 
+<tt>counted_iterator</tt> constructor (25.5.6.2 <a href="https://wg21.link/counted.iter.const">[counted.iter.const]</a>) already has 
+a precondition that <tt>n &gt;= 0</tt>, we should add this to <tt>take_view</tt> as well,
+which is consistent with <tt>drop_view</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.7.8.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr take_view(V base, range_difference_t&lt;V&gt; count);
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Preconditions</i>: <tt>count &gt;= 0</tt> is <tt>true</tt>.</ins>
+</p>
+<p>
+-1- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and 
+<tt><i>count_</i></tt> with <tt>count</tt>.
 </p>
 </blockquote>
 </blockquote>
