@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-16 at 16:28:58 UTC</p>
+<p><p>Revised 2022-07-16 at 17:27:16 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47457,6 +47457,71 @@ constexpr take_view(V base, range_difference_t&lt;V&gt; count);
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3739" href="#3739">3739</a><sup><a href="https://cplusplus.github.io/LWG/issue3739">(i)</a></sup>. <tt>chunk_view::size const</tt> is not implemented correctly</h3>
+<p><b>Section:</b> 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-07-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.chunk.view.input">active issues</a> in [range.chunk.view.input].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.chunk.view.input">issues</a> in [range.chunk.view.input].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The implementation of <tt>chunk_view::size const</tt> simply returns 
+<tt><i>to-unsigned-like</i>(<i>div-ceil</i>(ranges::distance(<i>base_</i>), <i>n_</i>))</tt>, 
+where <tt><i>div-ceil</i></tt> is defined in 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as:
+</p>
+<pre>
+template&lt;class I&gt;
+constexpr I <i>div-ceil</i>(I num, I denom) { // <i>exposition only</i>
+  I r = num / denom;
+  if (num % denom)
+    ++r;
+  return r;
+}
+</pre>
+<p>
+Since the types of <tt>ranges::distance(<i>base_</i>)</tt> and <tt><i>n_</i></tt> are 
+<tt>range_difference_t&lt;const V&gt;</tt> and <tt>range_difference_t&lt;V&gt;</tt> respectively, 
+this makes the <tt><i>div-ceil</i></tt>'s template deduction fail when the two are not the same.
+<p/>
+Although we can perform type casting before invoking <tt><i>div-ceil</i></tt>, I think the 
+simplest solution is to add <tt>type_identity_t</tt> to the second template parameter of 
+<tt><i>div-ceil</i></tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class I&gt;
+  constexpr I <i>div-ceil</i>(I num, <ins>type_identity_t&lt;</ins>I<ins>&gt;</ins> denom) { // <i>exposition only</i>
+    I r = num / denom;
+    if (num % denom)
+      ++r;
+    return r;
+  }
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
 </ol>
 
 

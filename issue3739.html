@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3739: chunk_view::size const is not implemented correctly</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+  @media (prefers-color-scheme: dark) {
+     html {
+        color: #ddd;
+        background-color: black;
+     }
+     ins {
+        background-color: #225522
+     }
+     del {
+        background-color: #662222
+     }
+     a {
+        color: #6af
+     }
+     a:visited {
+        color: #6af
+     }
+     blockquote.note
+     {
+        background-color: rgba(255, 255, 255, .10)
+     }
+  }
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3739" href="lwg-active.html#3739">3739</a>. <tt>chunk_view::size const</tt> is not implemented correctly</h3>
+<p><b>Section:</b> 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-07-16</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.chunk.view.input">active issues</a> in [range.chunk.view.input].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.chunk.view.input">issues</a> in [range.chunk.view.input].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The implementation of <tt>chunk_view::size const</tt> simply returns 
+<tt><i>to-unsigned-like</i>(<i>div-ceil</i>(ranges::distance(<i>base_</i>), <i>n_</i>))</tt>, 
+where <tt><i>div-ceil</i></tt> is defined in 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as:
+</p>
+<pre>
+template&lt;class I&gt;
+constexpr I <i>div-ceil</i>(I num, I denom) { // <i>exposition only</i>
+  I r = num / denom;
+  if (num % denom)
+    ++r;
+  return r;
+}
+</pre>
+<p>
+Since the types of <tt>ranges::distance(<i>base_</i>)</tt> and <tt><i>n_</i></tt> are 
+<tt>range_difference_t&lt;const V&gt;</tt> and <tt>range_difference_t&lt;V&gt;</tt> respectively, 
+this makes the <tt><i>div-ceil</i></tt>'s template deduction fail when the two are not the same.
+<p/>
+Although we can perform type casting before invoking <tt><i>div-ceil</i></tt>, I think the 
+simplest solution is to add <tt>type_identity_t</tt> to the second template parameter of 
+<tt><i>div-ceil</i></tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class I&gt;
+  constexpr I <i>div-ceil</i>(I num, <ins>type_identity_t&lt;</ins>I<ins>&gt;</ins> denom) { // <i>exposition only</i>
+    I r = num / denom;
+    if (num % denom)
+      ++r;
+    return r;
+  }
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+</body>
+</html>
