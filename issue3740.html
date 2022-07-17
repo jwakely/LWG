@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3740: slide_view::size const should always return unsigned range_difference_t&lt;const V&gt;</title>
+<title>Issue 3740: slide_view::size should preserve the signedness of underlying range's size</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,7 +45,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3740" href="lwg-active.html#3740">3740</a>. <tt>slide_view::size const</tt> should always return unsigned <tt>range_difference_t&lt;const V&gt;</tt></h3>
+<h3><a name="3740" href="lwg-active.html#3740">3740</a>. <tt>slide_view::size</tt> should preserve the signedness of underlying range's size</h3>
 <p><b>Section:</b> 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-07-17</p>
 <p><b>Priority: </b>Not Prioritized
@@ -63,12 +63,18 @@ if (sz &gt; 0) sz = 0;
 return <i>to-unsigned-like</i>(sz);
 </pre>
 <p>
-Since the types of <tt>ranges::distance(<i>base_</i>)</tt> and <tt><i>n_</i></tt> are 
-<tt>range_difference_t&lt;const V&gt;</tt> and <tt>range_difference_t&lt;V&gt;</tt> respectively,
-the type of <tt>sz</tt> will enter superposition states when the two are not the same, 
-and even if they are the same type, there may still be integer promotion issues mentioned 
-by LWG <a href="lwg-active.html#3730">3730</a>. We should make sure that <tt>slide_view::size const</tt> 
-always returns unsigned <tt>range_difference_t&lt;const V&gt;</tt>.
+There are two problems worth noting here. First, as described in LWG <a href="lwg-active.html#3739">3739</a>, 
+<tt>ranges::distance(<i>base_</i>)</tt> and <tt><i>n_</i></tt> may have 
+different types, which makes the actual type of <tt>sz</tt> not deterministic.
+Also, the return type is unconditionally converted to an unsigned type, even though 
+the underlying range may have a signed size type.
+</p>
+Second, even if <tt>V</tt> has the same <tt>difference_type</tt> as <tt>const V</tt>, 
+there may still be integer promotion issues mentioned by LWG <a href="lwg-active.html#3730">3730</a>
+since we add an integer <tt>1</tt> at the end here.
+<p>
+I think converting <tt>sz</tt> to the size type of the underlying range before 
+returning is the appropriate thing to do.
 </p>
 
 
