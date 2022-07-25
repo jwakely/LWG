@@ -61,7 +61,7 @@ it always invokes the non-<tt>const</tt> object's <tt>operator-&gt;()</tt>.
 <p/>
 <tt>common_iterator::operator-&gt;</tt> also requires that <tt>I::operator-&gt;()</tt> must be 
 <tt>const</tt>-qualified, which seems reasonable since the return type of <tt>get&lt;I&gt;(v_)</tt> 
-is <tt>const I&amp;</tt>. However, LWG <a href="lwg-active.html#3672">3672</a> makes <tt>common_iterator::operator-&gt;()</tt> 
+is <tt>const I&amp;</tt>. However, LWG <a href="lwg-defects.html#3672">3672</a> makes <tt>common_iterator::operator-&gt;()</tt> 
 always return a value, which makes it unnecessary to detect the constness of <tt>I::operator-&gt;()</tt>, 
 because it will be invoked with a non-<tt>const</tt> returned object anyway.
 <p/>
@@ -74,7 +74,7 @@ consistent, and I believe this relaxation of constraints can bring some value.
 <p/>
 <b>Daniel:</b>
 <p/>
-This issue's second part of the resolution actually depends on <a href="lwg-active.html#3672">3672</a> being applied. But
+This issue's second part of the resolution actually depends on <a href="lwg-defects.html#3672">3672</a> being applied. But
 note that the reference wording below is still <a href="https://wg21.link/N4910">N4910</a>.
 </p>
 
