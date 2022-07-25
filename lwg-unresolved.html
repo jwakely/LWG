@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-07-24 at 10:37:15 UTC</p>
+<p><p>Revised 2022-07-25 at 18:15:17 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47878,6 +47878,54 @@ to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3744" href="#3744">3744</a><sup><a href="https://cplusplus.github.io/LWG/issue3744">(i)</a></sup>. <tt>copy_symlink(junction, new_symlink)</tt>'s behavior is unclear</h3>
+<p><b>Section:</b> 31.12.13.6 <a href="https://wg21.link/fs.op.copy.symlink">[fs.op.copy.symlink]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Nicole Mazzuca <b>Opened:</b> 2022-07-25 <b>Last modified:</b> 2022-07-25</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The specification for <tt>copy_symlink</tt> is (31.12.13.6 <a href="https://wg21.link/fs.op.copy.symlink">[fs.op.copy.symlink]</a>):
+</p>
+<blockquote><p>
+<i>Effects</i>: Equivalent to <tt><i>function</i>(read_symlink(existing_symlink), new_symlink)</tt> 
+or <tt><i>function</i>(read_symlink(existing_symlink, ec), new_symlink, ec)</tt>, respectively,
+where in each case <tt><i>function</i></tt> is <tt>create_symlink</tt> or 
+<tt>create_directory_symlink</tt> as appropriate.
+</p></blockquote>
+<p>
+The specification for <tt>read_symlink</tt> is (31.12.13.29 <a href="https://wg21.link/fs.op.read.symlink">[fs.op.read.symlink]</a>):
+</p>
+<blockquote><p>
+<i>Returns</i>: If <tt>p</tt> resolves to a symbolic link, a path object containing the contents of 
+that symbolic link.
+</p></blockquote>
+<p>
+And finally, the definition of a "symbolic link" is (31.12.1 <a href="https://wg21.link/fs.general">[fs.general]</a>):
+</p>
+<blockquote><p>
+A <i>symbolic link</i> is a type of file with the property that when the file is encountered during pathname
+resolution (31.12.6 <a href="https://wg21.link/fs.class.path">[fs.class.path]</a>), a string stored by the file is used to modify the pathname resolution.
+</p></blockquote>
+<p>
+On Unix, <tt>symlink</tt> is the only kind of symbolic link. However, on Windows, there are symbolic 
+link files which are <em>not</em> <tt>symlink</tt>s (app execution aliases and junctions) &mdash; this 
+means that <tt>read_symlink</tt> should almost certainly get the target of these files if possible. 
+However, <tt>copy_symlink</tt> specifically requires creating a <em><tt>symlink</tt></em>, not whatever 
+type of file was there originally. IMO, <tt>copy_symlink</tt> should require its target to be a symlink. 
+I think the original assumption was that <tt>read_symlink</tt> would take care of that for 
+<tt>copy_symlink</tt>; this is clearly not the case on Windows, though.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
