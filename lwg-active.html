@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-07-30 at 16:30:07 UTC</p>
+<p><p>Revised 2022-07-30 at 17:03:38 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -49454,9 +49454,9 @@ namespace std {
   template&lt;class T&gt;
     constexpr bool <i>is-optional</i>&lt;optional&lt;T&gt;&gt; = true; <i>// exposition only</i></del>
   <ins>template&lt;class T&gt;
-   concept <i>is-derived-from-optional</i> = requires(const T&amp; t) { <i>// exposition only</i>
+    concept <i>is-derived-from-optional</i> = requires(const T&amp; t) { <i>// exposition only</i>
       []&lt;class U&gt;(const optional&lt;U&gt;&amp;){ }(t);
-  };</ins>
+    };</ins>
   [&hellip;]
   <i>// 22.5.8 <a href="https://wg21.link/optional.comp.with.t">[optional.comp.with.t]</a>, comparison with T</i>
   [&hellip;]
