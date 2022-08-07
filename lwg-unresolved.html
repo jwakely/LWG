@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-08-07 at 09:34:54 UTC</p>
+<p><p>Revised 2022-08-07 at 10:28:29 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48125,6 +48125,15 @@ int main() {
   return std::counted_iterator&lt;X&gt;(y) - y; // <span style="color:red;font-weight:bolder">hard error in stdlibc++ and MSVC-STL</span>
 }
 </pre></blockquote>
+<p>
+<b>Daniel:</b>
+</p>
+<blockquote class="note">
+<p>
+This issue shouldn't we voted until until a decision for LWG <a href="lwg-active.html#3749">3749</a> has been made, because the first part of
+it overlaps with LWG <a href="lwg-active.html#3749">3749</a>'s second part.
+</p>
+</blockquote>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -48170,6 +48179,149 @@ template&lt;common_with&lt;I&gt; I2&gt;
 <p/>
 -14- <i>Effects</i>: Equivalent to: <tt>return <ins>static_cast&lt;iter_difference_t&lt;I2&gt;&gt;(</ins>y.length - 
   x.length<ins>)</ins>;</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3749" href="#3749">3749</a><sup><a href="https://cplusplus.github.io/LWG/issue3749">(i)</a></sup>. <tt>common_iterator</tt> should handle integer-class difference types</h3>
+<p><b>Section:</b> 25.5.4 <a href="https://wg21.link/iterators.common">[iterators.common]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-08-01 <b>Last modified:</b> 2022-08-07</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The partial specialization of <tt>iterator_traits</tt> for <tt>common_iterator</tt> is defined in 
+25.5.4.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a> as
+</p>
+<pre>
+template&lt;input_iterator I, class S&gt;
+struct iterator_traits&lt;common_iterator&lt;I, S&gt;&gt; {
+  using iterator_concept = <i>see below</i>;
+  using iterator_category = <i>see below</i>;
+  using value_type = iter_value_t&lt;I&gt;;
+  using difference_type = iter_difference_t&lt;I&gt;;
+  using pointer = <i>see below</i>;
+  using reference = iter_reference_t&lt;I&gt;;
+};
+</pre>
+<p>
+where <tt>difference_type</tt> is defined as <tt>iter_difference_t&lt;I&gt;</tt> and <tt>iterator_category</tt> 
+is defined as at least <tt>input_iterator_tag</tt>. However, when <tt>difference_type</tt> is an 
+integer-class type, <tt>common_iterator</tt> does not satisfy <i>Cpp17InputIterator</i>, which makes 
+<tt>iterator_category</tt> incorrectly defined as <tt>input_iterator_tag</tt>.
+</p>
+<p>
+Since the main purpose of <tt>common_iterator</tt> is to be compatible with the legacy iterator system, 
+which is reflected in its efforts to try to provide the operations required by C++17 iterators even if 
+the underlying iterator does not support it. We should handle this case of difference type incompatibility 
+as well.
+<p/>
+The proposed solution is to provide a C++17 conforming difference type by clamping the integer-class type 
+to <tt>ptrdiff_t</tt>.
+<p/>
+<b>Daniel:</b>
+</p>
+<blockquote class="note">
+<p>
+The second part of this issue provides an <em>alternative</em> resolution for the first part of 
+LWG <a href="lwg-active.html#3748">3748</a> and solves the casting problem mentioned in LWG <a href="lwg-active.html#3748">3748</a> as well.
+</p>
+</blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 25.5.4.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> <tt>common_iterator</tt> requires iterator type <tt>I</tt> must model 
+<tt><i>input_or_output_iterator</i></tt> which ensures that <tt>iter_difference_t&lt;I&gt;</tt> 
+is a signed-integer-like type. The modification of <tt>common_iterator::operator-</tt> is to ensure 
+that the pair of <tt>common_iterator&lt;I, S&gt;</tt> models <tt>sized_sentinel_for</tt> when 
+<tt>sized_sentinel_for&lt;I, S&gt;</tt> is modeled for iterator type <tt>I</tt> with an 
+integer-class difference type and its sentinel type <tt>S</tt>.]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+namespace std {
+  <ins>template&lt;class D&gt;
+    requires <i>is-signed-integer-like</i>&lt;D&gt;
+  using <i>make-cpp17-diff-t</i> = conditional_t&lt;signed_integral&lt;D&gt;, D, ptrdiff_t&gt;;  <i>// exposition only</i></ins>
+
+  template&lt;<i>input_or_output_iterator</i> I, sentinel_for&lt;I&gt; S>
+    requires (!same_as&lt;I, S&gt; &amp;&amp; copyable&lt;I&gt;)
+  class common_iterator {
+  public:
+    [&hellip;]
+    template&lt;sized_sentinel_for&lt;I&gt; I2, sized_sentinel_for&lt;I&gt; S2>
+      requires sized_sentinel_for&lt;S, I2&gt;
+    friend constexpr <ins><i>make-cpp17-diff-t</i>&lt;</ins>iter_difference_t&lt;I2&gt;<ins>&gt;</ins> operator-(
+      const common_iterator&amp; x, const common_iterator&lt;I2, S2&gt;&amp; y);
+    [&hellip;]
+  };
+  
+  template&lt;class I, class S&gt;
+  struct incrementable_traits&lt;common_iterator&lt;I, S&gt;&gt; {
+    using difference_type = <ins><i>make-cpp17-diff-t</i>&lt;</ins>iter_difference_t&lt;I&gt;<ins>&gt;</ins>;
+  };
+
+  template&lt;input_iterator I, class S&gt;
+  struct iterator_traits&lt;common_iterator&lt;I, S&gt;&gt; {
+    using iterator_concept = <i>see below</i>;
+    using iterator_category = <i>see below</i>;
+    using value_type = iter_value_t&lt;I&gt;;
+    using difference_type = <ins><i>make-cpp17-diff-t</i>&lt;</ins>iter_difference_t&lt;I&gt;<ins>&gt;</ins>;
+    using pointer = <i>see below</i>;
+    using reference = iter_reference_t&lt;I&gt;;
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 25.5.4.6 <a href="https://wg21.link/common.iter.cmp">[common.iter.cmp]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> If this issue is voted in at the same time as LWG <a href="lwg-active.html#3748">3748</a>, the editor
+is kindly informed that the changes indicated below supersede those of the before mentioned issues first 
+part.]
+</p>
+</blockquote>
+
+
+<blockquote>
+<pre>
+template&lt;sized_sentinel_for&lt;I&gt; I2, sized_sentinel_for&lt;I&gt; S2>
+  requires sized_sentinel_for&lt;S, I2&gt;
+friend constexpr <ins><i>make-cpp17-diff-t</i>&lt;</ins>iter_difference_t&lt;I2&gt;<ins>&gt;</ins> operator-(
+  const common_iterator&amp; x, const common_iterator&lt;I2, S2&gt;&amp; y);
+</pre>
+<blockquote>
+<p>
+-5- <i>Preconditions</i>: <tt>x.v_.valueless_by_exception()</tt> and <tt>y.v_.valueless_by_exception()</tt> are 
+each <tt>false</tt>.
+<p/>
+-6- <i>Returns</i>: <tt>0</tt> if <tt><i>i</i></tt> and <tt><i>j</i></tt> are each <tt>1</tt>, and 
+otherwise <ins><tt>static_cast&lt;<i>make-cpp17-diff-t</i>&lt;iter_difference_t&lt;I2&gt;&gt;&gt;(</tt></ins><tt>get&lt;<i>i</i>&gt;(x.v_) 
+- get&lt;<i>j</i>&gt;(y.v_)</tt><ins><tt>)</tt></ins>, where <tt><i>i</i></tt> is <tt>x.v_.index()</tt> 
+and <tt><i>j</i></tt> is <tt>y.v_.index()</tt>.
 </p>
 </blockquote>
 </blockquote>
