@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-08-07 at 10:59:44 UTC</p>
+<p><p>Revised 2022-08-07 at 11:08:59 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48378,6 +48378,42 @@ We should do that.
 #define __cpp_lib_format          202207L <i>// also in &lt;format&gt;</i>
 <ins>#define __cpp_lib_format_ranges   202207L <i>// also in &lt;format&gt;</i></ins>
 
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3751" href="#3751">3751</a><sup><a href="https://cplusplus.github.io/LWG/issue3751">(i)</a></sup>. Missing feature macro for <tt>flat_set</tt></h3>
+<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2022-08-04 <b>Last modified:</b> 2022-08-07</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+As pointed out by <a href="https://lists.isocpp.org/sg10/2022/07/0834.php">Casey Carter</a>, 
+while there is a feature macro for <tt>flat_map</tt> in <a href="https://wg21.link/P0429">P0429</a>, there is 
+no corresponding macro for flat_set in <a href="https://wg21.link/P1222">P1222</a>. We should add one.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<ol>
+
+<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+#define __cpp_lib_flat_map  202207L <i>// also in &lt;flat_map&gt;</i>
+<ins>#define __cpp_lib_flat_set  202207L <i>// also in &lt;flat_set&gt;</i></ins>
 </pre>
 </blockquote>
 </li>
