@@ -103,7 +103,7 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 <blockquote class="note">
 <p>
 [<i>Drafting note:</i> <tt>common_iterator</tt> requires iterator type <tt>I</tt> must model 
-<tt><i>input_or_output_iterator</i></tt> which ensures that <tt>iter_difference_t&lt;I&gt;</tt> 
+<tt>input_or_output_iterator</tt> which ensures that <tt>iter_difference_t&lt;I&gt;</tt> 
 is a signed-integer-like type. The modification of <tt>common_iterator::operator-</tt> is to ensure 
 that the pair of <tt>common_iterator&lt;I, S&gt;</tt> models <tt>sized_sentinel_for</tt> when 
 <tt>sized_sentinel_for&lt;I, S&gt;</tt> is modeled for iterator type <tt>I</tt> with an 
@@ -118,7 +118,7 @@ namespace std {
     requires <i>is-signed-integer-like</i>&lt;D&gt;
   using <i>make-cpp17-diff-t</i> = conditional_t&lt;signed_integral&lt;D&gt;, D, ptrdiff_t&gt;;  <i>// exposition only</i></ins>
 
-  template&lt;<i>input_or_output_iterator</i> I, sentinel_for&lt;I&gt; S>
+  template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S>
     requires (!same_as&lt;I, S&gt; &amp;&amp; copyable&lt;I&gt;)
   class common_iterator {
   public:
@@ -158,7 +158,6 @@ is kindly informed that the changes indicated below supersede those of the befor
 part.]
 </p>
 </blockquote>
-
 
 <blockquote>
 <pre>
