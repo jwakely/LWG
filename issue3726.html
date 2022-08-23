@@ -44,15 +44,15 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">Tentatively NAD</a> status.</em></p>
 <h3><a name="3726" href="lwg-active.html#3726">3726</a>. <tt>reverse_iterator::operator-&gt;</tt> is underconstrained for non-pointer iterators</h3>
-<p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-07-03</p>
+<p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#reverse.iter.elem">active issues</a> in [reverse.iter.elem].</p>
 <p><b>View all other</b> <a href="lwg-index.html#reverse.iter.elem">issues</a> in [reverse.iter.elem].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 For non-pointer types, <tt>reverse_iterator::operator-&gt;</tt> only requires the expression 
@@ -64,6 +64,16 @@ cannot be converted to <tt>pointer</tt>.
 <p/>
 We should add a return type constraint for this.
 </p>
+
+<p><i>[2022-08-23; Reflector poll: NAD]</i></p>
+
+<p>
+<code>pointer</code> is <code>iterator_traits&lt;Iterator&gt;::pointer</code>,
+which is required to name <code>decltype(i.operator-&gt;())</code>
+(25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a>/1)
+so the postulated problem simply does not arise in valid code.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
