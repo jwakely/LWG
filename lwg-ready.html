@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2022-08-23 at 15:25:25 UTC</p>
+<td align="left"><p>Revised 2022-08-24 at 18:57:39 UTC</p>
 </td>
 </tr>
 <tr>
@@ -64,6 +64,592 @@
 </tr>
 </table>
 <h2>Ready Issues</h2>
+<hr>
+<h3><a name="3594" href="#3594">3594</a><sup><a href="https://cplusplus.github.io/LWG/issue3594">(i)</a></sup>. <tt>inout_ptr</tt> &mdash; inconsistent <tt>release()</tt> in destructor</h3>
+<p><b>Section:</b> 20.3.4.3 <a href="https://wg21.link/inout.ptr.t">[inout.ptr.t]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> JeanHeyd Meneide <b>Opened:</b> 2021-09-16 <b>Last modified:</b> 2022-08-24</p>
+<p><b>Priority: </b>1
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+More succinctly, the model for <tt>std::out_ptr_t</tt> and <tt>std::inout_ptr_t</tt>
+both have a conditional release in their destructors as part of their
+specification (20.3.4.1 <a href="https://wg21.link/out.ptr.t">[out.ptr.t]</a> p8) (Option #2 below).
+But, if the wording is followed, they have an unconditional release in
+their constructor (Option #1 below). This is not exactly correct and
+can cause issues with double-free in <tt>inout_ptr</tt> in particular.
+<p/>
+Consider a function <tt>MyFunc</tt> that sets <tt>rawPtr</tt> to <tt>nullptr</tt> when freeing
+an old value and deciding not to produce a new value, as shown below:
+</p>
+<blockquote><pre>
+// Option #1:
+auto uptr = std::make_unique&lt;BYTE[]&gt;(25);
+auto rawPtr = uptr.get();
+uptr.release(); // UNCONDITIONAL
+MyFunc(&amp;rawPtr);
+If (rawPtr)
+{
+  uptr.reset(rawPtr);
+}
+
+// Option #2:
+auto uptr = std::make_unique&lt;BYTE[]&gt;(25);
+auto rawPtr = uptr.get();
+MyFunc(&amp;rawPtr);
+If (rawPtr)
+{
+  uptr.release(); // CONDITIONAL
+  uptr.reset(rawPtr);
+}
+</pre></blockquote>
+<p>
+This is no problem if the implementation selected Option #1 (release
+in the constructor), but results in double-free if the implementation
+selected option #2 (release in the destructor).
+<p/>
+As the paper author and after conferring with others, the intent was
+that the behavior was identical and whether a choice between the
+constructor or destructor is made. The reset should be unconditional,
+at least for <tt>inout_ptr_t</tt>. Suggested change for the <tt>~inout_ptr_t</tt>
+destructor text is to remove the "<tt>if (p) { ... }</tt>" wrapper from around
+the code in 20.3.4.3 <a href="https://wg21.link/inout.ptr.t">[inout.ptr.t]</a> p11.
+</p>
+
+<p><i>[2021-09-24; Reflector poll]</i></p>
+
+<p>
+Set priority to 1 after reflector poll.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.3.4.3 <a href="https://wg21.link/inout.ptr.t">[inout.ptr.t]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+~inout_ptr_t();
+</pre>
+<blockquote>
+<p>
+-9- Let <tt>SP</tt> be <tt><i>POINTER_OF_OR</i>(Smart, Pointer)</tt> (20.2.1 <a href="https://wg21.link/memory.general">[memory.general]</a>).
+<p/>
+-10- Let <tt><i>release-statement</i></tt> be <tt>s.release()</tt>; if an implementation does not call <tt>s.release()</tt> in the
+constructor. Otherwise, it is empty.
+<p/>
+-11- <i>Effects:</i> Equivalent to:
+</p>
+<ol style="list-style-type: none">
+<li><p>(11.1) &mdash; </p>
+<blockquote><pre>
+<del>if (p) {</del>
+  apply([&amp;](auto&amp;&amp;... args) {
+  s = Smart( static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
+<del>}</del>
+</pre></blockquote>
+<p>
+if <tt>is_pointer_v&lt;Smart&gt;</tt> is <tt>true</tt>;
+</p></li>
+<li><p>(11.2) &mdash; otherwise,</p>
+<blockquote><pre>
+<del>if (p) {</del>
+  apply([&amp;](auto&amp;&amp;... args) {
+  <i>release-statement</i>;
+  s.reset(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
+<del>}</del>
+</pre></blockquote>
+<p>
+if the expression <tt>s.reset(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...)</tt> is well-formed;
+</p>
+</li>
+<li><p>(11.3) &mdash; otherwise,</p>
+<blockquote><pre>
+<del>if (p) {</del>
+  apply([&amp;](auto&amp;&amp;... args) {
+  <i>release-statement</i>;
+  s = Smart(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
+<del>}</del>
+</pre></blockquote>
+<p>
+if <tt>is_constructible_v&lt;Smart, SP, Args...&gt;</tt> is <tt>true</tt>;
+</p>
+</li>
+<li><p>(11.4) &mdash; otherwise, the program is ill-formed.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2021-10-28; JeanHeyd Meneide provides improved wording]</i></p>
+
+
+<p><i>[2022-08-24 Approved unanimously in LWG telecon.]</i></p>
+
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.3.4.3 <a href="https://wg21.link/inout.ptr.t">[inout.ptr.t]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+~inout_ptr_t();
+</pre>
+<blockquote>
+<p>
+-9- Let <tt>SP</tt> be <tt><i>POINTER_OF_OR</i>(Smart, Pointer)</tt> (20.2.1 <a href="https://wg21.link/memory.general">[memory.general]</a>).
+<p/>
+-10- Let <tt><i>release-statement</i></tt> be <tt>s.release()</tt>; if an implementation does not call <tt>s.release()</tt> in the
+constructor. Otherwise, it is empty.
+<p/>
+-11- <i>Effects:</i> Equivalent to:
+</p>
+<ol style="list-style-type: none">
+<li><p>(11.1) &mdash; </p>
+<blockquote><pre>
+if (p) {
+  apply([&amp;](auto&amp;&amp;... args) {
+  s = Smart( static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
+}
+</pre></blockquote>
+<p>
+if <tt>is_pointer_v&lt;Smart&gt;</tt> is <tt>true</tt>;
+</p></li>
+<li><p>(11.2) &mdash; otherwise,</p>
+<blockquote><pre>
+<ins><i>release-statement</i>;</ins>
+if (p) {
+  apply([&amp;](auto&amp;&amp;... args) {
+  <del><i>release-statement</i>;</del>
+  s.reset(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
+}
+</pre></blockquote>
+<p>
+if the expression <tt>s.reset(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...)</tt> is well-formed;
+</p>
+</li>
+<li><p>(11.3) &mdash; otherwise,</p>
+<blockquote><pre>
+<ins><i>release-statement</i>;</ins>
+if (p) {
+  apply([&amp;](auto&amp;&amp;... args) {
+  <del><i>release-statement</i>;</del>
+  s = Smart(static_cast&lt;SP&gt;(p), std::forward&lt;Args&gt;(args)...); }, std::move(a));
+}
+</pre></blockquote>
+<p>
+if <tt>is_constructible_v&lt;Smart, SP, Args...&gt;</tt> is <tt>true</tt>;
+</p>
+</li>
+<li><p>(11.4) &mdash; otherwise, the program is ill-formed.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3636" href="#3636">3636</a><sup><a href="https://cplusplus.github.io/LWG/issue3636">(i)</a></sup>. <tt>formatter&lt;T&gt;::format</tt> should be <tt>const</tt>-qualified</h3>
+<p><b>Section:</b> 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-11 <b>Last modified:</b> 2022-08-24</p>
+<p><b>Priority: </b>1
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#formatter.requirements">issues</a> in [formatter.requirements].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In <a href="https://reviews.llvm.org/D112017">libc++ review</a>, we've noticed that we don't understand 
+the implications of 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> bullet 3.1 and Table [tab:formatter.basic]: 
+(emphasize mine):
+</p>
+<blockquote>
+<p>
+(3.1) &mdash; <tt>f</tt> is a <b>value</b> of type <tt>F</tt>,
+<p/>
+[&hellip;]
+<p/>
+Table 70: <i>BasicFormatter</i> requirements [tab:formatter.basic]
+<p/>
+[&hellip;]
+<p/>
+<tt>f.parse(pc)</tt> [<em>must compile</em>] [&hellip;]
+<p/>
+<tt>f.format(u, fc)</tt> [<em>must compile</em>] [&hellip;]
+</p>
+</blockquote>
+<p>
+According to Victor Zverovich, his intent was that <tt>f.parse(pc)</tt> should modify the 
+state of <tt>f</tt>, but <tt>f.format(u, fc)</tt> should merely read <tt>f</tt>'s state to 
+support format string compilation where formatter objects are immutable and therefore the 
+<tt>format</tt> function must be <tt>const</tt>-qualified. 
+<p/>
+That is, a typical formatter should look something like this (modulo errors introduced by me):
+</p>
+<blockquote>
+<pre>
+struct WidgetFormatter {
+  auto parse(std::format_parse_context&amp;) -&gt; std::format_parse_context::iterator;
+  auto format(const Widget&amp;, std::format_context&amp;) const -&gt; std::format_context::iterator;
+};
+</pre>
+</blockquote>
+<p>
+However, this is not reflected in the wording, which treats <tt>parse</tt> and <tt>format</tt> symmetrically.
+Also, there is at least one example that shows a non-const <tt>format</tt> method:
+</p>
+<blockquote>
+<pre>
+template&lt;&gt; struct std::formatter&lt;color&gt; : std::formatter&lt;const char*&gt; {
+  auto format(color c, format_context&amp; ctx) {
+    return formatter&lt;const char*&gt;::format(color_names[c], ctx);
+  }
+};
+</pre>
+</blockquote>
+<p>
+Victor writes:
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+Maybe we should [&hellip;] open an LWG issue clarifying that all standard formatters have a 
+<tt>const</tt> format function.
+</p>
+</blockquote>
+<p>
+I'd like to be even more assertive: Let's open an LWG issue clarifying that all formatters must have a 
+<tt>const</tt> format function!
+</p>
+
+<p><i>[2022-01-30; Reflector poll]</i></p>
+
+<p>
+Set priority to 1 after reflector poll.
+</p>
+
+<p><i>[2022-08-24 Approved unanimously in LWG telecon.]</i></p>
+
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> It might also be reasonable to do a drive-by clarification that when the Table 70 says 
+"Stores the parsed format specifiers in <tt>*this</tt>," what it actually means is "Stores the parsed format 
+specifiers in <tt>g</tt>." (But I don't think anyone's seriously confused by that wording.)
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+-3- Given character type <tt>charT</tt>, output iterator type <tt>Out</tt>, and formatting argument type <tt>T</tt>, 
+in Table 70 and Table 71:
+</p>
+<ol style="list-style-type:none">
+<li><p>(3.1) &mdash; <tt>f</tt> is a value of type <ins>(possibly <tt>const</tt>)</ins> <tt>F</tt>,</p></li>
+<li><p><ins>(3.?) &mdash; <tt>g</tt> is an lvalue of type <tt>F</tt>,</ins></p></li>
+<li><p>(3.2) &mdash; <tt>u</tt> is an lvalue of type <tt>T</tt>,</p></li>
+<li><p>(3.3) &mdash; <tt>t</tt> is a value of a type convertible to (possibly <tt>const</tt>) <tt>T</tt>,</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+<p>
+[&hellip;]
+</p>
+<blockquote>
+<table border="1">
+<caption>Table 70: <i>Formatter</i> requirements [tab:formatter]</caption>
+<tr>
+<th align="center">Expression</th>
+<th align="center">Return type</th>
+<th align="center">Requirement</th>
+</tr>
+
+<tr>
+<td>
+<tt><del>f</del><ins>g</ins>.parse(pc)</tt>
+</td>
+<td>
+<tt>PC::iterator</tt>
+</td>
+<td>
+[&hellip;]<br/>
+Stores the parsed format specifiers in <tt>*this</tt> and
+returns an iterator past the end of the parsed range.
+</td>
+</tr>
+
+<tr>
+<td colspan="3" align="center">
+<tt>&hellip;</tt>
+</td>
+</tr>
+</table>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.14.6.2 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-6- An enabled specialization <tt>formatter&lt;T, charT&gt;</tt> meets the <i>BasicFormatter</i> requirements 
+(22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>).
+<p/>
+[<i>Example 1</i>:
+</p>
+<blockquote>
+<pre>
+#include &lt;format&gt;
+
+enum color { red, green, blue };
+const char* color_names[] = { "red", "green", "blue" };
+
+template&lt;&gt; struct std::formatter&lt;color&gt; : std::formatter&lt;const char*&gt; {
+  auto format(color c, format_context&amp; ctx) <ins>const</ins> {
+    return formatter&lt;const char*&gt;::format(color_names[c], ctx);
+  }
+};
+
+[&hellip;]
+</pre>
+</blockquote>
+<p>
+&mdash; <i>end example</i>]
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.14.6.4 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+void advance_to(iterator it);
+</pre>
+<blockquote>
+<p>
+-8- <i>Effects:</i> Equivalent to: <tt>out_ = std::move(it);</tt>
+<p/>
+[<i>Example 1</i>:
+</p>
+<blockquote>
+<pre>
+struct S { int value; };
+
+template&lt;&gt; struct std::formatter&lt;S&gt; {
+  size_t width_arg_id = 0;
+  
+  <i>// Parses a width argument id in the format { digit }.</i>
+  constexpr auto parse(format_parse_context&amp; ctx) {
+    [&hellip;]
+  }
+  
+  <i>// Formats an S with width given by the argument width_arg_id.</i>
+  auto format(S s, format_context&amp; ctx) <ins>const</ins> {
+    int width = visit_format_arg([](auto value) -&gt; int {
+      if constexpr (!is_integral_v&lt;decltype(value)&gt;)
+        throw format_error("width is not integral");
+      else if (value &lt; 0 || value &gt; numeric_limits&lt;int&gt;::max())
+        throw format_error("invalid width");
+      else
+        return value;
+      }, ctx.arg(width_arg_id));
+    return format_to(ctx.out(), "{0:x&lt;{1}}", s.value, width);
+  }
+};
+
+[&hellip;]
+</pre>
+</blockquote>
+<p>
+&mdash; <i>end example</i>]
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 29.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Duration, class charT&gt;
+struct formatter&lt;chrono::<i>local-time-format-t</i>&lt;Duration&gt;, charT&gt;;
+</pre>
+<blockquote>
+<p>
+-15- Let <tt>f</tt> be [&hellip;]
+<p/>
+-16- <i>Remarks:</i> [&hellip;]
+</p>
+</blockquote>
+<blockquote>
+<pre>
+template&lt;class Duration, class TimeZonePtr, class charT&gt;
+struct formatter&lt;chrono::zoned_time&lt;Duration, TimeZonePtr&gt;, charT&gt;
+  : formatter&lt;chrono::<i>local-time-format-t</i>&lt;Duration&gt;, charT&gt; {
+  template&lt;class FormatContext&gt;
+    typename FormatContext::iterator
+      format(const chrono::zoned_time&lt;Duration, TimeZonePtr&gt;&amp; tp, FormatContext&amp; ctx) <ins>const</ins>;
+};
+</pre>
+</blockquote>
+<pre>
+template&lt;class FormatContext&gt;
+  typename FormatContext::iterator
+    format(const chrono::zoned_time&lt;Duration, TimeZonePtr&gt;&amp; tp, FormatContext&amp; ctx) <ins>const</ins>;
+</pre>
+<blockquote>
+<p>
+-17- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+sys_info info = tp.get_info();
+return formatter&lt;chrono::<i>local-time-format-t</i>&lt;Duration&gt;, charT&gt;::
+         format({tp.get_local_time(), &amp;info.abbrev, &amp;info.offset}, ctx);
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3733" href="#3733">3733</a><sup><a href="https://cplusplus.github.io/LWG/issue3733">(i)</a></sup>. <tt>ranges::to</tt> misuses <tt><i>cpp17-input-iterator</i></tt></h3>
+<p><b>Section:</b> 26.5.6.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-07-10 <b>Last modified:</b> 2022-08-24</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.utility.conv.to">issues</a> in [range.utility.conv.to].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>ranges::to</tt> uses <tt><i>cpp17-input-iterator</i>&lt;iterator_t&lt;R&gt;&gt;</tt> to check 
+whether an iterator is a <i>Cpp17InputIterator</i>, which misbehaves if there is a 
+<tt>std::iterator_traits</tt> specialization for that iterator (e.g. if the iterator is a 
+<tt>std::common_iterator</tt>).
+</p>
+<blockquote><pre>
+struct MyContainer {
+    template&lt;class Iter&gt;
+    MyContainer(Iter, Iter);
+
+    char* begin();
+    char* end();
+};
+
+auto nul_terminated = std::views::take_while([](char ch) { return ch != '\0'; });
+auto c = nul_terminated("") | std::views::common | std::ranges::to&lt;MyContainer&gt;();  // <span style="color:red;font-weight:bolder">error</span>
+</pre></blockquote>
+<p>
+I believe that <tt>ranges::to</tt> should instead use 
+<tt>derived_from&lt;typename iterator_traits&lt;iterator_t&lt;R&gt;&gt;::iterator_category, input_iterator_tag&gt;</tt>, 
+which correctly detects the iterator category of a <tt>std::common_iterator</tt>.
+</p>
+
+
+<p><i>[2022-08-23; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.5.6.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
+  constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns</i>: An object of type <tt>C</tt> constructed from the elements of <tt>r</tt> in the following manner:
+</p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt>convertible_to&lt;range_reference_t&lt;R&gt;, range_value_t&lt;C&gt;&gt;</tt> is <tt>true</tt>:</p></li>
+<ol style="list-style-type: none">
+<li><p>(1.1.1) &mdash; If <tt>constructible_from&lt;C, R, Args...&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><tt>C(std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
+<li><p>(1.1.2) &mdash; Otherwise, if <tt>constructible_from&lt;C, from_range_t, R, Args...&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><tt>C(from_range, std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
+<li><p>(1.1.3) &mdash; Otherwise, if</p></li>
+<ol style="list-style-type: none">
+<li><p>(1.1.3.1) &mdash; <tt>common_range&lt;R&gt;</tt> is <tt>true</tt>,</p></li>
+<li><p>(1.1.3.2) &mdash; <tt><del><i>cpp17-input-iterator</i></del><ins>derived_from&lt;typename 
+iterator_traits</ins>&lt;iterator_t&lt;R&gt;&gt;<ins>::iterator_category, input_iterator_tag&gt;</ins></tt> 
+is <tt>true</tt>, and</p></li>
+<li><p>(1.1.3.3) &mdash; <tt>constructible_from&lt;C, iterator_t&lt;R&gt;, sentinel_t&lt;R&gt;, Args...&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><tt>C(ranges::begin(r), ranges::end(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
+</ol>
+<li><p>(1.1.4) &mdash; Otherwise, if</p></li>
+<ol style="list-style-type: none">
+<li><p>(1.1.4.1) &mdash; <tt>constructible_from&lt;C, Args...&gt;</tt> is <tt>true</tt>, and</p></li>
+<li><p>(1.1.4.2) &mdash; <tt><i>container-insertable</i>&lt;C, range_reference_t&lt;R&gt;&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><pre>
+[&hellip;]
+</pre></blockquote></li>
+</ol>
+</ol>
+<li><p>(1.2) &mdash; Otherwise, if <tt>input_range&lt;range_reference_t&lt;R&gt;&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><pre>
+to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
+  return to&lt;range_value_t&lt;C&gt;&gt;(std::forward&lt;decltype(elem)&gt;(elem));
+}), std::forward&lt;Args&gt;(args)...);
+</pre></blockquote></li>
+<li><p>(1.3) &mdash; Otherwise, the program is ill-formed.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+
+</ol>
+
+
+
+
+
 <hr>
 <h3><a name="3736" href="#3736">3736</a><sup><a href="https://cplusplus.github.io/LWG/issue3736">(i)</a></sup>. <tt>move_iterator</tt> missing <tt>disable_sized_sentinel_for</tt> specialization</h3>
 <p><b>Section:</b> 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
