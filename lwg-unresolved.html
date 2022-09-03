@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-03 at 17:48:45 UTC</p>
+<p><p>Revised 2022-09-03 at 18:06:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47918,6 +47918,83 @@ template&lt;class... ArgTypes&gt;
 -1- <i>Mandates</i>: <tt>T</tt> is a complete type.
 <p/>
 -2- <i>Returns</i>: <tt><i>INVOKE</i>(get(), std::forward&lt;ArgTypes&gt;(args)...)</tt>. (22.10.4 <a href="https://wg21.link/func.require">[func.require]</a>)
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3765" href="#3765">3765</a><sup><a href="https://cplusplus.github.io/LWG/issue3765">(i)</a></sup>. <tt>const_sentinel</tt> should be constrained</h3>
+<p><b>Section:</b> 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, 99 [const.iterators.alias] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-09 <b>Last modified:</b> 2022-09-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.synopsis">active issues</a> in [iterator.synopsis].</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.synopsis">issues</a> in [iterator.synopsis].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The current standard does not have any constraints on <tt>const_sentinel</tt> template parameters, 
+which makes it possible to pass almost any type of object to <tt>make_const_sentinel</tt>.
+It would be more appropriate to constrain the type to meet the minimum requirements of the 
+sentinel type such as <tt>semiregular</tt> as <tt>move_sentinel</tt> does.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to the <a href="https://github.com/cplusplus/draft/suites/8116854514/artifacts/351119387">working 
+draft snapshot from 2022-09-03</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+#include &lt;compare&gt;              <i>// see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
+#include &lt;concepts&gt;             <i>// see 18.3 <a href="https://wg21.link/concepts.syn">[concepts.syn]</a></i>
+
+namespace std {
+  [&hellip;]
+  
+  <i>//  [const.iterators], constant iterators and sentinels</i>
+  <i>// 99 [const.iterators.alias], alias templates</i>
+  [&hellip;]
+  template&lt;input_iterator I&gt;
+    using const_iterator = <i>see below</i>;                                               // <i>freestanding</i>
+  template&lt;<ins>semiregular</ins><del>class</del> S&gt;
+    using const_sentinel = <i>see below</i>;                                               // <i>freestanding</i>
+
+  [&hellip;]
+  template&lt;input_iterator I&gt;
+    constexpr const_iterator&lt;I&gt; make_const_iterator(I it) { return it; }            // <i>freestanding</i>
+
+  template&lt;<ins>semiregular</ins><del>class</del> S&gt;
+    constexpr const_sentinel&lt;S&gt; make_const_sentinel(S s) { return s; }              // <i>freestanding</i>
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 99 [const.iterators.alias] as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;<ins>semiregular</ins><del>class</del> S&gt;
+  using const_sentinel = <i>see below</i>;
+</pre>
+<blockquote>
+<p>
+-2- <i>Result</i>: If <tt>S</tt> models <tt>input_iterator</tt>, <tt>const_iterator&lt;S&gt;</tt>. Otherwise, <tt>S</tt>.
 </p>
 </blockquote>
 </blockquote>
