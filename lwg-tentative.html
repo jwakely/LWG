@@ -43,12 +43,12 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-08-31 at 18:05:32 UTC</p>
+<p><p>Revised 2022-09-03 at 11:05:34 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2432" href="#2432">2432</a><sup><a href="https://cplusplus.github.io/LWG/issue2432">(i)</a></sup>. <tt>initializer_list</tt> assignability</h3>
 <p><b>Section:</b> 17.10 <a href="https://wg21.link/support.initlist">[support.initlist]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> David Krauss <b>Opened:</b> 2014-09-30 <b>Last modified:</b> 2015-05-22</p>
+ <b>Submitter:</b> David Krauss <b>Opened:</b> 2014-09-30 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#support.initlist">active issues</a> in [support.initlist].</p>
@@ -121,7 +121,7 @@ namespace std {
 <hr>
 <h3><a name="3726" href="#3726">3726</a><sup><a href="https://cplusplus.github.io/LWG/issue3726">(i)</a></sup>. <tt>reverse_iterator::operator-&gt;</tt> is underconstrained for non-pointer iterators</h3>
 <p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-08-23</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#reverse.iter.elem">active issues</a> in [reverse.iter.elem].</p>
@@ -186,7 +186,7 @@ constexpr pointer operator-&gt;() const
 <hr>
 <h3><a name="3727" href="#3727">3727</a><sup><a href="https://cplusplus.github.io/LWG/issue3727">(i)</a></sup>. <tt>reverse_iterator</tt>/<tt>common_iterator</tt>'s <tt>operator-&gt;</tt> should not require the underlying iterator's <tt>operator-&gt;</tt> to be a <tt>const</tt> member function</h3>
 <p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a>, 25.5.4.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-08-23</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#reverse.iter.elem">active issues</a> in [reverse.iter.elem].</p>
@@ -320,7 +320,7 @@ constexpr decltype(auto) operator-&gt;() const
 <hr>
 <h3><a name="3732" href="#3732">3732</a><sup><a href="https://cplusplus.github.io/LWG/issue3732">(i)</a></sup>. <tt>prepend_range</tt> and <tt>append_range</tt> can't be amortized constant time</h3>
 <p><b>Section:</b> 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-07-06 <b>Last modified:</b> 2022-08-31</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-07-06 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#sequence.reqmts">active issues</a> in [sequence.reqmts].</p>
@@ -372,7 +372,7 @@ so as to take amortized constant time.
 <hr>
 <h3><a name="3733" href="#3733">3733</a><sup><a href="https://cplusplus.github.io/LWG/issue3733">(i)</a></sup>. <tt>ranges::to</tt> misuses <tt><i>cpp17-input-iterator</i></tt></h3>
 <p><b>Section:</b> 26.5.6.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-07-10 <b>Last modified:</b> 2022-08-24</p>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-07-10 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
@@ -478,7 +478,7 @@ to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
 <hr>
 <h3><a name="3735" href="#3735">3735</a><sup><a href="https://cplusplus.github.io/LWG/issue3735">(i)</a></sup>. <tt>views::adjacent&lt;0&gt;</tt> should be prohibited</h3>
 <p><b>Section:</b> 26.7.22.1 <a href="https://wg21.link/range.adjacent.overview">[range.adjacent.overview]</a>, 26.7.23.1 <a href="https://wg21.link/range.adjacent.transform.overview">[range.adjacent.transform.overview]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-13 <b>Last modified:</b> 2022-08-23</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-13 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
@@ -564,7 +564,7 @@ decay_t&lt;decltype((F))&gt;, N&gt;(E, F)</tt>.</p></li>
 <hr>
 <h3><a name="3736" href="#3736">3736</a><sup><a href="https://cplusplus.github.io/LWG/issue3736">(i)</a></sup>. <tt>move_iterator</tt> missing <tt>disable_sized_sentinel_for</tt> specialization</h3>
 <p><b>Section:</b> 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-14 <b>Last modified:</b> 2022-07-16</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-14 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#iterator.synopsis">issues</a> in [iterator.synopsis].</p>
@@ -644,7 +644,7 @@ namespace std::ranges {
 <hr>
 <h3><a name="3738" href="#3738">3738</a><sup><a href="https://cplusplus.github.io/LWG/issue3738">(i)</a></sup>. Missing preconditions for <tt>take_view</tt> constructor</h3>
 <p><b>Section:</b> 26.7.8.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-07-16</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.take.view">issues</a> in [range.take.view].</p>
@@ -699,7 +699,7 @@ constexpr take_view(V base, range_difference_t&lt;V&gt; count);
 <hr>
 <h3><a name="3739" href="#3739">3739</a><sup><a href="https://cplusplus.github.io/LWG/issue3739">(i)</a></sup>. <tt>chunk_view::size</tt> should preserve the signedness of the size of the underlying range</h3>
 <p><b>Section:</b> 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a>, 26.7.24.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-08-23</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.chunk.view.input">issues</a> in [range.chunk.view.input].</p>
@@ -798,7 +798,7 @@ return <del><i>to-unsigned-like</i>(</del><i>div-ceil</i>(ranges::<ins>size</ins
 <hr>
 <h3><a name="3740" href="#3740">3740</a><sup><a href="https://cplusplus.github.io/LWG/issue3740">(i)</a></sup>. <tt>slide_view::size</tt> should preserve the signedness of underlying range's size</h3>
 <p><b>Section:</b> 26.7.25.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-08-23</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.slide.view">issues</a> in [range.slide.view].</p>
@@ -870,7 +870,7 @@ return <ins>static_cast&lt;decltype(ranges::size(<i>base_</i>))&gt;</ins><del><i
 <hr>
 <h3><a name="3741" href="#3741">3741</a><sup><a href="https://cplusplus.github.io/LWG/issue3741">(i)</a></sup>. <tt>std::chrono::abs(duration)</tt> is ill-formed with non-reduced periods</h3>
 <p><b>Section:</b> 29.5.10 <a href="https://wg21.link/time.duration.alg">[time.duration.alg]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Charlie Barto <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-08-24</p>
+ <b>Submitter:</b> Charlie Barto <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
@@ -953,7 +953,7 @@ template&lt;class Rep, class Period&gt;
 <hr>
 <h3><a name="3742" href="#3742">3742</a><sup><a href="https://cplusplus.github.io/LWG/issue3742">(i)</a></sup>. <tt>deque::prepend_range</tt> needs to permute</h3>
 <p><b>Section:</b> 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-07-17</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#sequence.reqmts">active issues</a> in [sequence.reqmts].</p>
@@ -1034,7 +1034,7 @@ Each iterator in the range <tt>rg</tt> is dereferenced exactly once.
 <hr>
 <h3><a name="3743" href="#3743">3743</a><sup><a href="https://cplusplus.github.io/LWG/issue3743">(i)</a></sup>. <tt>ranges::to</tt>'s <tt>reserve</tt> may be ill-formed</h3>
 <p><b>Section:</b> 26.5.6.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-21 <b>Last modified:</b> 2022-07-24</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-21 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
@@ -1141,7 +1141,7 @@ to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
 <hr>
 <h3><a name="3745" href="#3745">3745</a><sup><a href="https://cplusplus.github.io/LWG/issue3745">(i)</a></sup>. <tt>std::atomic_wait</tt> and its friends lack <tt>noexcept</tt></h3>
 <p><b>Section:</b> 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-07-25 <b>Last modified:</b> 2022-07-30</p>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-07-25 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#atomics.syn">active issues</a> in [atomics.syn].</p>
@@ -1219,7 +1219,7 @@ template&lt;class T&gt;
 <h3><a name="3746" href="#3746">3746</a><sup><a href="https://cplusplus.github.io/LWG/issue3746">(i)</a></sup>. <tt>optional</tt>'s spaceship with <tt>U</tt> with a type derived from <tt>optional</tt> 
 causes infinite constraint meta-recursion</h3>
 <p><b>Section:</b> 22.5.8 <a href="https://wg21.link/optional.comp.with.t">[optional.comp.with.t]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Ville Voutilainen <b>Opened:</b> 2022-07-25 <b>Last modified:</b> 2022-08-23</p>
+ <b>Submitter:</b> Ville Voutilainen <b>Opened:</b> 2022-07-25 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#optional.comp.with.t">issues</a> in [optional.comp.with.t].</p>
@@ -1319,7 +1319,7 @@ template&lt;class T, class U&gt; requires (!<i>is-<ins>derived-from-</ins>option
 <h3><a name="3747" href="#3747">3747</a><sup><a href="https://cplusplus.github.io/LWG/issue3747">(i)</a></sup>. <tt>ranges::uninitialized_copy_n</tt>, <tt>ranges::uninitialized_move_n</tt>, and 
 <tt>ranges::destroy_n</tt> should use <tt>std::move</tt></h3>
 <p><b>Section:</b> 27.11.5 <a href="https://wg21.link/uninitialized.copy">[uninitialized.copy]</a>, 27.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a>, 27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-28 <b>Last modified:</b> 2022-08-23</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-28 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#uninitialized.copy">issues</a> in [uninitialized.copy].</p>
@@ -1436,7 +1436,7 @@ return destroy(counted_iterator(<ins>std::move(</ins>first<ins>)</ins>, n), defa
 <hr>
 <h3><a name="3750" href="#3750">3750</a><sup><a href="https://cplusplus.github.io/LWG/issue3750">(i)</a></sup>. Too many papers bump <tt>__cpp_lib_format</tt></h3>
 <p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2022-08-04 <b>Last modified:</b> 2022-08-23</p>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2022-08-04 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
@@ -1498,7 +1498,7 @@ Set status to Tentatively Ready after 12 votes in favour during reflector poll.
 <hr>
 <h3><a name="3751" href="#3751">3751</a><sup><a href="https://cplusplus.github.io/LWG/issue3751">(i)</a></sup>. Missing feature macro for <tt>flat_set</tt></h3>
 <p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2022-08-04 <b>Last modified:</b> 2022-08-23</p>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2022-08-04 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
@@ -1541,7 +1541,7 @@ Set status to Tentatively Ready after 10 votes in favour during reflector poll.
 <hr>
 <h3><a name="3752" href="#3752">3752</a><sup><a href="https://cplusplus.github.io/LWG/issue3752">(i)</a></sup>. Should <tt>string::substr</tt> forward the allocator to the newly created string?</h3>
 <p><b>Section:</b> 23.4.3.8.3 <a href="https://wg21.link/string.substr">[string.substr]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Igor Zhukov <b>Opened:</b> 2022-08-10 <b>Last modified:</b> 2022-08-13</p>
+ <b>Submitter:</b> Igor Zhukov <b>Opened:</b> 2022-08-10 <b>Last modified:</b> 2022-09-03</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
