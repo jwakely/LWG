@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-03 at 12:42:22 UTC</p>
+<p><p>Revised 2022-09-03 at 12:57:43 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47123,6 +47123,55 @@ otherwise.
 
 
 <p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3759" href="#3759">3759</a><sup><a href="https://cplusplus.github.io/LWG/issue3759">(i)</a></sup>. <tt>ranges::rotate_copy</tt> should use <tt>std::move</tt></h3>
+<p><b>Section:</b> 27.7.11 <a href="https://wg21.link/alg.rotate">[alg.rotate]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-08-25 <b>Last modified:</b> 2022-09-03</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#alg.rotate">issues</a> in [alg.rotate].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The range version of <tt>ranges::rotate_copy</tt> directly passes the <tt>result</tt> to the 
+iterator-pair version. Since the type of <tt>result</tt> only models <tt>weakly_incrementable</tt> 
+and may not be copied, we should use <tt>std::move</tt> here.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 27.7.11 <a href="https://wg21.link/alg.rotate">[alg.rotate]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;forward_range R, weakly_incrementable O&gt;
+  requires indirectly_copyable&lt;iterator_t&lt;R&gt;, O&gt;
+  constexpr ranges::rotate_copy_result&lt;borrowed_iterator_t&lt;R&gt;, O&gt;
+    ranges::rotate_copy(R&amp;&amp; r, iterator_t&lt;R&gt; middle, O result);
+</pre>
+<blockquote>
+<p>
+-11- <i>Effects</i>: Equivalent to:
+<blockquote><pre>
+return ranges::rotate_copy(ranges::begin(r), middle, ranges::end(r), <ins>std::move(</ins>result<ins>)</ins>);
+</pre></blockquote>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
 
 
 
