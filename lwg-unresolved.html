@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-07 at 09:07:28 UTC</p>
+<p><p>Revised 2022-09-07 at 19:36:42 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -39133,6 +39133,24 @@ effects.</li>
 </ul>
 </p>
 
+<p><i>[2022-09-07; Jonathan Wakely revises wording]</i></p>
+
+
+<p>
+Discussed in LWG telecon. Decided to change "established as-if by performing
+unqualified name lookup and argument-dependent lookup"
+to simply "established as-if by performing argument-dependent lookup".
+</p>
+<p>
+This resolves the question of whether <tt>std::make_error_code(errc)</tt>,
+<tt>std::make_error_code(io_errc)</tt>, etc. should be visible to the
+unqualified name lookup. This affects whether a program-defined type that
+specializes <tt>is_error_code_enum</tt> but doesn't provide an overload of
+<tt>make_error_code</tt> should find the overloads in namespace <tt>std</tt>
+and consider them for overload resolution, via implicit conversion to
+<tt>std::errc</tt>, <tt>std::io_errc</tt>, etc.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -39187,19 +39205,10 @@ in an overload resolution context for swappable values
 <ins>
 The meanings of the unqualified names
 <code>make_error_code</code> and <code>make_error_condition</code>
-are established as-if by performing unqualified name lookup
-and argument-dependent lookup (6.5.4 <a href="https://wg21.link/basic.lookup.argdep">[basic.lookup.argdep]</a>).
+are established as-if by performing
+argument-dependent lookup (6.5.4 <a href="https://wg21.link/basic.lookup.argdep">[basic.lookup.argdep]</a>).
 </ins>
 </p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note</i>:
-The intention here is "normal" lookup of an unqualified name,
-matching what implementations actually do. No poison pills or other heroics
-to do ADL without "<i>unqualified name lookup</i>" or vice versa.]
-</p>
-</blockquote>
 
 </blockquote>
 </li>
@@ -46367,120 +46376,6 @@ are freestanding entities.
 </blockquote>
 </li>
 </ul>
-
-
-
-
-
-
-<hr>
-<h3><a name="3754" href="#3754">3754</a><sup><a href="https://cplusplus.github.io/LWG/issue3754">(i)</a></sup>. Class template <code>expected</code> synopsis contains declarations that do not match the detailed description</h3>
-<p><b>Section:</b> 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-08-23 <b>Last modified:</b> 2022-09-07</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> declares the following constructors:
-</p>
-
-<blockquote><pre>
-template&lt;class G&gt;
-  constexpr expected(const unexpected&lt;G&gt;&amp;);
-template&lt;class G&gt;
-  constexpr expected(unexpected&lt;G&gt;&amp;&amp;);
-</pre></blockquote>
-
-<p>
-But in 22.8.6.2 <a href="https://wg21.link/expected.object.ctor">[expected.object.ctor]</a>, these constructors are declared as:
-</p>
-
-<blockquote><pre>
-template&lt;class G&gt;
-  constexpr explicit(!is_convertible_v&lt;const G&amp;, E&gt;) expected(const unexpected&lt;G&gt;&amp; e);
-template&lt;class G&gt;
-  constexpr explicit(!is_convertible_v&lt;G, E&gt;) expected(unexpected&lt;G&gt;&amp;&amp; e);
-</pre></blockquote>
-
-<p>
-Note that they have no explicit-specifiers in 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a>,
-but are conditionally explicit in 22.8.6.2 <a href="https://wg21.link/expected.object.ctor">[expected.object.ctor]</a>.
-</p>
-
-<p>
-I presume that 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a>
-is missing a few <code>explicit(<i>see below</i>)</code>.
-</p>
-
-<p>
-The same inconsistency exists in 22.8.7 <a href="https://wg21.link/expected.void">[expected.void]</a>.
-</p>
-
-<p><i>[2022-09-05; Jonathan Wakely provides wording]</i></p>
-
-
-<p>
-In <a href="https://wg21.link/N4910">N4910</a> the <tt>expected</tt> synopses had
-<tt>explicit(<i>see below</i>)</tt> on the copy and move constructors.
-That was fixed editorially, but this other inconsistency was not noticed.
-</p>
-
-
-
-<p><b>Proposed resolution:</b></p>
-
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-<li><p>Change 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> as indicated:</p>
-
-<blockquote><pre>
-<i>// 22.8.6.2, constructors</i>
-constexpr expected();
-constexpr expected(const expected&amp;);
-constexpr expected(expected&amp;&amp;) noexcept(<i>see below</i>);
-template&lt;class U, class G&gt;
-  constexpr explicit(<i>see below</i>) expected(const expected&lt;U, G&gt;&amp;);
-template&lt;class U, class G&gt;
-  constexpr explicit(<i>see below</i>) expected(expected&lt;U, G&gt;&amp;&amp;);
-
-template&lt;class U = T&gt;
-  constexpr explicit(<i>see below</i>) expected(U&amp;&amp; v);
-
-template&lt;class G&gt;
-  constexpr <ins>explicit(<i>see below</i>)</ins> expected(const unexpected&lt;G&gt;&amp;);
-template&lt;class G&gt;
-  constexpr <ins>explicit(<i>see below</i>)</ins> expected(unexpected&lt;G&gt;&amp;&amp;);
-
-template&lt;class... Args&gt;
-  constexpr explicit expected(in_place_t, Args&amp;&amp;...);
-</pre> </blockquote>
-</li>
-
-<li><p>Change 22.8.7.1 <a href="https://wg21.link/expected.void.general">[expected.void.general]</a> as indicated:</p>
-
-<blockquote><pre>
-<i>// 22.8.7.2, constructors</i>
-constexpr expected() noexcept;
-constexpr expected(const expected&);
-constexpr expected(expected&amp;&amp;) noexcept(<i>see below</i>);
-template&lt;class U, class G&gt;
-  constexpr explicit(<i>see below</i>) expected(const expected&lt;U, G&gt;&amp;&amp;);
-
-template&lt;class G&gt;
-  constexpr <ins>explicit(<i>see below</i>)</ins> expected(const unexpected&lt;G&gt;&amp;);
-template&lt;class G&gt;
-  constexpr <ins>explicit(<i>see below</i>)</ins> expected(unexpected&lt;G&gt;&amp;&amp;);
-
-constexpr explicit expected(in_place_t) noexcept;
-</pre> </blockquote>
-
-</li>
-
-</ol>
 
 
 
