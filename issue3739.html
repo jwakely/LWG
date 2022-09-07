@@ -46,8 +46,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">Tentatively NAD</a> status.</em></p>
 <h3><a name="3739" href="lwg-active.html#3739">3739</a>. <tt>chunk_view::size</tt> should preserve the signedness of the size of the underlying range</h3>
-<p><b>Section:</b> 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a>, 26.7.24.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-09-03</p>
+<p><b>Section:</b> 26.7.27.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a>, 26.7.27.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.chunk.view.input">issues</a> in [range.chunk.view.input].</p>
@@ -56,7 +56,7 @@
 <p>
 Currently, the <i>Effects</i> of <tt>chunk_view::size</tt> simply returns 
 <tt><i>to-unsigned-like</i>(<i>div-ceil</i>(ranges::distance(<i>base_</i>), <i>n_</i>))</tt>, 
-where <tt><i>div-ceil</i></tt> is defined in 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as:
+where <tt><i>div-ceil</i></tt> is defined in 26.7.27.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as:
 </p>
 <pre>
 template&lt;class I&gt;
@@ -101,7 +101,7 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 </p>
 
 <ol>
-<li><p>Modify 26.7.24.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as indicated:</p>
+<li><p>Modify 26.7.27.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -119,7 +119,7 @@ return <del><i>to-unsigned-like</i>(</del><i>div-ceil</i>(ranges::<ins>size</ins
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.24.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a> as indicated:</p>
+<li><p>Modify 26.7.27.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a> as indicated:</p>
 
 <blockquote>
 <pre>

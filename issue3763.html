@@ -48,8 +48,8 @@ difference_type is not an integer-class type?</title>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3763" href="lwg-active.html#3763">3763</a>. Should range adaptor iterators only provide <tt>iterator_category</tt> when its 
 <tt>difference_type</tt> is not an integer-class type?</h3>
-<p><b>Section:</b> 99 [range.repeat.iterator], 99 [ranges.cartesian.iterator] <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-08-27 <b>Last modified:</b> 2022-09-03</p>
+<p><b>Section:</b> 26.6.5.3 <a href="https://wg21.link/range.repeat.iterator">[range.repeat.iterator]</a>, 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-08-27 <b>Last modified:</b> 2022-09-07</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -84,13 +84,12 @@ This is also consistent with other range adaptors, as none of them have a <tt>re
 
 <p><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to the <a href="https://github.com/cplusplus/draft/suites/8116854514/artifacts/351119387">working 
-draft snapshot from 2022-09-03</a>.
+This wording is relative to the <a href="https://wg21.link/N4917">N4917</a>.
 </p>
 
 <ol>
 
-<li><p>Modify 99 [range.repeat.iterator] as indicated:</p>
+<li><p>Modify 26.6.5.3 <a href="https://wg21.link/range.repeat.iterator">[range.repeat.iterator]</a> as indicated:</p>
 <blockquote>
 <pre>
 namespace std::ranges {
@@ -121,7 +120,7 @@ namespace std::ranges {
 </blockquote>
 </li>
 
-<li><p>Modify 99 [ranges.cartesian.iterator] as indicated:</p>
+<li><p>Modify 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> as indicated:</p>
 <blockquote>
 <blockquote>
 <pre>

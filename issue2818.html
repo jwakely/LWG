@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="2818" href="lwg-defects.html#2818">2818</a>. <tt>"::std::"</tt> everywhere rule needs tweaking</h3>
 <p><b>Section:</b> 16.4.2.2 <a href="https://wg21.link/contents">[contents]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2016-11-11 <b>Last modified:</b> 2021-06-12</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2016-11-11 <b>Last modified:</b> 2021-06-07</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#contents">issues</a> in [contents].</p>
@@ -174,7 +174,7 @@ Set priority status to Tentatively Ready after seven votes in favour during refl
 
 <p>
 The references to get in 26.5.4.1 <a href="https://wg21.link/range.subrange.general">[range.subrange.general]</a> and
-26.7.19.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> need to be qualified as they would otherwise
+26.7.22.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> need to be qualified as they would otherwise
 refer to <tt>std::ranges::get</tt> instead of <tt>std::get</tt>. Additionally,
 16.3.3.2 <a href="https://wg21.link/expos.only.func">[expos.only.func]</a> needs to clarify that the lookup there also takes
 place from within namespace <tt>std</tt>.
@@ -316,7 +316,7 @@ template&lt;class T&gt;
 </pre></blockquote>
 </li>
 
-<li><p>Modify 26.7.19.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> as indicated:</p>
+<li><p>Modify 26.7.22.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> as indicated:</p>
 
 <blockquote><pre>
 template&lt;class T, size_t N&gt;
@@ -330,7 +330,7 @@ template&lt;class T, size_t N&gt;
 </pre></blockquote>
 </li>
 
-<li><p>Modify 26.7.19.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as indicated:</p>
+<li><p>Modify 26.7.22.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as indicated:</p>
 
 <blockquote>
 <p>

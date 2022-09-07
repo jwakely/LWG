@@ -46,15 +46,15 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++14">C++14</a> status.</em></p>
 <h3><a name="2150" href="lwg-defects.html#2150">2150</a>. Unclear specification of <tt>find_end</tt></h3>
-<p><b>Section:</b> 27.6.6 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
- <b>Submitter:</b> Andrew Koenig <b>Opened:</b> 2012-03-28 <b>Last modified:</b> 2016-02-10</p>
+<p><b>Section:</b> 27.6.8 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
+ <b>Submitter:</b> Andrew Koenig <b>Opened:</b> 2012-03-28 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++14">C++14</a> status.</p>
 <p><b>Discussion:</b></p>
 
 <p>
-27.6.6 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> describes the behavior of find_end as returning:
+27.6.8 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> describes the behavior of find_end as returning:
 </p>
 <blockquote><p>
 The last iterator <tt>i</tt> in the range <tt>[first1,last1 - (last2 - first2))</tt> such that for any 
@@ -68,7 +68,7 @@ interpreted either way.
 Daniel: The same problem exists for the following specifications from Clause 27 <a href="https://wg21.link/algorithms">[algorithms]</a>:
 </p>
 <ol>
-<li>27.6.13 <a href="https://wg21.link/alg.search">[alg.search]</a> p2 and p6</li>
+<li>27.6.15 <a href="https://wg21.link/alg.search">[alg.search]</a> p2 and p6</li>
 <li>27.7.10 <a href="https://wg21.link/alg.reverse">[alg.reverse]</a> p4</li>
 <li>27.8.5 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a> p5 and p9</li>
 <li>27.8 <a href="https://wg21.link/alg.sorting">[alg.sorting]</a> p5</li>
@@ -100,7 +100,7 @@ Apply to Working Paper
 
 <ol>
 <li>
-<p>Change 27.6.6 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> p2 as indicated:</p>
+<p>Change 27.6.8 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a> p2 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class ForwardIterator1, class ForwardIterator2&gt;
@@ -124,7 +124,7 @@ Returns <tt>last1</tt> if <tt>[first2,last2)</tt> is empty or if no such iterato
 </li>
 
 <li>
-<p>Change 27.6.13 <a href="https://wg21.link/alg.search">[alg.search]</a> p2 and p6 as indicated:</p>
+<p>Change 27.6.15 <a href="https://wg21.link/alg.search">[alg.search]</a> p2 and p6 as indicated:</p>
 
 <blockquote><pre>
 template&lt;class ForwardIterator1, class ForwardIterator2&gt;

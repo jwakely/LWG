@@ -46,8 +46,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3765" href="lwg-active.html#3765">3765</a>. <tt>const_sentinel</tt> should be constrained</h3>
-<p><b>Section:</b> 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, 99 [const.iterators.alias] <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-03 <b>Last modified:</b> 2022-09-04</p>
+<p><b>Section:</b> 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, 25.5.3.2 <a href="https://wg21.link/const.iterators.alias">[const.iterators.alias]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-03 <b>Last modified:</b> 2022-09-07</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#iterator.synopsis">active issues</a> in [iterator.synopsis].</p>
@@ -64,8 +64,7 @@ sentinel type such as <tt>semiregular</tt> as <tt>move_sentinel</tt> does.
 
 <p><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to the <a href="https://github.com/cplusplus/draft/suites/8116854514/artifacts/351119387">working 
-draft snapshot from 2022-09-03</a>.
+This wording is relative to the <a href="https://wg21.link/N4917">N4917</a>.
 </p>
 
 <ol>
@@ -74,14 +73,14 @@ draft snapshot from 2022-09-03</a>.
 
 <blockquote>
 <pre>
-#include &lt;compare&gt;              <i>// see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
+#include &lt;compare&gt;              <i>// see 17.12.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
 #include &lt;concepts&gt;             <i>// see 18.3 <a href="https://wg21.link/concepts.syn">[concepts.syn]</a></i>
 
 namespace std {
   [&hellip;]
   
-  <i>//  [const.iterators], constant iterators and sentinels</i>
-  <i>// 99 [const.iterators.alias], alias templates</i>
+  <i>// 25.5.3 <a href="https://wg21.link/const.iterators">[const.iterators]</a>, constant iterators and sentinels</i>
+  <i>// 25.5.3.2 <a href="https://wg21.link/const.iterators.alias">[const.iterators.alias]</a>, alias templates</i>
   [&hellip;]
   template&lt;input_iterator I&gt;
     using const_iterator = <i>see below</i>;                                               // <i>freestanding</i>
@@ -100,7 +99,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Modify 99 [const.iterators.alias] as indicated:</p>
+<li><p>Modify 25.5.3.2 <a href="https://wg21.link/const.iterators.alias">[const.iterators.alias]</a> as indicated:</p>
 
 <blockquote>
 <pre>

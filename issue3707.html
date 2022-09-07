@@ -46,8 +46,8 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3><a name="3707" href="lwg-defects.html#3707">3707</a>. <tt>chunk_view::<i>outer-iterator</i>::value_type::size</tt> should return unsigned type</h3>
-<p><b>Section:</b> 26.7.24.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-01 <b>Last modified:</b> 2022-07-30</p>
+<p><b>Section:</b> 26.7.27.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-01 <b>Last modified:</b> 2022-07-25</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
@@ -56,7 +56,7 @@
 Currently, the <tt>size</tt> function of <tt>chunk_view::<i>outer-iterator</i>::value_type</tt> returns 
 the result of <tt>ranges::min</tt>, since the operands are of type <tt>range_difference_t&lt;V&gt;</tt>, 
 this will return a signed type, which is inconsistent with the return type of <tt>size</tt> of the 
-<tt>forward</tt>-version of <tt>chunk_view::<i>iterator</i>::value_type</tt> (26.7.24.7 <a href="https://wg21.link/range.chunk.fwd.iter">[range.chunk.fwd.iter]</a>), 
+<tt>forward</tt>-version of <tt>chunk_view::<i>iterator</i>::value_type</tt> (26.7.27.7 <a href="https://wg21.link/range.chunk.fwd.iter">[range.chunk.fwd.iter]</a>), 
 which always returns an unsigned type.
 </p>
 <p>
@@ -85,7 +85,7 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 </p>
 
 <ol>
-<li><p>Modify 26.7.24.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> as indicated:</p>
+<li><p>Modify 26.7.27.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> as indicated:</p>
 
 <blockquote>
 <pre>
