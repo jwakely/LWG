@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-08 at 07:02:50 UTC</p>
+<p><p>Revised 2022-09-08 at 07:42:51 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47533,6 +47533,131 @@ namespace std::ranges {
   [&hellip;]
 }
 </pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3769" href="#3769">3769</a><sup><a href="https://cplusplus.github.io/LWG/issue3769">(i)</a></sup>. <tt>basic_const_iterator::operator==</tt> causes infinite constraint recursion</h3>
+<p><b>Section:</b> 25.5.3 <a href="https://wg21.link/const.iterators">[const.iterators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2022-09-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, <tt>basic_const_iterator::operator==</tt> is defined as a <tt>friend</tt> function:
+</p>
+<blockquote><pre>
+template&lt;sentinel_for&lt;Iterator&gt; S&gt;
+  friend constexpr bool operator==(const basic_const_iterator&amp; x, const S&amp; s);
+</pre></blockquote>
+<p>
+which only requires <tt>S</tt> to model <tt>sentinel_for&lt;Iterator&gt;</tt>, and since 
+<tt>basic_const_iterator</tt> has a conversion constructor that accepts <tt>I</tt>, this will 
+result in infinite constraint checks when comparing  <tt>basic_const_iterator&lt;int*&gt;</tt> 
+with <tt>int*</tt> (<a href="https://godbolt.org/z/bGhccroz4">online example</a>):
+</p>
+<blockquote><pre>
+#include &lt;iterator&gt;
+
+template&lt;std::input_iterator I&gt;
+struct basic_const_iterator {
+  basic_const_iterator() = default;
+  basic_const_iterator(I);
+  template&lt;std::sentinel_for&lt;I&gt; S&gt;
+  friend bool operator==(const basic_const_iterator&amp;, const S&amp;);
+};
+  
+static_assert(std::sentinel_for&lt;basic_const_iterator&lt;int*&gt;, int*&gt;); // <span style="color:red;font-weight:bolder">infinite meta-recursion</span>
+</pre></blockquote>    
+<p>
+That is, <tt>sentinel_for</tt> ends with <tt><i>weakly-equality-comparable-with</i></tt> 
+and instantiates <tt>operator==</tt>, which in turn rechecks <tt>sentinel_for</tt> and 
+instantiates the same <tt>operator==</tt>, making the circle closed.
+<p/>
+The proposed resolution is to change <tt>operator==</tt> to be a member function so that 
+<tt>S</tt> is no longer accidentally instantiated as <tt>basic_const_iterator</tt>. 
+The same goes for <tt>basic_const_iterator::operator-</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to the <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 25.5.3.3 <a href="https://wg21.link/const.iterators.iterator">[const.iterators.iterator]</a>, class template <tt>basic_const_iterator</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class I&gt;
+    concept <i>not-a-const-iterator</i> = <i>see below</i>;
+
+  template&lt;input_iterator Iterator&gt;
+  class basic_const_iterator {
+    Iterator <i>current_</i> = Iterator();
+    using <i>reference</i> = iter_const_reference_t&lt;Iterator&gt;;         // <i>exposition only</i>
+  
+  public:
+    [&hellip;]
+    template&lt;sentinel_for&lt;Iterator&gt; S&gt;
+      <del>friend</del> constexpr bool operator==(<del>const basic_const_iterator&amp; x, </del>const S&amp; s) <ins>const</ins>;
+    [&hellip;]
+    template&lt;sized_sentinel_for&lt;Iterator&gt; S&gt;
+      <del>friend</del> constexpr difference_type operator-(<del>const basic_const_iterator&amp; x, </del>const S&amp; y) <ins>const</ins>;
+    template&lt;<ins><i>not-a-const-iterator</i></ins><del>sized_sentinel_for&lt;Iterator&gt;</del> S&gt;
+      requires <ins>sized_sentinel_for</ins><del><i>different-from</i></del>&lt;S, <ins>Iterator</ins><del>basic_const_iterator</del>&gt;
+      friend constexpr difference_type operator-(const S&amp; x, const basic_const_iterator&amp; y);
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 25.5.3.5 <a href="https://wg21.link/const.iterators.ops">[const.iterators.ops]</a> as indicated:</p>
+
+<blockquote>
+<p>
+[&hellip;]
+</p>
+<pre>
+  template&lt;sentinel_for&lt;Iterator&gt; S&gt;
+    <del>friend</del> constexpr bool operator==(<del>const basic_const_iterator&amp; x, </del>const S&amp; s) <ins>const</ins>;
+</pre>
+<blockquote>
+<p>
+-16- <i>Effects</i>: Equivalent to: <tt>return <del>x.</del><i>current_</i> == s;</tt>.
+</p>
+</blockquote>
+[&hellip;]
+<pre>
+  template&lt;sized_sentinel_for&lt;Iterator&gt; S&gt;
+    <del>friend</del> constexpr difference_type operator-(<del>const basic_const_iterator&amp; x, </del>const S&amp; y) <ins>const</ins>;
+</pre>
+<blockquote>
+<p>
+-24- <i>Effects</i>: Equivalent to: <tt>return <del>x.</del><i>current_</i> - y;</tt>.
+</p>
+</blockquote>
+<pre>
+  template&lt;<ins><i>not-a-const-iterator</i></ins><del>sized_sentinel_for&lt;Iterator&gt;</del> S&gt;
+    requires <ins>sized_sentinel_for</ins><del><i>different-from</i></del>&lt;S, <ins>Iterator</ins><del>basic_const_iterator</del>&gt;
+    friend constexpr difference_type operator-(const S&amp; x, const basic_const_iterator&amp; y);
+</pre>
+<blockquote>
+<p>
+-25- <i>Effects</i>: Equivalent to: <tt>return x - y.<i>current_</i>;</tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
