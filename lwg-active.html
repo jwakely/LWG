@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-09-08 at 06:55:13 UTC</p>
+<p><p>Revised 2022-09-08 at 07:02:50 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -50844,6 +50844,13 @@ Although the <tt>Tuple</tt> parameter of <tt><i>distance-from</i></tt> is guaran
 <tt>copyable</tt>, I think it would be more appropriate to pass it by reference.
 </p>
 
+<p><i>[2022-09-08]</i></p>
+
+<p>
+As suggested by Tim Song, the originally submitted proposed wording has been refined to use
+<tt>const Tuple&amp;</tt> instead of <tt>Tuple&amp;</tt>.
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
 <p>
@@ -50874,7 +50881,7 @@ namespace std::ranges {
     [&hellip;]
     
     template&lt;class Tuple&gt;
-      constexpr difference_type <i>distance-from</i>(Tuple<ins>&amp;</ins> t) <ins>const</ins>;            <i>// exposition only</i>
+      constexpr difference_type <i>distance-from</i>(<ins>const</ins> Tuple<ins>&amp;</ins> t) <ins>const</ins>;            <i>// exposition only</i>
       
     [&hellip;]
   };
@@ -50886,7 +50893,7 @@ namespace std::ranges {
 </p>
 <pre>
 template&lt;class Tuple&gt;
-  constexpr difference_type <i>distance-from</i>(Tuple<ins>&amp;</ins> t) <ins>const</ins>;
+  constexpr difference_type <i>distance-from</i>(<ins>const</ins> Tuple<ins>&amp;</ins> t) <ins>const</ins>;
 </pre>
 <blockquote>
 <p>

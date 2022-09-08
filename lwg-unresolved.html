@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-08 at 06:55:13 UTC</p>
+<p><p>Revised 2022-09-08 at 07:02:50 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46826,6 +46826,13 @@ Although the <tt>Tuple</tt> parameter of <tt><i>distance-from</i></tt> is guaran
 <tt>copyable</tt>, I think it would be more appropriate to pass it by reference.
 </p>
 
+<p><i>[2022-09-08]</i></p>
+
+<p>
+As suggested by Tim Song, the originally submitted proposed wording has been refined to use
+<tt>const Tuple&amp;</tt> instead of <tt>Tuple&amp;</tt>.
+</p>
+
 
 <p><b>Proposed resolution:</b></p>
 <p>
@@ -46856,7 +46863,7 @@ namespace std::ranges {
     [&hellip;]
     
     template&lt;class Tuple&gt;
-      constexpr difference_type <i>distance-from</i>(Tuple<ins>&amp;</ins> t) <ins>const</ins>;            <i>// exposition only</i>
+      constexpr difference_type <i>distance-from</i>(<ins>const</ins> Tuple<ins>&amp;</ins> t) <ins>const</ins>;            <i>// exposition only</i>
       
     [&hellip;]
   };
@@ -46868,7 +46875,7 @@ namespace std::ranges {
 </p>
 <pre>
 template&lt;class Tuple&gt;
-  constexpr difference_type <i>distance-from</i>(Tuple<ins>&amp;</ins> t) <ins>const</ins>;
+  constexpr difference_type <i>distance-from</i>(<ins>const</ins> Tuple<ins>&amp;</ins> t) <ins>const</ins>;
 </pre>
 <blockquote>
 <p>
