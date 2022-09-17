@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-09-17 at 14:28:59 UTC</p>
+<p><p>Revised 2022-09-17 at 14:45:24 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -52354,35 +52354,49 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 <blockquote>
 <pre>
 namespace std {
-template&lt;class Allocator&gt;
-class vector&lt;bool, Allocator&gt; {
-public:
-  [&hellip;]
-  // <i>construct/copy/destroy</i>
-  constexpr vector() <ins>noexcept(noexcept(Allocator()))</ins> : vector(Allocator()) { }
-  constexpr explicit vector(const Allocator&amp;) <ins>noexcept</ins>;
-  constexpr explicit vector(size_type n, const Allocator&amp; = Allocator());
-  constexpr vector(size_type n, const bool&amp; value, const Allocator&amp; = Allocator());
-  template&lt;class InputIterator&gt;
-    constexpr vector(InputIterator first, InputIterator last, const Allocator&amp; = Allocator());
-  template&lt;container-compatible-range &lt;bool&gt; R&gt;
-    constexpr vector(from_range_t, R&amp;&amp; rg, const Allocator&amp; = Allocator());
-  constexpr vector(const vector&amp; x);
-  constexpr vector(vector&amp;&amp; x);
-  constexpr vector(const vector&amp;, const type_identity_t&lt;Allocator&gt;&amp;);
-  constexpr vector(vector&amp;&amp;, const type_identity_t&lt;Allocator&gt;&amp;);
-  constexpr vector(initializer_list&lt;bool&gt;, const Allocator&amp; = Allocator());
-  constexpr ~vector();
-  constexpr vector&amp; operator=(const vector&amp; x);
-  constexpr vector&amp; operator=(vector&amp;&amp; x);
-  constexpr vector&amp; operator=(initializer_list&lt;bool&gt;);
-  template&lt;class InputIterator&gt;
-    constexpr void assign(InputIterator first, InputIterator last);
-  template&lt;container-compatible-range &lt;bool&gt; R&gt;
-    constexpr void assign_range(R&amp;&amp; rg);
-  constexpr void assign(size_type n, const bool&amp; t);
-  constexpr void assign(initializer_list&lt;bool&gt;);
-  constexpr allocator_type get_allocator() const noexcept;
+  template&lt;class Allocator&gt;
+  class vector&lt;bool, Allocator&gt; {
+  public:
+    [&hellip;]
+    // <i>construct/copy/destroy</i>
+    constexpr vector() <ins>noexcept(noexcept(Allocator()))</ins> : vector(Allocator()) { }
+    constexpr explicit vector(const Allocator&amp;) <ins>noexcept</ins>;
+    constexpr explicit vector(size_type n, const Allocator&amp; = Allocator());
+    constexpr vector(size_type n, const bool&amp; value, const Allocator&amp; = Allocator());
+    template&lt;class InputIterator&gt;
+      constexpr vector(InputIterator first, InputIterator last, const Allocator&amp; = Allocator());
+    template&lt;container-compatible-range &lt;bool&gt; R&gt;
+      constexpr vector(from_range_t, R&amp;&amp; rg, const Allocator&amp; = Allocator());
+    constexpr vector(const vector&amp; x);
+    constexpr vector(vector&amp;&amp; x) <ins>noexcept</ins>;
+    constexpr vector(const vector&amp;, const type_identity_t&lt;Allocator&gt;&amp;);
+    constexpr vector(vector&amp;&amp;, const type_identity_t&lt;Allocator&gt;&amp;);
+    constexpr vector(initializer_list&lt;bool&gt;, const Allocator&amp; = Allocator());
+    constexpr ~vector();
+    constexpr vector&amp; operator=(const vector&amp; x);
+    constexpr vector&amp; operator=(vector&amp;&amp; x)
+      <ins>noexcept(allocator_traits&lt;Allocator&gt;::propagate_on_container_move_assignment::value ||</ins>
+               <ins>allocator_traits&lt;Allocator&gt;::is_always_equal::value)</ins>;
+    constexpr vector&amp; operator=(initializer_list&lt;bool&gt;);
+    template&lt;class InputIterator&gt;
+      constexpr void assign(InputIterator first, InputIterator last);
+    template&lt;container-compatible-range &lt;bool&gt; R&gt;
+      constexpr void assign_range(R&amp;&amp; rg);
+    constexpr void assign(size_type n, const bool&amp; t);
+    constexpr void assign(initializer_list&lt;bool&gt;);
+    constexpr allocator_type get_allocator() const noexcept;
+  
+    [&hellip;]
+    constexpr iterator erase(const_iterator position);
+    constexpr iterator erase(const_iterator first, const_iterator last);
+    constexpr void swap(vector&amp;)
+      <ins>noexcept(allocator_traits&lt;Allocator&gt;::propagate_on_container_swap::value ||</ins>
+               <ins>allocator_traits&lt;Allocator&gt;::is_always_equal::value)</ins>;
+    constexpr static void swap(reference x, reference y) noexcept;
+    constexpr void flip() noexcept; // <i>flips all bits</i>
+    constexpr void clear() noexcept;
+  };
+}
 </pre>
 </blockquote>
 </li>
