@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3776: Avoid parsing format-spec if it is not present or empty</title>
+<title>Issue 3777: common cartesian_product_view produces an invalid range if the first range is input and one of the ranges is empty</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,9 +45,9 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3776" href="lwg-active.html#3776">3776</a>. Avoid parsing <i>format-spec</i> if it is not present or empty</h3>
+<h3><a name="3777" href="lwg-active.html#3777">3777</a>. <tt>common cartesian_product_view</tt> produces an invalid range if the first range is input and one of the ranges is empty</h3>
 <p><b>Section:</b> 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-08-28 <b>Last modified:</b> 2022-09-17</p>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2022-09-12 <b>Last modified:</b> 2022-09-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#formatter.requirements">active issues</a> in [formatter.requirements].</p>
@@ -55,55 +55,29 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-A format string 22.14.2.1 <a href="https://wg21.link/format.string.general">[format.string.general]</a>/1 has an optional
-<i>format-specifier</i> replacement field. If this field is not present, the
-current wording makes it clear the intention is to call parse when a
-formatting argument use a handle class 22.14.8.1 <a href="https://wg21.link/format.arg">[format.arg]</a>/19
-</p>
-<blockquote>
-<p>
-<i>Effects</i>: Initializes <tt>ptr_</tt> with <tt>addressof(val)</tt> and <tt>format_</tt> with
-</p>
-<blockquote><pre>
-   [](basic_format_parse_context&lt;char_type&gt;&amp; parse_ctx,
-      Context&amp; format_ctx, const void* ptr) {
-     typename Context::template formatter_type&lt;TD&gt; f;
-     parse_ctx.advance_to(f.parse(parse_ctx));
-     format_ctx.advance_to(f.format(*const_cast&lt;TQ*&gt;(static_cast&lt;const TD*>(ptr)),
-                                    format_ctx));
-  }
-</pre>
-</blockquote>
-</blockquote>
-<p>
-For other types it is implied by [tab:formatter.basic]
-</p>
-<blockquote>
-<p>
-Formats <tt>u</tt> according to the specifiers stored in <tt>*this</tt>, writes the
-output to <tt>fc.out()</tt>, and returns an iterator past the end of the output
-range. The output shall only depend on <tt>u</tt>, <tt>fc.locale()</tt>, <tt>fc.arg(n)</tt> for
-any value <tt>n</tt> of type <tt>size_t</tt>, and the range <tt>[pc.begin(), pc.end())</tt> from
-the last call to <tt>f.parse(pc)</tt>.
-</p>
-</blockquote>
-<p>
-(Similar wording is used in [tab:formatter])
+In case when <tt>cartesian_product_view</tt> is common and one of the inner ranges is empty, 
+it needs to produce equal iterators from <tt>begin</tt>/<tt>end</tt>. We currently create a 
+sequence of <tt>begin</tt> iterators as both <tt>begin</tt> and <tt>end</tt> iterators. This 
+assumes that <tt>begin</tt> iterator is copyable, which may not be the case with the input range, 
+even in the case if the case a range is common &mdash; in such case, we require that only sentinel 
+is semantically copy-constructible, not begin even if they are the same type.
 <p/>
-Before the <tt>parse</tt> function is called it is known whether or not a
-<i>format-spec</i> is present. It seems wasteful to call a function that is
-known not to parse anything. Therefore I propose to make the call
-optional.
+To illustrate, C++98 input iterators (like <tt>directory_iterator</tt>) are syntactically 
+copy-constructible, but only default constructed object, that corresponds to sentinels are 
+semantically copyable &mdash; the copy produces an equivalent result. As a consequence for 
+<tt>directory_iterator d</tt>, and empty <tt>std::string_view sv</tt>, the 
+<tt>view::cartesian_product(d, sv)</tt> produces an invalid range.
 <p/>
-This change is only observable for formatter specializations using the
-<tt>handle</tt> class, for the formatter specializations in
-22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> the change has no observable effect.
+To fix the problem, we need to move the logic of adjusting the first range iterator to return 
+<tt>[end, begin, ..., begin]</tt> for <tt>begin</tt>. This is safe, as we require the end 
+to be always semantically copy-constructible. This again can be done only if computing the end 
+can be done in <tt>&#x1d4aa;(1)</tt> i.e. the first range is common.
 </p>
 
 
 <p><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 </p>
 
 <ol>
@@ -113,7 +87,7 @@ This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
 <blockquote>
 <p>
 -3- Given character type <tt>charT</tt>, output iterator type <tt>Out</tt>, and formatting argument type 
-<tt>T</tt>, in Table 74 and Table 75:
+<tt>T</tt>, in Table 72 and Table 73:
 <p/>
 [&hellip;]
 <p/>
@@ -128,7 +102,7 @@ of the replacement field being formatted in the format string. If <i>format-spec
 
 <blockquote>
 <table border="1">
-<caption>Table 74: <i>BasicFormatter</i> requirements [tab:formatter.basic]</caption>
+<caption>Table 72: <i>BasicFormatter</i> requirements [tab:formatter.basic]</caption>
 <tr>
 <th align="center">Expression</th>
 <th align="center">Return type</th>
@@ -169,7 +143,7 @@ the call to <tt>f.parse(pc)</tt> is omitted.</ins>
 
 <blockquote>
 <table border="1">
-<caption>Table 75: <i>Formatter</i> requirements [tab:formatter]</caption>
+<caption>Table 73: <i>Formatter</i> requirements [tab:formatter]</caption>
 <tr>
 <th align="center">Expression</th>
 <th align="center">Return type</th>
