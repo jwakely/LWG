@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-17 at 13:04:13 UTC</p>
+<p><p>Revised 2022-09-17 at 13:44:48 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48288,8 +48288,9 @@ is <tt>true</tt>, returns <tt>std::get&lt;0&gt;(x.<i>current_</i>) ==
 ranges::end(std::get&lt;0&gt;(x.<i>parent_</i>-&gt;<i>bases_</i>))</tt>.</ins></p></li>
 <li><p><ins>(?.2) &mdash; Otherwise, </ins> <del><tt>true</tt></del> if <tt>std::get&lt;<i>i</i>&gt;(x.<i>current_</i>) == 
 ranges::end(std::get&lt;<i>i</i>&gt;(x.<i>parent_</i>-&gt;<i>bases_</i>))</tt> is <tt>true</tt> 
-for any integer <tt>0 &le; <i>i</i> &le; sizeof...(Vs)</tt>; <ins>returns <tt>true</tt>.</ins><del>otherwise, <tt>false</tt></del></p></li>
-<li><p><ins>(?.3) &mdash; Otherwise, returns <tt>false</tt>.</ins></p></li>
+for any integer <tt>0 &le; <i>i</i> &le; sizeof...(Vs)</tt>; <del>otherwise, <tt>false</tt></del> 
+<ins>returns <tt>true</tt>.</ins></p></li>
+<li><p><ins>(?.3) &mdash; Otherwise, returns <tt>false</tt></ins>.</p></li>
 </ol>
 </blockquote>
 </blockquote>
