@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3777: common cartesian_product_view produces an invalid range if the first range is input and one of the ranges is empty</title>
+<title>Issue 3777: Common cartesian_product_view produces an invalid range if the first range is input and one of the ranges is empty</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,13 +45,11 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3777" href="lwg-active.html#3777">3777</a>. <tt>common cartesian_product_view</tt> produces an invalid range if the first range is input and one of the ranges is empty</h3>
-<p><b>Section:</b> 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<h3><a name="3777" href="lwg-active.html#3777">3777</a>. Common <tt>cartesian_product_view</tt> produces an invalid range if the first range is input and one of the ranges is empty</h3>
+<p><b>Section:</b> 26.7.31.2 <a href="https://wg21.link/range.cartesian.view">[range.cartesian.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2022-09-12 <b>Last modified:</b> 2022-09-17</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#formatter.requirements">active issues</a> in [formatter.requirements].</p>
-<p><b>View all other</b> <a href="lwg-index.html#formatter.requirements">issues</a> in [formatter.requirements].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -82,167 +80,87 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 
 <ol>
 
-<li><p>Modify 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> as indicated:</p>
+<li><p>Modify 26.7.31.2 <a href="https://wg21.link/range.cartesian.view">[range.cartesian.view]</a> as indicated:</p>
 
-<blockquote>
+<blockquote class="note">
 <p>
--3- Given character type <tt>charT</tt>, output iterator type <tt>Out</tt>, and formatting argument type 
-<tt>T</tt>, in Table 72 and Table 73:
-<p/>
-[&hellip;]
-<p/>
-<tt>pc.begin()</tt> points to the beginning of the <i>format-spec</i> (22.14.2 <a href="https://wg21.link/format.string">[format.string]</a>) 
-of the replacement field being formatted in the format string. If <i>format-spec</i> is 
-<ins>not present or</ins> empty then either <tt>pc.begin() == pc.end()</tt> or <tt>*pc.begin() == '}'</tt>.
+[<i>Drafting note</i>: We can optimize the comparison with <tt>default_sentinel_t</tt> to compare only the iterator
+to the first range if the range is common. This is observable, as we call comparison of user-provided iterators.]
 </p>
 </blockquote>
-</li>
-
-<li><p>Modify <i>BasicFormatter</i> requirements [tab:formatter.basic] as indicated:</p>
 
 <blockquote>
-<table border="1">
-<caption>Table 72: <i>BasicFormatter</i> requirements [tab:formatter.basic]</caption>
-<tr>
-<th align="center">Expression</th>
-<th align="center">Return type</th>
-<th align="center">Requirement</th>
-</tr>
-
-<tr>
-<td colspan="3" align="center">
-<tt>&hellip;</tt>
-</td>
-</tr>
-
-<tr>
-<td>
-<tt>f.format(u, fc)</tt>
-</td>
-<td>
-<tt>FC::iterator</tt>
-</td>
-<td>
-Formats <tt>u</tt> according to the specifiers stored in<br/>
-<tt>*this</tt>, writes the output to <tt>fc.out()</tt>, and returns<br/>
-an iterator past the end of the output range.<br/>
-The output shall only depend on <tt>u</tt>, <tt>fc.locale()</tt>,<br/>
-<tt>fc.arg(n)</tt> for any value <tt>n</tt> of type <tt>size_t</tt>, and<br/>
-the range <tt>[pc.begin(), pc.end())</tt> from the last<br/>
-call to <tt>f.parse(pc)</tt>. <ins>When the <i>format-spec</i><br/>
-(22.14.2 <a href="https://wg21.link/format.string">[format.string]</a>) is not present or empty<br/> 
-the call to <tt>f.parse(pc)</tt> is omitted.</ins>
-</td>
-</tr>
-
-</table>
-</blockquote>
-</li>
-
-<li><p>Modify <i>Formatter</i> requirements [tab:formatter] as indicated:</p>
-
-<blockquote>
-<table border="1">
-<caption>Table 73: <i>Formatter</i> requirements [tab:formatter]</caption>
-<tr>
-<th align="center">Expression</th>
-<th align="center">Return type</th>
-<th align="center">Requirement</th>
-</tr>
-
-<tr>
-<td>
-<tt>f.format(t, fc)</tt>
-</td>
-<td>
-<tt>FC::iterator</tt>
-</td>
-<td>
-Formats <tt>t</tt> according to the specifiers stored in<br/>
-<tt>*this</tt>, writes the output to <tt>fc.out()</tt>, and returns<br/>
-an iterator past the end of the output range.<br/>
-The output shall only depend on <tt>t</tt>, <tt>fc.locale()</tt>,<br/>
-<tt>fc.arg(n)</tt> for any value <tt>n</tt> of type <tt>size_t</tt>, and<br/>
-the range <tt>[pc.begin(), pc.end())</tt> from the last<br/>
-call to <tt>f.parse(pc)</tt>. <ins>When the <i>format-spec</i><br/>
-(22.14.2 <a href="https://wg21.link/format.string">[format.string]</a>) is not present or empty<br/> 
-the call to <tt>f.parse(pc)</tt> is omitted.</ins>
-</td>
-</tr>
-
-<tr>
-<td colspan="3" align="center">
-<tt>&hellip;</tt>
-</td>
-</tr>
-
-</table>
-</blockquote>
-</li>
-
-<li><p>Modify 22.14.8.1 <a href="https://wg21.link/format.arg">[format.arg]</a> as indicated:</p>
-
-<blockquote>
-<p>
-[&hellip;]
-<p/>
--16- The class <tt>handle</tt> allows formatting an object of a user-defined type.
-</p>
-<blockquote><pre>
-namespace std {
-  template&lt;class Context&gt;
-  class basic_format_arg&lt;Context&gt;::handle {
-    const void* ptr_;                                          // <i>exposition only</i>
-    void (*format_)(basic_format_parse_context&lt;char_type&gt;<del>&amp;</del><ins>*</ins>,
-                    Context&amp;, const void*);                    // <i>exposition only</i>
-
-    template&lt;class T&gt; explicit handle(T&amp;&amp; val) noexcept;       // <i>exposition only</i>
-
-    friend class basic_format_arg&lt;Context&gt;;                    // <i>exposition only</i>
-
-  public:
-    void format(basic_format_parse_context&lt;char_type&gt;&amp;, Context&amp; ctx) const;
-  };
-}
-</pre></blockquote>
 <pre>
-template&lt;class T&gt; explicit handle(T&amp;&amp; val) noexcept;
+constexpr <i>iterator</i>&lt;false&gt; begin()
+  requires (!<i>simple-view</i>&lt;First&gt; || ... || !<i>simple-view</i>&lt;Vs&gt;);
 </pre>
 <blockquote>
 <p>
--17- [&hellip;]
-<p/>
--18- [&hellip;]
-<p/>
--19- <i>Effects</i>: Initializes <tt>ptr_</tt> with <tt>addressof(val)</tt> and <tt>format_</tt> with
+<del>-2- <i>Effects</i>: Equivalent to: <tt>return <i>iterator</i>&lt;false&gt;(<i>tuple-transform</i>(ranges::begin, <i>bases_</i>));</tt></del>
 </p>
-<blockquote><pre>
-[](basic_format_parse_context&lt;char_type&gt;<del>&amp;</del><ins>*</ins> parse_ctx,
-   Context&amp; format_ctx, const void* ptr) {
-  typename Context::template formatter_type&lt;TD&gt; f;
-  <ins>if (parse_ctx)</ins> parse_ctx<del>.</del><ins>-&gt;</ins>advance_to(f.parse(<ins>*</ins>parse_ctx));
-  format_ctx.advance_to(f.format(*const_cast&lt;TQ*&gt;(static_cast&lt;const TD*&gt;(ptr)),
-                                 format_ctx));
-}
-</pre></blockquote>
 </blockquote>
 <pre>
-void format(basic_format_parse_context&lt;char_type&gt;&amp; parse_ctx, Context&amp; format_ctx) const;
+constexpr <i>iterator</i>&lt;true&gt; begin() const
+  requires (range&lt;const First&gt; &amp;&amp; ... &amp;&amp; range&lt;const Vs&gt;);
 </pre>
 <blockquote>
 <p>
--20- <i>Effects</i>: <ins>If the <i>format-spec</i> (22.14.2 <a href="https://wg21.link/format.string">[format.string]</a>) is not present or empty,
-equivalent to:</ins>
+<del>-3- <i>Effects</i>: Equivalent to: <tt>return <i>iterator</i>&lt;true&gt;(<i>tuple-transform</i>(ranges::begin, <i>bases_</i>));</tt></del>
 </p>
-<blockquote><pre>
-<ins>format_(nullptr, format_ctx, ptr_);</ins>
-</pre></blockquote>
+</blockquote>
+<pre>
+constexpr <i>iterator</i>&lt;false&gt; end()
+  requires ((!<i>simple-view</i>&lt;First&gt; || ... || !<i>simple-view</i>&lt;Vs&gt;)
+    &amp;&amp; <i>cartesian-product-is-common</i>&lt;First, Vs...&gt;);
+constexpr <i>iterator</i>&lt;true&gt; end() const
+  requires <i>cartesian-product-is-common</i>&lt;const First, const Vs...&gt;;
+</pre>
+<blockquote>
 <p>
-<ins>otherwise, e</ins><del>E</del>quivalent to:
+-4- Let:
+</p>
+<ol style="list-style-type: none">
+<li><p>(4.1) &mdash; <tt><i>is-const</i></tt> be <tt>true</tt> for the const-qualified overload<ins>s</ins>, and <tt>false</tt> otherwise;</p></li>
+<li><p><ins>(4.?) &mdash; <tt><i>is-end</i></tt> be <tt>true</tt> for the <tt>end</tt> overloads, and <tt>false</tt> otherwise;</ins></p></li>
+<li><p>(4.2) &mdash; <tt><i>is-empty</i></tt> be <tt>true</tt> if the expression <tt>ranges::empty(rng)</tt> is <tt>true</tt> 
+for any <tt>rng</tt> among the underlying ranges except the first one and <tt>false</tt> otherwise; and</p></li>
+<li><p>(4.3) &mdash; <tt><i>begin-or-first-end</i>(rng)</tt> be expression-equivalent to 
+<tt><ins><i>is-end</i> || (<i>cartesian-product-common-arg</i>&lt;<i>maybe-const</i>&lt;<i>is-const</i>, First&gt;&gt; &amp;&amp; 
+<i>is-empty</i>) ? <i>cartesian-common-arg-end</i>(rng) : ranges::begin(rng)</ins><del><i>is-empty</i> ? ranges::begin(rng) :
+<i>cartesian-common-arg-end</i>(rng)</del></tt> if <tt>rng</tt> is the first underlying range and <tt>ranges::begin(rng)</tt>
+otherwise.</p></li>
+</ol>
+<p>
+-5- <i>Effects</i>: Equivalent to:
 </p>
 <blockquote><pre>
-format_(<ins>addressof(</ins>parse_ctx<ins>)</ins>, format_ctx, ptr_);
+iterator&lt;<i>is-const</i>&gt; it(<i>tuple-transform</i>(
+  [](auto&amp; rng){ return <i>begin-or-first-end</i>(rng); }, <i>bases_</i>));
+return it;
 </pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+friend constexpr bool operator==(const <i>iterator</i>&amp; x, default_sentinel_t);
+</pre>
+<blockquote>
+<p>
+-26- <i>Returns</i>:
+</p>
+<ol style="list-style-type: none">
+<li><p><ins>(?.1) &mdash; If <tt><i>cartesian-product-common-arg</i>&lt;<i>maybe-const</i>&lt;Const, First&gt;&gt;</tt> 
+is <tt>true</tt>, returns <tt>std::get&lt;0&gt;(x.<i>current_</i>) == 
+ranges::end(std::get&lt;0&gt;(x.<i>parent_</i>-&gt;<i>bases_</i>))</tt>.</ins></p></li>
+<li><p><ins>(?.2) &mdash; Otherwise, </ins> <del><tt>true</tt></del> if <tt>std::get&lt;<i>i</i>&gt;(x.<i>current_</i>) == 
+ranges::end(std::get&lt;<i>i</i>&gt;(x.<i>parent_</i>-&gt;<i>bases_</i>))</tt> is <tt>true</tt> 
+for any integer <tt>0 &le; <i>i</i> &le; sizeof...(Vs)</tt>; <ins>returns <tt>true</tt>.</ins><del>otherwise, <tt>false</tt></del></p></li>
+<li><p><ins>(?.3) &mdash; Otherwise, returns <tt>false</tt>.</ins></p></li>
+</ol>
 </blockquote>
 </blockquote>
 </li>
