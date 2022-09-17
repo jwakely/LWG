@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-17 at 13:48:25 UTC</p>
+<p><p>Revised 2022-09-17 at 14:28:59 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48187,7 +48187,7 @@ In case when <tt>cartesian_product_view</tt> is common and one of the inner rang
 it needs to produce equal iterators from <tt>begin</tt>/<tt>end</tt>. We currently create a 
 sequence of <tt>begin</tt> iterators as both <tt>begin</tt> and <tt>end</tt> iterators. This 
 assumes that <tt>begin</tt> iterator is copyable, which may not be the case with the input range, 
-even in the case if the case a range is common &mdash; in such case, we require that only sentinel 
+even in the case if that range is common &mdash; in such case, we require that only sentinel 
 is semantically copy-constructible, not begin even if they are the same type.
 <p/>
 To illustrate, C++98 input iterators (like <tt>directory_iterator</tt>) are syntactically 
@@ -48255,9 +48255,10 @@ constexpr <i>iterator</i>&lt;true&gt; end() const
 <li><p>(4.2) &mdash; <tt><i>is-empty</i></tt> be <tt>true</tt> if the expression <tt>ranges::empty(rng)</tt> is <tt>true</tt> 
 for any <tt>rng</tt> among the underlying ranges except the first one and <tt>false</tt> otherwise; and</p></li>
 <li><p>(4.3) &mdash; <tt><i>begin-or-first-end</i>(rng)</tt> be expression-equivalent to 
-<tt><ins><i>is-end</i> || (<i>cartesian-product-common-arg</i>&lt;<i>maybe-const</i>&lt;<i>is-const</i>, First&gt;&gt; &amp;&amp; 
-<i>is-empty</i>) ? <i>cartesian-common-arg-end</i>(rng) : ranges::begin(rng)</ins><del><i>is-empty</i> ? ranges::begin(rng) :
-<i>cartesian-common-arg-end</i>(rng)</del></tt> if <tt>rng</tt> is the first underlying range and <tt>ranges::begin(rng)</tt>
+<tt><ins><i>is-end</i> || <i>is-empty</i> ? <i>cartesian-common-arg-end</i>(rng) : 
+ranges::begin(rng)</ins><del><i>is-empty</i> ? ranges::begin(rng) : <i>cartesian-common-arg-end</i>(rng)</del></tt> 
+if <ins><tt><i>cartesian-product-common-arg</i>&lt;<i>maybe-const</i>&lt;<i>is-const</i>, First&gt;&gt;</tt> is <tt>true</tt> and</ins> 
+<tt>rng</tt> is the first underlying range<ins>,</ins> and <tt>ranges::begin(rng)</tt>
 otherwise.</p></li>
 </ol>
 <p>
@@ -48293,6 +48294,77 @@ for any integer <tt>0 &le; <i>i</i> &le; sizeof...(Vs)</tt><ins>,</ins><del>; ot
 <li><p><ins>(?.3) &mdash; Otherwise, returns <tt>false</tt></ins>.</p></li>
 </ol>
 </blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3778" href="#3778">3778</a><sup><a href="https://cplusplus.github.io/LWG/issue3778">(i)</a></sup>. <tt>vector&lt;bool&gt;</tt> missing exception specifications</h3>
+<p><b>Section:</b> 24.3.12.1 <a href="https://wg21.link/vector.bool.pspc">[vector.bool.pspc]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2022-09-13 <b>Last modified:</b> 2022-09-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+As noted back in <a href="https://wg21.link/P0177R2">P0177R2</a>, the primary template for <tt>vector</tt> has picked 
+up some exception specification, but the partial specialization for <tt>vector&lt;bool&gt;</tt> 
+has not been so updated.
+<p/>
+Several other changes have been made to <tt>vector</tt> in the intervening years, but these 
+particular exception specifications have still not been updated. Note that the free-function 
+<tt>swap</tt> in the header synopsis will automatically pick up this update once applied.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 24.3.12.1 <a href="https://wg21.link/vector.bool.pspc">[vector.bool.pspc]</a>, partial class template synopsis 
+<tt>vector&lt;bool, Allocator&gt;</tt>, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+template&lt;class Allocator&gt;
+class vector&lt;bool, Allocator&gt; {
+public:
+  [&hellip;]
+  // <i>construct/copy/destroy</i>
+  constexpr vector() <ins>noexcept(noexcept(Allocator()))</ins> : vector(Allocator()) { }
+  constexpr explicit vector(const Allocator&amp;) <ins>noexcept</ins>;
+  constexpr explicit vector(size_type n, const Allocator&amp; = Allocator());
+  constexpr vector(size_type n, const bool&amp; value, const Allocator&amp; = Allocator());
+  template&lt;class InputIterator&gt;
+    constexpr vector(InputIterator first, InputIterator last, const Allocator&amp; = Allocator());
+  template&lt;container-compatible-range &lt;bool&gt; R&gt;
+    constexpr vector(from_range_t, R&amp;&amp; rg, const Allocator&amp; = Allocator());
+  constexpr vector(const vector&amp; x);
+  constexpr vector(vector&amp;&amp; x);
+  constexpr vector(const vector&amp;, const type_identity_t&lt;Allocator&gt;&amp;);
+  constexpr vector(vector&amp;&amp;, const type_identity_t&lt;Allocator&gt;&amp;);
+  constexpr vector(initializer_list&lt;bool&gt;, const Allocator&amp; = Allocator());
+  constexpr ~vector();
+  constexpr vector&amp; operator=(const vector&amp; x);
+  constexpr vector&amp; operator=(vector&amp;&amp; x);
+  constexpr vector&amp; operator=(initializer_list&lt;bool&gt;);
+  template&lt;class InputIterator&gt;
+    constexpr void assign(InputIterator first, InputIterator last);
+  template&lt;container-compatible-range &lt;bool&gt; R&gt;
+    constexpr void assign_range(R&amp;&amp; rg);
+  constexpr void assign(size_type n, const bool&amp; t);
+  constexpr void assign(initializer_list&lt;bool&gt;);
+  constexpr allocator_type get_allocator() const noexcept;
+</pre>
 </blockquote>
 </li>
 
