@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-17 at 17:47:36 UTC</p>
+<p><p>Revised 2022-09-18 at 07:09:34 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -34046,7 +34046,7 @@ to create another thread, or the system-imposed limit on the number of threads i
 <hr>
 <h3><a name="3484" href="#3484">3484</a><sup><a href="https://cplusplus.github.io/LWG/issue3484">(i)</a></sup>. Should <tt>&lt;stddef.h&gt;</tt> declare <tt>::nullptr_t</tt>?</h3>
 <p><b>Section:</b> 17.15.7 <a href="https://wg21.link/support.c.headers.other">[support.c.headers.other]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2020-09-06 <b>Last modified:</b> 2022-05-13</p>
+ <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2020-09-06 <b>Last modified:</b> 2022-09-18</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#support.c.headers.other">active issues</a> in [support.c.headers.other].</p>
@@ -34080,6 +34080,13 @@ so I am also happy to drop this issue as not being worth the churn and the incre
 <p><i>[2020-09-29; Priority to P3 after reflector discussions]</i></p>
 
 
+<p><i>[2022-09-18; Daniel comments]</i></p>
+
+<p>
+See also <a href="lwg-active.html#3782">3782</a>, which points out that <tt>nullptr_t</tt> has become a part of the C standard library 
+as of C23 (see <a href="https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3042.htm">WG14-N3042</a> and 
+<a href="https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3048.htm">WG14-N3048</a>).
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
@@ -48781,7 +48788,7 @@ template&lt;class Container&gt;
 <hr>
 <h3><a name="3782" href="#3782">3782</a><sup><a href="https://cplusplus.github.io/LWG/issue3782">(i)</a></sup>. Should <tt>&lt;math.h&gt;</tt> declare <tt>::lerp</tt>?</h3>
 <p><b>Section:</b> 17.15.7 <a href="https://wg21.link/support.c.headers.other">[support.c.headers.other]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-09-17 <b>Last modified:</b> 2022-09-17</p>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-09-17 <b>Last modified:</b> 2022-09-18</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#support.c.headers.other">active issues</a> in [support.c.headers.other].</p>
@@ -48800,8 +48807,9 @@ Currently there is implementation divergence: libstdc++ provide <tt>::lerp</tt> 
 <p/>
 I'm not sure whether this should be considered together with LWG <a href="lwg-active.html#3484">3484</a>. 
 Since <tt>nullptr_t</tt> has become a part of the C standard library as of C23 
-(see WG14-N3042 and WG14-N3048), I believe we should keep providing <tt>::nullptr_t</tt> in 
-<tt>&lt;stddef.h&gt;</tt>.
+(see <a href="https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3042.htm">WG14-N3042</a> and 
+<a href="https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3048.htm">WG14-N3048</a>), 
+I believe we should keep providing <tt>::nullptr_t</tt> in <tt>&lt;stddef.h&gt;</tt>.
 </p>
 
 
