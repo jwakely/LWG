@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-09-18 at 09:58:11 UTC</p>
+<p><p>Revised 2022-09-18 at 10:52:02 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -52852,7 +52852,7 @@ in 17.2.5 <a href="https://wg21.link/support.types.byteops">[support.types.byteo
 
 <hr>
 <h3><a name="3783" href="#3783">3783</a><sup><a href="https://cplusplus.github.io/LWG/issue3783">(i)</a></sup>. <tt>views::common</tt> may not be a range adaptor object</h3>
-<p><b>Section:</b> 25.5.5.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a>, 26.7.19.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 25.5.5.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a>, 25.5.5.6 <a href="https://wg21.link/common.iter.cmp">[common.iter.cmp]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-18 <b>Last modified:</b> 2022-09-18</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -52883,8 +52883,11 @@ int main() {
 which causes <tt>views::common</tt> to be unable to convert a <tt>range</tt> into a <tt>view</tt>, 
 making it not a valid range adaptor.
 <p/>
-I think requiring <tt>common_iterator</tt> to be <tt>default_initializable</tt> should be mandatory, 
+I think <tt>common_iterator</tt> should always be <tt>default_initializable</tt>, 
 which makes it eligible to be a legitimate sentinel.
+<p/>
+The proposed resolution changes the template order of the <tt>common_iterator</tt>'s member 
+<tt>variant&lt;I, S&gt;</tt> to achieve this.
 </p>
 
 
@@ -52895,80 +52898,62 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 
 <ol>
 
-<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-#include &lt;compare&gt;              // <i>see 17.12.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
-#include &lt;concepts&gt;             // <i>see 18.3 <a href="https://wg21.link/concepts.syn">[concepts.syn]</a></i>
-
-namespace std {
-  [&hellip;]
-  // <i>25.5.5 <a href="https://wg21.link/iterators.common">[iterators.common]</a>, common iterators</i>
-  template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
-    requires (!same_as&lt;I, S&gt; &amp;&amp; <ins>semiregular</ins><del>copyable</del>&lt;I&gt;)
-      class common_iterator;                                                        // <i>freestanding</i>
-  [&hellip;]
-}
-</pre>
-</blockquote>
-</li>
-
 <li><p>Modify 25.5.5.1 <a href="https://wg21.link/common.iterator">[common.iterator]</a>, class template <tt>common_iterator</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 namespace std {
   template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
-    requires (!same_as&lt;I, S&gt; &amp;&amp; <ins>semiregular</ins><del>copyable</del>&lt;I&gt;)
+    requires (!same_as&lt;I, S&gt; &amp;&amp; copyable&lt;I&gt;)
   class common_iterator {
   public:
     constexpr common_iterator() <del>requires default_initializable&lt;I&gt;</del> = default;
     [&hellip;]
-  };
-  [&hellip;]
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
-<blockquote>
-<pre>
-#include &lt;compare&gt;              // <i>see 17.12.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
-#include &lt;initializer_list&gt;     // <i>see 17.11.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
-#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
-
-namespace std::ranges {
-  [&hellip;]
-  // <i>26.7.19 <a href="https://wg21.link/range.common">[range.common]</a>, common view</i>
-  template&lt;view V&gt;
-    requires (!common_range&lt;V&gt; &amp;&amp; <ins>semiregular</ins><del>copyable</del>&lt;iterator_t&lt;V&gt;&gt;)
-  class common_view;                                                                // <i>freestanding</i>
-  [&hellip;]
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 26.7.19.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a>, class template <tt>common_view</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;view V&gt;
-    requires (!common_range&lt;V&gt; &amp;&amp; <ins>semiregular</ins><del>copyable</del>&lt;iterator_t&lt;V&gt;&gt;)
-  class common_view : public view_interface&lt;common_view&lt;V&gt;&gt; {
   private:
-    V <i>base_</i> = V(); // <i>exposition only</i>
-  public:
-    common_view() requires default_initializable&lt;V&gt; = default;
-
-    [&hellip;]
+    variant&lt;<ins>S, </ins>I<del>, S</del>&gt; v_;   // <i>exposition only</i>
   };
   [&hellip;]
 }
 </pre>
+</blockquote>
+</li>
+
+<li><p>Modify 25.5.5.6 <a href="https://wg21.link/common.iter.cmp">[common.iter.cmp]</a> as indicated:</p>
+
+<blockquote>
+[&hellip;]
+<pre>
+template&lt;class I2, sentinel_for&lt;I&gt; S2>
+  requires sentinel_for&lt;S, I2&gt; &amp;&amp; equality_comparable_with&lt;I, I2&gt;
+friend constexpr bool operator==(
+  const common_iterator&amp; x, const common_iterator&lt;I2, S2&gt;&amp; y);
+</pre>
+<blockquote>
+<p>
+-3- <i>Preconditions</i>: <tt>x.v_.valueless_by_exception()</tt> and <tt>y.v_.valueless_by_exception()</tt> 
+are each <tt>false</tt>.
+<p/>
+-4- <i>Returns</i>: <tt>true</tt> if <tt><i>i</i></tt> and <tt><i>j</i></tt> are each <ins><tt>0</tt></ins><del><tt>1</tt></del>, 
+and otherwise <tt>get&lt;<i>i</i>&gt;(x.v_) == get&lt;<i>j</i>&gt;(y.v_)</tt>, where <tt><i>i</i></tt> is <tt>x.v_.index()</tt> 
+and <tt><i>j</i></tt> is <tt>y.v_.index()</tt>.
+</p>
+</blockquote>
+<pre>
+template&lt;sized_sentinel_for&lt;I&gt; I2, sized_sentinel_for&lt;I&gt; S2>
+  requires sized_sentinel_for&lt;S, I2&gt;
+friend constexpr iter_difference_t&lt;I2&gt; operator-(
+  const common_iterator&amp; x, const common_iterator&lt;I2, S2&gt;&amp; y);
+</pre>
+<blockquote>
+<p>
+-5- <i>Preconditions</i>: <tt>x.v_.valueless_by_exception()</tt> and <tt>y.v_.valueless_by_exception()</tt> 
+are each <tt>false</tt>.
+<p/>
+-6- <i>Returns</i>: <tt>0</tt> if <tt><i>i</i></tt> and <tt><i>j</i></tt> are each <ins><tt>0</tt></ins><del><tt>1</tt></del>, 
+and otherwise <tt>get&lt;<i>i</i>&gt;(x.v_) - get&lt;<i>j</i>&gt;(y.v_)</tt>, where <tt><i>i</i></tt> is <tt>x.v_.index()</tt> 
+and <tt><i>j</i></tt> is <tt>y.v_.index()</tt>.
+</p>
+</blockquote>
 </blockquote>
 </li>
 
