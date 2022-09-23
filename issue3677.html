@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="3677" href="lwg-active.html#3677">3677</a>. Is a <i>cv</i>-qualified <tt>pair</tt> specially handled in uses-allocator construction?</h3>
 <p><b>Section:</b> 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-02-16 <b>Last modified:</b> 2022-08-25</p>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-02-16 <b>Last modified:</b> 2022-09-23</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
@@ -128,9 +128,8 @@ Set priority to 2 after reflector poll.
 <p><i>[2022-08-25; Jonathan Wakely provides wording]</i></p>
 
 
-
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 </p>
@@ -147,6 +146,70 @@ a specialization of <code>pair</code>
 </blockquote>
 </li>
 </ul>
+
+</blockquote>
+
+<p><i>[2022-09-23; Jonathan provides improved wording]</i></p>
+
+
+
+
+<p><b>Proposed resolution:</b></p>
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated,
+using <code>remove_cv_t</code> in every <i>Constraints</i>: element:</p>
+
+<blockquote>
+<p><i>Constraints</i>:
+<code><ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins></code> [is|is not]
+a specialization of <code>pair</code>
+</p>
+</blockquote>
+</li>
+
+<li>
+<p>Add <tt>remove_cv_t</tt> in paragraph 5:</p>
+
+<blockquote>
+<p>-5- <i>Returns</i>: A <code>tuple</code> value determined as follows: </p>
+<p>(5.1) &mdash; If
+<code>uses_allocator_v&lt;<ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>, Alloc&gt;</code>
+is <code>false</code> and [...]
+</p>
+</blockquote>
+</li>
+
+<li>
+<p>Rephrase paragraph 7 in terms of the pair member types:</p>
+
+<blockquote>
+<p>
+<ins> -?-
+Let <code>T1</code> be <code>T::first_type</code>.
+Let <code>T2</code> be <code>T::second_type</code>.
+</ins>
+</p>
+
+<p>-6- <i>Constraints</i>:
+<code><ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins></code> is
+a specialization of <code>pair</code>
+</p>
+<p>-7- <i>Effects:</i>:
+<del>
+For <code>T</code> specified as <code>pair&lt;T1, T2&gt;</code>, equivalent
+</del>
+<ins>Equivalent</ins>
+to:
+</p>
+</blockquote>
+</li>
+
+</ol>
 
 
 
