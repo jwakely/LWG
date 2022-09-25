@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-25 at 16:56:20 UTC</p>
+<p><p>Revised 2022-09-25 at 17:37:18 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48395,6 +48395,55 @@ that is a perfect forwarding call wrapper (22.10.4 <a href="https://wg21.link/fu
 </li>
 </ol>
 
+
+
+
+
+
+<hr>
+<h3><a name="3788" href="#3788">3788</a><sup><a href="https://cplusplus.github.io/LWG/issue3788">(i)</a></sup>. <tt>jthread::operator=(jthread&amp;&amp;)</tt> postconditions are unimplementable under self-assignment</h3>
+<p><b>Section:</b> 33.4.4.2 <a href="https://wg21.link/thread.jthread.cons">[thread.jthread.cons]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Nicole Mazzuca <b>Opened:</b> 2022-09-22 <b>Last modified:</b> 2022-09-25</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In the <i>Postconditions</i> element of <tt>jthread&amp; jthread::operator=(jthread&amp;&amp;)</tt> 
+(33.4.4.2 <a href="https://wg21.link/thread.jthread.cons">[thread.jthread.cons]</a> p13), we have the following:
+</p>
+<blockquote><p>
+<i>Postconditions</i>: <tt>x.get_id() == id()</tt>, and <tt>get_id()</tt> returns the value of
+<tt>x.get_id()</tt> prior to the assignment. <tt>ssource</tt> has the value of <tt>x.ssource</tt> 
+prior to the assignment and <tt>x.ssource.stop_possible()</tt> is <tt>false</tt>.
+</p></blockquote>
+<p>
+Assume <tt>j</tt> is a joinable <tt>jthread</tt>. Then, <tt>j = std::move(j);</tt> results in the following post-conditions:
+</p>
+<ul>
+<li><p>Let <tt>old_id = j.get_id()</tt> (and since <tt>j</tt> is joinable, <tt>old_id != id()</tt>)</p></li>
+<li><p>Since <tt>x.get_id() == id()</tt>, <tt>j.get_id() == id()</tt></p></li>
+<li><p>Since <tt>get_id() == old_id</tt>, <tt>j.get_id() == old_id</tt></p></li>
+<li><p>Thus, <tt>id() == j.get_id() == old_id</tt>, and <tt>old_id != id()</tt>, which is a contradiction.</p></li>
+</ul>
+<p>
+One can see that these postconditions are therefore unimplementable.
+<p/>
+Two standard libraries &ndash; the MSVC STL and libstdc++ &ndash; currently implement <tt>jthread</tt>.
+<p/>
+The MSVC STL chooses to follow the letter of the <i>Effects</i> element, which results in unfortunate behavior.
+It first <tt>request_stop()</tt>s, then <tt>join()</tt>s; then, it assigns the values over. This results in
+<tt>j.get_id() == id()</tt> &ndash; this means that <tt>std::swap(j, j)</tt> stops and joins <tt>j</tt>.
+<p/>
+libstdc++ chooses instead to implement this move assignment operator via the move-swap idiom.
+This results in <tt>j.get_id() == old_id</tt>, and <tt>std::swap(j, j)</tt> is a no-op.
+<p/>
+It is the opinion of the issue writer that libstdc++'s choice is the correct one, and should be
+taken into the standard.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
