@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3770" href="lwg-active.html#3770">3770</a>. <tt>const_sentinel_t</tt> is missing</h3>
 <p><b>Section:</b> 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2022-09-24</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2022-09-25</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#ranges.syn">active issues</a> in [ranges.syn].</p>
@@ -71,11 +71,55 @@ which already requires that its template parameter must model
 
 <p>
 Set priority to 3 after reflector poll.
+<p/>
+Comment from a reviewer:
 </p>
-<p>
+<blockquote><p>
 "I don't see why we should redundantly constrain <tt>const_iterator_t</tt>
 with <tt>input_range</tt>; it's not as if we can make it more ill-formed
 or more SFINAE-friendly than it is now."
+</p></blockquote>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+#include &lt;compare&gt;              // <i>see 17.12.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
+#include &lt;initializer_list&gt;     // <i>see 17.11.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
+#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
+
+namespace std::ranges {
+  [&hellip;]
+  template&lt;class T&gt;
+    using iterator_t = decltype(ranges::begin(declval&lt;T&amp;&gt;()));                      // freestanding
+  template&lt;range R&gt;
+    using sentinel_t = decltype(ranges::end(declval&lt;R&amp;&gt;()));                        // freestanding
+  template&lt;<ins>input_</ins>range R&gt;
+    using const_iterator_t = const_iterator&lt;iterator_t&lt;R&gt;&gt;;                         // freestanding
+  <ins>template&lt;range R&gt;
+    using const_sentinel_t = const_sentinel&lt;sentinel_t&lt;R&gt;&gt;;                         // freestanding</ins>
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2022-09-25; Daniel and Hewill provide alternative wording]</i></p>
+
+<p>
+The alternative solution solely adds the suggested <tt>const_sentinel_t</tt> alias template
+and doesn't touch the <tt>const_iterator_t</tt> constraints.
 </p>
 
 
@@ -101,7 +145,7 @@ namespace std::ranges {
     using iterator_t = decltype(ranges::begin(declval&lt;T&amp;&gt;()));                      // freestanding
   template&lt;range R&gt;
     using sentinel_t = decltype(ranges::end(declval&lt;R&amp;&gt;()));                        // freestanding
-  template&lt;<ins>input_</ins>range R&gt;
+  template&lt;range R&gt;
     using const_iterator_t = const_iterator&lt;iterator_t&lt;R&gt;&gt;;                         // freestanding
   <ins>template&lt;range R&gt;
     using const_sentinel_t = const_sentinel&lt;sentinel_t&lt;R&gt;&gt;;                         // freestanding</ins>
