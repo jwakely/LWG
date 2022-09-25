@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-09-25 at 07:26:42 UTC</p>
+<p><p>Revised 2022-09-25 at 11:12:36 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -44983,7 +44983,7 @@ constexpr auto size() const requires sized_range&lt;const V&gt; {
 <hr>
 <h3><a name="3731" href="#3731">3731</a><sup><a href="https://cplusplus.github.io/LWG/issue3731">(i)</a></sup>. <tt>zip_view</tt> and <tt>adjacent_view</tt> are underconstrained</h3>
 <p><b>Section:</b> 26.7.23.2 <a href="https://wg21.link/range.zip.view">[range.zip.view]</a>, 26.7.25.2 <a href="https://wg21.link/range.adjacent.view">[range.adjacent.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-04 <b>Last modified:</b> 2022-09-03</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-04 <b>Last modified:</b> 2022-09-25</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.zip.view">active issues</a> in [range.zip.view].</p>
@@ -48037,6 +48037,64 @@ to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
 <li><p>(1.3) &mdash; Otherwise, the program is ill-formed.</p></li>
 </ol>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3><a name="3786" href="#3786">3786</a><sup><a href="https://cplusplus.github.io/LWG/issue3786">(i)</a></sup>. Flat maps' deduction guide needs to default <tt>Allocator</tt> to be useful</h3>
+<p><b>Section:</b> 24.6.9.2 <a href="https://wg21.link/flat.map.defn">[flat.map.defn]</a>, 24.6.10.2 <a href="https://wg21.link/flat.multimap.defn">[flat.multimap.defn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2022-09-25 <b>Last modified:</b> 2022-09-25</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This originated from the editorial issue <a href="https://github.com/cplusplus/draft/issues/5800">#5800</a>.
+<p/>
+<a href="https://wg21.link/P0429R9">P0429R9</a> added some deduction guides with a non-defaulted <tt>Allocator</tt> 
+template parameter and a corresponding function parameter that is defaulted. Since the 
+template parameter <tt>Allocator</tt> is not defaulted, these deduction guides are never used.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 24.6.9.2 <a href="https://wg21.link/flat.map.defn">[flat.map.defn]</a>, class template <tt>flat_map</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;ranges::input_range R, class Compare = less&lt;<i>range-key-type</i>&lt;R&gt;&gt;,
+         class Allocator <ins>= allocator&lt;void&gt;</ins>&gt;
+  flat_map(from_range_t, R&amp;&amp;, Compare = Compare(), Allocator = Allocator())
+    -&gt; flat_map&lt;<i>range-key-type</i>&lt;R&gt;, <i>range-mapped-type</i>&lt;R&gt;, Compare&gt;;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 24.6.10.2 <a href="https://wg21.link/flat.multimap.defn">[flat.multimap.defn]</a>, class template <tt>flat_multimap</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+template&lt;ranges::input_range R, class Compare = less&lt;<i>range-key-type</i>&lt;R&gt;&gt;,
+         class Allocator <ins>= allocator&lt;void&gt;</ins>&gt;
+  flat_multimap(from_range_t, R&amp;&amp;, Compare = Compare(), Allocator = Allocator())
+    -&gt; flat_multimap&lt;<i>range-key-type</i>&lt;R&gt;, <i>range-mapped-type</i>&lt;R&gt;, Compare&gt;;
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 </ol>
