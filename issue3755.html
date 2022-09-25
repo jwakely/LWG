@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
 <h3><a name="3755" href="lwg-active.html#3755">3755</a>. <tt><i>tuple-for-each</i></tt> can call user-defined <tt>operator,</tt></h3>
 <p><b>Section:</b> 26.7.23.2 <a href="https://wg21.link/range.zip.view">[range.zip.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Nicole Mazzuca  <b>Opened:</b> 2022-08-26 <b>Last modified:</b> 2022-09-23</p>
+ <b>Submitter:</b> Nicole Mazzuca  <b>Opened:</b> 2022-08-26 <b>Last modified:</b> 2022-09-25</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.zip.view">active issues</a> in [range.zip.view].</p>
@@ -95,11 +95,16 @@ should not be called.
 Set status to Tentatively Ready after nine votes in favour during reflector poll.
 </p>
 <p>
-NAD. This exposition-only facility is only used with things that return void. As far as I know, users can't define operator, for void.
+Feedback from one reviewer:
 </p>
+<blockquote>
 <p>
-If I see the void cast, I don't need to audit the uses or be concerned that we'll add a broken use in the future.
+"NAD. This exposition-only facility is only used with things that return <tt>void</tt>. 
+As far as I know, users can't define <tt>operator,</tt> for <tt>void</tt>.
+If I see the <tt>void</tt> cast, I don't need to audit the uses or be concerned that 
+we'll add a broken use in the future."
 </p>
+</blockquote>
 
 
 
