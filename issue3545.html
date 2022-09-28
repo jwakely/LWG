@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="3545" href="lwg-active.html#3545">3545</a>. <tt>std::pointer_traits</tt> should be SFINAE-friendly</h3>
 <p><b>Section:</b> 20.2.3 <a href="https://wg21.link/pointer.traits">[pointer.traits]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Glen Joseph Fernandes <b>Opened:</b> 2021-04-20 <b>Last modified:</b> 2022-09-27</p>
+ <b>Submitter:</b> Glen Joseph Fernandes <b>Opened:</b> 2021-04-20 <b>Last modified:</b> 2022-09-28</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#pointer.traits">active issues</a> in [pointer.traits].</p>
@@ -209,6 +209,9 @@ a specialization <tt>pointer_traits&lt;Ptr&gt;</tt> generated from the
 otherwise, such a specialization has no members by any of the names described
 in those subclauses or in 20.2.3.4 <a href="https://wg21.link/pointer.traits.optmem">[pointer.traits.optmem]</a>.
 </ins></p>
+
+<pre><ins>using pointer = Ptr;</ins>
+</pre>
 
 <pre>using element_type = <del><i>see below</i></del> <ins>typename <i>ptr-traits-elem</i>&lt;Ptr&gt;::type</ins>;</pre>
 <blockquote>
