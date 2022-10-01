@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-10-01 at 11:09:56 UTC</p>
+<p><p>Revised 2022-10-01 at 15:43:33 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48720,6 +48720,65 @@ which has not been invalidated by an intervening call to <tt>operator delete[]</
 [&hellip;]
 </p>
 </blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3790" href="#3790">3790</a><sup><a href="https://cplusplus.github.io/LWG/issue3790">(i)</a></sup>. P1467 accidentally changed <tt>nexttoward</tt>'s signature</h3>
+<p><b>Section:</b> 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> David Olsen <b>Opened:</b> 2022-09-30 <b>Last modified:</b> 2022-10-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#cmath.syn">active issues</a> in [cmath.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#cmath.syn">issues</a> in [cmath.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/P1467">P1467</a> (Extended floating-point types), which was adopted for C++23 at the July plenary, 
+has a typo (which is entirely my fault) that no one noticed during wording review.  The changes to the 
+<tt>&lt;cmath&gt;</tt> synopsis in the paper included changing this:
+</p>
+<blockquote><pre>
+constexpr float nexttoward(float x, long double y);       // see [library.c]
+constexpr double nexttoward(double x, long double y);
+constexpr long double nexttoward(long double x, long double y);   // see [library.c]
+</pre></blockquote>
+<p>
+to this:
+</p>
+<blockquote><pre>
+constexpr <i>floating-point-type</i> nexttoward(<i>floating-point-type</i> x, <i>floating-point-type</i> y);
+</pre></blockquote>
+<p>
+That changed the second parameter of <tt>nexttoward</tt> from always being <tt>long double</tt> to being 
+<tt><i>floating-point-type</i></tt>, which matches the type of the first parameter.
+<p/>
+The change is obviously incorrect. The purpose of the changes to <tt>&lt;cmath&gt;</tt> was to add overloads 
+of the functions for extended floating-point types, not to change any existing signatures.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a>, header <tt>&lt;cmath&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+constexpr <i>floating-point-type</i> nexttoward(<i>floating-point-type</i> x, <del><i>floating-point-type</i></del><ins>long double</ins> y);
+constexpr float nexttowardf(float x, long double y);
+constexpr long double nexttowardl(long double x, long double y);
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 </ol>
