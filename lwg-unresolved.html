@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-10-03 at 14:04:02 UTC</p>
+<p><p>Revised 2022-10-09 at 09:17:04 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -42095,192 +42095,6 @@ Set priority to 3 after reflector poll.
 
 
 <hr>
-<h3><a name="3677" href="#3677">3677</a><sup><a href="https://cplusplus.github.io/LWG/issue3677">(i)</a></sup>. Is a <i>cv</i>-qualified <tt>pair</tt> specially handled in uses-allocator construction?</h3>
-<p><b>Section:</b> 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-02-16 <b>Last modified:</b> 2022-09-25</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
-<p><b>View all other</b> <a href="lwg-index.html#allocator.uses.construction">issues</a> in [allocator.uses.construction].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-It seems unclear whether <i>cv</i>-qualified <tt>pair</tt> specializations are considered as 
-specializations of <tt>pair</tt> in 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>.
-<p/>
-Currently MSVC STL only considered <i>cv</i>-unqualified pair types as such specializations, 
-while libstdc++ accept both <i>cv</i>-unqualified and <tt>const</tt>-qualified pair types as 
-such specializations. The resolution of LWG <a href="lwg-defects.html#3525">3525</a> uses <tt>remove_cv_t</tt>,
-which possibly imply that the specialization of pair may be <i>cv</i>-qualified.
-<p/>
-The difference can be observed via the following program:
-</p>
-<blockquote><pre>
-#include &lt;utility&gt;
-#include &lt;memory&gt;
-#include &lt;vector&gt;
-#include &lt;cassert&gt; 
-
-template&lt;class T&gt;
-class payload_ator {
-
-  int payload{};
-    
-public:
-  payload_ator() = default;
-
-  constexpr explicit payload_ator(int n) noexcept : payload{n} {}
-
-  template&lt;class U&gt;
-  constexpr explicit payload_ator(payload_ator&lt;U&gt; a) noexcept : payload{a.payload} {}   
-
-  friend bool operator==(payload_ator, payload_ator) = default;
-
-  template&lt;class U&gt;
-  friend constexpr bool operator==(payload_ator x, payload_ator&lt;U&gt; y) noexcept
-  {
-    return x.payload == y.payload;
-  }   
-
-  using value_type = T;
-
-  constexpr T* allocate(std::size_t n) { return std::allocator&lt;T&gt;{}.allocate(n); }
-
-  constexpr void deallocate(T* p, std::size_t n) { return std::allocator&lt;T&gt;{}.deallocate(p, n); }   
-
-  constexpr int get_payload() const noexcept { return payload; }
-};
-
-bool test()
-{
-  constexpr int in_v = 42;
-  using my_pair_t = std::pair&lt;int, std::vector&lt;int, payload_ator&lt;int&gt;&gt;&gt;;
-  auto out_v = std::make_obj_using_allocator&lt;const my_pair_t&gt;(payload_ator&lt;int&gt;{in_v}).second.get_allocator().get_payload();
-  return in_v == out_v;
-}
-
-int main()
-{
-  assert(test()); // <span style="color:red;font-weight:bolder">passes only if a const-qualified pair specialization is considered as a pair specialization</span>
-}
-</pre></blockquote>
-
-<p><i>[2022-03-04; Reflector poll]</i></p>
-
-<p>
-Set priority to 2 after reflector poll.
-</p>
-
-<p><i>[2022-08-24; LWG telecon]</i></p>
-
-<p>Change every <code>T</code> to <code>remove_cv_t&lt;T&gt;</code>.</p>
-
-<p><i>[2022-08-25; Jonathan Wakely provides wording]</i></p>
-
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>
-This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
-</p>
-
-<ul>
-<li><p>Modify 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated,
-using <code>remove_cv_t</code> in every <i>Constraints</i>: element:</p>
-
-<blockquote>
-<p><i>Constraints</i>:
-<code><ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins></code> [is|is not]
-a specialization of <code>pair</code>
-</p>
-</blockquote>
-</li>
-</ul>
-
-</blockquote>
-
-<p><i>[2022-09-23; Jonathan provides improved wording]</i></p>
-
-
-
-
-<p><b>Proposed resolution:</b></p>
-
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-<li><p>Modify 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> as indicated,
-using <code>remove_cv_t</code> in every <i>Constraints</i>: element (paragraphs 4, 6, 8, 10, 12, 14, 17):</p>
-
-<blockquote>
-<p><i>Constraints</i>:
-<code><ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins></code> [is|is not]
-a specialization of <code>pair</code>
-</p>
-</blockquote>
-</li>
-
-<li>
-<p>Add <tt>remove_cv_t</tt> in paragraph 5:</p>
-
-<blockquote>
-<p>-5- <i>Returns</i>: A <code>tuple</code> value determined as follows: </p>
-<p>(5.1) &mdash; If
-<code>uses_allocator_v&lt;<ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>, Alloc&gt;</code>
-is <code>false</code> and  <code>is_constructible_v&lt;T, Args...&gt;</code>
-is <code>true</code>,
-return <code>forward_as_tuple(std::forward&lt;Args&gt;(args)...)</code>.
-</p>
-<p>(5.2) &mdash;
-Otherwise, if <code>uses_allocator_v&lt;<ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>, Alloc&gt;</code> is <code>true</code>
-and <code>is_constructible_v&lt;T, allocator_arg_t, const Alloc&amp;, Args...&gt;</code> is <code>true</code>, return
-</p>
-<pre><code>tuple&lt;allocator_arg_t, const Alloc&amp;, Args&amp;&amp;...&gt;(
-  allocator_arg, alloc, std::forward&lt;Args&gt;(args)...)</code></pre>
-
-<p>(5.3) &mdash;
-Otherwise, if <code>uses_allocator_v&lt;<ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>, Alloc&gt;</code> is <code>true</code>
-and <code>is_constructible_v&lt;T, Args..., const Alloc&amp;&gt;</code> is <code>true</code>, return <code>forward_as_tuple(std::forward&lt;Args&gt;(args)..., alloc)</code>.
-</p>
-<p>(5.4) &mdash; Otherwise, the program is ill-formed. </p>
-</blockquote>
-</li>
-
-<li>
-<p>Rephrase paragraph 7 in terms of the pair member types:</p>
-
-<blockquote>
-<p>
-<ins> -?-
-Let <code>T1</code> be <code>T::first_type</code>.
-Let <code>T2</code> be <code>T::second_type</code>.
-</ins>
-</p>
-
-<p>-6- <i>Constraints</i>:
-<code><ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins></code> is
-a specialization of <code>pair</code>
-</p>
-<p>-7- <i>Effects:</i>:
-<del>
-For <code>T</code> specified as <code>pair&lt;T1, T2&gt;</code>, equivalent
-</del>
-<ins>Equivalent</ins>
-to:
-</p>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-
-
-<hr>
 <h3><a name="3678" href="#3678">3678</a><sup><a href="https://cplusplus.github.io/LWG/issue3678">(i)</a></sup>. Constructors of <tt>std::chrono::time_zone</tt> might be overly unspecified</h3>
 <p><b>Section:</b> 29.11.5.1 <a href="https://wg21.link/time.zone.overview">[time.zone.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-02-23 <b>Last modified:</b> 2022-03-05</p>
@@ -48390,11 +48204,11 @@ namespace <tt>std</tt> that are provided by the C++ headers for C library facili
 
 <hr>
 <h3><a name="3786" href="#3786">3786</a><sup><a href="https://cplusplus.github.io/LWG/issue3786">(i)</a></sup>. Flat maps' deduction guide needs to default <tt>Allocator</tt> to be useful</h3>
-<p><b>Section:</b> 24.6.9.2 <a href="https://wg21.link/flat.map.defn">[flat.map.defn]</a>, 24.6.10.2 <a href="https://wg21.link/flat.multimap.defn">[flat.multimap.defn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2022-09-25 <b>Last modified:</b> 2022-09-25</p>
+<p><b>Section:</b> 24.6.9.2 <a href="https://wg21.link/flat.map.defn">[flat.map.defn]</a>, 24.6.10.2 <a href="https://wg21.link/flat.multimap.defn">[flat.multimap.defn]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2022-09-25 <b>Last modified:</b> 2022-10-08</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 This originated from the editorial issue <a href="https://github.com/cplusplus/draft/issues/5800">#5800</a>.
@@ -48403,6 +48217,14 @@ This originated from the editorial issue <a href="https://github.com/cplusplus/d
 template parameter and a corresponding function parameter that is defaulted. Since the 
 template parameter <tt>Allocator</tt> is not defaulted, these deduction guides are never used.
 </p>
+
+<p><i>[2022-09-28; LWG telecon]</i></p>
+
+<p>
+We should not just ignore the allocator, it should be rebound and used for
+the two container types.
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
@@ -48868,6 +48690,48 @@ while (<ins>true</ins><del><i>inner_</i> == ranges::begin(*<i>outer_</i>)</del>)
 --<i>inner_</i>;
 return *this;
 </pre></blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3792" href="#3792">3792</a><sup><a href="https://cplusplus.github.io/LWG/issue3792">(i)</a></sup>. <tt>__cpp_lib_constexpr_algorithms</tt> should also be defined in <tt>&lt;utility&gt;</tt></h3>
+<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Marc Mutz <b>Opened:</b> 2022-10-05 <b>Last modified:</b> 2022-10-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> says that <tt>__cpp_lib_constexpr_algorithms</tt> is only defined
+in <tt>&lt;version&gt;</tt> and <tt>&lt;algorithm&gt;</tt>, but the macro applies to <tt>std::exchange()</tt>
+in <tt>&lt;utility&gt;</tt> as well (via <a href="https://wg21.link/P0202R3">P0202R3</a>), so it should also be available from 
+<tt>&lt;utility&gt;</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> as indicated (It is suggested to retroactively apply to C++20):</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+#define __cpp_lib_concepts             202207L // <i>also in &lt;concepts&gt;, &lt;compare&gt;</i>
+#define __cpp_lib_constexpr_algorithms 201806L // <i>also in &lt;algorithm&gt;<ins>, &lt;utility&gt;</ins></i>
+#define __cpp_lib_constexpr_bitset     202202L // <i>also in &lt;bitset&gt;</i>
+[&hellip;]
+</pre>
+</blockquote>
 </li>
 </ol>
 
