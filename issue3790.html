@@ -47,8 +47,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3790" href="lwg-active.html#3790">3790</a>. P1467 accidentally changed <tt>nexttoward</tt>'s signature</h3>
 <p><b>Section:</b> 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> David Olsen <b>Opened:</b> 2022-09-30 <b>Last modified:</b> 2022-10-01</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> David Olsen <b>Opened:</b> 2022-09-30 <b>Last modified:</b> 2022-10-10</p>
+<p><b>Priority: </b>1
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#cmath.syn">active issues</a> in [cmath.syn].</p>
 <p><b>View all other</b> <a href="lwg-index.html#cmath.syn">issues</a> in [cmath.syn].</p>
@@ -77,6 +77,28 @@ That changed the second parameter of <tt>nexttoward</tt> from always being <tt>l
 The change is obviously incorrect. The purpose of the changes to <tt>&lt;cmath&gt;</tt> was to add overloads 
 of the functions for extended floating-point types, not to change any existing signatures.
 </p>
+
+<p><i>[2022-10-10; Reflector poll]</i></p>
+
+<p>
+Set priority to 1 after reflector poll. Discussion during prioritization
+revolved around whether to delete <code>nexttoward</code> for new FP types
+or just restore the C++20 signatures, which might accept the new types via
+implicit conversions (and so return a different type, albeit with the same
+representation and same set of values).
+</p>
+<p>
+"When the first argument to <code>nexttoward</code> is an extended
+floating-point type that doesn't have the same representation as a standard
+floating-point type, such as <code>std::float16_t</code>,
+<code>std::bfloat16_t</code>, or <code>std::float128_t</code> (on some systems),
+the call to <code>nexttoward</code> is ambiguous and ill-formed,
+so the unexpected return type is not an issue.
+Going through the extra effort of specifying '= delete' for
+<code>nexttoward</code> overloads that have extended floating-point arguments
+is a solution for a problem that doesn't really exist."
+</p>
+
 
 
 <p><b>Proposed resolution:</b></p>
