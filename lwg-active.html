@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2022-10-19</td>
+  <td align="left">2022-10-20</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D123)</h1>
-<p><p>Revised 2022-10-19 at 20:27:28 UTC</p>
+<p><p>Revised 2022-10-20 at 08:14:22 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2014(E)</p>
   <p>Also see:</p>
@@ -55038,7 +55038,7 @@ template&lt;ranges::input_range R, class Compare = less&lt;<i>range-key-type</i>
 
 template&lt;ranges::input_range R, class Allocator&gt;
   flat_map(from_range_t, R&amp;&amp;, Allocator)
-    -&gt; flat_map&lt;<i>range-key-type</i>&lt;R&gt;, <i>range-mapped-type</i>&lt;R&gt;<ins>, less&lt;Key&gt;,</ins>
+    -&gt; flat_map&lt;<i>range-key-type</i>&lt;R&gt;, <i>range-mapped-type</i>&lt;R&gt;<ins>, less&lt;<i>range-key-type</i>&lt;R&gt;&gt;,</ins>
          <ins>vector&lt;<i>range-key-type</i>&lt;R&gt;, <i>alloc-rebind</i>&lt;Allocator, <i>range-key-type</i>&lt;R&gt;&gt;,</ins>
          <ins>vector&lt;<i>range-mapped-type</i>&lt;R&gt;, <i>alloc-rebind</i>&lt;Allocator, <i>range-mapped-type</i>&lt;R&gt;&gt;</ins>&gt;;
 [&hellip;]
@@ -55060,7 +55060,7 @@ template&lt;ranges::input_range R, class Compare = less&lt;<i>range-key-type</i>
 
 template&lt;ranges::input_range R, class Allocator&gt;
   flat_multimap(from_range_t, R&amp;&amp;, Allocator)
-    -&gt; flat_multimap&lt;<i>range-key-type</i>&lt;R&gt;, <i>range-mapped-type</i>&lt;R&gt;<ins>, less&lt;Key&gt;,</ins>
+    -&gt; flat_multimap&lt;<i>range-key-type</i>&lt;R&gt;, <i>range-mapped-type</i>&lt;R&gt;<ins>, less&lt;<i>range-key-type</i>&lt;R&gt;&gt;,</ins>
          <ins>vector&lt;<i>range-key-type</i>&lt;R&gt;, <i>alloc-rebind</i>&lt;Allocator, <i>range-key-type</i>&lt;R&gt;&gt;,</ins>
          <ins>vector&lt;<i>range-mapped-type</i>&lt;R&gt;, <i>alloc-rebind</i>&lt;Allocator, <i>range-mapped-type</i>&lt;R&gt;&gt;</ins>&gt;;
 [&hellip;]
@@ -55077,12 +55077,12 @@ template&lt;ranges::input_range R, class Compare = less&lt;ranges::range_value_t
          class Allocator = allocator&lt;ranges::range_value_t&lt;R&gt;&gt;&gt;
   flat_set(from_range_t, R&amp;&amp;, Compare = Compare(), Allocator = Allocator())
     -&gt; flat_set&lt;ranges::range_value_t&lt;R&gt;, Compare<ins>,</ins>
-         <ins>vector&lt;ranges::range_value_t&lt;R&gt;, <i>rebind-alloc</i>&lt;Allocator, ranges::range_value_t&lt;R&gt;&gt;&gt;</ins>&gt;;
+         <ins>vector&lt;ranges::range_value_t&lt;R&gt;, <i>alloc-rebind</i>&lt;Allocator, ranges::range_value_t&lt;R&gt;&gt;&gt;</ins>&gt;;
 
 template&lt;ranges::input_range R, class Allocator&gt;
   flat_set(from_range_t, R&amp;&amp;, Allocator)
     -&gt; flat_set&lt;ranges::range_value_t&lt;R&gt;, less&lt;ranges::range_value_t&lt;R&gt;&gt;<ins>,</ins>
-         <ins>vector&lt;ranges::range_value_t&lt;R&gt;, <i>rebind-alloc</i>&lt;Allocator, ranges::range_value_t&lt;R&gt;&gt;&gt;</ins>&gt;;
+         <ins>vector&lt;ranges::range_value_t&lt;R&gt;, <i>alloc-rebind</i>&lt;Allocator, ranges::range_value_t&lt;R&gt;&gt;&gt;</ins>&gt;;
 [&hellip;]
 </pre>
 </blockquote>
@@ -55097,12 +55097,12 @@ template&lt;ranges::input_range R, class Compare = less&lt;ranges::range_value_t
          class Allocator = allocator&lt;ranges::range_value_t&lt;R&gt;&gt;&gt;
   flat_multiset(from_range_t, R&amp;&amp;, Compare = Compare(), Allocator = Allocator())
     -&gt; flat_multiset&lt;ranges::range_value_t&lt;R&gt;, Compare<ins>,</ins>
-         <ins>vector&lt;ranges::range_value_t&lt;R&gt;, <i>rebind-alloc</i>&lt;Allocator, ranges::range_value_t&lt;R&gt;&gt;&gt;</ins>&gt;;
+         <ins>vector&lt;ranges::range_value_t&lt;R&gt;, <i>alloc-rebind</i>&lt;Allocator, ranges::range_value_t&lt;R&gt;&gt;&gt;</ins>&gt;;
 
 template&lt;ranges::input_range R, class Allocator&gt;
   flat_multiset(from_range_t, R&amp;&amp;, Allocator)
     -&gt; flat_multiset&lt;ranges::range_value_t&lt;R&gt;, less&lt;ranges::range_value_t&lt;R&gt;&gt;<ins>,</ins>
-         <ins>vector&lt;ranges::range_value_t&lt;R&gt;, <i>rebind-alloc</i>&lt;Allocator, ranges::range_value_t&lt;R&gt;&gt;&gt;</ins>&gt;;
+         <ins>vector&lt;ranges::range_value_t&lt;R&gt;, <i>alloc-rebind</i>&lt;Allocator, ranges::range_value_t&lt;R&gt;&gt;&gt;</ins>&gt;;
 [&hellip;]
 </pre>
 </blockquote>
