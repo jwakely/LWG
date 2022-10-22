@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-10-22 at 15:45:58 UTC</p>
+<p><p>Revised 2022-10-22 at 16:38:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47617,7 +47617,7 @@ Set priority to 3 after reflector poll.
 <h3><a name="3794" href="#3794">3794</a><sup><a href="https://cplusplus.github.io/LWG/issue3794">(i)</a></sup>. <tt>std::filesystem::path::iterator::reference</tt> should be allowed to be <tt>std::filesystem::path</tt></h3>
 <p><b>Section:</b> 31.12.6.6 <a href="https://wg21.link/fs.path.itr">[fs.path.itr]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-10-17 <b>Last modified:</b> 2022-10-22</p>
-<p><b>Priority: </b>3
+<p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#fs.path.itr">issues</a> in [fs.path.itr].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -47660,7 +47660,7 @@ are bound to the same object<ins>, and its <tt>reference</tt> may be <tt>path</t
 <h3><a name="3795" href="#3795">3795</a><sup><a href="https://cplusplus.github.io/LWG/issue3795">(i)</a></sup>. Self-move-assignment of <tt>std::future</tt> and <tt>std::shared_future</tt> have unimplementable postconditions</h3>
 <p><b>Section:</b> 33.10.7 <a href="https://wg21.link/futures.unique.future">[futures.unique.future]</a>, 33.10.8 <a href="https://wg21.link/futures.shared.future">[futures.shared.future]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-10-19 <b>Last modified:</b> 2022-10-22</p>
-<p><b>Priority: </b>3
+<p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#futures.unique.future">issues</a> in [futures.unique.future].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -47697,7 +47697,7 @@ we should say self-move-assignment has no effects for these types.
 <h3><a name="3796" href="#3796">3796</a><sup><a href="https://cplusplus.github.io/LWG/issue3796">(i)</a></sup>. <tt><i>movable-box</i></tt> as member should use default-initialization instead of copy-initialization</h3>
 <p><b>Section:</b> 26.6.5.2 <a href="https://wg21.link/range.repeat.view">[range.repeat.view]</a>, 26.7.29.2 <a href="https://wg21.link/range.chunk.by.view">[range.chunk.by.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-10-20 <b>Last modified:</b> 2022-10-22</p>
-<p><b>Priority: </b>3
+<p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.repeat.view">active issues</a> in [range.repeat.view].</p>
 <p><b>View all other</b> <a href="lwg-index.html#range.repeat.view">issues</a> in [range.repeat.view].</p>
@@ -47787,6 +47787,162 @@ namespace std::ranges {
 
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3797" href="#3797">3797</a><sup><a href="https://cplusplus.github.io/LWG/issue3797">(i)</a></sup>. <tt>elements_view</tt> insufficiently constrained</h3>
+<p><b>Section:</b> 26.7.22.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hui Xie <b>Opened:</b> 2022-10-21 <b>Last modified:</b> 2022-10-22</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.elements.view">issues</a> in [range.elements.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This issue came up when I tried to integrate the C++23 changes to tuple-like into <tt>ranges::elements_view</tt> 
+in libc++. Given the following test:
+</p>
+<blockquote><pre>
+Using SubRange = ranges::subrange&lt;MoveOnlyIter, Sent&gt;;
+std::vector&lt;SubRange&gt; srs = ...;  // a vector of subranges
+for(auto&amp;&amp; iter : srs | views::elements&lt;0&gt;){
+}
+</pre></blockquote>
+<p>
+The above code results in a hard error in deciding the <tt>iterator_category</tt> (The base is a random access range 
+so it should exist). The immediate hard error complains that the following expression is invalid. 
+</p>
+<blockquote><pre>
+std::get&lt;N&gt;(*current_);
+</pre></blockquote>
+<p>
+Note that even if <tt>iterator_category</tt> does not complain, it will complain later when we dereference the iterator.
+<p/>
+Here are the declarations of the "get" overloads for <tt>subrange</tt>:
+</p>
+<blockquote><pre>
+template&lt;size_t N, class I, class S, subrange_kind K&gt;
+  requires ((N == 0 &amp;&amp; copyable&lt;I&gt;) || N == 1)
+  constexpr auto get(const subrange&lt;I, S, K&gt;&amp; r);
+
+template&lt;size_t N, class I, class S, subrange_kind K&gt;
+  requires (N &lt; 2)
+  constexpr auto get(subrange&lt;I, S, K&gt;&amp;&amp; r);
+</pre></blockquote>
+<p>
+Note that the first overload requires <tt>copyable&lt;I&gt;</tt> which is <tt>false</tt> and 
+the second overload requires an rvalue, which is also not the case. So we don't have a valid "get" in this case.
+<p/>
+But why does <tt>elements_view</tt> allow the instantiation in the first place? Let's look at its requirements:
+</p>
+<blockquote><pre>
+template&lt;class T, size_t N&gt;
+  concept <i>returnable-element</i> =                  <i>// exposition only</i>
+    is_reference_v&lt;T&gt; || move_constructible&lt;tuple_element_t&lt;N, T&gt;&gt;;
+
+template&lt;input_range V, size_t N&gt;
+    requires view&lt;V&gt; &amp;&amp; has-tuple-element&lt;range_value_t&lt;V&gt;, N&gt; &amp;&amp;
+             <i>has-tuple-element</i>&lt;remove_reference_t&lt;range_reference_t&lt;V&gt;&gt;, N&gt; &amp;&amp;
+             <i>returnable-element</i>&lt;range_reference_t&lt;V&gt;, N&gt;
+  class elements_view;
+</pre></blockquote>
+<p>
+It passed the "<tt>is_reference_v&lt;range_reference_t&lt;V&gt;&gt;</tt>" requirement, because it is 
+"<tt>subrange&amp;</tt>". Here the logic has an assumption: if the tuple-like is a reference, 
+then we can always "<tt>get</tt>" and return a reference. This is not the case for <tt>subrange</tt>. 
+<tt>subrange</tt>'s <tt>get</tt> always return by value.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting Note:</i> Three mutually exclusive options are prepared, depicted below by <b>Option A</b>, 
+<b>Option B</b>, and <b>Option C</b>, respectively.] 
+</p>
+</blockquote>
+
+<p>
+<b>Option A:</b> Properly disallow this case (preferred solution)
+</p>
+
+<ol>
+<li><p>Modify 26.7.22.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  [&hellip;]
+  template&lt;class T, size_t N&gt;
+  concept <i>returnable-element</i> =              <i>// exposition only</i>
+    <ins>requires { std::get&lt;N&gt;(declval&lt;T&gt;()); } &amp;&amp;</ins>
+    is_reference_v&lt;T&gt; || move_constructible&lt;tuple_element_t&lt;N, T&gt;&gt;;  
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+<p>
+<b>Option B:</b> Relax <tt>subrange</tt>'s <tt>get</tt> to have more overloads. Since <tt>subrange</tt>'s 
+non-<tt>const begin</tt> unconditionally moves the iterator (even for lvalue-reference), 
+</p>
+<blockquote><pre>
+[[nodiscard]] constexpr I begin() requires (!copyable&lt;I&gt;);
+Effects: Equivalent to: return std::move(<i>begin_</i>);
+</pre></blockquote>
+<p>
+if we add more <tt>get</tt> overloads, it would work. The non-const lvalue-ref overload would work 
+(and it also moves because non-<tt>const</tt> lvalue begin moves). This solution would make another way
+to let <tt>subrange</tt>'s iterator in moved-from state, which is not good.
+</p>
+
+<ol>
+<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+namespace std::ranges {
+  [&hellip;]
+
+  template&lt;size_t N, class I, class S, subrange_kind K&gt;
+    requires ((N == 0 &amp;&amp; copyable&lt;I&gt;) || N == 1)
+    constexpr auto get(const subrange&lt;I, S, K&gt;&amp; r);
+
+  template&lt;size_t N, class I, class S, subrange_kind K&gt;
+    requires (N &lt; 2)
+    constexpr auto get(subrange&lt;I, S, K&gt;&amp;&amp; r);
+    
+  <ins>template&lt;size_t N, class I, class S, subrange_kind K&gt;
+    requires ((N == 0 &amp;&amp; constructible_from&lt;I, const I&amp;&amp;&gt;) || N == 1)
+    constexpr auto get(const subrange&lt;I, S, K&gt;&amp;&amp; r);
+  
+  template&lt;size_t N, class I, class S, subrange_kind K&gt;
+    requires (N &lt; 2)
+    constexpr auto get(subrange&lt;I, S, K&gt;&amp; r);</ins>
+}
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+<p>
+<b>Option C:</b> Make <tt>subrange</tt>'s get to return by reference. This seems to significantly 
+change the <tt>subrange</tt>'s tuple protocol, which is not ideal.
+</p>
+
 
 
 
