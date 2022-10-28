@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-10-28 at 12:08:52 UTC</p>
+<p><p>Revised 2022-10-28 at 12:44:25 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48164,6 +48164,94 @@ namespace std {
     match_results(Allocator) -&gt; match_results&lt;typename Allocator::value_type::iterator, Allocator&gt;;</ins>
 }
 </pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3801" href="#3801">3801</a><sup><a href="https://cplusplus.github.io/LWG/issue3801">(i)</a></sup>. <tt>cartesian_product_view::<i>iterator</i>::<i>distance-from</i></tt> ignores the size of last underlying range</h3>
+<p><b>Section:</b> 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2022-10-25 <b>Last modified:</b> 2022-10-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#ranges.cartesian.iterator">active issues</a> in [ranges.cartesian.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#ranges.cartesian.iterator">issues</a> in [ranges.cartesian.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The helper <tt><i>scaled-size</i>(<i>N</i>)</tt> from the wording for <a href="https://wg21.link/P2374R4">P2374R4</a>'s
+<tt>cartesian_product_view::<i>iterator</i>::<i>distance-from</i></tt> is recursively 
+specified as:
+</p>
+<blockquote>
+<p>
+Let <tt><i>scaled-size</i>(<i>N</i>)</tt> be the product of
+<tt>static_cast&lt;difference_type&gt;(ranges::size(std::get&lt;<i>N</i>&gt;(<i>parent_</i>-&gt;<i>bases_</i>)))</tt>
+and <tt><i>scaled-size</i>(<i>N</i> + 1)</tt> if <tt><i>N</i> &lt; sizeof...(Vs)</tt>, otherwise
+<tt>static_cast&lt;difference_type&gt;(1)</tt>;
+</p>
+</blockquote>
+<p>
+Intuitively, <tt><i>scaled-size</i>(<i>N</i>)</tt> is the size of the cartesian product of all
+but the first <tt><i>N</i></tt> underlying ranges. Thus <tt><i>scaled-size</i>(sizeof...(Vs))</tt> 
+ought to just yield the size of the last underlying range (since there are
+<tt>1 + sizeof...(Vs)</tt> underlying ranges), but according to this definition it
+yields <tt>1</tt>. Similarly at the other extreme, <tt><i>scaled-size</i>(0)</tt> should yield
+the product of the sizes of all the underlying ranges, but it instead yields that of all but 
+the last underlying range.
+<p/>
+For <tt>cartesian_product_view</tt>s of two or more underlying ranges, this
+causes the relevant <tt>operator-</tt> overloads to compute wrong distances, e.g.
+</p>
+<blockquote><pre>
+int x[] = {1, 2, 3};
+auto v = views::cartesian_product(x, x);
+auto i = v.begin() + 5;  // *i == {2, 3}
+assert(*i == tuple{2, 3});
+assert(i - v.begin() == 5); // fails, expects 3, because:
+// scaled-sum = scaled-distance(0) + scaled-distance(1)
+//            = ((1 - 0) * scaled-size(1)) + ((2 - 0) * scaled-size(2))
+//            = 1 + 2 instead of 3 + 2
+</pre></blockquote>
+<p>
+The recursive condition should probably use <tt>&lt;=</tt> instead of <tt>&lt;</tt>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Tuple&gt;
+  constexpr difference_type <i>distance-from</i>(Tuple t);
+</pre>
+<blockquote>
+<p>
+-7- Let:
+</p>
+<ol style="list-style-type: none">
+<li><p>(7.1) &mdash; <tt><i>scaled-size</i>(<i>N</i>)</tt> be the product of 
+<tt>static_cast&lt;difference_type&gt;(ranges::size(std::get&lt;<i>N</i>&gt;(<i>parent_</i>-&gt;<i>bases_</i>)))</tt> 
+and <tt><i>scaled-size</i>(<i>N</i> + 1)</tt> if <tt><i>N</i> <ins>&le;</ins><del>&lt;</del> sizeof...(Vs)</tt>, otherwise 
+<tt>static_cast&lt;difference_type&gt;(1)</tt>;</p></li>
+<li><p>(7.2) &mdash; <tt><i>scaled-distance</i>(<i>N</i>)</tt> be the product of 
+<tt>static_cast&lt;difference_type&gt;(std::get&lt;<i>N</i>&gt;(<i>current_</i>) - std::get&lt;<i>N</i>&gt;(t))</tt> 
+and <tt><i>scaled-size</i>(<i>N</i> + 1)</tt>; and</p></li>
+<li><p>(7.3) &mdash; <tt><i>scaled-sum</i></tt> be the sum of <tt><i>scaled-distance</i>(<i>N</i>)</tt> for every 
+integer <tt>0 &le; N &le; sizeof...(Vs)</tt>.</p></li>
+</ol>
+</blockquote>
 </blockquote>
 </li>
 
