@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-10-29 at 11:31:30 UTC</p>
+<p><p>Revised 2022-10-29 at 12:01:07 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48423,6 +48423,40 @@ std::priority_queue pq3 = std::priority_queue(v.begin(), v.end(), std::less(), M
 // BEFORE AND AFTER: pq1 compiles successfully
 // BEFORE AND AFTER: pq2 and pq3 also compile successfully thanks to LWG <a href="lwg-defects.html#3506">3506</a>
 </pre></blockquote>
+
+
+<p><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3805" href="#3805">3805</a><sup><a href="https://cplusplus.github.io/LWG/issue3805">(i)</a></sup>. Expression evaluating to a call wrapper is a prvalue, not an object</h3>
+<p><b>Section:</b> 22.10 <a href="https://wg21.link/function.objects">[function.objects]</a>, 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a>, 26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2022-10-26 <b>Last modified:</b> 2022-10-29</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#function.objects">issues</a> in [function.objects].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+22.10.3 <a href="https://wg21.link/func.def">[func.def]</a> defines
+</p>
+<blockquote><p>
+-6- A <i>call wrapper</i> is an object of a call wrapper type.
+</p></blockquote>
+<p>
+Most importantly, a call wrapper is an object.
+<p/>
+A number of functions in 22.10 <a href="https://wg21.link/function.objects">[function.objects]</a> and expressions in 
+26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> and 26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a> 
+are specified to result in a call wrapper. Most notably, the return type of 
+<tt>ranges::to</tt> is <tt>auto</tt>, so its result is definitely a prvalue and not a "call wrapper" object.
+<p/>
+Where a prvalue result is meant, the wording should be clarified to mean 
+"a prvalue whose object it initializes is a call wrapper".
+</p>
 
 
 <p><b>Proposed resolution:</b></p>
