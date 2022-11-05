@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-05 at 14:28:45 UTC</p>
+<p><p>Revised 2022-11-05 at 15:09:37 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48966,6 +48966,68 @@ namespace std {
     basic_format_args(<i>format-arg-store</i>&lt;Context, Args...&gt;) -&gt; basic_format_args&lt;Context&gt;;</ins>
 }
 </pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3811" href="#3811">3811</a><sup><a href="https://cplusplus.github.io/LWG/issue3811">(i)</a></sup>. <tt>views::as_const</tt> on <tt>ref_view&lt;T&gt;</tt> should return <tt>ref_view&lt;const T&gt;</tt></h3>
+<p><b>Section:</b> 26.7.21.1 <a href="https://wg21.link/range.as.const.overview">[range.as.const.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2022-11-03 <b>Last modified:</b> 2022-11-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For <tt>v</tt> being a non-const lvalue of type <tt>std::vector&lt;int&gt;</tt>, <tt>views::as_const(v)</tt> 
+produces <tt>ref_view&lt;std::vector&lt;int&gt; const&gt;</tt>. However, when <tt>v</tt> is converted to 
+<tt>ref_view</tt> by using <tt>views::all</tt>, <tt>views::as_const(views::all(v))</tt> produces 
+<tt>as_const_view&lt;ref_view&lt;std::vector&lt;int&gt;&gt;&gt;</tt>.
+<p/>
+Invoking <tt>views::as_const</tt> on <tt>ref_view&lt;T&gt;</tt> should produce <tt>ref_view&lt;const T&gt;</tt> when 
+<tt>const T</tt> models a constant range. This will reduce the number of instantiations, and make a behavior 
+of <tt>views::as_const</tt> consistent on references and <tt>ref_view</tt> to containers.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.21.1 <a href="https://wg21.link/range.as.const.overview">[range.as.const.overview]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note</i>: If we have <tt>ref_view&lt;V&gt;</tt>, when <tt>V</tt> is constant propagating view 
+(<tt>single_view</tt>, <tt>owning_view</tt>), we still can (and should) produce <tt>ref_view&lt;V const&gt;</tt>. 
+This wording achieves that.]
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+-2- The name <tt>views::as_const</tt> denotes a range adaptor object (26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a>). 
+Let <tt>E</tt> be an expression, let <tt>T</tt> be <tt>decltype((E))</tt>, and let <tt>U</tt> be 
+<tt>remove_cvref_t&lt;T&gt;</tt>. The expression <tt>views::as_const(E)</tt> is expression-equivalent
+to:
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; If <tt>views::all_t&lt;T&gt;</tt> models <tt>constant_range</tt>, then <tt>views::all(E)</tt>.</p></li>
+<li><p>(2.2) &mdash; Otherwise, if <tt>U</tt> denotes <tt>span&lt;X, Extent&gt;</tt> for some type <tt>X</tt> and some 
+extent <tt>Extent</tt>, then <tt>span&lt;const X, Extent&gt;(E)</tt>.</p></li>
+<li><p><ins>(2.?) &mdash; Otherwise, if <tt>U</tt> denotes <tt>ref_view&lt;X&gt;</tt> for some type <tt>X</tt> and 
+<tt>const X</tt> models <tt>constant_range</tt>, then <tt>ref_view(static_cast&lt;const X&amp;&gt;(E.base()))</tt>.</ins></p></li>
+<li><p>(2.3) &mdash; Otherwise, if <tt>E</tt> is an lvalue, <tt>const U</tt> models <tt>constant_range</tt>, and 
+<tt>U</tt> does not model <tt>view</tt>, then <tt>ref_view(static_cast&lt;const U&amp;&gt;(E))</tt>.</p></li>
+<li><p>(2.4) &mdash; Otherwise, <tt>as_const_view(E)</tt>.</p></li>
+</ol>
 </blockquote>
 </li>
 
