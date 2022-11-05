@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-05 at 15:09:37 UTC</p>
+<p><p>Revised 2022-11-05 at 15:54:30 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -49029,6 +49029,78 @@ extent <tt>Extent</tt>, then <tt>span&lt;const X, Extent&gt;(E)</tt>.</p></li>
 <li><p>(2.4) &mdash; Otherwise, <tt>as_const_view(E)</tt>.</p></li>
 </ol>
 </blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3812" href="#3812">3812</a><sup><a href="https://cplusplus.github.io/LWG/issue3812">(i)</a></sup>. [fund.ts.v3] Incorrect constraint on <tt>propagate_const</tt> conversion function</h3>
+<p><b>Section:</b> 3.2.2.5 [fund.ts.v3::propagate_const.const_observers] <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Giuseppe D'Angelo <b>Opened:</b> 2022-11-04 <b>Last modified:</b> 2022-11-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses: fund.ts.v3</b></p>
+<p>
+This issue has its origin in the discussion of <a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=107525">gcc issue 107525</a>.
+<p/>
+The current draft of LFTSv3 specifies this conversion function for <tt>propagate_const</tt> in 
+3.2.2.5 [fund.ts.v3::propagate_const.const_observers]:
+</p>
+<blockquote>
+<pre>
+constexpr operator const element_type*() const;
+</pre>
+<blockquote>
+<p>
+-7- <i>Returns</i>: <tt>get()</tt>.
+<p/>
+-8- <i>Remarks</i>: This function shall not participate in overload resolution unless <tt>T</tt> is an 
+object pointer type or has an implicit conversion to <tt>const element_type*</tt>. 
+</p>
+</blockquote>
+</blockquote>
+<p>
+The constraint should however specify that <tt>const T</tt> (and not <tt>T</tt>) needs
+to have an implicit conversion to <tt>const element_type *</tt>.
+<p/>
+Basically: if <tt>const T</tt> cannot do the conversion, then neither <tt>const propagate_const&lt;T&gt;</tt> 
+should be able to.
+<p/>
+One can design a type <tt>X</tt> such as a <tt>const X</tt> cannot convert to <tt>const element_type *</tt> 
+(for instance, by <tt>=delete</tt>ing the corresponding conversion function). If now one asks whether 
+<tt>const propagate_const&lt;X&gt;</tt> is convertible to <tt>const element_type *</tt>, the answer is 
+(surprisingly) "yes".
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4840">N4840</a>.
+</p>
+
+<ol>
+<li><p>Modify 3.2.2.5 [fund.ts.v3::propagate_const.const_observers] as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr operator const element_type*() const;
+</pre>
+<blockquote>
+<p>
+-7- <i>Returns</i>: <tt>get()</tt>.
+<p/>
+-8- <i>Remarks</i>: This function shall not participate in overload resolution unless <tt>T</tt> is an 
+object pointer type or <ins><tt>const T</tt></ins> has an implicit conversion to <tt>const element_type*</tt>. 
+</p>
+</blockquote>
+</blockquote>
+
 </li>
 
 </ol>
