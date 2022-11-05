@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-05 at 13:53:36 UTC</p>
+<p><p>Revised 2022-11-05 at 14:02:49 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46472,21 +46472,21 @@ namespace std {
 Initially, LWG requested an investigation of alternative resolutions that would avoid using member functions for the affected operators.
 Later, it was found that in addition to <tt>==</tt>/<tt>-</tt>, all comparison operators (<tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&lt;=</tt>, <tt>&gt;=</tt>, <tt>&lt;=&gt;</tt>) are affected by same problem for the calls
 with <tt>basic_const_iterator&lt;basic_const_iterator&lt;int*&gt;&gt;</tt> and <tt>int*</tt> as arguments, i.e. <tt>totally_ordered_with&lt;basic_const_iterator&lt;basic_const_iterator&lt;int*&gt;&gt;, int*&gt;</tt>
-causes infinite recursion in contrast checking.
+causes infinite recursion in constraint checking.
 </p>
 
 <p>
 The new resolution, change all of the friends overloads for operators <tt>==</tt>, <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&lt;=</tt>, <tt>&gt;=</tt>, <tt>&lt;=&gt;</tt> and <tt>-</tt> that accept <tt>basic_const_iterator</tt> as lhs, to <tt>const</tt> member functions.
-This change is applied to homogenous <tt>(basic_const_iterator, basic_const_iterator)</tt> for consistency.
+This change is applied to homogeneous <tt>(basic_const_iterator, basic_const_iterator)</tt> for consistency.
 For the overload of <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&lt;=</tt>, <tt>&gt;=</tt> and <tt>-</tt> that accepts <tt>(I, basic_const_iterator)</tt> we declared them as friends and consistently constrain them with <tt><i>not-const-iterator</i></tt>.
-Finally, its put (now member) <tt>operator<tt>&lt;=&gt;</tt>(I)</tt> in the block with other heterogenous overloads in the synopsis.	
+Finally, its put (now member) <tt>operator<tt>&lt;=&gt;</tt>(I)</tt> in the block with other heterogeneous overloads in the synopsis.	
 </p>
 
 <p>
 The use of member functions addresses issues, because:
 <ul>	
-  <li>it disallows conversion to <tt>basic_const_iterator</tt> in the left-hand side of op, i.e. eliminates issues for <tt>(sized_)sentinel_for&lt;basic_const_iterator&lt;int*&gt;, int*&gt;</tt> and <tt>totally_ordered&lt;basic_const_iterator&lt;int*&gt;, int*&gt;</tt></li>
-  <li>member functions (in contrast to friends) are not found by ADL, so we do not get multiple candidates for <tt>basic_const_iterator&lt;basic_const_iterator&lt;S&gt;&gt;</tt>, so we address recursion for nested iterators</li>
+<li>it disallows conversion to <tt>basic_const_iterator</tt> in the left-hand side of op, i.e. eliminates issues for <tt>(sized_)sentinel_for&lt;basic_const_iterator&lt;int*&gt;, int*&gt;</tt> and <tt>totally_ordered&lt;basic_const_iterator&lt;int*&gt;, int*&gt;</tt></li>
+<li>member functions (in contrast to friends) are not found by ADL, so we do not get multiple candidates for <tt>basic_const_iterator&lt;basic_const_iterator&lt;S&gt;&gt;</tt>, so we address recursion for nested iterators</li>
 </ul>
 </p>
 
@@ -48830,6 +48830,32 @@ This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3808" href="#3808">3808</a><sup><a href="https://cplusplus.github.io/LWG/issue3808">(i)</a></sup>. Inconsistent feature test macros for ranges algorithms</h3>
+<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Daniel Marshall <b>Opened:</b> 2022-11-02 <b>Last modified:</b> 2022-11-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>ranges::shift</tt> is seemingly the only ranges algorithm that incremented the value of an existing feature test macro.
+<p/>
+From what I can tell the only other one that could have done that but didn't is <tt>__cpp_lib_starts_ends_with</tt>.
+<p/>
+Should there have been a <tt>__cpp_lib_ranges_shift</tt> or should have <tt>__cpp_lib_starts_ends_with</tt> incremented 
+its value when the ranges algorithms were added?
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
 
 
 
