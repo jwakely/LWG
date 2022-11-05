@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-05 at 15:54:30 UTC</p>
+<p><p>Revised 2022-11-05 at 16:46:25 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48962,7 +48962,7 @@ namespace std {
     basic_format_arg&lt;Context&gt; get(size_t i) const noexcept;
   };
   
-  <ins>template&lt;Context, Args...&gt;
+  <ins>template&lt;class Context, class... Args&gt;
     basic_format_args(<i>format-arg-store</i>&lt;Context, Args...&gt;) -&gt; basic_format_args&lt;Context&gt;;</ins>
 }
 </pre>
