@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-06 at 10:54:29 UTC</p>
+<p><p>Revised 2022-11-06 at 12:05:17 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -21966,7 +21966,7 @@ The type of <tt>*first</tt> shall satisfy the requirements of <tt>MoveConstructi
 <hr>
 <h3><a name="3032" href="#3032">3032</a><sup><a href="https://cplusplus.github.io/LWG/issue3032">(i)</a></sup>. <tt>ValueSwappable</tt> requirement missing for <tt>push_heap</tt> and <tt>make_heap</tt></h3>
 <p><b>Section:</b> 27.8.8 <a href="https://wg21.link/alg.heap.operations">[alg.heap.operations]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Robert Douglas <b>Opened:</b> 2017-11-08 <b>Last modified:</b> 2020-09-06</p>
+ <b>Submitter:</b> Robert Douglas <b>Opened:</b> 2017-11-08 <b>Last modified:</b> 2022-11-06</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#alg.heap.operations">issues</a> in [alg.heap.operations].</p>
@@ -21983,8 +21983,8 @@ The room believed this was likely a specification error, and asked to open an is
 
 <p>Priority set to 3; Marshall to investigate</p>
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>This wording is relative to <a href="https://wg21.link/n4700">N4700</a>.</p>
 
 <ol>
@@ -22023,6 +22023,104 @@ template&lt;class RandomAccessIterator, class Compare&gt;
 -1- <i>Requires:</i> <ins><tt>RandomAccessIterator</tt> shall satisfy the requirements of <tt>ValueSwappable</tt> 
 (16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>).</ins> The type of <tt>*first</tt> shall satisfy the <tt>MoveConstructible</tt> 
 requirements (Table 23) and the <tt>MoveAssignable</tt> requirements (Table 25).
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2022-11-06; Daniel comments and syncs wording with recent working draft]</i></p>
+
+<p>
+For reference, the finally accepted paper was <a href="https://wg21.link/P0202R3">P0202R3</a> and the constexpr-ification of
+swap-related algorithms had been realized later by <a href="https://wg21.link/P0879R0">P0879R0</a> after resolution of
+<a href="https://wg21.link/cwg1581">CWG 1581</a> and more importantly <a href="https://wg21.link/cwg1330">CWG 1330</a>.
+</p>
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Change 27.8.8.2 <a href="https://wg21.link/push.heap">[push.heap]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class RandomAccessIterator&gt;
+  constexpr void push_heap(RandomAccessIterator first, RandomAccessIterator last);
+
+template&lt;class RandomAccessIterator, class Compare&gt;
+  constexpr void push_heap(RandomAccessIterator first, RandomAccessIterator last,
+                           Compare comp);
+                 
+template&lt;random_access_iterator I, sentinel_for&lt;I&gt; S, class Comp = ranges::less,
+         class Proj = identity&gt;
+  requires sortable&lt;I, Comp, Proj&gt;
+  constexpr I
+    ranges::push_heap(I first, S last, Comp comp = {}, Proj proj = {});
+template&lt;random_access_range R, class Comp = ranges::less, class Proj = identity&gt;
+  requires sortable&lt;iterator_t&lt;R&gt;, Comp, Proj&gt;
+  constexpr borrowed_iterator_t&lt;R&gt;
+    ranges::push_heap(R&amp;&amp; r, Comp comp = {}, Proj proj = {});
+</pre>
+<blockquote>
+<p>
+-1- Let <tt>comp</tt> be <tt>less{}</tt> and <tt>proj</tt> be <tt>identity{}</tt> for the overloads with no parameters by those names.
+<p/>
+-2- <i>Preconditions</i>: The range <tt>[first, last - 1)</tt> is a valid heap with respect to 
+<tt>comp</tt> and <tt>proj</tt>. For the overloads in namespace <tt>std</tt>, 
+<ins><tt>RandomAccessIterator</tt> meets the <i>Cpp17ValueSwappable</i> requirements 
+(16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>) and</ins> the type of <tt>*first</tt> meets the 
+<i>Cpp17MoveConstructible</i> requirements (Table 32) and the <i>Cpp17MoveAssignable</i> 
+requirements (Table 34).
+<p/>
+-3- <i>Effects</i>: Places the value in the location <tt>last - 1</tt> into the resulting heap <tt>[first, last)</tt>.
+<p/>
+-4- <i>Returns</i>: <tt>last</tt> for the overloads in namespace <tt>ranges</tt>.
+<p/>
+-5- <i>Complexity</i>: At most log(<tt>last - first</tt>) comparisons and twice as many projections.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Change 27.8.8.4 <a href="https://wg21.link/make.heap">[make.heap]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class RandomAccessIterator&gt;
+  constexpr void make_heap(RandomAccessIterator first, RandomAccessIterator last);
+
+template&lt;class RandomAccessIterator, class Compare&gt;
+  constexpr void make_heap(RandomAccessIterator first, RandomAccessIterator last,
+                           Compare comp);
+                           
+template&lt;random_access_iterator I, sentinel_for&lt;I&gt; S, class Comp = ranges::less,
+         class Proj = identity&gt;
+  requires sortable&lt;I, Comp, Proj&gt;
+  constexpr I
+    ranges::make_heap(I first, S last, Comp comp = {}, Proj proj = {});
+template&lt;random_access_range R, class Comp = ranges::less, class Proj = identity&gt;
+  requires sortable&lt;iterator_t&lt;R&gt;, Comp, Proj&gt;
+  constexpr borrowed_iterator_t&lt;R&gt;
+    ranges::make_heap(R&amp;&amp; r, Comp comp = {}, Proj proj = {});
+</pre>
+<blockquote>
+<p>
+-1- Let <tt>comp</tt> be <tt>less{}</tt> and <tt>proj</tt> be <tt>identity{}</tt> for the overloads with no parameters by those names.
+<p/>
+-2- <i>Preconditions</i>: For the overloads in namespace <tt>std</tt>, <ins><tt>RandomAccessIterator</tt> 
+meets the <i>Cpp17ValueSwappable</i> requirements (16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>) and</ins> the type 
+of <tt>*first</tt> meets the <i>Cpp17MoveConstructible</i> (Table 32) and <i>Cpp17MoveAssignable</i> (Table 34) requirements.
+<p/>
+-3- <i>Effects</i>: Constructs a heap with respect to <tt>comp</tt> and <tt>proj</tt> out of the range <tt>[first, last)</tt>.
+<p/>
+-4- <i>Returns</i>: <tt>last</tt> for the overloads in namespace <tt>ranges</tt>.
+<p/>
+-5- <i>Complexity</i>: At most 3(<tt>last - first</tt>) comparisons and twice as many projections.
 </p>
 </blockquote>
 </blockquote>
@@ -27668,7 +27766,7 @@ does in 23.3.3.4 <a href="https://wg21.link/string.view.iterators">[string.view.
 <hr>
 <h3><a name="3204" href="#3204">3204</a><sup><a href="https://cplusplus.github.io/LWG/issue3204">(i)</a></sup>. <tt>sub_match::swap</tt> only swaps the base class</h3>
 <p><b>Section:</b> 32.8 <a href="https://wg21.link/re.submatch">[re.submatch]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-05-07 <b>Last modified:</b> 2022-04-25</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-05-07 <b>Last modified:</b> 2022-11-06</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#re.submatch">active issues</a> in [re.submatch].</p>
@@ -27708,8 +27806,8 @@ member that does the right thing.
 In addition the revised wording uses the new standard phrase "The exception specification is equivalent to"
 </p>
 
-
-<p><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 </p>
@@ -27757,6 +27855,82 @@ in 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirem
 <blockquote>
 <p>
 <ins>-?- <i>Preconditions:</i> Lvalues of type <tt>BidirectionalIterator</tt> are swappable 
+(16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>).</ins>
+<p/>
+<ins>-?- <i>Effects:</i> Equivalent to:</ins>
+</p>
+<blockquote><pre>
+<ins>this-&gt;pair&lt;BidirectionalIterator, BidirectionalIterator&gt;::swap(s);
+std::swap(matched, s.matched);</ins>
+</pre></blockquote>
+<p>
+<ins>-?- <i>Remarks:</i> The exception specification is equivalent to 
+<tt>is_nothrow_swappable_v&lt;BidirectionalIterator&gt;</tt>.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2022-11-06; Daniel comments and improves wording]</i></p>
+
+<p>
+With the informal acceptance of <a href="https://isocpp.org/files/papers/P2696R0.html">P2696R0</a> by 
+LWG during a pre-Kona telecon, we should use the new requirement set <i>Cpp17Swappable</i> instead of 
+the "LValues are swappable" requirements.
+</p>
+
+
+
+<p><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a> <b>and assumes the acceptance of <a href="https://isocpp.org/files/papers/P2696R0.html">P2696R0</a></b>.
+</p>
+
+<ol>
+<li><p>Modify 32.8 <a href="https://wg21.link/re.submatch">[re.submatch]</a>, class template <tt>sub_match</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class BidirectionalIterator&gt;
+class sub_match : public pair&lt;BidirectionalIterator, BidirectionalIterator&gt; {
+public:
+  [&hellip;]
+  int compare(const sub_match&amp; s) const;
+  int compare(const string_type&amp; s) const;
+  int compare(const value_type* s) const;
+  
+  <ins>void swap(sub_match&amp; s) noexcept(<i>see below</i>);</ins>
+};
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 32.8.2 <a href="https://wg21.link/re.submatch.members">[re.submatch.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+int compare(const value_type* s) const;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+<ins>void swap(sub_match&amp; s) noexcept(<i>see below</i>);</ins>
+</pre>
+<blockquote class="note">
+[<i>Drafting note:</i> The <i>Cpp17Swappable</i> requirement should really be unnecessary because <i>Cpp17Iterator</i> 
+requires it, but there is no wording that requires <tt>BidirectionalIterator</tt> in Clause
+32 <a href="https://wg21.link/re">[re]</a> in general meets the bidirectional iterator requirements. Note that the definition found
+in 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> does not extend to 32 <a href="https://wg21.link/re">[re]</a> normatively. &mdash; 
+<i>end drafting note</i>]
+</blockquote>
+<blockquote>
+<p>
+<ins>-?- <i>Preconditions:</i> <tt>BidirectionalIterator</tt> meets the <i>Cpp17Swappable</i> requirements 
 (16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>).</ins>
 <p/>
 <ins>-?- <i>Effects:</i> Equivalent to:</ins>
