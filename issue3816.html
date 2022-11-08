@@ -68,35 +68,36 @@ of a sequence container (24.2.4 <a href="https://wg21.link/sequence.reqmts">[seq
 </p>
 
 
-<p><b>Proposed resolution:</b></p>
+<p id="res-3816"><b>Proposed resolution:</b></p>
 <p>
 This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
 </p>
 
 <ol>
 
-<li><p>Modify 24.6.9.1 <a href="https://wg21.link/flat.map.overview">[flat.map.overview]</a> Overview, as indicated:</p>
+<li><p>Modify 24.6.9.1 <a href="https://wg21.link/flat.map.overview">[flat.map.overview]</a> as indicated:</p>
 
 <blockquote>
 <p>
--7- Any <del>sequence container (24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>)</del><ins>type</ins> <tt>C</tt> <del>supporting</del><ins>that
-    meets sequence container requirements (24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>) and supports</ins> <i>Cpp17RandomAccessIterator</i> 
-    can be used to instantiate <tt>flat_map</tt>, as long as invocations of member functions <tt>C::size</tt> and <tt>C::max_size</tt> 
+-7- Any <del>sequence container (24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>)</del><ins>type</ins> <tt>C</tt> <del>supporting 
+   <i>Cpp17RandomAccessIterator</i></del><ins>that meets sequence container requirements (24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>)</ins> 
+    can be used to instantiate <tt>flat_map</tt>, as long as <ins><tt>C::iterator</tt> meets the <i>Cpp17RandomAccessIterator</i> 
+    requirements and</ins> invocations of member functions <tt>C::size</tt> and <tt>C::max_size</tt> 
     do not exit via an exception. In particular, <tt>vector</tt> (24.3.11 <a href="https://wg21.link/vector">[vector]</a>) and <tt>deque</tt> 
     (24.3.8 <a href="https://wg21.link/deque">[deque]</a>) can be used. 
 </p>
 </blockquote>
 </li>
 
-<li><p>Modify 24.6.10.1 <a href="https://wg21.link/flat.multimap.overview">[flat.multimap.overview]</a> Overview, as indicated:</p>
+<li><p>Modify 24.6.10.1 <a href="https://wg21.link/flat.multimap.overview">[flat.multimap.overview]</a> as indicated:</p>
 
 <blockquote>
 <p>
--7- Any <del>sequence container (24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>)</del><ins>type</ins> <tt>C</tt> <del>supporting</del><ins>that
-    meets sequence container requirements (24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>) and supports</ins> <i>Cpp17RandomAccessIterator</i> 
-    can be used to instantiate <tt>flat_multimap</tt>, as long as invocations of member functions <tt>C::size</tt> and 
-    <tt>C::max_size</tt> do not exit via an exception. In particular, <tt>vector</tt> (24.3.11 <a href="https://wg21.link/vector">[vector]</a>) and <tt>deque</tt> 
-    (24.3.8 <a href="https://wg21.link/deque">[deque]</a>) can be used. 
+-7- Any <del>sequence container (24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>)</del><ins>type</ins> <tt>C</tt> <del>supporting 
+    <i>Cpp17RandomAccessIterator</i></del><ins>that meets sequence container requirements (24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>)</ins> 
+    can be used to instantiate <tt>flat_multimap</tt>, as long as <ins><tt>C::iterator</tt> meets the <i>Cpp17RandomAccessIterator</i> 
+    requirements and</ins> invocations of member functions <tt>C::size</tt> and <tt>C::max_size</tt> do not exit via an 
+    exception. In particular, <tt>vector</tt> (24.3.11 <a href="https://wg21.link/vector">[vector]</a>) and <tt>deque</tt> (24.3.8 <a href="https://wg21.link/deque">[deque]</a>) can be used. 
 </p>
 </blockquote>
 </li>
