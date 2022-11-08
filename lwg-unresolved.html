@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-08 at 17:14:50 UTC</p>
+<p><p>Revised 2022-11-08 at 19:00:03 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -50221,12 +50221,12 @@ not prvalues. For example, given:
 <blockquote>
 <pre>
 struct U {
-    U();
-    U(U&amp;&amp;) = delete;
+  U();
+  U(U&amp;&amp;) = delete;
 };
 
 struct T {
-    T(U);
+  T(U);
 };
 </pre>
 </blockquote>
@@ -50316,6 +50316,97 @@ and so on. Such effects are not in the "immediate context" and can result in the
 </tr>
 
 </table>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3820" href="#3820">3820</a><sup><a href="https://cplusplus.github.io/LWG/issue3820">(i)</a></sup>. <tt>cartesian_product_view::<i>iterator</i>::<i>prev</i></tt> is not quite right</h3>
+<p><b>Section:</b> 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-08</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#ranges.cartesian.iterator">active issues</a> in [ranges.cartesian.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#ranges.cartesian.iterator">issues</a> in [ranges.cartesian.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, <tt>cartesian_product_view::<i>iterator</i>::<i>prev</i></tt> has the following <i>Effects</i>:
+</p>
+<blockquote><pre>
+auto&amp; it = std::get&lt;N&gt;(<i>current_</i>);
+if (it == ranges::begin(std::get&lt;N&gt;(<i>parent_</i>-><i>bases_</i>))) {
+  it = <i>cartesian-common-arg-end</i>(std::get&lt;N&gt;(<i>parent_</i>-&gt;<i>bases_</i>));
+  if constexpr (N &gt; 0) {
+    <i>prev</i>&lt;N - 1&gt;();
+  }
+}
+--it;
+</pre></blockquote>
+<p>
+which decrements the underlying iterator one by one using recursion. 
+However, when <tt>N == 0</tt>, it still detects if the first iterator has reached the beginning and assigns it to 
+the end, which is not only unnecessary, but also causes <tt><i>cartesian-common-arg-end</i></tt> to be applied to 
+the first range, making it ill-formed in some cases, <a href="https://godbolt.org/z/Pd6bYnP1G">for example</a>:
+</p>
+<blockquote><pre>
+#include &lt;ranges&gt;
+
+int main() {
+  auto r = std::views::cartesian_product(std::views::iota(0));
+  r.begin() += 3; // <span style="color:red;font-weight:bolder">hard error</span>
+}
+</pre></blockquote>
+<p>
+This is because, for the first range, <tt>cartesian_product_view::<i>iterator</i>::operator+=</tt> only requires 
+it to model <tt>random_access_range</tt>.
+However, when <tt>x</tt> is negative, this function will call <tt><i>prev</i></tt> and indirectly calls 
+<tt><i>cartesian-common-arg-end</i></tt>, since the latter constrains its argument to satisfy 
+<tt><i>cartesian-product-common-arg</i></tt>, that is, <tt>common_range&lt;R&gt; || (sized_range&lt;R&gt; &amp;&amp; 
+random_access_range&lt;R&gt;)</tt>, which is not the case for the unbounded <tt>iota_view</tt>, resulting in a 
+hard error in <tt><i>prev</i></tt>'s function body.
+<p/>
+The proposed resolution changes the position of the <tt>if constexpr</tt> so that we just decrement the first 
+iterator and nothing else.
+</p>
+
+
+
+<p id="res-3820"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;size_t N = sizeof...(Vs)&gt;
+  constexpr void <i>prev</i>();
+</pre>
+<blockquote>
+<p>
+-6- <i>Effects</i>: Equivalent to:
+</p>
+<pre>
+auto&amp; it = std::get&lt;N&gt;(<i>current_</i>);
+<ins>if constexpr (N > 0) {</ins>
+  if (it == ranges::begin(std::get&lt;N&gt;(<i>parent_</i>-><i>bases_</i>))) {
+    it = <i>cartesian-common-arg-end</i>(std::get&lt;N&gt;(<i>parent_</i>-&gt;<i>bases_</i>));
+    <del>if constexpr (N &gt; 0) {</del>
+      <i>prev</i>&lt;N - 1&gt;();
+    <del>}</del>
+  }
+<ins>}</ins>
+--it;
+</pre>
+</blockquote>
 </blockquote>
 
 </li>
