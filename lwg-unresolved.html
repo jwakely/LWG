@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-09 at 05:18:10 UTC</p>
+<p><p>Revised 2022-11-09 at 16:26:39 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -50416,7 +50416,7 @@ on the entirety of <tt>p</tt>.</del>
 
 
 <hr>
-<h3><a name="3824" href="#3824">3824</a><sup><a href="https://cplusplus.github.io/LWG/issue3824">(i)</a></sup>. Number of bind placeholders is underspecified</h3>
+<h3><a name="3824" href="#3824">3824</a><sup><a href="https://cplusplus.github.io/LWG/issue3824">(i)</a></sup>. Number of <tt>bind</tt> placeholders is underspecified</h3>
 <p><b>Section:</b> 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Tomasz Kamiński <b>Opened:</b> 2022-11-09 <b>Last modified:</b> 2022-11-09</p>
 <p><b>Priority: </b>Not Prioritized
@@ -50426,7 +50426,7 @@ on the entirety of <tt>p</tt>.</del>
 <p><b>Discussion:</b></p>
 <p>
 This is resolution of <b><a href="https://github.com/cplusplus/nbballot/issues/437">GB-95</a></b>
-(22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> Number of bind placeholders is underspecified).
+(22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> Number of <tt>bind</tt> placeholders is underspecified).
 </p>
 
 <p>
@@ -50443,7 +50443,7 @@ This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
 
 <ol>
 
-<li><p>Modify 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> Placeholders as indicated:</p>
+<li><p>Modify 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -50466,6 +50466,76 @@ namespace std::placeholders {
 and their default constructors and copy/move constructors are constexpr functions that do not throw exceptions.
 It is implementation-defined whether placeholder types meet the <i>Cpp17CopyAssignable</i> requirements, but if so, 
 their copy assignment operators are constexpr functions that do not throw exceptions.
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3825" href="#3825">3825</a><sup><a href="https://cplusplus.github.io/LWG/issue3825">(i)</a></sup>. Missing compile-time argument <tt>id</tt> check in <tt>basic_format_parse_context::next_arg_id</tt></h3>
+<p><b>Section:</b> 22.14.6.5 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2022-11-09 <b>Last modified:</b> 2022-11-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The definition of <tt>check_arg_id</tt> in 22.14.6.5 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> includes a (compile-time) 
+argument <tt>id</tt> check in the <i>Remarks</i> element:
+</p>
+<blockquote>
+<pre>
+constexpr void check_arg_id(size_t id);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+<i>Remarks</i>: Call expressions where <tt>id &gt;= num_args_</tt> are not core constant expressions (7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>).
+</p>
+</blockquote>
+</blockquote>
+<p>
+However, a similar check is missing from <tt>next_arg_id</tt> which means that there is no argument id validation 
+in user-defined format specification parsing code that invokes this function (e.g. when parsing automatically 
+indexed dynamic width).
+</p>
+
+
+<p id="res-3825"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 22.14.6.5 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr size_t next_arg_id();
+</pre>
+<blockquote>
+<p>
+-7- <i>Effects</i>: If <tt>indexing_ != manual</tt>, equivalent to:
+</p>
+<blockquote><pre>
+if (indexing_ == unknown)
+  indexing_ = automatic;
+return next_arg_id_++;
+</pre></blockquote>
+<p>
+-8- <i>Throws</i>: <tt>format_error</tt> if <tt>indexing_ == manual</tt> which indicates mixing of automatic and manual
+argument indexing.
+<p/>
+<ins>-?- <i>Remarks</i>: Call expressions where <tt>next_arg_id_ &gt;= num_args_</tt> are not core constant expressions 
+(7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>).</ins>
 </p>
 </blockquote>
 </blockquote>
