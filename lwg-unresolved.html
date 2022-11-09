@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-09 at 04:17:20 UTC</p>
+<p><p>Revised 2022-11-09 at 04:20:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -50404,6 +50404,63 @@ on the entirety of <tt>p</tt>.</del>
 </li>
 </ol>
 
+
+
+
+
+
+<hr>
+<h3><a name="3824" href="#3824">3824</a><sup><a href="https://cplusplus.github.io/LWG/issue3824">(i)</a></sup>. Number of bind placeholders is underspecified</h3>
+<p><b>Section:</b> 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tomasz Kamiński <b>Opened:</b> 2022-11-09 <b>Last modified:</b> 2022-11-09</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#func.bind.place">issues</a> in [func.bind.place].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This is resolution of <b><a href="https://github.com/cplusplus/nbballot/issues/437">GB-95</a></b>
+(22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> Number of bind placeholders is underspecified).
+</p>
+
+<p>
+22.10.2 <a href="https://wg21.link/functional.syn">[functional.syn]</a> and 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> both contain a comment that says "M is the implementation-defined number of placeholders". 
+There is no wording anywhere to say that there is any such number, only that comment.
+</p>
+
+
+<p id="res-3824"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> Placeholders as indicated:</p>
+
+<pre>
+namespace std::placeholders {
+  // M is the implementation-defined number of placeholders
+  see below _1;
+  see below _2;
+              .
+              .
+              .
+  see below _M;
+}
+</pre>
+<blockquote>
+<p>
+<ins>-?- The number of placeholders is implementation defined.</ins>
+</p>
+<p>
+-1- All placeholder types meet the <i>Cpp17DefaultConstructible</i> and <i>Cpp17CopyConstructible</i> requirements, and their default constructors and copy/move constructors are constexpr functions that do not throw exceptions.
+    It is implementation-defined whether placeholder types meet the <i>Cpp17CopyAssignable</i> requirements, but if so, their copy assignment operators are constexpr functions that do not throw exceptions.
+</p>
+</blockquote>
+
+</li>
+</ol>
 
 
 
