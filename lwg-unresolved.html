@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-09 at 21:21:17 UTC</p>
+<p><p>Revised 2022-11-10 at 01:11:26 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -43740,7 +43740,7 @@ Set priority to 3 after reflector poll.
 <hr>
 <h3><a name="3717" href="#3717">3717</a><sup><a href="https://cplusplus.github.io/LWG/issue3717">(i)</a></sup>. <tt>common_view::end</tt> should improve <tt>random_access_range</tt> case</h3>
 <p><b>Section:</b> 26.7.19.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-15 <b>Last modified:</b> 2022-07-06</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-15 <b>Last modified:</b> 2022-11-09</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.common.view">issues</a> in [range.common.view].</p>
@@ -43760,9 +43760,8 @@ access iterators in <tt>common_view::end</tt>, which directly operates on the re
 Set priority to 3 after reflector poll.
 </p>
 
-
-
-<p id="res-3717"><b>Proposed resolution:</b></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 <p>
 This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 </p>
@@ -43804,6 +43803,72 @@ namespace std::ranges {
     constexpr auto end() const requires range&lt;const V&gt; {
       if constexpr (random_access_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
         return ranges::begin(<i>base_</i>) + <ins>range_difference_t&lt;const V&gt;(size())</ins><del>ranges::size(<i>base_</i>)</del>;
+      else
+        return common_iterator&lt;iterator_t&lt;const V&gt;, sentinel_t&lt;const V&gt;&gt;(ranges::end(<i>base_</i>));
+    }
+
+    constexpr auto size() requires sized_range&lt;V&gt; {
+      return ranges::size(<i>base_</i>);
+    }
+    constexpr auto size() const requires sized_range&lt;const V&gt; {
+      return ranges::size(<i>base_</i>);
+    }
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2022-11-09 Tim updates wording per LWG discussion]</i></p>
+
+
+
+<p id="res-3717"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.19.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+    requires (!common_range&lt;V&gt; &amp;&amp; copyable&lt;iterator_t&lt;V&gt;&gt;)
+  class common_view : public view_interface&lt;common_view&lt;V&gt;&gt; {
+  private:
+    V <i>base_</i> = V();  <i>// exposition only</i>
+  public:
+    [&hellip;]
+    constexpr auto begin() {
+      if constexpr (random_access_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
+        return ranges::begin(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;V&gt;, sentinel_t&lt;V&gt;&gt;(ranges::begin(<i>base_</i>));
+    }
+
+    constexpr auto begin() const requires range&lt;const V&gt; {
+      if constexpr (random_access_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
+        return ranges::begin(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;const V&gt;, sentinel_t&lt;const V&gt;&gt;(ranges::begin(<i>base_</i>));
+    }
+    
+    constexpr auto end() {
+      if constexpr (random_access_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
+        return ranges::begin(<i>base_</i>) + ranges::<del>size</del><ins>distance</ins>(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;V&gt;, sentinel_t&lt;V&gt;&gt;(ranges::end(<i>base_</i>));
+    }
+
+    constexpr auto end() const requires range&lt;const V&gt; {
+      if constexpr (random_access_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
+        return ranges::begin(<i>base_</i>) + ranges::<del>size</del><ins>distance</ins>(<i>base_</i>);
       else
         return common_iterator&lt;iterator_t&lt;const V&gt;, sentinel_t&lt;const V&gt;&gt;(ranges::end(<i>base_</i>));
     }
@@ -50213,7 +50278,7 @@ auto&amp; it = std::get&lt;N&gt;(<i>current_</i>);
 <hr>
 <h3><a name="3821" href="#3821">3821</a><sup><a href="https://cplusplus.github.io/LWG/issue3821">(i)</a></sup>. <tt>uses_allocator_construction_args</tt> should have overload for <i><tt>pair-like</tt></i></h3>
 <p><b>Section:</b> 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-08</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
@@ -50234,12 +50299,47 @@ and then do uses-allocator construction using its pieces, and it still won't wor
 We should just do this properly.
 </p>
 
+<p><i>[2022-11-09 Tim updates wording following LWG review]</i></p>
+
+<p>
+During review of this issue LWG noticed that neither the constructor nor the new overload should accept <tt>subrange</tt>.
+<p/>
+The <tt>remove_cv_t</tt> in the new paragraph is added for consistency with LWG <a href="lwg-active.html#3677">3677</a>.
+</p> 
+
 
 <p id="res-3821"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a> after the application of LWG <a href="lwg-active.html#3677">3677</a>.
 </p>
 <ol>
+<li><p>Edit 22.3.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class U1, class U2&gt; constexpr explicit(<i>see below</i>) pair(pair&lt;U1, U2&gt;&amp; p);
+template&lt;class U1, class U2&gt; constexpr explicit(<i>see below</i>) pair(const pair&lt;U1, U2&gt;&amp; p);
+template&lt;class U1, class U2&gt; constexpr explicit(<i>see below</i>) pair(pair&lt;U1, U2&gt;&amp;&amp; p);
+template&lt;class U1, class U2&gt; constexpr explicit(<i>see below</i>) pair(const pair&lt;U1, U2&gt;&amp;&amp; p);
+template&lt;<i>pair-like</i> P&gt; constexpr explicit(<i>see below</i>) pair(P&amp;&amp; p);
+</pre>
+<blockquote>
+<p>
+-14- Let <tt><i>FWD</i>(u)</tt> be <tt>static_cast&lt;decltype(u)&gt;(u)</tt>.
+<p/>
+-15- <i>Constraints:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p><ins>(15.?) &mdash; For the last overload, <tt>remove_cvref_t&lt;P&gt;</tt> is not a specialization of <tt>ranges::subrange</tt>,</ins></p></li>
+<li><p>(15.1) &mdash; <tt>is_constructible_v&lt;T1, decltype(get&lt;0&gt;(<i>FWD</i>(p)))&gt;</tt> is <tt>true</tt> and</p></li>
+<li><p>(15.2) &mdash; <tt>is_constructible_v&lt;T2, decltype(get&lt;1&gt;(<i>FWD</i>(p)))&gt;</tt> is <tt>true</tt>.</p></li>
+</ol>
+<p>
+-16- <i>Effects:</i> Initializes <tt>first</tt> with <tt>get&lt;0&gt;(<i>FWD</i>(p))</tt> 
+and <tt>second</tt> with <tt>get&lt;1&gt;(<i>FWD</i>(p))</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
 <li><p>Edit 20.2.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
 <blockquote>
 <pre>
@@ -50281,7 +50381,8 @@ namespace std {
 </pre>
 <blockquote>
 <p>
-<ins>-?- <i>Constraints:</i> <tt>T</tt> is a specialization of <tt>pair</tt>.</ins>
+<ins>-?- <i>Constraints:</i> <tt>remove_cv_t&lt;T&gt;</tt> is a specialization of <tt>pair</tt> 
+and <tt>remove_cvref_t&lt;P&gt;</tt> is not a specialization of <tt>ranges::subrange</tt>.</ins>
 <p/>
 <ins>-?- <i>Effects:</i> Equivalent to:</ins>
 </p>
@@ -50309,10 +50410,13 @@ return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
   void <i>FUN</i>(const pair&lt;A, B&gt;&amp;);
 </pre></blockquote>
 <p>
--17- <i>Constraints:</i> <tt>T</tt> is a specialization of <tt>pair</tt>, 
-<ins><tt>P</tt> does not satisfy <i><tt>pair-like</tt></i>,</ins>
-and the expression <tt><i>FUN</i>(u)</tt> is not well-formed when considered as an unevaluated operand.
+-17- <i>Constraints:</i> <tt>remove_cv_t&lt;T&gt;</tt> is a specialization of <tt>pair</tt>, <ins>and either:</ins>
 </p>
+<ol style="list-style-type: none">
+<li><p><ins>(17.1) &mdash; <tt>remove_cvref_t&lt;P&gt;</tt> is a specialization of <tt>ranges::subrange</tt>, or</ins></p></li>
+<li><p><ins>(17.2) &mdash; <tt>P</tt> does not satisfy <i><tt>pair-like</tt></i></ins>
+and the expression <tt><i>FUN</i>(u)</tt> is not well-formed when considered as an unevaluated operand..</p></li>
+</ol>
 </blockquote>
 </blockquote>
 </li>
