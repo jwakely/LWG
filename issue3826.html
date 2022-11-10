@@ -68,6 +68,11 @@ specializations of <tt>generator</tt>, which paragraph 12 specifies. Per
 16.3.2.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> paragraph 4, the former overload "inherits" the
 <i>Remarks</i> of paragraph 12 making paragraph 14 redundant.
 </p>
+<p>
+LWG is concerned that the redundancy is not immediately obvious &mdash; it depends on an understanding of
+how await expressions function &mdash; so we'd like to preserve comment despite that we agree that it is
+normatively redundant.
+</p>
 
 <p><i>[2022-11-10 Casey provides wording]</i></p>
 
@@ -93,8 +98,8 @@ template&lt;ranges::input_range R, class Alloc&gt;
 -13- <i>Effects</i>: Equivalent to: [&hellip;]
 </p>
 <p>
-<del>-14- <i>Remarks</i>: A <i>yield-expression</i> that calls this function has type <tt>void</tt>
-(7.6.17 <a href="https://wg21.link/expr.yield">[expr.yield]</a>).</del>
+-14- <del><i>Remarks</i>:</del> <ins>[Note 1:</ins> A <i>yield-expression</i> that calls this function has type <tt>void</tt>
+(7.6.17 <a href="https://wg21.link/expr.yield">[expr.yield]</a>).<ins>&mdash;end note]</ins>
 </p>
 </blockquote>
 </blockquote>
