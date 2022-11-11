@@ -44,13 +44,13 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Ready</a> status.</em></p>
 <h3><a name="3769" href="lwg-active.html#3769">3769</a>. <tt>basic_const_iterator::operator==</tt> causes infinite constraint recursion</h3>
-<p><b>Section:</b> 25.5.3 <a href="https://wg21.link/const.iterators">[const.iterators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2022-11-05</p>
+<p><b>Section:</b> 25.5.3 <a href="https://wg21.link/const.iterators">[const.iterators]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>1
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Currently, <tt>basic_const_iterator::operator==</tt> is defined as a <tt>friend</tt> function:
@@ -97,8 +97,6 @@ Set priority to 1 after reflector poll.
 "Although I am not a big fan of member ==,  the proposed solution seems to be simple."
 "prefer if we would keep <tt>operator==</tt> as non-member for consistency."
 </p>
-
-
 
 <strong>Previous resolution from Hewill [SUPERSEDED]:</strong>
 <blockquote class="note">
@@ -202,6 +200,10 @@ The use of member functions addresses issues, because:
 <li>member functions (in contrast to friends) are not found by ADL, so we do not get multiple candidates for <tt>basic_const_iterator&lt;basic_const_iterator&lt;S&gt;&gt;</tt>, so we address recursion for nested iterators</li>
 </ul>
 </p>
+
+<p><i>[Kona 2022-11-08; Move to Ready]</i></p>
+
+
 
 <p id="res-3769"><b>Proposed resolution:</b></p>
 <p>

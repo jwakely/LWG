@@ -50,8 +50,8 @@
 This document is the Index by Status and Date for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.
 </p>
-<p><p>Revised 2022-11-10 at 21:03:26 UTC</p>
-</p><h2><a name="Voting"</a>Voting (47 issues)</h2>
+<p><p>Revised 2022-11-11 at 00:42:15 UTC</p>
+</p><h2><a name="Voting"</a>Voting (46 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -168,15 +168,6 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"><tt>const_sentinel_t</tt> is missing</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3785">3785</a><sup><a href="https://cplusplus.github.io/LWG/issue3785">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#Voting">Voting</a><a name="3785"></a></td>
-<td align="left">26.5.7.2 [range.utility.conv.to]<a name="range.utility.conv.to"></a></td>
-<td align="left"><tt>ranges::to</tt> is over-constrained on the destination type being a range</td>
-<td align="center">Yes</td>
-<td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -545,7 +536,7 @@ causes infinite constraint meta-recursion</td>
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="Ready"</a>Ready (3 issues)</h2>
+<h2><a name="Ready"</a>Ready (12 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -557,12 +548,84 @@ causes infinite constraint meta-recursion</td>
   <td align="center"><b>Duplicates</b></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3817">3817</a><sup><a href="https://cplusplus.github.io/LWG/issue3817">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3817"></a></td>
+<td align="left">24.3.9.5 [forward.list.modifiers]<a name="forward.list.modifiers"></a></td>
+<td align="left">Missing preconditions on <tt>forward_list</tt> modifiers</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3720">3720</a><sup><a href="https://cplusplus.github.io/LWG/issue3720">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3720"></a></td>
 <td align="left">22.14.2.2 [format.string.std]<a name="format.string.std"></a></td>
 <td align="left">Restrict the valid types of <i>arg-id</i> for <i>width</i> and <i>precision</i> in <i>std-format-spec</i></td>
 <td align="center">Yes</td>
 <td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3664">3664</a><sup><a href="https://cplusplus.github.io/LWG/issue3664">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3664"></a></td>
+<td align="left">25.4.4.3 [range.iter.op.distance]<a name="range.iter.op.distance"></a></td>
+<td align="left">LWG 3392 broke <tt>std::ranges::distance(a, a+3)</tt></td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3769">3769</a><sup><a href="https://cplusplus.github.io/LWG/issue3769">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3769"></a></td>
+<td align="left">25.5.3 [const.iterators]<a name="const.iterators"></a></td>
+<td align="left"><tt>basic_const_iterator::operator==</tt> causes infinite constraint recursion</td>
+<td align="center">Yes</td>
+<td align="center">1</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3766">3766</a><sup><a href="https://cplusplus.github.io/LWG/issue3766">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3766"></a></td>
+<td align="left">26.5.3.1 [view.interface.general]<a name="view.interface.general"></a></td>
+<td align="left"><tt>view_interface::cbegin</tt> is underconstrained</td>
+<td align="center">Yes</td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3785">3785</a><sup><a href="https://cplusplus.github.io/LWG/issue3785">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3785"></a></td>
+<td align="left">26.5.7.2 [range.utility.conv.to]<a name="range.utility.conv.to"></a></td>
+<td align="left"><tt>ranges::to</tt> is over-constrained on the destination type being a range</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3569">3569</a><sup><a href="https://cplusplus.github.io/LWG/issue3569">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3569"></a></td>
+<td align="left">26.7.14.3 [range.join.iterator]<a name="range.join.iterator"></a></td>
+<td align="left"><tt>join_view</tt> fails to support ranges of ranges with non-<tt>default_initializable</tt> iterators</td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3811">3811</a><sup><a href="https://cplusplus.github.io/LWG/issue3811">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3811"></a></td>
+<td align="left">26.7.21.1 [range.as.const.overview]<a name="range.as.const.overview"></a></td>
+<td align="left"><tt>views::as_const</tt> on <tt>ref_view&lt;T&gt;</tt> should return <tt>ref_view&lt;const T&gt;</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3820">3820</a><sup><a href="https://cplusplus.github.io/LWG/issue3820">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="3820"></a></td>
+<td align="left">26.7.31.3 [ranges.cartesian.iterator]<a name="ranges.cartesian.iterator"></a></td>
+<td align="left"><tt>cartesian_product_view::<i>iterator</i>::<i>prev</i></tt> is not quite right</td>
+<td align="center">Yes</td>
+<td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -575,12 +638,51 @@ causes infinite constraint meta-recursion</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#2195">2195</a><sup><a href="https://cplusplus.github.io/LWG/issue2195">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="2195"></a></td>
+<td align="left">32.9 [re.results]<a name="re.results"></a></td>
+<td align="left">Missing constructors for <tt>match_results</tt></td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#2295">2295</a><sup><a href="https://cplusplus.github.io/LWG/issue2295">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#Ready">Ready</a><a name="2295"></a></td>
 <td align="left">30.3.1.3 [locale.cons]<a name="locale.cons"></a></td>
 <td align="left">Locale name when the provided <tt>Facet</tt> is a <tt>nullptr</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
+<td align="left"></td>
+</tr>
+</table>
+<h2><a name="Tentatively Ready"</a>Tentatively Ready (2 issues)</h2>
+<table border="1" cellpadding="4">
+<tr>
+  <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
+  <td align="center"><a href="lwg-status.html"><b>Status</b></a></td>
+  <td align="center"><a href="lwg-index.html"><b>Section</b></a></td>
+  <td align="center"><b>Title</b></td>
+  <td align="center"><b>Proposed Resolution</b></td>
+  <td align="center"><a href="unresolved-prioritized.html"><b>Priority</b></a></td>
+  <td align="center"><b>Duplicates</b></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3819">3819</a><sup><a href="https://cplusplus.github.io/LWG/issue3819">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3819"></a></td>
+<td align="left">21.3.5.4 [meta.unary.prop]<a name="meta.unary.prop"></a></td>
+<td align="left"><tt>reference_<i>meow</i>s_from_temporary</tt> should not use <tt>is_<i>meow</i>ible</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3814">3814</a><sup><a href="https://cplusplus.github.io/LWG/issue3814">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3814"></a></td>
+<td align="left">20.2.2 [memory.syn]<a name="memory.syn"></a></td>
+<td align="left">Add freestanding items requested by NB comments</td>
+<td align="center">Yes</td>
+<td align="center"></td>
 <td align="left"></td>
 </tr>
 </table>
@@ -722,7 +824,7 @@ causes infinite constraint meta-recursion</td>
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="New"</a>New (315 issues)</h2>
+<h2><a name="New"</a>New (304 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -732,6 +834,24 @@ causes infinite constraint meta-recursion</td>
   <td align="center"><b>Proposed Resolution</b></td>
   <td align="center"><a href="unresolved-prioritized.html"><b>Priority</b></a></td>
   <td align="center"><b>Duplicates</b></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3828">3828</a><sup><a href="https://cplusplus.github.io/LWG/issue3828">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3828"></a></td>
+<td align="left">17.4.2 [cstdint.syn]<a name="cstdint.syn"></a></td>
+<td align="left">Sync <tt>intmax_t</tt> and <tt>uintmax_t</tt> with C2x</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3827">3827</a><sup><a href="https://cplusplus.github.io/LWG/issue3827">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3827"></a></td>
+<td align="left">17.15.4 [stdalign.h.syn]<a name="stdalign.h.syn"></a></td>
+<td align="left">Deprecate <tt>&lt;stdalign.h&gt;</tt> and <tt>&lt;stdalign.h&gt;</tt> macros</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#3821">3821</a><sup><a href="https://cplusplus.github.io/LWG/issue3821">(i)</a></sup></td>
@@ -752,15 +872,6 @@ causes infinite constraint meta-recursion</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3737">3737</a><sup><a href="https://cplusplus.github.io/LWG/issue3737">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3737"></a></td>
-<td align="left">26.7.10.3 [range.take.sentinel]<a name="range.take.sentinel"></a></td>
-<td align="left"><tt>take_view::<i>sentinel</i></tt> should provide <tt>operator-</tt></td>
-<td align="center">Yes</td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#3826">3826</a><sup><a href="https://cplusplus.github.io/LWG/issue3826">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3826"></a></td>
 <td align="left">26.8.5 [coro.generator.promise]<a name="coro.generator.promise"></a></td>
@@ -774,51 +885,6 @@ causes infinite constraint meta-recursion</td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3825"></a></td>
 <td align="left">22.14.6.5 [format.parse.ctx]<a name="format.parse.ctx"></a></td>
 <td align="left">Missing compile-time argument <tt>id</tt> check in <tt>basic_format_parse_context::next_arg_id</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3717">3717</a><sup><a href="https://cplusplus.github.io/LWG/issue3717">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3717"></a></td>
-<td align="left">26.7.19.2 [range.common.view]<a name="range.common.view"></a></td>
-<td align="left"><tt>common_view::end</tt> should improve <tt>random_access_range</tt> case</td>
-<td align="center">Yes</td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3819">3819</a><sup><a href="https://cplusplus.github.io/LWG/issue3819">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3819"></a></td>
-<td align="left">21.3.5.4 [meta.unary.prop]<a name="meta.unary.prop"></a></td>
-<td align="left"><tt>reference_<i>meow</i>s_from_temporary</tt> should not use <tt>is_<i>meow</i>ible</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3817">3817</a><sup><a href="https://cplusplus.github.io/LWG/issue3817">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3817"></a></td>
-<td align="left">24.3.9.5 [forward.list.modifiers]<a name="forward.list.modifiers"></a></td>
-<td align="left">Missing preconditions on <tt>forward_list</tt> modifiers</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3820">3820</a><sup><a href="https://cplusplus.github.io/LWG/issue3820">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3820"></a></td>
-<td align="left">26.7.31.3 [ranges.cartesian.iterator]<a name="ranges.cartesian.iterator"></a></td>
-<td align="left"><tt>cartesian_product_view::<i>iterator</i>::<i>prev</i></tt> is not quite right</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3814">3814</a><sup><a href="https://cplusplus.github.io/LWG/issue3814">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3814"></a></td>
-<td align="left">20.2.2 [memory.syn]<a name="memory.syn"></a></td>
-<td align="left">Add freestanding items requested by NB comments</td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -892,24 +958,6 @@ should conditionally require <i>Cpp17CopyInsertable</i> in their preconditions</
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3810"></a></td>
 <td align="left">22.14.8.3 [format.args]<a name="format.args"></a></td>
 <td align="left">CTAD for <tt>std::basic_format_args</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3769">3769</a><sup><a href="https://cplusplus.github.io/LWG/issue3769">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3769"></a></td>
-<td align="left">25.5.3 [const.iterators]<a name="const.iterators"></a></td>
-<td align="left"><tt>basic_const_iterator::operator==</tt> causes infinite constraint recursion</td>
-<td align="center">Yes</td>
-<td align="center">1</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3811">3811</a><sup><a href="https://cplusplus.github.io/LWG/issue3811">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3811"></a></td>
-<td align="left">26.7.21.1 [range.as.const.overview]<a name="range.as.const.overview"></a></td>
-<td align="left"><tt>views::as_const</tt> on <tt>ref_view&lt;T&gt;</tt> should return <tt>ref_view&lt;const T&gt;</tt></td>
 <td align="center">Yes</td>
 <td align="center"></td>
 <td align="left"></td>
@@ -1056,15 +1104,6 @@ should conditionally require <i>Cpp17CopyInsertable</i> in their preconditions</
 <td align="left">Clarify which exceptions are propagated</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3766">3766</a><sup><a href="https://cplusplus.github.io/LWG/issue3766">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3766"></a></td>
-<td align="left">26.5.3.1 [view.interface.general]<a name="view.interface.general"></a></td>
-<td align="left"><tt>view_interface::cbegin</tt> is underconstrained</td>
-<td align="center">Yes</td>
-<td align="center">2</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -1367,15 +1406,6 @@ should conditionally require <i>Cpp17CopyInsertable</i> in their preconditions</
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3698">3698</a><sup><a href="https://cplusplus.github.io/LWG/issue3698">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3698"></a></td>
-<td align="left">32.11 [re.iter]<a name="re.iter"></a></td>
-<td align="left"><tt>regex_iterator</tt> and <tt>join_view</tt> don't work together very well</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">2</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#3044">3044</a><sup><a href="https://cplusplus.github.io/LWG/issue3044">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3044"></a></td>
 <td align="left">16.4.4.6 [allocator.requirements]<a name="allocator.requirements"></a></td>
@@ -1466,15 +1496,6 @@ should conditionally require <i>Cpp17CopyInsertable</i> in their preconditions</
 <td align="left"></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3679">3679</a><sup><a href="https://cplusplus.github.io/LWG/issue3679">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3679"></a></td>
-<td align="left">26.6.6 [range.istream]<a name="range.istream"></a></td>
-<td align="left">Is <tt>&lt;ranges&gt;</tt> sufficient for <tt>istream_view</tt>?</td>
-<td align="center"><font color="red">No</font></td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="right"><a href="lwg-active.html#3678">3678</a><sup><a href="https://cplusplus.github.io/LWG/issue3678">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3678"></a></td>
 <td align="left">29.11.5.1 [time.zone.overview]<a name="time.zone.overview"></a></td>
@@ -1517,15 +1538,6 @@ should conditionally require <i>Cpp17CopyInsertable</i> in their preconditions</
 <td align="left"><tt>std::ios_base::iword/pword</tt> might be misspecified</td>
 <td align="center">Yes</td>
 <td align="center">4</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3664">3664</a><sup><a href="https://cplusplus.github.io/LWG/issue3664">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3664"></a></td>
-<td align="left">25.4.4.3 [range.iter.op.distance]<a name="range.iter.op.distance"></a></td>
-<td align="left">LWG 3392 broke <tt>std::ranges::distance(a, a+3)</tt></td>
-<td align="center">Yes</td>
-<td align="center">2</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -1967,15 +1979,6 @@ should conditionally require <i>Cpp17CopyInsertable</i> in their preconditions</
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3489"></a></td>
 <td align="left">26.6.6.3 [range.istream.iterator]<a name="range.istream.iterator"></a></td>
 <td align="left">Improve <tt>istream_view</tt> wording</td>
-<td align="center">Yes</td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#3569">3569</a><sup><a href="https://cplusplus.github.io/LWG/issue3569">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#New">New</a><a name="3569"></a></td>
-<td align="left">26.7.14.3 [range.join.iterator]<a name="range.join.iterator"></a></td>
-<td align="left"><tt>join_view</tt> fails to support ranges of ranges with non-<tt>default_initializable</tt> iterators</td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -3586,7 +3589,7 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="Open"</a>Open (85 issues)</h2>
+<h2><a name="Open"</a>Open (87 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -3625,6 +3628,33 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3737">3737</a><sup><a href="https://cplusplus.github.io/LWG/issue3737">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="3737"></a></td>
+<td align="left">26.7.10.3 [range.take.sentinel]<a name="range.take.sentinel"></a></td>
+<td align="left"><tt>take_view::<i>sentinel</i></tt> should provide <tt>operator-</tt></td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3717">3717</a><sup><a href="https://cplusplus.github.io/LWG/issue3717">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="3717"></a></td>
+<td align="left">26.7.19.2 [range.common.view]<a name="range.common.view"></a></td>
+<td align="left"><tt>common_view::end</tt> should improve <tt>random_access_range</tt> case</td>
+<td align="center">Yes</td>
+<td align="center">3</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3698">3698</a><sup><a href="https://cplusplus.github.io/LWG/issue3698">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#Open">Open</a><a name="3698"></a></td>
+<td align="left">32.11 [re.iter]<a name="re.iter"></a></td>
+<td align="left"><tt>regex_iterator</tt> and <tt>join_view</tt> don't work together very well</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center">2</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#2349">2349</a><sup><a href="https://cplusplus.github.io/LWG/issue2349">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#Open">Open</a><a name="2349"></a></td>
 <td align="left">31.7.5.3.1 [istream.formatted.reqmts]<a name="istream.formatted.reqmts"></a></td>
@@ -3656,15 +3686,6 @@ the evaluation of type traits</td>
 <td align="left"><a href="lwg-active.html#Open">Open</a><a name="2158"></a></td>
 <td align="left">24.3.11.3 [vector.capacity]<a name="vector.capacity"></a></td>
 <td align="left">Conditional copy&#47;move in <tt>std::vector</tt></td>
-<td align="center">Yes</td>
-<td align="center">3</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="right"><a href="lwg-active.html#2195">2195</a><sup><a href="https://cplusplus.github.io/LWG/issue2195">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#Open">Open</a><a name="2195"></a></td>
-<td align="left">32.9 [re.results]<a name="re.results"></a></td>
-<td align="left">Missing constructors for <tt>match_results</tt></td>
 <td align="center">Yes</td>
 <td align="center">3</td>
 <td align="left"></td>
@@ -4363,7 +4384,7 @@ the evaluation of type traits</td>
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="LEWG"</a>LEWG (25 issues)</h2>
+<h2><a name="LEWG"</a>LEWG (26 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -4373,6 +4394,15 @@ the evaluation of type traits</td>
   <td align="center"><b>Proposed Resolution</b></td>
   <td align="center"><a href="unresolved-prioritized.html"><b>Priority</b></a></td>
   <td align="center"><b>Duplicates</b></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3679">3679</a><sup><a href="https://cplusplus.github.io/LWG/issue3679">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#LEWG">LEWG</a><a name="3679"></a></td>
+<td align="left">26.6.6 [range.istream]<a name="range.istream"></a></td>
+<td align="left">Is <tt>&lt;ranges&gt;</tt> sufficient for <tt>istream_view</tt>?</td>
+<td align="center"><font color="red">No</font></td>
+<td align="center">3</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="right"><a href="lwg-active.html#3776">3776</a><sup><a href="https://cplusplus.github.io/LWG/issue3776">(i)</a></sup></td>

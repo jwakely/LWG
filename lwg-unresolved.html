@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-10 at 21:03:26 UTC</p>
+<p><p>Revised 2022-11-11 at 00:42:15 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -6710,297 +6710,6 @@ Moved to Open.
 
 
 <p id="res-2189"><b>Proposed resolution:</b></p>
-
-
-
-
-
-
-<hr>
-<h3><a name="2195" href="#2195">2195</a><sup><a href="https://cplusplus.github.io/LWG/issue2195">(i)</a></sup>. Missing constructors for <tt>match_results</tt></h3>
-<p><b>Section:</b> 32.9 <a href="https://wg21.link/re.results">[re.results]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2012-10-06 <b>Last modified:</b> 2022-11-06</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#re.results">issues</a> in [re.results].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
-<p><b>Discussion:</b></p>
-
-<p>
-The requirement expressed in 32.9 <a href="https://wg21.link/re.results">[re.results]</a> p2
-</p>
-<blockquote><p>
-The class template <tt>match_results</tt> shall satisfy the requirements of an allocator-aware container and of a
-sequence container, as specified in 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>, except that only operations defined for 
-const-qualified sequence containers are supported.
-</p></blockquote>
-<p>
-can be read to require the existence of the described constructors from as well, but they do not exist in the
-synopsis. 
-<p/>
-The missing sequence constructors are: 
-</p>
-<blockquote><pre>
-match_results(initializer_list&lt;value_type&gt;);
-match_results(size_type, const value_type&amp;);
-template&lt;class InputIterator&gt; match_results(InputIterator, InputIterator);
-</pre></blockquote>
-<p>
-The missing allocator-aware container constructors are:
-</p>
-<blockquote><pre>
-match_results(const match_results&amp;, const Allocator&amp;);
-match_results(match_results&amp;&amp;, const Allocator&amp;);
-</pre></blockquote>
-<p>
-It should be clarified, whether (a) constructors are an exception of above mentioned operations or (b) whether
-at least some of them (like those accepting a <tt>match_results</tt> value and an allocator) should be added.
-<p/>
-As visible in several places of the standard (including the core language), constructors seem usually to be considered 
-as "operations" and they certainly can be invoked for const-qualified objects.
-<p/>
-The below given proposed resolution applies only the minimum necessary fix, i.e. it excludes constructors from
-above requirement. 
-</p>
-
-<p><i>[2013-04-20, Bristol]</i></p>
-
-<p>Check current implementations to see what they do and, possibly, write a paper.</p>
-
-<p><i>[2013-09 Chicago]</i></p>
-
-<p>Ask Daniel to update the proposed wording to include the allocator copy and move constructors.</p>
-
-<p><i>[2014-01-18 Daniel changes proposed resolution]</i></p>
-
-<p><strong>Previous resolution from Daniel [SUPERSEDED]:</strong></p>
-
-<blockquote class="note">
-<ol>
-<li><p>Change 32.9 <a href="https://wg21.link/re.results">[re.results]</a> p2 as indicated:</p>
-<blockquote><p>
-The class template <tt>match_results</tt> shall satisfy the requirements of an allocator-aware container and of a
-sequence container, as specified in 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>, except that only operations defined for 
-const-qualified sequence containers <ins>that are not constructors</ins> are supported.
-</p></blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2015-05-06 Lenexa]</i></p>
-
-<p>MC passes important knowledge to EF.</p>
-<p>VV, RP: Looks good.</p>
-<p>TK: Second form should be conditionally noexcept</p>
-<p>JY: Sequence constructors are not here, but mentioned in the issue writeup. Why?</p>
-<p>TK: That would have been fixed by the superseded wording.</p>
-<p>JW: How does this interact with Mike Spertus' allocator-aware regexes? [...] Perhaps it doesn't.</p>
-<p>JW: Can't create match_results, want both old and new resolution.</p>
-<p>JY: It's problematic that users can't create these, but not this issue.</p>
-<p>VV: Why conditional noexcept?</p>
-<p>MC: Allocator move might throw.</p>
-<p>JW: Update superseded wording to "only non-constructor operations that are"?</p>
-<p>MC: Only keep superseded, but append "and the means of constructing match_results are limited to [...]"?</p>
-<p>JY: Bullet 4 paragraph 2 needs to address the allocator constructor.</p>
-<p>Assigned to JW for drafting.</p>
-
-<p><i>[2015-10, Kona Saturday afternoon]</i></p>
-
-<p>STL: I want Mike Spertus to be aware of this issue.</p>
-
-<strong>Previous resolution from Daniel [SUPERSEDED]:</strong>
-<blockquote class="note">
-<p>This wording is relative to N3936.</p>
-
-<ol>
-<li><p>Change 32.9 <a href="https://wg21.link/re.results">[re.results]</a> p4, class template <tt>match_results</tt> synopsis, as indicated:</p>
-<blockquote><pre>
-[&hellip;]
-// 28.10.1, construct/copy/destroy:
-explicit match_results(const Allocator&amp; a = Allocator());
-match_results(const match_results&amp; m);
-<ins>match_results(const match_results&amp; m, const Allocator&amp; a);</ins>
-match_results(match_results&amp;&amp; m) noexcept;
-<ins>match_results(match_results&amp;&amp; m, const Allocator&amp; a) noexcept;</ins>
-[&hellip;]
-</pre></blockquote>
-</li>
-
-<li><p>Change 32.9.2 <a href="https://wg21.link/re.results.const">[re.results.const]</a>  as indicated: [<i>Drafting note:</i> Paragraph 6 as currently written,
-makes not much sense, because the <tt>noexcept</tt> does not allow any exception to propagate. Further-on, the allocator requirements
-do not allow for throwing move constructors. Deleting it seems to be near to editorial &mdash; <i>end drafting note</i>]</p>
-<blockquote>
-
-<pre>
-match_results(const match_results&amp; m);
-<ins>match_results(const match_results&amp; m, const Allocator&amp; a);</ins>
-</pre>
-<blockquote>
-<p>
--4- <i>Effects:</i> Constructs an object of class <tt>match_results</tt>, as a copy of <tt>m</tt>.
-</p>
-</blockquote>
-
-<pre>
-match_results(match_results&amp;&amp; m) noexcept;
-<ins>match_results(match_results&amp;&amp; m, const Allocator&amp; a) noexcept;</ins>
-</pre>
-<blockquote>
-<p>
--5- <i>Effects:</i> Move-constructs an object of class <tt>match_results</tt> from <tt>m</tt> satisfying the same postconditions
-as Table 142. <del>Additionally</del><ins>For the first form</ins>, the stored <tt>Allocator</tt> value is move constructed 
-from <tt>m.get_allocator()</tt>.
-<p/>
-<del>-6- <i>Throws:</i> Nothing if the allocator's move constructor throws nothing.</del>
-</p>
-</blockquote>
-
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2019-03-27 Jonathan updates proposed resolution]</i></p>
-
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>This wording is relative to <a href="https://wg21.link/n4810">N4810</a>.</p>
-
-<p>
-These edits overlap with the proposed resolution of <a href="lwg-defects.html#2191">2191</a>
-but it should be obvious how to resolve the conflicts.
-Both resolutions remove the word "Additionally" from p4.
-Issue 2191 removes the entire <i>Throws:</i> element in p5 but this issue
-replaces it with different text that applies to the new constructor only.
-</p>
-
-<ol>
-<li><p>Change 32.9 <a href="https://wg21.link/re.results">[re.results]</a> p4, class template <tt>match_results</tt> synopsis, as indicated:</p>
-<blockquote><pre>
-[&hellip;]
-// 30.10.1, construct/copy/destroy:
-explicit match_results(const Allocator&amp; a = Allocator());
-match_results(const match_results&amp; m);
-<ins>match_results(const match_results&amp; m, const Allocator&amp; a);</ins>
-match_results(match_results&amp;&amp; m) noexcept;
-<ins>match_results(match_results&amp;&amp; m, const Allocator&amp; a);</ins>
-[&hellip;]
-</pre></blockquote>
-</li>
-
-<li><p>Change 32.9.2 <a href="https://wg21.link/re.results.const">[re.results.const]</a>  as indicated:</p>
-<blockquote>
-
-<pre>
-match_results(const match_results&amp; m);
-<ins>match_results(const match_results&amp; m, const Allocator&amp; a);</ins>
-</pre>
-<blockquote>
-<p>
--3- <i>Effects:</i> Constructs an object of class <tt>match_results</tt>, as a copy of <tt>m</tt>.
-<ins>For the second form, the stored <tt>Allocator</tt> value is constructed from <tt>a</tt>.</ins>
-</p>
-</blockquote>
-
-<pre>
-match_results(match_results&amp;&amp; m) noexcept;
-<ins>match_results(match_results&amp;&amp; m, const Allocator&amp; a);</ins>
-</pre>
-<blockquote>
-<p>
--4- <i>Effects:</i> Move-constructs an object of class <tt>match_results</tt> from <tt>m</tt> satisfying the same postconditions
-as Table 128. <del>Additionally</del><ins>For the first form</ins>, the stored <tt>Allocator</tt> value is move constructed
-from <tt>m.get_allocator()</tt>.
-<ins>For the second form, the stored <tt>Allocator</tt> value is constructed from <tt>a</tt>.</ins>
-</p>
-<p>
--6- <i>Throws:</i> <del>Nothing.</del>
-<ins>The second form throws nothing if <tt>a == m.get_allocator()</tt>.</ins>
-</p>
-</blockquote>
-
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2022-11-06; Daniel syncs wording with recent working draft]</i></p>
-
-<p>
-To ensure that all constructors are consistent in regard to the information about how the stored
-allocator is constructed, more wording is added. This harmonizes with the way how we specify the
-individual container constructors (Such as <tt>vector</tt>) even though 24.2.2.5 <a href="https://wg21.link/container.alloc.reqmts">[container.alloc.reqmts]</a>
-already provides some guarantees. For the copy-constructor we intentionally refer to
-24.2.2.2 <a href="https://wg21.link/container.reqmts">[container.reqmts]</a> so that we don't need to repeat what is said there.
-</p>
-
-
-<p id="res-2195"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-<li><p>Change 32.9 <a href="https://wg21.link/re.results">[re.results]</a>, class template <tt>match_results</tt> synopsis, as indicated:</p>
-<blockquote><pre>
-[&hellip;]
-<i>// 32.9.2 <a href="https://wg21.link/re.results.const">[re.results.const]</a>, construct/copy/destroy:</i>
-match_results() : match_results(Allocator()) {}
-explicit match_results(const Allocator&amp; <ins>a</ins>);
-match_results(const match_results&amp; m);
-<ins>match_results(const match_results&amp; m, const Allocator&amp; a);</ins>
-match_results(match_results&amp;&amp; m) noexcept;
-<ins>match_results(match_results&amp;&amp; m, const Allocator&amp; a);</ins>
-[&hellip;]
-</pre></blockquote>
-</li>
-
-<li><p>Change 32.9.2 <a href="https://wg21.link/re.results.const">[re.results.const]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-explicit match_results(const Allocator&amp; a);
-</pre>
-<blockquote>
-<p>
-<ins>-?- <i>Effects:</i> The stored <tt>Allocator</tt> value is constructed from <tt>a</tt>.</ins>
-<p/>
--2- <i>Postconditions</i>: <tt>ready()</tt> returns <tt>false</tt>. <tt>size()</tt> returns <tt>0</tt>.
-</p>
-</blockquote>
-<pre>
-match_results(const match_results&amp; m);
-<ins>match_results(const match_results&amp; m, const Allocator&amp; a);</ins>
-</pre>
-<blockquote>
-<p>
-<ins>-?- <i>Effects:</i> For the first form, the stored <tt>Allocator</tt> value 
-is obtained as specified in 24.2.2.2 <a href="https://wg21.link/container.reqmts">[container.reqmts]</a>. For the second form, the stored 
-<tt>Allocator</tt> value is constructed from <tt>a</tt>.</ins>
-<p/>
--3- <i>Postconditions</i>: As specified in Table 142 [tab:re.results.const].
-</p>
-</blockquote>
-<pre>
-match_results(match_results&amp;&amp; m) noexcept;
-<ins>match_results(match_results&amp;&amp; m, const Allocator&amp; a);</ins>
-</pre>
-<blockquote>
-<p>
--4- <i>Effects:</i> <ins>For the first form, t</ins><del>T</del>he stored <tt>Allocator</tt> value 
-is move constructed from <tt>m.get_allocator()</tt>. <ins>For the second form, the stored <tt>Allocator</tt> 
-value is constructed from <tt>a</tt>.</ins>
-<p/>
--5- <i>Postconditions</i>: As specified in Table 142 [tab:re.results.const].
-<p/>
-<ins>-?- <i>Throws:</i> The second form throws nothing if <tt>a == m.get_allocator()</tt> is <tt>true</tt>.</ins>
-</p>
-</blockquote>
-
-</blockquote>
-</li>
-</ol>
 
 
 
@@ -31102,6 +30811,7 @@ template&lt;class Facet&gt; locale combine(const locale&amp; other) const;
  <b>Submitter:</b> Dawid Pilarski <b>Opened:</b> 2020-01-14 <b>Last modified:</b> 2020-01-25</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#cstdint.syn">active issues</a> in [cstdint.syn].</p>
 <p><b>View all other</b> <a href="lwg-index.html#cstdint.syn">issues</a> in [cstdint.syn].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -35904,339 +35614,6 @@ specifier that depends on the locale is transcoded to UTF-8 for narrow strings, 
 taken as is.</ins> If the formatted object does not contain the information the conversion specifier refers to, 
 an exception of type <tt>format_error</tt> is thrown.
 </p>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-<hr>
-<h3><a name="3569" href="#3569">3569</a><sup><a href="https://cplusplus.github.io/LWG/issue3569">(i)</a></sup>. <tt>join_view</tt> fails to support ranges of ranges with non-<tt>default_initializable</tt> iterators</h3>
-<p><b>Section:</b> 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-06-16 <b>Last modified:</b> 2021-08-27</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.join.iterator">active issues</a> in [range.join.iterator].</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.join.iterator">issues</a> in [range.join.iterator].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-<tt>join_view::<i>iterator</i></tt> has exposition-only members <tt><i>outer_</i></tt> &mdash; which holds an 
-iterator into the adapted range &mdash; and <tt><i>inner_</i></tt> &mdash; which holds an iterator into the 
-range denoted by <tt><i>outer_</i></tt>. After application of <a href="https://wg21.link/P2325R3">P2325R3</a> "Views should not be 
-required to be default constructible" to the working draft, single-pass iterators can be 
-<tt>non-default_initializable</tt>. P2325R3 constrains <tt>join_view::<i>iterator</i></tt>'s default constructor 
-to require that the types of both <tt><i>outer_</i></tt> and <tt><i>inner_</i></tt> are <tt>default_initializable</tt>, 
-indicating an intent to support such iterator types. However, the effect of the non-default constructor specified 
-in 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> paragraph 6 is to default-initialize <tt><i>inner_</i></tt>, which is 
-ill-formed if its type is not <tt>default_initializable</tt>.
-</p>
-
-<p><i>[2021-06-23; Reflector poll]</i></p>
-
-<p>
-Set priority to 3 after reflector poll.
-</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>
-Wording relative to the <a href="https://github.com/cplusplus/draft/releases/download/n4892/n4892.pdf">post 2021-06 
-virtual plenary working draft</a>. This PR is currently being implemented in MSVC.
-</p>
-
-<ol>
-<li><p>Modify 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;input_range V&gt;
-    requires view&lt;V&gt; &amp;&amp; input_range&lt;range_reference_t&lt;V&gt;&gt; &amp;&amp;
-             (is_reference_v&lt;range_reference_t&lt;V&gt;&gt; ||
-              view&lt;range_value_t&lt;V&gt;&gt;)
-  template&lt;bool Const&gt;
-  struct join_view&lt;V&gt;::<i>iterator</i> {
-    [&hellip;]
-    <ins>optional&lt;</ins><i>InnerIter</i><ins>&gt;</ins> <i>inner_</i><del> = <i>InnerIter</i>()</del>;
-    [&hellip;]
-    constexpr decltype(auto) operator*() const { return <ins>*</ins>*<i>inner_</i>; }
-    [&hellip;]
-    friend constexpr decltype(auto) iter_move(const <i>iterator</i>&amp; i)
-    noexcept(noexcept(ranges::iter_move(<ins>*</ins>i.<i>inner_</i>))) {
-      return ranges::iter_move(<ins>*</ins>i.<i>inner_</i>);
-    }
-    
-    friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
-      noexcept(noexcept(ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>)))
-      requires indirectly_swappable&lt;<i>InnerIter</i>&gt;;
-  };
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-constexpr void <i>satisfy();</i>       <i>// exposition only</i>
-</pre>
-<blockquote>
-<p>
--5- <i>Effects:</i> Equivalent to:
-</p>
-<blockquote>
-<pre>
-auto update_inner = [this](const iterator_t&lt;<i>Base</i>&gt;&amp; x) -> auto&amp;&amp; {
-[&hellip;] 
-};
-for (; <i>outer_</i> != ranges::end(<i>parent_</i>-&gt;<i>base_</i>); ++<i>outer_</i>) {
-  auto&amp;&amp; inner = update_inner(*<i>outer_</i>);
-  <i>inner_</i> = ranges::begin(inner);
-  if (<ins>*</ins><i>inner_</i> != ranges::end(inner))
-    return;
-}
-if constexpr (<i>ref-is-glvalue</i>)
-  <i>inner_</i><ins>.reset()</ins><del> = <i>InnerIter</i>()</del>;
-</pre>
-</blockquote>
-</blockquote>
-[&hellip;]
-<pre>
-constexpr <i>InnerIter</i> operator-&gt;() const
-  requires <i>has-arrow</i>&lt;<i>InnerIter</i>&gt; &amp;&amp; copyable&lt;<i>InnerIter</i>&gt;;
-</pre>
-<blockquote>
-<p>
--8- <i>Effects:</i> Equivalent to: <tt>return <ins>*</ins><i>inner_</i>;</tt>
-</p>
-</blockquote>
-<pre>
-constexpr <i>iterator</i>&amp; operator++();
-</pre>
-<blockquote>
-<p>
--9- Let <i>inner-range</i> be:
-<p/>
-[&hellip;]
-<p/>
--10- <i>Effects:</i> Equivalent to:
-</p>
-<blockquote>
-<pre>
-auto&amp;&amp; inner_rng = <i>inner-range</i>;
-if (++<ins>*</ins><i>inner_</i> == ranges::end(inner_rng)) {
-  ++<i>outer_</i>;
-  <i>satisfy</i>();
-}
-return *this;
-</pre>
-</blockquote>
-</blockquote>
-[&hellip;]
-<pre>
-constexpr <i>iterator</i>&amp; operator--()
-  requires <i>ref-is-glvalue</i> &amp;&amp; bidirectional_range&lt;<i>Base</i>&gt; &amp;&amp;
-           bidirectional_range&lt;range_reference_t&lt;Base&gt;&gt; &amp;&amp;
-           common_range&lt;range_reference_t&lt;Base&gt;&gt;;
-</pre>
-<blockquote>
-<p>
--13- <i>Effects:</i> Equivalent to:
-</p>
-<blockquote>
-<pre>
-if (<i>outer_</i> == ranges::end(<i>parent_</i>-&gt;<i>base_</i>))
-  <i>inner_</i> = ranges::end(*--<i>outer_</i>);
-while (<ins>*</ins><i>inner_</i> == ranges::begin(*<i>outer_</i>))
-  <ins>*</ins><i>inner_</i> = ranges::end(*--<i>outer_</i>);
---<ins>*</ins><i>inner_</i>;
-return *this;
-</pre>
-</blockquote>
-</blockquote>
-[&hellip;]
-<pre>
-friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
-  noexcept(noexcept(ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>)))
-  requires indirectly_swappable&lt;<i>InnerIter</i>&gt;;
-</pre>
-<blockquote>
-<p>
--16- <i>Effects:</i> Equivalent to: return <tt>ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>);</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
-</blockquote>
-
-<p><i>[2021-08-23; Louis Dionne comments and provides improved wording]</i></p>
-
-<p>
-I believe the currently proposed resolution is missing the removal of the <tt>default_initializable&lt;<i>InnerIter</i>&gt;</tt> 
-constraint on <tt>join_view::<i>iterator</i></tt>'s default constructor in 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a>. Indeed, 
-after the currently-proposed resolution, <tt>join_view::<i>iterator</i></tt> reads like:
-</p>
-<blockquote><pre>
-template&lt;input_range V&gt;
-  requires [&hellip;]
-struct join_view&lt;V&gt;::<i>iterator</i> {
-private:
-  optional&lt;<i>InnerIter</i>&gt; <i>inner_</i>; <i>// exposition only</i>
-  [&hellip;]
-public:
-  <i>iterator</i>() requires default_initializable&lt;<i>OuterIter</i>&gt; &amp;&amp;
-                      default_initializable&lt;<i>InnerIter</i>&gt; = default;
-    [&hellip;]
-};
-</pre></blockquote>
-<p>
-I believe we should drop the <tt>default_initializable&lt;<i>InnerIter</i>&gt;</tt> constraint from the default constructor 
-(that seems like an oversight unless I missed something):
-</p>
-<blockquote><pre>
-template&lt;input_range V&gt;
-  requires [&hellip;]
-struct join_view&lt;V&gt;::<i>iterator</i> {
-private:
-  optional&lt;<i>InnerIter</i>&gt; <i>inner_</i>; <i>// exposition only</i>
-  [&hellip;]
-public:
-  <i>iterator</i>() requires default_initializable&lt;<i>OuterIter</i>&gt; = default;
-  [&hellip;]
-};
-</pre></blockquote>
-
-
-<p id="res-3569"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
-</p>
-
-<ol>
-<li><p>Modify 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;input_range V&gt;
-    requires view&lt;V&gt; &amp;&amp; input_range&lt;range_reference_t&lt;V&gt;&gt; &amp;&amp;
-             (is_reference_v&lt;range_reference_t&lt;V&gt;&gt; ||
-              view&lt;range_value_t&lt;V&gt;&gt;)
-  template&lt;bool Const&gt;
-  struct join_view&lt;V&gt;::<i>iterator</i> {
-    [&hellip;]
-    <ins>optional&lt;</ins><i>InnerIter</i><ins>&gt;</ins> <i>inner_</i><del> = <i>InnerIter</i>()</del>;
-    [&hellip;]
-    <i>iterator</i>() requires default_initializable&lt;<i>OuterIter</i>&gt; <del>&amp;&amp;
-                        default_initializable&lt;<i>InnerIter</i>&gt;</del> = default;
-    [&hellip;]
-    constexpr decltype(auto) operator*() const { return <ins>*</ins>*<i>inner_</i>; }
-    [&hellip;]
-    friend constexpr decltype(auto) iter_move(const <i>iterator</i>&amp; i)
-    noexcept(noexcept(ranges::iter_move(<ins>*</ins>i.<i>inner_</i>))) {
-      return ranges::iter_move(<ins>*</ins>i.<i>inner_</i>);
-    }
-    
-    friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
-      noexcept(noexcept(ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>)))
-      requires indirectly_swappable&lt;<i>InnerIter</i>&gt;;
-  };
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-constexpr void <i>satisfy();</i>       <i>// exposition only</i>
-</pre>
-<blockquote>
-<p>
--5- <i>Effects:</i> Equivalent to:
-</p>
-<blockquote>
-<pre>
-auto update_inner = [this](const iterator_t&lt;<i>Base</i>&gt;&amp; x) -> auto&amp;&amp; {
-[&hellip;] 
-};
-for (; <i>outer_</i> != ranges::end(<i>parent_</i>-&gt;<i>base_</i>); ++<i>outer_</i>) {
-  auto&amp;&amp; inner = update_inner(*<i>outer_</i>);
-  <i>inner_</i> = ranges::begin(inner);
-  if (<ins>*</ins><i>inner_</i> != ranges::end(inner))
-    return;
-}
-if constexpr (<i>ref-is-glvalue</i>)
-  <i>inner_</i><ins>.reset()</ins><del> = <i>InnerIter</i>()</del>;
-</pre>
-</blockquote>
-</blockquote>
-[&hellip;]
-<pre>
-constexpr <i>InnerIter</i> operator-&gt;() const
-  requires <i>has-arrow</i>&lt;<i>InnerIter</i>&gt; &amp;&amp; copyable&lt;<i>InnerIter</i>&gt;;
-</pre>
-<blockquote>
-<p>
--8- <i>Effects:</i> Equivalent to: <tt>return <ins>*</ins><i>inner_</i>;</tt>
-</p>
-</blockquote>
-<pre>
-constexpr <i>iterator</i>&amp; operator++();
-</pre>
-<blockquote>
-<p>
--9- Let <i>inner-range</i> be:
-<p/>
-[&hellip;]
-<p/>
--10- <i>Effects:</i> Equivalent to:
-</p>
-<blockquote>
-<pre>
-auto&amp;&amp; inner_rng = <i>inner-range</i>;
-if (++<ins>*</ins><i>inner_</i> == ranges::end(inner_rng)) {
-  ++<i>outer_</i>;
-  <i>satisfy</i>();
-}
-return *this;
-</pre>
-</blockquote>
-</blockquote>
-[&hellip;]
-<pre>
-constexpr <i>iterator</i>&amp; operator--()
-  requires <i>ref-is-glvalue</i> &amp;&amp; bidirectional_range&lt;<i>Base</i>&gt; &amp;&amp;
-           bidirectional_range&lt;range_reference_t&lt;Base&gt;&gt; &amp;&amp;
-           common_range&lt;range_reference_t&lt;Base&gt;&gt;;
-</pre>
-<blockquote>
-<p>
--13- <i>Effects:</i> Equivalent to:
-</p>
-<blockquote>
-<pre>
-if (<i>outer_</i> == ranges::end(<i>parent_</i>-&gt;<i>base_</i>))
-  <i>inner_</i> = ranges::end(*--<i>outer_</i>);
-while (<ins>*</ins><i>inner_</i> == ranges::begin(*<i>outer_</i>))
-  <ins>*</ins><i>inner_</i> = ranges::end(*--<i>outer_</i>);
---<ins>*</ins><i>inner_</i>;
-return *this;
-</pre>
-</blockquote>
-</blockquote>
-[&hellip;]
-<pre>
-friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
-  noexcept(noexcept(ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>)))
-  requires indirectly_swappable&lt;<i>InnerIter</i>&gt;;
-</pre>
-<blockquote>
-<p>
--16- <i>Effects:</i> Equivalent to: return <tt>ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>);</tt>
-</p>
-</blockquote>
 </blockquote>
 </li>
 
@@ -41254,199 +40631,6 @@ return assign(sv.data(), sv.size());
 
 
 <hr>
-<h3><a name="3664" href="#3664">3664</a><sup><a href="https://cplusplus.github.io/LWG/issue3664">(i)</a></sup>. LWG 3392 broke <tt>std::ranges::distance(a, a+3)</tt></h3>
-<p><b>Section:</b> 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2022-01-23 <b>Last modified:</b> 2022-02-18</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.iter.op.distance">issues</a> in [range.iter.op.distance].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-Consider the use of <tt>std::ranges::distance(first, last)</tt> on a simple C array.
-This works fine with <tt>std::distance</tt>, but currently does not work with
-<tt>std::ranges::distance</tt>.
-</p>
-<blockquote>
-<pre>
-// <a href="https://godbolt.org/z/vsxbcfEv6">godbolt link</a>
-#include &lt;ranges&gt;
-#include &lt;cassert&gt;
-
-int main() {
-  int a[] = {1, 2, 3};
-  assert(std::ranges::distance(a, a+3) == 3);
-  assert(std::ranges::distance(a, a) == 0);
-  assert(std::ranges::distance(a+3, a) == -3);
-}
-</pre>
-</blockquote>
-<p>
-Before LWG <a href="lwg-defects.html#3392">3392</a>, we had a single iterator-pair overload:
-</p>
-<blockquote><pre>
-template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
-  constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
-</pre></blockquote>
-<p>
-which works fine for C pointers. After LWG <a href="lwg-defects.html#3392">3392</a>, we have two
-iterator-pair overloads:
-</p>
-<blockquote><pre>
-template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
-  requires (!sized_sentinel_for&lt;S, I&gt;)
-    constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
-
-template&lt;input_or_output_iterator I, sized_sentinel_for&lt;I&gt; S&gt;
-  constexpr iter_difference_t&lt;I&gt; distance(const I&amp; first, const S&amp; last);
-</pre></blockquote>
-<p>
-and unfortunately the one we want &mdash; <tt>distance(I first, S last)</tt> &mdash; 
-is no longer viable because [with <tt>I=int*</tt>, <tt>S=int*</tt>], we have
-<tt>sized_sentinel_for&lt;S, I&gt;</tt> and so its constraints aren't satisfied.
-So we look at the other overload [with <tt>I=int[3]</tt>, <tt>S=int[3]</tt>], but
-unfortunately its constraints aren't satisfied either, because <tt>int[3]</tt>
-is not an <tt>input_or_output_iterator</tt>.
-</p>
-
-<p><i>[2022-01-30; Reflector poll]</i></p>
-
-<p>
-Set priority to 2 after reflector poll.
-</p>
-
-<p>
-<strong>Previous resolution [SUPERSEDED]:</strong>
-</p>
-<blockquote class="note">
-<p>
-This wording is relative to <a href="https://wg21.link/N4901">N4901</a>. 
-</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting Note:</i> Thanks to Casey Carter. Notice that <tt>sentinel_for&lt;S, I&gt;</tt> 
-already implies and subsumes <tt>input_or_output_iterator&lt;I&gt;</tt>, so that constraint 
-wasn't doing anything; personally I'd prefer to remove it for symmetry (and to save the 
-environment). Otherwise you'll have people asking why one of the <tt>I</tt>'s is constrained 
-and the other isn't.] 
-</p>
-</blockquote>
-
-<ol>
-<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-<i>// 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
-template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sentinel_for&lt;I&gt; S&gt;
-  requires (!sized_sentinel_for&lt;S, I&gt;)
-  constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
-template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sized_sentinel_for&lt;<ins>decay_t&lt;</ins>I<ins>&gt;</ins>&gt; S&gt;
-  constexpr iter_difference_t&lt;I&gt; distance(const I&amp; first, <del>const</del> S<del>&amp;</del> last);
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sentinel_for&lt;I&gt; S&gt;
-  requires (!sized_sentinel_for&lt;S, I&gt;)
-  constexpr iter_difference_t&lt;I&gt; ranges::distance(I first, S last);
-</pre>
-<blockquote>
-<p>
--1- <i>Preconditions:</i> <tt>[first, last)</tt> denotes a range.
-<p/>
--2- <i>Effects:</i> Increments <tt>first</tt> until <tt>last</tt> is reached and returns the number of increments.
-</p>
-</blockquote>
-<pre>
-template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sized_sentinel_for&lt;<ins>decay_t&lt;</ins>I<ins>&gt;</ins>&gt; S&gt;
-  constexpr iter_difference_t&lt;I&gt; ranges::distance(const I&amp; first, <del>const</del> S<del>&amp;</del> last);
-</pre>
-<blockquote>
-<p>
--3- <i>Effects:</i> Equivalent to: <tt>return last - first;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2022-02-16; Arthur and Casey provide improved wording]</i></p>
-
-
-
-<p id="res-3664"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4901">N4901</a>. 
-</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting Note:</i> Arthur thinks it's a bit "cute" of the <i>Effects:</i> element to <tt>static_cast</tt> 
-from <tt>T(&amp;)[N]</tt> to <tt>T* const&amp;</tt> in the array case, but it does seem to do the right thing 
-in all cases, and it saves us from having to use an <tt>if constexpr (is_array_v...)</tt> or something like that.] 
-</p>
-</blockquote>
-
-<ol>
-<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-<i>// 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
-template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sentinel_for&lt;I&gt; S&gt;
-  requires (!sized_sentinel_for&lt;S, I&gt;)
-  constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
-template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sized_sentinel_for&lt;<ins>decay_t&lt;</ins>I<ins>&gt;</ins>&gt; S&gt;
-  constexpr iter_difference_t&lt;<ins>decay_t&lt;</ins>I<ins>&gt;</ins>&gt; distance(<del>const</del> I&amp;<ins>&amp;</ins> first, <del>const</del> S<del>&amp;</del> last);
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sentinel_for&lt;I&gt; S&gt;
-  requires (!sized_sentinel_for&lt;S, I&gt;)
-  constexpr iter_difference_t&lt;I&gt; ranges::distance(I first, S last);
-</pre>
-<blockquote>
-<p>
--1- <i>Preconditions:</i> <tt>[first, last)</tt> denotes a range.
-<p/>
--2- <i>Effects:</i> Increments <tt>first</tt> until <tt>last</tt> is reached and returns the number of increments.
-</p>
-</blockquote>
-<pre>
-template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sized_sentinel_for&lt;<ins>decay_t&lt;</ins>I<ins>&gt;</ins>&gt; S&gt;
-  constexpr iter_difference_t&lt;<ins>decay_t&lt;</ins>I<ins>&gt;</ins>&gt; ranges::distance(<del>const</del> I&amp;<ins>&amp;</ins> first, <del>const</del> S<del>&amp;</del> last);
-</pre>
-<blockquote>
-<p>
--3- <i>Effects:</i> Equivalent to: <tt>return last - <ins>static_cast&lt;const decay_t&lt;I&gt;&amp;&gt;(</ins>first<ins>)</ins>;</tt>
-</p>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-
-<hr>
 <h3><a name="3665" href="#3665">3665</a><sup><a href="https://cplusplus.github.io/LWG/issue3665">(i)</a></sup>. Is <tt>std::allocator_traits&lt;Alloc&gt;::rebind_alloc</tt> SFINAE-friendly?</h3>
 <p><b>Section:</b> 20.2.9.2 <a href="https://wg21.link/allocator.traits.types">[allocator.traits.types]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-01-24 <b>Last modified:</b> 2022-01-29</p>
@@ -41918,11 +41102,11 @@ Set priority to 4 after reflector poll.
 
 <hr>
 <h3><a name="3679" href="#3679">3679</a><sup><a href="https://cplusplus.github.io/LWG/issue3679">(i)</a></sup>. Is <tt>&lt;ranges&gt;</tt> sufficient for <tt>istream_view</tt>?</h3>
-<p><b>Section:</b> 26.6.6 <a href="https://wg21.link/range.istream">[range.istream]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2022-02-24 <b>Last modified:</b> 2022-03-04</p>
+<p><b>Section:</b> 26.6.6 <a href="https://wg21.link/range.istream">[range.istream]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2022-02-24 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>3
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The following is rejected by libstdc++:
@@ -41945,6 +41129,8 @@ I think either this should work or we should add a note to 26.6.6 <a href="https
 <p>
 Set priority to 3 after reflector poll.
 </p>
+
+<p><i>[Kona 2022-11-08; discussed at joint LWG/SG9 session. Send to LEWG (with suggested options)]</i></p>
 
 
 
@@ -43119,12 +42305,12 @@ and <tt>U</tt> shall be complete types,<br/>
 
 <hr>
 <h3><a name="3698" href="#3698">3698</a><sup><a href="https://cplusplus.github.io/LWG/issue3698">(i)</a></sup>. <tt>regex_iterator</tt> and <tt>join_view</tt> don't work together very well</h3>
-<p><b>Section:</b> 32.11 <a href="https://wg21.link/re.iter">[re.iter]</a>, 26.7.14 <a href="https://wg21.link/range.join">[range.join]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2022-05-12 <b>Last modified:</b> 2022-05-17</p>
+<p><b>Section:</b> 32.11 <a href="https://wg21.link/re.iter">[re.iter]</a>, 26.7.14 <a href="https://wg21.link/range.join">[range.join]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2022-05-12 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#re.iter">issues</a> in [re.iter].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Consider this example (from <a href="https://stackoverflow.com/q/72201979/2069064">StackOverflow</a>):
@@ -43196,6 +42382,10 @@ inner iterator in a non-propagating-cache).</p></li>
 <p>
 Set priority to 2 after reflector poll.
 </p>
+
+<p><i>[Kona 2022-11-08; Move to Open]</i></p>
+
+<p>Tim to write a paper</p>
 
 
 
@@ -43787,12 +42977,12 @@ Set priority to 3 after reflector poll.
 
 <hr>
 <h3><a name="3717" href="#3717">3717</a><sup><a href="https://cplusplus.github.io/LWG/issue3717">(i)</a></sup>. <tt>common_view::end</tt> should improve <tt>random_access_range</tt> case</h3>
-<p><b>Section:</b> 26.7.19.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-15 <b>Last modified:</b> 2022-11-09</p>
+<p><b>Section:</b> 26.7.19.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-15 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.common.view">issues</a> in [range.common.view].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 In view of the fact that random access iterators are only required to work with its difference type, 
@@ -43871,7 +43061,10 @@ namespace std::ranges {
 </ol>
 </blockquote>
 
+<p><i>[Kona 2022-11-08; Discussed at joint LWG/SG9 session. Move to Open]</i></p>
+
 <p><i>[2022-11-09 Tim updates wording per LWG discussion]</i></p>
+
 
 
 
@@ -45304,12 +44497,12 @@ control block in directly and avoid any other exceptions. &mdash; <i>end note</i
 
 <hr>
 <h3><a name="3737" href="#3737">3737</a><sup><a href="https://cplusplus.github.io/LWG/issue3737">(i)</a></sup>. <tt>take_view::<i>sentinel</i></tt> should provide <tt>operator-</tt></h3>
-<p><b>Section:</b> 26.7.10.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 26.7.10.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.take.sentinel">issues</a> in [range.take.sentinel].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 When the underlying range is not a <tt>sized_range</tt>, the <tt>begin</tt> and <tt>end</tt> functions 
@@ -45439,6 +44632,8 @@ friend constexpr range_difference_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&g
 </li>
 </ol>
 </blockquote>
+<p><i>[Kona 2022-11-08; Discussed at joint LWG/SG9 session. Move to Open]</i></p>
+
 <p><i>[2022-11-09 Tim updates wording following LWG discussion]</i></p>
 
 <p>
@@ -46844,130 +46039,6 @@ constexpr <ins>auto</ins><del>reference</del> operator[](difference_type n) cons
 
 
 <hr>
-<h3><a name="3766" href="#3766">3766</a><sup><a href="https://cplusplus.github.io/LWG/issue3766">(i)</a></sup>. <tt>view_interface::cbegin</tt> is underconstrained</h3>
-<p><b>Section:</b> 26.5.3.1 <a href="https://wg21.link/view.interface.general">[view.interface.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-04 <b>Last modified:</b> 2022-09-25</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#view.interface.general">active issues</a> in [view.interface.general].</p>
-<p><b>View all other</b> <a href="lwg-index.html#view.interface.general">issues</a> in [view.interface.general].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-Currently, <tt>view_interface::cbegin</tt> simply returns <tt>ranges::cbegin(<i>derived</i>())</tt>, 
-which returns the type alias <tt>const_iterator</tt> for its iterator, which requires that the template 
-parameter <tt>I</tt> must model the <tt>input_iterator</tt>.
-<p/>
-Given that <tt>view_interface::cbegin</tt> does not have any constraints, when <tt>D</tt> models only 
-<tt>output_range</tt>, calling its <tt>cbegin()</tt> will result in a hard error inside the function body:
-</p>
-<blockquote><pre>
-#include &lt;ranges&gt;
-#include &lt;vector&gt;
-
-int main() {
-  std::vector&lt;int&gt; v;
-  auto r = std::views::counted(std::back_inserter(v), 3);
-  auto b = r.cbegin(); // <span style="color:red;font-weight:bolder">hard error</span>
-}
-</pre></blockquote>
-<p>
-We should add a constraint for <tt>view_interface::cbegin</tt> that <tt>D</tt> must model <tt>input_range</tt>.
-</p>
-
-<p><i>[2022-09-23; Reflector poll]</i></p>
-
-<p>
-Set priority to 2 after reflector poll.
-</p>
-<p>
-This should be done for <tt>cend</tt> too.
-</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 26.5.3.1 <a href="https://wg21.link/view.interface.general">[view.interface.general]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;class D&gt;
-    requires is_class_v&lt;D&gt; &amp;&amp; same_as&lt;D, remove_cv_t&lt;D&gt;&gt;
-  class view_interface {
-    [&hellip;]
-  public:
-    [&hellip;]
-    constexpr auto cbegin() <ins>requires input_range&lt;D&gt;</ins> {
-      return ranges::cbegin(<i>derived</i>());
-    }
-    constexpr auto cbegin() const requires <ins>input_</ins>range&lt;const D&gt; {
-      return ranges::cbegin(<i>derived</i>());
-    }
-    [&hellip;]
-  };
-}
-</pre>
-</blockquote>
-</li>
-
-</ol>
-</blockquote>
-
-<p><i>[2022-09-25; Hewill provides improved wording]</i></p>
-
-
-
-
-<p id="res-3766"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 26.5.3.1 <a href="https://wg21.link/view.interface.general">[view.interface.general]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;class D&gt;
-    requires is_class_v&lt;D&gt; &amp;&amp; same_as&lt;D, remove_cv_t&lt;D&gt;&gt;
-  class view_interface {
-    [&hellip;]
-  public:
-    [&hellip;]
-    constexpr auto cbegin() <ins>requires input_range&lt;D&gt;</ins> {
-      return ranges::cbegin(<i>derived</i>());
-    }
-    constexpr auto cbegin() const requires <ins>input_</ins>range&lt;const D&gt; {
-      return ranges::cbegin(<i>derived</i>());
-    }
-    constexpr auto cend() <ins>requires input_range&lt;D&gt;</ins> {
-      return ranges::cend(<i>derived</i>());
-    }
-    constexpr auto cend() const requires <ins>input_</ins>range&lt;const D&gt; {
-      return ranges::cend(<i>derived</i>());
-    }
-    [&hellip;]
-  };
-}
-</pre>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="3767" href="#3767">3767</a><sup><a href="https://cplusplus.github.io/LWG/issue3767">(i)</a></sup>. <tt>codecvt&lt;char<i>N</i>_t, char8_t, mbstate_t&gt;</tt> incorrectly added to locale</h3>
 <p><b>Section:</b> 30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>, 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a> <b>Status:</b> <a href="lwg-active.html#SG16">SG16</a>
  <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2022-09-23</p>
@@ -47103,338 +46174,6 @@ the library implementer. Other encodings can be converted by specializing on a p
 <tt>stateT</tt> type. Objects of type <tt>stateT</tt> can contain any state that is useful to communicate 
 to or from the specialized <tt>do_in</tt> or <tt>do_out</tt> members.
 </p>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3769" href="#3769">3769</a><sup><a href="https://cplusplus.github.io/LWG/issue3769">(i)</a></sup>. <tt>basic_const_iterator::operator==</tt> causes infinite constraint recursion</h3>
-<p><b>Section:</b> 25.5.3 <a href="https://wg21.link/const.iterators">[const.iterators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2022-11-05</p>
-<p><b>Priority: </b>1
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-Currently, <tt>basic_const_iterator::operator==</tt> is defined as a <tt>friend</tt> function:
-</p>
-<blockquote><pre>
-template&lt;sentinel_for&lt;Iterator&gt; S&gt;
-  friend constexpr bool operator==(const basic_const_iterator&amp; x, const S&amp; s);
-</pre></blockquote>
-<p>
-which only requires <tt>S</tt> to model <tt>sentinel_for&lt;Iterator&gt;</tt>, and since 
-<tt>basic_const_iterator</tt> has a conversion constructor that accepts <tt>I</tt>, this will 
-result in infinite constraint checks when comparing  <tt>basic_const_iterator&lt;int*&gt;</tt> 
-with <tt>int*</tt> (<a href="https://godbolt.org/z/bGhccroz4">online example</a>):
-</p>
-<blockquote><pre>
-#include &lt;iterator&gt;
-
-template&lt;std::input_iterator I&gt;
-struct basic_const_iterator {
-  basic_const_iterator() = default;
-  basic_const_iterator(I);
-  template&lt;std::sentinel_for&lt;I&gt; S&gt;
-  friend bool operator==(const basic_const_iterator&amp;, const S&amp;);
-};
-  
-static_assert(std::sentinel_for&lt;basic_const_iterator&lt;int*&gt;, int*&gt;); // <span style="color:red;font-weight:bolder">infinite meta-recursion</span>
-</pre></blockquote>    
-<p>
-That is, <tt>sentinel_for</tt> ends with <tt><i>weakly-equality-comparable-with</i></tt> 
-and instantiates <tt>operator==</tt>, which in turn rechecks <tt>sentinel_for</tt> and 
-instantiates the same <tt>operator==</tt>, making the circle closed.
-<p/>
-The proposed resolution is to change <tt>operator==</tt> to be a member function so that 
-<tt>S</tt> is no longer accidentally instantiated as <tt>basic_const_iterator</tt>. 
-The same goes for <tt>basic_const_iterator::operator-</tt>.
-</p>
-
-<p><i>[2022-09-23; Reflector poll]</i></p>
-
-<p>
-Set priority to 1 after reflector poll.
-</p>
-<p>
-"Although I am not a big fan of member ==,  the proposed solution seems to be simple."
-"prefer if we would keep <tt>operator==</tt> as non-member for consistency."
-</p>
-
-
-
-<strong>Previous resolution from Hewill [SUPERSEDED]:</strong>
-<blockquote class="note">
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 25.5.3.3 <a href="https://wg21.link/const.iterators.iterator">[const.iterators.iterator]</a>, class template <tt>basic_const_iterator</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class I&gt;
-    concept <i>not-a-const-iterator</i> = <i>see below</i>;
-
-  template&lt;input_iterator Iterator&gt;
-  class basic_const_iterator {
-    Iterator <i>current_</i> = Iterator();
-    using <i>reference</i> = iter_const_reference_t&lt;Iterator&gt;;         // <i>exposition only</i>
-  
-  public:
-    [&hellip;]
-    template&lt;sentinel_for&lt;Iterator&gt; S&gt;
-      <del>friend</del> constexpr bool operator==(<del>const basic_const_iterator&amp; x, </del>const S&amp; s) <ins>const</ins>;
-    [&hellip;]
-    template&lt;sized_sentinel_for&lt;Iterator&gt; S&gt;
-      <del>friend</del> constexpr difference_type operator-(<del>const basic_const_iterator&amp; x, </del>const S&amp; y) <ins>const</ins>;
-    template&lt;<ins><i>not-a-const-iterator</i></ins><del>sized_sentinel_for&lt;Iterator&gt;</del> S&gt;
-      requires <ins>sized_sentinel_for</ins><del><i>different-from</i></del>&lt;S, <ins>Iterator</ins><del>basic_const_iterator</del>&gt;
-      friend constexpr difference_type operator-(const S&amp; x, const basic_const_iterator&amp; y);
-  };
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 25.5.3.5 <a href="https://wg21.link/const.iterators.ops">[const.iterators.ops]</a> as indicated:</p>
-
-<blockquote>
-<p>
-[&hellip;]
-</p>
-<pre>
-  template&lt;sentinel_for&lt;Iterator&gt; S&gt;
-    <del>friend</del> constexpr bool operator==(<del>const basic_const_iterator&amp; x, </del>const S&amp; s) <ins>const</ins>;
-</pre>
-<blockquote>
-<p>
--16- <i>Effects</i>: Equivalent to: <tt>return <del>x.</del><i>current_</i> == s;</tt>.
-</p>
-</blockquote>
-[&hellip;]
-<pre>
-  template&lt;sized_sentinel_for&lt;Iterator&gt; S&gt;
-    <del>friend</del> constexpr difference_type operator-(<del>const basic_const_iterator&amp; x, </del>const S&amp; y) <ins>const</ins>;
-</pre>
-<blockquote>
-<p>
--24- <i>Effects</i>: Equivalent to: <tt>return <del>x.</del><i>current_</i> - y;</tt>.
-</p>
-</blockquote>
-<pre>
-  template&lt;<ins><i>not-a-const-iterator</i></ins><del>sized_sentinel_for&lt;Iterator&gt;</del> S&gt;
-    requires <ins>sized_sentinel_for</ins><del><i>different-from</i></del>&lt;S, <ins>Iterator</ins><del>basic_const_iterator</del>&gt;
-    friend constexpr difference_type operator-(const S&amp; x, const basic_const_iterator&amp; y);
-</pre>
-<blockquote>
-<p>
--25- <i>Effects</i>: Equivalent to: <tt>return x - y.<i>current_</i>;</tt>.
-</p>
-</blockquote>
-</blockquote>
-</li>
-
-</ol>
-</blockquote>
-
-<p><i>[2022-11-04; Tomasz comments and improves proposed wording]</i></p>
-
-
-<p>
-Initially, LWG requested an investigation of alternative resolutions that would avoid using member functions for the affected operators.
-Later, it was found that in addition to <tt>==</tt>/<tt>-</tt>, all comparison operators (<tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&lt;=</tt>, <tt>&gt;=</tt>, <tt>&lt;=&gt;</tt>) are affected by same problem for the calls
-with <tt>basic_const_iterator&lt;basic_const_iterator&lt;int*&gt;&gt;</tt> and <tt>int*</tt> as arguments, i.e. <tt>totally_ordered_with&lt;basic_const_iterator&lt;basic_const_iterator&lt;int*&gt;&gt;, int*&gt;</tt>
-causes infinite recursion in constraint checking.
-</p>
-
-<p>
-The new resolution, change all of the friends overloads for operators <tt>==</tt>, <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&lt;=</tt>, <tt>&gt;=</tt>, <tt>&lt;=&gt;</tt> and <tt>-</tt> that accept <tt>basic_const_iterator</tt> as lhs, to <tt>const</tt> member functions.
-This change is applied to homogeneous <tt>(basic_const_iterator, basic_const_iterator)</tt> for consistency.
-For the overload of <tt>&lt;</tt>, <tt>&gt;</tt>, <tt>&lt;=</tt>, <tt>&gt;=</tt> and <tt>-</tt> that accepts <tt>(I, basic_const_iterator)</tt> we declared them as friends and consistently constrain them with <tt><i>not-const-iterator</i></tt>.
-Finally, its put (now member) <tt>operator<tt>&lt;=&gt;</tt>(I)</tt> in the block with other heterogeneous overloads in the synopsis.	
-</p>
-
-<p>
-The use of member functions addresses issues, because:
-<ul>	
-<li>it disallows conversion to <tt>basic_const_iterator</tt> in the left-hand side of op, i.e. eliminates issues for <tt>(sized_)sentinel_for&lt;basic_const_iterator&lt;int*&gt;, int*&gt;</tt> and <tt>totally_ordered&lt;basic_const_iterator&lt;int*&gt;, int*&gt;</tt></li>
-<li>member functions (in contrast to friends) are not found by ADL, so we do not get multiple candidates for <tt>basic_const_iterator&lt;basic_const_iterator&lt;S&gt;&gt;</tt>, so we address recursion for nested iterators</li>
-</ul>
-</p>
-
-<p id="res-3769"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 25.5.3.3 <a href="https://wg21.link/const.iterators.iterator">[const.iterators.iterator]</a>, class template <tt>basic_const_iterator</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class I&gt;
-    concept <i>not-a-const-iterator</i> = <i>see below</i>;
-
-  template&lt;input_iterator Iterator&gt;
-  class basic_const_iterator {
-    Iterator <i>current_</i> = Iterator();
-    using <i>reference</i> = iter_const_reference_t&lt;Iterator&gt;;         // <i>exposition only</i>
-  
-  public:
-    [&hellip;]
-    template&lt;sentinel_for&lt;Iterator&gt; S&gt;
-      <del>friend</del> constexpr bool operator==(<del>const basic_const_iterator&amp; x, </del>const S&amp; s) <ins>const</ins>;
-	  
-    <del>friend</del> constexpr bool operator&lt;(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-      requires random_access_iterator&lt;Iterator&gt;;
-    <del>friend</del> constexpr bool operator&gt;(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-      requires random_access_iterator&lt;Iterator&gt;;
-    <del>friend</del> constexpr bool operator&lt;=(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-      requires random_access_iterator&lt;Iterator&gt;;
-    <del>friend</del> constexpr bool operator&gt;=(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-      requires random_access_iterator&lt;Iterator&gt;;
-    <del>friend</del> constexpr auto operator&lt;=&gt;(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; three_way_comparable&lt;Iterator&gt;;
-
-    template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-    <del>friend</del> constexpr bool operator&lt;(<del>const basic_const_iterator&amp; x, </del>const I&amp; y) <ins>const</ins>
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-    template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-    <del>friend</del> constexpr bool operator&gt;(<del>const basic_const_iterator&amp; x, </del>const I&amp; y) <ins>const</ins>
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-    template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-    <del>friend</del> constexpr bool operator&lt;=(<del>const basic_const_iterator&amp; x, </del>const I&amp; y) <ins>const</ins>
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-    template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-    <del>friend</del> constexpr bool operator&gt;=(<del>const basic_const_iterator&amp; x, </del>const I&amp; y) <ins>const</ins>
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-    <ins>template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-    constexpr auto operator&lt;=&gt;(const I&amp; y) const
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt; &amp;&amp;
-   	       three_way_comparable_with&lt;Iterator, I&gt;;</ins>
-    template&lt;<i>not-a-const-iterator</i> I&gt;
-    friend constexpr bool operator&lt;(const I&amp; y, const basic_const_iterator&amp; x)
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-    template&lt;<i>not-a-const-iterator</i> I&gt;
-    friend constexpr bool operator&gt;(const I&amp; y, const basic_const_iterator&amp; x)
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-    template&lt;<i>not-a-const-iterator</i> I&gt;
-    friend constexpr bool operator&lt;=(const I&amp; y, const basic_const_iterator&amp; x)
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-    template&lt;<i>not-a-const-iterator</i> I&gt;
-    friend constexpr bool operator&gt;=(const I&amp; y, const basic_const_iterator&amp; x)
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-    <del>template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-    friend constexpr auto operator&lt;=&gt;(const basic_const_iterator&amp; x, const I&amp; y)
-      requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt; &amp;&amp;
-      	       three_way_comparable_with&lt;Iterator, I&gt;;</del>
-
-
-    [&hellip;]
-    template&lt;sized_sentinel_for&lt;Iterator&gt; S&gt;
-      <del>friend</del> constexpr difference_type operator-(<del>const basic_const_iterator&amp; x, </del>const S&amp; y) <ins>const</ins>;
-    template&lt;<ins><i>not-a-const-iterator</i></ins><del>sized_sentinel_for&lt;Iterator&gt;</del> S&gt;
-      requires <ins>sized_sentinel_for</ins><del><i>different-from</i></del>&lt;S, <ins>Iterator</ins><del>basic_const_iterator</del>&gt;
-      friend constexpr difference_type operator-(const S&amp; x, const basic_const_iterator&amp; y);
-  };
-}
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 25.5.3.5 <a href="https://wg21.link/const.iterators.ops">[const.iterators.ops]</a> as indicated:</p>
-
-<blockquote>
-<p>
-[&hellip;]
-</p>
-<pre>
-template&lt;sentinel_for&lt;Iterator&gt; S&gt;
-  <del>friend</del> constexpr bool operator==(<del>const basic_const_iterator&amp; x, </del>const S&amp; s) <ins>const</ins>;
-</pre>
-<blockquote>
-<p>
--16- <i>Effects</i>: Equivalent to: <tt>return <del>x.</del><i>current_</i> == s;</tt>
-</p>
-</blockquote>
-<pre>
-<del>friend</del> constexpr bool operator&lt;(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt;;
-<del>friend</del> constexpr bool operator&gt;(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt;;
-<del>friend</del> constexpr bool operator&lt;=(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt;;
-<del>friend</del> constexpr bool operator&gt;=(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt;;
-<del>friend</del> constexpr auto operator&lt;=&gt;(<del>const basic_const_iterator&amp; x, </del>const basic_const_iterator&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt; &amp;&amp; three_way_comparable&lt;Iterator&gt;;
-</pre>
-<blockquote>
-<p>
--17- Let <i>op</i> be the operator.
-</p>
-<p>
--18- <i>Effects</i>: Equivalent to: <tt>return <del>x.</del><i>current_</i> <i>op</i> y.<i>current_</i>;</tt>
-</p>
-</blockquote>
-<pre>
-template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-<del>friend</del> constexpr bool operator&lt;(<del>const basic_const_iterator&amp; x, </del>const I&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-<del>friend</del> constexpr bool operator&gt;(<del>const basic_const_iterator&amp; x, </del>const I&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-<del>friend</del> constexpr bool operator&lt;=(<del>const basic_const_iterator&amp; x, </del>const I&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-<del>friend</del> constexpr bool operator&gt;=(<del>const basic_const_iterator&amp; x, </del>const I&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt;;
-template&lt;<i>different-from</i>&lt;basic_const_iterator&gt; I&gt;
-<del>friend</del> constexpr auto operator&lt;=&gt;(<del>const basic_const_iterator&amp; x, </del>const I&amp; y) <ins>const</ins>
-  requires random_access_iterator&lt;Iterator&gt; &amp;&amp; totally_ordered_with&lt;Iterator, I&gt; &amp;&amp;
-  	       three_way_comparable_with&lt;Iterator, I&gt;;
-</pre>
-<blockquote>
-<p>
--19- Let <tt><i>op</i></tt> be the operator.
-</p>
-<p>
--20- <i><del>Returns</del><ins>Effects</ins></i>: Equivalent to: <tt>return <del>x.</del><i>current_</i> <i>op</i> y;</tt>
-</p>
-</blockquote>
-
-[&hellip;]
-<pre>
-template&lt;sized_sentinel_for&lt;Iterator&gt; S&gt;
-  <del>friend</del> constexpr difference_type operator-(<del>const basic_const_iterator&amp; x, </del>const S&amp; y) <ins>const</ins>;
-</pre>
-<blockquote>
-<p>
--24- <i>Effects</i>: Equivalent to: <tt>return <del>x.</del><i>current_</i> - y;</tt>
-</p>
-</blockquote>
-<pre>
-template&lt;<ins><i>not-a-const-iterator</i></ins><del>sized_sentinel_for&lt;Iterator&gt;</del> S&gt;
-  requires <ins>sized_sentinel_for</ins><del><i>different-from</i></del>&lt;S, <ins>Iterator</ins><del>basic_const_iterator</del>&gt;
-  friend constexpr difference_type operator-(const S&amp; x, const basic_const_iterator&amp; y);
-</pre>
-<blockquote>
-<p>
--25- <i>Effects</i>: Equivalent to: <tt>return x - y.<i>current_</i>;</tt>
-</p>
-</blockquote>
 </blockquote>
 </li>
 
@@ -49627,68 +48366,6 @@ namespace std {
 
 
 <hr>
-<h3><a name="3811" href="#3811">3811</a><sup><a href="https://cplusplus.github.io/LWG/issue3811">(i)</a></sup>. <tt>views::as_const</tt> on <tt>ref_view&lt;T&gt;</tt> should return <tt>ref_view&lt;const T&gt;</tt></h3>
-<p><b>Section:</b> 26.7.21.1 <a href="https://wg21.link/range.as.const.overview">[range.as.const.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2022-11-03 <b>Last modified:</b> 2022-11-05</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-For <tt>v</tt> being a non-const lvalue of type <tt>std::vector&lt;int&gt;</tt>, <tt>views::as_const(v)</tt> 
-produces <tt>ref_view&lt;std::vector&lt;int&gt; const&gt;</tt>. However, when <tt>v</tt> is converted to 
-<tt>ref_view</tt> by using <tt>views::all</tt>, <tt>views::as_const(views::all(v))</tt> produces 
-<tt>as_const_view&lt;ref_view&lt;std::vector&lt;int&gt;&gt;&gt;</tt>.
-<p/>
-Invoking <tt>views::as_const</tt> on <tt>ref_view&lt;T&gt;</tt> should produce <tt>ref_view&lt;const T&gt;</tt> when 
-<tt>const T</tt> models a constant range. This will reduce the number of instantiations, and make a behavior 
-of <tt>views::as_const</tt> consistent on references and <tt>ref_view</tt> to containers.
-</p>
-
-
-<p id="res-3811"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-<li><p>Modify 26.7.21.1 <a href="https://wg21.link/range.as.const.overview">[range.as.const.overview]</a> as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note</i>: If we have <tt>ref_view&lt;V&gt;</tt>, when <tt>V</tt> is constant propagating view 
-(<tt>single_view</tt>, <tt>owning_view</tt>), we still can (and should) produce <tt>ref_view&lt;V const&gt;</tt>. 
-This wording achieves that.]
-</p>
-</blockquote>
-
-<blockquote>
-<p>
--2- The name <tt>views::as_const</tt> denotes a range adaptor object (26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a>). 
-Let <tt>E</tt> be an expression, let <tt>T</tt> be <tt>decltype((E))</tt>, and let <tt>U</tt> be 
-<tt>remove_cvref_t&lt;T&gt;</tt>. The expression <tt>views::as_const(E)</tt> is expression-equivalent
-to:
-</p>
-<ol style="list-style-type: none">
-<li><p>(2.1) &mdash; If <tt>views::all_t&lt;T&gt;</tt> models <tt>constant_range</tt>, then <tt>views::all(E)</tt>.</p></li>
-<li><p>(2.2) &mdash; Otherwise, if <tt>U</tt> denotes <tt>span&lt;X, Extent&gt;</tt> for some type <tt>X</tt> and some 
-extent <tt>Extent</tt>, then <tt>span&lt;const X, Extent&gt;(E)</tt>.</p></li>
-<li><p><ins>(2.?) &mdash; Otherwise, if <tt>U</tt> denotes <tt>ref_view&lt;X&gt;</tt> for some type <tt>X</tt> and 
-<tt>const X</tt> models <tt>constant_range</tt>, then <tt>ref_view(static_cast&lt;const X&amp;&gt;(E.base()))</tt>.</ins></p></li>
-<li><p>(2.3) &mdash; Otherwise, if <tt>E</tt> is an lvalue, <tt>const U</tt> models <tt>constant_range</tt>, and 
-<tt>U</tt> does not model <tt>view</tt>, then <tt>ref_view(static_cast&lt;const U&amp;&gt;(E))</tt>.</p></li>
-<li><p>(2.4) &mdash; Otherwise, <tt>as_const_view(E)</tt>.</p></li>
-</ol>
-</blockquote>
-</li>
-
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="3812" href="#3812">3812</a><sup><a href="https://cplusplus.github.io/LWG/issue3812">(i)</a></sup>. [fund.ts.v3] Incorrect constraint on <tt>propagate_const</tt> conversion function</h3>
 <p><b>Section:</b> 3.2.2.5 [fund.ts.v3::propagate_const.const_observers] <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Giuseppe D'Angelo <b>Opened:</b> 2022-11-04 <b>Last modified:</b> 2022-11-05</p>
@@ -49801,135 +48478,6 @@ class types provided by the standard library via <tt>volatile</tt> glvalues are 
 
 
 <p id="res-3813"><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
-<h3><a name="3814" href="#3814">3814</a><sup><a href="https://cplusplus.github.io/LWG/issue3814">(i)</a></sup>. Add freestanding items requested by NB comments</h3>
-<p><b>Section:</b> 20.2.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Ben Craig <b>Opened:</b> 2022-11-06 <b>Last modified:</b> 2022-11-07</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#memory.syn">issues</a> in [memory.syn].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-This addresses the following NB comments:
-</p>
-<ul>
-<li><p><b><a href="https://github.com/cplusplus/nbballot/issues/440">GB-085</a></b> (20.2.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a> <tt>start_lifetime_as</tt> and <tt>start_lifetime_as_array</tt> should be freestanding)</p></li>
-<li><p><b><a href="https://github.com/cplusplus/nbballot/issues/439">GB-110</a></b> (26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> New views should be freestanding (<tt>repeat</tt>, <tt>stride</tt>, <tt>cartesian_product</tt>))</p></li>
-<li><p>(partial) <b><a href="https://github.com/cplusplus/nbballot/issues/442">GB-130</a></b> (33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <tt>memory_order_acquire</tt> etc should be freestanding)</p></li>
-</ul>
-<p>
-The explicit lifetime management functions requested by GB-085 have not been reviewed by LEWG in the context of freestanding, 
-but they seem non-controversial in that context. None of the requested lifetime management functions run any code.  
-I believe these were missed in post-merge conflict searches because the papers weren't targeted to LEWG or LWG at the time
-of those searches.
-<p/>
-The ranges facilities requested by GB-110 <em>have</em> been reviewed on the LEWG mailing list in the context of freestanding.  
-<a href="https://wg21.link/P1642R11">P1642R11</a> mentions the <tt>repeat</tt>, <tt>stride</tt>, and <tt>cartesian_product</tt> papers in "Potential Post-LEWG 
-merge conflicts". All were discussed in an April 2022 reflector discussion and received six votes in favor of allowing these papers 
-into freestanding, with no opposition.
-<p/>
-The atomics facilities requested by GB-130 are essentially new names for existing facilities. Marking these as freestanding isn't 
-concerning. There are concerns in GB-130 dealing with the specification details of freestanding enums, but those concerns won't be 
-addressed in this issue.
-</p>
-
-
-<p id="res-3814"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-<li><p>Modify 20.2.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-<i>// 20.2.6 <a href="https://wg21.link/obj.lifetime">[obj.lifetime]</a>, explicit lifetime management</i>
-template&lt;class T&gt;
-  T* start_lifetime_as(void* p) noexcept; <ins>// <i>freestanding</i></ins>
-template&lt;class T&gt;
-  const T* start_lifetime_as(const void* p) noexcept; <ins>// <i>freestanding</i></ins>
-template&lt;class T&gt;
-  volatile T* start_lifetime_as(volatile void* p) noexcept; <ins>// <i>freestanding</i></ins>
-template&lt;class T&gt;
-  const volatile T* start_lifetime_as(const volatile void* p) noexcept; <ins>// <i>freestanding</i></ins>
-template&lt;class T&gt;
-  T* start_lifetime_as_array(void* p, size_t n) noexcept; <ins>// <i>freestanding</i></ins>
-template&lt;class T&gt;
-  const T* start_lifetime_as_array(const void* p, size_t n) noexcept; <ins>// <i>freestanding</i></ins>
-template&lt;class T&gt;
-  volatile T* start_lifetime_as_array(volatile void* p, size_t n) noexcept; <ins>// <i>freestanding</i></ins>
-template&lt;class T&gt;
-  const volatile T* start_lifetime_as_array(const volatile void* p, size_t n) noexcept; <ins>// <i>freestanding</i></ins>
-[&hellip;]
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-// <i>26.6.5 <a href="https://wg21.link/range.repeat">[range.repeat]</a>, repeat view</i>
-template&lt;move_constructible W, semiregular Bound = unreachable_sentinel_t&gt;
-  requires (is_object_v&lt;W&gt; &amp;&amp; same_as&lt;W, remove_cv_t&lt;W&gt;&gt;
-    &amp;&amp; (<i>is-integer-like</i>&lt;Bound&gt; || same_as&lt;Bound, unreachable_sentinel_t&gt;))
-class repeat_view; <ins>// <i>freestanding</i></ins>
-
-namespace views { inline constexpr <i>unspecified</i> repeat = <i>unspecified</i>; } <ins>// <i>freestanding</i></ins>
-[&hellip;]
-// <i>26.7.30 <a href="https://wg21.link/range.stride">[range.stride]</a>, stride view</i>
-template&lt;input_range V&gt;
-  requires view&lt;V&gt;
-class stride_view; <ins>// <i>freestanding</i></ins>
-
-template&lt;class V&gt;
-  inline constexpr bool enable_borrowed_range&lt;stride_view&lt;V&gt;&gt; = enable_borrowed_range&lt;V&gt;; <ins>// <i>freestanding</i></ins>
-
-namespace views { inline constexpr <i>unspecified</i> stride = <i>unspecified</i>; } <ins>// <i>freestanding</i></ins>
-
-// <i>26.7.31 <a href="https://wg21.link/range.cartesian">[range.cartesian]</a>, cartesian product view</i>
-template&lt;input_range First, forward_range... Vs&gt;
-  requires (view&lt;First&gt; &amp;&amp; ... &amp;&amp; view&lt;Vs&gt;)
-class cartesian_product_view; <ins>// <i>freestanding</i></ins>
-
-namespace views { inline constexpr <i>unspecified</i> cartesian_product = <i>unspecified</i>; } <ins>// <i>freestanding</i></ins>
-[&hellip;]
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a>, header <tt>&lt;atomic&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std {
-  // <i>33.5.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a>, order and consistency</i>
-  enum class memory_order : <i>unspecified</i>; // <i>freestanding</i>
-  inline constexpr memory_order memory_order_relaxed = memory_order::relaxed; <ins>// <i>freestanding</i></ins>
-  inline constexpr memory_order memory_order_consume = memory_order::consume; <ins>// <i>freestanding</i></ins>
-  inline constexpr memory_order memory_order_acquire = memory_order::acquire; <ins>// <i>freestanding</i></ins>
-  inline constexpr memory_order memory_order_release = memory_order::release; <ins>// <i>freestanding</i></ins>
-  inline constexpr memory_order memory_order_acq_rel = memory_order::acq_rel; <ins>// <i>freestanding</i></ins>
-  inline constexpr memory_order memory_order_seq_cst = memory_order::seq_cst; <ins>// <i>freestanding</i></ins>
-  [&hellip;]
-}
-</pre>
-</blockquote>
-
-</li>
-
-</ol>
 
 
 
@@ -50065,169 +48613,6 @@ hosted implementation.
 
 
 <hr>
-<h3><a name="3817" href="#3817">3817</a><sup><a href="https://cplusplus.github.io/LWG/issue3817">(i)</a></sup>. Missing preconditions on <tt>forward_list</tt> modifiers</h3>
-<p><b>Section:</b> 24.3.9.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kamiński <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-08</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-This is resolution of <b><a href="https://github.com/cplusplus/nbballot/issues/456">GB-101</a></b>
-(24.3.9.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a> p12,15,20,21 Missing preconditions on forward_list modifiers).
-</p>
-
-<p>
-Some of the modifiers to <tt>forward_list</tt> are special to that container and accordingly are not described 
-in 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>. Specifically, <tt>insert_after</tt> (iterator overload), 
-<tt>insert_range_after</tt> and <tt>emplace_after</tt> do not verify that the <tt>value_type</tt> is <i>Cpp17EmplaceConstructible</i>
-from the appropriate argument(s).
-Furthermore <tt>insert_after</tt> (value overloads) are missing <i>Cpp17CopyInsertable</i>/<i>Cpp17MoveInsertable</i> 
-requirements.
-</p>
-
-
-<p id="res-3817"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 24.3.9.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a> as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note</i>: <tt>emplace_front</tt>, <tt>push_front</tt>, and <tt>prepend_range</tt> are already covered
-by 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>. ]
-</p>
-</blockquote>
-
-<pre>
-iterator insert_after(const_iterator position, const T&amp; x);
-</pre>
-<blockquote>
-<p>
-<ins>-?- <i>Preconditions:</i> <tt>T</tt> is <i>Cpp17CopyInsertable</i> into <tt>forward_list</tt>.
-<tt>position</tt> is <tt>before_begin()</tt> or is a dereferenceable iterator in the range [<tt>begin()</tt>, <tt>end()</tt>).</ins>
-</p>
-<p>
-<ins>-?- <i>Effects:</i> Inserts a copy of <tt>x</tt> after <tt>position</tt>.</ins>
-</p>
-<p>
-<ins>-?- <i>Returns:</i> An iterator pointing to the copy of <tt>x</tt>.</ins>
-</p>
-</blockquote>
-
-<pre>
-iterator insert_after(const_iterator position, T&amp;&amp; x);
-</pre>
-<blockquote>
-<p>
--6- <i>Preconditions:</i> <ins><tt>T</tt> is <i>Cpp17MoveInsertable</i> into <tt>forward_list</tt>.</ins>
-    <tt>position</tt> is <tt>before_begin()</tt> or is a dereferenceable iterator in the range [<tt>begin()</tt>, <tt>end()</tt>).
-</p>
-<p>
--7- <i>Effects:</i> Inserts a copy of <tt>x</tt> after <tt>position</tt>.
-</p>
-<p>
--8- <i>Returns:</i> An iterator pointing to the copy of <tt>x</tt>.
-</p>
-</blockquote>
-
-<pre>
-iterator insert_after(const_iterator position, size_type n, const T&amp; x);
-</pre>
-<blockquote>
-<p>
--9- <i>Preconditions:</i> <ins><tt>T</tt> is <i>Cpp17CopyInsertable</i> into <tt>forward_list</tt>.</ins>
-    <tt>position</tt> is <tt>before_begin()</tt> or is a dereferenceable iterator in the range [<tt>begin()</tt>, <tt>end()</tt>).
-</p>
-<p>
--10- <i>Effects:</i> Inserts <tt>n</tt> copies of <tt>x</tt> after <tt>position</tt>.
-</p>
-<p>
--11- <i>Returns:</i> An iterator pointing to the last inserted copy of <tt>x</tt><ins>,</ins> or <tt>position</tt> 
-     if <tt>n == 0</tt> <ins>is <tt>true</tt></ins>.
-</p>
-</blockquote>
-
-<pre>
-template&lt;class InputIterator&gt;	
-  iterator insert_after(const_iterator position, InputIterator first, InputIterator last);
-</pre>
-<blockquote>
-<p>
--12- <i>Preconditions:</i> <ins><tt>T</tt> is <i>Cpp17EmplaceConstructible</i> into <tt>forward_list</tt> from <tt>*first</tt>.</ins>
-     <tt>position</tt> is <tt>before_begin()</tt> or is a dereferenceable iterator in the range [<tt>begin()</tt>, <tt>end()</tt>).
-     Neither <tt>first</tt> nor <tt>last</tt> are iterators in <tt>*this</tt>.
-</p>
-<p>
--13- <i>Effects:</i> Inserts copies of elements in [<tt>first</tt>, <tt>last</tt>) after <tt>position</tt>.
-</p>
-<p>
--14- <i>Returns:</i> An iterator pointing to the last inserted element<ins>,</ins> or <tt>position</tt> if <tt>first == last</tt> 
-     <ins>is <tt>true</tt></ins>.
-</p>
-</blockquote>
-
-<pre>
-template&lt;<i>container-compatible-range</i>&lt;T&gt; R&gt;
-  iterator insert_after(const_iterator position, R&amp;&amp; rg);
-</pre>
-<blockquote>
-<p>
--15- <i>Preconditions:</i> <ins><tt>T</tt> is <i>Cpp17EmplaceConstructible</i> into <tt>forward_list</tt> from <tt>*ranges::begin(rg)</tt>.</ins>
-     <tt>position</tt> is <tt>before_begin()</tt> or is a dereferenceable iterator in the range [<tt>begin()</tt>, <tt>end()</tt>).
-     <tt>rg</tt> and <tt>*this</tt> do not overlap.
-</p>
-<p>
--16- <i>Effects:</i> Inserts copies of elements in range <tt>rg</tt> after <tt>position</tt>.
-</p>
-<p>
--17- <i>Returns:</i> An iterator pointing to the last inserted element, or <tt>position</tt> if <tt>rg</tt> is empty.
-</p>
-</blockquote>
-
-<pre>
-iterator insert_after(const_iterator position, initializer_list&lt;T&gt; il);
-</pre>
-<blockquote>
-<p>		
--18- <i>Effects:</i> <ins>Equivalent to: <tt>return</tt></ins> <tt>insert_after(position, il.begin(), il.end())</tt><del>.</del><ins>;</ins>
-</p>
-<p>
-<del>-19- <i>Returns:</i> An iterator pointing to the last inserted element or <tt>position</tt> if <tt>il</tt> is empty.</del>
-</p>
-</blockquote>
-
-<pre>
-template&lt;class... Args&gt;	
-  iterator emplace_after(const_iterator position, Args&amp;&amp;... args);
-</pre>
-<blockquote>
-<p>
--20- <i>Preconditions:</i> <ins><tt>T</tt> is <i>Cpp17EmplaceConstructible</i> into <tt>forward_list</tt> from 
-     <tt>std::forward&lt;Args&gt;(args)...</tt>.</ins>
-     <tt>position</tt> is <tt>before_begin()</tt> or is a dereferenceable iterator in the range [<tt>begin()</tt>, <tt>end()</tt>).
-</p>
-<p>
--21- <i>Effects:</i> Inserts an object of type <tt>value_type</tt> <del>constructed</del><ins>direct-non-list-initialized</ins> 
-with <tt><del>value_type(</del>std::forward&lt;Args&gt;(args)...<del>)</del></tt> after <tt>position</tt>.
-</p>
-<p>
--22- <i>Returns:</i> An iterator pointing to the new object.
-</p>
-</blockquote>
-
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="3818" href="#3818">3818</a><sup><a href="https://cplusplus.github.io/LWG/issue3818">(i)</a></sup>. Exposition-only concepts are not described in library intro</h3>
 <p><b>Section:</b> 16.3.3 <a href="https://wg21.link/conventions">[conventions]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-10</p>
@@ -50356,221 +48741,6 @@ function that takes a callback parameter with C language linkage.
 <i>&mdash; end example]</i></del>
 </p>
 </blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3819" href="#3819">3819</a><sup><a href="https://cplusplus.github.io/LWG/issue3819">(i)</a></sup>. <tt>reference_<i>meow</i>s_from_temporary</tt> should not use <tt>is_<i>meow</i>ible</tt></h3>
-<p><b>Section:</b> 21.3.5.4 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-08</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#meta.unary.prop">active issues</a> in [meta.unary.prop].</p>
-<p><b>View all other</b> <a href="lwg-index.html#meta.unary.prop">issues</a> in [meta.unary.prop].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The intent of <a href="https://wg21.link/P2255R2">P2255R2</a> is for the <tt>reference_<i>meow</i>s_from_temporary</tt> traits 
-to fully support cases where a prvalue is used as the source. Unfortunately the wording fails 
-to do so because it tries to use the <tt>is_<i>meow</i>ible</tt> traits to say 
-"the initialization is well-formed", but those traits only consider initialization from xvalues, 
-not prvalues. For example, given:
-</p>
-<blockquote>
-<pre>
-struct U {
-  U();
-  U(U&amp;&amp;) = delete;
-};
-
-struct T {
-  T(U);
-};
-</pre>
-</blockquote>
-<p>
-<tt>reference_constructs_from_temporary_v&lt;const T&amp;, U&gt;</tt> should be true, but is currently defined as <tt>false</tt>. 
-We need to spell out the "is well-formed" condition directly.
-</p>
-
-
-
-<p id="res-3819"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note:</i> The note is already repeated every time we talk about "immediate context".]
-</p>
-</blockquote>
-
-<ol>
-<li><p>Modify 21.3.3 <a href="https://wg21.link/meta.type.synop">[meta.type.synop]</a>, Table 46 ([tab:meta.unary.prop]) &mdash; 
-"Type property predicates" &mdash; as indicated:</p>
-
-<blockquote>
-<table border="1">
-<caption>Table 46: Type property predicates [tab:meta.unary.prop]</caption>
-<tr>
-<th align="center">Template</th>
-<th align="center">Condition</th>
-<th align="center">Preconditions</th>
-</tr>
-
-<tr>
-<td colspan="3" align="center">
-<tt>&hellip;</tt>
-</td>
-</tr>
-
-<tr>
-<td>
-<tt>template&lt;class T, class U&gt;<br/>
-struct reference_constructs_from_temporary;</tt>
-</td>
-
-<td>
-<del><tt>conjunction_v&lt;is_reference&lt;T&gt;, is_constructible&lt;T, U&gt;&gt;</tt> is
-<tt>true</tt></del><ins><tt>T</tt> is a reference type</ins>,
-and the initialization <tt>T t(<i>VAL</i>&lt;U&gt;);</tt> <ins>is well-formed and</ins> binds <tt>t</tt> to a
-temporary object whose lifetime is extended (6.7.7 <a href="https://wg21.link/class.temporary">[class.temporary]</a>).
-<ins>Access checking is performed as if in a context unrelated to <tt>T</tt> and <tt>U</tt>. 
-Only the validity of the immediate context of the variable initialization is considered. 
-[<i>Note ?:</i> The initialization can result in effects such as the instantiation of class template 
-specializations and function template specializations, the generation of implicitly-defined functions, 
-and so on. Such effects are not in the "immediate context" and can result in the program being ill-formed.
-<i>&mdash; end note]</i></ins>
-</td>
-
-<td>
-<tt>T</tt> and <tt>U</tt> shall be complete types, <i>cv</i> <tt>void</tt>, or arrays of unknown bound.
-</td>
-</tr>
-
-<tr>
-<td>
-<tt>template&lt;class T, class U&gt;<br/>
-struct reference_converts_from_temporary;</tt>
-</td>
-
-<td>
-<del><tt>conjunction_v&lt;is_reference&lt;T&gt;, is_convertible&lt;U, T&gt;&gt;</tt> is
-<tt>true</tt></del><ins><tt>T</tt> is a reference type</ins>, and the initialization
-<tt>T t = <i>VAL</i>&lt;U&gt;;</tt> <ins>is well-formed and</ins> binds <tt>t</tt> to a
-temporary object whose lifetime is extended (6.7.7 <a href="https://wg21.link/class.temporary">[class.temporary]</a>).
-<ins>Access checking is performed as if in a context unrelated to <tt>T</tt> and <tt>U</tt>. 
-Only the validity of the immediate context of the variable initialization is considered. 
-[<i>Note ?:</i> The initialization can result in effects such as the instantiation of class template 
-specializations and function template specializations, the generation of implicitly-defined functions, 
-and so on. Such effects are not in the "immediate context" and can result in the program being ill-formed.
-<i>&mdash; end note]</i></ins>
-</td>
-
-<td>
-<tt>T</tt> and <tt>U</tt> shall be complete types, <i>cv</i> <tt>void</tt>, or arrays of unknown bound.
-</td>
-</tr>
-
-</table>
-</blockquote>
-
-</li>
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3820" href="#3820">3820</a><sup><a href="https://cplusplus.github.io/LWG/issue3820">(i)</a></sup>. <tt>cartesian_product_view::<i>iterator</i>::<i>prev</i></tt> is not quite right</h3>
-<p><b>Section:</b> 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-08</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#ranges.cartesian.iterator">active issues</a> in [ranges.cartesian.iterator].</p>
-<p><b>View all other</b> <a href="lwg-index.html#ranges.cartesian.iterator">issues</a> in [ranges.cartesian.iterator].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-Currently, <tt>cartesian_product_view::<i>iterator</i>::<i>prev</i></tt> has the following <i>Effects</i>:
-</p>
-<blockquote><pre>
-auto&amp; it = std::get&lt;N&gt;(<i>current_</i>);
-if (it == ranges::begin(std::get&lt;N&gt;(<i>parent_</i>-><i>bases_</i>))) {
-  it = <i>cartesian-common-arg-end</i>(std::get&lt;N&gt;(<i>parent_</i>-&gt;<i>bases_</i>));
-  if constexpr (N &gt; 0) {
-    <i>prev</i>&lt;N - 1&gt;();
-  }
-}
---it;
-</pre></blockquote>
-<p>
-which decrements the underlying iterator one by one using recursion. 
-However, when <tt>N == 0</tt>, it still detects if the first iterator has reached the beginning and assigns it to 
-the end, which is not only unnecessary, but also causes <tt><i>cartesian-common-arg-end</i></tt> to be applied to 
-the first range, making it ill-formed in some cases, <a href="https://godbolt.org/z/Pd6bYnP1G">for example</a>:
-</p>
-<blockquote><pre>
-#include &lt;ranges&gt;
-
-int main() {
-  auto r = std::views::cartesian_product(std::views::iota(0));
-  r.begin() += 3; // <span style="color:red;font-weight:bolder">hard error</span>
-}
-</pre></blockquote>
-<p>
-This is because, for the first range, <tt>cartesian_product_view::<i>iterator</i>::operator+=</tt> only requires 
-it to model <tt>random_access_range</tt>.
-However, when <tt>x</tt> is negative, this function will call <tt><i>prev</i></tt> and indirectly calls 
-<tt><i>cartesian-common-arg-end</i></tt>, since the latter constrains its argument to satisfy 
-<tt><i>cartesian-product-common-arg</i></tt>, that is, <tt>common_range&lt;R&gt; || (sized_range&lt;R&gt; &amp;&amp; 
-random_access_range&lt;R&gt;)</tt>, which is not the case for the unbounded <tt>iota_view</tt>, resulting in a 
-hard error in <tt><i>prev</i></tt>'s function body.
-<p/>
-The proposed resolution changes the position of the <tt>if constexpr</tt> so that we just decrement the first 
-iterator and nothing else.
-</p>
-
-
-
-<p id="res-3820"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-
-<ol>
-<li><p>Modify 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-template&lt;size_t N = sizeof...(Vs)&gt;
-  constexpr void <i>prev</i>();
-</pre>
-<blockquote>
-<p>
--6- <i>Effects</i>: Equivalent to:
-</p>
-<pre>
-auto&amp; it = std::get&lt;N&gt;(<i>current_</i>);
-<ins>if constexpr (N > 0) {</ins>
-  if (it == ranges::begin(std::get&lt;N&gt;(<i>parent_</i>-><i>bases_</i>))) {
-    it = <i>cartesian-common-arg-end</i>(std::get&lt;N&gt;(<i>parent_</i>-&gt;<i>bases_</i>));
-    <del>if constexpr (N &gt; 0) {</del>
-      <i>prev</i>&lt;N - 1&gt;();
-    <del>}</del>
-  }
-<ins>}</ins>
---it;
-</pre>
-</blockquote>
-</blockquote>
-
 </li>
 </ol>
 
@@ -50861,6 +49031,204 @@ template&lt;ranges::input_range R, class Alloc&gt;
 
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3827" href="#3827">3827</a><sup><a href="https://cplusplus.github.io/LWG/issue3827">(i)</a></sup>. Deprecate <tt>&lt;stdalign.h&gt;</tt> and <tt>&lt;stdalign.h&gt;</tt> macros</h3>
+<p><b>Section:</b> 17.15.4 <a href="https://wg21.link/stdalign.h.syn">[stdalign.h.syn]</a>, 17.15.5 <a href="https://wg21.link/stdbool.h.syn">[stdbool.h.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> GB <b>Opened:</b> 2022-11-10 <b>Last modified:</b> 2022-11-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This is the resolution for NB comments:
+<ul>
+<li><b><a href="https://github.com/cplusplus/nbballot/issues/454">GB-081</a></b> 17.14.4 [stdalign.h.syn] Deprecate contents of &lt;stdalign.h&gt;.
+</li>
+<li><b><a href="https://github.com/cplusplus/nbballot/issues/453">GB-082</a></b> 17.14.5 [stdbool.h.syn] Deprecate contents of &lt;stdbool.h&gt;.
+</li>
+</ul>
+</p>
+
+<p><b>GB-081:</b></p>
+<p>
+C2x defines alignas as a keyword, so &lt;stdalign.h&gt; is empty in C2x. C++23 should deprecate the __alignas_is_defined macro now, rather than wait until a future C++ standard is based on C2x. That gives users longer to prepare for the removal of the macro.
+</p>
+<p>Recommended change:
+Deprecate __alignas_is_defined and move it to Annex D.
+Maybe keep a note in [stdalign.h.syn]
+that the macro is present but deprecated.
+</p>
+
+<p><b>GB-082:</b></p>
+<p>
+C2x supports bool as a built-in type, and true and false as keywords. Consequently, C2x marks the __bool_true_false_are_defined as obsolescent. C++23 should deprecate that attribute now, rather than wait until a future C++ standard is based on C2x. That gives users longer to prepare for the removal of the macro.
+</p>
+<p>Recommended change:
+Deprecate __bool_true_false_are_defined and move it to Annex D.
+Maybe keep a note in [stdbool.h.syn] that the macro is present but deprecated.
+</p>
+
+<p><i>[Kona 2022-11-10; Jonathan provides wording]</i></p>
+
+
+
+
+<p id="res-3827"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 17.15.4 <a href="https://wg21.link/stdalign.h.syn">[stdalign.h.syn]</a> as indicated:</p>
+
+<blockquote>
+<p><b>17.14.4 Header &lt;stdalign.h&gt; synopsis [stdalign.h.syn]</b></p>
+<blockquote><pre>
+    <del>#define __alignas_is_defined 1</del>
+</pre></blockquote>
+<p>-1- The contents of the C++ header <tt>&lt;stdalign.h&gt;</tt> are the same
+as the C standard library header <tt>&lt;stdalign.h&gt;</tt>, with the
+following changes:
+The header <tt>&lt;stdalign.h&gt;</tt> does not define
+a macro named <tt>alignas</tt>.
+<ins>
+The macro <tt>__alignas_is_defined</tt> ( [depr.c.macros]) is deprecated.
+</ins>
+</p>
+<p><span style="font-variant: small-caps">See also</span>: ISO C 7.15</p>
+</blockquote>
+</li>
+
+<li><p>Modify 17.15.5 <a href="https://wg21.link/stdbool.h.syn">[stdbool.h.syn]</a> as indicated:</p>
+<blockquote>
+<p><b>17.14.5 Header &lt;stdbool.h&gt; synopsis [stdbool.h.syn]</b></p>
+<blockquote><pre>
+    <del>#define __bool_true_false_are_defined 1</del>
+</pre></blockquote>
+<p>-1- The contents of the C++ header <tt>&lt;stdbool.h&gt;</tt> are the same
+as the C standard library header <tt>&lt;stdbool.h&gt;</tt>, with the
+following changes:
+The header <tt>&lt;stdbool.h&gt;</tt> does not define
+macros named <tt>bool</tt>,
+<tt>true</tt>, or <tt>__bool_true_false_are_defined</tt>
+<ins>
+The macro <tt>__bool_true_false_are_defined</tt>
+( [depr.c.macros]) is deprecated.
+</ins>
+</p>
+<p><span style="font-variant: small-caps">See also</span>: ISO C 7.18</p>
+</blockquote>
+</li>
+
+<li>Add a new subclause to Annex D D <a href="https://wg21.link/depr">[depr]</a> between
+D10 D.10 <a href="https://wg21.link/depr.res.on.required">[depr.res.on.required]</a> and
+D11 D.11 <a href="https://wg21.link/depr.relops">[depr.relops]</a>, with this content:
+
+<blockquote>
+<ins>
+<p><ins><b>D?? Deprecated C macros [depr.c.macros]</b></ins></p>
+<p>
+<ins>-1- The header <tt>&lt;stdalign.h&gt;</tt> has the following macro:</ins>
+</p>
+<blockquote><pre>
+    <ins>#define __alignas_is_defined 1</ins>
+</pre></blockquote>
+<p>
+<ins>-2- The header <tt>&lt;stdbool.h&gt;</tt> has the following macro:</ins>
+</p>
+<blockquote><pre>
+    <ins>#define __bool_true_false_are_defined 1</ins>
+</pre></blockquote>
+</ins>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3><a name="3828" href="#3828">3828</a><sup><a href="https://cplusplus.github.io/LWG/issue3828">(i)</a></sup>. Sync <tt>intmax_t</tt> and <tt>uintmax_t</tt> with C2x</h3>
+<p><b>Section:</b> 17.4.2 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> GB <b>Opened:</b> 2022-11-10 <b>Last modified:</b> 2022-11-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#cstdint.syn">active issues</a> in [cstdint.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#cstdint.syn">issues</a> in [cstdint.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This is the resolution for NB comment <b><a href="https://github.com/cplusplus/nbballot/issues/454">GB-080</a></b> 17.4.1 [cstdint.syn] Sync <tt>intmax_t</tt> and <tt>uintmax_t</tt> with C2x.
+</p>
+
+<p>
+With the approval of
+<a href="https://www.open-std.org/jtc1/sc22/WG14/www/docs/n2888.htm">WG14 N2888</a>
+the next C standard will resolve the long-standing issue that implementations
+cannot support 128-bit integer types properly without ABI breaks.
+C++ should adopt the same fix now, rather than waiting until a future
+C++ standard is rebased on C2x.
+</p><p>
+31.13.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> also mentions those types, but doesn't need
+a change. The proposed change allows <tt>intmax_t</tt> to be an
+extended integer type of the same width as <tt>long long</tt>,
+in which case we'd still want those <tt>abs</tt> overloads.
+</p><p>
+Recommended change:
+Add to 31.13.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> p2 "except that intmax_t is not required to be able to represent all values of extended integer types wider than long long, and uintmax_t is not required to be able to represent all values of extended integer types wider than unsigned long long."
+</p>
+
+
+<p id="res-3828"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 31.13.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> as indicated:</p>
+
+<blockquote>
+<p> -1-
+The contents and meaning of the header <tt>&lt;cinttypes&gt;</tt>
+are the same as the C standard library header <tt>&lt;inttypes.h&gt;</tt>,
+with the following changes:
+</p>
+<ol style="list-style-type: none">
+<li>(1.1) &mdash;
+The header <tt>&lt;cinttypes&gt;</tt> includes the header
+<tt>&lt;cstdint&gt;</tt> instead of <tt>&lt;stdint.h&gt;</tt>, and
+</li>
+<li><ins>(1.?) &mdash;
+<tt>intmax_t</tt> is not required to be able to represent all values of
+extended integer types wider than <tt>long long</tt>,
+and <tt>uintmax_t</tt> is not required to be able to represent all values of
+extended integer types wider than <tt>unsigned long long</tt>, and
+</ins>
+</li>
+<li>(1.2) &mdash;
+if and only if the type <tt>intmax_t</tt> designates an extended integer type,
+the following function signatures are added:
+<blockquote>
+  intmax_t abs(intmax_t);
+  imaxdiv_t div(intmax_t, intmax_t);
+</blockquote>
+which shall have the same semantics as the function signatures
+<tt>intmax_t imaxabs(intmax_t)</tt> and
+<tt>imaxdiv_t imaxdiv(intmax_t, intmax_t)</tt>, respectively.
+</li>
+</ol>
+<p><span style="font-variant: small-caps">See also</span>: ISO C 7.8</p>
+</blockquote>
+</li>
+</ol>
+
 
 
 
