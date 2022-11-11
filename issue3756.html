@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="3756" href="lwg-active.html#3756">3756</a>. Is the <tt>std::atomic_flag</tt> class signal-safe?</h3>
 <p><b>Section:</b> 17.14.5 <a href="https://wg21.link/support.signal">[support.signal]</a>, 33.5.10 <a href="https://wg21.link/atomics.flag">[atomics.flag]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Ruslan Baratov <b>Opened:</b> 2022-08-18 <b>Last modified:</b> 2022-11-10</p>
+ <b>Submitter:</b> Ruslan Baratov <b>Opened:</b> 2022-08-18 <b>Last modified:</b> 2022-11-11</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
@@ -248,7 +248,7 @@ A <i>plain lock-free atomic operation</i> is an invocation of a function
 </li>
 <li><ins>(2.?) &mdash;
 <tt>f</tt> is a non-member function, and the first parameter of <tt>f</tt>
-has type <i>cv</i> <tt>atomic_flag</tt>, or
+has type <i>cv</i> <tt>atomic_flag*</tt>, or
 </ins>
 </li>
 <li>(2.3) &mdash;
