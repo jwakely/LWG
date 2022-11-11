@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2022-11-11 at 00:42:15 UTC</p>
+<td align="left"><p>Revised 2022-11-11 at 02:45:31 UTC</p>
 </td>
 </tr>
 <tr>
@@ -167,6 +167,603 @@ template&lt;<del>class charT, class traits, </del>class Allocator&gt;
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3569" href="#3569">3569</a><sup><a href="https://cplusplus.github.io/LWG/issue3569">(i)</a></sup>. <tt>join_view</tt> fails to support ranges of ranges with non-<tt>default_initializable</tt> iterators</h3>
+<p><b>Section:</b> 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2021-06-16 <b>Last modified:</b> 2022-11-11</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.join.iterator">active issues</a> in [range.join.iterator].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.join.iterator">issues</a> in [range.join.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>join_view::<i>iterator</i></tt> has exposition-only members <tt><i>outer_</i></tt> &mdash; which holds an 
+iterator into the adapted range &mdash; and <tt><i>inner_</i></tt> &mdash; which holds an iterator into the 
+range denoted by <tt><i>outer_</i></tt>. After application of <a href="https://wg21.link/P2325R3">P2325R3</a> "Views should not be 
+required to be default constructible" to the working draft, single-pass iterators can be 
+<tt>non-default_initializable</tt>. P2325R3 constrains <tt>join_view::<i>iterator</i></tt>'s default constructor 
+to require that the types of both <tt><i>outer_</i></tt> and <tt><i>inner_</i></tt> are <tt>default_initializable</tt>, 
+indicating an intent to support such iterator types. However, the effect of the non-default constructor specified 
+in 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> paragraph 6 is to default-initialize <tt><i>inner_</i></tt>, which is 
+ill-formed if its type is not <tt>default_initializable</tt>.
+</p>
+
+<p><i>[2021-06-23; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+Wording relative to the <a href="https://github.com/cplusplus/draft/releases/download/n4892/n4892.pdf">post 2021-06 
+virtual plenary working draft</a>. This PR is currently being implemented in MSVC.
+</p>
+
+<ol>
+<li><p>Modify 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;input_range V&gt;
+    requires view&lt;V&gt; &amp;&amp; input_range&lt;range_reference_t&lt;V&gt;&gt; &amp;&amp;
+             (is_reference_v&lt;range_reference_t&lt;V&gt;&gt; ||
+              view&lt;range_value_t&lt;V&gt;&gt;)
+  template&lt;bool Const&gt;
+  struct join_view&lt;V&gt;::<i>iterator</i> {
+    [&hellip;]
+    <ins>optional&lt;</ins><i>InnerIter</i><ins>&gt;</ins> <i>inner_</i><del> = <i>InnerIter</i>()</del>;
+    [&hellip;]
+    constexpr decltype(auto) operator*() const { return <ins>*</ins>*<i>inner_</i>; }
+    [&hellip;]
+    friend constexpr decltype(auto) iter_move(const <i>iterator</i>&amp; i)
+    noexcept(noexcept(ranges::iter_move(<ins>*</ins>i.<i>inner_</i>))) {
+      return ranges::iter_move(<ins>*</ins>i.<i>inner_</i>);
+    }
+    
+    friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      noexcept(noexcept(ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>)))
+      requires indirectly_swappable&lt;<i>InnerIter</i>&gt;;
+  };
+}
+</pre>
+</blockquote>
+[&hellip;]
+<pre>
+constexpr void <i>satisfy();</i>       <i>// exposition only</i>
+</pre>
+<blockquote>
+<p>
+-5- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote>
+<pre>
+auto update_inner = [this](const iterator_t&lt;<i>Base</i>&gt;&amp; x) -> auto&amp;&amp; {
+[&hellip;] 
+};
+for (; <i>outer_</i> != ranges::end(<i>parent_</i>-&gt;<i>base_</i>); ++<i>outer_</i>) {
+  auto&amp;&amp; inner = update_inner(*<i>outer_</i>);
+  <i>inner_</i> = ranges::begin(inner);
+  if (<ins>*</ins><i>inner_</i> != ranges::end(inner))
+    return;
+}
+if constexpr (<i>ref-is-glvalue</i>)
+  <i>inner_</i><ins>.reset()</ins><del> = <i>InnerIter</i>()</del>;
+</pre>
+</blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+constexpr <i>InnerIter</i> operator-&gt;() const
+  requires <i>has-arrow</i>&lt;<i>InnerIter</i>&gt; &amp;&amp; copyable&lt;<i>InnerIter</i>&gt;;
+</pre>
+<blockquote>
+<p>
+-8- <i>Effects:</i> Equivalent to: <tt>return <ins>*</ins><i>inner_</i>;</tt>
+</p>
+</blockquote>
+<pre>
+constexpr <i>iterator</i>&amp; operator++();
+</pre>
+<blockquote>
+<p>
+-9- Let <i>inner-range</i> be:
+<p/>
+[&hellip;]
+<p/>
+-10- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote>
+<pre>
+auto&amp;&amp; inner_rng = <i>inner-range</i>;
+if (++<ins>*</ins><i>inner_</i> == ranges::end(inner_rng)) {
+  ++<i>outer_</i>;
+  <i>satisfy</i>();
+}
+return *this;
+</pre>
+</blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+constexpr <i>iterator</i>&amp; operator--()
+  requires <i>ref-is-glvalue</i> &amp;&amp; bidirectional_range&lt;<i>Base</i>&gt; &amp;&amp;
+           bidirectional_range&lt;range_reference_t&lt;Base&gt;&gt; &amp;&amp;
+           common_range&lt;range_reference_t&lt;Base&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+-13- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote>
+<pre>
+if (<i>outer_</i> == ranges::end(<i>parent_</i>-&gt;<i>base_</i>))
+  <i>inner_</i> = ranges::end(*--<i>outer_</i>);
+while (<ins>*</ins><i>inner_</i> == ranges::begin(*<i>outer_</i>))
+  <ins>*</ins><i>inner_</i> = ranges::end(*--<i>outer_</i>);
+--<ins>*</ins><i>inner_</i>;
+return *this;
+</pre>
+</blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+  noexcept(noexcept(ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>)))
+  requires indirectly_swappable&lt;<i>InnerIter</i>&gt;;
+</pre>
+<blockquote>
+<p>
+-16- <i>Effects:</i> Equivalent to: return <tt>ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>);</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2021-08-23; Louis Dionne comments and provides improved wording]</i></p>
+
+<p>
+I believe the currently proposed resolution is missing the removal of the <tt>default_initializable&lt;<i>InnerIter</i>&gt;</tt> 
+constraint on <tt>join_view::<i>iterator</i></tt>'s default constructor in 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a>. Indeed, 
+after the currently-proposed resolution, <tt>join_view::<i>iterator</i></tt> reads like:
+</p>
+<blockquote><pre>
+template&lt;input_range V&gt;
+  requires [&hellip;]
+struct join_view&lt;V&gt;::<i>iterator</i> {
+private:
+  optional&lt;<i>InnerIter</i>&gt; <i>inner_</i>; <i>// exposition only</i>
+  [&hellip;]
+public:
+  <i>iterator</i>() requires default_initializable&lt;<i>OuterIter</i>&gt; &amp;&amp;
+                      default_initializable&lt;<i>InnerIter</i>&gt; = default;
+    [&hellip;]
+};
+</pre></blockquote>
+<p>
+I believe we should drop the <tt>default_initializable&lt;<i>InnerIter</i>&gt;</tt> constraint from the default constructor 
+(that seems like an oversight unless I missed something):
+</p>
+<blockquote><pre>
+template&lt;input_range V&gt;
+  requires [&hellip;]
+struct join_view&lt;V&gt;::<i>iterator</i> {
+private:
+  optional&lt;<i>InnerIter</i>&gt; <i>inner_</i>; <i>// exposition only</i>
+  [&hellip;]
+public:
+  <i>iterator</i>() requires default_initializable&lt;<i>OuterIter</i>&gt; = default;
+  [&hellip;]
+};
+</pre></blockquote>
+
+<p><i>[Kona 2022-11-08; Accepted at joint LWG/SG9 session. Move to Immediate]</i></p>
+
+
+
+
+<p id="res-3569"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.14.3 <a href="https://wg21.link/range.join.iterator">[range.join.iterator]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;input_range V&gt;
+    requires view&lt;V&gt; &amp;&amp; input_range&lt;range_reference_t&lt;V&gt;&gt; &amp;&amp;
+             (is_reference_v&lt;range_reference_t&lt;V&gt;&gt; ||
+              view&lt;range_value_t&lt;V&gt;&gt;)
+  template&lt;bool Const&gt;
+  struct join_view&lt;V&gt;::<i>iterator</i> {
+    [&hellip;]
+    <ins>optional&lt;</ins><i>InnerIter</i><ins>&gt;</ins> <i>inner_</i><del> = <i>InnerIter</i>()</del>;
+    [&hellip;]
+    <i>iterator</i>() requires default_initializable&lt;<i>OuterIter</i>&gt; <del>&amp;&amp;
+                        default_initializable&lt;<i>InnerIter</i>&gt;</del> = default;
+    [&hellip;]
+    constexpr decltype(auto) operator*() const { return <ins>*</ins>*<i>inner_</i>; }
+    [&hellip;]
+    friend constexpr decltype(auto) iter_move(const <i>iterator</i>&amp; i)
+    noexcept(noexcept(ranges::iter_move(<ins>*</ins>i.<i>inner_</i>))) {
+      return ranges::iter_move(<ins>*</ins>i.<i>inner_</i>);
+    }
+    
+    friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+      noexcept(noexcept(ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>)))
+      requires indirectly_swappable&lt;<i>InnerIter</i>&gt;;
+  };
+}
+</pre>
+</blockquote>
+[&hellip;]
+<pre>
+constexpr void <i>satisfy();</i>       <i>// exposition only</i>
+</pre>
+<blockquote>
+<p>
+-5- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote>
+<pre>
+auto update_inner = [this](const iterator_t&lt;<i>Base</i>&gt;&amp; x) -> auto&amp;&amp; {
+[&hellip;] 
+};
+for (; <i>outer_</i> != ranges::end(<i>parent_</i>-&gt;<i>base_</i>); ++<i>outer_</i>) {
+  auto&amp;&amp; inner = update_inner(*<i>outer_</i>);
+  <i>inner_</i> = ranges::begin(inner);
+  if (<ins>*</ins><i>inner_</i> != ranges::end(inner))
+    return;
+}
+if constexpr (<i>ref-is-glvalue</i>)
+  <i>inner_</i><ins>.reset()</ins><del> = <i>InnerIter</i>()</del>;
+</pre>
+</blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+constexpr <i>InnerIter</i> operator-&gt;() const
+  requires <i>has-arrow</i>&lt;<i>InnerIter</i>&gt; &amp;&amp; copyable&lt;<i>InnerIter</i>&gt;;
+</pre>
+<blockquote>
+<p>
+-8- <i>Effects:</i> Equivalent to: <tt>return <ins>*</ins><i>inner_</i>;</tt>
+</p>
+</blockquote>
+<pre>
+constexpr <i>iterator</i>&amp; operator++();
+</pre>
+<blockquote>
+<p>
+-9- Let <i>inner-range</i> be:
+<p/>
+[&hellip;]
+<p/>
+-10- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote>
+<pre>
+auto&amp;&amp; inner_rng = <i>inner-range</i>;
+if (++<ins>*</ins><i>inner_</i> == ranges::end(inner_rng)) {
+  ++<i>outer_</i>;
+  <i>satisfy</i>();
+}
+return *this;
+</pre>
+</blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+constexpr <i>iterator</i>&amp; operator--()
+  requires <i>ref-is-glvalue</i> &amp;&amp; bidirectional_range&lt;<i>Base</i>&gt; &amp;&amp;
+           bidirectional_range&lt;range_reference_t&lt;Base&gt;&gt; &amp;&amp;
+           common_range&lt;range_reference_t&lt;Base&gt;&gt;;
+</pre>
+<blockquote>
+<p>
+-13- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote>
+<pre>
+if (<i>outer_</i> == ranges::end(<i>parent_</i>-&gt;<i>base_</i>))
+  <i>inner_</i> = ranges::end(*--<i>outer_</i>);
+while (<ins>*</ins><i>inner_</i> == ranges::begin(*<i>outer_</i>))
+  <ins>*</ins><i>inner_</i> = ranges::end(*--<i>outer_</i>);
+--<ins>*</ins><i>inner_</i>;
+return *this;
+</pre>
+</blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator</i>&amp; y)
+  noexcept(noexcept(ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>)))
+  requires indirectly_swappable&lt;<i>InnerIter</i>&gt;;
+</pre>
+<blockquote>
+<p>
+-16- <i>Effects:</i> Equivalent to: return <tt>ranges::iter_swap(<ins>*</ins>x.<i>inner_</i>, <ins>*</ins>y.<i>inner_</i>);</tt>
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
+<h3><a name="3766" href="#3766">3766</a><sup><a href="https://cplusplus.github.io/LWG/issue3766">(i)</a></sup>. <tt>view_interface::cbegin</tt> is underconstrained</h3>
+<p><b>Section:</b> 26.5.3.1 <a href="https://wg21.link/view.interface.general">[view.interface.general]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-04 <b>Last modified:</b> 2022-11-11</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#view.interface.general">active issues</a> in [view.interface.general].</p>
+<p><b>View all other</b> <a href="lwg-index.html#view.interface.general">issues</a> in [view.interface.general].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, <tt>view_interface::cbegin</tt> simply returns <tt>ranges::cbegin(<i>derived</i>())</tt>, 
+which returns the type alias <tt>const_iterator</tt> for its iterator, which requires that the template 
+parameter <tt>I</tt> must model the <tt>input_iterator</tt>.
+<p/>
+Given that <tt>view_interface::cbegin</tt> does not have any constraints, when <tt>D</tt> models only 
+<tt>output_range</tt>, calling its <tt>cbegin()</tt> will result in a hard error inside the function body:
+</p>
+<blockquote><pre>
+#include &lt;ranges&gt;
+#include &lt;vector&gt;
+
+int main() {
+  std::vector&lt;int&gt; v;
+  auto r = std::views::counted(std::back_inserter(v), 3);
+  auto b = r.cbegin(); // <span style="color:red;font-weight:bolder">hard error</span>
+}
+</pre></blockquote>
+<p>
+We should add a constraint for <tt>view_interface::cbegin</tt> that <tt>D</tt> must model <tt>input_range</tt>.
+</p>
+
+<p><i>[2022-09-23; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+</p>
+<p>
+This should be done for <tt>cend</tt> too.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.5.3.1 <a href="https://wg21.link/view.interface.general">[view.interface.general]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class D&gt;
+    requires is_class_v&lt;D&gt; &amp;&amp; same_as&lt;D, remove_cv_t&lt;D&gt;&gt;
+  class view_interface {
+    [&hellip;]
+  public:
+    [&hellip;]
+    constexpr auto cbegin() <ins>requires input_range&lt;D&gt;</ins> {
+      return ranges::cbegin(<i>derived</i>());
+    }
+    constexpr auto cbegin() const requires <ins>input_</ins>range&lt;const D&gt; {
+      return ranges::cbegin(<i>derived</i>());
+    }
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2022-09-25; Hewill provides improved wording]</i></p>
+
+
+<p><i>[Kona 2022-11-08; Accepted at joint LWG/SG9 session. Move to Immediate]</i></p>
+
+
+
+
+<p id="res-3766"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.5.3.1 <a href="https://wg21.link/view.interface.general">[view.interface.general]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;class D&gt;
+    requires is_class_v&lt;D&gt; &amp;&amp; same_as&lt;D, remove_cv_t&lt;D&gt;&gt;
+  class view_interface {
+    [&hellip;]
+  public:
+    [&hellip;]
+    constexpr auto cbegin() <ins>requires input_range&lt;D&gt;</ins> {
+      return ranges::cbegin(<i>derived</i>());
+    }
+    constexpr auto cbegin() const requires <ins>input_</ins>range&lt;const D&gt; {
+      return ranges::cbegin(<i>derived</i>());
+    }
+    constexpr auto cend() <ins>requires input_range&lt;D&gt;</ins> {
+      return ranges::cend(<i>derived</i>());
+    }
+    constexpr auto cend() const requires <ins>input_</ins>range&lt;const D&gt; {
+      return ranges::cend(<i>derived</i>());
+    }
+    [&hellip;]
+  };
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3814" href="#3814">3814</a><sup><a href="https://cplusplus.github.io/LWG/issue3814">(i)</a></sup>. Add freestanding items requested by NB comments</h3>
+<p><b>Section:</b> 20.2.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Ben Craig <b>Opened:</b> 2022-11-06 <b>Last modified:</b> 2022-11-11</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#memory.syn">issues</a> in [memory.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This addresses the following NB comments:
+</p>
+<ul>
+<li><p><b><a href="https://github.com/cplusplus/nbballot/issues/440">GB-085</a></b> (20.2.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a> <tt>start_lifetime_as</tt> and <tt>start_lifetime_as_array</tt> should be freestanding)</p></li>
+<li><p><b><a href="https://github.com/cplusplus/nbballot/issues/439">GB-110</a></b> (26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> New views should be freestanding (<tt>repeat</tt>, <tt>stride</tt>, <tt>cartesian_product</tt>))</p></li>
+<li><p>(partial) <b><a href="https://github.com/cplusplus/nbballot/issues/442">GB-130</a></b> (33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <tt>memory_order_acquire</tt> etc should be freestanding)</p></li>
+</ul>
+<p>
+The explicit lifetime management functions requested by GB-085 have not been reviewed by LEWG in the context of freestanding, 
+but they seem non-controversial in that context. None of the requested lifetime management functions run any code.  
+I believe these were missed in post-merge conflict searches because the papers weren't targeted to LEWG or LWG at the time
+of those searches.
+<p/>
+The ranges facilities requested by GB-110 <em>have</em> been reviewed on the LEWG mailing list in the context of freestanding.  
+<a href="https://wg21.link/P1642R11">P1642R11</a> mentions the <tt>repeat</tt>, <tt>stride</tt>, and <tt>cartesian_product</tt> papers in "Potential Post-LEWG 
+merge conflicts". All were discussed in an April 2022 reflector discussion and received six votes in favor of allowing these papers 
+into freestanding, with no opposition.
+<p/>
+The atomics facilities requested by GB-130 are essentially new names for existing facilities. Marking these as freestanding isn't 
+concerning. There are concerns in GB-130 dealing with the specification details of freestanding enums, but those concerns won't be 
+addressed in this issue.
+</p>
+
+<p><i>[Kona 2022-11-07; Move to Immediate]</i></p>
+
+
+
+
+<p id="res-3814"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.2.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 20.2.6 <a href="https://wg21.link/obj.lifetime">[obj.lifetime]</a>, explicit lifetime management</i>
+template&lt;class T&gt;
+  T* start_lifetime_as(void* p) noexcept; <ins>// <i>freestanding</i></ins>
+template&lt;class T&gt;
+  const T* start_lifetime_as(const void* p) noexcept; <ins>// <i>freestanding</i></ins>
+template&lt;class T&gt;
+  volatile T* start_lifetime_as(volatile void* p) noexcept; <ins>// <i>freestanding</i></ins>
+template&lt;class T&gt;
+  const volatile T* start_lifetime_as(const volatile void* p) noexcept; <ins>// <i>freestanding</i></ins>
+template&lt;class T&gt;
+  T* start_lifetime_as_array(void* p, size_t n) noexcept; <ins>// <i>freestanding</i></ins>
+template&lt;class T&gt;
+  const T* start_lifetime_as_array(const void* p, size_t n) noexcept; <ins>// <i>freestanding</i></ins>
+template&lt;class T&gt;
+  volatile T* start_lifetime_as_array(volatile void* p, size_t n) noexcept; <ins>// <i>freestanding</i></ins>
+template&lt;class T&gt;
+  const volatile T* start_lifetime_as_array(const volatile void* p, size_t n) noexcept; <ins>// <i>freestanding</i></ins>
+[&hellip;]
+</pre>
+</blockquote>
+
+</li>
+
+<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+// <i>26.6.5 <a href="https://wg21.link/range.repeat">[range.repeat]</a>, repeat view</i>
+template&lt;move_constructible W, semiregular Bound = unreachable_sentinel_t&gt;
+  requires (is_object_v&lt;W&gt; &amp;&amp; same_as&lt;W, remove_cv_t&lt;W&gt;&gt;
+    &amp;&amp; (<i>is-integer-like</i>&lt;Bound&gt; || same_as&lt;Bound, unreachable_sentinel_t&gt;))
+class repeat_view; <ins>// <i>freestanding</i></ins>
+
+namespace views { inline constexpr <i>unspecified</i> repeat = <i>unspecified</i>; } <ins>// <i>freestanding</i></ins>
+[&hellip;]
+// <i>26.7.30 <a href="https://wg21.link/range.stride">[range.stride]</a>, stride view</i>
+template&lt;input_range V&gt;
+  requires view&lt;V&gt;
+class stride_view; <ins>// <i>freestanding</i></ins>
+
+template&lt;class V&gt;
+  inline constexpr bool enable_borrowed_range&lt;stride_view&lt;V&gt;&gt; = enable_borrowed_range&lt;V&gt;; <ins>// <i>freestanding</i></ins>
+
+namespace views { inline constexpr <i>unspecified</i> stride = <i>unspecified</i>; } <ins>// <i>freestanding</i></ins>
+
+// <i>26.7.31 <a href="https://wg21.link/range.cartesian">[range.cartesian]</a>, cartesian product view</i>
+template&lt;input_range First, forward_range... Vs&gt;
+  requires (view&lt;First&gt; &amp;&amp; ... &amp;&amp; view&lt;Vs&gt;)
+class cartesian_product_view; <ins>// <i>freestanding</i></ins>
+
+namespace views { inline constexpr <i>unspecified</i> cartesian_product = <i>unspecified</i>; } <ins>// <i>freestanding</i></ins>
+[&hellip;]
+</pre>
+</blockquote>
+
+</li>
+
+<li><p>Modify 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a>, header <tt>&lt;atomic&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  // <i>33.5.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a>, order and consistency</i>
+  enum class memory_order : <i>unspecified</i>; // <i>freestanding</i>
+  inline constexpr memory_order memory_order_relaxed = memory_order::relaxed; <ins>// <i>freestanding</i></ins>
+  inline constexpr memory_order memory_order_consume = memory_order::consume; <ins>// <i>freestanding</i></ins>
+  inline constexpr memory_order memory_order_acquire = memory_order::acquire; <ins>// <i>freestanding</i></ins>
+  inline constexpr memory_order memory_order_release = memory_order::release; <ins>// <i>freestanding</i></ins>
+  inline constexpr memory_order memory_order_acq_rel = memory_order::acq_rel; <ins>// <i>freestanding</i></ins>
+  inline constexpr memory_order memory_order_seq_cst = memory_order::seq_cst; <ins>// <i>freestanding</i></ins>
+  [&hellip;]
+}
+</pre>
+</blockquote>
+
+</li>
+
 </ol>
 
 
