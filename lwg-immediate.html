@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2022-11-11 at 14:10:50 UTC</p>
+<td align="left"><p>Revised 2022-11-11 at 21:08:19 UTC</p>
 </td>
 </tr>
 <tr>
@@ -67,7 +67,7 @@
 <hr>
 <h3><a name="3515" href="#3515">3515</a><sup><a href="https://cplusplus.github.io/LWG/issue3515">(i)</a></sup>. &sect;[stacktrace.basic.nonmem]: <tt>operator&lt;&lt;</tt> should be less templatized</h3>
 <p><b>Section:</b> 19.6.2 <a href="https://wg21.link/stacktrace.syn">[stacktrace.syn]</a>, 19.6.4.6 <a href="https://wg21.link/stacktrace.basic.nonmem">[stacktrace.basic.nonmem]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-01-25 <b>Last modified:</b> 2022-11-08</p>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-01-25 <b>Last modified:</b> 2022-11-09</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#stacktrace.syn">active issues</a> in [stacktrace.syn].</p>
@@ -506,6 +506,889 @@ friend constexpr void iter_swap(const <i>iterator</i>&amp; x, const <i>iterator<
 </li>
 
 </ol>
+
+
+
+
+<hr>
+<h3><a name="3717" href="#3717">3717</a><sup><a href="https://cplusplus.github.io/LWG/issue3717">(i)</a></sup>. <tt>common_view::end</tt> should improve <tt>random_access_range</tt> case</h3>
+<p><b>Section:</b> 26.7.19.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-15 <b>Last modified:</b> 2022-11-11</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.common.view">issues</a> in [range.common.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+
+<p>
+This issue is part of NB comment <b><a href="https://github.com/cplusplus/nbballot/issues/524">US 47-109</a></b>
+26 [ranges] Resolve open issues
+</p>
+
+<p>
+In view of the fact that random access iterators are only required to work with its difference type, 
+<a href="https://wg21.link/P2393R1">P2393R1</a> improves the wording of <tt>take_view</tt>, which first convert the integer type 
+to difference type and then operate with the iterator. However, the paper omits the handling of random 
+access iterators in <tt>common_view::end</tt>, which directly operates on the return types of 
+<tt>ranges::begin</tt> and <tt>ranges::size</tt>. We should improve this, too.
+</p>
+
+<p><i>[2022-07-06; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.19.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+    requires (!common_range&lt;V&gt; &amp;&amp; copyable&lt;iterator_t&lt;V&gt;&gt;)
+  class common_view : public view_interface&lt;common_view&lt;V&gt;&gt; {
+  private:
+    V <i>base_</i> = V();  <i>// exposition only</i>
+  public:
+    [&hellip;]
+    constexpr auto begin() {
+      if constexpr (random_access_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
+        return ranges::begin(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;V&gt;, sentinel_t&lt;V&gt;&gt;(ranges::begin(<i>base_</i>));
+    }
+
+    constexpr auto begin() const requires range&lt;const V&gt; {
+      if constexpr (random_access_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
+        return ranges::begin(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;const V&gt;, sentinel_t&lt;const V&gt;&gt;(ranges::begin(<i>base_</i>));
+    }
+    
+    constexpr auto end() {
+      if constexpr (random_access_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
+        return ranges::begin(<i>base_</i>) + <ins>range_difference_t&lt;V&gt;(size())</ins><del>ranges::size(<i>base_</i>)</del>;
+      else
+        return common_iterator&lt;iterator_t&lt;V&gt;, sentinel_t&lt;V&gt;&gt;(ranges::end(<i>base_</i>));
+    }
+
+    constexpr auto end() const requires range&lt;const V&gt; {
+      if constexpr (random_access_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
+        return ranges::begin(<i>base_</i>) + <ins>range_difference_t&lt;const V&gt;(size())</ins><del>ranges::size(<i>base_</i>)</del>;
+      else
+        return common_iterator&lt;iterator_t&lt;const V&gt;, sentinel_t&lt;const V&gt;&gt;(ranges::end(<i>base_</i>));
+    }
+
+    constexpr auto size() requires sized_range&lt;V&gt; {
+      return ranges::size(<i>base_</i>);
+    }
+    constexpr auto size() const requires sized_range&lt;const V&gt; {
+      return ranges::size(<i>base_</i>);
+    }
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[Kona 2022-11-08; Discussed at joint LWG/SG9 session. Move to Open]</i></p>
+
+<p><i>[2022-11-09 Tim updates wording per LWG discussion]</i></p>
+
+<p><i>[Kona 2022-11-10; Move to Immediate]</i></p>
+
+
+
+
+<p id="res-3717"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.7.19.2 <a href="https://wg21.link/range.common.view">[range.common.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+    requires (!common_range&lt;V&gt; &amp;&amp; copyable&lt;iterator_t&lt;V&gt;&gt;)
+  class common_view : public view_interface&lt;common_view&lt;V&gt;&gt; {
+  private:
+    V <i>base_</i> = V();  <i>// exposition only</i>
+  public:
+    [&hellip;]
+    constexpr auto begin() {
+      if constexpr (random_access_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
+        return ranges::begin(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;V&gt;, sentinel_t&lt;V&gt;&gt;(ranges::begin(<i>base_</i>));
+    }
+
+    constexpr auto begin() const requires range&lt;const V&gt; {
+      if constexpr (random_access_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
+        return ranges::begin(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;const V&gt;, sentinel_t&lt;const V&gt;&gt;(ranges::begin(<i>base_</i>));
+    }
+    
+    constexpr auto end() {
+      if constexpr (random_access_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
+        return ranges::begin(<i>base_</i>) + ranges::<del>size</del><ins>distance</ins>(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;V&gt;, sentinel_t&lt;V&gt;&gt;(ranges::end(<i>base_</i>));
+    }
+
+    constexpr auto end() const requires range&lt;const V&gt; {
+      if constexpr (random_access_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
+        return ranges::begin(<i>base_</i>) + ranges::<del>size</del><ins>distance</ins>(<i>base_</i>);
+      else
+        return common_iterator&lt;iterator_t&lt;const V&gt;, sentinel_t&lt;const V&gt;&gt;(ranges::end(<i>base_</i>));
+    }
+
+    constexpr auto size() requires sized_range&lt;V&gt; {
+      return ranges::size(<i>base_</i>);
+    }
+    constexpr auto size() const requires sized_range&lt;const V&gt; {
+      return ranges::size(<i>base_</i>);
+    }
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3737" href="#3737">3737</a><sup><a href="https://cplusplus.github.io/LWG/issue3737">(i)</a></sup>. <tt>take_view::<i>sentinel</i></tt> should provide <tt>operator-</tt></h3>
+<p><b>Section:</b> 26.7.10.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-11-11</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.take.sentinel">issues</a> in [range.take.sentinel].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+
+<p>
+This issue is part of NB comment <b><a href="https://github.com/cplusplus/nbballot/issues/524">US 47-109</a></b>
+26 [ranges] Resolve open issues
+</p>
+
+<p>
+When the underlying range is not a <tt>sized_range</tt>, the <tt>begin</tt> and <tt>end</tt> functions 
+of <tt>take_view</tt> return <tt>counted_iterator</tt> and <tt>take_view::<i>sentinel</i></tt> respectively. 
+However, the sentinel type of the underlying range may still model <tt>sized_sentinel_for</tt> for its 
+iterator type, and since <tt>take_view::<i>sentinel</i></tt> can only be compared to <tt>counted_iterator</tt>, 
+this makes <tt>take_view</tt> no longer able to compute the distance between its iterator and sentinel.
+<p/>
+We are needlessly losing functionality here. Since calculating the distance, in this case, is still simple, 
+i.e. we just need to compute the minimum of <tt>counted_iterator::count</tt> and the difference between 
+the underlying iterator and sentinel, I think providing <tt>operator-</tt> for 
+<tt>take_view::<i>sentinel</i></tt> does bring some value.
+</p>
+
+<p><i>[2022-08-23; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p>
+Some P0 votes, but with objections:
+"This seems like a) a feature not a bug - of fairly limited utility?,
+and b) I’d like to see an implementation (maybe it’s in MSVC?)
+to be sure there isn’t a negative interaction we’re not thinking of."
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.7.10.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a>, class template <tt>take_view::<i>sentinel</i></tt> synopsis, 
+as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+  template&lt;bool Const&gt;
+  class take_view&lt;V&gt;::<i>sentinel</i> {
+  private:
+    using <i>Base</i> = <i>maybe-const</i>&lt;Const, V&gt;;                                     <i>// exposition only</i>
+    template&lt;bool OtherConst&gt;
+      using <i>CI</i> = counted_iterator&lt;iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;;  <i>// exposition only</i>
+    sentinel_t&lt;<i>Base</i>&gt; <i>end_</i> = sentinel_t&lt;<i>Base</i>&gt;();                             <i>// exposition only</i>
+  public:
+    [&hellip;]
+    friend constexpr bool operator==(const <i>CI</i>&lt;Const&gt;&amp; y, const <i>sentinel</i>&amp; x);
+
+    template&lt;bool OtherConst = !Const&gt;
+      requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
+    friend constexpr bool operator==(const <i>CI</i>&lt;OtherConst&gt;&amp; y, const <i>sentinel</i>&amp; x);
+    <ins>
+    friend constexpr range_difference_t&lt;<i>Base</i>&gt;
+      operator-(const <i>sentinel</i>&amp; x, const <i>CI</i>&lt;Const&gt;&amp; y)
+        requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;;
+
+    template&lt;bool OtherConst = !Const&gt;
+      requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
+    friend constexpr range_difference_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;
+      operator-(const <i>sentinel</i>&amp; x, const <i>CI</i>&lt;OtherConst&gt;&amp; y);
+
+    friend constexpr range_difference_t&lt;<i>Base</i>&gt;
+      operator-(const <i>CI</i>&lt;Const&gt;&amp; x, const <i>sentinel</i>&amp; y)
+        requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;;
+
+    template&lt;bool OtherConst = !Const&gt;
+      requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
+    friend constexpr range_difference_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;
+      operator-(const <i>CI</i>&lt;OtherConst&gt;&amp; x, const <i>sentinel</i>&amp; y);</ins>
+  };
+}
+</pre>
+</blockquote>
+[&hellip;]
+<pre>
+friend constexpr bool operator==(const <i>CI</i>&lt;Const&gt;&amp; y, const <i>sentinel</i>&amp; x);
+
+template&lt;bool OtherConst = !Const&gt;
+  requires sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
+friend constexpr bool operator==(const <i>CI</i>&lt;OtherConst&gt;&amp; y, const <i>sentinel</i>&amp; x);
+</pre>
+<blockquote>
+<p>
+-4- <i>Effects:</i> Equivalent to: <tt>return y.count() == 0 || y.base() == x.<i>end_</i>;</tt>
+</p>
+</blockquote>
+<pre>
+<ins>
+friend constexpr range_difference_t&lt;<i>Base</i>&gt; 
+  operator-(const <i>sentinel</i>&amp; x, const <i>CI</i>&lt;Const&gt;&amp; y)
+    requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;; 
+
+template&lt;bool OtherConst = !Const&gt;
+  requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
+friend constexpr range_difference_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;
+  operator-(const <i>sentinel</i>&amp; x, const <i>CI</i>&lt;OtherConst&gt;&amp; y);</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Effects:</i> Equivalent to: <tt>return ranges::min(y.count(), x.<i>end_</i> - y.base());</tt></ins>
+</p>
+</blockquote>
+<pre>
+<ins>
+friend constexpr range_difference_t&lt;<i>Base</i>&gt;
+  operator-(const <i>CI</i>&lt;Const&gt;&amp; x, const <i>sentinel</i>&amp; y)
+    requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>Base</i>&gt;&gt;;
+
+template&lt;bool OtherConst = !Const&gt;
+  requires sized_sentinel_for&lt;sentinel_t&lt;<i>Base</i>&gt;, iterator_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;&gt;
+friend constexpr range_difference_t&lt;<i>maybe-const</i>&lt;OtherConst, V&gt;&gt;
+  operator-(const <i>CI</i>&lt;OtherConst&gt;&amp; x, const <i>sentinel</i>&amp; y);
+</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Effects:</i> Equivalent to: <tt>return -(y - x);</tt></ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<p><i>[Kona 2022-11-08; Discussed at joint LWG/SG9 session. Move to Open]</i></p>
+
+<p><i>[2022-11-09 Tim updates wording following LWG discussion]</i></p>
+
+<p>
+This case is only possible if the source view is not a <tt>sized_range</tt>, yet its 
+iterator/sentinel types model <tt>sized_sentinel_for</tt> (typically when source
+is an input range). In such a case we should just have <tt>begin</tt> compute
+the correct size so that <tt>end</tt> can just return <tt>default_sentinel</tt>.
+</p>
+
+<p><i>[Kona 2022-11-10; Move to Immediate]</i></p>
+
+
+
+<p id="res-3737"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+<ol>
+<li><p>Modify 26.7.10.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>, class template <tt>take_view</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+  class take_view : public view_interface&lt;take_view&lt;V&gt;&gt; {
+  private:
+    [&hellip;]
+  public:
+    [&hellip;]
+    constexpr auto begin() requires (!<i>simple-view</i>&lt;V&gt;) {
+      if constexpr (sized_range&lt;V&gt;) {
+        if constexpr (random_access_range&lt;V&gt;) {
+          return ranges::begin(<i>base_</i>);
+        } else {
+          auto sz = range_difference_t&lt;V&gt;(size());
+          return counted_iterator(ranges::begin(<i>base_</i>), sz);
+        }
+      }<ins> else if constexpr (sized_sentinel_for&lt;sentinel_t&lt;V&gt;, iterator_t&lt;V&gt;&gt;) {
+        auto it = ranges::begin(<i>base_</i>);
+        auto sz = std::min(<i>count_</i>, ranges::end(<i>base_</i>) - it);
+        return counted_iterator(std::move(it), sz);
+      }</ins> else {
+        return counted_iterator(ranges::begin(<i>base_</i>), <i>count_</i>);
+      }
+    }
+
+    constexpr auto begin() const requires range&lt;const V&gt; {
+      if constexpr (sized_range&lt;const V&gt;) {
+        if constexpr (random_access_range&lt;const V&gt;) {
+          return ranges::begin(<i>base_</i>);
+        } else {
+          auto sz = range_difference_t&lt;const V&gt;(size());
+          return counted_iterator(ranges::begin(<i>base_</i>), sz);
+        }
+      }<ins> else if constexpr (sized_sentinel_for&lt;sentinel_t&lt;const V&gt;, iterator_t&lt;const V&gt;&gt;) {
+        auto it = ranges::begin(<i>base_</i>);
+        auto sz = std::min(<i>count_</i>, ranges::end(<i>base_</i>) - it);
+        return counted_iterator(std::move(it), sz);
+      }</ins> else {
+        return counted_iterator(ranges::begin(<i>base_</i>), <i>count_</i>);
+      }
+    }
+
+    constexpr auto end() requires (!<i>simple-view</i>&lt;V&gt;) {
+      if constexpr (sized_range&lt;V&gt;) {
+        if constexpr (random_access_range&lt;V&gt;)
+          return ranges::begin(<i>base_</i>) + range_difference_t&lt;V&gt;(size());
+        else
+          return default_sentinel;
+      }<ins> else if constexpr (sized_sentinel_for&lt;sentinel_t&lt;V&gt;, iterator_t&lt;V&gt;&gt;) {
+        return default_sentinel;
+      }</ins> else {
+        return sentinel&lt;false&gt;{ranges::end(<i>base_</i>)};
+      }
+    }
+
+    constexpr auto end() const requires range&lt;const V&gt; {
+      if constexpr (sized_range&lt;const V&gt;) {
+        if constexpr (random_access_range&lt;const V&gt;)
+          return ranges::begin(<i>base_</i>) + range_difference_t&lt;const V&gt;(size());
+        else
+          return default_sentinel;
+      }<ins> else if constexpr (sized_sentinel_for&lt;sentinel_t&lt;const V&gt;, iterator_t&lt;const V&gt;&gt;) {
+        return default_sentinel;
+      }</ins> else {
+        return sentinel&lt;true&gt;{ranges::end(<i>base_</i>)};
+      }
+    }
+    
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3753" href="#3753">3753</a><sup><a href="https://cplusplus.github.io/LWG/issue3753">(i)</a></sup>. Clarify entity vs. freestanding entity</h3>
+<p><b>Section:</b> 16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Ben Craig <b>Opened:</b> 2022-08-23 <b>Last modified:</b> 2022-11-11</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#freestanding.entity">active issues</a> in [freestanding.entity].</p>
+<p><b>View all other</b> <a href="lwg-index.html#freestanding.entity">issues</a> in [freestanding.entity].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This addresses NB comment
+<b><a href="https://github.com/cplusplus/nbballot/issues/448">GB-075</a></b>
+( [freeestanding.entity] "Freestanding entities" are not entities)
+</p>
+
+<p>
+16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a> p1 defines a freestanding entity as
+a declaration or macro definition.
+</p>
+
+<p>
+16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a> p3 then says
+"entities followed with a comment [&hellip;] are freestanding entities".
+</p>
+
+<p>
+This is inconsistent, and breaks with macros,
+because macros are not entities, but they can be freestanding entities.
+</p>
+
+<p><i>[2022-09-23; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+</p>
+<p>
+It's confusing for "freestanding entities" to be two things, neither of which are entities. Declarations may declare entities, they are not entities themselves. Given this definition, p6/7/8 makes no sense. A namespace can't be a freestanding entity since it's neither a declaration nor a macro definition.
+</p>
+<p>
+"freestanding entities" is not best name, given the collision with core entity, but I think that this is separable issue.
+</p>
+
+
+<p><i>[2022-09-28; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p> This wording is relative to the forthcoming C++23 CD. </p>
+
+<ul>
+<li>
+<p>
+Modify 16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a> as indicated:
+</p>
+
+<blockquote>
+-3- In a header synopsis,
+<del>entities</del>
+<ins>declarations and macro definitions</ins>
+followed with a comment that includes <i>freestanding</i>
+are freestanding entities.
+</blockquote>
+</li>
+</ul>
+</blockquote>
+
+<p><i>[2022-11-06; Ben Craig provides new wording]</i></p>
+
+
+<p><i>[2022-11-07; Kona - move to open]</i></p>
+
+<p>New proposed resolution to be added.  </p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> Replace the section name [freestanding.entity] by [freestanding.item] throughout the working draft]
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>16.3.3.6 Freestanding <del>entities</del><ins>items</ins> [freestanding.<ins>item</ins><del>entity</del>]</b>
+<p/>
+-1- A <i>freestanding <del>entity</del><ins>item</ins></i> is <del>a declaration</del><ins>an entity</ins> or 
+macro definition that is present in a freestanding implementation and a hosted implementation.
+<p/>
+-2- Unless otherwise specified, the requirements on freestanding <del>entities</del><ins>items</ins> on a 
+freestanding implementation are the same as the corresponding requirements in a hosted implementation.
+<p/>
+-3- In a header synopsis, entities <ins>introduced by declarations</ins> followed with a comment that includes 
+<i>freestanding</i> are freestanding <del>entities</del><ins>items</ins>.
+<p/>
+<ins>-?- In a header synopsis, macro definitions followed with a comment that includes <i>freestanding</i> are 
+freestanding items.</ins>
+<p/>
+[&hellip;]
+<p/>
+-4- If a header synopsis begins with a comment that includes <i>all freestanding</i>, then all of the 
+<ins>entities introduced by</ins> declarations <del>and macro definitions</del> in the header synopsis are 
+freestanding <del>entities</del><ins>items</ins>.
+<p/>
+<ins>-?- If a header synopsis begins with a comment that includes <i>all freestanding</i>, then all of the 
+macro definitions in the header synopsis are freestanding items.</ins>
+<p/>
+[&hellip;]
+<p/>
+-5- Deduction guides for freestanding <del>entity</del><ins>item</ins> class templates are freestanding 
+<del>entities</del><ins>items</ins>.
+<p/>
+-6- Enclosing namespaces of freestanding  <del>entities</del><ins>items</ins> are freestanding <del>entities</del><ins>items</ins>.
+<p/>
+-7- Friends of freestanding <del>entities</del><ins>items</ins> are freestanding <del>entities</del><ins>items</ins>.
+<p/>
+-8- Entities denoted by freestanding  <del>entity</del><ins>item</ins> <i>typedef-name</i>s and freestanding 
+ <del>entity</del><ins>item</ins> alias templates are freestanding <del>entities</del><ins>items</ins>.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 16.4.2.5 <a href="https://wg21.link/compliance">[compliance]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- For each of the headers listed in Table 28, a freestanding implementation provides at least the freestanding
+<del>entities</del><ins>items</ins> (16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a>) declared in the header.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- Placeholders are freestanding <del>entities</del><ins>items</ins> (16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a>).
+</p>
+</blockquote>
+</li>
+</ol>
+
+</blockquote>
+
+<p><i>[2022-11-08; Ben Craig provides improved wording]</i></p>
+
+<p>This combined resolution addresses both 3753 and LWG <a href="lwg-active.html#3815">3815</a>,
+and has already been reviewed by LWG.</p>
+
+<p>
+This resolves ballot comment GB-75.
+It also partially addresses GB-130 (along with LWG <a href="lwg-active.html#3814">3814</a>).
+</p>
+
+<strong>Previous resolution [SUPERSEDED]:</strong>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> Replace the section name [freestanding.entity] by [freestanding.item] throughout the working draft]
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>16.3.3.6 Freestanding <del>entities</del><ins>items</ins> [freestanding.<ins>item</ins><del>entity</del>]</b>
+<p/>
+-1- A <i>freestanding <del>entity</del><ins>item</ins></i> is <del>a declaration</del><ins>an entity</ins> or
+macro definition that is present in a freestanding implementation and a hosted implementation.
+<p/>
+-2- Unless otherwise specified, the requirements on <ins>non-namespace </ins>freestanding <del>entities</del><ins>items</ins> on a freestanding implementation are the same as the corresponding requirements in a hosted implementation.
+<p/>
+<ins>[<i>Note</i>: Enumerators impose requirements on their enumerations. Freestanding item enumerations have the same enumerators on freestanding implementations and hosted implementations. Members and deduction guides impose requirements on their class types. Class types have the same deduction guides and members on freestanding implementations and hosted implementations. — <i>end note</i>]</ins>
+<p/>
+-3- In a header synopsis, <del>entities </del><ins>each entity introduced by a declaration</ins> followed <del>with</del><ins>by</ins> a comment that includes
+<i>freestanding</i> <del>are</del><ins>is a</ins> freestanding <del>entities</del><ins>item</ins>.
+<p/>
+<ins>-?- In a header synopsis, each macro definition followed by a comment that includes <i>freestanding</i> is a
+freestanding item.</ins>
+<p/>
+[&hellip;]
+<p/>
+-4- If a header synopsis begins with a comment that includes <i>all freestanding</i>, then <del>all of the
+ declarations and macro definitions</del><ins>each entity introduced by a declaration</ins> in the header synopsis <del>are</del><ins>is a</ins>
+freestanding <del>entities</del><ins>item</ins>.
+<p/>
+<ins>-?- If a header synopsis begins with a comment that includes <i>all freestanding</i>, then each
+macro definition in the header synopsis is a freestanding item.</ins>
+<p/>
+[&hellip;]
+<p/>
+<del>-5- Deduction guides for freestanding entity class templates are freestanding
+entities.</del>
+<p/>
+-6- <del>Enclosing namespaces of freestanding entities are freestanding entities.</del>
+<ins>Each enclosing namespace of each freestanding item is a freestanding item.</ins>
+<p/>
+-7- <del>Friends of freestanding entities are freestanding entities.</del>
+<ins>Each friend of each freestanding item is a freestanding item.</ins>
+<p/>
+-8- <del>Entities denoted by freestanding entity <i>typedef-name</i>s and freestanding entity alias templates are freestanding entities.</del>
+<ins>Each entity denoted by each freestanding item <i>typedef-name</i> and each freestanding item alias template is a freestanding item.</ins>
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 16.4.2.5 <a href="https://wg21.link/compliance">[compliance]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- For each of the headers listed in Table 28, a freestanding implementation provides at least the freestanding
+<del>entities</del><ins>items</ins> (16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.<del>entity</del><ins>item</ins>]</a>) declared in the header.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- Placeholders are freestanding <del>entities</del><ins>items</ins> (16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.<del>entity</del><ins>item</ins>]</a>).
+</p>
+</blockquote>
+</li>
+</ol>
+
+</blockquote>
+
+<p><i>[2022-11-09; Ben Craig and Tomasz provide improved wording]</i></p>
+
+<p>
+This new resolution merges definition of freestanding item for entity in macro into bullet lists.
+It still addresses both 3753 and LWG <a href="lwg-active.html#3815">3815</a>.
+</p>
+
+<p>
+This resolves ballot comment GB-75.
+It also partially addresses GB-130 (along with LWG <a href="lwg-active.html#3814">3814</a>).
+</p>
+
+<strong>Previous resolution [SUPERSEDED]:</strong>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> Replace the section name [freestanding.entity] by [freestanding.item] throughout the working draft]
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>16.3.3.6 Freestanding <del>entities</del><ins>items</ins> [freestanding.<ins>item</ins><del>entity</del>]</b>
+<p/>
+-1- A <i>freestanding <del>entity</del><ins>item</ins></i> is <del>a declaration</del><ins>an entity</ins> or
+macro definition that is present in a freestanding implementation and a hosted implementation.
+<p/>
+-2- Unless otherwise specified, the requirements on freestanding <del>entities</del><ins>items, except namespaces,</ins> 
+<del>on</del><ins>for</ins> a freestanding implementation are the same as the corresponding requirements <del>in</del><ins>for</ins> 
+a hosted implementation.
+<p/>
+<ins>[<i>Note</i>: This implies that freestanding item enumerations have the same enumerators on freestanding implementations 
+and hosted implementations. Furthermore, class types have the same deduction guides and members on freestanding implementations 
+and hosted implementations. &mdash; <i>end note</i>]</ins>
+<p/>
+<ins>-3- An entity is a freestanding item, if it is:</ins>
+<ol style="list-style-type: none">
+<li><p><ins>(3.1) &mdash; introduced by a declaration in the header synopsis, and</ins></p>
+<ol style="list-style-type: none">
+<li><p><ins>(3.1.1) &mdash; the declaration is followed by a comment that includes <i>freestanding</i>, or</ins></p></li>
+<li><p><ins>(3.1.2) &mdash; the header synopsis begins with a comment that includes <i>all freestanding</i>;</ins></p></li>
+</ol></li>
+<li><p><ins>(3.2) &mdash; an enclosing namespace of a freestanding item,</ins></p></li>
+<li><p><ins>(3.3) &mdash; a friend of a freestanding item,</ins></p></li>
+<li><p><ins>(3.4) &mdash; denoted by a <i>typedef-name</i>, that is a freestanding item, or</ins></p></li>
+<li><p><ins>(3.5) &mdash; denoted by a template alias, that is a freestanding item.</ins></p></li>
+</ol>
+<p/>
+<ins>-4- A macro definition is a freestanding item, if it is defined in the header synopsis and</ins>
+<ol style="list-style-type: none">
+<li><p><ins>(4.1) &mdash; the definition is followed by a comment that includes <i>freestanding</i> in the header synopsis, or</ins></p></li>
+<li><p><ins>(4.2) &mdash; the header synopsis begins with a comment that includes <i>all freestanding.</i></ins></p></li>
+</ol>
+<p/>
+<del>-3- In a header synopsis, entities followed with a comment that includes <i>freestanding</i> are freestanding entities.</del>
+<p/>
+[<i>Example 1</i>: &hellip; &mdash; <i>end example</i>]
+<p/>
+<del>-4- If a header synopsis begins with a comment that includes <i>all freestanding</i>,
+ then all of the declarations and macro definitions in the header synopsis are freestanding entities..</del>
+<p/>
+[<i>Example 2</i>: &hellip; &mdash; <i>end example</i>]
+<p/>
+<del>-5- Deduction guides for freestanding entity class templates are freestanding
+entities.</del>
+<p/>
+<del>-6- Enclosing namespaces of freestanding entities are freestanding entities.</del>
+<p/>
+<del>-7- Friends of freestanding entities are freestanding entities.</del>
+<p/>
+<del>-8- Entities denoted by freestanding entity <i>typedef-name</i>s and freestanding entity alias templates are freestanding entities.</del>
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 16.4.2.5 <a href="https://wg21.link/compliance">[compliance]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- For each of the headers listed in Table 28, a freestanding implementation provides at least the freestanding
+<del>entities</del><ins>items</ins> (16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.<del>entity</del><ins>item</ins>]</a>) 
+declared in the header.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- Placeholders are freestanding <del>entities</del><ins>items</ins> 
+(16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.<del>entity</del><ins>item</ins>]</a>).
+</p>
+</blockquote>
+</li>
+</ol>
+
+</blockquote>
+
+<p><i>[2022-11-10; Tomasz provide improved wording]</i></p>
+
+<p>
+Updated wording to support freestanding <i>typedef-name</i>s and using declaration that are not entities.
+It still addresses both 3753 and LWG <a href="lwg-active.html#3815">3815</a>.
+</p>
+
+<p>
+This resolves ballot comment GB-75.
+It also partially addresses GB-130 (along with LWG <a href="lwg-active.html#3814">3814</a>).
+</p>
+
+<p><i>[Kona 2022-11-10; Move to Immediate]</i></p>
+
+
+
+
+
+<p id="res-3753"><b>Proposed resolution:</b></p>
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.entity]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> Replace the section name [freestanding.entity] by [freestanding.item] throughout the working draft]
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>16.3.3.6 Freestanding <del>entities</del><ins>items</ins> [freestanding.<ins>item</ins><del>entity</del>]</b>
+<p/>
+-1- A <i>freestanding <del>entity</del><ins>item</ins></i> is a declaration<ins>, entity, <i>typedef-name</i>, </ins> or
+macro <del>definition</del> that is <ins>required to be</ins> present in a freestanding implementation and a hosted implementation.
+<p/>
+-2- Unless otherwise specified, the requirements on freestanding <del>entities</del><ins>items</ins> 
+<del>on</del><ins>for</ins> a freestanding implementation are the same as the corresponding requirements <del>in</del><ins>for</ins> 
+a hosted implementation<ins>, except that not all of the members of the namespaces are required to be present</ins>.
+<p/>
+<ins>[<i>Note</i>: This implies that freestanding item enumerations have the same enumerators on freestanding implementations 
+and hosted implementations. Furthermore, class types have the same members and class templates have the same deduction guides
+on freestanding implementations and hosted implementations. &mdash; <i>end note</i>]</ins>
+<p/>
+<ins>-3- A declaration in a header synopsis is a freestanding item if</ins>
+<ol style="list-style-type: none">
+<li><p><ins>(3.1) &mdash; it is followed by a comment that includes <i>freestanding</i>, or</ins></p></li>
+<li><p><ins>(3.1) &mdash; the header synopsis begins with a comment that includes <i>all freestanding</i>.</ins></p></li>
+</ol>
+<p/>
+<ins>-4- An entity or <i>typedef-name</i> is a freestanding item if it is:</ins>
+<ol style="list-style-type: none">
+<li><p><ins>(4.1) &mdash; introduced by a declaration that is a freestanding item,</ins></p></li>
+<li><p><ins>(4.2) &mdash; an enclosing namespace of a freestanding item,</ins></p></li>
+<li><p><ins>(4.3) &mdash; a friend of a freestanding item,</ins></p></li>
+<li><p><ins>(4.4) &mdash; denoted by a <i>typedef-name</i> that is a freestanding item, or</ins></p></li>
+<li><p><ins>(4.5) &mdash; denoted by an alias template that is a freestanding item.</ins></p></li>
+</ol>
+<p/>
+<ins>-5- A macro is a freestanding item if it is defined in a header synopsis and</ins>
+<ol style="list-style-type: none">
+<li><p><ins>(5.1) &mdash; the definition is followed by a comment that includes <i>freestanding</i>, or</ins></p></li>
+<li><p><ins>(5.2) &mdash; the header synopsis begins with a comment that includes <i>all freestanding.</i></ins></p></li>
+</ol>
+<p/>
+<del>-3- In a header synopsis, entities followed with a comment that includes <i>freestanding</i> are freestanding entities.</del>
+<p/>
+[<i>Example 1</i>: &hellip; &mdash; <i>end example</i>]
+<p/>
+<del>-4- If a header synopsis begins with a comment that includes <i>all freestanding</i>,
+ then all of the declarations and macro definitions in the header synopsis are freestanding entities..</del>
+<p/>
+[<i>Example 2</i>: &hellip; &mdash; <i>end example</i>]
+<p/>
+<del>-5- Deduction guides for freestanding entity class templates are freestanding
+entities.</del>
+<p/>
+<del>-6- Enclosing namespaces of freestanding entities are freestanding entities.</del>
+<p/>
+<del>-7- Friends of freestanding entities are freestanding entities.</del>
+<p/>
+<del>-8- Entities denoted by freestanding entity <i>typedef-name</i>s and freestanding entity alias templates are freestanding entities.</del>
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 16.4.2.5 <a href="https://wg21.link/compliance">[compliance]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- For each of the headers listed in Table 28, a freestanding implementation provides at least the freestanding
+<del>entities</del><ins>items</ins> (16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.<del>entity</del><ins>item</ins>]</a>) 
+declared in the header.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.10.15.5 <a href="https://wg21.link/func.bind.place">[func.bind.place]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- Placeholders are freestanding <del>entities</del><ins>items</ins> 
+(16.3.3.6 <a href="https://wg21.link/freestanding.entity">[freestanding.<del>entity</del><ins>item</ins>]</a>).
+</p>
+</blockquote>
+</li>
+</ol>
+
+
 
 
 

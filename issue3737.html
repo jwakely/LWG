@@ -44,15 +44,21 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Immediate">Immediate</a> status.</em></p>
 <h3><a name="3737" href="lwg-active.html#3737">3737</a>. <tt>take_view::<i>sentinel</i></tt> should provide <tt>operator-</tt></h3>
-<p><b>Section:</b> 26.7.10.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+<p><b>Section:</b> 26.7.10.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-11-11</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.take.sentinel">issues</a> in [range.take.sentinel].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
 <p><b>Discussion:</b></p>
+
+<p>
+This issue is part of NB comment <b><a href="https://github.com/cplusplus/nbballot/issues/524">US 47-109</a></b>
+26 [ranges] Resolve open issues
+</p>
+
 <p>
 When the underlying range is not a <tt>sized_range</tt>, the <tt>begin</tt> and <tt>end</tt> functions 
 of <tt>take_view</tt> return <tt>counted_iterator</tt> and <tt>take_view::<i>sentinel</i></tt> respectively. 
@@ -191,6 +197,9 @@ iterator/sentinel types model <tt>sized_sentinel_for</tt> (typically when source
 is an input range). In such a case we should just have <tt>begin</tt> compute
 the correct size so that <tt>end</tt> can just return <tt>default_sentinel</tt>.
 </p>
+
+<p><i>[Kona 2022-11-10; Move to Immediate]</i></p>
+
 
 
 <p id="res-3737"><b>Proposed resolution:</b></p>
