@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-12 at 01:55:09 UTC</p>
+<p><p>Revised 2022-11-12 at 03:17:16 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46150,7 +46150,7 @@ that is a perfect forwarding call wrapper (22.10.4 <a href="https://wg21.link/fu
 <hr>
 <h3><a name="3790" href="#3790">3790</a><sup><a href="https://cplusplus.github.io/LWG/issue3790">(i)</a></sup>. P1467 accidentally changed <tt>nexttoward</tt>'s signature</h3>
 <p><b>Section:</b> 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> David Olsen <b>Opened:</b> 2022-09-30 <b>Last modified:</b> 2022-10-15</p>
+ <b>Submitter:</b> David Olsen <b>Opened:</b> 2022-09-30 <b>Last modified:</b> 2022-11-12</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#cmath.syn">active issues</a> in [cmath.syn].</p>
@@ -46237,9 +46237,9 @@ the standard floating-point types. Instead of explicitly deleting the overloads 
 types, we can just never declare them in the first place.
 </p>
 
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 
-
-<p id="res-3790"><b>Proposed resolution:</b></p>
 <p>
 This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
 </p>
@@ -46261,6 +46261,47 @@ constexpr long double nexttowardl(long double x, long double y);
 </blockquote>
 </li>
 </ol>
+</blockquote>
+
+
+<p><i>[2022-11-12; Tomasz comments and provides improved wording]</i></p>
+
+<p>
+During 2022-10-26 LWG telecon we decided that we want to make the calls of the <code>nexttoward</code>
+to be ill-formed (equivalent of Mandates) when the first argument is extended floating-point type.
+</p>
+
+
+
+<p id="res-3790"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+	
+<li><p>Modify 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a>, header <tt>&lt;cmath&gt;</tt> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+[&hellip;]
+constexpr <i>floating-point-type</i> nexttoward(<i>floating-point-type</i> x, <del><i>floating-point-type</i></del><ins>long double</ins> y);
+constexpr float nexttowardf(float x, long double y);
+constexpr long double nexttowardl(long double x, long double y);
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+
+<li><p>Add following paragraph at the end of 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a>, header <tt>&lt;cmath&gt;</tt> synopsis:</p>
+
+<blockquote>
+<ins>-?- An invocation of the <code>nexttoward</code> is ill-formed if the argument corresponding to the <i>floating-point-type</i>
+parameter has extended floating-point type.</ins>
+</blockquote>
+</li>
+</ol>
+
 
 
 
