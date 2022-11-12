@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2022-11-11 at 21:14:44 UTC</p>
+<td align="left"><p>Revised 2022-11-12 at 01:14:51 UTC</p>
 </td>
 </tr>
 <tr>
@@ -1923,6 +1923,53 @@ template&lt;<ins><i>not-a-const-iterator</i></ins><del>sized_sentinel_for&lt;Ite
 -25- <i>Effects</i>: Equivalent to: <tt>return x - y.<i>current_</i>;</tt>
 </p>
 </blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3807" href="#3807">3807</a><sup><a href="https://cplusplus.github.io/LWG/issue3807">(i)</a></sup>. The feature test macro for <tt>ranges::find_last</tt> should be renamed</h3>
+<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Daniel Marshall <b>Opened:</b> 2022-11-02 <b>Last modified:</b> 2022-11-12</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The current feature test macro is <tt>__cpp_lib_find_last</tt> which is inconsistent with almost all 
+other ranges algorithms which are in the form <tt>__cpp_lib_ranges_xxx</tt>.
+<p/>
+Proposed resolution is to rename the macro to <tt>__cpp_lib_ranges_find_last</tt>.
+</p>
+
+<p><i>[Kona 2022-11-12; Move to Ready]</i></p>
+
+
+
+
+<p id="res-3807"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <tt>&lt;version&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+#define __cpp_lib_filesystem              201703L <i>// also in &lt;filesystem&gt;</i>
+#define __cpp_lib<ins>_ranges</ins>_find_last        202207L <i>// also in &lt;algorithm&gt;</i>
+#define __cpp_lib_flat_map                202207L <i>// also in &lt;flat_map&gt;</i>
+[&hellip;]
+</pre>
 </blockquote>
 </li>
 

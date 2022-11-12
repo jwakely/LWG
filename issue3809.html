@@ -47,8 +47,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3809" href="lwg-active.html#3809">3809</a>. Is <tt>std::subtract_with_carry_engine&lt;uint16_t&gt;</tt> supposed to work?</h3>
 <p><b>Section:</b> 28.5.4.4 <a href="https://wg21.link/rand.eng.sub">[rand.eng.sub]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-11-02 <b>Last modified:</b> 2022-11-05</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-11-02 <b>Last modified:</b> 2022-11-12</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#rand.eng.sub">issues</a> in [rand.eng.sub].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -70,6 +70,10 @@ What is the intention here? Should it be ill-formed? Should the seed engine be
 <tt>linear_congruential_engine</tt> are used modulo 2^32 so getting 64-bit values from it is pointless, 
 and getting 16-bit values from it doesn't compile.
 </p>
+
+<p><i>[Kona 2022-11-12; Set priority to 3]</i></p>
+
+
 
 
 <p id="res-3809"><b>Proposed resolution:</b></p>
