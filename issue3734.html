@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3734" href="lwg-active.html#3734">3734</a>. Inconsistency in <tt>inout_ptr</tt> and <tt>out_ptr</tt> for empty case</h3>
 <p><b>Section:</b> 20.3.4.1 <a href="https://wg21.link/out.ptr.t">[out.ptr.t]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Doug Cook <b>Opened:</b> 2022-07-11 <b>Last modified:</b> 2022-09-03</p>
+ <b>Submitter:</b> Doug Cook <b>Opened:</b> 2022-07-11 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -58,7 +58,7 @@
 </p>
 <ul>
 <li><p><tt>out_ptr</tt> leaves the stale value in <tt>smart</tt> (not the value returned by the pointer-style function).</p></li>
-<li><p><tt>inout_ptr</tt> (as resolved by LWG <a href="lwg-active.html#3594">3594</a>) leaves <tt>nullptr</tt> in <tt>smart</tt> (the value 
+<li><p><tt>inout_ptr</tt> (as resolved by LWG <a href="lwg-defects.html#3594">3594</a>) leaves <tt>nullptr</tt> in <tt>smart</tt> (the value 
 returned by the pointer-style function).</p></li>
 </ul>
 <p>
@@ -77,7 +77,7 @@ void GetSomething(/*OUT*/ int** pp) {
 }
 </pre></blockquote>
 <p>
-In the scenario that led to the creation of issue LWG <a href="lwg-active.html#3594">3594</a>:
+In the scenario that led to the creation of issue LWG <a href="lwg-defects.html#3594">3594</a>:
 </p>
 <blockquote><pre>
 // Before the call, inout contains a stale value.
@@ -86,10 +86,10 @@ ReplaceSomething(std::inout_ptr(inout));
 // (1) If ReplaceSomething failed (returned nullptr), what does inout contain?
 </pre></blockquote>
 <p>
-Assuming LWG <a href="lwg-active.html#3594">3594</a> is resolved as suggested, <tt>inout</tt> will be empty. 
+Assuming LWG <a href="lwg-defects.html#3594">3594</a> is resolved as suggested, <tt>inout</tt> will be empty. 
 (The original <a href="https://wg21.link/N4901">N4901</a> text allows <tt>inout</tt> to be either empty or 
 to hold a pointer to already-deleted memory.) Using the resolution suggested by 
-LWG <a href="lwg-active.html#3594">3594</a>, it expands to something like the following (simplified to 
+LWG <a href="lwg-defects.html#3594">3594</a>, it expands to something like the following (simplified to 
 ignore exceptions and opting to perform the <tt>release()</tt> before the 
 <tt>ReplaceSomething()</tt> operation): 
 </p>
