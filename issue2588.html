@@ -72,7 +72,7 @@ then it's insufficient in at least two ways:
 </p>
 <ol>
 <li><p>Nothing in the specification requires the result of comparing <tt>Bi::value</tt> with <tt>false</tt> to be consistent 
-with the result of the implicit conversion. This is similar to LWG <a href="lwg-active.html#2114">2114</a>, though I don't think the 
+with the result of the implicit conversion. This is similar to LWG <a href="lwg-defects.html#2114">2114</a>, though I don't think the 
 <tt>BooleanTestable</tt> requirements in that issue's P/R covers <tt>Bi::value == false</tt> and <tt>Bi::value != false</tt>.</p></li>
 <li><p>More importantly, the above implementation is ill-formed for, e.g., 
 <tt>std::conjunction&lt;std::integral_constant&lt;int, 2&gt;, std::integral_constant&lt;int, 4&gt;&gt;</tt>, because converting 2 
