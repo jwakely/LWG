@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-27 at 12:37:45 UTC</p>
+<p><p>Revised 2022-11-27 at 18:23:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46768,6 +46768,76 @@ specialization.</ins>
 <ins><b>Effect on original feature</b>: Valid C++ 2020 code that instantiated the removed
 specialization is now ill-formed.</ins>
 </p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3><a name="3834" href="#3834">3834</a><sup><a href="https://cplusplus.github.io/LWG/issue3834">(i)</a></sup>. Missing <tt>constexpr</tt> for <tt>std::intmax_t</tt> math functions in <tt>&lt;cinttypes&gt;</tt></h3>
+<p><b>Section:</b> 31.13.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> George Tokmaji <b>Opened:</b> 2022-11-27 <b>Last modified:</b> 2022-11-27</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/P0533R9">P0533R9</a> adds <tt>constexpr</tt> to math functions in <tt>&lt;cmath&gt;</tt> 
+and <tt>&lt;cstdlib&gt;</tt>, which includes <tt>std::abs</tt> and <tt>std::div</tt>. This 
+misses the overloads for <tt>std::intmax_t</tt> in <tt>&lt;cinttypes&gt;</tt>, as well as 
+<tt>std::imaxabs</tt> and <tt>std::imaxdiv</tt>, which seems like an oversight.
+</p>
+
+
+<p id="res-3834"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 31.13.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a>, header <tt>&lt;cinttypes&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+[&hellip;]
+namespace std {
+  using imaxdiv_t = <i>see below</i>;
+  
+  <ins>constexpr</ins> intmax_t imaxabs(intmax_t j);
+  <ins>constexpr</ins> imaxdiv_t imaxdiv(intmax_t numer, intmax_t denom);
+  intmax_t strtoimax(const char* nptr, char** endptr, int base);
+  uintmax_t strtoumax(const char* nptr, char** endptr, int base);
+  intmax_t wcstoimax(const wchar_t* nptr, wchar_t** endptr, int base);
+  uintmax_t wcstoumax(const wchar_t* nptr, wchar_t** endptr, int base);
+
+  <ins>constexpr</ins> intmax_t abs(intmax_t);            // <i>optional, see below</i>
+  <ins>constexpr</ins> imaxdiv_t div(intmax_t, intmax_t); // <i>optional, see below</i>
+  [&hellip;]
+}
+[&hellip;]
+</pre></blockquote>
+<p>
+-1- The contents and meaning of the header <tt>&lt;cinttypes&gt;</tt> are the same as the C standard library header
+<tt>&lt;inttypes.h&gt;</tt>, with the following changes:
+</p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; The header <tt>&lt;cinttypes&gt;</tt> includes the header <tt>&lt;cstdint&gt;</tt> 
+(17.4.2 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>) instead of <tt>&lt;stdint.h&gt;</tt>, and</p></li>
+<li><p>(1.2) &mdash; if and only if the type <tt>intmax_t</tt> designates an extended integer type 
+(6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>), the following function signatures are added:</p>
+<blockquote><pre>
+<ins>constexpr</ins> intmax_t abs(intmax_t);
+<ins>constexpr</ins> imaxdiv_t div(intmax_t, intmax_t);
+</pre></blockquote>
+<p>which shall have the same semantics as the function signatures 
+<tt><ins>constexpr</ins> intmax_t imaxabs(intmax_t)</tt> and
+<tt><ins>constexpr</ins> imaxdiv_t imaxdiv(intmax_t, intmax_t)</tt>, respectively.</p></li>
+</ol>
+
 </blockquote>
 </li>
 </ol>
