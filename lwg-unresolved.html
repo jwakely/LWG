@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-30 at 10:08:34 UTC</p>
+<p><p>Revised 2022-11-30 at 17:59:26 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -3890,6 +3890,134 @@ discussion is likely to be fruitful.
 
 
 <p id="res-2115"><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="2116" href="#2116">2116</a><sup><a href="https://cplusplus.github.io/LWG/issue2116">(i)</a></sup>. <tt>is_nothrow_constructible</tt> and destructors</h3>
+<p><b>Section:</b> 21.3.5.4 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Dave Abrahams <b>Opened:</b> 2011-12-09 <b>Last modified:</b> 2022-11-30</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#meta.unary.prop">active issues</a> in [meta.unary.prop].</p>
+<p><b>View all other</b> <a href="lwg-index.html#meta.unary.prop">issues</a> in [meta.unary.prop].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
+<p><b>Discussion:</b></p>
+
+<p>
+IMO if we specified <tt>is_[nothrow_]constructible</tt> in terms of a variable
+declaration whose validity requires destructibility, it is clearly a bug
+in our specification and a failure to realize the actual original
+intent. The specification should have been in terms of placement-new.
+<p/>
+Daniel:<br/>
+At the time of the specification this was intended and the solution is
+<em>not</em> done by removing the destruction semantics of <tt>is_constructible</tt>.
+<p/>
+The design of <tt>is_constructible</tt> was also impacted by the previous
+<tt>Constructible</tt> concept that <em>explicitly</em> contained destruction semantics,
+because during conceptification of the library it turned out to simplify
+the constraints  in the library because you did not need to add
+<tt>Destructible</tt> all the time. It often was implied but never spoken out
+in C++03.
+<p/>
+Pure construction semantics was considered as useful as well, so <tt>HasConstructor</tt>
+did also exist and would surely be useful as trait as well.
+<p/>
+Another example that is often overlooked: This also affects wrapper types like <tt>pair</tt>,
+<tt>tuple</tt>, <tt>array</tt> that contain potentially more than one type:
+This is easy to understand if you think of <tt>T1</tt> having a deleted destructor
+and <tt>T2</tt> having a constructor that may throw: Obviously the compiler has
+potentially need to use the <tt>destructor</tt> of <tt>T1</tt> in the <em>constructor</em>
+of <tt>std::pair&lt;T1, T2&gt;</tt> to ensure that the core language requirements
+are satisfied (All previous fully constructed sub-objects must be destructed).
+<p/>
+The core language also honors this fact in  [class.copy] p11:
+</p>
+<blockquote><p>
+A defaulted copy&#47;move constructor for a class <tt>X</tt> is defined as deleted (9.5.3 <a href="https://wg21.link/dcl.fct.def.delete">[dcl.fct.def.delete]</a>)
+if <tt>X</tt> has:<br/>
+[&hellip;]<br/>
+&mdash; any direct or virtual base class or non-static data member of a type with a destructor that is deleted
+or inaccessible from the defaulted constructor,<br/>
+[&hellip;]
+</p></blockquote>
+<p>
+Dave:<br/>
+This is about <tt>is_nothrow_constructible</tt> in particular. The fact that it is
+foiled by not having a <tt>noexcept</tt> dtor is a defect.
+</p>
+
+<p><i>[2012, Kona]</i></p>
+
+<p>
+Move to Open.
+</p>
+<p>
+<tt>is_nothrow_constructible</tt> is defined in terms of <tt>is_constructible</tt>, which is defined
+by looking at a hypothetical variable and asking whether the variable definition is known not to
+throw exceptions. The issue claims that this also examines the type's destructor, given the context,
+and thus will return <tt>false</tt> if the destructor can potentially throw. At least one
+implementation (Howard's) does return <tt>false</tt> if the constructor is <tt>noexcept(true)</tt>
+and the destructor is <tt>noexcept(false)</tt>. So that's not a strained interpretation.
+The issue is asking for this to be defined in terms of placement <tt>new</tt>, instead of in terms
+of a temporary object, to make it clearer that <tt>is_nothrow_constructible</tt> looks at the
+<tt>noexcept</tt> status of only the constructor, and not the destructor.
+</p>
+<p>
+Sketch of what the wording would look like:
+</p>
+<p>
+require <tt>is_constructible</tt>, and then also require that a placement <tt>new</tt> operation
+does not throw. (Remembering the title of this issue... What does this imply for <tt>swap</tt>?
+</p>
+<p>
+If we accept this resolution, do we need any changes to <tt>swap</tt>?
+</p>
+<p> STL argues: no, because you are already forbidden from passing anything with a throwing
+destructor to <tt>swap</tt>.
+</p>
+<p>
+Dietmar argues: no, not true. Maybe statically the destructor can conceivably throw for some
+values, but maybe there are some values known not to throw. In that case, it's correct to
+pass those values to <tt>swap</tt>.
+</p>
+
+<p><i>[2017-01-27 Telecon]</i></p>
+
+<p>Gave the issue a better title</p>
+<p>This issue interacts with <a href="lwg-active.html#2827">2827</a></p>
+<p>Ville would like "an evolution group" to take a look at this issue.</p>
+
+
+<p><i>[2020-08; LWG reflector]</i></p>
+
+<p>
+A poll was taken to close the issue as NAD, but only gained three votes in favour
+(and one vote against, which was subsequently withdrawn).
+</p>
+
+<p><i>[2022-03; LWG reflector]</i></p>
+
+<p>
+A poll was taken to close the issue as NAD, with six votes in favour.
+(and one vote against, subsequently withdrawn).
+</p>
+<p>
+"Write a paper if you want something else. These traits have well established meaning now."
+"Minimizing requirements is not as important a concern for standard library concepts as as minimizing the number of concepts.
+Requirements like 'I need to construct but not destroy an object' are niche enough that we don't need to support them."
+</p>
+
+<p><i>[2022-11-30; LWG telecon]</i></p>
+
+<p>Alisdair intends to write a paper for this.</p>
+
+
+
+<p id="res-2116"><b>Proposed resolution:</b></p>
 
 
 
@@ -28841,6 +28969,117 @@ template&lt;class Facet&gt; locale combine(const locale&amp; other) const;
 
 
 <hr>
+<h3><a name="3357" href="#3357">3357</a><sup><a href="https://cplusplus.github.io/LWG/issue3357">(i)</a></sup>. [fund.ts.v3] <tt>default_random_engine</tt> is overspecified for per-thread engine</h3>
+<p><b>Section:</b> 99 [fund.ts.v3::rand.util.randint] <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+ <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2019-12-10 <b>Last modified:</b> 2022-11-30</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
+<p><b>Discussion:</b></p>
+<p><b>Addresses: fund.ts.v3</b></p>
+<p>
+Although "implementation may select this type on the basis of performance, size,
+quality, or any combination of such factors," but changing this typedef is an ABI-break
+for implementations. Specifying per-thread engine to use this typedef results in losses
+of performance, size, and/or quality.
+<p/>
+Since this type is not involved in <tt>randint</tt> facilities' interface (other than its member
+typedef), the current specification should be relaxed.
+</p>
+
+<p><i>[2020-01 Priority set to 3 and assigned to LEWG after review on the reflector.]</i></p>
+
+
+<p><i>[2020-05-28; LEWG issue reviewing]</i></p>
+
+<p>
+LEWG issue processing voted to reject 3357 as NAD. Status change to Open.
+</p>
+<blockquote>
+<pre>
+Reject LWG3357 as NAD
+
+SF  F N A SA
+1  10 4 2 1
+</pre>
+</blockquote>
+
+<p><i>[2022-10-19; Reflector poll]</i></p>
+
+<p>
+Set status to "Tentatively NAD" based on LEWG recommendation and reflector poll.
+</p>
+
+<p><i>[2022-11-30; LWG telecon]</i></p>
+
+<p>
+Prefer to keep an open issue for the TS than to possibly forget to address it
+if this feature is proposed for the IS some day.
+</p>
+
+
+
+<p id="res-3357"><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/n4840">N4840</a>.</p>
+
+<ol>
+<li><p>Modify 9.1.1 [fund.ts.v3::rand.syn], header <tt>&lt;experimental/random&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+#include &lt;random&gt;
+
+namespace std::experimental {
+inline namespace fundamentals_v3 {
+
+  <i>// 10.1.2.1, Function template randint</i>
+  template &lt;class IntType&gt;
+  IntType randint(IntType a, IntType b);
+  void reseed();
+  void reseed(<del>default_random_engine::result_type</del><ins>uint_fast32_t</ins> value);
+
+} // inline namespace fundamentals_v3
+} // namespace std::experimental
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 99 [fund.ts.v3::rand.util.randint] as indicated:</p>
+
+<blockquote>
+<p>
+-1- A separate <i>per-thread engine</i> of <del>type <tt>default_random_engine</tt> 
+(C++17 &sect;29.6.5)</del><ins>unspecified type that meets the requirements of random 
+number engine (C++17 [rand.req.eng])</ins>, initialized to an unpredictable state, 
+shall be maintained for each thread. <ins>[<i>Note:</i> The implementation may choose 
+the engine type on the basis of performance, size, quality, or any combination of such 
+factors, so as to provide at least acceptable engine behavior for relatively casual, 
+inexpert, and/or lightweight use. &mdash; <i>end note</i>]</ins>
+</p>
+[&hellip;]
+<pre>
+void reseed();
+void reseed(<del>default_random_engine::result_type</del><ins>uint_fast32_t</ins> value);
+</pre>
+<blockquote>
+<p>
+-7- <i>Effects:</i> Let <tt>g</tt> be the per-thread engine. The first form sets <tt>g</tt> to an unpredictable 
+state. The second form invokes <tt>g.seed(value)</tt>.
+<p/>
+-8- <i>Postconditions:</i> Subsequent calls to <tt>randint</tt> do not depend on values produced by <tt>g</tt> 
+before calling reseed. [<i>Note:</i> <tt>reseed</tt> also resets any instances of 
+<tt>uniform_int_distribution</tt> used by <tt>randint</tt>. &mdash; <i>end note</i>] 
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+<hr>
 <h3><a name="3370" href="#3370">3370</a><sup><a href="https://cplusplus.github.io/LWG/issue3370">(i)</a></sup>. &sect;[cstdint.syn]p2 and &sect;[headers]p5 are not sufficiently clear</h3>
 <p><b>Section:</b> 17.4.2 <a href="https://wg21.link/cstdint.syn">[cstdint.syn]</a>, 16.4.2.3 <a href="https://wg21.link/headers">[headers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Dawid Pilarski <b>Opened:</b> 2020-01-14 <b>Last modified:</b> 2020-01-25</p>
@@ -41386,7 +41625,6 @@ by <tt>make_heap(c.begin(), c.end(), comp)</tt></ins>.
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-26 <b>Last modified:</b> 2022-07-09</p>
 <p><b>Priority: </b>3
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#reverse.iter.elem">active issues</a> in [reverse.iter.elem].</p>
 <p><b>View all other</b> <a href="lwg-index.html#reverse.iter.elem">issues</a> in [reverse.iter.elem].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -41530,7 +41768,6 @@ accesses beyond what is required to determine the result of the comparison. &mda
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-06-30 <b>Last modified:</b> 2022-07-08</p>
 <p><b>Priority: </b>4
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#ranges.syn">active issues</a> in [ranges.syn].</p>
 <p><b>View all other</b> <a href="lwg-index.html#ranges.syn">issues</a> in [ranges.syn].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -41634,7 +41871,7 @@ have to cast one of the two first."
 <p><i>[2022-07-17; Daniel comments]</i></p>
 
 <p>
-This issue should be resolved by keeping LWG <a href="lwg-active.html#3739">3739</a> and <a href="lwg-active.html#3740">3740</a> in mind.
+This issue should be resolved by keeping LWG <a href="lwg-closed.html#3739">3739</a> and <a href="lwg-closed.html#3740">3740</a> in mind.
 </p>
 
 

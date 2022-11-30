@@ -44,15 +44,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">Tentatively NAD</a> status.</em></p>
-<h3><a name="3727" href="lwg-active.html#3727">3727</a>. <tt>reverse_iterator</tt>/<tt>common_iterator</tt>'s <tt>operator-&gt;</tt> should not require the underlying iterator's <tt>operator-&gt;</tt> to be a <tt>const</tt> member function</h3>
-<p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a>, 25.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
+<h3><a name="3727" href="lwg-closed.html#3727">3727</a>. <tt>reverse_iterator</tt>/<tt>common_iterator</tt>'s <tt>operator-&gt;</tt> should not require the underlying iterator's <tt>operator-&gt;</tt> to be a <tt>const</tt> member function</h3>
+<p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a>, 25.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#reverse.iter.elem">active issues</a> in [reverse.iter.elem].</p>
 <p><b>View all other</b> <a href="lwg-index.html#reverse.iter.elem">issues</a> in [reverse.iter.elem].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#NAD">NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 For non-pointer types, <tt>reverse_iterator::operator-&gt;</tt> requires that the <tt>Iterator</tt> 
@@ -87,6 +86,8 @@ The PR actually loses that property and makes those overloads truly underconstra
 Motivation for relaxing it is vague.
 As for consistency, we should fix has-arrow instead.
 </p>
+
+<p><i>[2022-11-30 LWG telecon. Status changed: Tentatively NAD &rarr; NAD.]</i></p>
 
 
 

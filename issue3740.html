@@ -44,14 +44,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">Tentatively NAD</a> status.</em></p>
-<h3><a name="3740" href="lwg-active.html#3740">3740</a>. <tt>slide_view::size</tt> should preserve the signedness of underlying range's size</h3>
-<p><b>Section:</b> 26.7.28.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
+<h3><a name="3740" href="lwg-closed.html#3740">3740</a>. <tt>slide_view::size</tt> should preserve the signedness of underlying range's size</h3>
+<p><b>Section:</b> 26.7.28.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.slide.view">issues</a> in [range.slide.view].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#NAD">NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Currently, <tt>slide_view::size const</tt> has the following <i>Effects</i>:
@@ -62,7 +62,7 @@ if (sz &gt; 0) sz = 0;
 return <i>to-unsigned-like</i>(sz);
 </pre>
 <p>
-There are two problems worth noting here. First, as described in LWG <a href="lwg-active.html#3739">3739</a>, 
+There are two problems worth noting here. First, as described in LWG <a href="lwg-closed.html#3739">3739</a>, 
 <tt>ranges::distance(<i>base_</i>)</tt> and <tt><i>n_</i></tt> may have 
 different types, which makes the actual type of <tt>sz</tt> not deterministic.
 Also, the return type is unconditionally converted to an unsigned type, even though 
@@ -81,6 +81,8 @@ returning is the appropriate thing to do.
 <p>
 Paper author: "I did consider promotion and decided not to care. The code compiles and conforms to all ranges requirements, and that seems entirely sufficient to me." "Even if we don't outlaw those being different types entirely, people playing those games will still get exactly one unsigned-integer-like type back. It's totally deterministic."
 </p>
+
+<p><i>[2022-11-30 LWG telecon. Status changed: Tentatively NAD &rarr; NAD.]</i></p>
 
 
 
