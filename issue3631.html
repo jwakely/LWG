@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3631" href="lwg-active.html#3631">3631</a>. <tt>basic_format_arg(T&amp;&amp;)</tt> should use <tt>remove_cvref_t&lt;T&gt;</tt> throughout</h3>
 <p><b>Section:</b> 22.14.8.1 <a href="https://wg21.link/format.arg">[format.arg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-11-03 <b>Last modified:</b> 2022-11-10</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-11-03 <b>Last modified:</b> 2022-11-30</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.arg">active issues</a> in [format.arg].</p>
@@ -67,7 +67,7 @@ they need to be removed before the checks.
 Set priority to 3 after reflector poll.
 </p>
 <p>
-Two suggestions to just change it to be <tt>T&amp;</tt> because we don't 
+Two suggestions to just change it to be <tt>T&amp;</tt> because we don't
 need forwarding references here, and only accepting lvalues prevents
 forming dangling references.
 </p>
@@ -95,8 +95,8 @@ template&lt;class T&gt; explicit basic_format_arg(T&amp;&amp; v) noexcept;
 typename Context::template formatter_type&lt;<del>remove_cvref_t&lt;T&gt;</del><ins>TD</ins>&gt;
 </pre></blockquote>
 <p>
-meets the <i>BasicFormatter</i> requirements (22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>). The extent to 
-which an implementation determines that the specialization meets the <i>BasicFormatter</i> 
+meets the <i>BasicFormatter</i> requirements (22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>). The extent to
+which an implementation determines that the specialization meets the <i>BasicFormatter</i>
 requirements is unspecified, except that as a minimum the expression
 </p>
 <blockquote><pre>
@@ -110,13 +110,13 @@ shall be well-formed when treated as an unevaluated operand (7.2.3 <a href="http
 </p>
 <ol style="list-style-type:none">
 <li><p>(5.1) &mdash; if <tt>T<ins>D</ins></tt> is <tt>bool</tt> or <tt>char_type</tt>, initializes <tt>value</tt> with <tt>v</tt>;</p></li>
-<li><p>(5.2) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is <tt>char</tt> and <tt>char_type</tt> is <tt>wchar_t</tt>, 
+<li><p>(5.2) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is <tt>char</tt> and <tt>char_type</tt> is <tt>wchar_t</tt>,
 initializes <tt>value</tt> with <tt>static_cast&lt;wchar_t&gt;(v)</tt>;</p></li>
-<li><p>(5.3) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>) and 
+<li><p>(5.3) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>) and
 <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(int)</tt>, initializes <tt>value</tt> with <tt>static_cast&lt;int&gt;(v)</tt>;</p></li>
-<li><p>(5.4) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is an unsigned integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(unsigned int)</tt>, 
+<li><p>(5.4) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is an unsigned integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(unsigned int)</tt>,
 initializes <tt>value</tt> with <tt>static_cast&lt;unsigned int&gt;(v)</tt>;</p></li>
-<li><p>(5.5) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(long long int)</tt>, 
+<li><p>(5.5) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(long long int)</tt>,
 initializes <tt>value</tt> with <tt>static_cast&lt;long long int&gt;(v)</tt>;</p></li>
 <li><p>(5.6) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is an unsigned integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(unsigned long long int)</tt>, initializes <tt>value</tt> with <tt>static_cast&lt;unsigned long long int&gt;(v)</tt>;</p></li>
 <li><p>(5.7) &mdash; otherwise, initializes <tt>value</tt> with <tt>handle(v)</tt>.</p></li>
@@ -165,8 +165,8 @@ template&lt;class T&gt; explicit basic_format_arg(T&amp;<del>&amp;</del> v) noex
 typename Context::template formatter_type&lt;remove_cvref_t&lt;T&gt;&gt;
 </del></pre></blockquote>
 <p><del>
-meets the <i>BasicFormatter</i> requirements (22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>). The extent to 
-which an implementation determines that the specialization meets the <i>BasicFormatter</i> 
+meets the <i>BasicFormatter</i> requirements (22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>). The extent to
+which an implementation determines that the specialization meets the <i>BasicFormatter</i>
 requirements is unspecified, except that as a minimum the expression
 </del></p>
 <blockquote><pre><del>
@@ -187,13 +187,13 @@ If <tt>decay_t&lt;T&gt;</tt> is <tt>char_type*</tt> or <tt>const char_type*</tt>
 </p>
 <ol style="list-style-type:none">
 <li><p>(5.1) &mdash; if <tt>T<ins>D</ins></tt> is <tt>bool</tt> or <tt>char_type</tt>, initializes <tt>value</tt> with <tt>v</tt>;</p></li>
-<li><p>(5.2) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is <tt>char</tt> and <tt>char_type</tt> is <tt>wchar_t</tt>, 
+<li><p>(5.2) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is <tt>char</tt> and <tt>char_type</tt> is <tt>wchar_t</tt>,
 initializes <tt>value</tt> with <tt>static_cast&lt;wchar_t&gt;(v)</tt>;</p></li>
-<li><p>(5.3) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>) and 
+<li><p>(5.3) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>) and
 <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(int)</tt>, initializes <tt>value</tt> with <tt>static_cast&lt;int&gt;(v)</tt>;</p></li>
-<li><p>(5.4) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is an unsigned integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(unsigned int)</tt>, 
+<li><p>(5.4) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is an unsigned integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(unsigned int)</tt>,
 initializes <tt>value</tt> with <tt>static_cast&lt;unsigned int&gt;(v)</tt>;</p></li>
-<li><p>(5.5) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(long long int)</tt>, 
+<li><p>(5.5) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(long long int)</tt>,
 initializes <tt>value</tt> with <tt>static_cast&lt;long long int&gt;(v)</tt>;</p></li>
 <li><p>(5.6) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is an unsigned integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(unsigned long long int)</tt>, initializes <tt>value</tt> with <tt>static_cast&lt;unsigned long long int&gt;(v)</tt>;</p></li>
 
@@ -298,7 +298,7 @@ and <tt>TD</tt> otherwise.
 <tt><del><i>const-formattable</i></del>
 <ins><tt>formattable&lt;const TD, char_type&gt;</tt></ins>
 ||
-!is_const_v&lt;<del>remove_reference_t&lt;</del>T<del>&gt;</del></tt> 
+!is_const_v&lt;<del>remove_reference_t&lt;</del>T<del>&gt;</del></tt>
 is <tt>true</tt>.
 </p>
 <p>-19- <i>Effects</i>:
@@ -321,6 +321,9 @@ Initializes <tt>ptr_</tt> with <tt>addressof(val)</tt> and <tt>format_</tt> with
 </blockquote>
 
 <p><i>[2022-11-10; Jonathan provides improved wording]</i></p>
+
+
+<p><i>[2022-11-29; Casey expands the issue to also cover <tt>make_format_args</tt>]</i></p>
 
 
 
@@ -383,8 +386,8 @@ template&lt;class T&gt; explicit basic_format_arg(T&amp;<del>&amp;</del> v) noex
 typename Context::template formatter_type&lt;remove_cvref_t&lt;T&gt;&gt;
 </del></pre></blockquote>
 <p><del>
-meets the <i>BasicFormatter</i> requirements (22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>). The extent to 
-which an implementation determines that the specialization meets the <i>BasicFormatter</i> 
+meets the <i>BasicFormatter</i> requirements (22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>). The extent to
+which an implementation determines that the specialization meets the <i>BasicFormatter</i>
 requirements is unspecified, except that as a minimum the expression
 </del></p>
 <blockquote><pre><del>
@@ -405,13 +408,13 @@ If <tt>decay_t&lt;T&gt;</tt> is <tt>char_type*</tt> or <tt>const char_type*</tt>
 </p>
 <ol style="list-style-type:none">
 <li><p>(5.1) &mdash; if <tt>T<ins>D</ins></tt> is <tt>bool</tt> or <tt>char_type</tt>, initializes <tt>value</tt> with <tt>v</tt>;</p></li>
-<li><p>(5.2) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is <tt>char</tt> and <tt>char_type</tt> is <tt>wchar_t</tt>, 
+<li><p>(5.2) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is <tt>char</tt> and <tt>char_type</tt> is <tt>wchar_t</tt>,
 initializes <tt>value</tt> with <tt>static_cast&lt;wchar_t&gt;(v)</tt>;</p></li>
-<li><p>(5.3) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>) and 
+<li><p>(5.3) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type (6.8.2 <a href="https://wg21.link/basic.fundamental">[basic.fundamental]</a>) and
 <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(int)</tt>, initializes <tt>value</tt> with <tt>static_cast&lt;int&gt;(v)</tt>;</p></li>
-<li><p>(5.4) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is an unsigned integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(unsigned int)</tt>, 
+<li><p>(5.4) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is an unsigned integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(unsigned int)</tt>,
 initializes <tt>value</tt> with <tt>static_cast&lt;unsigned int&gt;(v)</tt>;</p></li>
-<li><p>(5.5) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(long long int)</tt>, 
+<li><p>(5.5) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is a signed integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(long long int)</tt>,
 initializes <tt>value</tt> with <tt>static_cast&lt;long long int&gt;(v)</tt>;</p></li>
 <li><p>(5.6) &mdash; otherwise, if <tt>T<ins>D</ins></tt> is an unsigned integer type and <tt>sizeof(T<ins>D</ins>) &lt;= sizeof(unsigned long long int)</tt>, initializes <tt>value</tt> with <tt>static_cast&lt;unsigned long long int&gt;(v)</tt>;</p></li>
 
@@ -531,6 +534,24 @@ Initializes <tt>ptr_</tt> with <tt>addressof(val)</tt> and <tt>format_</tt> with
 </p>
 </blockquote>
 </blockquote>
+</li>
+
+<li><p>Modify 22.14.8.2 <a href="https://wg21.link/format.arg.store">[format.arg.store]</a> p2 as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class Context = format_context, class... Args&gt;
+  <i>format-arg-store</i>&lt;Context, Args...&gt; make_format_args(Args&amp;&amp;... fmt_args);
+</pre>
+<blockquote>
+<p>-2- <i>Preconditions</i>: The type
+<tt>typename Context::template formatter_type&lt;<ins>remove_cvref_t&lt;</ins>T</tt><sub>i</sub><tt><ins>&gt;</ins>&gt;</tt>
+meets the <i>BasicFormatter</i> requirements (22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>) for each <tt>T</tt><sub>i</sub>
+in <tt>Args</tt>.
+</p>
+</blockquote>
+</blockquote>
+
 </li>
 </ol>
 

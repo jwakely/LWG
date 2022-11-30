@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-11-27 at 18:23:14 UTC</p>
+<p><p>Revised 2022-11-30 at 10:08:34 UTC</p>
 </p><h2>Tentative Issues</h2>
 <hr>
 <h3><a name="2116" href="#2116">2116</a><sup><a href="https://cplusplus.github.io/LWG/issue2116">(i)</a></sup>. <tt>is_nothrow_constructible</tt> and destructors</h3>
@@ -172,7 +172,7 @@ Requirements like 'I need to construct but not destroy an object' are niche enou
 <hr>
 <h3><a name="2432" href="#2432">2432</a><sup><a href="https://cplusplus.github.io/LWG/issue2432">(i)</a></sup>. <tt>initializer_list</tt> assignability</h3>
 <p><b>Section:</b> 17.11 <a href="https://wg21.link/support.initlist">[support.initlist]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> David Krauss <b>Opened:</b> 2014-09-30 <b>Last modified:</b> 2022-11-25</p>
+ <b>Submitter:</b> David Krauss <b>Opened:</b> 2014-09-30 <b>Last modified:</b> 2022-08-24</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#support.initlist">active issues</a> in [support.initlist].</p>
@@ -246,9 +246,204 @@ namespace std {
 
 
 <hr>
+<h3><a name="3204" href="#3204">3204</a><sup><a href="https://cplusplus.github.io/LWG/issue3204">(i)</a></sup>. <tt>sub_match::swap</tt> only swaps the base class</h3>
+<p><b>Section:</b> 32.8 <a href="https://wg21.link/re.submatch">[re.submatch]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-05-07 <b>Last modified:</b> 2022-11-30</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#re.submatch">active issues</a> in [re.submatch].</p>
+<p><b>View all other</b> <a href="lwg-index.html#re.submatch">issues</a> in [re.submatch].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>sub_match&lt;I&gt;</tt> derives publicly from <tt>pair&lt;I,I&gt;</tt>, and so inherits 
+<tt>pair::swap(pair&amp;)</tt>. This means that the following program fails:
+</p>
+<blockquote><pre>
+#include &lt;regex&gt;
+#include &lt;cassert&gt;
+
+int main()
+{
+  std::sub_match&lt;const char*&gt; a, b;
+  a.matched = true;
+  a.swap(b);
+  assert(b.matched);
+}
+</pre></blockquote>
+<p>
+The <tt>pair::swap(pair&amp;)</tt> member should be hidden by a <tt>sub_match::swap(sub_match&amp;)</tt> 
+member that does the right thing.
+</p>
+
+<p><i>[2019-06-12 Priority set to 3 after reflector discussion]</i></p>
+
+
+<p><i>[2020-05-01; Daniel adjusts wording to recent working draft]</i></p>
+
+
+<p><i>[2022-04-25; Daniel adjusts wording to recent working draft]</i></p>
+
+<p>
+In addition the revised wording uses the new standard phrase "The exception specification is equivalent to"
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 32.8 <a href="https://wg21.link/re.submatch">[re.submatch]</a>, class template <tt>sub_match</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class BidirectionalIterator&gt;
+class sub_match : public pair&lt;BidirectionalIterator, BidirectionalIterator&gt; {
+public:
+  [&hellip;]
+  int compare(const sub_match&amp; s) const;
+  int compare(const string_type&amp; s) const;
+  int compare(const value_type* s) const;
+  
+  <ins>void swap(sub_match&amp; s) noexcept(<i>see below</i>);</ins>
+};
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 32.8.2 <a href="https://wg21.link/re.submatch.members">[re.submatch.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+int compare(const value_type* s) const;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+<ins>void swap(sub_match&amp; s) noexcept(<i>see below</i>);</ins>
+</pre>
+<blockquote class="note">
+[<i>Drafting note:</i> The swappable requirement should really be unnecessary because <i>Cpp17Iterator</i> 
+requires it, but there is no wording that requires <tt>BidirectionalIterator</tt> in Clause
+32 <a href="https://wg21.link/re">[re]</a> in general meets the bidirectional iterator requirements. Note that the definition found
+in 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> does not extend to 32 <a href="https://wg21.link/re">[re]</a> normatively. &mdash; 
+<i>end drafting note</i>]
+</blockquote>
+<blockquote>
+<p>
+<ins>-?- <i>Preconditions:</i> Lvalues of type <tt>BidirectionalIterator</tt> are swappable 
+(16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>).</ins>
+<p/>
+<ins>-?- <i>Effects:</i> Equivalent to:</ins>
+</p>
+<blockquote><pre>
+<ins>this-&gt;pair&lt;BidirectionalIterator, BidirectionalIterator&gt;::swap(s);
+std::swap(matched, s.matched);</ins>
+</pre></blockquote>
+<p>
+<ins>-?- <i>Remarks:</i> The exception specification is equivalent to 
+<tt>is_nothrow_swappable_v&lt;BidirectionalIterator&gt;</tt>.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2022-11-06; Daniel comments and improves wording]</i></p>
+
+<p>
+With the informal acceptance of <a href="https://isocpp.org/files/papers/P2696R0.html">P2696R0</a> by 
+LWG during a pre-Kona telecon, we should use the new requirement set <i>Cpp17Swappable</i> instead of 
+the "LValues are swappable" requirements.
+</p>
+
+
+<p><i>[2022-11-30; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-3204"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a> <b>and assumes the acceptance of <a href="https://isocpp.org/files/papers/P2696R0.html">P2696R0</a></b>.
+</p>
+
+<ol>
+<li><p>Modify 32.8 <a href="https://wg21.link/re.submatch">[re.submatch]</a>, class template <tt>sub_match</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class BidirectionalIterator&gt;
+class sub_match : public pair&lt;BidirectionalIterator, BidirectionalIterator&gt; {
+public:
+  [&hellip;]
+  int compare(const sub_match&amp; s) const;
+  int compare(const string_type&amp; s) const;
+  int compare(const value_type* s) const;
+  
+  <ins>void swap(sub_match&amp; s) noexcept(<i>see below</i>);</ins>
+};
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 32.8.2 <a href="https://wg21.link/re.submatch.members">[re.submatch.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+int compare(const value_type* s) const;
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+<ins>void swap(sub_match&amp; s) noexcept(<i>see below</i>);</ins>
+</pre>
+<blockquote class="note">
+[<i>Drafting note:</i> The <i>Cpp17Swappable</i> requirement should really be unnecessary because <i>Cpp17Iterator</i> 
+requires it, but there is no wording that requires <tt>BidirectionalIterator</tt> in Clause
+32 <a href="https://wg21.link/re">[re]</a> in general meets the bidirectional iterator requirements. Note that the definition found
+in 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a> does not extend to 32 <a href="https://wg21.link/re">[re]</a> normatively. &mdash; 
+<i>end drafting note</i>]
+</blockquote>
+<blockquote>
+<p>
+<ins>-?- <i>Preconditions:</i> <tt>BidirectionalIterator</tt> meets the <i>Cpp17Swappable</i> requirements 
+(16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>).</ins>
+<p/>
+<ins>-?- <i>Effects:</i> Equivalent to:</ins>
+</p>
+<blockquote><pre>
+<ins>this-&gt;pair&lt;BidirectionalIterator, BidirectionalIterator&gt;::swap(s);
+std::swap(matched, s.matched);</ins>
+</pre></blockquote>
+<p>
+<ins>-?- <i>Remarks:</i> The exception specification is equivalent to 
+<tt>is_nothrow_swappable_v&lt;BidirectionalIterator&gt;</tt>.</ins>
+</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
 <h3><a name="3357" href="#3357">3357</a><sup><a href="https://cplusplus.github.io/LWG/issue3357">(i)</a></sup>. [fund.ts.v3] <tt>default_random_engine</tt> is overspecified for per-thread engine</h3>
 <p><b>Section:</b> 99 [fund.ts.v3::rand.util.randint] <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2019-12-10 <b>Last modified:</b> 2022-10-22</p>
+ <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2019-12-10 <b>Last modified:</b> 2022-10-19</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
@@ -352,7 +547,7 @@ before calling reseed. [<i>Note:</i> <tt>reseed</tt> also resets any instances o
 <hr>
 <h3><a name="3726" href="#3726">3726</a><sup><a href="https://cplusplus.github.io/LWG/issue3726">(i)</a></sup>. <tt>reverse_iterator::operator-&gt;</tt> is underconstrained for non-pointer iterators</h3>
 <p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-09-03</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#reverse.iter.elem">active issues</a> in [reverse.iter.elem].</p>
@@ -417,7 +612,7 @@ constexpr pointer operator-&gt;() const
 <hr>
 <h3><a name="3727" href="#3727">3727</a><sup><a href="https://cplusplus.github.io/LWG/issue3727">(i)</a></sup>. <tt>reverse_iterator</tt>/<tt>common_iterator</tt>'s <tt>operator-&gt;</tt> should not require the underlying iterator's <tt>operator-&gt;</tt> to be a <tt>const</tt> member function</h3>
 <p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a>, 25.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-09-03</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#reverse.iter.elem">active issues</a> in [reverse.iter.elem].</p>
@@ -551,7 +746,7 @@ constexpr decltype(auto) operator-&gt;() const
 <hr>
 <h3><a name="3735" href="#3735">3735</a><sup><a href="https://cplusplus.github.io/LWG/issue3735">(i)</a></sup>. <tt>views::adjacent&lt;0&gt;</tt> should be prohibited</h3>
 <p><b>Section:</b> 26.7.25.1 <a href="https://wg21.link/range.adjacent.overview">[range.adjacent.overview]</a>, 26.7.26.1 <a href="https://wg21.link/range.adjacent.transform.overview">[range.adjacent.transform.overview]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-13 <b>Last modified:</b> 2022-09-03</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-13 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
@@ -637,7 +832,7 @@ decay_t&lt;decltype((F))&gt;, N&gt;(E, F)</tt>.</p></li>
 <hr>
 <h3><a name="3739" href="#3739">3739</a><sup><a href="https://cplusplus.github.io/LWG/issue3739">(i)</a></sup>. <tt>chunk_view::size</tt> should preserve the signedness of the size of the underlying range</h3>
 <p><b>Section:</b> 26.7.27.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a>, 26.7.27.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-09-03</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.chunk.view.input">issues</a> in [range.chunk.view.input].</p>
@@ -736,7 +931,7 @@ return <del><i>to-unsigned-like</i>(</del><i>div-ceil</i>(ranges::<ins>size</ins
 <hr>
 <h3><a name="3740" href="#3740">3740</a><sup><a href="https://cplusplus.github.io/LWG/issue3740">(i)</a></sup>. <tt>slide_view::size</tt> should preserve the signedness of underlying range's size</h3>
 <p><b>Section:</b> 26.7.28.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-09-03</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-07-15 <b>Last modified:</b> 2022-08-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.slide.view">issues</a> in [range.slide.view].</p>
@@ -808,7 +1003,7 @@ return <ins>static_cast&lt;decltype(ranges::size(<i>base_</i>))&gt;</ins><del><i
 <hr>
 <h3><a name="3741" href="#3741">3741</a><sup><a href="https://cplusplus.github.io/LWG/issue3741">(i)</a></sup>. <tt>std::chrono::abs(duration)</tt> is ill-formed with non-reduced periods</h3>
 <p><b>Section:</b> 29.5.10 <a href="https://wg21.link/time.duration.alg">[time.duration.alg]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Charlie Barto <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-09-03</p>
+ <b>Submitter:</b> Charlie Barto <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-08-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
@@ -889,9 +1084,156 @@ template&lt;class Rep, class Period&gt;
 
 
 <hr>
+<h3><a name="3742" href="#3742">3742</a><sup><a href="https://cplusplus.github.io/LWG/issue3742">(i)</a></sup>. <tt>deque::prepend_range</tt> needs to permute</h3>
+<p><b>Section:</b> 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-11-30</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#sequence.reqmts">active issues</a> in [sequence.reqmts].</p>
+<p><b>View all other</b> <a href="lwg-index.html#sequence.reqmts">issues</a> in [sequence.reqmts].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+When the range to be inserted is neither bidirectional nor sized, it's simpler to prepend 
+elements one at a time, and then reverse the prepended elements. When the range to be 
+inserted is neither forward nor sized, I believe this approach is necessary to implement 
+<tt>prepend_range</tt> at all &mdash; there is no way to determine the length of the range 
+modulo the block size of the <tt>deque</tt> ahead of time so as to insert the new elements 
+in the proper position.
+<p/>
+The container requirements do not allow <tt>prepend_range</tt> to permute elements in a 
+<tt>deque</tt>. I believe we <em>must</em> allow permutation when the range is neither 
+forward nor sized, and we <em>should</em> allow permutation when the range is not bidirectional 
+to allow implementations the freedom to make a single pass through the range.
+</p>
+
+<p><i>[2022-07-17; Daniel comments]</i></p>
+
+<p>
+The below suggested wording follows the existing style used in the specification of <tt>insert</tt>
+and <tt>insert_range</tt>, for example. Unfortunately, this existing practice violates the usual
+wording style that a <i>Cpp17XXX</i> requirement shall be <em>met</em> and that we should better
+say that "lvalues of type <tt>T</tt> are swappable (16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>)" to 
+be clearer about the specific swappable context. A separate editorial issue will be reported to take
+care of this problem.
+</p>
+
+<p><i>[2022-08-23; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+a.prepend_range(rg)
+</pre>
+<blockquote>
+<p>
+-94- <i>Result:</i> <tt>void</tt>
+<p/>
+-95- <i>Preconditions:</i> <tt>T</tt> is <i>Cpp17EmplaceConstructible</i> into <tt>X</tt> 
+from <tt>*ranges::begin(rg)</tt>. <ins>For <tt>deque</tt>, <tt>T</tt> is also 
+<tt>Cpp17MoveInsertable</tt> into <tt>X</tt>, <i>Cpp17MoveConstructible</i>, 
+<i>Cpp17MoveAssignable</i>, and swappable (16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>).</ins>
+<p/>
+-96- <i>Effects:</i> Inserts copies of elements in <tt>rg</tt> before <tt>begin()</tt>. 
+Each iterator in the range <tt>rg</tt> is dereferenced exactly once.
+<p/>
+[<i>Note 3</i>: The order of elements in <tt>rg</tt> is not reversed. &mdash; <i>end note</i>]
+<p/>
+-97- <i>Remarks:</i> Required for <tt>deque</tt>, <tt>forward_list</tt>, and <tt>list</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2022-11-07; Daniel reopens and comments]</i></p>
+
+<p>
+The proposed wording has two problems:
+</p>
+<ol>
+<li><p>It still uses "swappable" instead of "swappable lvalues", which
+with the (informal) acceptance of <a href="https://isocpp.org/files/papers/P2696R0.html">P2696R0</a>
+should now become <i>Cpp17Swappable</i>.</p></li>
+<li><p>It uses an atypical form to say "<tt>T</tt> (is) <i>Cpp17MoveConstructible</i>,
+<i>Cpp17MoveAssignable</i>" instead of the more correct form "<tt>T</tt> meets the
+<i>Cpp17MoveConstructible</i> and <i>Cpp17MoveAssignable</i> requirements". This
+form was also corrected by <a href="https://isocpp.org/files/papers/P2696R0.html">P2696R0</a>.</p></li>
+</ol>
+<p>
+The revised wording uses the <a href="https://isocpp.org/files/papers/P2696R0.html">P2696R0</a>
+wording approach to fix both problems.
+</p>
+
+<p><i>[Kona 2022-11-12; Set priority to 2]</i></p>
+
+
+
+<p><i>[2022-11-30; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-3742"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a> <b>assuming that <a href="https://isocpp.org/files/papers/P2696R0.html">P2696R0</a>
+has been accepted</b>.
+</p>
+
+<ol>
+<li><p>Modify 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+a.prepend_range(rg)
+</pre>
+<blockquote>
+<p>
+-94- <i>Result:</i> <tt>void</tt>
+<p/>
+-95- <i>Preconditions:</i> <tt>T</tt> is <i>Cpp17EmplaceConstructible</i> into <tt>X</tt> 
+from <tt>*ranges::begin(rg)</tt>. <ins>For <tt>deque</tt>, <tt>T</tt> is also 
+<tt>Cpp17MoveInsertable</tt> into <tt>X</tt>, and <tt>T</tt> meets the <i>Cpp17MoveConstructible</i>, 
+<i>Cpp17MoveAssignable</i>, and <i>Cpp17Swappable</i> (16.4.4.3 <a href="https://wg21.link/swappable.requirements">[swappable.requirements]</a>) requirements.</ins>
+<p/>
+-96- <i>Effects:</i> Inserts copies of elements in <tt>rg</tt> before <tt>begin()</tt>. 
+Each iterator in the range <tt>rg</tt> is dereferenced exactly once.
+<p/>
+[<i>Note 3</i>: The order of elements in <tt>rg</tt> is not reversed. &mdash; <i>end note</i>]
+<p/>
+-97- <i>Remarks:</i> Required for <tt>deque</tt>, <tt>forward_list</tt>, and <tt>list</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3752" href="#3752">3752</a><sup><a href="https://cplusplus.github.io/LWG/issue3752">(i)</a></sup>. Should <tt>string::substr</tt> forward the allocator to the newly created string?</h3>
 <p><b>Section:</b> 23.4.3.8.3 <a href="https://wg21.link/string.substr">[string.substr]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Igor Zhukov <b>Opened:</b> 2022-08-10 <b>Last modified:</b> 2022-09-03</p>
+ <b>Submitter:</b> Igor Zhukov <b>Opened:</b> 2022-08-10 <b>Last modified:</b> 2022-08-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
@@ -934,7 +1276,7 @@ Set status to Tentatively NAD after reflector poll.
 <hr>
 <h3><a name="3768" href="#3768">3768</a><sup><a href="https://cplusplus.github.io/LWG/issue3768">(i)</a></sup>. <tt><i>possibly-const-range</i></tt> is overconstrained</h3>
 <p><b>Section:</b> 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-08 <b>Last modified:</b> 2022-09-24</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-08 <b>Last modified:</b> 2022-09-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#ranges.syn">active issues</a> in [ranges.syn].</p>
@@ -1220,7 +1562,7 @@ which has not been invalidated by an intervening call to <tt>operator delete[]</
 <hr>
 <h3><a name="3800" href="#3800">3800</a><sup><a href="https://cplusplus.github.io/LWG/issue3800">(i)</a></sup>. No deduction guide for <tt>std::match_results</tt></h3>
 <p><b>Section:</b> 32.9.1 <a href="https://wg21.link/re.results.general">[re.results.general]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-10-25 <b>Last modified:</b> 2022-11-02</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-10-25 <b>Last modified:</b> 2022-11-01</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
@@ -1282,13 +1624,115 @@ namespace std {
 
 
 <hr>
+<h3><a name="3806" href="#3806">3806</a><sup><a href="https://cplusplus.github.io/LWG/issue3806">(i)</a></sup>. Should concept <tt>formattable&lt;T, charT&gt;</tt> default to <tt>char</tt>?</h3>
+<p><b>Section:</b> 22.14.6.2 <a href="https://wg21.link/format.formattable">[format.formattable]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-10-28 <b>Last modified:</b> 2022-11-30</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For many uses of <tt>&lt;format&gt;</tt> there's no need to explicitly mention the output type as 
+<tt>char</tt>. There are either typedefs for <tt>char</tt> specializations (<tt>format_context</tt>, 
+<tt>format_parse_context</tt>, <tt>format_args</tt>, etc.) or a default template argument 
+(<tt>formatter</tt>, <tt>range_formatter</tt>). But for the new <tt>formattable</tt> concept you 
+always need to specify the character type:
+</p>
+<blockquote><pre>
+static_assert( std::formattable&lt;int&gt; ); // <span style="color:red;font-weight:bolder">ill-formed</span>
+static_assert( std::formattable&lt;int, char&gt; ); // OK
+</pre></blockquote>
+<p>
+Should the concept have a default template argument for the second parameter, to make it easier to 
+check whether something is <tt>formattable</tt> as <tt>char</tt>?
+</p>
+
+<p><i>[2022-11-01; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+Two votes for NAD, the convenience makes it easier to misuse.
+</p>
+
+<p><i>[2022-11-30; Reflector poll]</i></p>
+
+<p>
+Set status to "Tentatively NAD" after ten votes in reflector poll.
+</p>
+
+
+
+<p id="res-3806"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.14.1 <a href="https://wg21.link/format.syn">[format.syn]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+<i>// 22.14.6 <a href="https://wg21.link/format.formatter">[format.formatter]</a>, formatter</i>
+template&lt;class T, class charT = char&gt; struct formatter;
+
+<i>// 22.14.6.2 <a href="https://wg21.link/format.formattable">[format.formattable]</a>, concept formattable</i>
+template&lt;class T, class charT <ins>= char</ins>&gt;
+  concept formattable = <i>see below</i>;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 22.14.6.2 <a href="https://wg21.link/format.formattable">[format.formattable]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> This repeats the default template argument already shown in the synopsis, 
+which would not be valid in C++ code. That is consistent with our presentation style though, 
+as this is not C++ code, it's a specification. See e.g. <tt>indirect_strict_weak_order</tt> and 
+<tt>subrange</tt>.]
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+-1- Let <tt><i>fmt-iter-for</i>&lt;charT&gt;</tt> be an unspecified type that models 
+<tt>output_iterator&lt;const charT&amp;&gt;</tt> (25.3.4.10 <a href="https://wg21.link/iterator.concept.output">[iterator.concept.output]</a>).
+</p>
+<blockquote>
+<pre>
+template&lt;class T, class charT <ins>= char</ins>&gt;
+  concept formattable =
+    semiregular&lt;formatter&lt;remove_cvref_t&lt;T&gt;, charT&gt;&gt; &amp;&amp;
+    requires(formatter&lt;remove_cvref_t&lt;T&gt;, charT&gt; f,
+             const formatter&lt;remove_cvref_t&lt;T&gt;, charT&gt; cf,
+             T t,
+             basic_format_context&lt;<i>fmt-iter-for</i>&lt;charT&gt;, charT&gt; fc,
+             basic_format_parse_context&lt;charT&gt; pc) {
+      { f.parse(pc) } -&gt; same_as&lt;basic_format_parse_context&lt;charT&gt;::iterator&gt;;
+      { cf.format(t, fc) } -&gt; same_as&lt;<i>fmt-iter-for</i>&lt;charT&gt;&gt;;
+    };
+</pre>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3819" href="#3819">3819</a><sup><a href="https://cplusplus.github.io/LWG/issue3819">(i)</a></sup>. <tt>reference_<i>meow</i>s_from_temporary</tt> should not use <tt>is_<i>meow</i>ible</tt></h3>
 <p><b>Section:</b> 21.3.5.4 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-11</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#meta.unary.prop">active issues</a> in [meta.unary.prop].</p>
 <p><b>View all other</b> <a href="lwg-index.html#meta.unary.prop">issues</a> in [meta.unary.prop].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The intent of <a href="https://wg21.link/P2255R2">P2255R2</a> is for the <tt>reference_<i>meow</i>s_from_temporary</tt> traits 

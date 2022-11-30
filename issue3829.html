@@ -47,8 +47,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3829" href="lwg-active.html#3829">3829</a>. <tt>as_rvalue_view::end</tt> should improve non-common case</h3>
 <p><b>Section:</b> 26.7.7.2 <a href="https://wg21.link/range.as.rvalue.view">[range.as.rvalue.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-11-13 <b>Last modified:</b> 2022-11-19</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-11-13 <b>Last modified:</b> 2022-11-30</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -116,6 +116,18 @@ does not constitute a valid <tt>range</tt>.
 The proposed resolution is to return  <tt>move_iterator</tt> when the sentinel type of the underlying range models 
 <tt>input_iterator</tt>.
 </p>
+
+<p><i>[2022-11-30; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p>
+"NAD, these examples seem entirely contrived. If not NAD, don't need the
+<tt>common_range</tt> check if we are checking that the sentinel models
+<tt>input_iterator</tt>."
+</p>
+
 
 
 <p id="res-3829"><b>Proposed resolution:</b></p>

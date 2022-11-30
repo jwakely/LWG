@@ -47,8 +47,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3833" href="lwg-active.html#3833">3833</a>. Remove specialization <tt>template&lt;size_t N&gt; struct formatter&lt;const charT[N], charT&gt;</tt></h3>
 <p><b>Section:</b> 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-11-27 <b>Last modified:</b> 2022-11-27</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-11-27 <b>Last modified:</b> 2022-11-30</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.formatter.spec">active issues</a> in [format.formatter.spec].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.formatter.spec">issues</a> in [format.formatter.spec].</p>
@@ -112,6 +112,21 @@ therefore I propose to take that route. Implementations can still
 implement solution 2 as an extension until they are ready to ship an
 API/ABI break.
 </p>
+
+<p><i>[2022-11-30; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+</p>
+<p>
+"Rationale is not really convincing why the first option is the right one."
+</p>
+<p>
+"The point is not that we would need to add a format_kind specialization,
+it is that the specialization is inconsistent with the design of <tt>formatter</tt>,
+which is supposed to be instantiated only for cv-unqualified non-reference types."
+</p>
+
 
 
 <p id="res-3833"><b>Proposed resolution:</b></p>
