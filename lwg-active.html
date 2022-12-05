@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2022-12-03</td>
+  <td align="left">2022-12-05</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2022-12-03 at 14:03:26 UTC</p>
+<p><p>Revised 2022-12-05 at 17:15:02 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -50754,7 +50754,7 @@ namespace std {
 <hr>
 <h3><a name="3835" href="#3835">3835</a><sup><a href="https://cplusplus.github.io/LWG/issue3835">(i)</a></sup>. Requirements for <tt>CharT</tt> in the regex library</h3>
 <p><b>Section:</b> 32.1 <a href="https://wg21.link/re.general">[re.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Xie He <b>Opened:</b> 2022-11-28 <b>Last modified:</b> 2022-12-03</p>
+ <b>Submitter:</b> Xie He <b>Opened:</b> 2022-11-28 <b>Last modified:</b> 2022-12-05</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -50766,13 +50766,18 @@ requirements for <tt>CharT</tt>. Clearly there have to be more requirements for 
 </p>
 <ol>
 <li><p>Comparison operators such as "<tt>==</tt>" or "<tt>&lt;=</tt>" must be defined between <tt>CharT</tt> 
-objects, because these operators are used throughout the text of the 32 <a href="https://wg21.link/re">[re]</a> chapter. (Similarly, 
-"<tt>==</tt>" between a <tt>CharT</tt> object and integer <tt>0</tt> must also be defined.)
+objects, because these operators are used at various places of 32 <a href="https://wg21.link/re">[re]</a>, including 
+32.2 <a href="https://wg21.link/re.req">[re.req]</a> paragraph 14 and 16, 32.6 <a href="https://wg21.link/re.traits">[re.traits]</a> paragraph 12, and 
+32.12 <a href="https://wg21.link/re.grammar">[re.grammar]</a> paragraph 14. Similarly, "<tt>==</tt>" between a <tt>CharT</tt> object 
+and integer 0 must also be defined, as it is used at 32.2 <a href="https://wg21.link/re.req">[re.req]</a> paragraph 11.
+
 <p/>
-Alternatively, we can also interpret these operators in the text, as routines implemented by 
+Alternatively, we can also interpret these operators in the text, as code implemented using 
 "<tt>std::char_traits&lt;CharT&gt;</tt>" comparison functions. This interpretation has the advantage 
-of keeping 32 <a href="https://wg21.link/re">[re]</a> consistent with the strings library and string comparisons (which are 
-also used in 32 <a href="https://wg21.link/re">[re]</a>).</p></li>
+of keeping 32 <a href="https://wg21.link/re">[re]</a> consistent with the strings library and string comparisons, which are 
+also used in 32 <a href="https://wg21.link/re">[re]</a>, including 32.2 <a href="https://wg21.link/re.req">[re.req]</a> paragraph 7, 18, 20, and 
+32.12 <a href="https://wg21.link/re.grammar">[re.grammar]</a> paragraph 14.2. Also, only with this interpretation, can
+32.6 <a href="https://wg21.link/re.traits">[re.traits]</a> paragraph 3 be consistent with 32.2 <a href="https://wg21.link/re.req">[re.req]</a> paragraph 11.</p></li>
 <li><p>There must be a way to convert between <tt>CharT</tt> and <tt>char</tt>, otherwise there is no 
 way to recognize regex syntactical characters, such as <tt>'*'</tt> or <tt>'+'</tt>. One way is to simply 
 do a type conversion from <tt>char</tt> to <tt>CharT</tt> (which requires <tt>char</tt> to be convertible 
@@ -50796,7 +50801,7 @@ that we can actually get this facet from this locale object.
 <h3><a name="3836" href="#3836">3836</a><sup><a href="https://cplusplus.github.io/LWG/issue3836">(i)</a></sup>. <tt>std::expected&lt;bool, E1&gt;</tt> conversion constructor <tt>expected(const expected&lt;U, G&gt;&amp;)</tt> 
 should take precedence over <tt>expected(U&amp;&amp;)</tt> with operator <tt>bool</tt></h3>
 <p><b>Section:</b> 22.8.6.2 <a href="https://wg21.link/expected.object.ctor">[expected.object.ctor]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Xie He <b>Opened:</b> 2022-11-30 <b>Last modified:</b> 2022-12-03</p>
+ <b>Submitter:</b> Hui Xie <b>Opened:</b> 2022-11-30 <b>Last modified:</b> 2022-12-05</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
