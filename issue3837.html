@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3837: operator== should accept generator&lt;R, V, A&gt;::iterator by const reference</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+  @media (prefers-color-scheme: dark) {
+     html {
+        color: #ddd;
+        background-color: black;
+     }
+     ins {
+        background-color: #225522
+     }
+     del {
+        background-color: #662222
+     }
+     a {
+        color: #6af
+     }
+     a:visited {
+        color: #6af
+     }
+     blockquote.note
+     {
+        background-color: rgba(255, 255, 255, .10)
+     }
+  }
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3837" href="lwg-active.html#3837">3837</a>. <tt>operator==</tt> should accept <tt>generator&lt;R, V, A&gt;::<i>iterator</i></tt> by const reference</h3>
+<p><b>Section:</b> 26.8.6 <a href="https://wg21.link/coro.generator.iterator">[coro.generator.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2022-12-05 <b>Last modified:</b> 2022-12-06</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#coro.generator.iterator">issues</a> in [coro.generator.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently the <tt>operator==</tt> for <tt>generator&lt;R, V, A&gt;::<i>iterator</i></tt> is
+specified to accept the move-only <tt><i>iterator</i></tt> by value.
+This make it impossible to use it without consuming the iterator, and makes the iterator
+unusable in most of the cases (it could be used when number of elements it know externally).
+We should change the signature to accept <tt>const <i>iterator</i>&amp;</tt> instead.
+</p>
+
+<p>Originally reported by Michael Hava.</p>
+
+
+<p id="res-3837"><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.</p>
+
+<ol>
+<li><p>Modify 26.8.6 <a href="https://wg21.link/coro.generator.iterator">[coro.generator.iterator]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class Ref, class V, class Allocator&gt;
+class generator&lt;Ref, V, Allocator&gt;::<i>iterator</i> {
+  [&hellip;]
+  friend bool operator==(<ins>const</ins> <i>iterator</i><ins>&amp;</ins> i, default_sentinel_t);	
+  [&hellip;]
+};
+</pre>
+</blockquote>
+
+<blockquote>
+<p>
+[&hellip;]
+</p>
+<pre>
+friend bool operator==(<ins>const</ins> <i>iterator</i><ins>&amp;</ins> i, default_sentinel_t);	
+</pre>
+<p>
+-10- <i>Effects</i>: Equivalent to: <tt>return i.<i>coroutine_</i>.done();</tt>
+</p>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+</body>
+</html>
