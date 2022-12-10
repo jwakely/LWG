@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2022-12-09</td>
+  <td align="left">2022-12-10</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2022-12-09 at 17:19:33 UTC</p>
+<p><p>Revised 2022-12-10 at 12:04:07 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -182,13 +182,13 @@ ownership of it.
 <ul>
 <li>D124: 2022-11-24 Since November 2022<ul>
 <li><b>Summary:</b><ul>
-<li>397 open issues, down by 8.</li>
+<li>398 open issues, down by 7.</li>
 <li>2921 closed issues, up by 13.</li>
 <li>40 reassigned issues, up by 0.</li>
-<li>3358 issues total, up by 5.</li>
+<li>3359 issues total, up by 6.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 5 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>.</li>
+<li>Added the following 6 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3204">3204</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from Open): <a href="lwg-active.html#3742">3742</a>.</li>
 <li>Changed the following 2 issues to Open (from Tentatively NAD): <a href="lwg-active.html#2116">2116</a>, <a href="lwg-active.html#3357">3357</a>.</li>
@@ -50881,6 +50881,157 @@ And we need to make sure this overload and the overload that takes <tt>expected(
 
 
 <p id="res-3836"><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3837" href="#3837">3837</a><sup><a href="https://cplusplus.github.io/LWG/issue3837">(i)</a></sup>. <tt>std::erase_if</tt> overloads for non-associative containers should move (and
+not copy) their predicate object</h3>
+<p><b>Section:</b> 23.4.4.5 <a href="https://wg21.link/string.erasure">[string.erasure]</a>, 24.3.8.5 <a href="https://wg21.link/deque.erasure">[deque.erasure]</a>, 24.3.9.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a>, 24.3.10.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a>, 24.3.11.6 <a href="https://wg21.link/vector.erasure">[vector.erasure]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Giuseppe D'Angelo <b>Opened:</b> 2022-12-04 <b>Last modified:</b> 2022-12-10</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Consistent uniform erasure added several overloads of <tt>std::erase_if</tt>. 
+All these overloads have fully specified effects, and are either implemented
+through the <tt>erase</tt>/<tt>remove_if</tt> idiom (for <tt>string</tt>, <tt>vector</tt> and <tt>deque</tt>),
+through calls to the container's own <tt>remove_if</tt> non-static member function 
+(for <tt>list</tt> and <tt>forward_list</tt>), or through a hand-rolled loop (for
+the associative containers &mdash; <tt>map</tt>, <tt>set</tt>, 
+and their unordered and multi variants).
+<p/>
+For the overloads that deal with non-associative containers the predicate passed to 
+<tt>std::erase_if</tt> is always <em>copied</em> into the inner call
+to <tt>std::remove_if</tt> or the container's <tt>remove_if</tt> (see 
+23.4.4.5 <a href="https://wg21.link/string.erasure">[string.erasure]</a>, 24.3.11.6 <a href="https://wg21.link/vector.erasure">[vector.erasure]</a>, 
+24.3.10.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a>, 24.3.9.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a>, and
+24.3.8.5 <a href="https://wg21.link/deque.erasure">[deque.erasure]</a>).
+<p/>
+Now, algorithms are generally allowed to take as many copies of
+predicates as they want &mdash; this is 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>/9, 
+but cf. LWG <a href="lwg-active.html#3049">3049</a>. 
+However it still feels strange/sloppy that a copy here is <em>mandated</em> by the Standard.
+An implementation that would otherwise make no copies of a predicate in an algorithm 
+<em>must</em> make a copy in the <tt>erase_if</tt> overloads.
+<p/>
+The copy of the predicate could be instead replaced by a move without
+any change in functionality; after being passed to the underlying
+algorithm, the predicate object is never used again by <tt>erase_if</tt>. 
+I am therefore proposing to add a <tt>std::move</tt> call for the predicate object.
+<p/>
+One could argue that <tt>erase_if</tt> should be re-specified so that it is not
+necessarily implemented in terms of underlying calls to other
+facilities, and could therefore even remove the need of a move on a
+high-quality implementation. 
+This is a design change, and so I consider it out of scope for a library issue.
+<p/>
+Of course, moving instead of copying is a detectable change, and
+"pathological" predicate types that are copyable but have disabled moves
+will get broken, but I don't think those deserve to be supported.
+</p>
+
+
+<p id="res-3837"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.4.4.5 <a href="https://wg21.link/string.erasure">[string.erasure]</a> as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+template&lt;class charT, class traits, class Allocator, class Predicate&gt;
+  constexpr typename basic_string&lt;charT, traits, Allocator&gt;::size_type
+    erase_if(basic_string&lt;charT, traits, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
+<p>
+-2- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+auto it = remove_if(c.begin(), c.end(), <ins>std::move(</ins>pred<ins>)</ins>);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+</pre></blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.8.5 <a href="https://wg21.link/deque.erasure">[deque.erasure]</a> as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+template&lt;class T, class Allocator, class Predicate&gt;
+  typename deque&lt;T, Allocator&gt;::size_type
+    erase_if(deque&lt;T, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
+<p>
+-2- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+auto it = remove_if(c.begin(), c.end(), <ins>std::move(</ins>pred<ins>)</ins>);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+</pre></blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.9.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a> as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+template&lt;class T, class Allocator, class Predicate&gt;
+  typename forward_list&lt;T, Allocator&gt;::size_type
+    erase_if(forward_list&lt;T, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
+<p>
+-2- <i>Effects</i>: Equivalent to: <tt>return c.remove_if(<ins>std::move(</ins>pred<ins>)</ins>);</tt>
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.10.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a> as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+template&lt;class T, class Allocator, class Predicate&gt;
+  typename list&lt;T, Allocator&gt;::size_type
+    erase_if(list&lt;T, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
+<p>
+-2- <i>Effects</i>: Equivalent to: <tt>return c.remove_if(<ins>std::move(</ins>pred<ins>)</ins>);</tt>
+</p>
+<blockquote><pre>
+</pre></blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.11.6 <a href="https://wg21.link/vector.erasure">[vector.erasure]</a> as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+template&lt;class T, class Allocator, class Predicate&gt;
+  constexpr typename vector&lt;T, Allocator&gt;::size_type
+    erase_if(vector&lt;T, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
+<p>
+-2- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+auto it = remove_if(c.begin(), c.end(), <ins>std::move(</ins>pred<ins>)</ins>);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+</pre></blockquote>
+</blockquote>
+</li>
+</ol>
+
 
 
 

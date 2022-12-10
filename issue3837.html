@@ -3,7 +3,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3837: operator== should accept generator&lt;R, V, A&gt;::iterator by const reference</title>
+<title>Issue 3837: std::erase_if overloads for non-associative containers should move (and
+not copy) their predicate object</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,55 +46,151 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3837" href="lwg-active.html#3837">3837</a>. <tt>operator==</tt> should accept <tt>generator&lt;R, V, A&gt;::<i>iterator</i></tt> by const reference</h3>
-<p><b>Section:</b> 26.8.6 <a href="https://wg21.link/coro.generator.iterator">[coro.generator.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2022-12-05 <b>Last modified:</b> 2022-12-06</p>
+<h3><a name="3837" href="lwg-active.html#3837">3837</a>. <tt>std::erase_if</tt> overloads for non-associative containers should move (and
+not copy) their predicate object</h3>
+<p><b>Section:</b> 23.4.4.5 <a href="https://wg21.link/string.erasure">[string.erasure]</a>, 24.3.8.5 <a href="https://wg21.link/deque.erasure">[deque.erasure]</a>, 24.3.9.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a>, 24.3.10.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a>, 24.3.11.6 <a href="https://wg21.link/vector.erasure">[vector.erasure]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Giuseppe D'Angelo <b>Opened:</b> 2022-12-04 <b>Last modified:</b> 2022-12-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View all other</b> <a href="lwg-index.html#coro.generator.iterator">issues</a> in [coro.generator.iterator].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Currently the <tt>operator==</tt> for <tt>generator&lt;R, V, A&gt;::<i>iterator</i></tt> is
-specified to accept the move-only <tt><i>iterator</i></tt> by value.
-This make it impossible to use it without consuming the iterator, and makes the iterator
-unusable in most of the cases (it could be used when number of elements it know externally).
-We should change the signature to accept <tt>const <i>iterator</i>&amp;</tt> instead.
+Consistent uniform erasure added several overloads of <tt>std::erase_if</tt>. 
+All these overloads have fully specified effects, and are either implemented
+through the <tt>erase</tt>/<tt>remove_if</tt> idiom (for <tt>string</tt>, <tt>vector</tt> and <tt>deque</tt>),
+through calls to the container's own <tt>remove_if</tt> non-static member function 
+(for <tt>list</tt> and <tt>forward_list</tt>), or through a hand-rolled loop (for
+the associative containers &mdash; <tt>map</tt>, <tt>set</tt>, 
+and their unordered and multi variants).
+<p/>
+For the overloads that deal with non-associative containers the predicate passed to 
+<tt>std::erase_if</tt> is always <em>copied</em> into the inner call
+to <tt>std::remove_if</tt> or the container's <tt>remove_if</tt> (see 
+23.4.4.5 <a href="https://wg21.link/string.erasure">[string.erasure]</a>, 24.3.11.6 <a href="https://wg21.link/vector.erasure">[vector.erasure]</a>, 
+24.3.10.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a>, 24.3.9.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a>, and
+24.3.8.5 <a href="https://wg21.link/deque.erasure">[deque.erasure]</a>).
+<p/>
+Now, algorithms are generally allowed to take as many copies of
+predicates as they want &mdash; this is 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>/9, 
+but cf. LWG <a href="lwg-active.html#3049">3049</a>. 
+However it still feels strange/sloppy that a copy here is <em>mandated</em> by the Standard.
+An implementation that would otherwise make no copies of a predicate in an algorithm 
+<em>must</em> make a copy in the <tt>erase_if</tt> overloads.
+<p/>
+The copy of the predicate could be instead replaced by a move without
+any change in functionality; after being passed to the underlying
+algorithm, the predicate object is never used again by <tt>erase_if</tt>. 
+I am therefore proposing to add a <tt>std::move</tt> call for the predicate object.
+<p/>
+One could argue that <tt>erase_if</tt> should be re-specified so that it is not
+necessarily implemented in terms of underlying calls to other
+facilities, and could therefore even remove the need of a move on a
+high-quality implementation. 
+This is a design change, and so I consider it out of scope for a library issue.
+<p/>
+Of course, moving instead of copying is a detectable change, and
+"pathological" predicate types that are copyable but have disabled moves
+will get broken, but I don't think those deserve to be supported.
 </p>
-
-<p>Originally reported by Michael Hava.</p>
 
 
 <p id="res-3837"><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.</p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
 
 <ol>
-<li><p>Modify 26.8.6 <a href="https://wg21.link/coro.generator.iterator">[coro.generator.iterator]</a> as indicated:</p>
-<blockquote>
-<pre>
-template&lt;class Ref, class V, class Allocator&gt;
-class generator&lt;Ref, V, Allocator&gt;::<i>iterator</i> {
-  [&hellip;]
-  friend bool operator==(<ins>const</ins> <i>iterator</i><ins>&amp;</ins> i, default_sentinel_t);	
-  [&hellip;]
-};
-</pre>
-</blockquote>
+<li><p>Modify 23.4.4.5 <a href="https://wg21.link/string.erasure">[string.erasure]</a> as indicated:</p>
 
 <blockquote>
+<blockquote><pre>
+template&lt;class charT, class traits, class Allocator, class Predicate&gt;
+  constexpr typename basic_string&lt;charT, traits, Allocator&gt;::size_type
+    erase_if(basic_string&lt;charT, traits, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
 <p>
-[&hellip;]
+-2- <i>Effects</i>: Equivalent to:
 </p>
-<pre>
-friend bool operator==(<ins>const</ins> <i>iterator</i><ins>&amp;</ins> i, default_sentinel_t);	
-</pre>
+<blockquote><pre>
+auto it = remove_if(c.begin(), c.end(), <ins>std::move(</ins>pred<ins>)</ins>);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+</pre></blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.8.5 <a href="https://wg21.link/deque.erasure">[deque.erasure]</a> as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+template&lt;class T, class Allocator, class Predicate&gt;
+  typename deque&lt;T, Allocator&gt;::size_type
+    erase_if(deque&lt;T, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
 <p>
--10- <i>Effects</i>: Equivalent to: <tt>return i.<i>coroutine_</i>.done();</tt>
+-2- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+auto it = remove_if(c.begin(), c.end(), <ins>std::move(</ins>pred<ins>)</ins>);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+</pre></blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.9.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a> as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+template&lt;class T, class Allocator, class Predicate&gt;
+  typename forward_list&lt;T, Allocator&gt;::size_type
+    erase_if(forward_list&lt;T, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
+<p>
+-2- <i>Effects</i>: Equivalent to: <tt>return c.remove_if(<ins>std::move(</ins>pred<ins>)</ins>);</tt>
 </p>
 </blockquote>
+</li>
 
+<li><p>Modify 24.3.10.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a> as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+template&lt;class T, class Allocator, class Predicate&gt;
+  typename list&lt;T, Allocator&gt;::size_type
+    erase_if(list&lt;T, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
+<p>
+-2- <i>Effects</i>: Equivalent to: <tt>return c.remove_if(<ins>std::move(</ins>pred<ins>)</ins>);</tt>
+</p>
+<blockquote><pre>
+</pre></blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.11.6 <a href="https://wg21.link/vector.erasure">[vector.erasure]</a> as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+template&lt;class T, class Allocator, class Predicate&gt;
+  constexpr typename vector&lt;T, Allocator&gt;::size_type
+    erase_if(vector&lt;T, Allocator&gt;&amp; c, Predicate pred);
+</pre></blockquote>
+<p>
+-2- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+auto it = remove_if(c.begin(), c.end(), <ins>std::move(</ins>pred<ins>)</ins>);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+</pre></blockquote>
+</blockquote>
 </li>
 </ol>
+
 
 
 
