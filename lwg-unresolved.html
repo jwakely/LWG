@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-12-10 at 12:19:38 UTC</p>
+<p><p>Revised 2022-12-10 at 13:17:34 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -35445,6 +35445,8 @@ if constexpr (<i>is-integer-like</i>&lt;W&gt; &amp;&amp; <i>is-integer-like</i>&
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-30 <b>Last modified:</b> 2022-01-31</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#incrementable.traits">active issues</a> in [incrementable.traits].</p>
+<p><b>View all other</b> <a href="lwg-index.html#incrementable.traits">issues</a> in [incrementable.traits].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -47034,6 +47036,76 @@ return r;
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3><a name="3838" href="#3838">3838</a><sup><a href="https://cplusplus.github.io/LWG/issue3838">(i)</a></sup>. The last specialization of  <tt>incrementable_traits</tt> is under-constrained</h3>
+<p><b>Section:</b> 25.3.2.1 <a href="https://wg21.link/incrementable.traits">[incrementable.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-12-07 <b>Last modified:</b> 2022-12-10</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#incrementable.traits">active issues</a> in [incrementable.traits].</p>
+<p><b>View all other</b> <a href="lwg-index.html#incrementable.traits">issues</a> in [incrementable.traits].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The last specialization of <tt>incremental_traits</tt> requires that the result obtained 
+by subtracting two objects of type <tt>const T</tt> must model <tt>integral</tt>, 
+then apply <tt>make_signed_t</tt> to it as the difference type of type <tt>T</tt>.
+<p/>
+However, since <tt>bool</tt> also models <tt>integral</tt>, but is not a valid template argument 
+for <tt>make_signed_t</tt>, we should ban such cases to avoid unnecessary hard errors 
+(<a href="https://godbolt.org/z/bbTz1xh89">online example</a>):
+</p>
+<blockquote><pre>
+#include &lt;ranges&gt;
+
+struct Bool { 
+  bool operator-(Bool) const; 
+};
+
+template&lt;class T&gt;
+concept can_iota_view = requires(T t) { std::ranges::iota_view(t); };
+
+static_assert(!can_iota_view&lt;Bool&gt;); // <span style="color:red;font-weight:bolder">hard error</span>
+</pre></blockquote>
+
+
+<p id="res-3838"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 25.3.2.1 <a href="https://wg21.link/incrementable.traits">[incrementable.traits]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  <ins>template&lt;class T&gt;
+    concept <i>nonbool-integral</i> = integral&lt;T&gt; &amp;&amp; !same_as&lt;remove_cv_t&lt;T&gt;, bool&gt;;         // <i>exposition only</i></ins>
+  
+  template&lt;class T&gt; struct incrementable_traits { };
+  
+  [&hellip;]
+
+  template&lt;class T&gt;
+    requires (!requires { typename T::difference_type; } &amp;&amp;
+              requires(const T&amp; a, const T&amp; b) { { a - b } -&gt; <ins><i>nonbool-integral</i></ins><del>integral</del>; })
+  struct incrementable_traits&lt;T&gt; {
+    using difference_type = make_signed_t&lt;decltype(declval&lt;T&gt;() - declval&lt;T&gt;())&gt;;
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
 </ol>
 
 

@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3615: The last specialization of incrementable_traits has wrong operand types</title>
+<title>Issue 3838: The last specialization of  incrementable_traits is under-constrained</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,35 +45,41 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3615" href="lwg-active.html#3615">3615</a>. The last specialization of <tt>incrementable_traits</tt> has wrong operand types</h3>
+<h3><a name="3838" href="lwg-active.html#3838">3838</a>. The last specialization of  <tt>incrementable_traits</tt> is under-constrained</h3>
 <p><b>Section:</b> 25.3.2.1 <a href="https://wg21.link/incrementable.traits">[incrementable.traits]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-30 <b>Last modified:</b> 2022-01-31</p>
-<p><b>Priority: </b>3
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-12-07 <b>Last modified:</b> 2022-12-10</p>
+<p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#incrementable.traits">active issues</a> in [incrementable.traits].</p>
 <p><b>View all other</b> <a href="lwg-index.html#incrementable.traits">issues</a> in [incrementable.traits].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The last specialization of <tt>incrementable_traits</tt> requires <tt>a - b</tt> to be well-formed,    
-where the types of both operands are <tt>const</tt> lvalue reference of type <tt>T</tt>. However inside 
-the <tt>struct</tt>, it uses <tt>decltype(declval&lt;T&gt;() - declval&lt;T&gt;())</tt> to define the 
-<tt>difference_type</tt>, that is, non-<tt>const</tt> rvalue reference of type <tt>T</tt>.
+The last specialization of <tt>incremental_traits</tt> requires that the result obtained 
+by subtracting two objects of type <tt>const T</tt> must model <tt>integral</tt>, 
+then apply <tt>make_signed_t</tt> to it as the difference type of type <tt>T</tt>.
+<p/>
+However, since <tt>bool</tt> also models <tt>integral</tt>, but is not a valid template argument 
+for <tt>make_signed_t</tt>, we should ban such cases to avoid unnecessary hard errors 
+(<a href="https://godbolt.org/z/bbTz1xh89">online example</a>):
 </p>
+<blockquote><pre>
+#include &lt;ranges&gt;
 
-<p><i>[2022-01-29; Reflector poll]</i></p>
+struct Bool { 
+  bool operator-(Bool) const; 
+};
 
+template&lt;class T&gt;
+concept can_iota_view = requires(T t) { std::ranges::iota_view(t); };
+
+static_assert(!can_iota_view&lt;Bool&gt;); // <span style="color:red;font-weight:bolder">hard error</span>
+</pre></blockquote>
+
+
+<p id="res-3838"><b>Proposed resolution:</b></p>
 <p>
-Set priority to 3 after reflector poll that failed to reach consensus.
-Some suggested NAD:
-"Implicit expression variations ([concepts.equality]/6) apply here."
-</p>
-
-
-
-<p id="res-3615"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
 </p>
 
 <ol>
@@ -82,19 +88,27 @@ This wording is relative to <a href="https://wg21.link/n4892">N4892</a>.
 <blockquote>
 <pre>
 namespace std {
+  <ins>template&lt;class T&gt;
+    concept <i>nonbool-integral</i> = integral&lt;T&gt; &amp;&amp; !same_as&lt;remove_cv_t&lt;T&gt;, bool&gt;;         // <i>exposition only</i></ins>
+  
+  template&lt;class T&gt; struct incrementable_traits { };
+  
   [&hellip;]
+
   template&lt;class T&gt;
     requires (!requires { typename T::difference_type; } &amp;&amp;
-              requires(const T&amp; a, const T&amp; b) { { a - b } -&gt; integral; })
+              requires(const T&amp; a, const T&amp; b) { { a - b } -&gt; <ins><i>nonbool-integral</i></ins><del>integral</del>; })
   struct incrementable_traits&lt;T&gt; {
-    using difference_type = make_signed_t&lt;decltype(declval&lt;<ins>const</ins> T<ins>&amp;</ins>&gt;() - declval&lt;<ins>const</ins> T<ins>&amp;</ins>&gt;())&gt;;
+    using difference_type = make_signed_t&lt;decltype(declval&lt;T&gt;() - declval&lt;T&gt;())&gt;;
   };
   [&hellip;]
 }
 </pre>
 </blockquote>
 </li>
+
 </ol>
+
 
 
 
