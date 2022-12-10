@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2022-12-10 at 12:04:07 UTC</p>
+<p><p>Revised 2022-12-10 at 12:19:38 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -50944,11 +50944,12 @@ This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
 <li><p>Modify 23.4.4.5 <a href="https://wg21.link/string.erasure">[string.erasure]</a> as indicated:</p>
 
 <blockquote>
-<blockquote><pre>
+<pre>
 template&lt;class charT, class traits, class Allocator, class Predicate&gt;
   constexpr typename basic_string&lt;charT, traits, Allocator&gt;::size_type
     erase_if(basic_string&lt;charT, traits, Allocator&gt;&amp; c, Predicate pred);
-</pre></blockquote>
+</pre>
+<blockquote>
 <p>
 -2- <i>Effects</i>: Equivalent to:
 </p>
@@ -50958,17 +50959,19 @@ auto r = distance(it, c.end());
 c.erase(it, c.end());
 return r;
 </pre></blockquote>
+</blockquote>
 </blockquote>
 </li>
 
 <li><p>Modify 24.3.8.5 <a href="https://wg21.link/deque.erasure">[deque.erasure]</a> as indicated:</p>
 
 <blockquote>
-<blockquote><pre>
+<pre>
 template&lt;class T, class Allocator, class Predicate&gt;
   typename deque&lt;T, Allocator&gt;::size_type
     erase_if(deque&lt;T, Allocator&gt;&amp; c, Predicate pred);
-</pre></blockquote>
+</pre>
+<blockquote>
 <p>
 -2- <i>Effects</i>: Equivalent to:
 </p>
@@ -50978,47 +50981,53 @@ auto r = distance(it, c.end());
 c.erase(it, c.end());
 return r;
 </pre></blockquote>
+</blockquote>
 </blockquote>
 </li>
 
 <li><p>Modify 24.3.9.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a> as indicated:</p>
 
 <blockquote>
-<blockquote><pre>
+<pre>
 template&lt;class T, class Allocator, class Predicate&gt;
   typename forward_list&lt;T, Allocator&gt;::size_type
     erase_if(forward_list&lt;T, Allocator&gt;&amp; c, Predicate pred);
-</pre></blockquote>
+</pre>
+<blockquote>
 <p>
 -2- <i>Effects</i>: Equivalent to: <tt>return c.remove_if(<ins>std::move(</ins>pred<ins>)</ins>);</tt>
 </p>
+</blockquote>
 </blockquote>
 </li>
 
 <li><p>Modify 24.3.10.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a> as indicated:</p>
 
 <blockquote>
-<blockquote><pre>
+<pre>
 template&lt;class T, class Allocator, class Predicate&gt;
   typename list&lt;T, Allocator&gt;::size_type
     erase_if(list&lt;T, Allocator&gt;&amp; c, Predicate pred);
-</pre></blockquote>
+</pre>
+<blockquote>
 <p>
 -2- <i>Effects</i>: Equivalent to: <tt>return c.remove_if(<ins>std::move(</ins>pred<ins>)</ins>);</tt>
 </p>
 <blockquote><pre>
 </pre></blockquote>
 </blockquote>
+</blockquote>
 </li>
 
 <li><p>Modify 24.3.11.6 <a href="https://wg21.link/vector.erasure">[vector.erasure]</a> as indicated:</p>
 
 <blockquote>
-<blockquote><pre>
+<pre>
 template&lt;class T, class Allocator, class Predicate&gt;
   constexpr typename vector&lt;T, Allocator&gt;::size_type
     erase_if(vector&lt;T, Allocator&gt;&amp; c, Predicate pred);
-</pre></blockquote>
+</pre>
+<blockquote>
 <p>
 -2- <i>Effects</i>: Equivalent to:
 </p>
@@ -51028,6 +51037,7 @@ auto r = distance(it, c.end());
 c.erase(it, c.end());
 return r;
 </pre></blockquote>
+</blockquote>
 </blockquote>
 </li>
 </ol>
