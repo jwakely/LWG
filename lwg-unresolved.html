@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2022-12-12 at 17:16:45 UTC</p>
+<p><p>Revised 2022-12-13 at 16:23:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47287,7 +47287,7 @@ constexpr void set_brackets(basic_string_view&lt;charT&gt; opening, basic_string
 <hr>
 <h3><a name="3840" href="#3840">3840</a><sup><a href="https://cplusplus.github.io/LWG/issue3840">(i)</a></sup>. <tt>filesystem::u8path</tt> should be undeprecated</h3>
 <p><b>Section:</b> D.25 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Daniel Krügler <b>Opened:</b> 2022-12-10 <b>Last modified:</b> 2022-12-11</p>
+ <b>Submitter:</b> Daniel Krügler <b>Opened:</b> 2022-12-10 <b>Last modified:</b> 2022-12-13</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#depr.fs.path.factory">issues</a> in [depr.fs.path.factory].</p>
@@ -47355,7 +47355,7 @@ namespace std::filesystem {
   void swap(path&amp; lhs, path&amp; rhs) noexcept;
   size_t hash_value(const path&amp; p) noexcept;
   
-  <ins>// <i>[fs.path.nonmember], path factory functions</i></ins>
+  <ins>// <i>[fs.path.factory], path factory functions</i></ins>
   <ins>template&lt;class Source&gt;
     path u8path(const Source&amp; source);
   template&lt;class InputIterator&gt;
@@ -47371,7 +47371,7 @@ namespace std::filesystem {
 
 <li><p>Restore the previous sub-clause [fs.path.factory] by copying the contents of 
 D.25 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> to a new sub-clause [fs.path.factory] between 
-31.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a> and 31.12.6.9 <a href="https://wg21.link/fs.path.hash">[fs.path.hash]</a> and strike <i>Note 1</i>
+31.12.6.8 <a href="https://wg21.link/fs.path.nonmember">[fs.path.nonmember]</a> and 31.12.6.9 <a href="https://wg21.link/fs.path.hash">[fs.path.hash]</a> and without <i>Note 1</i>
 as indicated:</p>
 
 <blockquote class="note">
