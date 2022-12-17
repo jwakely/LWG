@@ -50,7 +50,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2022-12-13</td>
+  <td align="left">2022-12-17</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2022-12-13 at 16:29:24 UTC</p>
+<p><p>Revised 2022-12-17 at 13:46:31 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -182,13 +182,13 @@ ownership of it.
 <ul>
 <li>D124: 2022-11-24 Since November 2022<ul>
 <li><b>Summary:</b><ul>
-<li>401 open issues, down by 4.</li>
+<li>402 open issues, down by 3.</li>
 <li>2921 closed issues, up by 13.</li>
 <li>40 reassigned issues, up by 0.</li>
-<li>3362 issues total, up by 9.</li>
+<li>3363 issues total, up by 10.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 9 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3839">3839</a>, <a href="lwg-active.html#3840">3840</a>.</li>
+<li>Added the following 10 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3839">3839</a>, <a href="lwg-active.html#3840">3840</a>, <a href="lwg-active.html#3841">3841</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3204">3204</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from Open): <a href="lwg-active.html#3742">3742</a>.</li>
 <li>Changed the following 2 issues to Open (from Tentatively NAD): <a href="lwg-active.html#2116">2116</a>, <a href="lwg-active.html#3357">3357</a>.</li>
@@ -51453,6 +51453,60 @@ native character set representation.</ins>
 </li>
 
 <li><p>Delete sub-clause D.25 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> in its entirety.</p>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3><a name="3841" href="#3841">3841</a><sup><a href="https://cplusplus.github.io/LWG/issue3841">(i)</a></sup>. <tt>&lt;version&gt;</tt> should not be "<i>all freestanding</i>"</h3>
+<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-12-14 <b>Last modified:</b> 2022-12-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+It's reasonable for the <tt>&lt;version&gt;</tt> header to be required for freestanding, 
+so that users can include it and see the "implementation-dependent information &hellip; 
+(e.g. version number and release date)", and also to ask which features are present 
+(which is the real intended purpose of <tt>&lt;version&gt;</tt>). 
+It seems less reasonable to require every macro to be present on freestanding implementations, 
+even the ones that correspond to non-freestanding features.
+<p/>
+<a href="https://wg21.link/P2198R7">P2198R7</a> will fix this situation for C++26, but we should also do something for 
+C++23 before publishing it. 
+It seems sensible not to require any of the macros to be present, and then allow implementations 
+to define them for the features that they support.
+</p>
+
+
+<p id="res-3841"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <tt>&lt;version&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<p>
+-2- Each of the macros defined in <tt>&lt;version&gt;</tt> is also defined after inclusion of any member 
+of the set of library headers indicated in the corresponding comment in this synopsis.
+<p/>
+[<i>Note 1</i>: Future revisions of C++ might replace the values of these macros with greater values. &mdash; <i>end note</i>]
+</p>
+<blockquote><pre>
+<del><i>// all freestanding</i></del>
+#define __cpp_lib_addressof_constexpr          201603L // also in &lt;memory&gt;
+[&hellip;]
+</pre></blockquote>
+</blockquote>
 </li>
 </ol>
 
