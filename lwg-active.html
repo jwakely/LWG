@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2022-12-17 at 13:46:31 UTC</p>
+<p><p>Revised 2022-12-17 at 14:10:54 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -182,13 +182,13 @@ ownership of it.
 <ul>
 <li>D124: 2022-11-24 Since November 2022<ul>
 <li><b>Summary:</b><ul>
-<li>402 open issues, down by 3.</li>
+<li>403 open issues, down by 2.</li>
 <li>2921 closed issues, up by 13.</li>
 <li>40 reassigned issues, up by 0.</li>
-<li>3363 issues total, up by 10.</li>
+<li>3364 issues total, up by 11.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 10 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3839">3839</a>, <a href="lwg-active.html#3840">3840</a>, <a href="lwg-active.html#3841">3841</a>.</li>
+<li>Added the following 11 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3839">3839</a>, <a href="lwg-active.html#3840">3840</a>, <a href="lwg-active.html#3841">3841</a>, <a href="lwg-active.html#3842">3842</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from New): <a href="lwg-active.html#3204">3204</a>.</li>
 <li>Changed the following issue to Tentatively Ready (from Open): <a href="lwg-active.html#3742">3742</a>.</li>
 <li>Changed the following 2 issues to Open (from Tentatively NAD): <a href="lwg-active.html#2116">2116</a>, <a href="lwg-active.html#3357">3357</a>.</li>
@@ -51506,6 +51506,77 @@ of the set of library headers indicated in the corresponding comment in this syn
 #define __cpp_lib_addressof_constexpr          201603L // also in &lt;memory&gt;
 [&hellip;]
 </pre></blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3><a name="3842" href="#3842">3842</a><sup><a href="https://cplusplus.github.io/LWG/issue3842">(i)</a></sup>. Unclear wording for <i>precision</i> in <i>chrono-format-spec</i></h3>
+<p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-12-14 <b>Last modified:</b> 2022-12-17</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.format">issues</a> in [time.format].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+29.12 <a href="https://wg21.link/time.format">[time.format]</a> says:
+</p>
+<blockquote><p>
+[&hellip;] Giving a <i>precision</i> specification in the <i>chrono-format-spec</i> is valid only for 
+<tt>std::chrono::duration</tt> types where the representation type
+<tt>Rep</tt> is a floating-point type. 
+For all other <tt>Rep</tt> types, an exception of type <tt>format_error</tt> is thrown if the 
+<i>chrono-format-spec</i> contains a <i>precision</i> specification. [&hellip;]
+</p></blockquote>
+<p>
+It's unclear whether the restriction in the first sentence applies to all types, or only duration types. 
+The second sentence seems to restrict the exceptional case to only types with a non-floating-point <tt>Rep</tt>, 
+but what about types with no <tt>Rep</tt> type at all?
+<p/>
+Can you use a precision with <tt>sys_time&lt;duration&lt;float&gt;&gt;</tt>? That is not a <tt>duration</tt> type at all, 
+so does the restriction apply? What about <tt>hh_mm_ss&lt;duration&lt;int&gt;&gt;</tt>? That's not a 
+<tt>duration</tt> type, but it uses one, and its <tt>Rep</tt> is not a floating-point type. 
+What about <tt>sys_info</tt>? That's not a <tt>duration</tt> and doesn't have any associated <tt>duration</tt>, 
+or <tt>Rep</tt> type.
+<p/>
+What is the intention here?
+<p/>
+Less importantly, I don't like the use of <tt>Rep</tt> here. That's the template parameter of the 
+<tt>duration</tt> class template, but that name isn't in scope here. Why aren't we talking about the 
+<tt>duration</tt> type's <tt>rep</tt> type, which is the public name for it? Or about a concrete 
+specialization <tt>duration&lt;Rep, Period&gt;</tt>, instead of the class template?
+<p/>
+The suggested change below would preserve the intended meaning, but with more &hellip; <i>precision</i>.
+</p>
+
+
+<p id="res-3842"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 29.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- [&hellip;]
+<p/>
+The productions <i>fill-and-align</i>, <i>width</i>, and <i>precision</i> are described in 22.14.2 <a href="https://wg21.link/format.string">[format.string]</a>. 
+Giving a <i>precision</i> specification in the <i>chrono-format-spec</i> is valid only for 
+<ins>types that are specializations of</ins> <tt>std::chrono::duration</tt> <del>types where the representation type
+<tt>Rep</tt> is</del><ins>for which the nested <i>typedef-name</i> <tt>rep</tt> denotes</ins> a floating-point type. 
+For all other <del><tt>Rep</tt></del> types, an exception of type <tt>format_error</tt> is thrown if the 
+<i>chrono-format-spec</i> contains a <i>precision</i> specification. [&hellip;]
+
+</p>
 </blockquote>
 </li>
 </ol>
