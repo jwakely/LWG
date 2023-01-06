@@ -50,7 +50,7 @@
 This document is the Index by Status and Date for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.
 </p>
-<p><p>Revised 2023-01-06 at 14:41:15 UTC</p>
+<p><p>Revised 2023-01-06 at 16:24:13 UTC</p>
 </p><h2><a name="Ready"</a>Ready (12 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
@@ -246,7 +246,7 @@ This document is the Index by Status and Date for the <a href="lwg-active.html">
 <td align="left"></td>
 </tr>
 </table>
-<h2><a name="New"</a>New (305 issues)</h2>
+<h2><a name="New"</a>New (314 issues)</h2>
 <table border="1" cellpadding="4">
 <tr>
   <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
@@ -287,12 +287,93 @@ not copy) their predicate object</td>
 <td align="left"></td>
 </tr>
 <tr>
+<td align="right"><a href="lwg-active.html#3853">3853</a><sup><a href="https://cplusplus.github.io/LWG/issue3853">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3853"></a></td>
+<td align="left">25.5.3 [const.iterators]<a name="const.iterators"></a></td>
+<td align="left"><tt>basic_const_iterator&lt;volatile int*&gt;::operator-&gt;</tt> is ill-formed</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3845">3845</a><sup><a href="https://cplusplus.github.io/LWG/issue3845">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3845"></a></td>
+<td align="left">26.5.7.2 [range.utility.conv.to]<a name="range.utility.conv.to"></a></td>
+<td align="left"><tt>ranges::to</tt>'s <tt>from_range_t</tt> tag branch has the wrong constraint</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3847">3847</a><sup><a href="https://cplusplus.github.io/LWG/issue3847">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3847"></a></td>
+<td align="left">26.5.7.2 [range.utility.conv.to]</td>
+<td align="left"><tt>ranges::to</tt> can still return views</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3846">3846</a><sup><a href="https://cplusplus.github.io/LWG/issue3846">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3846"></a></td>
+<td align="left">26.6.4.3 [range.iota.iterator]<a name="range.iota.iterator"></a></td>
+<td align="left"><tt>iota_view::<i>iterator</i>::operator-</tt> is overconstrained</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3852">3852</a><sup><a href="https://cplusplus.github.io/LWG/issue3852">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3852"></a></td>
+<td align="left">26.7.15.3 [range.join.with.iterator]<a name="range.join.with.iterator"></a></td>
+<td align="left"><tt>join_with_view::<i>iterator</i></tt>'s <tt>iter_move</tt> and <tt>iter_swap</tt> should be conditionally <tt>noexcept</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3850">3850</a><sup><a href="https://cplusplus.github.io/LWG/issue3850">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3850"></a></td>
+<td align="left">26.7.21.1 [range.as.const.overview]<a name="range.as.const.overview"></a></td>
+<td align="left"><tt>views::as_const</tt> on <tt>empty_view&lt;T&gt;</tt> should return <tt>empty_view&lt;const T&gt;</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3848">3848</a><sup><a href="https://cplusplus.github.io/LWG/issue3848">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3848"></a></td>
+<td align="left">26.7.25.2 [range.adjacent.view]<a name="range.adjacent.view"></a></td>
+<td align="left"><tt>adjacent_view</tt>, <tt>adjacent_transform_view</tt> and <tt>slide_view</tt> missing <tt>base</tt> accessor</td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3851">3851</a><sup><a href="https://cplusplus.github.io/LWG/issue3851">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3851"></a></td>
+<td align="left">26.7.27.5 [range.chunk.inner.iter]<a name="range.chunk.inner.iter"></a></td>
+<td align="left"><tt>chunk_view::<i>inner-iterator</i></tt> missing custom <tt>iter_move</tt> and <tt>iter_swap</tt></td>
+<td align="center">Yes</td>
+<td align="center"></td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="right"><a href="lwg-active.html#3835">3835</a><sup><a href="https://cplusplus.github.io/LWG/issue3835">(i)</a></sup></td>
 <td align="left"><a href="lwg-active.html#New">New</a><a name="3835"></a></td>
 <td align="left">32.1 [re.general]<a name="re.general"></a></td>
 <td align="left">Requirements for <tt>CharT</tt> in the regex library</td>
 <td align="center"><font color="red">No</font></td>
 <td align="center">4</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="right"><a href="lwg-active.html#3849">3849</a><sup><a href="https://cplusplus.github.io/LWG/issue3849">(i)</a></sup></td>
+<td align="left"><a href="lwg-active.html#New">New</a><a name="3849"></a></td>
+<td align="left">99 [section.ref.here]<a name="section.ref.here"></a></td>
+<td align="left"><tt>cartesian_product_view::<i>iterator</i></tt>'s default constructor is overconstrained</td>
+<td align="center">Yes</td>
+<td align="center"></td>
 <td align="left"></td>
 </tr>
 <tr>
