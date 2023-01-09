@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3853" href="lwg-active.html#3853">3853</a>. <tt>basic_const_iterator&lt;volatile int*&gt;::operator-&gt;</tt> is ill-formed</h3>
 <p><b>Section:</b> 25.5.3 <a href="https://wg21.link/const.iterators">[const.iterators]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2023-01-06</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2023-01-09</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#const.iterators">active issues</a> in [const.iterators].</p>
@@ -55,20 +55,20 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Currently, <tt>basic_const_iterator::opertator-></tt> constrains the value type
-of the underlying iterator to be only the <i>cv</i>-unqualified type of
-its reference type, which is true for raw pointers.
+Currently, <tt>basic_const_iterator::operator-&gt;</tt> constrains the value type
+of the underlying iterator to be only the <i>cv</i>-unqualified type of its reference type, 
+which is true for raw pointers.
 </p>
 <p>
-However, since it also explicitly specifies returning a pointer to
-a <tt>const</tt> value type,
-this will cause a hard error when the value type is actually
-<tt>volatile</tt>-qualified:
+However, since it also explicitly specifies returning a pointer to a <tt>const</tt> value type,
+this will cause a hard error when the value type is actually <tt>volatile</tt>-qualified:
 </p>
+<blockquote>
 <pre>
-  std::basic_const_iterator&lt;volatile int*&gt; it;
-  auto* p = it.operator-&gt;(); // <span style="color:red;font-weight:bolder">invalid conversion from 'volatile int*' to 'const int*'</span>
-</pre>    
+std::basic_const_iterator&lt;volatile int*&gt; it;
+auto* p = it.operator-&gt;(); // <span style="color:red;font-weight:bolder">invalid conversion from 'volatile int*' to 'const int*'</span>
+</pre>
+</blockquote>
 <p>
 The proposed resolution changes the return type from <tt>const value_type*</tt>
 to <tt>const auto*</tt>,
@@ -113,7 +113,8 @@ constexpr const <ins>auto</ins><del>value_type</del>* operator-&gt;() const
            same_as&lt;remove_cvref_t&lt;iter_reference_t&lt;Iterator&gt;&gt;, value_type&gt;;
 </pre>
 <p>
--7- <i>Returns</i>: If <tt>Iterator</tt> models <tt>contiguous_iterator</tt>, <tt>to_address(<i>current_</i>)</tt>; otherwise, <tt>addressof(*<i>current_</i>)</tt>.
+-7- <i>Returns</i>: If <tt>Iterator</tt> models <tt>contiguous_iterator</tt>, <tt>to_address(<i>current_</i>)</tt>; otherwise, 
+<tt>addressof(*<i>current_</i>)</tt>.
 </p>
 </blockquote>
 </li>
