@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3631" href="lwg-active.html#3631">3631</a>. <tt>basic_format_arg(T&amp;&amp;)</tt> should use <tt>remove_cvref_t&lt;T&gt;</tt> throughout</h3>
 <p><b>Section:</b> 22.14.8.1 <a href="https://wg21.link/format.arg">[format.arg]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-11-03 <b>Last modified:</b> 2022-12-03</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-11-03 <b>Last modified:</b> 2023-01-11</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.arg">active issues</a> in [format.arg].</p>
@@ -326,6 +326,8 @@ Initializes <tt>ptr_</tt> with <tt>addressof(val)</tt> and <tt>format_</tt> with
 <p><i>[2022-11-29; Casey expands the issue to also cover <tt>make_format_args</tt>]</i></p>
 
 
+<p><i>[2023-01-11; Jonathan adds the missing edits to the class synopsis]</i></p>
+
 
 
 <p id="res-3631"><b>Proposed resolution:</b></p>
@@ -372,6 +374,42 @@ template&lt;class T, class charT&gt;
 
 <li><p>Modify 22.14.8.1 <a href="https://wg21.link/format.arg">[format.arg]</a> as indicated:</p>
 
+<pre>
+namespace std {
+  template&lt;class Context&gt;
+  class basic_format_arg {
+  public:
+    class handle;
+
+  private:
+    using char_type = typename Context::char_type;                              <i>// exposition only</i>
+
+    variant&lt;monostate, bool, char_type,
+            int, unsigned int, long long int, unsigned long long int,
+            float, double, long double,
+            const char_type*, basic_string_view&lt;char_type&gt;,
+            const void*, handle&gt; value;                                         <i>// exposition only</i>
+
+    template&lt;class T&gt; explicit basic_format_arg(T&amp;<del>&amp;</del> v) noexcept;                <i>// exposition only</i>
+    <del>explicit basic_format_arg(float n) noexcept;                                <i>// exposition only</i></del>
+    <del>explicit basic_format_arg(double n) noexcept;                               <i>// exposition only</i></del>
+    <del>explicit basic_format_arg(long double n) noexcept;                          <i>// exposition only</i></del>
+    <del>explicit basic_format_arg(const char_type* s);                              <i>// exposition only</i></del>
+
+    <del>template&lt;class traits&gt;</del>
+      <del>explicit basic_format_arg(</del>
+        <del>basic_string_view&lt;char_type, traits&gt; s) noexcept;                       <i>// exposition only</i></del>
+
+    <del>template&lt;class traits, class Allocator&gt;</del>
+      <del>explicit basic_format_arg(</del>
+        <del>const basic_string&lt;char_type, traits, Allocator>&amp; s) noexcept;          <i>// exposition only</i></del>
+
+    <del>explicit basic_format_arg(nullptr_t) noexcept;                              <i>// exposition only</i></del>
+
+    <del>template&lt;class T&gt;</del>
+      <del>explicit basic_format_arg(T* p) noexcept;                                 <i>// exposition only</i></del>
+</pre>
+&hellip;
 <blockquote>
 <pre>
 template&lt;class T&gt; explicit basic_format_arg(T&amp;<del>&amp;</del> v) noexcept;

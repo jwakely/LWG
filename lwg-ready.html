@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2023-01-09 at 18:55:14 UTC</p>
+<td align="left"><p>Revised 2023-01-11 at 18:22:52 UTC</p>
 </td>
 </tr>
 <tr>
@@ -67,7 +67,7 @@
 <hr>
 <h3><a name="2195" href="#2195">2195</a><sup><a href="https://cplusplus.github.io/LWG/issue2195">(i)</a></sup>. Missing constructors for <tt>match_results</tt></h3>
 <p><b>Section:</b> 32.9 <a href="https://wg21.link/re.results">[re.results]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2012-10-06 <b>Last modified:</b> 2022-11-11</p>
+ <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2012-10-06 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#re.results">issues</a> in [re.results].</p>
@@ -715,7 +715,7 @@ of <tt>*first</tt> meets the <i>Cpp17MoveConstructible</i> (Table 32) and <i>Cpp
 <hr>
 <h3><a name="3085" href="#3085">3085</a><sup><a href="https://cplusplus.github.io/LWG/issue3085">(i)</a></sup>. <tt>char_traits::copy</tt> precondition too weak</h3>
 <p><b>Section:</b> 23.2.2 <a href="https://wg21.link/char.traits.require">[char.traits.require]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-03-16 <b>Last modified:</b> 2022-11-12</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2018-03-16 <b>Last modified:</b> 2022-11-11</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#char.traits.require">active issues</a> in [char.traits.require].</p>
@@ -898,7 +898,7 @@ linear
 <hr>
 <h3><a name="3204" href="#3204">3204</a><sup><a href="https://cplusplus.github.io/LWG/issue3204">(i)</a></sup>. <tt>sub_match::swap</tt> only swaps the base class</h3>
 <p><b>Section:</b> 32.8 <a href="https://wg21.link/re.submatch">[re.submatch]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-05-07 <b>Last modified:</b> 2022-12-03</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2019-05-07 <b>Last modified:</b> 2022-11-30</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#re.submatch">active issues</a> in [re.submatch].</p>
@@ -1093,7 +1093,7 @@ std::swap(matched, s.matched);</ins>
 <hr>
 <h3><a name="3664" href="#3664">3664</a><sup><a href="https://cplusplus.github.io/LWG/issue3664">(i)</a></sup>. LWG 3392 broke <tt>std::ranges::distance(a, a+3)</tt></h3>
 <p><b>Section:</b> 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2022-01-23 <b>Last modified:</b> 2022-11-11</p>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2022-01-23 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.iter.op.distance">issues</a> in [range.iter.op.distance].</p>
@@ -1290,7 +1290,7 @@ template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sized_sentine
 <hr>
 <h3><a name="3720" href="#3720">3720</a><sup><a href="https://cplusplus.github.io/LWG/issue3720">(i)</a></sup>. Restrict the valid types of <i>arg-id</i> for <i>width</i> and <i>precision</i> in <i>std-format-spec</i></h3>
 <p><b>Section:</b> 22.14.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-06-19 <b>Last modified:</b> 2022-11-11</p>
+ <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-06-19 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#format.string.std">active issues</a> in [format.string.std].</p>
@@ -1528,9 +1528,228 @@ as <i>arg-id</i> becomes invalid. For example:</ins>
 
 
 <hr>
+<h3><a name="3733" href="#3733">3733</a><sup><a href="https://cplusplus.github.io/LWG/issue3733">(i)</a></sup>. <tt>ranges::to</tt> misuses <tt><i>cpp17-input-iterator</i></tt></h3>
+<p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> S. B. Tam <b>Opened:</b> 2022-07-10 <b>Last modified:</b> 2023-01-11</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.utility.conv.to">issues</a> in [range.utility.conv.to].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>ranges::to</tt> uses <tt><i>cpp17-input-iterator</i>&lt;iterator_t&lt;R&gt;&gt;</tt> to check 
+whether an iterator is a <i>Cpp17InputIterator</i>, which misbehaves if there is a 
+<tt>std::iterator_traits</tt> specialization for that iterator (e.g. if the iterator is a 
+<tt>std::common_iterator</tt>).
+</p>
+<blockquote><pre>
+struct MyContainer {
+    template&lt;class Iter&gt;
+    MyContainer(Iter, Iter);
+
+    char* begin();
+    char* end();
+};
+
+auto nul_terminated = std::views::take_while([](char ch) { return ch != '\0'; });
+auto c = nul_terminated("") | std::views::common | std::ranges::to&lt;MyContainer&gt;();  // <span style="color:red;font-weight:bolder">error</span>
+</pre></blockquote>
+<p>
+I believe that <tt>ranges::to</tt> should instead use 
+<tt>derived_from&lt;typename iterator_traits&lt;iterator_t&lt;R&gt;&gt;::iterator_category, input_iterator_tag&gt;</tt>, 
+which correctly detects the iterator category of a <tt>std::common_iterator</tt>.
+</p>
+
+<p><i>[2022-08-23; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
+  constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns</i>: An object of type <tt>C</tt> constructed from the elements of <tt>r</tt> in the following manner:
+</p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt>convertible_to&lt;range_reference_t&lt;R&gt;, range_value_t&lt;C&gt;&gt;</tt> is <tt>true</tt>:</p></li>
+<ol style="list-style-type: none">
+<li><p>(1.1.1) &mdash; If <tt>constructible_from&lt;C, R, Args...&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><tt>C(std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
+<li><p>(1.1.2) &mdash; Otherwise, if <tt>constructible_from&lt;C, from_range_t, R, Args...&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><tt>C(from_range, std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
+<li><p>(1.1.3) &mdash; Otherwise, if</p></li>
+<ol style="list-style-type: none">
+<li><p>(1.1.3.1) &mdash; <tt>common_range&lt;R&gt;</tt> is <tt>true</tt>,</p></li>
+<li><p>(1.1.3.2) &mdash; <tt><del><i>cpp17-input-iterator</i></del><ins>derived_from&lt;typename 
+iterator_traits</ins>&lt;iterator_t&lt;R&gt;&gt;<ins>::iterator_category, input_iterator_tag&gt;</ins></tt> 
+is <tt>true</tt>, and</p></li>
+<li><p>(1.1.3.3) &mdash; <tt>constructible_from&lt;C, iterator_t&lt;R&gt;, sentinel_t&lt;R&gt;, Args...&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><tt>C(ranges::begin(r), ranges::end(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
+</ol>
+<li><p>(1.1.4) &mdash; Otherwise, if</p></li>
+<ol style="list-style-type: none">
+<li><p>(1.1.4.1) &mdash; <tt>constructible_from&lt;C, Args...&gt;</tt> is <tt>true</tt>, and</p></li>
+<li><p>(1.1.4.2) &mdash; <tt><i>container-insertable</i>&lt;C, range_reference_t&lt;R&gt;&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><pre>
+[&hellip;]
+</pre></blockquote></li>
+</ol>
+</ol>
+<li><p>(1.2) &mdash; Otherwise, if <tt>input_range&lt;range_reference_t&lt;R&gt;&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><pre>
+to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
+  return to&lt;range_value_t&lt;C&gt;&gt;(std::forward&lt;decltype(elem)&gt;(elem));
+}), std::forward&lt;Args&gt;(args)...);
+</pre></blockquote></li>
+<li><p>(1.3) &mdash; Otherwise, the program is ill-formed.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2022-08-27; Hewill Kang reopens and suggests a different resolution]</i></p>
+
+<p>
+This issue points out that the standard misuses <tt><i>cpp17-input-iterator</i></tt> to check 
+whether the iterator meets the requirements of <i>Cpp17InputIterator</i>, and proposes to use 
+<tt>iterator_traits&lt;I&gt;::iterator_category</tt> to check the iterator's category directly, 
+which may lead to the following potential problems:
+<p/>
+First, for the range types that model both <tt>common_range</tt> and <tt>input_range</tt>, 
+the expression <tt>iterator_traits&lt;I&gt;::iterator_category</tt> may not be valid, consider
+</p>
+<blockquote><pre>
+#include &lt;ranges&gt;
+
+struct I {
+  using difference_type = int;
+  using value_type = int;
+  int operator*() const;
+  I&amp; operator++();
+  void operator++(int);
+  bool operator==(const I&amp;) const;
+  bool operator==(std::default_sentinel_t) const;
+};
+
+int main() {
+  auto r = std::ranges::subrange(I{}, I{});
+  auto v = r | std::ranges::to&lt;std::vector&lt;int&gt;&gt;(0);
+}
+</pre></blockquote>
+<p>
+Although <tt>I</tt> can serve as its own sentinel, it does not model 
+<tt><i>cpp17-input-iterator</i></tt> since postfix <tt>operator++</tt> returns <tt>void</tt>, 
+which causes <tt>iterator_traits&lt;R&gt;</tt> to be an empty class, making the 
+expression <tt>derived_from&lt;iterator_traits&lt;I&gt;::iterator_category, input_iterator_tag&gt;</tt> ill-formed.
+<p/>
+Second, for <tt>common_iterator</tt>, <tt>iterator_traits&lt;I&gt;::iterator_category</tt> 
+does not guarantee a strictly correct iterator category in the current standard.
+<p/>
+For example, when the above <tt>I::operator*</tt> returns a non-<tt>copyable</tt> object that 
+can be converted to <tt>int</tt>, this makes <tt>common_iterator&lt;I, default_sentinel_t&gt;</tt> 
+unable to synthesize a C++17-conforming postfix <tt>operator++</tt>, however, 
+<tt>iterator_traits&lt;common_iterator&lt;I, S&gt;&gt;::iterator_category</tt> will still 
+give <tt>input_iterator_tag</tt> even though it's not even a C++17 iterator.
+<p/>
+Another example is that for <tt>input_iterator</tt>s with difference type of integer-class type, 
+the difference type of the <tt>common_iterator</tt> wrapped on it is still of the integer-class type, 
+but the <tt>iterator_category</tt> obtained by the <tt>iterator_traits</tt> is <tt>input_iterator_tag</tt>. 
+<p/>
+The proposed resolution only addresses the first issue since I believe that the problem with 
+<tt>common_iterator</tt> requires a paper.
+</p>
+
+<p><i>[2023-01-11; LWG telecon]</i></p>
+
+<p>
+Set status to Tentatively Ready (poll results F6/A0/N1)
+</p>
+
+
+
+<p id="res-3733"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
+  constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns</i>: An object of type <tt>C</tt> constructed from the elements of <tt>r</tt> in the following manner:
+</p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt>convertible_to&lt;range_reference_t&lt;R&gt;, range_value_t&lt;C&gt;&gt;</tt> is <tt>true</tt>:</p></li>
+<ol style="list-style-type: none">
+<li><p>(1.1.1) &mdash; If <tt>constructible_from&lt;C, R, Args...&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><tt>C(std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
+<li><p>(1.1.2) &mdash; Otherwise, if <tt>constructible_from&lt;C, from_range_t, R, Args...&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><tt>C(from_range, std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
+<li><p>(1.1.3) &mdash; Otherwise, if</p></li>
+<ol style="list-style-type: none">
+<li><p>(1.1.3.1) &mdash; <tt>common_range&lt;R&gt;</tt> is <tt>true</tt>,</p></li>
+<li><p>(1.1.3.2) &mdash; <del><tt><i>cpp17-input-iterator</i></tt></del><ins>if the <i>qualified-id</i>  
+<tt>iterator_traits</tt></ins><tt>&lt;iterator_t&lt;R&gt;&gt;</tt><ins><tt>::iterator_category</tt> </ins>is<ins> 
+<del><tt>true</tt></del> valid and denotes a type that models <tt>derived_from&lt;input_iterator_tag&gt;</tt></ins>, and</p></li>
+<li><p>(1.1.3.3) &mdash; <tt>constructible_from&lt;C, iterator_t&lt;R&gt;, sentinel_t&lt;R&gt;, Args...&gt;</tt>:</p>
+<blockquote><tt>C(ranges::begin(r), ranges::end(r), std::forward&lt;Args&gt;(args)...)</tt></blockquote></li>
+</ol>
+<li><p>(1.1.4) &mdash; Otherwise, if</p></li>
+<ol style="list-style-type: none">
+<li><p>(1.1.4.1) &mdash; <tt>constructible_from&lt;C, Args...&gt;</tt> is <tt>true</tt>, and</p></li>
+<li><p>(1.1.4.2) &mdash; <tt><i>container-insertable</i>&lt;C, range_reference_t&lt;R&gt;&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><pre>
+[&hellip;]
+</pre></blockquote></li>
+</ol>
+</ol>
+<li><p>(1.2) &mdash; Otherwise, if <tt>input_range&lt;range_reference_t&lt;R&gt;&gt;</tt> is <tt>true</tt>:</p>
+<blockquote><pre>
+to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
+  return to&lt;range_value_t&lt;C&gt;&gt;(std::forward&lt;decltype(elem)&gt;(elem));
+}), std::forward&lt;Args&gt;(args)...);
+</pre></blockquote></li>
+<li><p>(1.3) &mdash; Otherwise, the program is ill-formed.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3742" href="#3742">3742</a><sup><a href="https://cplusplus.github.io/LWG/issue3742">(i)</a></sup>. <tt>deque::prepend_range</tt> needs to permute</h3>
 <p><b>Section:</b> 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-12-03</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-07-16 <b>Last modified:</b> 2022-11-30</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#sequence.reqmts">active issues</a> in [sequence.reqmts].</p>
@@ -1943,7 +2162,7 @@ evaluation that is not signal-safe.
 <hr>
 <h3><a name="3769" href="#3769">3769</a><sup><a href="https://cplusplus.github.io/LWG/issue3769">(i)</a></sup>. <tt>basic_const_iterator::operator==</tt> causes infinite constraint recursion</h3>
 <p><b>Section:</b> 25.5.3 <a href="https://wg21.link/const.iterators">[const.iterators]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2022-11-11</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#const.iterators">active issues</a> in [const.iterators].</p>
@@ -2277,6 +2496,173 @@ template&lt;<ins><i>not-a-const-iterator</i></ins><del>sized_sentinel_for&lt;Ite
 
 
 <hr>
+<h3><a name="3790" href="#3790">3790</a><sup><a href="https://cplusplus.github.io/LWG/issue3790">(i)</a></sup>. P1467 accidentally changed <tt>nexttoward</tt>'s signature</h3>
+<p><b>Section:</b> 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> David Olsen <b>Opened:</b> 2022-09-30 <b>Last modified:</b> 2023-01-11</p>
+<p><b>Priority: </b>1
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#cmath.syn">active issues</a> in [cmath.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#cmath.syn">issues</a> in [cmath.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/P1467">P1467</a> (Extended floating-point types), which was adopted for C++23 at the July plenary, 
+has a typo (which is entirely my fault) that no one noticed during wording review.  The changes to the 
+<tt>&lt;cmath&gt;</tt> synopsis in the paper included changing this:
+</p>
+<blockquote><pre>
+constexpr float nexttoward(float x, long double y);       // see [library.c]
+constexpr double nexttoward(double x, long double y);
+constexpr long double nexttoward(long double x, long double y);   // see [library.c]
+</pre></blockquote>
+<p>
+to this:
+</p>
+<blockquote><pre>
+constexpr <i>floating-point-type</i> nexttoward(<i>floating-point-type</i> x, <i>floating-point-type</i> y);
+</pre></blockquote>
+<p>
+That changed the second parameter of <tt>nexttoward</tt> from always being <tt>long double</tt> to being 
+<tt><i>floating-point-type</i></tt>, which matches the type of the first parameter.
+<p/>
+The change is obviously incorrect. The purpose of the changes to <tt>&lt;cmath&gt;</tt> was to add overloads 
+of the functions for extended floating-point types, not to change any existing signatures.
+</p>
+
+<p><i>[2022-10-10; Reflector poll]</i></p>
+
+<p>
+Set priority to 1 after reflector poll. Discussion during prioritization
+revolved around whether to delete <code>nexttoward</code> for new FP types
+or just restore the C++20 signatures, which might accept the new types via
+implicit conversions (and so return a different type, albeit with the same
+representation and same set of values).
+</p>
+<p>
+"When the first argument to <code>nexttoward</code> is an extended
+floating-point type that doesn't have the same representation as a standard
+floating-point type, such as <code>std::float16_t</code>,
+<code>std::bfloat16_t</code>, or <code>std::float128_t</code> (on some systems),
+the call to <code>nexttoward</code> is ambiguous and ill-formed,
+so the unexpected return type is not an issue.
+Going through the extra effort of specifying '= delete' for
+<code>nexttoward</code> overloads that have extended floating-point arguments
+is a solution for a problem that doesn't really exist."
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a>, header <tt>&lt;cmath&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+constexpr <i>floating-point-type</i> nexttoward(<i>floating-point-type</i> x, <del><i>floating-point-type</i></del><ins>long double</ins> y);
+constexpr float nexttowardf(float x, long double y);
+constexpr long double nexttowardl(long double x, long double y);
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2022-10-04; David Olsen comments and provides improved wording]</i></p>
+
+<p>
+C23 specifies variants of most of the functions in <tt>&lt;math.h&gt;</tt> for the <tt>_FloatN</tt> types 
+(which are C23's equivalent of C++23's <tt>std::floatN_t</tt> types). But it does not specify those variants 
+for <tt>nexttoward</tt>.
+<p/>
+Based on what C23 is doing, I think it would be reasonable to leave <tt>nexttoward</tt>'s signature unchanged 
+from C++20. There would be no requirement to provide overloads for extended floating-point types, only for 
+the standard floating-point types. Instead of explicitly deleting the overloads with extended floating-point 
+types, we can just never declare them in the first place.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+<li><p>Modify 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a>, header <tt>&lt;cmath&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+<ins>constexpr float nexttoward(float x, long double y);</ins>
+<ins>constexpr double nexttoward(double x, long double y);</ins>
+<ins>constexpr long double nexttoward(long double x, long double y);</ins>
+<del>constexpr <i>floating-point-type</i> nexttoward(<i>floating-point-type</i> x, <i>floating-point-type</i> y);</del>
+constexpr float nexttowardf(float x, long double y);
+constexpr long double nexttowardl(long double x, long double y);
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+
+<p><i>[2022-11-12; Tomasz comments and provides improved wording]</i></p>
+
+<p>
+During 2022-10-26 LWG telecon we decided that we want to make the calls of the <code>nexttoward</code>
+to be ill-formed (equivalent of Mandates) when the first argument is extended floating-point type.
+</p>
+
+
+<p><i>[2023-01-11; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-3790"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+
+<ol>
+	
+<li><p>Modify 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a>, header <tt>&lt;cmath&gt;</tt> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+[&hellip;]
+constexpr <i>floating-point-type</i> nexttoward(<i>floating-point-type</i> x, <del><i>floating-point-type</i></del><ins>long double</ins> y);
+constexpr float nexttowardf(float x, long double y);
+constexpr long double nexttowardl(long double x, long double y);
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+
+<li><p>Add following paragraph at the end of 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a>, header <tt>&lt;cmath&gt;</tt> synopsis:</p>
+
+<blockquote>
+<ins>-?- An invocation of <tt>nexttoward</tt> is ill-formed if the argument corresponding to the <i>floating-point-type</i>
+parameter has extended floating-point type.</ins>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
 <h3><a name="3807" href="#3807">3807</a><sup><a href="https://cplusplus.github.io/LWG/issue3807">(i)</a></sup>. The feature test macro for <tt>ranges::find_last</tt> should be renamed</h3>
 <p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Daniel Marshall <b>Opened:</b> 2022-11-02 <b>Last modified:</b> 2022-11-12</p>
@@ -2326,7 +2712,7 @@ This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
 <hr>
 <h3><a name="3811" href="#3811">3811</a><sup><a href="https://cplusplus.github.io/LWG/issue3811">(i)</a></sup>. <tt>views::as_const</tt> on <tt>ref_view&lt;T&gt;</tt> should return <tt>ref_view&lt;const T&gt;</tt></h3>
 <p><b>Section:</b> 26.7.21.1 <a href="https://wg21.link/range.as.const.overview">[range.as.const.overview]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2022-11-03 <b>Last modified:</b> 2022-11-11</p>
+ <b>Submitter:</b> Tomasz Kami&nacute;ski <b>Opened:</b> 2022-11-03 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.as.const.overview">active issues</a> in [range.as.const.overview].</p>
@@ -2394,7 +2780,7 @@ extent <tt>Extent</tt>, then <tt>span&lt;const X, Extent&gt;(E)</tt>.</p></li>
 <hr>
 <h3><a name="3819" href="#3819">3819</a><sup><a href="https://cplusplus.github.io/LWG/issue3819">(i)</a></sup>. <tt>reference_<i>meow</i>s_from_temporary</tt> should not use <tt>is_<i>meow</i>ible</tt></h3>
 <p><b>Section:</b> 21.3.5.4 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-11</p>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#meta.unary.prop">active issues</a> in [meta.unary.prop].</p>
@@ -2521,7 +2907,7 @@ and so on. Such effects are not in the "immediate context" and can result in the
 <hr>
 <h3><a name="3820" href="#3820">3820</a><sup><a href="https://cplusplus.github.io/LWG/issue3820">(i)</a></sup>. <tt>cartesian_product_view::<i>iterator</i>::<i>prev</i></tt> is not quite right</h3>
 <p><b>Section:</b> 26.7.31.3 <a href="https://wg21.link/ranges.cartesian.iterator">[ranges.cartesian.iterator]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-11</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2022-11-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#ranges.cartesian.iterator">active issues</a> in [ranges.cartesian.iterator].</p>
@@ -2613,9 +2999,172 @@ auto&amp; it = std::get&lt;N&gt;(<i>current_</i>);
 
 
 <hr>
+<h3><a name="3821" href="#3821">3821</a><sup><a href="https://cplusplus.github.io/LWG/issue3821">(i)</a></sup>. <tt>uses_allocator_construction_args</tt> should have overload for <i><tt>pair-like</tt></i></h3>
+<p><b>Section:</b> 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2022-11-08 <b>Last modified:</b> 2023-01-11</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#allocator.uses.construction">active issues</a> in [allocator.uses.construction].</p>
+<p><b>View all other</b> <a href="lwg-index.html#allocator.uses.construction">issues</a> in [allocator.uses.construction].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/P2165R4">P2165R4</a> added a <tt><i>pair-like</i></tt> constructor to 
+<tt>std::pair</tt> but didn't add a corresponding <tt>uses_allocator_construction_args</tt> overload. 
+It was in <a href="https://wg21.link/P2165R3">P2165R3</a> but incorrectly removed during the small group review.
+<p/>
+Without LWG <a href="lwg-defects.html#3525">3525</a>, not having the overload would have caused emplacing a <tt><i>pair-like</i></tt> into a 
+<tt>pmr::vector&lt;pair&gt;</tt> to be outright ill-formed. 
+<p/>
+With that issue's resolution, in cases where the constructor is not explicit we would create a temporary pair 
+and then do uses-allocator construction using its pieces, and it still won't work when the constructor is explicit.
+<p/>
+We should just do this properly.
+</p>
+
+<p><i>[2022-11-09 Tim updates wording following LWG review]</i></p>
+
+<p>
+During review of this issue LWG noticed that neither the constructor nor the new overload should accept <tt>subrange</tt>.
+<p/>
+The <tt>remove_cv_t</tt> in the new paragraph is added for consistency with LWG <a href="lwg-defects.html#3677">3677</a>.
+</p> 
+
+<p><i>[Kona 2022-11-12; Set priority to 2]</i></p>
+
+
+
+<p><i>[2023-01-11; LWG telecon]</i></p>
+
+<p>
+Replace <tt>P</tt> with <tt>U</tt> in p17 and
+set status to Tentatively Ready (poll result: 8/0/0).
+</p>
+
+
+
+<p id="res-3821"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a> after the application of LWG <a href="lwg-defects.html#3677">3677</a>.
+</p>
+<ol>
+<li><p>Edit 22.3.2 <a href="https://wg21.link/pairs.pair">[pairs.pair]</a> as indicated:</p>
+<blockquote>
+<pre>
+template&lt;class U1, class U2&gt; constexpr explicit(<i>see below</i>) pair(pair&lt;U1, U2&gt;&amp; p);
+template&lt;class U1, class U2&gt; constexpr explicit(<i>see below</i>) pair(const pair&lt;U1, U2&gt;&amp; p);
+template&lt;class U1, class U2&gt; constexpr explicit(<i>see below</i>) pair(pair&lt;U1, U2&gt;&amp;&amp; p);
+template&lt;class U1, class U2&gt; constexpr explicit(<i>see below</i>) pair(const pair&lt;U1, U2&gt;&amp;&amp; p);
+template&lt;<i>pair-like</i> P&gt; constexpr explicit(<i>see below</i>) pair(P&amp;&amp; p);
+</pre>
+<blockquote>
+<p>
+-14- Let <tt><i>FWD</i>(u)</tt> be <tt>static_cast&lt;decltype(u)&gt;(u)</tt>.
+<p/>
+-15- <i>Constraints:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p><ins>(15.?) &mdash; For the last overload, <tt>remove_cvref_t&lt;P&gt;</tt> is not a specialization of <tt>ranges::subrange</tt>,</ins></p></li>
+<li><p>(15.1) &mdash; <tt>is_constructible_v&lt;T1, decltype(get&lt;0&gt;(<i>FWD</i>(p)))&gt;</tt> is <tt>true</tt> and</p></li>
+<li><p>(15.2) &mdash; <tt>is_constructible_v&lt;T2, decltype(get&lt;1&gt;(<i>FWD</i>(p)))&gt;</tt> is <tt>true</tt>.</p></li>
+</ol>
+<p>
+-16- <i>Effects:</i> Initializes <tt>first</tt> with <tt>get&lt;0&gt;(<i>FWD</i>(p))</tt> 
+and <tt>second</tt> with <tt>get&lt;1&gt;(<i>FWD</i>(p))</tt>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+<li><p>Edit 20.2.2 <a href="https://wg21.link/memory.syn">[memory.syn]</a>, header <tt>&lt;memory&gt;</tt> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  <i>// 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>, uses-allocator construction</i>
+  [&hellip;]
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    pair&lt;U, V&gt;&amp; pr) noexcept;
+
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    const pair&lt;U, V&gt;&amp; pr) noexcept;
+
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    pair&lt;U, V&gt;&amp;&amp; pr) noexcept;
+
+  template&lt;class T, class Alloc, class U, class V&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc,
+                                                    const pair&lt;U, V&gt;&amp;&amp; pr) noexcept;
+<ins>  template&lt;class T, class Alloc, <i>pair-like</i> P&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, P&amp;&amp; p) noexcept;</ins>
+    
+  template&lt;class T, class Alloc, class U&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, U&amp;&amp; u) noexcept;
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Add the following to 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>:</p>
+<blockquote>
+<pre>
+<ins>  template&lt;class T, class Alloc, <i>pair-like</i> P&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, P&amp;&amp; p) noexcept;</ins>
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Constraints:</i> <tt>remove_cv_t&lt;T&gt;</tt> is a specialization of <tt>pair</tt> 
+and <tt>remove_cvref_t&lt;P&gt;</tt> is not a specialization of <tt>ranges::subrange</tt>.</ins>
+<p/>
+<ins>-?- <i>Effects:</i> Equivalent to:</ins>
+</p>
+<blockquote><pre><ins>
+return uses_allocator_construction_args&lt;T&gt;(alloc, piecewise_construct,
+                                            forward_as_tuple(get&lt;0&gt;(std::forward&lt;P&gt;(p))),
+                                            forward_as_tuple(get&lt;1&gt;(std::forward&lt;P&gt;(p))));
+</ins></pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Edit 20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a> p17:</p>
+<blockquote>
+<pre>
+  template&lt;class T, class Alloc, class U&gt;
+    constexpr auto uses_allocator_construction_args(const Alloc&amp; alloc, U&amp;&amp; u) noexcept;
+</pre>
+<blockquote>
+<p>
+-16- Let <tt><i>FUN</i></tt> be the function template:
+</p>
+<blockquote><pre>
+  template&lt;class A, class B&gt;
+  void <i>FUN</i>(const pair&lt;A, B&gt;&amp;);
+</pre></blockquote>
+<p>
+-17- <i>Constraints:</i> <tt>remove_cv_t&lt;T&gt;</tt> is a specialization of <tt>pair</tt>, <ins>and either:</ins>
+</p>
+<ol style="list-style-type: none">
+<li><p><ins>(17.1) &mdash; <tt>remove_cvref_t&lt;U&gt;</tt> is a specialization of <tt>ranges::subrange</tt>, or</ins></p></li>
+<li><p><ins>(17.2) &mdash; <tt>U</tt> does not satisfy <i><tt>pair-like</tt></i></ins>
+and the expression <tt><i>FUN</i>(u)</tt> is not well-formed when considered as an unevaluated operand..</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
 <h3><a name="3825" href="#3825">3825</a><sup><a href="https://cplusplus.github.io/LWG/issue3825">(i)</a></sup>. Missing compile-time argument <tt>id</tt> check in <tt>basic_format_parse_context::next_arg_id</tt></h3>
 <p><b>Section:</b> 22.14.6.5 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2022-11-09 <b>Last modified:</b> 2022-11-12</p>
+ <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2022-11-09 <b>Last modified:</b> 2022-11-11</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
@@ -2757,7 +3306,7 @@ expressions (7.7 <a href="https://wg21.link/expr.const">[expr.const]</a>).
 <hr>
 <h3><a name="3834" href="#3834">3834</a><sup><a href="https://cplusplus.github.io/LWG/issue3834">(i)</a></sup>. Missing <tt>constexpr</tt> for <tt>std::intmax_t</tt> math functions in <tt>&lt;cinttypes&gt;</tt></h3>
 <p><b>Section:</b> 31.13.2 <a href="https://wg21.link/cinttypes.syn">[cinttypes.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> George Tokmaji <b>Opened:</b> 2022-11-27 <b>Last modified:</b> 2023-01-09</p>
+ <b>Submitter:</b> George Tokmaji <b>Opened:</b> 2022-11-27 <b>Last modified:</b> 2023-01-06</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -2834,7 +3383,7 @@ namespace std {
 <hr>
 <h3><a name="3839" href="#3839">3839</a><sup><a href="https://cplusplus.github.io/LWG/issue3839">(i)</a></sup>. <tt>range_formatter</tt>'s <tt>set_separator</tt>, <tt>set_brackets</tt>, and <tt>underlying</tt> functions should be <tt>noexcept</tt></h3>
 <p><b>Section:</b> 22.14.7.2 <a href="https://wg21.link/format.range.formatter">[format.range.formatter]</a>, 22.14.7.3 <a href="https://wg21.link/format.range.fmtdef">[format.range.fmtdef]</a>, 22.14.9 <a href="https://wg21.link/format.tuple">[format.tuple]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-12-11 <b>Last modified:</b> 2023-01-09</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-12-11 <b>Last modified:</b> 2023-01-06</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
@@ -3012,7 +3561,7 @@ constexpr void set_brackets(basic_string_view&lt;charT&gt; opening, basic_string
 <hr>
 <h3><a name="3841" href="#3841">3841</a><sup><a href="https://cplusplus.github.io/LWG/issue3841">(i)</a></sup>. <tt>&lt;version&gt;</tt> should not be "<i>all freestanding</i>"</h3>
 <p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-12-14 <b>Last modified:</b> 2023-01-09</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-12-14 <b>Last modified:</b> 2023-01-06</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
@@ -3073,7 +3622,7 @@ of the set of library headers indicated in the corresponding comment in this syn
 <hr>
 <h3><a name="3842" href="#3842">3842</a><sup><a href="https://cplusplus.github.io/LWG/issue3842">(i)</a></sup>. Unclear wording for <i>precision</i> in <i>chrono-format-spec</i></h3>
 <p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-12-14 <b>Last modified:</b> 2023-01-09</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-12-14 <b>Last modified:</b> 2023-01-06</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
