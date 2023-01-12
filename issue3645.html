@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3645" href="lwg-active.html#3645">3645</a>. <tt>resize_and_overwrite</tt> is overspecified to call its callback with lvalues</h3>
 <p><b>Section:</b> 23.4.3.5 <a href="https://wg21.link/string.capacity">[string.capacity]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-28 <b>Last modified:</b> 2023-01-11</p>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-28 <b>Last modified:</b> 2023-01-12</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#string.capacity">issues</a> in [string.capacity].</p>
@@ -198,7 +198,7 @@ after evaluating <tt><i>OP</i></tt>.
 <p id="res-3645"><b>Proposed resolution:</b></p>
 
 <p>
-This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
 </p>
 
 <ol>
@@ -226,9 +226,29 @@ The values in the range
 <tt>m</tt> be a value of type <tt>size_type</tt> or
 <tt>const size_type</tt> equal to <tt>n</tt>.
 </ins></p></li>
-<li><p>(7.4) &mdash; <tt><i>OP</i></tt> be the expression <tt>std::move(op)(p, m)</tt>.</p></li>
+<li><p>(7.4) &mdash; <tt><i>OP</i></tt> be the expression <tt>std::move(op)(p, <del>n</del><ins>m</ins>)</tt>.</p></li>
 <li><p>(7.5) &mdash; <tt>r = <i>OP</i></tt>.</p></li>
 </ol>
+<p>
+-8- <i>Mandates:</i> <tt><i>OP</i></tt> has an integer-like type (25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a>).
+<p/>
+-9- <i>Preconditions:</i>
+</p>
+<ol style="list-style-type:none">
+<li><p>(9.1) &mdash; <tt><i>OP</i></tt> does not throw an exception or modify <tt>p</tt> or <tt><del>n</del><ins>m</ins></tt>.</p></li>
+<li><p>(9.2) &mdash; <tt>r &ge; 0</tt>.</p></li>
+<li><p>(9.3) &mdash; <tt>r &le; <del>n</del><ins>m</ins></tt>.</p></li>
+<li><p>(9.4) &mdash; After evaluating <tt><i>OP</i></tt> there are no indeterminate values in the range
+<tt>[p, p + r)</tt>.</p></li>
+</ol>
+<p>
+-10- <i>Effects:</i> Evaluates <tt><i>OP</i></tt>, replaces the contents of <tt>*this</tt> with <tt>[p, p + r)</tt>,
+and invalidates all pointers and references to the range <tt>[p, p + n]</tt>.
+<p/>
+-11- <i>Recommended practice:</i> Implementations should avoid unnecessary copies and allocations by, for example,
+making <tt>p</tt> a pointer into internal storage and by restoring <tt>*(p + r)</tt> to <tt>charT()</tt>
+after evaluating <tt><i>OP</i></tt>.
+</p>
 </blockquote>
 </blockquote>
 </li>
