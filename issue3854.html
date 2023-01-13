@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Issue 3854: Unclear which conversion specifiers are valid for each chrono type</title>
+<style type="text/css">
+  p {text-align:justify}
+  li {text-align:justify}
+  blockquote.note
+  {
+    background-color:#E0E0E0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+  ins {background-color:#A0FFA0}
+  del {background-color:#FFA0A0}
+  table {border-collapse: collapse;}
+  @media (prefers-color-scheme: dark) {
+     html {
+        color: #ddd;
+        background-color: black;
+     }
+     ins {
+        background-color: #225522
+     }
+     del {
+        background-color: #662222
+     }
+     a {
+        color: #6af
+     }
+     a:visited {
+        color: #6af
+     }
+     blockquote.note
+     {
+        background-color: rgba(255, 255, 255, .10)
+     }
+  }
+</style>
+</head>
+<body>
+<hr>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<h3><a name="3854" href="lwg-active.html#3854">3854</a>. Unclear which conversion specifiers are valid for each chrono type</h3>
+<p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Tam S. B. <b>Opened:</b> 2023-01-12 <b>Last modified:</b> 2023-01-12</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.format">issues</a> in [time.format].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+29.12 <a href="https://wg21.link/time.format">[time.format]</a>/3:
+<blockquote>
+If the formatted object does not contain the information the conversion
+specifier refers to, an exception of type <tt>format_error</tt> is thrown.
+</blockquote>
+
+29.12 <a href="https://wg21.link/time.format">[time.format]</a>/6:
+<blockquote>
+If the type being formatted does not contain the information that the format
+flag needs, an exception of type <tt>format_error</tt> is thrown.
+</blockquote>
+</p>
+
+<p>
+It's unclear how to determine if a type contain the needed information,
+and implementations diverge.
+</p>
+
+<p>
+For example, consider
+</p>
+<blockquote><pre>
+    #include &lt;chrono&gt;
+    #include &lt;format&gt;
+
+    auto f(std::chrono::month_day_last mdl) {
+        return std::format("{:%j}", mdl);
+    }
+</pre></blockquote>
+<p>
+Both libstdc++ and libc++ produce a compile-time error, claiming that the
+argument does not contain the information, while MSVC STL throws
+<tt>format_error</tt> at run time unless <tt>mdl</tt> is `January/last`,
+in which case the function returns "031".
+</p>
+
+
+<p id="res-3854"><b>Proposed resolution:</b></p>
+<p>
+</p>
+
+
+
+
+
+</body>
+</html>
