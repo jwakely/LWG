@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3854: Unclear which conversion specifiers are valid for each chrono type</title>
+<title>Issue 3854: &sect;[res.on.exception.handling]/3 should not be applied to all standard library types</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,56 +45,31 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3854" href="lwg-active.html#3854">3854</a>. Unclear which conversion specifiers are valid for each chrono type</h3>
-<p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tam S. B. <b>Opened:</b> 2023-01-12 <b>Last modified:</b> 2023-01-12</p>
+<h3><a name="3854" href="lwg-active.html#3854">3854</a>. &sect;[res.on.exception.handling]/3 should not be applied to all standard library types</h3>
+<p><b>Section:</b> 16.4.6.13 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-01-07 <b>Last modified:</b> 2023-01-14</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
-<p><b>View all other</b> <a href="lwg-index.html#time.format">issues</a> in [time.format].</p>
+<p><b>View other</b> <a href="lwg-index-open.html#res.on.exception.handling">active issues</a> in [res.on.exception.handling].</p>
+<p><b>View all other</b> <a href="lwg-index.html#res.on.exception.handling">issues</a> in [res.on.exception.handling].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-29.12 <a href="https://wg21.link/time.format">[time.format]</a>/3:
-<blockquote>
-If the formatted object does not contain the information the conversion
-specifier refers to, an exception of type <tt>format_error</tt> is thrown.
-</blockquote>
-
-29.12 <a href="https://wg21.link/time.format">[time.format]</a>/6:
-<blockquote>
-If the type being formatted does not contain the information that the format
-flag needs, an exception of type <tt>format_error</tt> is thrown.
-</blockquote>
-</p>
-
-<p>
-It's unclear how to determine if a type contain the needed information,
-and implementations diverge.
-</p>
-
-<p>
-For example, consider
-</p>
-<blockquote><pre>
-    #include &lt;chrono&gt;
-    #include &lt;format&gt;
-
-    auto f(std::chrono::month_day_last mdl) {
-        return std::format("{:%j}", mdl);
-    }
-</pre></blockquote>
-<p>
-Both libstdc++ and libc++ produce a compile-time error, claiming that the
-argument does not contain the information, while MSVC STL throws
-<tt>format_error</tt> at run time unless <tt>mdl</tt> is `January/last`,
-in which case the function returns "031".
+Some standard library types, such as <tt>std::pair</tt>, <tt>std::tuple</tt>, and <tt>std::array</tt>, 
+are currently allowed to have a member or element type with a destructor that is <tt>noexcept(false)</tt>. 
+In order to conform to 16.4.6.13 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a>/3, these types can't always have 
+implicitly declared destructors because the implicit exception specification may be <tt>noexcept(false)</tt>.
+<p/>
+However, it may be intentional to implement these types with implicitly declared destructors, and 
+mainstream implementations (libc++, libstdc++, and MSVC STL) are already doing so.
+<p/>
+Furtherly, explicitly declared destructors are not allowed for algorithm result types 
+(27.5 <a href="https://wg21.link/algorithms.results">[algorithms.results]</a>), while currently these class templates are allowed to be instantiated 
+with classes with potentially throwing destructors, which is contradictory to 16.4.6.13 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a>/3.
 </p>
 
 
 <p id="res-3854"><b>Proposed resolution:</b></p>
-<p>
-</p>
 
 
 
