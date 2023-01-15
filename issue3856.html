@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3><a name="3856" href="lwg-active.html#3856">3856</a>. Unclear which conversion specifiers are valid for each chrono type</h3>
 <p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Tam S. B. <b>Opened:</b> 2023-01-14 <b>Last modified:</b> 2023-01-14</p>
+ <b>Submitter:</b> Tam S. B. <b>Opened:</b> 2023-01-14 <b>Last modified:</b> 2023-01-15</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
@@ -77,12 +77,12 @@ and implementations diverge.
 For example, consider
 </p>
 <blockquote><pre>
-    #include &lt;chrono&gt;
-    #include &lt;format&gt;
+#include &lt;chrono&gt;
+#include &lt;format&gt;
 
-    auto f(std::chrono::month_day_last mdl) {
-        return std::format("{:%j}", mdl);
-    }
+auto f(std::chrono::month_day_last mdl) {
+  return std::format("{:%j}", mdl);
+}
 </pre></blockquote>
 <p>
 Both libstdc++ and libc++ produce a compile-time error, claiming that the
@@ -106,7 +106,7 @@ assert( wdi.weekday().ok() );
 std::format("{:%a}", wdi);
 </pre></blockquote>
 <p>
-For %a the required information is "a valid weekday",
+For <tt>%a</tt> the required information is "a valid weekday",
 and arguably this does contain a valid weekday.
 On the other hand, there's no 7th Monday, so this isn't valid.
 Should this throw or not?
@@ -115,9 +115,9 @@ Should this throw or not?
 This was discussed by LWG and Howard Hinnant summarized the intended behaviour as:
 <blockquote>
 "The intention of 29.12 <a href="https://wg21.link/time.format">[time.format]</a>/6 is to address things like
-formatting a <tt>duration</tt> with %F.  A <tt>duration</tt> doesn’t contain
-the calendrical information that %F requires (year, month, day).
-Ditto for using %a (weekday name) with a <tt>year</tt>.
+formatting a <tt>duration</tt> with <tt>%F</tt>. A <tt>duration</tt> doesn't contain
+the calendrical information that <tt>%F</tt> requires (year, month, day).
+Ditto for using <tt>%a</tt> (weekday name) with a <tt>year</tt>.
 It is meant to address mismatching <i>types</i> and flags,
 and not meant to address <i>values</i>."
 </blockquote>
@@ -137,7 +137,8 @@ Referring to "the formatted object" in p3 seems unclear.
 Saying "type" as in p6 is better.
 But p6 refers to "format flag" which is not defined,
 whereas p3 uses "conversion specifier" (defined at the start of that paragraph).
-The two uses of "flag" in p6 look like remnants from the earlier chrono::format feature that was replaced by integration with std::format.
+The two uses of "flag" in p6 look like remnants from the earlier <tt>chrono::format</tt> 
+feature that was replaced by integration with <tt>std::format</tt>.
 </p>
 
 
