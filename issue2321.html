@@ -47,7 +47,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3><a name="2321" href="lwg-active.html#2321">2321</a>. Moving containers should (usually) be required to preserve iterators</h3>
 <p><b>Section:</b> 24.2.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2013-09-21 <b>Last modified:</b> 2018-08-25</p>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2013-09-21 <b>Last modified:</b> 2018-08-24</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#container.requirements.general">active issues</a> in [container.requirements.general].</p>
@@ -98,6 +98,21 @@ MC: This was last updated a year ago in Issaquah.
 <p><i>[2018-08-23 Batavia Issues processing]</i></p>
 
 <p>Priority to 3</p>
+
+<p><i>[2023-01-20; std-proposals post]</i></p>
+
+<p>
+Emile Cormier
+<a href="https://lists.isocpp.org/std-proposals/2023/01/5439.php">observed</a>
+that the proposed resolution of this issue contradicts with changes made by
+LWG <a href="lwg-defects.html#2839">2839</a>. Specifially, the current draft does not require
+container elements to be preserved on self-move-assignment.
+If this issue is accepted, it would either need to allow
+iterator invalidation on self-move-assignment or remove the
+"If <tt>a</tt> and <tt>rv</tt> do not refer to the same object"
+changes added to the container requirements by LWG <a href="lwg-defects.html#2839">2839</a>.
+</p>
+
 
 
 <p id="res-2321"><b>Proposed resolution:</b></p>
