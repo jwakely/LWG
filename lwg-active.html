@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2023-01-28 at 13:22:34 UTC</p>
+<p><p>Revised 2023-01-28 at 13:33:53 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -182,14 +182,14 @@ ownership of it.
 <ul>
 <li>D124: 2022-11-24 Since November 2022<ul>
 <li><b>Summary:</b><ul>
-<li>423 open issues, up by 18.</li>
+<li>424 open issues, up by 19.</li>
 <li>2921 closed issues, up by 13.</li>
 <li>40 reassigned issues, up by 0.</li>
-<li>3384 issues total, up by 31.</li>
+<li>3385 issues total, up by 32.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 4 Tentatively Ready issues: <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3839">3839</a>, <a href="lwg-active.html#3841">3841</a>, <a href="lwg-active.html#3842">3842</a>.</li>
-<li>Added the following 26 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3843">3843</a>, <a href="lwg-active.html#3844">3844</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3847">3847</a>, <a href="lwg-active.html#3848">3848</a>, <a href="lwg-active.html#3849">3849</a>, <a href="lwg-active.html#3850">3850</a>, <a href="lwg-active.html#3851">3851</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3853">3853</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3857">3857</a>, <a href="lwg-active.html#3858">3858</a>, <a href="lwg-active.html#3859">3859</a>, <a href="lwg-active.html#3860">3860</a>, <a href="lwg-active.html#3861">3861</a>, <a href="lwg-active.html#3862">3862</a>.</li>
+<li>Added the following 27 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3843">3843</a>, <a href="lwg-active.html#3844">3844</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3847">3847</a>, <a href="lwg-active.html#3848">3848</a>, <a href="lwg-active.html#3849">3849</a>, <a href="lwg-active.html#3850">3850</a>, <a href="lwg-active.html#3851">3851</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3853">3853</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3857">3857</a>, <a href="lwg-active.html#3858">3858</a>, <a href="lwg-active.html#3859">3859</a>, <a href="lwg-active.html#3860">3860</a>, <a href="lwg-active.html#3861">3861</a>, <a href="lwg-active.html#3862">3862</a>, <a href="lwg-active.html#3863">3863</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3840">3840</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3790">3790</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from Open): <a href="lwg-active.html#3733">3733</a>, <a href="lwg-active.html#3742">3742</a>, <a href="lwg-active.html#3821">3821</a>.</li>
@@ -53860,6 +53860,67 @@ namespace std {
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3863" href="#3863">3863</a><sup><a href="https://cplusplus.github.io/LWG/issue3863">(i)</a></sup>. Is <tt>input_iterator</tt> guaranteed to have <tt>iter_const_reference_t</tt>?</h3>
+<p><b>Section:</b> 25.5.3.2 <a href="https://wg21.link/const.iterators.alias">[const.iterators.alias]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-26 <b>Last modified:</b> 2023-01-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In the C++20 iterator system, <tt>input_iterator</tt> is guaranteed to have a common reference, which 
+reflects the <tt>indirectly_readable</tt> requires 
+<tt>common_reference_t&lt;iter_reference_t&lt;I&gt;&amp;&amp;, iter_value_t&lt;I&gt;&amp;&gt;</tt> to be a valid type.
+<p/>
+However, for <tt>iter_const_reference_t</tt> which with a similar form:
+</p>
+<blockquote><pre>
+template&lt;indirectly_readable It&gt;
+  using iter_const_reference_t =
+    common_reference_t&lt;const iter_value_t&lt;It&gt;&amp;&amp;, iter_reference_t&lt;It&gt;&gt;;
+</pre></blockquote>
+<p>
+it is still theoretically possible to create an <tt>input_iterator</tt> that does not have a valid 
+<tt>iter_const_reference_t</tt>, <a href="https://godbolt.org/z/oY3xoqPMa">for example</a>:
+</p>
+<blockquote><pre>
+#include &lt;iterator&gt;
+
+struct ref {
+  ref(int&amp;);
+};
+
+struct rref {
+  rref(const int&amp;);
+  rref(const ref&amp;);
+};
+
+struct I {
+  using value_type = int;
+  using difference_type = std::ptrdiff_t;
+
+  ref operator*() const;
+  I&amp; operator++();
+  I operator++(int);
+
+  friend rref iter_move(const I&amp;);
+};
+
+static_assert(std::input_iterator&lt;I&gt;); // pass
+using CR = std::iter_const_reference_t&lt;I&gt;;  // <span style="color:red;font-weight:bolder">error: no type named 'type' in 'struct std::common_reference&lt;const int&amp;&amp;, ref&gt;'</span>
+</pre></blockquote>
+<p>
+which causes <tt>basic_const_iterator&lt;I&gt;</tt> to produce a hard error internally when it is instantiated.
+</p>
+
+
+<p id="res-3863"><b>Proposed resolution:</b></p>
 
 
 
