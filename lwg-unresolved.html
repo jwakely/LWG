@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-01-28 at 12:40:48 UTC</p>
+<p><p>Revised 2023-01-28 at 12:52:32 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48370,6 +48370,8 @@ denotes the type <tt>iterator_traits&lt;Iterator&gt;::iterator_category</tt>.
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-24 <b>Last modified:</b> 2023-01-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#projected">active issues</a> in [projected].</p>
+<p><b>View all other</b> <a href="lwg-index.html#projected">issues</a> in [projected].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -48430,7 +48432,7 @@ is exactly <tt>identity</tt>. This form of type aliasing has similarities to the
 </blockquote>
 
 <ol>
-<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -48475,6 +48477,67 @@ namespace std {
     <ins>using projected = conditional_t&lt;same_as&lt;Proj, identity&gt;, I, <i>projected-impl</i>&lt;I, Proj&gt;&gt;</ins>;
 }
 </pre></blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3860" href="#3860">3860</a><sup><a href="https://cplusplus.github.io/LWG/issue3860">(i)</a></sup>. <tt>range_common_reference_t</tt> is missing</h3>
+<p><b>Section:</b> 25.3.6.3 <a href="https://wg21.link/projected">[projected]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-24 <b>Last modified:</b> 2023-01-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#projected">active issues</a> in [projected].</p>
+<p><b>View all other</b> <a href="lwg-index.html#projected">issues</a> in [projected].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For the alias template <tt>iter_<i>meow</i>_t</tt> in <tt>&lt;iterator&gt;</tt>, there are almost all corresponding 
+<tt>range_<i>meow</i>_t</tt> in <tt>&lt;ranges&gt;</tt>, except for <tt>iter_common_reference_t</tt>, which is used to 
+calculate the common reference type shared by <tt>reference</tt> and <tt>value_type</tt> of the iterator.
+<p/>
+Given that it has a highly similar formula form to <tt>iter_const_reference_t</tt>, and the latter has a corresponding sibling, 
+I think we should add a <tt>range_common_reference_t</tt> for <tt>&lt;ranges&gt;</tt>.
+<p/>
+This increases the consistency of the two libraries and simplifies the text of getting common reference from a range. 
+Since C++23 brings proxy iterators and <tt>tuple</tt> enhancements, I believe such introduction can bring some value.
+</p>
+
+
+<p id="res-3860"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+<pre>
+#include &lt;compare&gt;              // <i>see 17.12.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
+#include &lt;initializer_list&gt;     // <i>see 17.11.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
+#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
+
+namespace std::ranges {
+  [&hellip;]
+  template&lt;range R&gt;
+    using range_reference_t = iter_reference_t&lt;iterator_t&lt;R&gt;&gt;;                      // <i>freestanding</i>
+  template&lt;range R&gt;
+    using range_const_reference_t = iter_const_reference_t&lt;iterator_t&lt;R&gt;&gt;;          // <i>freestanding</i>
+  template&lt;range R&gt;
+    using range_rvalue_reference_t = iter_rvalue_reference_t&lt;iterator_t&lt;R&gt;&gt;;        // <i>freestanding</i>
+  <ins>template&lt;range R&gt;
+    using range_common_reference_t = iter_common_reference_t&lt;iterator_t&lt;R&gt;&gt;;        // <i>freestanding</i></ins>
+  [&hellip;]
+}
+</pre>
+</pre>
 </blockquote>
 </li>
 

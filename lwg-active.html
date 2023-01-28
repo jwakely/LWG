@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2023-01-28 at 12:40:48 UTC</p>
+<p><p>Revised 2023-01-28 at 12:52:32 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -182,14 +182,14 @@ ownership of it.
 <ul>
 <li>D124: 2022-11-24 Since November 2022<ul>
 <li><b>Summary:</b><ul>
-<li>420 open issues, up by 15.</li>
+<li>421 open issues, up by 16.</li>
 <li>2921 closed issues, up by 13.</li>
 <li>40 reassigned issues, up by 0.</li>
-<li>3381 issues total, up by 28.</li>
+<li>3382 issues total, up by 29.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 4 Tentatively Ready issues: <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3839">3839</a>, <a href="lwg-active.html#3841">3841</a>, <a href="lwg-active.html#3842">3842</a>.</li>
-<li>Added the following 23 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3843">3843</a>, <a href="lwg-active.html#3844">3844</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3847">3847</a>, <a href="lwg-active.html#3848">3848</a>, <a href="lwg-active.html#3849">3849</a>, <a href="lwg-active.html#3850">3850</a>, <a href="lwg-active.html#3851">3851</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3853">3853</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3857">3857</a>, <a href="lwg-active.html#3858">3858</a>, <a href="lwg-active.html#3859">3859</a>.</li>
+<li>Added the following 24 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3843">3843</a>, <a href="lwg-active.html#3844">3844</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3847">3847</a>, <a href="lwg-active.html#3848">3848</a>, <a href="lwg-active.html#3849">3849</a>, <a href="lwg-active.html#3850">3850</a>, <a href="lwg-active.html#3851">3851</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3853">3853</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3857">3857</a>, <a href="lwg-active.html#3858">3858</a>, <a href="lwg-active.html#3859">3859</a>, <a href="lwg-active.html#3860">3860</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3840">3840</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3790">3790</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from Open): <a href="lwg-active.html#3733">3733</a>, <a href="lwg-active.html#3742">3742</a>, <a href="lwg-active.html#3821">3821</a>.</li>
@@ -53599,6 +53599,8 @@ denotes the type <tt>iterator_traits&lt;Iterator&gt;::iterator_category</tt>.
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-24 <b>Last modified:</b> 2023-01-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#projected">active issues</a> in [projected].</p>
+<p><b>View all other</b> <a href="lwg-index.html#projected">issues</a> in [projected].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -53659,7 +53661,7 @@ is exactly <tt>identity</tt>. This form of type aliasing has similarities to the
 </blockquote>
 
 <ol>
-<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -53704,6 +53706,67 @@ namespace std {
     <ins>using projected = conditional_t&lt;same_as&lt;Proj, identity&gt;, I, <i>projected-impl</i>&lt;I, Proj&gt;&gt;</ins>;
 }
 </pre></blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3860" href="#3860">3860</a><sup><a href="https://cplusplus.github.io/LWG/issue3860">(i)</a></sup>. <tt>range_common_reference_t</tt> is missing</h3>
+<p><b>Section:</b> 25.3.6.3 <a href="https://wg21.link/projected">[projected]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-24 <b>Last modified:</b> 2023-01-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#projected">active issues</a> in [projected].</p>
+<p><b>View all other</b> <a href="lwg-index.html#projected">issues</a> in [projected].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For the alias template <tt>iter_<i>meow</i>_t</tt> in <tt>&lt;iterator&gt;</tt>, there are almost all corresponding 
+<tt>range_<i>meow</i>_t</tt> in <tt>&lt;ranges&gt;</tt>, except for <tt>iter_common_reference_t</tt>, which is used to 
+calculate the common reference type shared by <tt>reference</tt> and <tt>value_type</tt> of the iterator.
+<p/>
+Given that it has a highly similar formula form to <tt>iter_const_reference_t</tt>, and the latter has a corresponding sibling, 
+I think we should add a <tt>range_common_reference_t</tt> for <tt>&lt;ranges&gt;</tt>.
+<p/>
+This increases the consistency of the two libraries and simplifies the text of getting common reference from a range. 
+Since C++23 brings proxy iterators and <tt>tuple</tt> enhancements, I believe such introduction can bring some value.
+</p>
+
+
+<p id="res-3860"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <tt>&lt;ranges&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+<pre>
+#include &lt;compare&gt;              // <i>see 17.12.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
+#include &lt;initializer_list&gt;     // <i>see 17.11.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
+#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
+
+namespace std::ranges {
+  [&hellip;]
+  template&lt;range R&gt;
+    using range_reference_t = iter_reference_t&lt;iterator_t&lt;R&gt;&gt;;                      // <i>freestanding</i>
+  template&lt;range R&gt;
+    using range_const_reference_t = iter_const_reference_t&lt;iterator_t&lt;R&gt;&gt;;          // <i>freestanding</i>
+  template&lt;range R&gt;
+    using range_rvalue_reference_t = iter_rvalue_reference_t&lt;iterator_t&lt;R&gt;&gt;;        // <i>freestanding</i>
+  <ins>template&lt;range R&gt;
+    using range_common_reference_t = iter_common_reference_t&lt;iterator_t&lt;R&gt;&gt;;        // <i>freestanding</i></ins>
+  [&hellip;]
+}
+</pre>
+</pre>
 </blockquote>
 </li>
 
