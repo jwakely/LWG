@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2023-01-28 at 12:13:59 UTC</p>
+<p><p>Revised 2023-01-28 at 12:40:48 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -182,14 +182,14 @@ ownership of it.
 <ul>
 <li>D124: 2022-11-24 Since November 2022<ul>
 <li><b>Summary:</b><ul>
-<li>419 open issues, up by 14.</li>
+<li>420 open issues, up by 15.</li>
 <li>2921 closed issues, up by 13.</li>
 <li>40 reassigned issues, up by 0.</li>
-<li>3380 issues total, up by 27.</li>
+<li>3381 issues total, up by 28.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 4 Tentatively Ready issues: <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3839">3839</a>, <a href="lwg-active.html#3841">3841</a>, <a href="lwg-active.html#3842">3842</a>.</li>
-<li>Added the following 22 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3843">3843</a>, <a href="lwg-active.html#3844">3844</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3847">3847</a>, <a href="lwg-active.html#3848">3848</a>, <a href="lwg-active.html#3849">3849</a>, <a href="lwg-active.html#3850">3850</a>, <a href="lwg-active.html#3851">3851</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3853">3853</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3857">3857</a>, <a href="lwg-active.html#3858">3858</a>.</li>
+<li>Added the following 23 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3843">3843</a>, <a href="lwg-active.html#3844">3844</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3847">3847</a>, <a href="lwg-active.html#3848">3848</a>, <a href="lwg-active.html#3849">3849</a>, <a href="lwg-active.html#3850">3850</a>, <a href="lwg-active.html#3851">3851</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3853">3853</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3857">3857</a>, <a href="lwg-active.html#3858">3858</a>, <a href="lwg-active.html#3859">3859</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3840">3840</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3790">3790</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from Open): <a href="lwg-active.html#3733">3733</a>, <a href="lwg-active.html#3742">3742</a>, <a href="lwg-active.html#3821">3821</a>.</li>
@@ -53584,6 +53584,126 @@ This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
 models <tt>forward_iterator</tt></del>. In that case, <tt>basic_const_iterator&lt;Iterator&gt;::iterator_category</tt> 
 denotes the type <tt>iterator_traits&lt;Iterator&gt;::iterator_category</tt>.
 </p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3859" href="#3859">3859</a><sup><a href="https://cplusplus.github.io/LWG/issue3859">(i)</a></sup>. <tt>std::projected</tt> cannot handle proxy iterator</h3>
+<p><b>Section:</b> 25.3.6.3 <a href="https://wg21.link/projected">[projected]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-24 <b>Last modified:</b> 2023-01-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, <tt>std::projected</tt> is heavily used in <tt>&lt;algorithm&gt;</tt> to transform the original iterator into 
+a new readable type for concept checking, which has the following definition:
+</p>
+<blockquote><pre>
+template&lt;indirectly_readable I, indirectly_regular_unary_invocable&lt;I&gt; Proj&gt;
+struct projected {
+  using value_type = remove_cvref_t&lt;indirect_result_t&lt;Proj&amp;, I&gt;&gt;;
+  indirect_result_t&lt;Proj&amp;, I&gt; operator*() const;              // <i>not defined</i>
+};
+</pre></blockquote>
+<p>
+It provides the member type <tt>value_type</tt>, which is defined as the cvref-unqualified of a projection function 
+applied to the reference of the iterator, this seems reasonable since this is how iterators are usually defined for 
+the value type.
+<p/>
+However, this does not apply to C++20 proxy iterators such as <tt>zip_view::<i>iterator</i></tt>, we cannot obtain 
+the <tt>tuple</tt> of value by simply removing the <i>cvref</i>-qualifier of the <tt>tuple</tt> of reference.<br/>
+This incorrect definition allows us to unethically bypass the constraint checking of the constraint algorithm, 
+<a href="https://godbolt.org/z/98h36M4d8">for example</a>:
+</p>
+<blockquote><pre>
+#include &lt;algorithm&gt;
+#include &lt;ranges&gt;
+#include &lt;vector&gt;
+  
+struct Cmp {
+  bool operator()(std::tuple&lt;int&amp;&gt;, std::tuple&lt;int&amp;&gt;) const;
+  bool operator()(auto, auto) const = delete;
+};
+
+int main() {
+  std::vector&lt;int&gt; v;
+  std::ranges::sort(std::views::zip(v), Cmp{}); // <span style="color:red;font-weight:bolder">hard error</span>
+}
+</pre></blockquote>
+<p>
+In the above example, the value type and reference of the original iterator <tt>I</tt> are <tt>tuple&lt;int&gt;</tt> 
+and <tt>tuple&lt;int&amp;&gt;</tt> respectively, however, the value type and reference of <tt>projected&lt;I, identity&gt;</tt> 
+will be <tt>tuple&lt;int&amp;&gt;</tt> and <tt>tuple&lt;int&amp;&gt;&amp;&amp;</tt>, which makes the constraint only 
+require that the comparator can compare two <tt>tuple&lt;int&amp;&gt;</tt>s, resulting in a hard error in the implementation.
+</p>
+
+
+<p id="res-3859"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The proposed resolution is to alias <tt>projected</tt> as <tt>I</tt> when the projection function 
+is exactly <tt>identity</tt>. This form of type aliasing has similarities to the proposed wording of 
+<a href="https://wg21.link/P2538R1">P2538R1</a>, except for the nested <tt>struct type</tt>. &mdash; <i>end drafting note</i>]
+</p>
+</blockquote>
+
+<ol>
+<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  // <i>25.3.6.3 <a href="https://wg21.link/projected">[projected]</a>, projected</i>
+  template&lt;indirectly_readable I, indirectly_regular_unary_invocable&lt;I&gt; Proj&gt;
+    <ins>using</ins><del>struct</del> projected <ins>= see <i>below</i></ins>;                         // <i>freestanding</i>
+
+  <del>template&lt;weakly_incrementable I, class Proj&gt;</del>
+    <del>struct incrementable_traits&lt;projected&lt;I, Proj&gt;&gt;;           // <i>freestanding</i></del>
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 25.3.6.3 <a href="https://wg21.link/projected">[projected]</a> as indicated:</p>
+
+<blockquote>
+<p> 
+-1- Class template <tt>projected</tt> is used to constrain algorithms that accept callable objects and projections 
+(3.45 <a href="https://wg21.link/defns.projection">[defns.projection]</a>). It combines a <tt>indirectly_readable</tt> type <tt>I</tt> and a callable object 
+type <tt>Proj</tt> into a new <tt>indirectly_readable</tt> type whose <tt>reference</tt> type is the result of applying 
+<tt>Proj</tt> to the <tt>iter_reference_t</tt> of <tt>I</tt>.
+</p>
+<blockquote><pre>
+namespace std {
+  template&lt;<ins>class</ins><del>indirectly_readable</del> I, <ins>class</ins><del>indirectly_regular_unary_invocable&lt;I&gt;</del> Proj&gt;
+  struct <ins><i>projected-impl</i></ins><del>projected</del> { <ins>// <i>exposition only</i></ins>
+    using value_type = remove_cvref_t&lt;indirect_result_t&lt;Proj&amp;, I&gt;&gt;;
+    <ins>using difference_type = iter_difference_t&lt;I&gt;;               // <i>present only if I models weakly_incrementable</i></ins>
+    indirect_result_t&lt;Proj&amp;, I&gt; operator*() const;              // <i>not defined</i>
+  };
+
+  <del>template&lt;weakly_incrementable I, class Proj&gt;</del>
+  <del>struct incrementable_traits&lt;projected&lt;I, Proj&gt;&gt; {</del>
+  <del>  using difference_type = iter_difference_t&lt;I&gt;;</del>
+  <del>};</del>
+
+  <ins>template&lt;indirectly_readable I, indirectly_regular_unary_invocable&lt;I&gt; Proj&gt;</ins>
+    <ins>using projected = conditional_t&lt;same_as&lt;Proj, identity&gt;, I, <i>projected-impl</i>&lt;I, Proj&gt;&gt;</ins>;
+}
+</pre></blockquote>
 </blockquote>
 </li>
 
