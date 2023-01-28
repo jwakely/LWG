@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2023-01-28 at 12:56:47 UTC</p>
+<p><p>Revised 2023-01-28 at 13:10:52 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -182,14 +182,14 @@ ownership of it.
 <ul>
 <li>D124: 2022-11-24 Since November 2022<ul>
 <li><b>Summary:</b><ul>
-<li>421 open issues, up by 16.</li>
+<li>422 open issues, up by 17.</li>
 <li>2921 closed issues, up by 13.</li>
 <li>40 reassigned issues, up by 0.</li>
-<li>3382 issues total, up by 29.</li>
+<li>3383 issues total, up by 30.</li>
 </ul></li>
 <li><b>Details:</b><ul>
 <li>Added the following 4 Tentatively Ready issues: <a href="lwg-active.html#3834">3834</a>, <a href="lwg-active.html#3839">3839</a>, <a href="lwg-active.html#3841">3841</a>, <a href="lwg-active.html#3842">3842</a>.</li>
-<li>Added the following 24 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3843">3843</a>, <a href="lwg-active.html#3844">3844</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3847">3847</a>, <a href="lwg-active.html#3848">3848</a>, <a href="lwg-active.html#3849">3849</a>, <a href="lwg-active.html#3850">3850</a>, <a href="lwg-active.html#3851">3851</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3853">3853</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3857">3857</a>, <a href="lwg-active.html#3858">3858</a>, <a href="lwg-active.html#3859">3859</a>, <a href="lwg-active.html#3860">3860</a>.</li>
+<li>Added the following 25 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3833">3833</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3836">3836</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3843">3843</a>, <a href="lwg-active.html#3844">3844</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3847">3847</a>, <a href="lwg-active.html#3848">3848</a>, <a href="lwg-active.html#3849">3849</a>, <a href="lwg-active.html#3850">3850</a>, <a href="lwg-active.html#3851">3851</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3853">3853</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3857">3857</a>, <a href="lwg-active.html#3858">3858</a>, <a href="lwg-active.html#3859">3859</a>, <a href="lwg-active.html#3860">3860</a>, <a href="lwg-active.html#3861">3861</a>.</li>
 <li>Added the following LEWG issue: <a href="lwg-active.html#3840">3840</a>.</li>
 <li>Changed the following 2 issues to Tentatively Ready (from New): <a href="lwg-active.html#3204">3204</a>, <a href="lwg-active.html#3790">3790</a>.</li>
 <li>Changed the following 3 issues to Tentatively Ready (from Open): <a href="lwg-active.html#3733">3733</a>, <a href="lwg-active.html#3742">3742</a>, <a href="lwg-active.html#3821">3821</a>.</li>
@@ -53770,6 +53770,30 @@ namespace std::ranges {
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3861" href="#3861">3861</a><sup><a href="https://cplusplus.github.io/LWG/issue3861">(i)</a></sup>. <tt>mdspan</tt> <tt>layout_stride::mapping</tt> default constructor problem</h3>
+<p><b>Section:</b> 24.7.7.7.1 <a href="https://wg21.link/mdspan.layout.stride.overview">[mdspan.layout.stride.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Christian Robert Trott <b>Opened:</b> 2023-01-25 <b>Last modified:</b> 2023-01-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+During work on some follow on proposals for C++26 (like the padded layouts and <tt>submdspan</tt>) we stumbled over an 
+issue in the C++23 <tt>mdspan</tt> definition.
+<p/>
+If you have a <tt>layout_stride::mapping</tt> with just static extents, its default constructor will produce an inconsistent mapping. 
+All its strides will be <tt>0</tt> but its extents are not. Thus the <tt>is_unique</tt> property is violated. We wrote a paper to 
+fix this: <a href="https://wg21.link/P2763R0">P2763R0</a>. We describe two options to fix it and state why we prefer one over the other, with proposed wording changes. 
+</p>
+
+
+<p id="res-3861"><b>Proposed resolution:</b></p>
 
 
 

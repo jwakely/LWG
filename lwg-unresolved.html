@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-01-28 at 12:56:47 UTC</p>
+<p><p>Revised 2023-01-28 at 13:10:52 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48541,6 +48541,30 @@ namespace std::ranges {
 </li>
 
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3861" href="#3861">3861</a><sup><a href="https://cplusplus.github.io/LWG/issue3861">(i)</a></sup>. <tt>mdspan</tt> <tt>layout_stride::mapping</tt> default constructor problem</h3>
+<p><b>Section:</b> 24.7.7.7.1 <a href="https://wg21.link/mdspan.layout.stride.overview">[mdspan.layout.stride.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Christian Robert Trott <b>Opened:</b> 2023-01-25 <b>Last modified:</b> 2023-01-28</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+During work on some follow on proposals for C++26 (like the padded layouts and <tt>submdspan</tt>) we stumbled over an 
+issue in the C++23 <tt>mdspan</tt> definition.
+<p/>
+If you have a <tt>layout_stride::mapping</tt> with just static extents, its default constructor will produce an inconsistent mapping. 
+All its strides will be <tt>0</tt> but its extents are not. Thus the <tt>is_unique</tt> property is violated. We wrote a paper to 
+fix this: <a href="https://wg21.link/P2763R0">P2763R0</a>. We describe two options to fix it and state why we prefer one over the other, with proposed wording changes. 
+</p>
+
+
+<p id="res-3861"><b>Proposed resolution:</b></p>
 
 
 
