@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-01-28 at 19:18:20 UTC</p>
+<p><p>Revised 2023-01-29 at 11:22:18 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -27309,7 +27309,7 @@ node_type extract(const key_type&amp; x);
 <hr>
 <h3><a name="3229" href="#3229">3229</a><sup><a href="https://cplusplus.github.io/LWG/issue3229">(i)</a></sup>. &sect;[res.on.exception.handling]#3 cannot apply to types with implicitly declared destructors</h3>
 <p><b>Section:</b> 16.4.6.13 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Nevin Liber <b>Opened:</b> 2019-06-28 <b>Last modified:</b> 2020-09-06</p>
+ <b>Submitter:</b> Nevin Liber <b>Opened:</b> 2019-06-28 <b>Last modified:</b> 2023-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#res.on.exception.handling">active issues</a> in [res.on.exception.handling].</p>
@@ -27357,6 +27357,12 @@ and the referred to UB happens before [res.on.exception.handling] could apply.
 <p><i>[2019-07 Issue Prioritization]</i></p>
 
 <p>Priority to 3 after discussion on the reflector.</p>
+
+<p><i>[2023-01-29; Daniel comments]</i></p>
+
+<p>
+This issue has very much overlap with LWG <a href="lwg-active.html#3854">3854</a>.
+</p>
 
 
 <p id="res-3229"><b>Proposed resolution:</b></p>
@@ -48031,7 +48037,7 @@ constexpr const <ins>auto</ins><del>value_type</del>* operator-&gt;() const
 <hr>
 <h3><a name="3854" href="#3854">3854</a><sup><a href="https://cplusplus.github.io/LWG/issue3854">(i)</a></sup>. &sect;[res.on.exception.handling]/3 should not be applied to all standard library types</h3>
 <p><b>Section:</b> 16.4.6.13 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-01-07 <b>Last modified:</b> 2023-01-14</p>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-01-07 <b>Last modified:</b> 2023-01-29</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#res.on.exception.handling">active issues</a> in [res.on.exception.handling].</p>
@@ -48050,6 +48056,12 @@ mainstream implementations (libc++, libstdc++, and MSVC STL) are already doing s
 Furtherly, explicitly declared destructors are not allowed for algorithm result types 
 (27.5 <a href="https://wg21.link/algorithms.results">[algorithms.results]</a>), while currently these class templates are allowed to be instantiated 
 with classes with potentially throwing destructors, which is contradictory to 16.4.6.13 <a href="https://wg21.link/res.on.exception.handling">[res.on.exception.handling]</a>/3.
+</p>
+
+<p><i>[2023-01-29; Daniel comments]</i></p>
+
+<p>
+This issue has very much overlap with LWG <a href="lwg-active.html#3229">3229</a>.
 </p>
 
 
