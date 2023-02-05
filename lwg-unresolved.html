@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-05 at 19:45:57 UTC</p>
+<p><p>Revised 2023-02-05 at 20:02:22 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -49298,7 +49298,6 @@ where the "container" part seems confusing to users.
 </p>
 
 
-
 <p id="res-3874"><b>Proposed resolution:</b></p>
 <p>
 This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
@@ -49319,6 +49318,45 @@ This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3><a name="3875" href="#3875">3875</a><sup><a href="https://cplusplus.github.io/LWG/issue3875">(i)</a></sup>. <tt>std::ranges::repeat_view&lt;T, IntegerClass&gt;::<i>iterator</i></tt> may be ill-formed</h3>
+<p><b>Section:</b> 26.6.5 <a href="https://wg21.link/range.repeat">[range.repeat]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-02-05 <b>Last modified:</b> 2023-02-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+26.6.5.3 <a href="https://wg21.link/range.repeat.iterator">[range.repeat.iterator]</a> specifies <tt>difference_type</tt> as
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<pre>
+using difference_type = conditional_t&lt;<i>is-signed-integer-like</i>&lt;<i>index-type</i>&gt;,
+  <i>index-type</i>,
+  <i>IOTA-DIFF-T</i>(<i>index-type</i>)&gt;;
+</pre>
+</blockquote>
+<p>
+which always instantiates <tt><i>IOTA-DIFF-T</i>(<i>index-type</i>)</tt>, and thus possibly makes the program ill-formed when 
+<tt>index-type</tt> is an integer-class type (<tt><i>index-type</i></tt> is same as <tt>Bound</tt> in this case), because 
+<tt><i>IOTA-DIFF-T</i>(<i>index-type</i>)</tt> is specified to be <tt>iter_difference_t&lt;<i>index-type</i>&gt;</tt> 
+which may be ill-formed (26.6.4.2 <a href="https://wg21.link/range.iota.view">[range.iota.view]</a>/1.1).
+<p/>
+I think the intent is using <tt><i>index-type</i></tt> as-is without instantiating <tt><i>IOTA-DIFF-T</i></tt> when 
+<tt><i>is-signed-integer-like</i>&lt;<i>index-type</i>&gt;</tt> is <tt>true</tt>.
+<p/>
+However, when <tt>Bound</tt> is an unsigned integer-class type, it's unclear which type should the difference type be, 
+or whether <tt>repeat_view</tt> should be well-formed when the possibly intended <tt><i>IOTA-DIFF-T</i>(Bound)</tt> is ill-formed.
+</p>
+
+
+<p id="res-3875"><b>Proposed resolution:</b></p>
+
 
 
 
