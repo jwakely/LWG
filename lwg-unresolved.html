@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-05 at 19:33:57 UTC</p>
+<p><p>Revised 2023-02-05 at 19:45:57 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -49192,7 +49192,6 @@ of range-v3.
 
 
 <p id="res-3872"><b>Proposed resolution:</b></p>
-
 <p>
 This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
 </p>
@@ -49276,6 +49275,50 @@ int main() {
 
 <p id="res-3873"><b>Proposed resolution:</b></p>
 
+
+
+
+
+<hr>
+<h3><a name="3874" href="#3874">3874</a><sup><a href="https://cplusplus.github.io/LWG/issue3874">(i)</a></sup>. Rename <tt>__cpp_lib_ranges_to_container</tt> to <tt>__cpp_lib_ranges_to</tt></h3>
+<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-02-05 <b>Last modified:</b> 2023-02-05</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+LWG <a href="lwg-defects.html#3785">3785</a> enables <tt>ranges::to</tt> to construct a non-range object from a range, 
+confirming that this is the intended part of the original design.
+<p/>
+However, the feature test macro for <tt>ranges::to</tt> is still named <tt>__cpp_lib_ranges_to_container</tt>, 
+where the "container" part seems confusing to users.
+</p>
+
+
+
+<p id="res-3874"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+<li>
+<p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <tt>&lt;version&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+#define __cpp_lib_ranges_stride                     202207L <i>// also in</i> &lt;ranges&gt;
+#define __cpp_lib_ranges_to<del>_container</del>               202202L <i>// also in</i> &lt;ranges&gt;
+#define __cpp_lib_ranges_zip                        202110L <i>// also in</i> &lt;ranges&gt;, &lt;tuple&gt;, &lt;utility&gt;
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+</ol>
 
 
 
