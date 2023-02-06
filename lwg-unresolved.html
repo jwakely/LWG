@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-06 at 16:59:19 UTC</p>
+<p><p>Revised 2023-02-06 at 20:12:11 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48123,7 +48123,7 @@ Set priority to 1 after reflector poll.
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-To make <tt>basic_const_iterator</tt> compatible with its unwrapped iterators, the standard defines the following 
+To make <tt>basic_const_iterator</tt> compatible with its unwrapped iterators, the standard defines the following
 <tt>common_type</tt> specialization:
 </p>
 <blockquote><pre>
@@ -48133,13 +48133,13 @@ struct common_type&lt;basic_const_iterator&lt;T&gt;, U&gt; {
 };
 </pre></blockquote>
 <p>
-For type <tt>U</tt>, when it shares a common type with the unwrapped type <tt>T</tt> of <tt>basic_const_iterator</tt>, 
+For type <tt>U</tt>, when it shares a common type with the unwrapped type <tt>T</tt> of <tt>basic_const_iterator</tt>,
 the common type of both is <tt>basic_const_iterator</tt> of the common type of <tt>T</tt> and <tt>U</tt>.
 <p/>
-However, since this specialization only constrains <tt>U</tt> and <tt>T</tt> to have a common type, 
-this allows <tt>U</tt> to be any type that satisfies such requirement, such as <tt>optional&lt;T&gt;</tt>, 
-in which case computing the common type of both would produce a hard error inside the specialization, 
-because <tt>basic_const_iterator</tt> requires the template parameter to be <tt>input_iterator</tt>, 
+However, since this specialization only constrains <tt>U</tt> and <tt>T</tt> to have a common type,
+this allows <tt>U</tt> to be any type that satisfies such requirement, such as <tt>optional&lt;T&gt;</tt>,
+in which case computing the common type of both would produce a hard error inside the specialization,
+because <tt>basic_const_iterator</tt> requires the template parameter to be <tt>input_iterator</tt>,
 while <tt>optional</tt> clearly isn't.
 </p>
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
@@ -48206,6 +48206,11 @@ namespace std {
   template&lt;class T, common_with&lt;T&gt; U&gt;
     <ins>requires input_iterator&lt;common_type_t&lt;T, U&gt;&gt;</ins>
   struct common_type&lt;U, basic_const_iterator&lt;T&gt;&gt; {                                  // <i>freestanding</i>
+    using type = basic_const_iterator&lt;common_type_t&lt;T, U&gt;&gt;;
+  };
+  template&lt;class T, common_with&lt;T&gt; U&gt;
+    <ins>requires input_iterator&lt;common_type_t&lt;T, U&gt;&gt;</ins>
+  struct common_type&lt;basic_const_iterator&lt;T&gt;, basic_const_iterator&lt;U&gt;&gt; {            // <i>freestanding</i>
     using type = basic_const_iterator&lt;common_type_t&lt;T, U&gt;&gt;;
   };
   [&hellip;]
