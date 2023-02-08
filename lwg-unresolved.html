@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-08 at 23:08:12 UTC</p>
+<p><p>Revised 2023-02-08 at 23:20:56 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -44314,7 +44314,7 @@ template&lt;ranges::input_range R, class Allocator&gt;
 <hr>
 <h3><a name="3787" href="#3787">3787</a><sup><a href="https://cplusplus.github.io/LWG/issue3787">(i)</a></sup>. <tt>ranges::to</tt>'s template parameter <tt>C</tt> should not be a reference type</h3>
 <p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a>, 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-25 <b>Last modified:</b> 2022-09-28</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-09-25 <b>Last modified:</b> 2023-02-08</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
@@ -44336,6 +44336,12 @@ its description: "The range conversion functions construct an object (usually a 
 Set priority to 3 after reflector poll.
 Some suggestions that it should be <i>Mandates</i>: not <i>Constraints</i>:,
 but no consensus.
+</p>
+
+<p><i>[Issaquah 2023-02-08; LWG]</i></p>
+
+<p>
+This would be resolved by LWG <inum num="3847"/>.
 </p>
 
 
@@ -46895,139 +46901,6 @@ friend constexpr difference_type operator-(const <i>iterator</i>&amp; x, const <
 
 
 <hr>
-<h3><a name="3847" href="#3847">3847</a><sup><a href="https://cplusplus.github.io/LWG/issue3847">(i)</a></sup>. <tt>ranges::to</tt> can still return views</h3>
-<p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a>, 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2023-02-02</p>
-<p><b>Priority: </b>2
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.utility.conv.to">issues</a> in [range.utility.conv.to].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The intention of <tt>ranges::to</tt> is to construct a non-view object,
-which is reflected in its constraint that object type <tt>C</tt> should not
-model a <tt>view</tt>.
-</p>
-<p>
-The specification allows <tt>C</tt> to be a <tt>const</tt>-qualified type
-which does not satisfy <tt>view</tt> such as <tt>const string_view</tt>,
-making <tt>ranges::to</tt> return a dangling view. We should ban such cases.
-</p>
-
-<p><i>[2023-02-01; Reflector poll]</i></p>
-
-<p>
-Set priority to 2 after reflector poll.
-Just require C to be a cv-unqualified object type.
-</p>
-
-<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
-<blockquote class="note">
-<p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
-</p>
-<ol>
-<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> as indicated:</p>
-
-<blockquote>
-<pre>#include &lt;compare&gt;              // <i>see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
-#include &lt;initializer_list&gt;     // <i>see 17.10.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
-#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
-
-namespace std::ranges {
-  […]
-  // <i>26.5.7 <a href="https://wg21.link/range.utility.conv">[range.utility.conv]</a>, range conversions</i>
-  template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;<ins>remove_cv_t&lt;</ins>C<ins>&gt;</ins>&gt;)
-    constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);                                          // <i>freestanding</i>
-  template&lt;template&lt;class...&gt; class C, input_range R, class... Args&gt;
-    constexpr auto to(R&amp;&amp; r, Args&amp;&amp;... args);                                       // <i>freestanding</i>
-  template&lt;class C, class... Args&gt; requires (!view&lt;<ins>remove_cv_t&lt;</ins>C<ins>&gt;</ins>&gt;)
-    constexpr auto to(Args&amp;&amp;... args);                                              // <i>freestanding</i>
-  template&lt;template&lt;class...&gt; class C, class... Args&gt;
-    constexpr auto to(Args&amp;&amp;... args);                                              // <i>freestanding</i>
-  […]
-}
-</pre>
-</blockquote>
-</li><li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
-<blockquote>
-<pre>template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;<ins>remove_cv_t&lt;</ins>C<ins>&gt;</ins>&gt;)
-constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
-</pre>
-<blockquote>
-<p>
--1- <i>Returns</i>: An object of type <tt>C</tt> constructed from the elements of <tt>r</tt> in the following manner:
-</p>
-[…]
-</blockquote>
-</blockquote>
-</li>
-<li><p>Modify 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> as indicated:</p>
-<blockquote>
-<pre>template&lt;class C, class... Args&gt; requires (!view&lt;<ins>remove_cv_t&lt;</ins>C<ins>&gt;</ins>&gt;)
-  constexpr auto to(Args&amp;&amp;... args);
-template&lt;template&lt;class...&gt; class C, class... Args&gt;
-  constexpr auto to(Args&amp;&amp;... args);
-</pre>
-<blockquote>
-<p>
--1- <i>Returns</i>: A range adaptor closure object (26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a>) <tt>f</tt> that is a perfect forwarding call wrapper (22.10.4 <a href="https://wg21.link/func.require">[func.require]</a>) with the following properties:
-</p>
-[…]
-</blockquote>
-</blockquote>
-</li>
-</ol>
-</blockquote>
-
-<p><i>[2023-02-02; Jonathan provides improved wording]</i></p>
-
-
-
-
-<p id="res-3847"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-<ol>
-<li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
-<blockquote>
-<pre>template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
-constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
-</pre>
-<blockquote>
-<p><ins>-?- <i>Mandates</i>: <tt>C</tt> is a cv-unqualified class type.</ins></p>
-<p>
--1- <i>Returns</i>: An object of type <tt>C</tt> constructed from the elements of <tt>r</tt> in the following manner:
-</p>
-[…]
-</blockquote>
-</blockquote>
-</li>
-<li><p>Modify 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> as indicated:</p>
-<blockquote>
-<pre>template&lt;class C, class... Args&gt; requires (!view&lt;C&gt;)
-  constexpr auto to(Args&amp;&amp;... args);
-template&lt;template&lt;class...&gt; class C, class... Args&gt;
-  constexpr auto to(Args&amp;&amp;... args);
-</pre>
-<blockquote>
-<p><ins>-?- <i>Mandates</i>: For the first overload, <tt>C</tt> is a cv-unqualified class type.</ins></p>
-<p>
--1- <i>Returns</i>: A range adaptor closure object (26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a>) <tt>f</tt> that is a perfect forwarding call wrapper (22.10.4 <a href="https://wg21.link/func.require">[func.require]</a>) with the following properties:
-</p>
-[…]
-</blockquote>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="3852" href="#3852">3852</a><sup><a href="https://cplusplus.github.io/LWG/issue3852">(i)</a></sup>. <tt>join_with_view::<i>iterator</i></tt>'s <tt>iter_move</tt> and <tt>iter_swap</tt> should be conditionally <tt>noexcept</tt></h3>
 <p><b>Section:</b> 26.7.15.3 <a href="https://wg21.link/range.join.with.iterator">[range.join.with.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2023-02-01</p>
@@ -48213,50 +48086,6 @@ int main() {
 
 
 <p id="res-3873"><b>Proposed resolution:</b></p>
-
-
-
-
-
-<hr>
-<h3><a name="3874" href="#3874">3874</a><sup><a href="https://cplusplus.github.io/LWG/issue3874">(i)</a></sup>. Rename <tt>__cpp_lib_ranges_to_container</tt> to <tt>__cpp_lib_ranges_to</tt></h3>
-<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-02-05 <b>Last modified:</b> 2023-02-05</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
-<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-LWG <a href="lwg-defects.html#3785">3785</a> enables <tt>ranges::to</tt> to construct a non-range object from a range, 
-confirming that this is the intended part of the original design.
-<p/>
-However, the feature test macro for <tt>ranges::to</tt> is still named <tt>__cpp_lib_ranges_to_container</tt>, 
-where the "container" part seems confusing to users.
-</p>
-
-
-<p id="res-3874"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-<li>
-<p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <tt>&lt;version&gt;</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-#define __cpp_lib_ranges_stride                     202207L <i>// also in</i> &lt;ranges&gt;
-#define __cpp_lib_ranges_to<del>_container</del>               202202L <i>// also in</i> &lt;ranges&gt;
-#define __cpp_lib_ranges_zip                        202110L <i>// also in</i> &lt;ranges&gt;, &lt;tuple&gt;, &lt;utility&gt;
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-</ol>
 
 
 

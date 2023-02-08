@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2023-02-08 at 23:08:12 UTC</p>
+<td align="left"><p>Revised 2023-02-08 at 23:20:56 UTC</p>
 </td>
 </tr>
 <tr>
@@ -258,7 +258,7 @@ when <tt>N == 1</tt> and
 <hr>
 <h3><a name="3723" href="#3723">3723</a><sup><a href="https://cplusplus.github.io/LWG/issue3723">(i)</a></sup>. <tt>priority_queue::push_range</tt> needs to <tt>append_range</tt></h3>
 <p><b>Section:</b> 24.6.7.4 <a href="https://wg21.link/priqueue.members">[priqueue.members]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
- <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-06-20 <b>Last modified:</b> 2022-07-08</p>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2022-06-20 <b>Last modified:</b> 2023-02-08</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
@@ -934,6 +934,146 @@ specialization can become ill-formed.</ins>
 </li>
 </ol>
 
+
+
+
+
+
+<hr>
+<h3><a name="3847" href="#3847">3847</a><sup><a href="https://cplusplus.github.io/LWG/issue3847">(i)</a></sup>. <tt>ranges::to</tt> can still return views</h3>
+<p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a>, 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2023-02-08</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.utility.conv.to">issues</a> in [range.utility.conv.to].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The intention of <tt>ranges::to</tt> is to construct a non-view object,
+which is reflected in its constraint that object type <tt>C</tt> should not
+model a <tt>view</tt>.
+</p>
+<p>
+The specification allows <tt>C</tt> to be a <tt>const</tt>-qualified type
+which does not satisfy <tt>view</tt> such as <tt>const string_view</tt>,
+making <tt>ranges::to</tt> return a dangling view. We should ban such cases.
+</p>
+
+<p><i>[2023-02-01; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+Just require C to be a cv-unqualified object type.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+</p>
+<ol>
+<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> as indicated:</p>
+
+<blockquote>
+<pre>#include &lt;compare&gt;              // <i>see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
+#include &lt;initializer_list&gt;     // <i>see 17.10.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
+#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
+
+namespace std::ranges {
+  […]
+  // <i>26.5.7 <a href="https://wg21.link/range.utility.conv">[range.utility.conv]</a>, range conversions</i>
+  template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;<ins>remove_cv_t&lt;</ins>C<ins>&gt;</ins>&gt;)
+    constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);                                          // <i>freestanding</i>
+  template&lt;template&lt;class...&gt; class C, input_range R, class... Args&gt;
+    constexpr auto to(R&amp;&amp; r, Args&amp;&amp;... args);                                       // <i>freestanding</i>
+  template&lt;class C, class... Args&gt; requires (!view&lt;<ins>remove_cv_t&lt;</ins>C<ins>&gt;</ins>&gt;)
+    constexpr auto to(Args&amp;&amp;... args);                                              // <i>freestanding</i>
+  template&lt;template&lt;class...&gt; class C, class... Args&gt;
+    constexpr auto to(Args&amp;&amp;... args);                                              // <i>freestanding</i>
+  […]
+}
+</pre>
+</blockquote>
+</li><li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
+<blockquote>
+<pre>template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;<ins>remove_cv_t&lt;</ins>C<ins>&gt;</ins>&gt;)
+constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns</i>: An object of type <tt>C</tt> constructed from the elements of <tt>r</tt> in the following manner:
+</p>
+[…]
+</blockquote>
+</blockquote>
+</li>
+<li><p>Modify 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> as indicated:</p>
+<blockquote>
+<pre>template&lt;class C, class... Args&gt; requires (!view&lt;<ins>remove_cv_t&lt;</ins>C<ins>&gt;</ins>&gt;)
+  constexpr auto to(Args&amp;&amp;... args);
+template&lt;template&lt;class...&gt; class C, class... Args&gt;
+  constexpr auto to(Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-1- <i>Returns</i>: A range adaptor closure object (26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a>) <tt>f</tt> that is a perfect forwarding call wrapper (22.10.4 <a href="https://wg21.link/func.require">[func.require]</a>) with the following properties:
+</p>
+[…]
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2023-02-02; Jonathan provides improved wording]</i></p>
+
+
+<p><i>[Issaquah 2023-02-08; LWG]</i></p>
+
+<p>
+Unanimous consent to move to Immediate.
+This also resolves LWG <inum num="3787"/>.
+</p>
+
+
+
+<p id="res-3847"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+<ol>
+<li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
+<blockquote>
+<pre>template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
+constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p><ins>-?- <i>Mandates</i>: <tt>C</tt> is a cv-unqualified class type.</ins></p>
+<p>
+-1- <i>Returns</i>: An object of type <tt>C</tt> constructed from the elements of <tt>r</tt> in the following manner:
+</p>
+[…]
+</blockquote>
+</blockquote>
+</li>
+<li><p>Modify 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> as indicated:</p>
+<blockquote>
+<pre>template&lt;class C, class... Args&gt; requires (!view&lt;C&gt;)
+  constexpr auto to(Args&amp;&amp;... args);
+template&lt;template&lt;class...&gt; class C, class... Args&gt;
+  constexpr auto to(Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p><ins>-?- <i>Mandates</i>: For the first overload, <tt>C</tt> is a cv-unqualified class type.</ins></p>
+<p>
+-1- <i>Returns</i>: A range adaptor closure object (26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a>) <tt>f</tt> that is a perfect forwarding call wrapper (22.10.4 <a href="https://wg21.link/func.require">[func.require]</a>) with the following properties:
+</p>
+[…]
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
 
 
