@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-10 at 09:42:05 UTC</p>
+<p><p>Revised 2023-02-10 at 14:35:36 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -9214,7 +9214,7 @@ vector(size_type count, const T&amp; value, const Allocator&amp; alloc = Allocat
 <hr>
 <h3><a name="2321" href="#2321">2321</a><sup><a href="https://cplusplus.github.io/LWG/issue2321">(i)</a></sup>. Moving containers should (usually) be required to preserve iterators</h3>
 <p><b>Section:</b> 24.2.2.1 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2013-09-21 <b>Last modified:</b> 2018-08-24</p>
+ <b>Submitter:</b> Stephan T. Lavavej <b>Opened:</b> 2013-09-21 <b>Last modified:</b> 2023-01-20</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#container.requirements.general">active issues</a> in [container.requirements.general].</p>
@@ -45955,74 +45955,6 @@ template&lt;class T, <ins>input_or_output_iterator</ins><del>output_iterator&lt;
 </li>
 
 </ol>
-
-
-
-
-<hr>
-<h3><a name="3870" href="#3870">3870</a><sup><a href="https://cplusplus.github.io/LWG/issue3870">(i)</a></sup>. Remove <tt><i>voidify</i></tt></h3>
-<p><b>Section:</b> 27.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-01-30 <b>Last modified:</b> 2023-01-31</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-This is the resolution for NB comment <b><a href="https://github.com/cplusplus/nbballot/issues/452">GB-121</a></b>
-</p>
-
-<p>
-The <tt><i>voidify</i></tt> helper breaks const-correctness, for no tangible benefit.
-C++20 ballot comment US 215 also suggested removing it,
-but failed to achieve consensus. That should be reconsidered.
-</p>
-<p>
-The only claimed benefits are:
-<ul>
-<li>Allowing the <tt>uninitialized_xxx</tt> algorithms
-to create objects in const storage
-(including overwriting objects declared as const which is usually UB).
-The caller should be responsible for using <tt>const_cast</tt>
-if that's really desirable.
-Implicitly removing 'const' is unsafe and unnecessary.
-</li>
-<li>
-Supporting creation of const objects with <tt>std::construct_at</tt>.
-This seems reasonable, but should be supported by adding a dedicated
-function that doesn't conflate the type of the storage to write to
-and the object to create, e.g. <tt>construct_at&lt;const T&gt;(ptr)</tt>.
-</li>
-</ul>
-</p>
-
-
-<p id="res-3870"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-<li><p>Modify 27.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a>, <b>General</b>,
-as indicated:</p>
-
-<blockquote>
-<p>-4-
-Some algorithms specified in 27.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a>
-make use of the exposition-only function <tt><i>voidify</i></tt>:
-</p>
-<blockquote>
-<pre><code>
-template&lt;class T&gt;
-  constexpr void* <i>voidify</i>(T&amp; obj) noexcept {
-    return <del>const_cast&lt;void*&gt;(</del>static_cast&lt;<del>const volatile </del>void*&gt;(addressof(obj))<del>)</del>;
-  }
-</code></pre>
-</blockquote>
-</blockquote>
-</li>
-</ol>
-
-
 
 
 
