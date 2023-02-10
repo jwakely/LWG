@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-10 at 17:05:08 UTC</p>
+<p><p>Revised 2023-02-10 at 17:11:15 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46327,7 +46327,7 @@ namespace std {
   private:
     using <i>maybe-const-adaptor</i> =                       // <i>exposition only</i>
       <i>fmt-maybe-const</i>&lt;<i>adaptor-type</i>&lt;T, Container, U...&gt;, charT&gt;;
-    formatter&lt;Container, charT&gt; <i>underlying_</i>;          // <i>exposition only</i>
+    formatter&lt;<ins>views::all_t&lt;const</ins> Container<ins>&amp;&gt;</ins>, charT&gt; <i>underlying_</i>;          // <i>exposition only</i>
 
   public:
     template&lt;class ParseContext&gt;
@@ -46349,7 +46349,7 @@ template&lt;class FormatContext&gt;
 </pre>
 <blockquote>
 <p>
--3- <i>Effects</i>: Equivalent to: <tt>return <i>underlying_</i>.format(r.c, ctx);</tt>
+-3- <i>Effects</i>: Equivalent to: <tt>return <i>underlying_</i>.format(<ins>views::all(</ins>r.c<ins>)</ins>, ctx);</tt>
 </p>
 </blockquote>
 </blockquote>
