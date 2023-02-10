@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2023-02-10 at 01:38:48 UTC</p>
+<td align="left"><p>Revised 2023-02-10 at 09:42:05 UTC</p>
 </td>
 </tr>
 <tr>
@@ -5012,6 +5012,59 @@ template&lt;class F&gt; constexpr auto transform(F&amp;&amp; f) const &amp;&amp;
 </li>
 </ol>
 
+
+
+
+
+
+<hr>
+<h3><a name="3878" href="#3878">3878</a><sup><a href="https://cplusplus.github.io/LWG/issue3878">(i)</a></sup>. <tt>import std;</tt> should guarantee initialization of standard iostreams objects</h3>
+<p><b>Section:</b> 31.4.2 <a href="https://wg21.link/iostream.objects.overview">[iostream.objects.overview]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2023-02-09 <b>Last modified:</b> 2023-02-10</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In the old world, <tt>#include &lt;iostream></tt>
+behaves as if it defined a static-storage-duration <tt>ios_base::Init</tt> object, 
+which causes the standard iostreams objects to be initialized (if necessary)
+on startup and flushed on shutdown.
+<p/>
+But we don't include headers with <tt>import std;</tt>, so we need separate wording to
+provide this guarantee. The proposed resolution below was adapted from a suggestion by 
+Mathias Stearn on the reflector.
+</p>
+<p><i>[2023-02-09 Tim updates wording following LWG discussion]</i></p>
+
+
+<p><i>[Issaquah 2023-02-09; LWG]</i></p>
+
+<p>Move to Immediate for C++23</p>
+
+
+
+<p id="res-3878"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+<ol>
+<li><p>Modify 31.4.2 <a href="https://wg21.link/iostream.objects.overview">[iostream.objects.overview]</a>p5  as indicated:</p>
+<p>
+-5- The results of including <tt>&lt;iostream></tt> in a translation unit shall be 
+as if <tt>&lt;iostream></tt> defined an instance of <tt>ios_base::Init</tt> with static
+storage duration. <ins>Each C++ library module (16.4.2.4 <a href="https://wg21.link/std.modules">[std.modules]</a>)
+in a hosted implementation shall behave as if it contains an interface unit that defines
+an unexported <tt>ios_base::Init</tt> variable with ordered initialization 
+(6.9.3.3 <a href="https://wg21.link/basic.start.dynamic">[basic.start.dynamic]</a>). </ins>
+<p/>
+<ins>[<i>Note ?:</i> As a result, the definition of that variable is appearance-ordered
+before any declaration following the point of importation of a C++ library module. 
+Whether such a definition exists is unobservable by a program that does not reference
+any of the standard iostream objects. &mdash; <i>end note</i>]</ins>
+</p>
+</li>
+</ol>
 
 
 
