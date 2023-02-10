@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2023-02-10 at 00:31:00 UTC</p>
+<td align="left"><p>Revised 2023-02-10 at 00:47:09 UTC</p>
 </td>
 </tr>
 <tr>
@@ -2579,6 +2579,89 @@ specialization can become ill-formed.</ins>
 </li>
 </ol>
 
+
+
+
+
+
+<hr>
+<h3><a name="3843" href="#3843">3843</a><sup><a href="https://cplusplus.github.io/LWG/issue3843">(i)</a></sup>. <tt>std::expected&lt;T,E&gt;::value() &amp;</tt> assumes <tt>E</tt> is copy constructible</h3>
+<p><b>Section:</b> 22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a> <b>Status:</b> <a href="lwg-active.html#Immediate">Immediate</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-12-20 <b>Last modified:</b> 2023-02-10</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Immediate">Immediate</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a> p9 says:
+</p>
+<blockquote>
+<i>Throws</i>:
+<tt>bad_expected_access(error())</tt> if <tt>has_value()</tt> is <tt>false</tt>.
+</blockquote>
+<p>
+But if <tt>error()</tt> returns a reference to a move-only type
+then it can't be copied and the function body is ill-formed.
+Should it be constrained with <tt>is_copy_constructible_v&lt;E&gt;</tt>?
+Or just mandate it?
+</p>
+<p>
+Similarly, the <tt>value()&amp;&amp;</tt> and <tt>value() const&amp;&amp;</tt>
+overloads require <tt>is_move_constructible_v&lt;E&gt;</tt> to be true
+for <tt>bad_expected_access(std::move(error()))</tt> to be valid.
+Casey Carter pointed out they also require it to be copyable so that the
+exception can be thrown, as per 14.2 <a href="https://wg21.link/except.throw">[except.throw]</a> p5.
+</p>
+
+<p><i>[Issaquah 2023-02-09; LWG]</i></p>
+
+<p>Move to Immediate for C++23</p>
+
+
+
+<p id="res-3843"><b>Proposed resolution:</b></p>
+<ol>
+<li>
+<p> Modify 22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a> as indicated: </p>
+<blockquote>
+<blockquote><pre>
+constexpr const T&amp; value() const &amp;;
+constexpr T&amp; value() &amp;;
+</pre></blockquote>
+<p><ins>-?-
+<i>Mandates</i>: <tt>is_copy_constructible_v&lt;E&gt;</tt> is <tt>true</tt>.
+</ins>
+</p>
+<p>-8-
+<i>Returns</i>:
+<tt>val</tt>, if <tt>has_value()</tt> is <tt>true</tt>.
+</p>
+<p>-9-
+<i>Throws</i>:
+<tt>bad_expected_access(<ins>as_const(</ins>error()<ins>)</ins>)</tt>
+if <tt>has_value()</tt> is <tt>false</tt>.
+</p>
+<blockquote><pre>
+constexpr T&amp;&amp; value() &amp;&amp;;
+constexpr const T&amp;&amp; value() const &amp;&amp;;
+</pre></blockquote>
+<p><ins>-?-
+<i>Mandates</i>: <tt>is_copy_constructible_v&lt;E&gt;</tt> is <tt>true</tt>
+and <tt>is_constructible_v&lt;E, decltype(std::move(error()))&gt;</tt> is <tt>true</tt>.
+</ins>
+</p>
+<p>-10-
+<i>Returns</i>:
+<tt>std::move(val)</tt>, if <tt>has_value()</tt> is <tt>true</tt>.
+</p>
+<p>-11-
+<i>Throws</i>:
+<tt>bad_expected_access(std::move(error()))</tt>
+if <tt>has_value()</tt> is <tt>false</tt>.
+</p>
+</blockquote>
+</li>
+</ol>
 
 
 

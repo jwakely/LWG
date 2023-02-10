@@ -275,7 +275,7 @@ template&lt;class F&gt; constexpr auto and_then(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--2- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-2- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(error())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -288,7 +288,7 @@ template&lt;class F&gt; constexpr auto and_then(F&amp;&amp; f) const &amp;&amp;;
 <p>
 [&hellip;]
 <p/>
--6- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-6- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(std::move(error()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -301,7 +301,7 @@ template&lt;class F&gt; constexpr auto or_else(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--10- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype((value()))</ins>&gt;</tt> is <tt>true</tt>.
+-10- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype(value())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -314,7 +314,7 @@ template&lt;class F&gt; constexpr auto or_else(F&amp;&amp; f) const &amp;&amp;;
 <p>
 [&hellip;]
 <p/>
--14- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype((value()))</ins>&gt;</tt> is <tt>true</tt>.
+-14- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype(std::move(value()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -327,7 +327,7 @@ template&lt;class F&gt; constexpr auto transform(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--18- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-18- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(error())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -340,7 +340,7 @@ template&lt;class F&gt; constexpr auto transform(F&amp;&amp; f) const &amp;&amp;
 <p>
 [&hellip;]
 <p/>
--22- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-22- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(std::move(error()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -353,7 +353,7 @@ template&lt;class F&gt; constexpr auto transform_error(F&amp;&amp; f) const &amp
 <p>
 [&hellip;]
 <p/>
--26- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype((value()))</ins>&gt;</tt> is <tt>true</tt>.
+-26- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype(value())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -366,7 +366,7 @@ template&lt;class F&gt; constexpr auto transform_error(F&amp;&amp; f) const &amp
 <p>
 [&hellip;]
 <p/>
--30- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype((value()))</ins>&gt;</tt> is <tt>true</tt>.
+-30- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype(std::move(value()))</ins>&gt;</tt> is <tt>true</tt>.
 </p>
 </blockquote>
 </blockquote>
@@ -382,7 +382,7 @@ template&lt;class F&gt; constexpr auto and_then(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--2- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-2- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(error())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -395,7 +395,7 @@ template&lt;class F&gt; constexpr auto and_then(F&amp;&amp; f) const &amp;&amp;;
 <p>
 [&hellip;]
 <p/>
--6- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-6- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(std::move(error()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -408,7 +408,7 @@ template&lt;class F&gt; constexpr auto transform(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--16- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-16- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(error())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -421,7 +421,7 @@ template&lt;class F&gt; constexpr auto transform(F&amp;&amp; f) const &amp;&amp;
 <p>
 [&hellip;]
 <p/>
--20- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-20- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(std::move(error()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>

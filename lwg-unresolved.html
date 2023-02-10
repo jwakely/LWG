@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-10 at 00:31:00 UTC</p>
+<p><p>Revised 2023-02-10 at 00:47:09 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -30743,10 +30743,11 @@ to invoke the most appropriate overload for the given arguments. &mdash; <i>end 
 except tell users they're not allowed to use the names
 <tt>begin</tt>, <tt>size</tt> etc. unless they conform to the
 provisions of paragraph 7. This means a program that contains the
-following declaration has undefined behaviour:
+following declaration might have undefined behaviour:
 <pre><code>namespace user { int data(int, int); }</code></pre>
 This is not OK! It's not even clear what "the requirements for
 the customization point" are, if users wanted to meet them.
+It's not even clear what "provide an overload" means.
 </p>
 <p>In particular, paragraph 7 does not give permission for the
 designated customization points to actually <i>use</i> such
@@ -30783,6 +30784,11 @@ in a namespace that is never an associated namespace of any types
 used with library components that require swappable types).
 </p>
 <p>Paragraph 7 and its accompanying notes should go.</p>
+
+<p><i>[Issaquah 2023-02-09; LWG]</i></p>
+
+<p>Move to Immediate for C++23</p>
+
 
 
 <p id="res-3441"><b>Proposed resolution:</b></p>
@@ -45869,84 +45875,6 @@ native character set representation.</ins>
 
 
 <hr>
-<h3><a name="3843" href="#3843">3843</a><sup><a href="https://cplusplus.github.io/LWG/issue3843">(i)</a></sup>. <tt>std::expected&lt;T,E&gt;::value() &amp;</tt> assumes <tt>E</tt> is copy constructible</h3>
-<p><b>Section:</b> 22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-12-20 <b>Last modified:</b> 2023-02-10</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a> p9 says:
-</p>
-<blockquote>
-<i>Throws</i>:
-<tt>bad_expected_access(error())</tt> if <tt>has_value()</tt> is <tt>false</tt>.
-</blockquote>
-<p>
-But if <tt>error()</tt> returns a reference to a move-only type
-then it can't be copied and the function body is ill-formed.
-Should it be constrained with <tt>is_copy_constructible_v&lt;E&gt;</tt>?
-Or just mandate it?
-</p>
-<p>
-Similarly, the <tt>value()&amp;&amp;</tt> and <tt>value() const&amp;&amp;</tt>
-overloads require <tt>is_move_constructible_v&lt;E&gt;</tt> to be true
-for <tt>bad_expected_access(std::move(error()))</tt> to be valid.
-Casey Carter pointed out they also require it to be copyable so that the
-exception can be thrown, as per 14.2 <a href="https://wg21.link/except.throw">[except.throw]</a> p5.
-</p>
-
-
-<p id="res-3843"><b>Proposed resolution:</b></p>
-<ol>
-<li>
-<p> Modify 22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a> as indicated: </p>
-<blockquote>
-<blockquote><pre>
-constexpr const T&amp; value() const &amp;;
-constexpr T&amp; value() &amp;;
-</pre></blockquote>
-<p><ins>-?-
-<i>Mandates</i>: <tt>is_copy_constructible_v&lt;E&gt;</tt> is <tt>true</tt>.
-</ins>
-</p>
-<p>-8-
-<i>Returns</i>:
-<tt>val</tt>, if <tt>has_value()</tt> is <tt>true</tt>.
-</p>
-<p>-9-
-<i>Throws</i>:
-<tt>bad_expected_access(<ins>as_const(</ins>error()<ins>)</ins>)</tt>
-if <tt>has_value()</tt> is <tt>false</tt>.
-</p>
-<blockquote><pre>
-constexpr T&amp;&amp; value() &amp;&amp;;
-constexpr const T&amp;&amp; value() const &amp;&amp;;
-</pre></blockquote>
-<p><ins>-?-
-<i>Mandates</i>: <tt>is_copy_constructible_v&lt;E&gt;</tt> is <tt>true</tt>
-and <tt>is_constructible_v&lt;E, decltype(std::move(error()))&gt;</tt> is <tt>true</tt>.
-</ins>
-</p>
-<p>-10-
-<i>Returns</i>:
-<tt>std::move(val)</tt>, if <tt>has_value()</tt> is <tt>true</tt>.
-</p>
-<p>-11-
-<i>Throws</i>:
-<tt>bad_expected_access(std::move(error()))</tt>
-if <tt>has_value()</tt> is <tt>false</tt>.
-</p>
-</blockquote>
-</li>
-</ol>
-
-
-
-
-
-<hr>
 <h3><a name="3844" href="#3844">3844</a><sup><a href="https://cplusplus.github.io/LWG/issue3844">(i)</a></sup>. Non-numeric formats for negative durations</h3>
 <p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-12-20 <b>Last modified:</b> 2022-12-20</p>
@@ -47731,7 +47659,7 @@ template&lt;class F&gt; constexpr auto and_then(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--2- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-2- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(error())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47744,7 +47672,7 @@ template&lt;class F&gt; constexpr auto and_then(F&amp;&amp; f) const &amp;&amp;;
 <p>
 [&hellip;]
 <p/>
--6- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-6- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(std::move(error()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47757,7 +47685,7 @@ template&lt;class F&gt; constexpr auto or_else(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--10- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype((value()))</ins>&gt;</tt> is <tt>true</tt>.
+-10- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype(value())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47770,7 +47698,7 @@ template&lt;class F&gt; constexpr auto or_else(F&amp;&amp; f) const &amp;&amp;;
 <p>
 [&hellip;]
 <p/>
--14- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype((value()))</ins>&gt;</tt> is <tt>true</tt>.
+-14- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype(std::move(value()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47783,7 +47711,7 @@ template&lt;class F&gt; constexpr auto transform(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--18- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-18- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(error())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47796,7 +47724,7 @@ template&lt;class F&gt; constexpr auto transform(F&amp;&amp; f) const &amp;&amp;
 <p>
 [&hellip;]
 <p/>
--22- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-22- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(std::move(error()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47809,7 +47737,7 @@ template&lt;class F&gt; constexpr auto transform_error(F&amp;&amp; f) const &amp
 <p>
 [&hellip;]
 <p/>
--26- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype((value()))</ins>&gt;</tt> is <tt>true</tt>.
+-26- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype(value())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47822,7 +47750,7 @@ template&lt;class F&gt; constexpr auto transform_error(F&amp;&amp; f) const &amp
 <p>
 [&hellip;]
 <p/>
--30- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype((value()))</ins>&gt;</tt> is <tt>true</tt>.
+-30- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;T<ins>, decltype(std::move(value()))</ins>&gt;</tt> is <tt>true</tt>.
 </p>
 </blockquote>
 </blockquote>
@@ -47838,7 +47766,7 @@ template&lt;class F&gt; constexpr auto and_then(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--2- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-2- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(error())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47851,7 +47779,7 @@ template&lt;class F&gt; constexpr auto and_then(F&amp;&amp; f) const &amp;&amp;;
 <p>
 [&hellip;]
 <p/>
--6- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-6- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(std::move(error()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47864,7 +47792,7 @@ template&lt;class F&gt; constexpr auto transform(F&amp;&amp; f) const &amp;;
 <p>
 [&hellip;]
 <p/>
--16- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-16- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(error())</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
@@ -47877,7 +47805,7 @@ template&lt;class F&gt; constexpr auto transform(F&amp;&amp; f) const &amp;&amp;
 <p>
 [&hellip;]
 <p/>
--20- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype((error()))</ins>&gt;</tt> is <tt>true</tt>.
+-20- <i>Constraints</i>: <tt>is_<del>copy_</del>constructible_v&lt;E<ins>, decltype(std::move(error()))</ins>&gt;</tt> is <tt>true</tt>.
 <p/>
 [&hellip;]
 </p>
