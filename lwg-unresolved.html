@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-18 at 18:14:40 UTC</p>
+<p><p>Revised 2023-02-18 at 19:32:01 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -46196,6 +46196,73 @@ tuple_element_t&lt;1, UTuple&gt;, ... , tuple_element_t&lt;tuple_size_v&lt;UTupl
 -8- <i>Remarks</i>: The second overload is to be found via argument-dependent lookup (6.5.4 <a href="https://wg21.link/basic.lookup.argdep">[basic.lookup.argdep]</a>) only.
 </p>
 </blockquote>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3883" href="#3883">3883</a><sup><a href="https://cplusplus.github.io/LWG/issue3883">(i)</a></sup>. &sect;[support.c.headers.other] Ambiguity in the requirements for includes</h3>
+<p><b>Section:</b> 17.14.7 <a href="https://wg21.link/support.c.headers.other">[support.c.headers.other]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Alex Mills <b>Opened:</b> 2023-02-09 <b>Last modified:</b> 2023-02-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#support.c.headers.other">active issues</a> in [support.c.headers.other].</p>
+<p><b>View all other</b> <a href="lwg-index.html#support.c.headers.other">issues</a> in [support.c.headers.other].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In 17.14.7 <a href="https://wg21.link/support.c.headers.other">[support.c.headers.other]</a>, it states that the <tt>&lt;<i>name</i>.h&gt;</tt> headers behave 
+"as if each name placed in the standard library namespace by the corresponding header is placed within the 
+global namespace scope". There are exceptions for several different definitions in the headers, but it's left 
+ambiguous as to whether their inclusion in the <tt>&lt;<i>name</i>.h&gt;</tt> headers is required or unspecified.
+<p/>
+While it is clear that, for example, <tt>::byte</tt> is prohibited, it isn't clear whether <tt>std::byte</tt> 
+is required to be included at all (this applies to the other listed exceptions as well). Though example 1 makes 
+it appear that their inclusion requirements are meant to be left unspecified, paragraph 1 does not provide clarification. 
+Adding specific wording will ensure this will not be misinterpreted in the future.
+<p/>
+To do this, we should append a sentence to [support.c.headers.other] p1:
+</p>
+<blockquote><p>
+Whether the listed exceptions are included in their corresponding <tt>&lt;<i>name</i>.h&gt;</tt> headers under 
+the standard library namespace is unspecified.
+</p></blockquote>
+
+
+<p id="res-3883"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+<li><p>Modify 17.14.7 <a href="https://wg21.link/support.c.headers.other">[support.c.headers.other]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- Every C header other than <tt>&lt;complex.h&gt;</tt> (17.14.2 <a href="https://wg21.link/complex.h.syn">[complex.h.syn]</a>), 
+<tt>&lt;iso646.h&gt;</tt> (17.14.3 <a href="https://wg21.link/iso646.h.syn">[iso646.h.syn]</a>), 
+<tt>&lt;stdalign.h&gt;</tt> (17.14.4 <a href="https://wg21.link/stdalign.h.syn">[stdalign.h.syn]</a>),
+<tt>&lt;stdatomic.h&gt;</tt> (33.5.12 <a href="https://wg21.link/stdatomic.h.syn">[stdatomic.h.syn]</a>), 
+<tt>&lt;stdbool.h&gt;</tt> (17.14.5 <a href="https://wg21.link/stdbool.h.syn">[stdbool.h.syn]</a>), and 
+<tt>&lt;tgmath.h&gt;</tt> (17.14.6 <a href="https://wg21.link/tgmath.h.syn">[tgmath.h.syn]</a>), each 
+of which has a name of the form <tt>&lt;<i>name</i>.h&gt;</tt>, behaves as if each name placed in 
+the standard library namespace by the corresponding <tt>&lt;c<i>name</i>&gt;</tt> header is placed 
+within the global namespace scope, except for the functions described in 28.7.6 <a href="https://wg21.link/sf.cmath">[sf.cmath]</a>,
+the <tt>std::lerp</tt> function overloads (28.7.4 <a href="https://wg21.link/c.math.lerp">[c.math.lerp]</a>), the declaration of 
+<tt>std::byte</tt> (17.2.1 <a href="https://wg21.link/cstddef.syn">[cstddef.syn]</a>), and the functions and function templates described 
+in 17.2.5 <a href="https://wg21.link/support.types.byteops">[support.types.byteops]</a>. 
+It is unspecified whether these names are first declared or defined within namespace scope 
+(6.4.6 <a href="https://wg21.link/basic.scope.namespace">[basic.scope.namespace]</a>) of the namespace <tt>std</tt> and are then injected into the 
+global namespace scope by explicit <i>using-declarations</i> (9.9 <a href="https://wg21.link/namespace.udecl">[namespace.udecl]</a>).
+<ins>Whether the listed exceptions are included in their corresponding <tt>&lt;<i>name</i>.h&gt;</tt> 
+headers under the standard library namespace is unspecified.</ins>
+</p>
 </blockquote>
 
 </li>
