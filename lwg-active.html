@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2023-02-19 at 15:59:33 UTC</p>
+<p><p>Revised 2023-02-19 at 16:09:18 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -182,13 +182,13 @@ ownership of it.
 <ul>
 <li>D124: 2022-11-24 Since November 2022<ul>
 <li><b>Summary:</b><ul>
-<li>387 open issues, down by 18.</li>
+<li>388 open issues, down by 17.</li>
 <li>2986 closed issues, up by 78.</li>
 <li>37 reassigned issues, down by 3.</li>
-<li>3410 issues total, up by 57.</li>
+<li>3411 issues total, up by 58.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 22 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3859">3859</a>, <a href="lwg-active.html#3861">3861</a>, <a href="lwg-active.html#3863">3863</a>, <a href="lwg-active.html#3864">3864</a>, <a href="lwg-active.html#3873">3873</a>, <a href="lwg-active.html#3882">3882</a>, <a href="lwg-active.html#3883">3883</a>, <a href="lwg-active.html#3884">3884</a>, <a href="lwg-active.html#3885">3885</a>, <a href="lwg-active.html#3886">3886</a>, <a href="lwg-active.html#3887">3887</a>, <a href="lwg-active.html#3888">3888</a>.</li>
+<li>Added the following 23 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3859">3859</a>, <a href="lwg-active.html#3861">3861</a>, <a href="lwg-active.html#3863">3863</a>, <a href="lwg-active.html#3864">3864</a>, <a href="lwg-active.html#3873">3873</a>, <a href="lwg-active.html#3882">3882</a>, <a href="lwg-active.html#3883">3883</a>, <a href="lwg-active.html#3884">3884</a>, <a href="lwg-active.html#3885">3885</a>, <a href="lwg-active.html#3886">3886</a>, <a href="lwg-active.html#3887">3887</a>, <a href="lwg-active.html#3888">3888</a>, <a href="lwg-active.html#3889">3889</a>.</li>
 <li>Added the following Open issue: <a href="lwg-active.html#3844">3844</a>.</li>
 <li>Added the following 2 LEWG issues: <a href="lwg-active.html#3840">3840</a>, <a href="lwg-active.html#3868">3868</a>.</li>
 <li>Added the following 30 WP issues: <a href="lwg-defects.html#3833">3833</a>, <a href="lwg-defects.html#3834">3834</a>, <a href="lwg-defects.html#3836">3836</a>, <a href="lwg-defects.html#3839">3839</a>, <a href="lwg-defects.html#3841">3841</a>, <a href="lwg-defects.html#3842">3842</a>, <a href="lwg-defects.html#3843">3843</a>, <a href="lwg-defects.html#3847">3847</a>, <a href="lwg-defects.html#3848">3848</a>, <a href="lwg-defects.html#3849">3849</a>, <a href="lwg-defects.html#3850">3850</a>, <a href="lwg-defects.html#3851">3851</a>, <a href="lwg-defects.html#3853">3853</a>, <a href="lwg-defects.html#3857">3857</a>, <a href="lwg-defects.html#3860">3860</a>, <a href="lwg-defects.html#3862">3862</a>, <a href="lwg-defects.html#3865">3865</a>, <a href="lwg-defects.html#3866">3866</a>, <a href="lwg-defects.html#3867">3867</a>, <a href="lwg-defects.html#3869">3869</a>, <a href="lwg-defects.html#3870">3870</a>, <a href="lwg-defects.html#3871">3871</a>, <a href="lwg-defects.html#3872">3872</a>, <a href="lwg-defects.html#3875">3875</a>, <a href="lwg-defects.html#3876">3876</a>, <a href="lwg-defects.html#3877">3877</a>, <a href="lwg-defects.html#3878">3878</a>, <a href="lwg-defects.html#3879">3879</a>, <a href="lwg-defects.html#3880">3880</a>, <a href="lwg-defects.html#3881">3881</a>.</li>
@@ -48676,6 +48676,60 @@ as an unevaluated operand (7.2.3 <a href="https://wg21.link/expr.context">[expr.
 <blockquote><pre>
 return ::new (<i>voidify</i>(*location)) T(std::forward&lt;Args&gt;(args)...);
 </pre></blockquote>
+</blockquote>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3889" href="#3889">3889</a><sup><a href="https://cplusplus.github.io/LWG/issue3889">(i)</a></sup>. <tt>std::(ranges::)destroy</tt> should destroy array elements in the decreasing index order</h3>
+<p><b>Section:</b> 27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-02-17 <b>Last modified:</b> 2023-02-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, <tt>std::(ranges::)destroy</tt> is specified to destroy array elements in the increasing index order 
+(27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a>/1.1), which is inconsistent with the decreasing order specified in the core language 
+(11.4.7 <a href="https://wg21.link/class.dtor">[class.dtor]</a>/13) and the order for arrays created by <tt>std::make_shared</tt> and 
+<tt>std::allocate_shared</tt> (mandated by LWG <a href="lwg-defects.html#3005">3005</a>).
+</p>
+
+
+<p id="res-3889"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt;
+  constexpr void destroy_at(T* location);
+
+namespace ranges {
+  template&lt;destructible T&gt;
+    constexpr void destroy_at(T* location) noexcept;
+}
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt>T</tt> is an array type, equivalent to <tt>destroy(<ins>r</ins>begin(*location), <ins>r</ins>end(*location))</tt>.</p></li>
+<li><p>(1.2) &mdash; Otherwise, equivalent to <tt>location-&gt;~T()</tt>.</p></li>
+</ol>
 </blockquote>
 </blockquote>
 

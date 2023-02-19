@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-19 at 15:59:33 UTC</p>
+<p><p>Revised 2023-02-19 at 16:09:18 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47073,6 +47073,60 @@ as an unevaluated operand (7.2.3 <a href="https://wg21.link/expr.context">[expr.
 <blockquote><pre>
 return ::new (<i>voidify</i>(*location)) T(std::forward&lt;Args&gt;(args)...);
 </pre></blockquote>
+</blockquote>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3889" href="#3889">3889</a><sup><a href="https://cplusplus.github.io/LWG/issue3889">(i)</a></sup>. <tt>std::(ranges::)destroy</tt> should destroy array elements in the decreasing index order</h3>
+<p><b>Section:</b> 27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-02-17 <b>Last modified:</b> 2023-02-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, <tt>std::(ranges::)destroy</tt> is specified to destroy array elements in the increasing index order 
+(27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a>/1.1), which is inconsistent with the decreasing order specified in the core language 
+(11.4.7 <a href="https://wg21.link/class.dtor">[class.dtor]</a>/13) and the order for arrays created by <tt>std::make_shared</tt> and 
+<tt>std::allocate_shared</tt> (mandated by LWG <a href="lwg-defects.html#3005">3005</a>).
+</p>
+
+
+<p id="res-3889"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt;
+  constexpr void destroy_at(T* location);
+
+namespace ranges {
+  template&lt;destructible T&gt;
+    constexpr void destroy_at(T* location) noexcept;
+}
+</pre>
+<blockquote>
+<p>
+-1- <i>Effects:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt>T</tt> is an array type, equivalent to <tt>destroy(<ins>r</ins>begin(*location), <ins>r</ins>end(*location))</tt>.</p></li>
+<li><p>(1.2) &mdash; Otherwise, equivalent to <tt>location-&gt;~T()</tt>.</p></li>
+</ol>
 </blockquote>
 </blockquote>
 
