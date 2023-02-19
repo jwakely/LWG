@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-19 at 13:24:34 UTC</p>
+<p><p>Revised 2023-02-19 at 13:40:55 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -36247,6 +36247,7 @@ Set priority to 3 after reflector poll.
  <b>Submitter:</b> Konstantin Varlamov <b>Opened:</b> 2021-11-09 <b>Last modified:</b> 2022-01-31</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
 <p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -46936,6 +46937,61 @@ template&lt;class U <ins>= remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr T
 -18- <i>Mandates</i>: [&hellip;]
 </p>
 </blockquote>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3887" href="#3887">3887</a><sup><a href="https://cplusplus.github.io/LWG/issue3887">(i)</a></sup>. Version macro for <tt>allocate_at_least</tt></h3>
+<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2023-02-14 <b>Last modified:</b> 2023-02-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In Issaquah, we just adopted <a href="https://wg21.link/P2652R0">P2652R0</a>, forbidding user specialization of <tt>allocator_traits</tt>. 
+<p/>
+It looks like we did not deem that worthy of a feature macro.
+<p/>
+However, it also changed the interface of the C++23 addition, <tt>allocate_at_least</tt>, which is covered by the macro 
+<tt>__cpp_lib_allocate_at_least</tt>.
+<p/>
+I believe we should have updated that macro for this significant change in how that function is accessed 
+(from free function to a member of <tt>allocator_traits</tt>). Unfortunately, there are no more meetings 
+to process a comment to that effect, and I suspect this rises beyond the purview of an editorial change, 
+although I live in hope (as the original paper left the value of the macro to the editor, although we 
+approved existing working papers where that macro does have a value, i.e., status quo).
+</p>
+
+
+<p id="res-3887"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <tt>&lt;version&gt;</tt> synopsis, as indicated and replace
+the placeholder <tt>YYYYMM</tt> by the year and month of adoption of <a href="https://wg21.link/P2652R0">P2652R0</a>:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+#define __cpp_lib_algorithm_iterator_requirements  202207L
+  // <i>also in &lt;algorithm&gt;, &lt;numeric&gt;, &lt;memory&gt;</i>
+#define __cpp_lib_allocate_at_least                <del>202106</del><ins>YYYYMM</ins>L // <i>also in &lt;memory&gt;</i>
+#define __cpp_lib_allocator_traits_is_always_equal 201411L
+  // <i>also in [&hellip;]</i>
+[&hellip;]
+</pre>
 </blockquote>
 
 </li>
