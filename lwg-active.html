@@ -62,7 +62,7 @@
 </tr>
 </table>
 <h1>C++ Standard Library Active Issues List (Revision D124)</h1>
-<p><p>Revised 2023-02-19 at 12:48:09 UTC</p>
+<p><p>Revised 2023-02-19 at 13:24:34 UTC</p>
 </p>
   <p>Reference ISO/IEC IS 14882:2020(E)</p>
   <p>Also see:</p>
@@ -182,13 +182,13 @@ ownership of it.
 <ul>
 <li>D124: 2022-11-24 Since November 2022<ul>
 <li><b>Summary:</b><ul>
-<li>384 open issues, down by 21.</li>
+<li>385 open issues, down by 20.</li>
 <li>2986 closed issues, up by 78.</li>
 <li>37 reassigned issues, down by 3.</li>
-<li>3407 issues total, up by 54.</li>
+<li>3408 issues total, up by 55.</li>
 </ul></li>
 <li><b>Details:</b><ul>
-<li>Added the following 19 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3859">3859</a>, <a href="lwg-active.html#3861">3861</a>, <a href="lwg-active.html#3863">3863</a>, <a href="lwg-active.html#3864">3864</a>, <a href="lwg-active.html#3873">3873</a>, <a href="lwg-active.html#3882">3882</a>, <a href="lwg-active.html#3883">3883</a>, <a href="lwg-active.html#3884">3884</a>, <a href="lwg-active.html#3885">3885</a>.</li>
+<li>Added the following 20 New issues: <a href="lwg-active.html#3832">3832</a>, <a href="lwg-active.html#3835">3835</a>, <a href="lwg-active.html#3837">3837</a>, <a href="lwg-active.html#3838">3838</a>, <a href="lwg-active.html#3845">3845</a>, <a href="lwg-active.html#3846">3846</a>, <a href="lwg-active.html#3852">3852</a>, <a href="lwg-active.html#3854">3854</a>, <a href="lwg-active.html#3855">3855</a>, <a href="lwg-active.html#3856">3856</a>, <a href="lwg-active.html#3859">3859</a>, <a href="lwg-active.html#3861">3861</a>, <a href="lwg-active.html#3863">3863</a>, <a href="lwg-active.html#3864">3864</a>, <a href="lwg-active.html#3873">3873</a>, <a href="lwg-active.html#3882">3882</a>, <a href="lwg-active.html#3883">3883</a>, <a href="lwg-active.html#3884">3884</a>, <a href="lwg-active.html#3885">3885</a>, <a href="lwg-active.html#3886">3886</a>.</li>
 <li>Added the following Open issue: <a href="lwg-active.html#3844">3844</a>.</li>
 <li>Added the following 2 LEWG issues: <a href="lwg-active.html#3840">3840</a>, <a href="lwg-active.html#3868">3868</a>.</li>
 <li>Added the following 30 WP issues: <a href="lwg-defects.html#3833">3833</a>, <a href="lwg-defects.html#3834">3834</a>, <a href="lwg-defects.html#3836">3836</a>, <a href="lwg-defects.html#3839">3839</a>, <a href="lwg-defects.html#3841">3841</a>, <a href="lwg-defects.html#3842">3842</a>, <a href="lwg-defects.html#3843">3843</a>, <a href="lwg-defects.html#3847">3847</a>, <a href="lwg-defects.html#3848">3848</a>, <a href="lwg-defects.html#3849">3849</a>, <a href="lwg-defects.html#3850">3850</a>, <a href="lwg-defects.html#3851">3851</a>, <a href="lwg-defects.html#3853">3853</a>, <a href="lwg-defects.html#3857">3857</a>, <a href="lwg-defects.html#3860">3860</a>, <a href="lwg-defects.html#3862">3862</a>, <a href="lwg-defects.html#3865">3865</a>, <a href="lwg-defects.html#3866">3866</a>, <a href="lwg-defects.html#3867">3867</a>, <a href="lwg-defects.html#3869">3869</a>, <a href="lwg-defects.html#3870">3870</a>, <a href="lwg-defects.html#3871">3871</a>, <a href="lwg-defects.html#3872">3872</a>, <a href="lwg-defects.html#3875">3875</a>, <a href="lwg-defects.html#3876">3876</a>, <a href="lwg-defects.html#3877">3877</a>, <a href="lwg-defects.html#3878">3878</a>, <a href="lwg-defects.html#3879">3879</a>, <a href="lwg-defects.html#3880">3880</a>, <a href="lwg-defects.html#3881">3881</a>.</li>
@@ -48334,6 +48334,211 @@ for object-like macros in portable code:
 <li><p>(2.4) &mdash; <tt>open_mode</tt>,</p></li>
 <li><p>[&hellip;]</p></li>
 </ol>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3886" href="#3886">3886</a><sup><a href="https://cplusplus.github.io/LWG/issue3886">(i)</a></sup>. Monad mo' problems</h3>
+<p><b>Section:</b> 22.5.3.1 <a href="https://wg21.link/optional.optional.general">[optional.optional.general]</a>, 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2023-02-13 <b>Last modified:</b> 2023-02-19</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#optional.optional.general">issues</a> in [optional.optional.general].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+While implementing <a href="https://wg21.link/P2505R5">P2505R5</a> "Monadic Functions for <tt>std::expected</tt>" we found it odd that 
+the template type parameter for the assignment operator that accepts an argument by forwarding reference is 
+defaulted, but the template type parameter for <tt>value_or</tt> is not. For consistency, it would seem that 
+<tt><i>meow</i>.value_or(<i>woof</i>)</tt> should accept the same arguments <tt><i>woof</i></tt> as does 
+<tt><i>meow</i> = <i>woof</i></tt>, even when those arguments are braced-initializers.
+<p/>
+That said, it would be peculiar to default the template type parameter of <tt>value_or</tt> to <tt>T</tt> 
+instead of <tt>remove_cv_t&lt;T&gt;</tt>. For <tt>expected&lt;const vector&lt;int&gt;, int&gt; <i>meow</i>{unexpect, 42};</tt>, 
+for example, <tt><i>meow</i>.value_or({1, 2, 3})</tt> would create a temporary <tt>const vector&lt;int&gt;</tt> 
+for the argument and return a copy of that argument. Were the default template argument instead 
+<tt>remove_cv_t&lt;T&gt;</tt>, <tt><i>meow</i>.value_or({1, 2, 3})</tt> could move construct its return value 
+from the argument <tt>vector&lt;int&gt;</tt>. For the same reason, the constructor that accepts a forwarding 
+reference with a default template argument of <tt>T</tt> should default that argument to <tt>remove_cv_t&lt;T&gt;</tt>.
+<p/>
+For consistency, it would be best to default the template argument of the perfect-forwarding construct, 
+perfect-forwarding assignment operator, and <tt>value_or</tt> to <tt>remove_cv_t&lt;T&gt;</tt>. Since all of 
+the arguments presented apply equally to <tt>optional</tt>, we believe <tt>optional</tt> should be changed 
+consistently with <tt>expected</tt>. MSVCSTL has prototyped these changes successfully.
+</p>
+
+
+<p id="res-3886"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.5.3.1 <a href="https://wg21.link/optional.optional.general">[optional.optional.general]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class T&gt;
+  class optional {
+  public:
+    [&hellip;]
+    template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt;
+      constexpr explicit(<i>see below</i>) optional(U&amp;&amp;);
+    [&hellip;]
+    template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr optional&amp; operator=(U&amp;&amp;);
+    [&hellip;]
+    template&lt;class U <ins>= remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr T value_or(U&amp;&amp;) const &amp;;
+    template&lt;class U <ins>= remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr T value_or(U&amp;&amp;) &amp;&amp;;
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.5.3.2 <a href="https://wg21.link/optional.ctor">[optional.ctor]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr explicit(<i>see below</i>) optional(U&amp;&amp; v);
+</pre>
+<blockquote>
+<p>
+-23- <i>Constraints</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.5.3.4 <a href="https://wg21.link/optional.assign">[optional.assign]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr optional&amp; operator=(U&amp;&amp; v);
+</pre>
+<blockquote>
+<p>
+-12- <i>Constraints</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.5.3.6 <a href="https://wg21.link/optional.observe">[optional.observe]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U <ins>= remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr T value_or(U&amp;&amp; v) const &amp;;
+</pre>
+<blockquote>
+<p>
+-15- <i>Mandates</i>: [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template&lt;class U <ins>= remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr T value_or(U&amp;&amp; v) &amp;&amp;;
+</pre>
+<blockquote>
+<p>
+-17- <i>Mandates</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class T, class E&gt;
+  class expected {
+  public:
+    [&hellip;]
+    template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt;
+      constexpr explicit(<i>see below</i>) expected(U&amp;&amp; v);
+    [&hellip;]
+    template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr expected&amp; operator=(U&amp;&amp;);
+    [&hellip;]
+    template&lt;class U <ins>= remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr T value_or(U&amp;&amp;) const &amp;;
+    template&lt;class U <ins>= remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr T value_or(U&amp;&amp;) &amp;&amp;;
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.8.6.2 <a href="https://wg21.link/expected.object.cons">[expected.object.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; 
+  constexpr explicit(!is_convertible_v&lt;U, T&gt;) expected(U&amp;&amp; v);
+</pre>
+<blockquote>
+<p>
+-23- <i>Constraints</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.8.6.4 <a href="https://wg21.link/expected.object.assign">[expected.object.assign]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; 
+  constexpr expected&amp; operator=(U&amp;&amp; v);
+</pre>
+<blockquote>
+<p>
+-9- <i>Constraints</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U <ins>= remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr T value_or(U&amp;&amp; v) const &amp;;
+</pre>
+<blockquote>
+<p>
+-16- <i>Mandates</i>: [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template&lt;class U <ins>= remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr T value_or(U&amp;&amp; v) &amp;&amp;;
+</pre>
+<blockquote>
+<p>
+-18- <i>Mandates</i>: [&hellip;]
+</p>
+</blockquote>
 </blockquote>
 
 </li>
