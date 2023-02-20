@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-02-19 at 17:00:33 UTC</p>
+<p><p>Revised 2023-02-20 at 10:44:14 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -47128,6 +47128,64 @@ namespace ranges {
 <li><p>(1.2) &mdash; Otherwise, equivalent to <tt>location-&gt;~T()</tt>.</p></li>
 </ol>
 </blockquote>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3889" href="#3889">3889</a><sup><a href="https://cplusplus.github.io/LWG/issue3889">(i)</a></sup>. ABI issue for integer-class types</h3>
+<p><b>Section:</b> 25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-02-19 <b>Last modified:</b> 2023-02-20</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.concept.winc">issues</a> in [iterator.concept.winc].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently integer-class types are required to be wider than every integer type 
+(25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a>/3). As a result, if compiler provides extended integer types 
+later whose width are not less than that of an integer-class type, then integer-class types with 
+that width must be abandoned, which seems ABI-breaking (see also LWG <a href="lwg-defects.html#3828">3828</a>).
+<p/>
+I think we should allow some extended integer types to be wider than some integer-class types.
+</p>
+
+
+<p id="res-3889"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- The range of representable values of an integer-class type is the continuous set of values over which it is
+defined. For any integer-class type, its range of representable values is either <tt>-2<sup><i>N</i>-1</sup></tt> to 
+<tt>2<sup><i>N</i>-1</sup> - 1</tt> (inclusive) for some integer <tt><i>N</i></tt>, in which case it is a 
+<i>signed-integer-class type</i>, or <tt>0</tt> to <tt>2<sup><i>N</i></sup> - 1</tt> (inclusive) for some integer
+<tt><i>N</i></tt>, in which case it is an <i>unsigned-integer-class type</i>. In both cases, <tt><i>N</i></tt> is called 
+the <i>width</i> of the integer-class type. The width of an integer-class type is greater than that of every 
+<ins>standard</ins> integral type of the same signedness.
+<p/>
+[&hellip;]
+<p/>
+-6- Expressions of integer-class type are explicitly convertible to any integer-like type, and implicitly convertible
+to any <ins>integral type or</ins> integer-class type of equal or greater width and the same signedness. 
+Expressions of integral type are <del>both implicitly and</del> explicitly convertible to any integer-class type<ins>, 
+and implicitly convertible to any integer-class type that can represent all values of the source type</ins>. 
+Conversions between integral and integer-class types and between two integer-class types do not exit via an exception. 
+The result of such a conversion is the unique value of the destination type that is congruent to the source modulo 
+<tt>2<sup><i>N</i></sup></tt>, where <tt><i>N</i></tt> is the width of the destination type.
+</p>
 </blockquote>
 
 </li>
