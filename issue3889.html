@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Issue 3889: ABI issue for integer-class types</title>
+<title>Issue 3889: std::(ranges::)destroy should destroy array elements in the decreasing index order</title>
 <style type="text/css">
   p {text-align:justify}
   li {text-align:justify}
@@ -45,21 +45,18 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3889" href="lwg-active.html#3889">3889</a>. ABI issue for integer-class types</h3>
-<p><b>Section:</b> 25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-02-19 <b>Last modified:</b> 2023-02-20</p>
+<h3><a name="3889" href="lwg-active.html#3889">3889</a>. <tt>std::(ranges::)destroy</tt> should destroy array elements in the decreasing index order</h3>
+<p><b>Section:</b> 27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-02-17 <b>Last modified:</b> 2023-02-19</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View all other</b> <a href="lwg-index.html#iterator.concept.winc">issues</a> in [iterator.concept.winc].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Currently integer-class types are required to be wider than every integer type 
-(25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a>/3). As a result, if compiler provides extended integer types 
-later whose width are not less than that of an integer-class type, then integer-class types with 
-that width must be abandoned, which seems ABI-breaking (see also LWG <a href="lwg-defects.html#3828">3828</a>).
-<p/>
-I think we should allow some extended integer types to be wider than some integer-class types.
+Currently, <tt>std::(ranges::)destroy</tt> is specified to destroy array elements in the increasing index order 
+(27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a>/1.1), which is inconsistent with the decreasing order specified in the core language 
+(11.4.7 <a href="https://wg21.link/class.dtor">[class.dtor]</a>/13) and the order for arrays created by <tt>std::make_shared</tt> and 
+<tt>std::allocate_shared</tt> (mandated by LWG <a href="lwg-defects.html#3005">3005</a>).
 </p>
 
 
@@ -70,28 +67,27 @@ This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
 
 <ol>
 
-<li><p>Modify 25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a> as indicated:</p>
+<li><p>Modify 27.11.9 <a href="https://wg21.link/specialized.destroy">[specialized.destroy]</a> as indicated:</p>
 
 <blockquote>
+<pre>
+template&lt;class T&gt;
+  constexpr void destroy_at(T* location);
+
+namespace ranges {
+  template&lt;destructible T&gt;
+    constexpr void destroy_at(T* location) noexcept;
+}
+</pre>
+<blockquote>
 <p>
--3- The range of representable values of an integer-class type is the continuous set of values over which it is
-defined. For any integer-class type, its range of representable values is either <tt>-2<sup><i>N</i>-1</sup></tt> to 
-<tt>2<sup><i>N</i>-1</sup> - 1</tt> (inclusive) for some integer <tt><i>N</i></tt>, in which case it is a 
-<i>signed-integer-class type</i>, or <tt>0</tt> to <tt>2<sup><i>N</i></sup> - 1</tt> (inclusive) for some integer
-<tt><i>N</i></tt>, in which case it is an <i>unsigned-integer-class type</i>. In both cases, <tt><i>N</i></tt> is called 
-the <i>width</i> of the integer-class type. The width of an integer-class type is greater than that of every 
-<ins>standard</ins> integral type of the same signedness.
-<p/>
-[&hellip;]
-<p/>
--6- Expressions of integer-class type are explicitly convertible to any integer-like type, and implicitly convertible
-to any <ins>integral type or</ins> integer-class type of equal or greater width and the same signedness. 
-Expressions of integral type are <del>both implicitly and</del> explicitly convertible to any integer-class type<ins>, 
-and implicitly convertible to any integer-class type that can represent all values of the source type</ins>. 
-Conversions between integral and integer-class types and between two integer-class types do not exit via an exception. 
-The result of such a conversion is the unique value of the destination type that is congruent to the source modulo 
-<tt>2<sup><i>N</i></sup></tt>, where <tt><i>N</i></tt> is the width of the destination type.
+-1- <i>Effects:</i>
 </p>
+<ol style="list-style-type: none">
+<li><p>(1.1) &mdash; If <tt>T</tt> is an array type, equivalent to <tt>destroy(<ins>r</ins>begin(*location), <ins>r</ins>end(*location))</tt>.</p></li>
+<li><p>(1.2) &mdash; Otherwise, equivalent to <tt>location-&gt;~T()</tt>.</p></li>
+</ol>
+</blockquote>
 </blockquote>
 
 </li>
