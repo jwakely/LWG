@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-03-05 at 15:23:56 UTC</p>
+<p><p>Revised 2023-03-12 at 13:24:19 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -12658,6 +12658,8 @@ constexpr <ins>reference</ins><del><i>unspecified</i></del> operator[](differenc
  <b>Submitter:</b> Zhihao Yuan <b>Opened:</b> 2016-03-08 <b>Last modified:</b> 2016-05-02</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#declval">active issues</a> in [declval].</p>
+<p><b>View all other</b> <a href="lwg-index.html#declval">issues</a> in [declval].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -48665,6 +48667,67 @@ Should we make such construction ill-formed?
 
 
 <p id="res-3901"><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3902" href="#3902">3902</a><sup><a href="https://cplusplus.github.io/LWG/issue3902">(i)</a></sup>. Return type of <tt>std::declval&lt;<i>cv</i> void&gt;</tt> should be (<i>cv</i>-unqualified) <tt>void</tt></h3>
+<p><b>Section:</b> 22.2.6 <a href="https://wg21.link/declval">[declval]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-03-07 <b>Last modified:</b> 2023-03-12</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#declval">active issues</a> in [declval].</p>
+<p><b>View all other</b> <a href="lwg-index.html#declval">issues</a> in [declval].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently libc++ and libstdc++ determine the return type of <tt>std::declval</tt> like this:
+</p>
+<blockquote><pre>
+template&lt;class _Tp&gt;
+_Tp&amp;&amp; __declval_ret(int); // selected when _Tp is a referenceable type
+
+template&lt;class _Tp&gt;
+_Tp __declval_ret(long); // selected when _Tp is cv void
+
+template&lt;class _Tp&gt;
+decltype(__declval_ret&lt;_Tp&gt;(0)) declval() noexcept;
+</pre></blockquote>
+ <p>
+This strategy avoids instantiation of class templates. But it also drops <i>cv</i>-qualifiers of the return type 
+when the type is <i>cv</i> <tt>void</tt>, which is different from the standard requirements. Such difference has 
+no impact in normal use of <tt>std::declval</tt>, but is observable via <tt>decltype(std::declval&lt;const void&gt;)</tt> 
+and its friends.
+<p/>
+Given maintainers may think it's reasonable to keep the current implementation 
+(see <a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=109049">GCC Bugzilla #109049</a>), 
+it may be worthwhile to legitimate such strategy.
+<p/>
+Should we make such construction ill-formed?
+</p>
+
+
+<p id="res-3902"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 22.2.1 <a href="https://wg21.link/utility.syn">[utility.syn]</a>, header <tt>&lt;utility&gt;</tt> synopsis, and 22.2.6 <a href="https://wg21.link/declval">[declval]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt;
+  <ins>remove_cv_t&lt;</ins>add_rvalue_reference_t&lt;T&gt;<ins>&gt;</ins> declval() noexcept; // <i>as unevaluated operand</i>
+</pre>
+</blockquote>
+
+</li>
+
+</ol>
 
 
 
