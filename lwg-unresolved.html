@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-03-18 at 15:16:42 UTC</p>
+<p><p>Revised 2023-03-18 at 15:54:26 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48878,14 +48878,15 @@ an integer type, it only requires:
 The type <tt>fexcept_t</tt> represents the floating-point status flags
 collectively, including any status the implementation associates
 with the flags.
-<p/>
+</p>
+</blockquote>
+<p>
 Relaxing this requirement should not cause confirming C++ implementations to no longer be conforming. 
 In fact, this should enable conforming C implementations to become conforming C++ implementations without 
 an ABI break. The only incompatibility I foresee is where a user's program is initializing a <tt>std::fexcept_t</tt> 
 with an integer value, which would become invalid on some C++ implementations (but not those that were 
 previously conforming).
 </p>
-</blockquote>
 
 
 <p id="res-3905"><b>Proposed resolution:</b></p>
