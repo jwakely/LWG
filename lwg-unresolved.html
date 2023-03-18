@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-03-18 at 14:41:13 UTC</p>
+<p><p>Revised 2023-03-18 at 14:52:30 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48840,6 +48840,73 @@ constexpr <i>outer-iterator</i>(<i>outer-iterator</i>&lt;!Const&gt; i)
 <tt><i>trailing_empty_</i></tt> with <tt>i.<i>trailing_empty_</i></tt></ins>.
 </p>
 </blockquote>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3><a name="3905" href="#3905">3905</a><sup><a href="https://cplusplus.github.io/LWG/issue3905">(i)</a></sup>. Type of <tt>std::fexcept_t</tt></h3>
+<p><b>Section:</b> 28.3.1 <a href="https://wg21.link/cfenv.syn">[cfenv.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Sam Elliott <b>Opened:</b> 2023-03-13 <b>Last modified:</b> 2023-03-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<tt>&lt;cfenv&gt;</tt>, as specified in 28.3.1 <a href="https://wg21.link/cfenv.syn">[cfenv.syn]</a>, requires <tt>fexcept_t</tt> to be
+an integer type:
+</p>
+<blockquote><pre>
+using fexcept_t = <i>integer type</i>;
+</pre></blockquote>
+<p>
+<tt>&lt;cfenv&gt;</tt> was initially added to the (first) Technical Report on
+C++ Library Extensions via <a href="https://wg21.link/N1568">N1568</a> and then integrated into the 
+C++ Working Draft N2009 in Berlin (April, 2006).
+<p/>
+However, C99 does not actually require that <tt>fexcept_t</tt> is
+an integer type, it only requires:
+</p>
+<blockquote>
+<p>
+The type <tt>fexcept_t</tt> represents the floating-point status flags
+collectively, including any status the implementation associates
+with the flags.
+<p/>
+Relaxing this requirement should not cause confirming C++ implementations to no longer be conforming. 
+In fact, this should enable conforming C implementations to become conforming C++ implementations without 
+an ABI break. The only incompatibility I foresee is where a user's program is initializing a <tt>std::fexcept_t</tt> 
+with an integer value, which would become invalid on some C++ implementations (but not those that were 
+previously conforming).
+</p>
+</blockquote>
+
+
+<p id="res-3905"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 28.3.1 <a href="https://wg21.link/cfenv.syn">[cfenv.syn]</a>, header <tt>&lt;cfenv&gt;</tt> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+namespace std {
+  // <i>types</i>
+  using fenv_t = <i>object type</i>;
+  using fexcept_t = <i><del>integer</del><ins>object</ins> type</i>;
+  [&hellip;]
+}
+</pre>
 </blockquote>
 
 </li>
