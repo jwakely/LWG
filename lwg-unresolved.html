@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-03-18 at 15:02:38 UTC</p>
+<p><p>Revised 2023-03-18 at 15:16:42 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48938,6 +48938,42 @@ Perhaps "undefined address" is related to the undefined behavior specified in 7.
 
 
 <p id="res-3906"><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3><a name="3907" href="#3907">3907</a><sup><a href="https://cplusplus.github.io/LWG/issue3907">(i)</a></sup>. Can iterator types of range adaptors and range factories be SCARY?</h3>
+<p><b>Section:</b> 26.6 <a href="https://wg21.link/range.factories">[range.factories]</a>, 26.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-03-18 <b>Last modified:</b> 2023-03-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+[For the term SCARY see <a href="https://wg21.link/N2911">N2911</a> and <a href="https://wg21.link/N2913">N2913</a>.]
+<p/>
+In 26.6 <a href="https://wg21.link/range.factories">[range.factories]</a> and 26.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a>, many iterator types are specified 
+as exposition-only nested classes or nested class templates.
+<p/>
+This has some observable differences from specifying them as class templates declared in the namespace scope:
+</p>
+<ol>
+<li><p>value types are generally not associated entities of iterators or sentinels during ADL, which prevents 
+unintended overloads to be found;</p></li>
+<li><p>two different range adaptor/factory types, e.g. <tt>iota_view&lt;I, S1&gt;</tt> and <tt>iota_view&lt;I, S2&gt;</tt>, 
+have different iterator types.</p></li>
+</ol>
+<p>
+The ADL reduction seems preferable. However, is it intended to required to any two different range 
+adaptor/factory types to have two different iterator types, even when the same iterator type can work as expected?
+<p/>
+Sentinel types don't seem able to be SCARY as they are dependent on iterator types.
+</p>
+
+
+<p id="res-3907"><b>Proposed resolution:</b></p>
 
 
 
