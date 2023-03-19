@@ -43,7 +43,7 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-03-18 at 15:54:26 UTC</p>
+<p><p>Revised 2023-03-19 at 08:37:37 UTC</p>
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3><a name="423" href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <tt>streamsize</tt> in iostreams</h3>
@@ -48853,7 +48853,7 @@ constexpr <i>outer-iterator</i>(<i>outer-iterator</i>&lt;!Const&gt; i)
 <hr>
 <h3><a name="3905" href="#3905">3905</a><sup><a href="https://cplusplus.github.io/LWG/issue3905">(i)</a></sup>. Type of <tt>std::fexcept_t</tt></h3>
 <p><b>Section:</b> 28.3.1 <a href="https://wg21.link/cfenv.syn">[cfenv.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Sam Elliott <b>Opened:</b> 2023-03-13 <b>Last modified:</b> 2023-03-18</p>
+ <b>Submitter:</b> Sam Elliott <b>Opened:</b> 2023-03-13 <b>Last modified:</b> 2023-03-19</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -48881,7 +48881,7 @@ with the flags.
 </p>
 </blockquote>
 <p>
-Relaxing this requirement should not cause confirming C++ implementations to no longer be conforming. 
+Relaxing this requirement should not cause conforming C++ implementations to no longer be conforming. 
 In fact, this should enable conforming C implementations to become conforming C++ implementations without 
 an ABI break. The only incompatibility I foresee is where a user's program is initializing a <tt>std::fexcept_t</tt> 
 with an integer value, which would become invalid on some C++ implementations (but not those that were 
