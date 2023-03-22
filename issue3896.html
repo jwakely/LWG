@@ -48,7 +48,7 @@
 <h3><a name="3896" href="lwg-active.html#3896">3896</a>. The definition of <tt>viewable_range</tt> is not quite right</h3>
 <p><b>Section:</b> 26.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-02-27 <b>Last modified:</b> 2023-03-04</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Priority: </b>4
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.refinements">issues</a> in [range.refinements].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -91,6 +91,16 @@ int main()
   auto r = std::views::take(v, 5); // <span style="color:red;font-weight:bolder">hard error</span>
 }
 </pre></blockquote>
+
+<p><i>[2023-03-22; Reflector poll]</i></p>
+
+<p>
+Set priority to 4 after reflector poll.
+"About as contrived as it gets."
+"Add generic front matter telling users the library doesn't support types
+with explicit copy constructors."
+</p>
+
 
 
 <p id="res-3896"><b>Proposed resolution:</b></p>
