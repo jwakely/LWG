@@ -51,7 +51,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2023-03-22 at 23:00:16 UTC</p>
+<td align="left"><p>Revised 2023-03-23 at 11:42:31 UTC</p>
 </td>
 </tr>
 <tr>
@@ -67,7 +67,7 @@
 <hr>
 <h3><a name="3884" href="#3884">3884</a><sup><a href="https://cplusplus.github.io/LWG/issue3884">(i)</a></sup>. <tt>flat_<i>foo</i></tt> is missing allocator-extended copy/move constructors</h3>
 <p><b>Section:</b> 24.6.9 <a href="https://wg21.link/flat.map">[flat.map]</a>, 24.6.10 <a href="https://wg21.link/flat.multimap">[flat.multimap]</a>, 24.6.11 <a href="https://wg21.link/flat.set">[flat.set]</a>, 24.6.12 <a href="https://wg21.link/flat.multiset">[flat.multiset]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2023-02-06 <b>Last modified:</b> 2023-03-22</p>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2023-02-06 <b>Last modified:</b> 2023-03-23</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#flat.map">active issues</a> in [flat.map].</p>
@@ -75,13 +75,13 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-This issue is part of the "<tt>flat_<i>foo</i></tt>" sequence, LWG <a href="lwg-defects.html#3786">3786</a>, <a href="lwg-active.html#3802">3802</a>, 
-<a href="lwg-defects.html#3803">3803</a>, <a href="lwg-active.html#3804">3804</a>. <tt>flat_set</tt>, <tt>flat_multiset</tt>, <tt>flat_map</tt>, and 
-<tt>flat_multimap</tt> all have implicitly defaulted copy and move constructors, but they lack 
+This issue is part of the "<tt>flat_<i>foo</i></tt>" sequence, LWG <a href="lwg-defects.html#3786">3786</a>, <a href="lwg-active.html#3802">3802</a>,
+<a href="lwg-defects.html#3803">3803</a>, <a href="lwg-active.html#3804">3804</a>. <tt>flat_set</tt>, <tt>flat_multiset</tt>, <tt>flat_map</tt>, and
+<tt>flat_multimap</tt> all have implicitly defaulted copy and move constructors, but they lack
 allocator-extended versions of those constructors. This means that the following code is broken:
 </p>
 <blockquote><pre>
-// <a href="https://godbolt.org/z/qezv5rTrW"/>https://godbolt.org/z/qezv5rTrW<a/>
+// <a href="https://godbolt.org/z/qezv5rTrW">https://godbolt.org/z/qezv5rTrW</a>
 #include &lt;cassert&gt;
 #include &lt;flat_set&gt;
 #include &lt;memory_resource&gt;
@@ -101,7 +101,7 @@ int main() {
 }
 </pre></blockquote>
 <p>
-<tt>pmr_flat_set&lt;int&gt;</tt> advertises that it "<tt>uses_allocator</tt>" <tt>std::pmr::polymorphic_allocator&lt;int&gt;</tt>, 
+<tt>pmr_flat_set&lt;int&gt;</tt> advertises that it "<tt>uses_allocator</tt>" <tt>std::pmr::polymorphic_allocator&lt;int&gt;</tt>,
 but in fact it lacks the allocator-extended constructor overload set necessary to interoperate with <tt>std::pmr::vector</tt>.
 </p>
 
@@ -172,10 +172,10 @@ template&lt;class InputIterator, class Allocator&gt;
 </pre>
 <blockquote>
 <p>
--11- <i>Constraints</i>: <tt>uses_allocator_v&lt;key_container_type, Allocator<ins>&gt;</ins></tt> is <tt>true</tt> and 
+-11- <i>Constraints</i>: <tt>uses_allocator_v&lt;key_container_type, Allocator<ins>&gt;</ins></tt> is <tt>true</tt> and
 <tt>uses_allocator_v&lt;mapped_container_type, Allocator&gt;</tt> is <tt>true</tt>.
 <p/>
--12- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt>c.keys</tt> and 
+-12- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt>c.keys</tt> and
 <tt>c.values</tt> are constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
 </p>
 </blockquote>
@@ -194,7 +194,7 @@ namespace std {
   public:
     [&hellip;]
     // <i>24.6.10.3 <a href="https://wg21.link/flat.multimap.cons">[flat.multimap.cons]</a>, construct/copy/destroy</i>
-    flat_multimap() : flat_multimap(key_compare()) { }  
+    flat_multimap() : flat_multimap(key_compare()) { }
 
     <ins>template&lt;class Allocator&gt;
       flat_multimap(const flat_multimap&amp;, const Allocator&amp; a);
@@ -224,10 +224,10 @@ template&lt;class Allocator&gt;
 </pre>
 <blockquote>
 <p>
--11- <i>Constraints</i>: <tt>uses_allocator_v&lt;key_container_type, Allocator&gt;</tt> is <tt>true</tt> and 
+-11- <i>Constraints</i>: <tt>uses_allocator_v&lt;key_container_type, Allocator&gt;</tt> is <tt>true</tt> and
 <tt>uses_allocator_v&lt;mapped_container_type, Allocator&gt;</tt> is <tt>true</tt>.
 <p/>
--12- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt>c.keys</tt> and 
+-12- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt>c.keys</tt> and
 <tt>c.values</tt> are constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
 </p>
 </blockquote>
@@ -246,7 +246,7 @@ namespace std {
     [&hellip;]
     // <i>24.6.11.3 <a href="https://wg21.link/flat.set.cons">[flat.set.cons]</a>, constructors</i>
     flat_set() : flat_set(key_compare()) { }
-    
+
     <ins>template&lt;class Allocator&gt;
       flat_set(const flat_set&amp;, const Allocator&amp; a);
     template&lt;class Allocator&gt;
@@ -277,7 +277,7 @@ template&lt;class Allocator&gt;
 <p>
 -9- <i>Constraints</i>: <tt>uses_allocator_v&lt;container_type, Allocator&gt;</tt> is <tt>true</tt>.
 <p/>
--10- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt><i>c</i></tt> is 
+-10- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt><i>c</i></tt> is
 constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
 </p>
 </blockquote>
@@ -296,7 +296,7 @@ namespace std {
     [&hellip;]
     // <i>24.6.12.3 <a href="https://wg21.link/flat.multiset.cons">[flat.multiset.cons]</a>, constructors</i>
     flat_multiset() : flat_multiset(key_compare()) { }
-    
+
     <ins>template&lt;class Allocator&gt;
       flat_multiset(const flat_multiset&amp;, const Allocator&amp; a);
     template&lt;class Allocator&gt;
@@ -327,7 +327,7 @@ template&lt;class Allocator&gt;
 <p>
 -9- <i>Constraints</i>: <tt>uses_allocator_v&lt;container_type, Allocator&gt;</tt> is <tt>true</tt>.
 <p/>
--10- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt><i>c</i></tt> is 
+-10- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt><i>c</i></tt> is
 constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
 </p>
 </blockquote>
