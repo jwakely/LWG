@@ -58,7 +58,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="3852"><a href="lwg-active.html#3852">3852</a>. <code>join_with_view::<i>iterator</i></code>'s <code>iter_move</code> and <code>iter_swap</code> should be conditionally <code>noexcept</code></h3>
 <p><b>Section:</b> 26.7.15.3 <a href="https://wg21.link/range.join.with.iterator">[range.join.with.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2023-02-01</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.join.with.iterator">active issues</a> in [range.join.with.iterator].</p>
@@ -164,8 +164,8 @@ namespace std::ranges {
 -?- <i>Remarks</i>: The exception specification is equivalent to:
 </ins>
 <pre>
-<ins>  noexcept(ranges::iter_move(declval&lt;const <i>InnerIter&</i>&gt;())) &amp;&amp;
-  noexcept(ranges::iter_move(declval&lt;const <i>PatternIter</i>&&gt;())) &amp;&amp;
+<ins>  noexcept(ranges::iter_move(declval&lt;const <i>InnerIter</i>&amp;&gt;())) &amp;&amp;
+  noexcept(ranges::iter_move(declval&lt;const <i>PatternIter</i>&amp;&gt;())) &amp;&amp;
   is_nothrow_convertible_v&lt;iter_rvalue_reference_t&lt;<i>InnerIter</i>&gt;, <i>rvalue_reference</i>&gt; &amp;&amp;
   is_nothrow_convertible_v&lt;iter_rvalue_reference_t&lt;<i>PatternIter</i>&gt;, <i>rvalue_reference</i>&gt;
 </ins></pre>
@@ -190,8 +190,8 @@ namespace std::ranges {
 -?- <i>Remarks</i>: The exception specification is equivalent to:
 </ins>
 <pre>
-<ins>  noexcept(ranges::iter_swap(declval&lt;const <i>InnerIter</i>&&gt;(), declval&lt;const <i>InnerIter</i>&&gt;())) &amp;&amp;
-  noexcept(ranges::iter_swap(declval&lt;const <i>PatternIter</i>&&gt;(), declval&lt;const <i>PatternIter</i>&&gt;()))</ins></pre>
+<ins>  noexcept(ranges::iter_swap(declval&lt;const <i>InnerIter</i>&amp;&gt;(), declval&lt;const <i>InnerIter</i>&amp;&gt;())) &amp;&amp;
+  noexcept(ranges::iter_swap(declval&lt;const <i>PatternIter</i>&amp;&gt;(), declval&lt;const <i>PatternIter</i>&amp;&gt;()))</ins></pre>
 </p>
 </blockquote>
 </blockquote>

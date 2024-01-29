@@ -54,7 +54,7 @@
 </style>
 </head>
 <body>
-<p>Revised 2024-01-29 at 14:15:36 UTC
+<p>Revised 2024-01-29 at 17:32:58 UTC
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3 id="423"><a href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <code>streamsize</code> in iostreams</h3>
@@ -20300,7 +20300,7 @@ The type of <code>*first</code> shall satisfy the requirements of <code>MoveCons
 <hr>
 <h3 id="3044"><a href="#3044">3044</a><sup><a href="https://cplusplus.github.io/LWG/issue3044">(i)</a></sup>. Strange specification of <code>max_size()</code> for an allocator</h3>
 <p><b>Section:</b> 16.4.4.6 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jon Cohen <b>Opened:</b> 2017-12-06 <b>Last modified:</b> 2023-06-26</p>
+ <b>Submitter:</b> Jon Cohen <b>Opened:</b> 2017-12-06 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#allocator.requirements">active issues</a> in [allocator.requirements].</p>
@@ -33525,7 +33525,7 @@ Set priority to 3 after reflector poll.
 <hr>
 <h3 id="3577"><a href="#3577">3577</a><sup><a href="https://cplusplus.github.io/LWG/issue3577">(i)</a></sup>. Merging an (unordered) associative container with itself</h3>
 <p><b>Section:</b> 24.2.7.1 <a href="https://wg21.link/associative.reqmts.general">[associative.reqmts.general]</a>, 24.2.8.1 <a href="https://wg21.link/unord.req.general">[unord.req.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2021-08-20</p>
+ <b>Submitter:</b> Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz <b>Opened:</b> 2021-08-04 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#associative.reqmts.general">active issues</a> in [associative.reqmts.general].</p>
@@ -34682,7 +34682,7 @@ friend constexpr <del>iter_difference_t&lt;W&gt;</del><ins><i>IOTA-DIFF-T</i>(W)
 <hr>
 <h3 id="3613"><a href="#3613">3613</a><sup><a href="https://cplusplus.github.io/LWG/issue3613">(i)</a></sup>. Specify that <code>nullopt_t</code> is copyable</h3>
 <p><b>Section:</b> 22.5.4 <a href="https://wg21.link/optional.nullopt">[optional.nullopt]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Frank Birbacher <b>Opened:</b> 2021-10-01 <b>Last modified:</b> 2021-10-14</p>
+ <b>Submitter:</b> Frank Birbacher <b>Opened:</b> 2021-10-01 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#optional.nullopt">issues</a> in [optional.nullopt].</p>
@@ -34698,11 +34698,11 @@ doesn't clearly state that the type is copyable, 22.5.4 <a href="https://wg21.li
 The reason that <code>nullopt_t</code> is defined differently from other such types is to avoid ambiguity 
 in expressions that assign an empty brace initializer to an <code>optional</code>.
 
-<strike>
+<span style="text-decoration: line-through">
 The meaning of such 
 assignment should be to engage the <code>optional</code> instead of taking the braces to create a temporary 
 <code>nullopt_t</code> for assignment and thus reset the <code>optional</code>.
-</strike>
+</span>
 The RHS of such assignment should be a temporary empty <code>optional</code>
 instead of a temporary <code>nullopt_t</code>.
 <p/>
@@ -35502,7 +35502,7 @@ Set priority to 4 after reflector poll.
 <hr>
 <h3 id="3633"><a href="#3633">3633</a><sup><a href="https://cplusplus.github.io/LWG/issue3633">(i)</a></sup>. Atomics are copy constructible and copy assignable from <code>volatile</code> atomics</h3>
 <p><b>Section:</b> 33.5 <a href="https://wg21.link/atomics">[atomics]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Wesley Maxey <b>Opened:</b> 2021-11-05 <b>Last modified:</b> 2022-01-29</p>
+ <b>Submitter:</b> Wesley Maxey <b>Opened:</b> 2021-11-05 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#atomics">issues</a> in [atomics].</p>
@@ -35557,7 +35557,7 @@ Set priority to 3 after reflector poll.
 <br/>
 This PR would allow
 <pre>
-atomic&ltint&gt; x, y = std::move(x);
+atomic&lt;int&gt; x, y = std::move(x);
 </pre>
 because const volatile&amp; doesn't bind to rvalues. It sounds like we'll
 need to delete both const volatile&amp; and const volatile&amp;&amp;.
@@ -37526,7 +37526,7 @@ Might be a design issue.
 <hr>
 <h3 id="3668"><a href="#3668">3668</a><sup><a href="https://cplusplus.github.io/LWG/issue3668">(i)</a></sup>. <code>[recursive_]directory_iterator</code> constructors refer to undefined <code>options</code></h3>
 <p><b>Section:</b> 31.12.11.2 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a>, 31.12.12.2 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-01-31 <b>Last modified:</b> 2022-12-18</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2022-01-31 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#fs.dir.itr.members">issues</a> in [fs.dir.itr.members].</p>
@@ -39277,7 +39277,7 @@ Set priority to 3 after reflector poll.
 <hr>
 <h3 id="3722"><a href="#3722">3722</a><sup><a href="https://cplusplus.github.io/LWG/issue3722">(i)</a></sup>. <code>ranges::to</code> <code>reserve</code>s the wrong size</h3>
 <p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-20 <b>Last modified:</b> 2022-07-08</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-20 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>4
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
@@ -39346,20 +39346,21 @@ template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
 -1- <i>Returns</i>: An object of type <code>C</code> constructed from the elements of <code>r</code> in the following manner:
 </p>
 <ol style="list-style-type: none">
-<li><p>(1.1) &mdash; If <code>convertible_to&lt;range_reference_t&lt;R&gt;, range_value_t&lt;C&gt;&gt;</code> is <code>true</code>:</p></li>
+<li><p>(1.1) &mdash; If <code>convertible_to&lt;range_reference_t&lt;R&gt;, range_value_t&lt;C&gt;&gt;</code> is <code>true</code>:</p>
 <ol style="list-style-type: none">
 <li><p>(1.1.1) &mdash; If <code>constructible_from&lt;C, R, Args...&gt;</code> is <code>true</code>:</p>
 <blockquote><code>C(std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</code></blockquote></li>
 <li><p>(1.1.2) &mdash; Otherwise, if <code>constructible_from&lt;C, from_range_t, R, Args...&gt;</code> is <code>true</code>:</p>
 <blockquote><code>C(from_range, std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</code></blockquote></li>
-<li><p>(1.1.3) &mdash; Otherwise, if</p></li>
+<li><p>(1.1.3) &mdash; Otherwise, if</p>
 <ol style="list-style-type: none">
 <li><p>(1.1.3.1) &mdash; <code>common_range&lt;R&gt;</code> is <code>true</code>,</p></li>
 <li><p>(1.1.3.2) &mdash; <code><i>cpp17-input-iterator</i>&lt;iterator_t&lt;R&gt;&gt;</code> is <code>true</code>, and</p></li>
 <li><p>(1.1.3.3) &mdash; <code>constructible_from&lt;C, iterator_t&lt;R&gt;, sentinel_t&lt;R&gt;, Args...&gt;</code> is <code>true</code>:</p>
 <blockquote><code>C(ranges::begin(r), ranges::end(r), std::forward&lt;Args&gt;(args)...)</code></blockquote></li>
 </ol>
-<li><p>(1.1.4) &mdash; Otherwise, if</p></li>
+</li>
+<li><p>(1.1.4) &mdash; Otherwise, if</p>
 <ol style="list-style-type: none">
 <li><p>(1.1.4.1) &mdash; <code>constructible_from&lt;C, Args...&gt;</code> is <code>true</code>, and</p></li>
 <li><p>(1.1.4.2) &mdash; <code><i>container-insertable</i>&lt;C, range_reference_t&lt;R&gt;&gt;</code> is <code>true</code>:</p>
@@ -39374,7 +39375,9 @@ if constexpr (sized_range&lt;R&gt; &amp;&amp; <i>reservable-container</i>&lt;C&g
 ranges::copy(r, <i>container-inserter</i>&lt;range_reference_t&lt;R&gt;&gt;(c));
 </pre></blockquote></li>
 </ol>
+</li>
 </ol>
+</li>
 <li><p>(1.2) &mdash; Otherwise, if <code>input_range&lt;range_reference_t&lt;R&gt;&gt;</code> is <code>true</code>:</p>
 <blockquote><pre>
 to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
@@ -42454,7 +42457,7 @@ namespace std {
 <hr>
 <h3 id="3840"><a href="#3840">3840</a><sup><a href="https://cplusplus.github.io/LWG/issue3840">(i)</a></sup>. <code>filesystem::u8path</code> should be undeprecated</h3>
 <p><b>Section:</b> D.25 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Daniel Krügler <b>Opened:</b> 2022-12-10 <b>Last modified:</b> 2023-05-30</p>
+ <b>Submitter:</b> Daniel Krügler <b>Opened:</b> 2022-12-10 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#depr.fs.path.factory">issues</a> in [depr.fs.path.factory].</p>
@@ -42522,7 +42525,7 @@ This wording is relative to <a href="https://wg21.link/N4917" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Restore the <code>u8path</code> declarations to 31.12.4 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header 
+<li><p>Restore the <code>u8path</code> declarations to 31.12.4 <a href="https://wg21.link/fs.filesystem.syn">[fs.filesystem.syn]</a>, header
 <code>&lt;filesystem&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
@@ -42766,7 +42769,7 @@ conversion specifier
 <hr>
 <h3 id="3845"><a href="#3845">3845</a><sup><a href="https://cplusplus.github.io/LWG/issue3845">(i)</a></sup>. <code>ranges::to</code>'s <code>from_range_t</code> tag branch has the wrong constraint</h3>
 <p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2023-02-02</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>4
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
@@ -42813,14 +42816,14 @@ This wording is relative to <a href="https://wg21.link/N4917" title=" Working Dr
     -1- <i>Returns</i>: An object of type <code>C</code> constructed from the elements of <code>r</code> in the following manner:
     </p>
     <ol style="list-style-type:none">
-    <li><p>(1.1) — If <code>convertible_to&lt;range_reference_t&lt;R&gt;, range_value_t&lt;C&gt;&gt;</code> is <code>true</code>:</p></li>
+    <li><p>(1.1) — If <code>convertible_to&lt;range_reference_t&lt;R&gt;, range_value_t&lt;C&gt;&gt;</code> is <code>true</code>:</p>
     <ol style="list-style-type:none">
-    <li><p>(1.1.1) — If <code>constructible_from&lt;C, R, Args...&gt;</code> is <code>true</code>:</p></li>
-    <blockquote><code>C(std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</code></blockquote>
-    <li><p>(1.1.2) — Otherwise, if <code>constructible_from&lt;C, <ins>const </ins>from_range_t<ins>&amp;</ins>, R, Args...&gt;</code> is <code>true</code>:</p></li>
-    <blockquote><code>C(from_range, std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</code></blockquote>
-    […]
-    </ol>
+    <li><p>(1.1.1) — If <code>constructible_from&lt;C, R, Args...&gt;</code> is <code>true</code>:</p>
+    <blockquote><code>C(std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</code></blockquote></li>
+    <li><p>(1.1.2) — Otherwise, if <code>constructible_from&lt;C, <ins>const </ins>from_range_t<ins>&amp;</ins>, R, Args...&gt;</code> is <code>true</code>:</p>
+    <blockquote><code>C(from_range, std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</code></blockquote></li>
+    <li>[…]</li>
+    </ol></li>
   </ol>
 </blockquote>
 </blockquote>
@@ -42951,7 +42954,7 @@ friend constexpr difference_type operator-(const <i>iterator</i>&amp; x, const <
 <hr>
 <h3 id="3852"><a href="#3852">3852</a><sup><a href="https://cplusplus.github.io/LWG/issue3852">(i)</a></sup>. <code>join_with_view::<i>iterator</i></code>'s <code>iter_move</code> and <code>iter_swap</code> should be conditionally <code>noexcept</code></h3>
 <p><b>Section:</b> 26.7.15.3 <a href="https://wg21.link/range.join.with.iterator">[range.join.with.iterator]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2023-02-01</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-06 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#range.join.with.iterator">active issues</a> in [range.join.with.iterator].</p>
@@ -43057,8 +43060,8 @@ namespace std::ranges {
 -?- <i>Remarks</i>: The exception specification is equivalent to:
 </ins>
 <pre>
-<ins>  noexcept(ranges::iter_move(declval&lt;const <i>InnerIter&</i>&gt;())) &amp;&amp;
-  noexcept(ranges::iter_move(declval&lt;const <i>PatternIter</i>&&gt;())) &amp;&amp;
+<ins>  noexcept(ranges::iter_move(declval&lt;const <i>InnerIter</i>&amp;&gt;())) &amp;&amp;
+  noexcept(ranges::iter_move(declval&lt;const <i>PatternIter</i>&amp;&gt;())) &amp;&amp;
   is_nothrow_convertible_v&lt;iter_rvalue_reference_t&lt;<i>InnerIter</i>&gt;, <i>rvalue_reference</i>&gt; &amp;&amp;
   is_nothrow_convertible_v&lt;iter_rvalue_reference_t&lt;<i>PatternIter</i>&gt;, <i>rvalue_reference</i>&gt;
 </ins></pre>
@@ -43083,8 +43086,8 @@ namespace std::ranges {
 -?- <i>Remarks</i>: The exception specification is equivalent to:
 </ins>
 <pre>
-<ins>  noexcept(ranges::iter_swap(declval&lt;const <i>InnerIter</i>&&gt;(), declval&lt;const <i>InnerIter</i>&&gt;())) &amp;&amp;
-  noexcept(ranges::iter_swap(declval&lt;const <i>PatternIter</i>&&gt;(), declval&lt;const <i>PatternIter</i>&&gt;()))</ins></pre>
+<ins>  noexcept(ranges::iter_swap(declval&lt;const <i>InnerIter</i>&amp;&gt;(), declval&lt;const <i>InnerIter</i>&amp;&gt;())) &amp;&amp;
+  noexcept(ranges::iter_swap(declval&lt;const <i>PatternIter</i>&amp;&gt;(), declval&lt;const <i>PatternIter</i>&amp;&gt;()))</ins></pre>
 </p>
 </blockquote>
 </blockquote>
@@ -48686,7 +48689,7 @@ before extracting any characters.
 <hr>
 <h3 id="3962"><a href="#3962">3962</a><sup><a href="https://cplusplus.github.io/LWG/issue3962">(i)</a></sup>. What is the "decimal precision of the input"?</h3>
 <p><b>Section:</b> 29.13 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-07-28 <b>Last modified:</b> 2023-11-03</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-07-28 <b>Last modified:</b> 2024-01-29</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#time.parse">active issues</a> in [time.parse].</p>
