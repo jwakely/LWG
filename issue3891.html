@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3891: LWG 3870 breaks std::expected&lt;cv T, E&gt;</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3891" href="lwg-active.html#3891">3891</a>. LWG 3870 breaks <tt>std::expected&lt;<i>cv</i> T, E&gt;</tt></h3>
+<h3 id="3891"><a href="lwg-active.html#3891">3891</a>. LWG 3870 breaks <code>std::expected&lt;<i>cv</i> T, E&gt;</code></h3>
 <p><b>Section:</b> 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-02-19 <b>Last modified:</b> 2023-03-22</p>
 <p><b>Priority: </b>2
@@ -54,14 +65,14 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Currently the <tt>value_type</tt> of <tt>std::expected</tt> can be a <i>cv</i>-qualified type, which is  possibly intented. 
-However, LWG <a href="lwg-defects.html#3870">3870</a> disallows <tt>std::construct_at</tt> to construct objects via <tt><i>cv</i> T*</tt>, which 
-breaks <tt>std::expected&lt;<i>cv</i> T, E&gt;</tt> because some operations are specified with <tt>std::construct_at</tt> 
+Currently the <code>value_type</code> of <code>std::expected</code> can be a <i>cv</i>-qualified type, which is  possibly intented. 
+However, LWG <a href="lwg-defects.html#3870" title="Remove voidify">3870</a> disallows <code>std::construct_at</code> to construct objects via <code><i>cv</i> T*</code>, which 
+breaks <code>std::expected&lt;<i>cv</i> T, E&gt;</code> because some operations are specified with <code>std::construct_at</code> 
 (22.8.6.4 <a href="https://wg21.link/expected.object.assign">[expected.object.assign]</a>, 22.8.6.5 <a href="https://wg21.link/expected.object.swap">[expected.object.swap]</a>).
 <p/>
-I think when <tt>T</tt> is <i>cv</i>-qualified, it would be better to store <tt>std::remove_cv_t&lt;T&gt;</tt> subobject 
+I think when <code>T</code> is <i>cv</i>-qualified, it would be better to store <code>std::remove_cv_t&lt;T&gt;</code> subobject 
 while sometimes (other than construction/destruction) access it via a <i>cv</i>-qualified glvalue, which can also avoid UB 
-associated with <tt>const</tt>/<tt>volatile</tt> objects.
+associated with <code>const</code>/<code>volatile</code> objects.
 </p>
 
 <p><i>[2023-03-22; Reflector poll]</i></p>
@@ -78,12 +89,12 @@ source is destroyed immediately anyway. The else branch should use
 
 <p id="res-3891"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <blockquote class="note">
 <p>
-[<i>Drafting note</i>: When assignment and <tt>swap</tt> need to backup the old value by move construction, 
+[<i>Drafting note</i>: When assignment and <code>swap</code> need to backup the old value by move construction, 
 the source should be considered <i>cv</i>-unqualified, as the backup mechanism is only used internally.]
 </p>
 </blockquote>
@@ -117,8 +128,8 @@ constexpr expected&amp; operator=(const expected&amp; rhs);
 -2- <i>Effects</i>:
 </p>
 <ol style="list-style-type: none">
-<li><p>(2.1) &mdash; If <tt>this-&gt;has_value() &amp;&amp; rhs.has_value()</tt> is <tt>true</tt>, 
-equivalent to <tt><ins>value()</ins><del><i>val</i></del> = *rhs</tt>.</p></li>
+<li><p>(2.1) &mdash; If <code>this-&gt;has_value() &amp;&amp; rhs.has_value()</code> is <code>true</code>, 
+equivalent to <code><ins>value()</ins><del><i>val</i></del> = *rhs</code>.</p></li>
 <li><p>[&hellip;]</p></li>
 </ol>
 </blockquote>
@@ -133,8 +144,8 @@ constexpr expected&amp; operator=(expected&amp;&amp; rhs) noexcept(<i>see below<
 -6- <i>Effects</i>: 
 </p>
 <ol style="list-style-type: none">
-<li><p>(6.1) &mdash; If <tt>this-&gt;has_value() &amp;&amp; rhs.has_value()</tt> is <tt>true</tt>, 
-equivalent to <tt><ins>value()</ins><del><i>val</i></del> = std::move(*rhs)</tt>.</p></li>
+<li><p>(6.1) &mdash; If <code>this-&gt;has_value() &amp;&amp; rhs.has_value()</code> is <code>true</code>, 
+equivalent to <code><ins>value()</ins><del><i>val</i></del> = std::move(*rhs)</code>.</p></li>
 <li><p>[&hellip;]</p></li>
 </ol>
 </blockquote>
@@ -150,8 +161,8 @@ template&lt;class U = T&gt;
 -10- <i>Effects</i>: 
 </p>
 <ol style="list-style-type: none">
-<li><p>(10.1) &mdash; If <tt>has_value()</tt> is <tt>true</tt>, equivalent to
- <tt><ins>value()</ins><del><i>val</i></del> = std::forward&lt;U&gt;(v)</tt>.</p></li>
+<li><p>(10.1) &mdash; If <code>has_value()</code> is <code>true</code>, equivalent to
+ <code><ins>value()</ins><del><i>val</i></del> = std::forward&lt;U&gt;(v)</code>.</p></li>
 <li><p>[&hellip;]</p></li>
 </ol>
 </blockquote>
@@ -159,27 +170,27 @@ template&lt;class U = T&gt;
 
 </li>
 
-<li><p>Modify Table 64: <tt>swap(expected&amp;)</tt> effects  [tab:expected.object.swap] as indicated:</p>
+<li><p>Modify Table 64: <code>swap(expected&amp;)</code> effects  [tab:expected.object.swap] as indicated:</p>
 
 <blockquote>
 
 <table border="1">
-<caption>Table 64 &mdash; <tt>swap(expected&amp;)</tt> effects  [tab:expected.object.swap]</caption>
+<caption>Table 64 &mdash; <code>swap(expected&amp;)</code> effects  [tab:expected.object.swap]</caption>
 <tr style="text-align:center">
 <th></th>
-<th><tt>this-&gt;has_value()</tt></th>
-<th><tt>!this-&gt;has_value()</tt></th>
+<th><code>this-&gt;has_value()</code></th>
+<th><code>!this-&gt;has_value()</code></th>
 </tr>
 <tr>
-<td><tt>rhs.has_value()</tt></td>
-<td>equivalent to: <tt>using std::swap;</tt><br/>
-<tt>swap(<ins>value()</ins><del><i>val</i></del>, rhs.<ins>value()</ins><del><i>val</i></del>);</tt></td>
-<td>calls <tt>rhs.swap(*this)</tt></td>
+<td><code>rhs.has_value()</code></td>
+<td>equivalent to: <code>using std::swap;</code><br/>
+<code>swap(<ins>value()</ins><del><i>val</i></del>, rhs.<ins>value()</ins><del><i>val</i></del>);</code></td>
+<td>calls <code>rhs.swap(*this)</code></td>
 </tr>
 
 <tr>
 <td colspan="3" align="center">
-<tt>[&hellip;]</tt>
+<code>[&hellip;]</code>
 </td>
 </tr>
 </table>
@@ -199,7 +210,7 @@ constexpr void swap(expected&amp; rhs) noexcept(<i>see below</i>);
 <p/>
 -2- <i>Effects</i>: See Table 64  [tab:expected.object.swap].
 <p/>
-For the case where <tt>rhs.value()</tt> is <tt>false</tt> and <tt>this-&gt;has_value()</tt> is <tt>true</tt>, equivalent to:
+For the case where <code>rhs.value()</code> is <code>false</code> and <code>this-&gt;has_value()</code> is <code>true</code>, equivalent to:
 </p>
 <blockquote>
 <pre>

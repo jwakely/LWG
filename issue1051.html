@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 1051: Specify subscript operation return types of reverse_iterator and move_iterator</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
-<h3><a name="1051" href="lwg-closed.html#1051">1051</a>. Specify subscript operation return types of <tt>reverse_iterator</tt> and <tt>move_iterator</tt></h3>
+<h3 id="1051"><a href="lwg-closed.html#1051">1051</a>. Specify subscript operation return types of <code>reverse_iterator</code> and <code>move_iterator</code></h3>
 <p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a>, 25.5.4.6 <a href="https://wg21.link/move.iter.elem">[move.iter.elem]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2009-03-12 <b>Last modified:</b> 2021-06-06</p>
 <p><b>Priority: </b>Not Prioritized
@@ -57,7 +68,7 @@
 <p><b>Addresses UK 279 [CD1]</b></p>
 
 <p>
-The reason the return type became unspecified is LWG issue <a href="lwg-defects.html#386">386</a>. This
+The reason the return type became unspecified is LWG issue <a href="lwg-defects.html#386" title="Reverse iterator's operator[] has impossible return type">386</a>. This
 reasoning no longer applies as there are at least two ways to get the right
 return type with the new language facilities added since the previous
 standard.
@@ -96,7 +107,7 @@ I am requesting test cases to demonstrate a position.
 <blockquote>
 <p>
 I recommend NAD. Without concepts we can no longer
-restrict this member in a trivial way. Using <tt>decltype</tt> the
+restrict this member in a trivial way. Using <code>decltype</code> the
 declaration would be along the lines of
 </p>
 <blockquote><pre>
@@ -105,8 +116,8 @@ auto operator[](difference_type n) const -&gt; decltype(__base()[-n-1]);
 </pre></blockquote>
 
 <p>
-but once <tt>reverse_iterator</tt> is instantiated for some given type
-<tt>Iter</tt> which cannot form a well-formed expression <tt>__base()[-n-1]</tt>
+but once <code>reverse_iterator</code> is instantiated for some given type
+<code>Iter</code> which cannot form a well-formed expression <code>__base()[-n-1]</code>
 this would cause an ill-formed function declaration, diagnostic
 required, and no silent SFINAE elimination.
 </p>

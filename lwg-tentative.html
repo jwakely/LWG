@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>C++ Standard Library Tentative Issues</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -43,18 +54,205 @@
 </style>
 </head>
 <body>
-<p><p>Revised 2023-03-24 at 10:15:06 UTC</p>
+<p>Revised 2024-01-29 at 14:15:36 UTC
 </p><h2>Tentative Issues</h2>
 <hr>
-<h3><a name="3714" href="#3714">3714</a><sup><a href="https://cplusplus.github.io/LWG/issue3714">(i)</a></sup>. Non-single-argument constructors for range adaptors should not be <tt>explicit</tt></h3>
-<p><b>Section:</b> 26.7.24.2 <a href="https://wg21.link/range.zip.transform.view">[range.zip.transform.view]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+<h3 id="2457"><a href="#2457">2457</a><sup><a href="https://cplusplus.github.io/LWG/issue2457">(i)</a></sup>. <code>std::begin()</code> and <code>std::end()</code> do not support multi-dimensional arrays correctly</h3>
+<p><b>Section:</b> 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Janez &#x17d;emva <b>Opened:</b> 2014-11-16 <b>Last modified:</b> 2023-04-06</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#iterator.range">active issues</a> in [iterator.range].</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.range">issues</a> in [iterator.range].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The following code:
+</p>
+<blockquote><pre>
+#include &lt;algorithm&gt;
+#include &lt;iterator&gt;
+#include &lt;iostream&gt;
+#include &lt;cassert&gt;
+
+int main() 
+{
+  int a[2][3][4] = { { { 1,  2,  3,  4}, { 5,  6,  7,  8}, { 9, 10, 11, 12} },
+                     { {13, 14, 15, 16}, {17, 18, 19, 20}, {21, 22, 23, 24} } };
+  int b[2][3][4];
+
+  assert(std::distance(std::begin(a), std::end(a)) == 2 * 3 * 4);
+  std::copy(std::begin(a), std::end(a), std::begin(b));
+  std::copy(std::begin(b), std::end(b), std::ostream_iterator&lt;int&gt;(std::cout, ","));
+}
+</pre></blockquote>
+<p>
+does not compile. 
+<p/>
+A possible way to remedy this would be to add the following overloads of
+<code>begin</code>, <code>end</code>, <code>rbegin</code>, and <code>rend</code> to 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a>, 
+relying on recursive evaluation:
+</p>
+<blockquote><pre>
+namespace std {
+
+  template &lt;typename T, size_t M, size_t N&gt;
+  constexpr remove_all_extents_t&lt;T&gt;*
+  begin(T (&amp;array)[M][N])
+  {
+    return begin(*array);
+  }
+  
+  template &lt;typename T, size_t M, size_t N&gt;
+  constexpr remove_all_extents_t&lt;T&gt;*
+  end(T (&amp;array)[M][N])
+  {
+    return end(array[M - 1]);
+  }
+
+  template &lt;typename T, size_t M, size_t N&gt;
+  reverse_iterator&lt;remove_all_extents_t&lt;T&gt;*&gt;
+  rbegin(T (&amp;array)[M][N])
+  {
+    return decltype(rbegin(array))(end(array[M - 1]));
+  }
+  
+  template &lt;typename T, size_t M, size_t N&gt;
+  reverse_iterator&lt;remove_all_extents_t&lt;T&gt;*&gt;
+  rend(T (&amp;array)[M][N])
+  {
+    return decltype(rend(array))(begin(*array));
+  }
+
+}
+</pre></blockquote>
+
+<p><i>[2023-04-06; LWG reflector poll in November 2021]</i></p>
+
+<p>
+Changed to Tentatively NAD after 12 votes in favour.
+Use <code>views::join</code> or <code>mdspan</code> instead.
+</p>
+
+
+
+<p id="res-2457"><b>Proposed resolution:</b></p>
+
+
+
+
+
+<hr>
+<h3 id="3635"><a href="#3635">3635</a><sup><a href="https://cplusplus.github.io/LWG/issue3635">(i)</a></sup>. Add <code>__cpp_lib_deduction_guides</code> to feature test macros</h3>
+<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Konstantin Varlamov <b>Opened:</b> 2021-11-09 <b>Last modified:</b> 2023-05-24</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/P0433R2" title=" Toward a resolution of US7 and US14: Integrating template deduction for class templates into the standard library">P0433R2</a>, the proposal for adding deduction guides to the standard library, contained a 
+recommendation to use <code>__cpp_lib_deduction_guides</code> as a feature test macro. However, it appears that this feature test macro has been accidentally omitted from the Standard when the paper was applied and probably needs to be added back.
+</p>
+
+<p>
+<strong>Previous resolution [SUPERSEDED]:</strong>
+</p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4901" title=" Working Draft, Standard for Programming Language C++">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+#define __cpp_lib_coroutine          201902L  <i>// also in &lt;coroutine&gt;</i>
+<ins>#define __cpp_lib_deduction_guides   201703L
+  <i>// also in &lt;deque&gt;, &lt;forward_list&gt;, &lt;list&gt;, &lt;map&gt;, &lt;queue&gt;, &lt;set&gt;, &lt;stack&gt;,
+  // &lt;unordered_map&gt;, &lt;unordered_set&gt;, &lt;vector&gt;</i></ins>
+#define __cpp_lib_destroying_delete  201806L  <i>// also in &lt;new&gt;</i>
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2021-11-16; Konstantin Varlamov comments and improves wording]</i></p>
+
+<p>
+One potential topic of discussion is whether the new feature test macro needs to be defined in every library 
+header that contains an explicit deduction guide. While this would be consistent with the current approach, 
+no other macro is associated with such a large set of headers (20 headers in total, whereas the current 
+record-holder is <code>__cpp_lib_nonmember_container_access</code> with 12 headers). For this reason, it should 
+be considered whether perhaps the new macro should only be defined in <code>&lt;version&gt;</code> (which would, 
+however, make it an outlier). The proposed wording currently contains an exhaustive list (note that the 
+deduction guides for <code>&lt;mutex&gt;</code> were removed by LWG <a href="lwg-defects.html#2981" title="Remove redundant deduction guides from standard library">2981</a>).
+</p>
+
+<p><i>[2022-01-30; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+Several votes for NAD as it's too late to be useful, and code which needs
+to be portable to pre-CTAD compilers can just not use CTAD.
+</p>
+
+<p><i>[2023-04-21; Reflector poll for 'Tentatively NAD']</i></p>
+
+<p><i>[
+"We keep changing the deduction guides, and different libraries might be
+conformant in some headers and not others. The status cannot be represented
+by a single number."
+]</i></p>
+
+
+
+
+<p id="res-3635"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4901" title=" Working Draft, Standard for Programming Language C++">N4901</a>.
+</p>
+
+<ol>
+<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+#define __cpp_lib_coroutine          201902L  <i>// also in &lt;coroutine&gt;</i>
+<ins>#define __cpp_lib_deduction_guides   201703L
+  <i>// also in &lt;array&gt;, &lt;deque&gt;, &lt;forward_list&gt;, &lt;functional&gt;, &lt;list&gt;, &lt;map&gt;,
+  // &lt;memory&gt;, &lt;optional&gt;, &lt;queue&gt;, &lt;regex&gt;, &lt;scoped_allocator&gt;, &lt;set&gt;, &lt;stack&gt;,
+  // &lt;string&gt;, &lt;tuple&gt;, &lt;unordered_map&gt;, &lt;unordered_set&gt;, &lt;utility&gt;, &lt;valarray&gt;,
+  // &lt;vector&gt;</i></ins>
+#define __cpp_lib_destroying_delete  201806L  <i>// also in &lt;new&gt;</i>
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="3714"><a href="#3714">3714</a><sup><a href="https://cplusplus.github.io/LWG/issue3714">(i)</a></sup>. Non-single-argument constructors for range adaptors should not be <code>explicit</code></h3>
+<p><b>Section:</b> 26.7.25.2 <a href="https://wg21.link/range.zip.transform.view">[range.zip.transform.view]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-10 <b>Last modified:</b> 2023-01-24</p>
 <p><b>Priority: </b>4
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-All C++20 range adaptors' non-single-argument constructors are not declared as <tt>explicit</tt>, which makes 
+All C++20 range adaptors' non-single-argument constructors are not declared as <code>explicit</code>, which makes 
 the following initialization well-formed:
 </p>
 <blockquote><pre>
@@ -63,8 +261,8 @@ std::ranges::take_view r1 = {v, 1};
 std::ranges::filter_view r2 = {v, [](int) { return true; }};
 </pre></blockquote>
 <p>
-However, the non-single-argument constructors of C++23 range adaptors, except for <tt>join_with_view</tt>, 
-are all <tt>explicit</tt>, which makes us no longer able to
+However, the non-single-argument constructors of C++23 range adaptors, except for <code>join_with_view</code>, 
+are all <code>explicit</code>, which makes us no longer able to
 </p>
 <blockquote><pre>
 std::ranges::chunk_view r1 = {v, 1}; // <span style="color:red;font-weight:bolder">ill-formed</span>
@@ -72,7 +270,7 @@ std::ranges::chunk_by_view r2 = {v, [](int, int) { return true; }}; // <span sty
 </pre></blockquote>
 <p>
 This seems unnecessary since I don't see the observable benefit of preventing this. In the standard, 
-non-single-argument constructors are rarely specified as <tt>explicit</tt> unless it is really undesirable, 
+non-single-argument constructors are rarely specified as <code>explicit</code> unless it is really undesirable, 
 I think the above initialization is what the user expects since it's clearly intentional, and I don't see 
 any good reason to reject it from C++23.
 </p>
@@ -93,17 +291,17 @@ Set priority to 4 after reflector poll. Send to LEWG.
 
 <p><i>[2023-01-24; LEWG in Kona]</i></p>
 
-<p>Use alternative approach in <a href="https://wg21.link/P2711">P2711</a> instead.</p>
+<p>Use alternative approach in <a href="https://wg21.link/P2711" title=" Making multi-param constructors of views explicit">P2711</a> instead.</p>
 
 
 
 <p id="res-3714"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+This wording is relative to <a href="https://wg21.link/N4910" title=" Working Draft, Standard for Programming Language C++">N4910</a>.
 </p>
 
 <ol>
-<li><p>Modify 26.7.24.2 <a href="https://wg21.link/range.zip.transform.view">[range.zip.transform.view]</a> as indicated:</p>
+<li><p>Modify 26.7.25.2 <a href="https://wg21.link/range.zip.transform.view">[range.zip.transform.view]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -132,14 +330,14 @@ constexpr <del>explicit</del> zip_transform_view(F fun, Views... views);
 </pre>
 <blockquote>
 <p>
--1- <i>Effects</i>: Initializes <tt><i>fun_</i></tt> with <tt>std::move(fun)</tt> and <tt><i>zip_</i></tt> 
-with <tt>std::move(views)...</tt>.
+-1- <i>Effects</i>: Initializes <code><i>fun_</i></code> with <code>std::move(fun)</code> and <code><i>zip_</i></code> 
+with <code>std::move(views)...</code>.
 </p>
 </blockquote>
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.26.2 <a href="https://wg21.link/range.adjacent.transform.view">[range.adjacent.transform.view]</a> as indicated:</p>
+<li><p>Modify 26.7.27.2 <a href="https://wg21.link/range.adjacent.transform.view">[range.adjacent.transform.view]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -167,14 +365,14 @@ constexpr <del>explicit</del> adjacent_transform_view(V base, F fun);
 </pre>
 <blockquote>
 <p>
--1- <i>Effects</i>: Initializes <tt><i>fun_</i></tt> with <tt>std::move(fun)</tt> and 
-<tt><i>inner_</i></tt> with <tt>std::move(base)</tt>.
+-1- <i>Effects</i>: Initializes <code><i>fun_</i></code> with <code>std::move(fun)</code> and 
+<code><i>inner_</i></code> with <code>std::move(base)</code>.
 </p>
 </blockquote>
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.27.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as indicated:</p>
+<li><p>Modify 26.7.28.2 <a href="https://wg21.link/range.chunk.view.input">[range.chunk.view.input]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -201,16 +399,16 @@ constexpr <del>explicit</del> chunk_view(V base, range_difference_t&lt;V&gt; n);
 </pre>
 <blockquote>
 <p>
--1- <i>Preconditions:</i> <tt>n &gt; 0</tt> is <tt>true</tt>.
+-1- <i>Preconditions:</i> <code>n &gt; 0</code> is <code>true</code>.
 <p/>
--2- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and 
-<tt><i>n_</i></tt> with <tt>n</tt>.
+-2- <i>Effects</i>: Initializes <code><i>base_</i></code> with <code>std::move(base)</code> and 
+<code><i>n_</i></code> with <code>n</code>.
 </p>
 </blockquote>
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.27.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a> as indicated:</p>
+<li><p>Modify 26.7.28.6 <a href="https://wg21.link/range.chunk.view.fwd">[range.chunk.view.fwd]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -235,16 +433,16 @@ constexpr <del>explicit</del> chunk_view(V base, range_difference_t&lt;V&gt; n);
 </pre>
 <blockquote>
 <p>
--1- <i>Preconditions:</i> <tt>n &gt; 0</tt> is <tt>true</tt>.
+-1- <i>Preconditions:</i> <code>n &gt; 0</code> is <code>true</code>.
 <p/>
--2- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and 
-<tt><i>n_</i></tt> with <tt>n</tt>.
+-2- <i>Effects</i>: Initializes <code><i>base_</i></code> with <code>std::move(base)</code> and 
+<code><i>n_</i></code> with <code>n</code>.
 </p>
 </blockquote>
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.28.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> as indicated:</p>
+<li><p>Modify 26.7.29.2 <a href="https://wg21.link/range.slide.view">[range.slide.view]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -271,14 +469,14 @@ constexpr <del>explicit</del> slide_view(V base, range_difference_t&lt;V&gt; n);
 </pre>
 <blockquote>
 <p>
--1- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and 
-<tt><i>n_</i></tt> with <tt>n</tt>.
+-1- <i>Effects</i>: Initializes <code><i>base_</i></code> with <code>std::move(base)</code> and 
+<code><i>n_</i></code> with <code>n</code>.
 </p>
 </blockquote>
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.29.2 <a href="https://wg21.link/range.chunk.by.view">[range.chunk.by.view]</a> as indicated:</p>
+<li><p>Modify 26.7.30.2 <a href="https://wg21.link/range.chunk.by.view">[range.chunk.by.view]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -304,8 +502,8 @@ constexpr <del>explicit</del> chunk_by_view(V base, Pred pred);
 </pre>
 <blockquote>
 <p>
--1- <i>Effects</i>: Initializes <tt><i>base_</i></tt> with <tt>std::move(base)</tt> and 
-<tt><i>pred_</i></tt> with <tt>std::move(pred)</tt>.
+-1- <i>Effects</i>: Initializes <code><i>base_</i></code> with <code>std::move(base)</code> and 
+<code><i>pred_</i></code> with <code>std::move(pred)</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -318,614 +516,7 @@ constexpr <del>explicit</del> chunk_by_view(V base, Pred pred);
 
 
 <hr>
-<h3><a name="3884" href="#3884">3884</a><sup><a href="https://cplusplus.github.io/LWG/issue3884">(i)</a></sup>. <tt>flat_<i>foo</i></tt> is missing allocator-extended copy/move constructors</h3>
-<p><b>Section:</b> 24.6.9 <a href="https://wg21.link/flat.map">[flat.map]</a>, 24.6.10 <a href="https://wg21.link/flat.multimap">[flat.multimap]</a>, 24.6.11 <a href="https://wg21.link/flat.set">[flat.set]</a>, 24.6.12 <a href="https://wg21.link/flat.multiset">[flat.multiset]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2023-02-06 <b>Last modified:</b> 2023-03-23</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#flat.map">active issues</a> in [flat.map].</p>
-<p><b>View all other</b> <a href="lwg-index.html#flat.map">issues</a> in [flat.map].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-This issue is part of the "<tt>flat_<i>foo</i></tt>" sequence, LWG <a href="lwg-defects.html#3786">3786</a>, <a href="lwg-active.html#3802">3802</a>,
-<a href="lwg-defects.html#3803">3803</a>, <a href="lwg-active.html#3804">3804</a>. <tt>flat_set</tt>, <tt>flat_multiset</tt>, <tt>flat_map</tt>, and
-<tt>flat_multimap</tt> all have implicitly defaulted copy and move constructors, but they lack
-allocator-extended versions of those constructors. This means that the following code is broken:
-</p>
-<blockquote><pre>
-// <a href="https://godbolt.org/z/qezv5rTrW">https://godbolt.org/z/qezv5rTrW</a>
-#include &lt;cassert&gt;
-#include &lt;flat_set&gt;
-#include &lt;memory_resource&gt;
-#include &lt;utility&gt;
-#include &lt;vector&gt;
-
-template&lt;class T, class Comp = std::less&lt;T&gt;&gt;
-using pmr_flat_set = std::flat_set&lt;T, Comp, std::pmr::vector&lt;T&gt;&gt;;
-
-int main() {
-  std::pmr::vector&lt;pmr_flat_set&lt;int&gt;&gt; vs = {
-    {1,2,3},
-    {4,5,6},
-  };
-  std::pmr::vector&lt;int&gt; v = std::move(vs[0]).extract();
-  assert(v.get_allocator().resource() == std::pmr::get_default_resource());
-}
-</pre></blockquote>
-<p>
-<tt>pmr_flat_set&lt;int&gt;</tt> advertises that it "<tt>uses_allocator</tt>" <tt>std::pmr::polymorphic_allocator&lt;int&gt;</tt>,
-but in fact it lacks the allocator-extended constructor overload set necessary to interoperate with <tt>std::pmr::vector</tt>.
-</p>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after five votes in favour during reflector poll.
-</p>
-
-
-
-<p id="res-3884"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-<li><p>Modify 24.6.9.2 <a href="https://wg21.link/flat.map.defn">[flat.map.defn]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class Key, class T, class Compare = less&lt;Key&gt;,
-  class KeyContainer = vector&lt;Key&gt;, class MappedContainer = vector&lt;T&gt;&gt;
-  class flat_map {
-  public:
-    [&hellip;]
-    // <i>24.6.9.3 <a href="https://wg21.link/flat.map.cons">[flat.map.cons]</a>, construct/copy/destroy</i>
-    flat_map() : flat_map(key_compare()) { }
-
-    <ins>template&lt;class Allocator&gt;
-      flat_map(const flat_map&amp;, const Allocator&amp; a);
-    template&lt;class Allocator&gt;
-      flat_map(flat_map&amp;&amp;, const Allocator&amp; a);</ins>
-
-    [&hellip;]
-  };
-  [&hellip;]
-}
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.9.3 <a href="https://wg21.link/flat.map.cons">[flat.map.cons]</a> as indicated:</p>
-
-<blockquote class="note">
-<p>
-[<i>Drafting note</i>: As a drive-by fix, a missing closing <tt>&gt;</tt> is inserted in p11.]
-</p>
-</blockquote>
-
-<blockquote>
-<pre>
-<ins>template&lt;class Allocator&gt;
-  flat_map(const flat_map&amp;, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  flat_map(flat_map&amp;&amp;, const Allocator&amp; a);</ins>
-template&lt;class Allocator&gt;
-  flat_map(const key_compare&amp; comp, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  explicit flat_map(const Allocator&amp; a);
-template&lt;class InputIterator, class Allocator&gt;
-  flat_map(InputIterator first, InputIterator last, const key_compare&amp; comp, const Allocator&amp; a);
-template&lt;class InputIterator, class Allocator&gt;
-  flat_map(InputIterator first, InputIterator last, const Allocator&amp; a);
-[&hellip;]
-</pre>
-<blockquote>
-<p>
--11- <i>Constraints</i>: <tt>uses_allocator_v&lt;key_container_type, Allocator<ins>&gt;</ins></tt> is <tt>true</tt> and
-<tt>uses_allocator_v&lt;mapped_container_type, Allocator&gt;</tt> is <tt>true</tt>.
-<p/>
--12- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt>c.keys</tt> and
-<tt>c.values</tt> are constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
-</p>
-</blockquote>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.10.2 <a href="https://wg21.link/flat.multimap.defn">[flat.multimap.defn]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class Key, class T, class Compare = less&lt;Key&gt;,
-  class KeyContainer = vector&lt;Key&gt;, class MappedContainer = vector&lt;T&gt;&gt;
-  class flat_multimap {
-  public:
-    [&hellip;]
-    // <i>24.6.10.3 <a href="https://wg21.link/flat.multimap.cons">[flat.multimap.cons]</a>, construct/copy/destroy</i>
-    flat_multimap() : flat_multimap(key_compare()) { }
-
-    <ins>template&lt;class Allocator&gt;
-      flat_multimap(const flat_multimap&amp;, const Allocator&amp; a);
-    template&lt;class Allocator&gt;
-      flat_multimap(flat_multimap&amp;&amp;, const Allocator&amp; a);</ins>
-
-    [&hellip;]
-  };
-  [&hellip;]
-}
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.10.3 <a href="https://wg21.link/flat.multimap.cons">[flat.multimap.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-<ins>template&lt;class Allocator&gt;
-  flat_multimap(const flat_multimap&amp;, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  flat_multimap(flat_multimap&amp;&amp;, const Allocator&amp; a);</ins>
-template&lt;class Allocator&gt;
-  flat_multimap(const key_compare&amp; comp, const Allocator&amp; a);
-[&hellip;]
-</pre>
-<blockquote>
-<p>
--11- <i>Constraints</i>: <tt>uses_allocator_v&lt;key_container_type, Allocator&gt;</tt> is <tt>true</tt> and
-<tt>uses_allocator_v&lt;mapped_container_type, Allocator&gt;</tt> is <tt>true</tt>.
-<p/>
--12- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt>c.keys</tt> and
-<tt>c.values</tt> are constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
-</p>
-</blockquote>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.11.2 <a href="https://wg21.link/flat.set.defn">[flat.set.defn]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class Key, class Compare = less&lt;Key&gt;, class KeyContainer = vector&lt;Key&gt;&gt;
-  class flat_set {
-  public:
-    [&hellip;]
-    // <i>24.6.11.3 <a href="https://wg21.link/flat.set.cons">[flat.set.cons]</a>, constructors</i>
-    flat_set() : flat_set(key_compare()) { }
-
-    <ins>template&lt;class Allocator&gt;
-      flat_set(const flat_set&amp;, const Allocator&amp; a);
-    template&lt;class Allocator&gt;
-      flat_set(flat_set&amp;&amp;, const Allocator&amp; a);</ins>
-
-    [&hellip;]
-  };
-  [&hellip;]
-}
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.11.3 <a href="https://wg21.link/flat.set.cons">[flat.set.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-<ins>template&lt;class Allocator&gt;
-  flat_set(const flat_set&amp;, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  flat_set(flat_set&amp;&amp;, const Allocator&amp; a);</ins>
-template&lt;class Allocator&gt;
-  flat_set(const key_compare&amp; comp, const Allocator&amp; a);
-[&hellip;]
-</pre>
-<blockquote>
-<p>
--9- <i>Constraints</i>: <tt>uses_allocator_v&lt;container_type, Allocator&gt;</tt> is <tt>true</tt>.
-<p/>
--10- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt><i>c</i></tt> is
-constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
-</p>
-</blockquote>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.12.2 <a href="https://wg21.link/flat.multiset.defn">[flat.multiset.defn]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class Key, class Compare = less&lt;Key&gt;, class KeyContainer = vector&lt;Key&gt;&gt;
-  class flat_multiset {
-  public:
-    [&hellip;]
-    // <i>24.6.12.3 <a href="https://wg21.link/flat.multiset.cons">[flat.multiset.cons]</a>, constructors</i>
-    flat_multiset() : flat_multiset(key_compare()) { }
-
-    <ins>template&lt;class Allocator&gt;
-      flat_multiset(const flat_multiset&amp;, const Allocator&amp; a);
-    template&lt;class Allocator&gt;
-      flat_multiset(flat_multiset&amp;&amp;, const Allocator&amp; a);</ins>
-
-    [&hellip;]
-  };
-  [&hellip;]
-}
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.12.3 <a href="https://wg21.link/flat.multiset.cons">[flat.multiset.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-<ins>template&lt;class Allocator&gt;
-  flat_multiset(const flat_multiset&amp;, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  flat_multiset(flat_multiset&amp;&amp;, const Allocator&amp; a);</ins>
-template&lt;class Allocator&gt;
-  flat_multiset(const key_compare&amp; comp, const Allocator&amp; a);
-[&hellip;]
-</pre>
-<blockquote>
-<p>
--9- <i>Constraints</i>: <tt>uses_allocator_v&lt;container_type, Allocator&gt;</tt> is <tt>true</tt>.
-<p/>
--10- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt><i>c</i></tt> is
-constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
-</p>
-</blockquote>
-</blockquote>
-
-</li>
-
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3885" href="#3885">3885</a><sup><a href="https://cplusplus.github.io/LWG/issue3885">(i)</a></sup>. '<tt>op</tt>' should be in [zombie.names]</h3>
-<p><b>Section:</b> 16.4.5.3.2 <a href="https://wg21.link/zombie.names">[zombie.names]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-02-11 <b>Last modified:</b> 2023-03-22</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-C++98 and C++11 defined a protected member <tt>std::bind1st::op</tt> so '<tt>op</tt>' should still be a reserved name, 
-just like '<tt>bind1st</tt>' itself.
-</p>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after seven votes in favour during reflector poll.
-</p>
-
-
-
-<p id="res-3885"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-<li><p>Modify 16.4.5.3.2 <a href="https://wg21.link/zombie.names">[zombie.names]</a> as indicated:</p>
-
-<blockquote>
-<p>
--2- The following names are reserved as members for previous standardization, and may not be used as a name
-for object-like macros in portable code:
-</p>
-<ol style="list-style-type: none">
-<li><p>(2.1) &mdash; <tt>argument_type</tt>,</p></li>
-<li><p>[&hellip;]</p></li>
-<li><p>(2.3) &mdash; <tt>io_state</tt>,</p></li>
-<li><p><ins>(2.?) &mdash; <tt>op</tt>,</ins></p></li>
-<li><p>(2.4) &mdash; <tt>open_mode</tt>,</p></li>
-<li><p>[&hellip;]</p></li>
-</ol>
-</blockquote>
-
-</li>
-
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3887" href="#3887">3887</a><sup><a href="https://cplusplus.github.io/LWG/issue3887">(i)</a></sup>. Version macro for <tt>allocate_at_least</tt></h3>
-<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2023-02-14 <b>Last modified:</b> 2023-03-22</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
-<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-In Issaquah, we just adopted <a href="https://wg21.link/P2652R0">P2652R0</a>, forbidding user specialization of <tt>allocator_traits</tt>. 
-<p/>
-It looks like we did not deem that worthy of a feature macro.
-<p/>
-However, it also changed the interface of the C++23 addition, <tt>allocate_at_least</tt>, which is covered by the macro 
-<tt>__cpp_lib_allocate_at_least</tt>.
-<p/>
-I believe we should have updated that macro for this significant change in how that function is accessed 
-(from free function to a member of <tt>allocator_traits</tt>). Unfortunately, there are no more meetings 
-to process a comment to that effect, and I suspect this rises beyond the purview of an editorial change, 
-although I live in hope (as the original paper left the value of the macro to the editor, although we 
-approved existing working papers where that macro does have a value, i.e., status quo).
-</p>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after seven votes in favour during reflector poll.
-But "if we don’t get the editors to do it for C++23 there doesn’t seem to be
-any point doing it."
-</p>
-
-
-
-<p id="res-3887"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <tt>&lt;version&gt;</tt> synopsis, as indicated and replace
-the placeholder <tt>YYYYMM</tt> by the year and month of adoption of <a href="https://wg21.link/P2652R0">P2652R0</a>:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-#define __cpp_lib_algorithm_iterator_requirements  202207L
-  // <i>also in &lt;algorithm&gt;, &lt;numeric&gt;, &lt;memory&gt;</i>
-#define __cpp_lib_allocate_at_least                <del>202106</del><ins>YYYYMM</ins>L // <i>also in &lt;memory&gt;</i>
-#define __cpp_lib_allocator_traits_is_always_equal 201411L
-  // <i>also in [&hellip;]</i>
-[&hellip;]
-</pre>
-</blockquote>
-
-</li>
-
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3893" href="#3893">3893</a><sup><a href="https://cplusplus.github.io/LWG/issue3893">(i)</a></sup>. LWG 3661 broke <tt>atomic&lt;shared_ptr&lt;T&gt;&gt; a; a = nullptr;</tt></h3>
-<p><b>Section:</b> 33.5.8.7.2 <a href="https://wg21.link/util.smartptr.atomic.shared">[util.smartptr.atomic.shared]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Zachary Wassall <b>Opened:</b> 2023-02-22 <b>Last modified:</b> 2023-03-22</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all other</b> <a href="lwg-index.html#util.smartptr.atomic.shared">issues</a> in [util.smartptr.atomic.shared].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-LWG <a href="lwg-defects.html#3661">3661</a>, "<tt>constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr);</tt> should work" 
-added the following to <tt>atomic&lt;shared_ptr&lt;T&gt;&gt;</tt>:
-</p>
-<blockquote><pre>
-constexpr atomic(nullptr_t) noexcept : atomic() { }
-</pre></blockquote>
-<p>
-I believe that doing so broke the following example:
-</p>
-<blockquote><pre>
-atomic&lt;shared_ptr&lt;T&gt;&gt; a;
-a = nullptr;
-</pre></blockquote>
-<p>
-For reference, <tt>atomic&lt;shared_ptr&lt;T&gt;&gt;</tt> provides two assignment operator overloads:
-</p>
-<blockquote><pre>
-void operator=(const atomic&amp;) = delete;          // #1
-void operator=(shared_ptr&lt;T&gt; desired) noexcept;  // #2
-</pre></blockquote>
-<p>
-Prior to LWG <a href="lwg-defects.html#3661">3661</a>, the assignment in the example unambiguously matches #2. #1 is not viable because 
-<tt>nullptr_t</tt> is not convertible to <tt>atomic&lt;shared_ptr&lt;T&gt;&gt;</tt>. After LWG 3611, #1 is viable 
-and the assignment is ambiguous between #1 and #2.
-<p/>
-I believe this could be remedied easily enough by adding an assignment operator to match the added 
-<tt>nullptr_t</tt> constructor:
-</p>
-<blockquote><pre>
-void operator=(nullptr_t) noexcept;
-</pre></blockquote>
-
-<p><i>[2023-02-25; Daniel comments and provides wording]</i></p>
-
-<p>
-The suggested delegation below to <tt>store(nullptr)</tt> is not ambiguous and calls the constructor
-<tt>shared_ptr(nullptr_t)</tt>, which is guaranteed to be no-throwing.
-</p>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after six votes in favour during reflector poll.
-</p>
-
-
-
-<p id="res-3893"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 33.5.8.7.2 <a href="https://wg21.link/util.smartptr.atomic.shared">[util.smartptr.atomic.shared]</a> as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class T&gt; struct atomic&lt;shared_ptr&lt;T&gt;&gt; {
-    [&hellip;]
-    constexpr atomic() noexcept;
-    constexpr atomic(nullptr_t) noexcept : atomic() { }
-    atomic(shared_ptr&lt;T&gt; desired) noexcept;
-    atomic(const atomic&amp;) = delete;
-    void operator=(const atomic&amp;) = delete;
-    [&hellip;]
-    void operator=(shared_ptr&lt;T&gt; desired) noexcept;
-    <ins>void operator=(nullptr_t) noexcept;</ins>
-    [&hellip;]
-  private:
-    shared_ptr&lt;T&gt; p; // <i>exposition only</i>
-  };
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-void operator=(shared_ptr&lt;T&gt; desired) noexcept;
-</pre>
-<blockquote>
-<p>
--5- <i>Effects</i>: Equivalent to <tt>store(desired)</tt>.
-</p>
-</blockquote>
-<pre>
-<ins>void operator=(nullptr_t) noexcept;</ins>
-</pre>
-<blockquote>
-<p>
-<ins>-?- <i>Effects</i>: Equivalent to <tt>store(nullptr)</tt>.</ins>
-</p>
-</blockquote>
-</blockquote>
-
-
-</li>
-
-
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3894" href="#3894">3894</a><sup><a href="https://cplusplus.github.io/LWG/issue3894">(i)</a></sup>. <tt>generator::promise_type::yield_value(ranges::elements_of&lt;Rng, Alloc&gt;)</tt> should not be <tt>noexcept</tt></h3>
-<p><b>Section:</b> 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2023-02-25 <b>Last modified:</b> 2023-03-22</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#coro.generator.promise">active issues</a> in [coro.generator.promise].</p>
-<p><b>View all other</b> <a href="lwg-index.html#coro.generator.promise">issues</a> in [coro.generator.promise].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The overload of <tt>yield_value</tt> for yielding elements of arbitrary ranges does so by creating a nested generator, 
-but to do so it needs to:
-</p>
-<ul>
-<li><p>call <tt>ranges::begin</tt>/<tt>ranges::end</tt> on the range  </p></li>
-<li><p>allocate a new coroutine frame (unless the allocation is elided by the compiler, which isn't guaranteed)</p></li>
-<li><p>copy/move the iterator and sentinel into the coroutine frame</p></li>
-</ul>
-<p>
-All of these are allowed to throw, so this overload should not be <tt>noexcept</tt>.
-</p>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after six votes in favour during reflector poll.
-</p>
-
-
-
-<p id="res-3894"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
-
-<blockquote>
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class Ref, class V, class Allocator&gt;
-  class generator&lt;Ref, V, Allocator&gt;::promise_type {
-  public:
-    [&hellip;]
-    auto yield_value(const remove_reference_t&lt;yielded&gt;&amp; lval)
-      requires is_rvalue_reference_v&lt;yielded&gt; &amp;&amp;
-        constructible_from&lt;remove_cvref_t&lt;yielded&gt;, const remove_reference_t&lt;yielded&gt;&amp;&gt;;
-    
-    template&lt;class R2, class V2, class Alloc2, class Unused&gt;
-      requires same_as&lt;typename generator&lt;R2, V2, Alloc2&gt;::yielded, yielded&gt;
-        auto yield_value(ranges::elements_of&lt;generator&lt;R2, V2, Alloc2&gt;&amp;&amp;, Unused&gt; g) noexcept;
-    
-    template&lt;ranges::input_range R, class Alloc&gt;
-      requires convertible_to&lt;ranges::range_reference_t&lt;R&gt;, yielded&gt;
-        auto yield_value(ranges::elements_of&lt;R, Alloc&gt; r) <del>noexcept</del>;
-    [&hellip;]
-   };
-}
-</pre>
-</blockquote>
-[&hellip;]
-<pre>
-template&lt;ranges::input_range R, class Alloc&gt;
-  requires convertible_to&lt;ranges::range_reference_t&lt;R&gt;, yielded&gt;
-  auto yield_value(ranges::elements_of&lt;R, Alloc&gt; r) <del>noexcept</del>;
-</pre>
-<blockquote>
-<p>
--13- <i>Effects</i>: Equivalent to:
-</p>
-<blockquote><pre>
-auto nested = [](allocator_arg_t, Alloc, ranges::iterator_t&lt;R&gt; i, ranges::sentinel_t&lt;R&gt; s)
-  -&gt; generator&lt;yielded, ranges::range_value_t&lt;R&gt;, Alloc&gt; {
-    for (; i != s; ++i) {
-      co_yield static_cast&lt;yielded&gt;(*i);
-    }
-  };
-return yield_value(ranges::elements_of(nested(
-  allocator_arg, r.allocator, ranges::begin(r.range), ranges::end(r.range))));
-</pre></blockquote>
-[&hellip;]
-</blockquote>
-</blockquote>
-
-
-</li>
-
-
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3901" href="#3901">3901</a><sup><a href="https://cplusplus.github.io/LWG/issue3901">(i)</a></sup>. Is uses-allocator construction of a <i>cv</i>-qualified object type still well-formed after LWG 3870?</h3>
+<h3 id="3901"><a href="#3901">3901</a><sup><a href="https://cplusplus.github.io/LWG/issue3901">(i)</a></sup>. Is uses-allocator construction of a <i>cv</i>-qualified object type still well-formed after LWG 3870?</h3>
 <p><b>Section:</b> 20.2.8 <a href="https://wg21.link/allocator.uses">[allocator.uses]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-03-05 <b>Last modified:</b> 2023-03-22</p>
 <p><b>Priority: </b>Not Prioritized
@@ -933,9 +524,9 @@ return yield_value(ranges::elements_of(nested(
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3870">3870</a> made <tt>std::construct_at</tt> unable to create an object of a <i>cv</i>-qualified type, 
-which affects <tt>std::uninitialized_construct_using_allocator</tt>. However, uses-allocator construction is 
-currently not required to be equivalent to some call to <tt>std::uninitialized_construct_using_allocator</tt>, 
+LWG <a href="lwg-defects.html#3870" title="Remove voidify">3870</a> made <code>std::construct_at</code> unable to create an object of a <i>cv</i>-qualified type, 
+which affects <code>std::uninitialized_construct_using_allocator</code>. However, uses-allocator construction is 
+currently not required to be equivalent to some call to <code>std::uninitialized_construct_using_allocator</code>, 
 which possibly implies that uses-allocator construction of a <i>cv</i>-qualified type may still be required to be 
 well-formed.
 <p/>
@@ -959,63 +550,973 @@ uses-allocator construction of a const type, so we can't make it ill-formed.
 
 
 <hr>
-<h3><a name="3903" href="#3903">3903</a><sup><a href="https://cplusplus.github.io/LWG/issue3903">(i)</a></sup>. <tt>span</tt> destructor is redundantly <tt>noexcept</tt></h3>
-<p><b>Section:</b> 24.7.2.2.1 <a href="https://wg21.link/span.overview">[span.overview]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Ben Craig <b>Opened:</b> 2023-03-11 <b>Last modified:</b> 2023-03-22</p>
+<h3 id="3908"><a href="#3908">3908</a><sup><a href="https://cplusplus.github.io/LWG/issue3908">(i)</a></sup>. <code>enumerate_view::<i>iterator</i></code> constructor is explicit</h3>
+<p><b>Section:</b> 26.7.23.3 <a href="https://wg21.link/range.enumerate.iterator">[range.enumerate.iterator]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-03-23 <b>Last modified:</b> 2023-06-01</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#span.overview">active issues</a> in [span.overview].</p>
-<p><b>View all other</b> <a href="lwg-index.html#span.overview">issues</a> in [span.overview].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.enumerate.iterator">issues</a> in [range.enumerate.iterator].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The <tt>span</tt> class template synopsis in 24.7.2.2.1 <a href="https://wg21.link/span.overview">[span.overview]</a> has this declaration:
+<code>enumerate_view::<i>iterator</i></code> has this constructor:
 </p>
-<blockquote><pre>
-~span() noexcept = default;
-</pre></blockquote>
+<blockquote>
+<pre><code>    constexpr explicit
+      <i>iterator</i>(iterator_t&lt;<i>Base</i>&gt; current, difference_type pos);  <i>// exposition only</i>
+</code></pre>
+</blockquote>
+
 <p>
-The <tt>noexcept</tt> is redundant, as <tt>~span</tt> is <tt>noexcept</tt> automatically. I think the entire 
-declaration is unnecessary as well. There is no additional specification for <tt>~span()</tt> at all, much 
-less some that warrants inclusion in the class template synopsis.
+In <a href="https://wg21.link/P2164R9" title=" views::enumerate">P2164R9</a> the detailed description of the function showed a
+default argument for the second parameter, which would justify it being
+explicit. However, that default argument was not present in the class synopsis
+and was removed from the detailed description when applying the paper to the
+draft.
+</p>
+
+<p><i>[2023-06-01; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively NAD after four votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-3908"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4944" title=" Working Draft, Standard for Programming Language C++">N4944</a>.
+</p>
+<ol>
+<li>
+<p>
+Modify the class synopsis in 26.7.23.3 <a href="https://wg21.link/range.enumerate.iterator">[range.enumerate.iterator]</a>
+as shown:
+</p>
+<blockquote><pre><code>
+    constexpr <del>explicit</del>
+      <i>iterator</i>(iterator_t&lt;<i>Base</i>&gt; current, difference_type pos);  <i>// exposition only</i>
+</code></pre></blockquote>
+</li>
+
+<li>
+<p>
+Modify the detailed description in 26.7.23.3 <a href="https://wg21.link/range.enumerate.iterator">[range.enumerate.iterator]</a>
+as shown:
+</p>
+<blockquote>
+<pre><code>  constexpr <del>explicit</del> <i>iterator</i>(iterator_t&lt;<i>Base</i>&gt; current, difference_type pos);
+</code></pre>
+<p>-2-
+<i>Effects</i>: Initializes <code><i>current_</i></code>
+with <code>std::move(current)</code> and <code><i>pos_</i></code> with
+<code>pos</code>.
+</p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="3909"><a href="#3909">3909</a><sup><a href="https://cplusplus.github.io/LWG/issue3909">(i)</a></sup>. Issues about <code>viewable_range</code></h3>
+<p><b>Section:</b> 99 [ranges.refinements], 26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-03-27 <b>Last modified:</b> 2023-06-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+After LWG <a href="lwg-defects.html#3724" title="decay-copy should be constrained">3724</a>, <code>views::all</code> is well-constrained for view types,
+and the constraints are stronger than <code>viewable_range</code>.
+The difference is that given an expression such that <code>decltype</code> gives <code>R</code>,
+when <code>decay_t&lt;R&gt;</code> is a view type and the implicit conversion of <code>R</code>
+to <code>decay_t&lt;R&gt;</code> is forbidden, <code>views::all</code> rejects the expression,
+but <code>viewable_range</code> may accept <code>R</code>.
+So I think we should remove the additional constraints on <code>views::all_t</code>.
+</p>
+<p>
+While <code>viewable_range</code> is probably not introducing any additional constraint within the standard library,
+I think it is still useful to express the constraints on <code>views::all</code>,
+so it should be slightly adjusted to match <code>views::all</code>.
+</p>
+<p>
+Furthermore, <code>viewable_range</code> is currently used in 26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a>,
+but given <a href="https://wg21.link/P2378R3">P2378R3</a> relaxed the requirements for range adaptor closure objects,
+I think we should also apply similar relaxation for range adaptor objects.
+This should have no impact on standard range adaptor objects.
+</p>
+
+<p><i>[2023-06-01; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively NAD after three votes in favour during reflector poll.
+</p>
+<p>
+"First change is pointless. Second change is a duplicate of <a href="lwg-active.html#3896" title="The definition of viewable_range is not quite right">3896</a>.
+Range adaptors return a view over their first argument, so they need to
+require it's a <code>viewable_range</code>."
+</p>
+
+
+
+<p id="res-3909"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4944" title=" Working Draft, Standard for Programming Language C++">N4944</a>.
+</p>
+
+<ol>
+<li>
+<p>
+Change the definition of <code>views::all_t</code> in 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> as indicated:
+</p>
+<blockquote><pre><code>
+   template&lt;<del>viewable_range</del><ins>class</ins> R&gt;
+      using all_t = decltype(all(declval&lt;R&gt;()));          // freestanding
+</code></pre>
+</blockquote>
+</li>
+<li>
+<p>
+Change the definition of <code>viewable_range</code> in 26.4.5 <a href="https://wg21.link/range.refinements">[range.refinements]</a> as indicated:
+</p>
+<blockquote>
+<p>-6-
+The <code>viewable_range</code> concept specifies the requirements of a <code>range</code> type
+that can be converted to a view safely.
+</p>
+<pre><code>
+template&lt;class T&gt;
+  concept viewable_range =
+    range&lt;T&gt; &amp;&amp;
+    ((view&lt;remove_cvref_t&lt;T&gt;&gt; &amp;&amp; <del>constructible_from&lt;remove_cvref_t&lt;T&gt;, T&gt;</del> <ins>convertible_to&lt;T, remove_cvref_t&lt;T&gt;&gt;</ins>) ||
+     (!view&lt;remove_cvref_t&lt;T&gt;&gt; &amp;&amp;
+      (is_lvalue_reference_v&lt;T&gt; || (movable&lt;remove_reference_t&lt;T&gt;&gt; &amp;&amp; !<i>is-initializer-list</i>&lt;T&gt;))));
+</code></pre>
+</blockquote>
+</li>
+<li>
+<p>
+Change 26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a> as indicated:
+</p>
+<blockquote>
+<p>-6-
+A <i>range adaptor object</i> is a customization point object (16.3.3.3.5 <a href="https://wg21.link/customization.point.object">[customization.point.object]</a>)
+that accepts a <code><del>viewable_range</del><ins>range</ins></code> as its first argument
+and returns a view.
+</p>
+<p>
+[&hellip;]
+</p>
+<p>-8-
+If a range adaptor object <code>adaptor</code> accepts more than one argument,
+then let <code>range</code> be an expression such that <code>decltype((range))</code>
+models <code><del>viewable_range</del><ins>range</ins></code>,
+let <code>args...</code> be arguments such that <code>adaptor(range, args...)</code>
+is a well-formed expression as specified in the rest of subclause 26.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a>,
+and let <code>BoundArgs</code> be a pack that denotes <code>decay_t&lt;decltype((args))&gt;...</code>.
+The expression <code>adaptor(args...)</code> produces a range adaptor closure object
+<code>f</code> that is a perfect forwarding call wrapper (22.10.4 <a href="https://wg21.link/func.require">[func.require]</a>)
+with the following properties: [...]
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="3930"><a href="#3930">3930</a><sup><a href="https://cplusplus.github.io/LWG/issue3930">(i)</a></sup>. Simplify type trait wording</h3>
+<p><b>Section:</b> 21 <a href="https://wg21.link/meta">[meta]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2023-05-01 <b>Last modified:</b> 2023-06-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#meta">active issues</a> in [meta].</p>
+<p><b>View all other</b> <a href="lwg-index.html#meta">issues</a> in [meta].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+There are many traits that have a requirement that they are instantiated only if
+"<code>T</code> shall be a complete type, <i>cv</i> <code>void</code>, or an array of unknown bound."
 <p/>
-Recommended fix:
+Breaking down what this means, by supporting <i>cv</i>-<code>void</code> and arrays of unknown
+bound (almost) the only remaining type-category is incomplete class types.
+<p/>
+The remaining edge case is incomplete enumerations, but they are required to
+have a known fixed-base, so act as complete types, they can be copied,
+assigned, etc., without knowing the names of their enumerators.
+<p/>
+Hence, I suggest clearer wording would be:
+"<code>T</code> shall not be an incomplete class type."
+<p/>
+This is easier to understand, as we do not need to mentally enumerate every
+type against a list to check it qualifies; it is a simpler test for the library to
+check if we were to mandate these restrictions.
+<p/>
+There are a very small number of traits with subtly different wording, where
+incomplete unions are supported, or arrays of unknown bound are not a
+concern due to invoking <code>remove_all_extents</code> first. The bulk of the changes
+can be made to traits with only the precise wording above though, and then
+we can review whether any of the remaining restrictions deserve a wording
+update of their own.
+</p>
+
+<p><i>[2023-06-01; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively NAD after four votes in favour during reflector poll,
+including a request to withdraw the issue from the submitter.
+</p>
+<p>
+Incomplete enumeration types are found within the <i>enum-specifier</i>
+of an enum without a fixed underlying type:
+<pre><code>
+enum E {
+    A = sizeof(E) // error, E is incomplete at this point
+};
+</code></pre>
+and we definitely can't provide an underlying type for this case.
+</p>
+
+
+
+<p id="res-3930"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4944" title=" Working Draft, Standard for Programming Language C++">N4944</a>.
+</p>
+
+<ol>
+<li>
+<p>
+Throughout 21 <a href="https://wg21.link/meta">[meta]</a> replace all occurrences of
+</p>
+<blockquote><p>
+<code>T</code> shall be a complete type, <i>cv</i> <code>void</code>, or an array of unknown bound.
+</p></blockquote>
+<p>
+by
+</p>
+<blockquote><p>
+<code>T</code> shall not be an incomplete class type.
+</p></blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="3936"><a href="#3936">3936</a><sup><a href="https://cplusplus.github.io/LWG/issue3936">(i)</a></sup>. Are implementations allowed to deprecate components not in [depr]?</h3>
+<p><b>Section:</b> D <a href="https://wg21.link/depr">[depr]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-05-22 <b>Last modified:</b> 2023-06-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+D.1 <a href="https://wg21.link/depr.general">[depr.general]</a>/2 allows implementations to apply the
+<code>deprecated</code> attribute to deprecated components.
+However, there doesn't seem to be any wording disallowing applying the
+<code>deprecated</code> attribute to non-deprecated components.
+</p>
+<p>
+Is it intended to allow implementations to deprecate every library component
+as they want? If so, should we turn the allowance into "<i>Recommended practice</i>" and move it to somewhere in 16.4 <a href="https://wg21.link/requirements">[requirements]</a>?
+</p>
+<p>
+There doesn't seem to be wording which formally recommends applying
+<code>deprecated</code> attribute to deprecated components either.
+</p>
+
+<p><i>[2023-06-01; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively NAD after nine votes in favour during reflector poll.
+Let implementations decide when to apply these attributes.
+</p>
+
+
+
+<p id="res-3936"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4950" title=" Working Draft, Standard for Programming Language C++">N4950</a>.
+</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting Note:</i>
+There are two mutually exclusive proposed resolutions,
+depending on whether it is allowed to deprecate components not in
+D <a href="https://wg21.link/depr">[depr]</a>.
+</p>
+</blockquote>
+
+<p><strong>Option A:</strong></p>
+
+<ol>
+<li>
+<p>Insert a paragraph at the end of 16.4.2.2 <a href="https://wg21.link/contents">[contents]</a>:</p>
+
+<blockquote>
+<p>
+<ins>
+-?- <i>Recommended practice</i>:
+Implementations should not apply the <code>deprecated</code> attribute
+(9.12.5 <a href="https://wg21.link/dcl.attr.deprecated">[dcl.attr.deprecated]</a>) to library entities that are not
+specified in D <a href="https://wg21.link/depr">[depr]</a>.
+Implementations should apply the <code>deprecated</code> attribute to
+library entities specified in D <a href="https://wg21.link/depr">[depr]</a> whenever possible.
+</ins>
+</p>
+</blockquote>
+</li>
+</ol>
+
+<p><strong>Option B:</strong></p>
+
+<ol>
+<li>
+<p>Insert two paragraphs at the end of 16.4.2.2 <a href="https://wg21.link/contents">[contents]</a>:</p>
+
+<blockquote>
+<p>
+<ins>
+-?- Implementations shall not apply the <code>deprecated</code> attribute
+(9.12.5 <a href="https://wg21.link/dcl.attr.deprecated">[dcl.attr.deprecated]</a>) to library entities that are not
+specified in D <a href="https://wg21.link/depr">[depr]</a>.
+</ins>
+</p>
+<p>
+<ins>-?- <i>Recommended practice</i>:
+Implementations should apply the <code>deprecated</code> attribute to
+library entities specified in D <a href="https://wg21.link/depr">[depr]</a> whenever possible.
+</ins>
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="3958"><a href="#3958">3958</a><sup><a href="https://cplusplus.github.io/LWG/issue3958">(i)</a></sup>. <code>ranges::to</code> should prioritize the "<code>reserve</code>" branch</h3>
+<p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-07-17 <b>Last modified:</b> 2023-10-30</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.utility.conv.to">issues</a> in [range.utility.conv.to].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+When the constructed range object has no range version constructor, <code>ranges::to</code> falls into a 
+branch designed specifically for C++17-compliant containers, which calls the legacy constructor that 
+accepts an iterator pair with <code>C(ranges::begin(r), ranges::end(r), std::forward&lt;Args&gt;(args)...)</code>.    
+<p/>
+However, this kind of initialization may bring some performance issues, because we split the original 
+range into pairs of iterators, which may lose information contained in the original range, for example:
 </p>
 <blockquote><pre>
-<del>~span() noexcept = default;</del>
+#include &lt;boost/container/vector.hpp&gt;
+#include &lt;sstream&gt;
+#include &lt;ranges&gt;
+
+int main() {
+  std::istringstream ints("1 2 3 4 5");
+  std::ranges::subrange s(std::istream_iterator&lt;int&gt;(ints),
+                          std::istream_iterator&lt;int&gt;(),
+                          5);
+  auto r = std::ranges::to&lt;boost::container::vector&gt;(s); // <span style="color:red;font-weight:bolder">discard size info</span>
+}
 </pre></blockquote>
 <p>
-Alternative fix:
-</p>
-<blockquote><pre>
-~span() <del>noexcept</del> = default;
-</pre></blockquote>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after six votes in favour during reflector poll.
+Above, <code>subrange</code> saves the size information of the stream, but <code>ranges::to</code> only extracts 
+its iterator pair to create the object, so that the original size information is discarded, resulting in 
+unnecessary allocations.
+<p/>
+I believe we should prefer to use the "<code>reserve</code>" branch here because it is really designed for this situation.
 </p>
 
+<p><i>[2023-10-30; Reflector poll]</i></p>
 
-
-<p id="res-3903"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+Set status to Tentatively NAD after reflector poll.
+"This optimizes exotic cases at the expense of realistic cases."
+</p>
+
+
+
+<p id="res-3958"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4950" title=" Working Draft, Standard for Programming Language C++">N4950</a>.
 </p>
 
 <ol>
 
-<li><p>Modify 24.7.2.2.1 <a href="https://wg21.link/span.overview">[span.overview]</a>, class template <tt>span</tt> synopsis, as indicated:</p>
+<li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
 
 <blockquote>
 <pre>
-[&hellip;]
-
-<del>~span() noexcept = default;</del>
-
-[&hellip;]
+template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
+  constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
 </pre>
+<blockquote>
+<p>
+-1- <i>Mandates</i>: <code>C</code> is a cv-unqualified class type.
+</p>
+<p>
+-2- <i>Returns</i>: An object of type <code>C</code> constructed from the elements of <code>r</code> in the following manner:
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; If <code>C</code> does not satisfy <code>input_range</code> or <code>convertible_to&lt;range_reference_t&lt;R&gt;, 
+range_value_t&lt;C&gt;&gt;</code> is <code>true</code>:</p></li>
+<ol style="list-style-type: none">
+<li><p>(2.1.1) &mdash; If <code>constructible_from&lt;C, R, Args...&gt;</code> is <code>true</code>:</p>
+<blockquote><code>C(std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</code></blockquote></li>
+<li><p>(2.1.2) &mdash; Otherwise, if <code>constructible_from&lt;C, from_range_t, R, Args...&gt;</code> is <code>true</code>:</p>
+<blockquote><code>C(from_range, std::forward&lt;R&gt;(r), std::forward&lt;Args&gt;(args)...)</code></blockquote></li>
+<li><p><del>(2.1.3) &mdash; Otherwise, if</del></p></li>
+<ol style="list-style-type: none">
+<li><p><del>(2.1.3.1) &mdash; <code>common_range&lt;R&gt;</code> is <code>true</code>,</del></p></li>
+<li><p><del>(2.1.3.2) &mdash; the <i>qualified-id</i>  
+<code>iterator_traits&lt;iterator_t&lt;R&gt;&gt;::iterator_category</code> is valid and denotes a type that models 
+<code>derived_from&lt;input_iterator_tag&gt;</code>, and</del></p></li>
+<li><p><del>(2.1.3.3) &mdash; <code>constructible_from&lt;C, iterator_t&lt;R&gt;, sentinel_t&lt;R&gt;, Args...&gt;</code> 
+is <code>true</code>:</del></p>
+<blockquote><pre><del>C(ranges::begin(r), ranges::end(r), std::forward&lt;Args&gt;(args)...)</del></pre></blockquote></li>
+</ol>
+<li><p>(2.1.4) &mdash; Otherwise, if</p></li>
+<ol style="list-style-type: none">
+<li><p>(2.1.4.1) &mdash; <code>constructible_from&lt;C, Args...&gt;</code> is <code>true</code>, and</p></li>
+<li><p>(2.1.4.2) &mdash; <code><i>container-insertable</i>&lt;C, range_reference_t&lt;R&gt;&gt;</code> is <code>true</code>:</p>
+<blockquote><pre>
+C c(std::forward&lt;Args&gt;(args)...);
+if constexpr (sized_range&lt;R&gt; &amp;&amp; <i>reservable-container</i>&lt;C&gt;)
+  c.reserve(static_cast&lt;range_size_t&lt;C&gt;&gt;(ranges::size(r)));
+ranges::copy(r, <i>container-inserter</i>&lt;range_reference_t&lt;R&gt;&gt;(c));
+</pre></blockquote></li>
+</ol>
+<li><p><ins>(?.?.?) &mdash; Otherwise, if</ins></p></li>
+<ol style="list-style-type: none">
+<li><p><ins>(?.?.?.?) &mdash; <code>common_range&lt;R&gt;</code> is <code>true</code>,</ins></p></li>
+<li><p><ins>(?.?.?.?) &mdash; the <i>qualified-id</i> <code>iterator_traits&lt;iterator_t&lt;R&gt;&gt;::iterator_category</code> 
+is valid and denotes a type that models <code>derived_from&lt;input_iterator_tag&gt;</code>, and</ins></p></li>
+<li><p><ins>(?.?.?.?) &mdash; <code>constructible_from&lt;C, iterator_t&lt;R&gt;, sentinel_t&lt;R&gt;, Args...&gt;</code> 
+is <code>true</code>:</ins></p>
+<blockquote><pre><ins>C(ranges::begin(r), ranges::end(r), std::forward&lt;Args&gt;(args)...)</ins></pre></blockquote></li>
+</ol>
+</ol>
+<li><p>(2.2) &mdash; Otherwise, if <code>input_range&lt;range_reference_t&lt;R&gt;&gt;</code> is <code>true</code>:</p>
+<blockquote><pre>
+to&lt;C&gt;(r | views::transform([](auto&amp;&amp; elem) {
+  return to&lt;range_value_t&lt;C&gt;&gt;(std::forward&lt;decltype(elem)&gt;(elem));
+}), std::forward&lt;Args&gt;(args)...);
+</pre></blockquote></li>
+<li><p>(2.3) &mdash; Otherwise, the program is ill-formed.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="3980"><a href="#3980">3980</a><sup><a href="https://cplusplus.github.io/LWG/issue3980">(i)</a></sup>. The read exclusive ownership of an atomic read-modify-write operation and whether its read and write are two operations are unclear</h3>
+<p><b>Section:</b> 33.5.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> jim x <b>Opened:</b> 2023-08-22 <b>Last modified:</b> 2023-11-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#atomics.order">active issues</a> in [atomics.order].</p>
+<p><b>View all other</b> <a href="lwg-index.html#atomics.order">issues</a> in [atomics.order].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Such two questions are sourced from StackOverflow:
+</p>
+<ol>
+<li><p><a href="https://stackoverflow.com/questions/77126045/can-the-read-operations-in-compare-exchange-strong-in-different-two-thread-rea/77126363?noredirect=1#comment135968355_77126363">Can the read operations in <code>compare_exchange_strong</code> in different two thread read the same value?</a></p></li>
+<li><p><a href="https://stackoverflow.com/questions/65568185/for-purposes-of-ordering-is-atomic-read-modify-write-one-operation-or-two">For purposes of ordering, is atomic read-modify-write one operation or two?</a></p></li>
+</ol>
+<p>
+Given this example:
+</p>
+<blockquote>
+<pre>
+#include &lt;iostream&gt;
+#include &lt;atomic&gt;
+#include &lt;thread&gt;
+
+struct SpinLock{
+  std::atomic&lt;bool&gt; atomic_;
+  void lock(){
+    bool expected = false;
+    while (!atomic_.compare_exchange_strong(expected,true,std::memory_order_release,std::memory_order_relaxed)) {
+    }
+  }
+  void unlock(){
+    atomic_.store(false, std::memory_order_release);
+  }
+};
+
+int main(){
+  SpinLock spin{false};
+  auto t1 = std::thread([&amp;](){
+    spin.lock();
+    spin.unlock();
+  });
+  auto t2 = std::thread([&amp;](){
+    spin.lock();
+    spin.unlock();
+  });
+  t1.join();
+  t2.join();
+}
+</pre>
+</blockquote>
+<p>
+In the current draft, the relevant phrasing that can interpret that only one read-modify-write operation reads the initial 
+value false is 33.5.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a> p10:
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;"><p>
+Atomic read-modify-write operations shall always read the last value (in the modification order) written before the write 
+associated with the read-modify-write operation.
+</p></blockquote>
+<p>
+However, the wording can have two meanings, each kind of read can result in different explanations for the example
+</p>
+<ol>
+<li><p>The check of the violation is done before the side effect of the RMW is in the modification order, i.e. the rule is 
+just checked at the read point.</p></li>
+<li><p>The check of the violation is done after the side effect of the RMW is in the modification order, i.e. the rule is 
+checked when <code>RMW</code> tries to add the side effect that is based on the read-value to the modification order, and that 
+side effect wouldn't be added to the modification order if the rule was violated.</p></li>
+</ol>
+<p>
+With the first interpretation, the two RMW operations can read the same initial value because that value is indeed the last value 
+in the modification order before such two RMW operations produce the side effect to the modification order.
+<p/>
+With the second interpretation, there is only one RMW operation that can read the initial value because the latter one in 
+the modification order would violate the rule if it read the initial value.
+<p/>
+Such two interpretations arise from that the wording doesn't clearly specify when that check is performed.
+<p/>
+So, my proposed wording is:
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;"><p>
+Atomic read-modify-write operations shall always read the value from a side effect <code>X</code>, where <code>X</code> 
+immediately precedes the side effect of the read-modify-write operation in the modification order.
+</p></blockquote>
+<p>
+This wording keeps a similar utterance to 6.9.2.2 <a href="https://wg21.link/intro.races">[intro.races]</a>, and it can clearly convey the meaning 
+that we say the value read by <code>RWM</code> is associated with the side effect of <code>RMW</code> in the modification order.
+<p/>
+Relevant discussion can be seen <a href="https://github.com/cplusplus/CWG/issues/423">CWG/issues/423</a> here.
+</p>
+
+<p><i>[2023-11-03; Reflector poll]</i></p>
+
+<p>NAD. The first reading isn't plausible. </p>
+
+
+
+<p id="res-3980"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 33.5.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-10- Atomic read-modify-write operations shall always read the <del>last</del> value <ins>from a side effect <i>X</i>, 
+where <i>X</i> immediately precedes the side effect of the read-modify-write operation</ins> <del>(</del>in the 
+modification order<del>) written before the write associated with the read-modify-write operation</del>.
+<p/>
+-11- Implementations should make atomic stores visible to atomic loads within a reasonable amount of time.
+</p>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="3981"><a href="#3981">3981</a><sup><a href="https://cplusplus.github.io/LWG/issue3981">(i)</a></sup>. Range adaptor closure object is underspecified for its return type</h3>
+<p><b>Section:</b> 26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-08-22 <b>Last modified:</b> 2023-10-30</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.adaptor.object">active issues</a> in [range.adaptor.object].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.adaptor.object">issues</a> in [range.adaptor.object].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In order to provide pipe support for user-defined range adaptors, <a href="https://wg21.link/P2387R3" title=" Pipe support for user-defined range adaptors">P2387R3</a> 
+removed the specification that the adaptor closure object returns a view, which conforms to the wording of <code>ranges::to</code>.
+<p/>
+However, the current wording seems to be too low-spec so that the range adaptor closure object can return any type 
+or even <code>void</code>. This makes it possible to break the previous specification when returning types that don't make sense, 
+<a href="https://godbolt.org/z/Y4nvjY3xj">for example</a>:
+</p>
+<blockquote>
+<pre>
+#include &lt;ranges&gt;
+
+struct Closure : std::ranges::range_adaptor_closure&lt;Closure&gt; {
+  struct NonCopyable {
+    NonCopyable(const NonCopyable&amp;) = delete;
+  };
+
+  const NonCopyable&amp; operator()(std::ranges::range auto&amp;&amp;);
+};
+
+auto r = std::views::iota(0) | Closure{}; // <span style="color:red;font-weight:bolder">hard error in stdlibc++ and MSVC-STL</span>
+</pre></blockquote>
+<p>
+Above, since the return type of the pipeline operator is declared as <code>auto</code>, this causes the deleted 
+copy constructor to be invoked in the function body and produces a hard error.
+<p/>
+The proposed resolution adds a specification for the range adaptor closure object to return a <i>cv</i>-unqualified class type.
+</p>
+
+<p><i>[2023-10-30; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively NAD.
+"The wording says <code>R | C</code> is equivalent to <code>C(R)</code>,
+not <code>auto(C(R))</code>."
+</p>
+
+
+
+<p id="res-3981"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.7.2 <a href="https://wg21.link/range.adaptor.object">[range.adaptor.object]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- A <i>range adaptor closure object</i> is a unary function object that accepts a range argument. For a range adaptor
+closure object <code>C</code> and an expression <code>R</code> such that <code>decltype((R))</code> models <code>range</code>, the 
+following expressions are equivalent:
+</p>
+<p>[&hellip;]</p>
+<p>
+-2- Given an object <code>t</code> of type <code>T</code>, where
+</p>
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; <code>t</code> is a unary function object that accepts a range argument <ins>and returns a 
+<i>cv</i>-unqualified class object</ins>,</p></li>
+<p>[&hellip;]</p>
+</ol>
+<p>
+then the implementation ensures that <code>t</code> is a range adaptor closure object.
+</p>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="3982"><a href="#3982">3982</a><sup><a href="https://cplusplus.github.io/LWG/issue3982">(i)</a></sup>. <code><i>is-derived-from-view-interface</i></code> should require that <code>T</code> is derived from <code>view_interface&lt;T&gt;</code></h3>
+<p><b>Section:</b> 26.4.4 <a href="https://wg21.link/range.view">[range.view]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-08-22 <b>Last modified:</b> 2023-10-30</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.view">issues</a> in [range.view].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, the wording of <code><i>is-derived-from-view-interface</i></code> only detects whether type <code>T</code> is unambiguously 
+derived from one base class <code>view_interface&lt;U&gt;</code> where <code>U</code> is not required to be <code>T</code>, which is not 
+the intention of CRTP.
+</p>
+
+<p><i>[2023-10-30; Reflector poll]</i></p>
+
+<p>Set status to Tentatively NAD.
+The wording correctly handles the case where T derives from <code>Base</code>
+which derives from <code>view_interface&lt;Base&gt;</code>.
+We don't want it to only be satisfied for direct inheritance from
+<code>view_interface&lt;T&gt;</code>, but from any specialization of
+<code>view_interface</code>.
+Previously the concept only checked for inheritance from <code>view_base</code>
+but it was changed when <code>view_interface</code> stopped inheriting from
+<code>view_base</code>.
+</p>
+
+
+
+<p id="res-3982"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.4.4 <a href="https://wg21.link/range.view">[range.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T&gt;
+  constexpr bool <i>is-derived-from-view-interface</i> = <i>see below</i>;            // exposition only
+template&lt;class T&gt;
+  constexpr bool enable_view =
+    derived_from&lt;T, view_base&gt; || <i>is-derived-from-view-interface</i>&lt;T&gt;;
+</pre>
+<blockquote>
+<p>
+-6- For a type <code>T</code>, <code><i>is-derived-from-view-interface</i>&lt;T&gt;</code>
+is <code>true</code> if and only if <code>T</code> has exactly one public base class
+<code>view_interface&lt;<ins>T</ins><del>U</del>&gt;</code> <del>for some type <code>U</code></del> and
+<code>T</code> has no base classes of type <code>view_interface&lt;<ins>U</ins><del>V</del>&gt;</code> for any
+other type <code><ins>U</ins><del>V</del></code>.
+<p/>
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="3996"><a href="#3996">3996</a><sup><a href="https://cplusplus.github.io/LWG/issue3996">(i)</a></sup>. <code>projected&lt;I, identity&gt;</code> should just be <code>I</code></h3>
+<p><b>Section:</b> 25.3.6.4 <a href="https://wg21.link/projected">[projected]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-10-12 <b>Last modified:</b> 2023-11-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#projected">issues</a> in [projected].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, <code>projected</code> is a wrapper of the implementation type regardless of whether <code>Proj</code> is <code>identity</code>.
+<p/>
+Since <code>identity</code> always returns a reference, this prevents <code>projected&lt;I, identity&gt;</code> from fully 
+emulating the properties of the original iterator when its reference is a prvalue. 
+<p/>
+Such non-equivalence may lead to unexpected behavior in some cases (<a href="https://godbolt.org/z/KM45ndWvh">demo</a>):
+</p>
+<blockquote><pre>
+#include &lt;algorithm&gt;
+#include &lt;ranges&gt;
+#include &lt;iostream&gt;
+
+int main() {
+  auto outer = std::views::iota(0, 5)
+             | std::views::transform([](int i) {
+                 return std::views::single(i) | std::views::filter([](int) { return true; });
+               });
+  
+  for (auto&amp;&amp; inner : outer)
+    for (auto&amp;&amp; elem : inner)
+      std::cout &lt;&lt; elem &lt;&lt; " "; // 0 1 2 3 4 
+  
+  std::ranges::for_each(
+    outer,
+    [](auto&amp;&amp; inner) {
+      // <span  style="color:#C80000;font-weight:bold">error: passing 'const filter_view' as 'this' argument discards qualifiers</span>
+      for (auto&amp;&amp; elem : inner)
+        std::cout &lt;&lt; elem &lt;&lt; " ";
+    });
+}
+</pre></blockquote>
+<p>
+In the above example, <code>ranges::for_each</code> requires <code>indirect_unary_predicate&lt;Pred, projected&lt;I, identity&gt;&gt;</code>
+which ultimately requires <code>invocable&lt;Pred&amp;, iter_common_reference_t&lt;projected&lt;I, identity&gt;&gt;&gt;</code>.
+<p/> 
+According to the current wording, the reference and indirect value type of <code>projected&lt;I, identity&gt;</code> are 
+<code>filter_view&amp;&amp;</code> and <code>filter_view&amp;</code> respectively, which causes its common reference to be eventually 
+calculated as <code>const filter_view&amp;</code>. Since the former is not <code>const</code>-iterable, this results in a hard error 
+during instantiation because <code>const begin</code> is called unexpectedly in an unconstrained lambda.
+</p>
+<p>
+It seems like having <code>projected&lt;I, identity&gt;</code> just be <code>I</code> is a more appropriate choice, 
+which makes the concept checking really specific to <code>I</code> rather than a potentially incomplete iterator wrapper.
+</p>
+
+<p><i>[2023-11-03; Reflector poll]</i></p>
+
+<p>
+NAD. <a href="https://wg21.link/P2997" title=" Removing the common reference requirement from the indirectly invocable concepts">P2997</a> solves this, and more.
+"Applying the projection does in fact materialize prvalues,
+so this is just lying unless we special-case identity everywhere."
+</p>
+
+
+
+<p id="res-3996"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 25.3.6.4 <a href="https://wg21.link/projected">[projected]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- Class template <code>projected</code> is used to constrain algorithms that accept callable objects and projections 
+(3.42 <a href="https://wg21.link/defns.projection">[defns.projection]</a>). It combines an <code>indirectly_readable</code> type <code>I</code> and a callable 
+object type <code>Proj</code> into a new <code>indirectly_readable</code> type whose <code>reference</code> type is the 
+result of applying <code>Proj</code> to the <code>iter_reference_t</code> of <code>I</code>.
+</p>
+<blockquote><pre>
+namespace std {
+  template&lt;class I, class Proj&gt;
+  struct <i>projected-impl</i> {                               // <i>exposition only</i>
+    struct <i>type</i> {                                       // <i>exposition only</i>
+      using value_type = remove_cvref_t&lt;indirect_result_t&lt;Proj&amp;, I&gt;&gt;;
+      using difference_type = iter_difference_t&lt;I&gt;;     // <i>present only if</i> I
+                                                        // <i>models</i> weakly_incrementable
+      indirect_result_t&lt;Proj&amp;, I&gt; operator*() const;    // <i>not defined</i>
+    };
+  };
+
+  template&lt;indirectly_readable I, indirectly_regular_unary_invocable&lt;I&gt; Proj&gt;
+    using projected = <ins>conditional_t&lt;is_same_v&lt;Proj, identity&gt;, I, typename</ins> <i>projected-impl</i>&lt;I, Proj&gt;::type<ins>&gt;</ins>;
+}
+</pre></blockquote>
+</blockquote>
+
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4003"><a href="#4003">4003</a><sup><a href="https://cplusplus.github.io/LWG/issue4003">(i)</a></sup>. <code>view_interface::back</code> is overconstrained</h3>
+<p><b>Section:</b> 26.5.3 <a href="https://wg21.link/view.interface">[view.interface]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-10-28 <b>Last modified:</b> 2023-11-07</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#view.interface">issues</a> in [view.interface].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, <code>view_interface</code> only provides the <code>back</code> member when the derived class satisfies both 
+<code>bidirectional_range</code> and <code>common_range</code>, which ensures that <code>ranges::prev</code> can act its sentinel.
+<p/>
+However, requiring <code>common_range</code> seems to be too strict because when the derived class satisfies both 
+<code>random_access_range</code> and <code>sized_range</code>, its end iterator can still be calculated in constant time, 
+which is what some range adaptors currently do to greedily become common ranges.
+<p/>
+I think we should follow similar rules to eliminate this inconsistency (<a href="https://godbolt.org/z/1oEf58Krh">demo</a>):
+</p>
+<blockquote><pre>
+#include &lt;ranges&gt;
+
+constexpr auto r = std::ranges::subrange(std::views::iota(0), 5);
+constexpr auto z = std::views::zip(r);
+static_assert(r.back() == 4); // <span style="color:red;font-weight:bolder">ill-formed</span>
+static_assert(std::get&lt;0&gt;(z.back()) == 4); // ok
+</pre></blockquote>
+
+<p><i>[2023-11-07; Reflector poll]</i></p>
+
++<p>NAD. "During the <code>concat</code> discussion LEWG decided not to
+support the corner case of random-access sized but not-common ranges."
+"If we did want to address such ranges, would be better to enforce commonness
+for random-access sized ranges by having <code>ranges::end</code> return
+<code>ranges::begin(r) + ranges::size(r)</code>."
+</p>
+
+
+<p id="res-4003"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4964" title=" Working Draft, Programming Languages — C++">N4964</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.5.3 <a href="https://wg21.link/view.interface">[view.interface]</a>, class template <code>view_interface</code> synopsis, as indicated:</p>
+
+<blockquote><pre>
+namespace std::ranges {
+  template&lt;class D&gt;
+    requires is_class_v&lt;D&gt; &amp;&amp; same_as&lt;D, remove_cv_t&lt;D&gt;&gt;
+  class view_interface {
+    [&hellip;]
+  public:
+    [&hellip;]
+    constexpr decltype(auto) back() requires <ins>(</ins>bidirectional_range&lt;D&gt; &amp;&amp; common_range&lt;D&gt;<ins>) ||</ins>
+                                             <ins>(random_access_range&lt;D&gt; &amp;&amp; sized_range&lt;D&gt;)</ins>;
+    constexpr decltype(auto) back() const
+      requires <ins>(</ins>bidirectional_range&lt;const D&gt; &amp;&amp; common_range&lt;const D&gt;<ins>) ||</ins>
+               <ins>(random_access_range&lt;const D&gt; &amp;&amp; sized_range&lt;const D&gt;)</ins>;
+    [&hellip;]
+  };
+}
+</pre></blockquote>
+
+</li>
+
+<li><p>Modify 26.5.3.2 <a href="https://wg21.link/view.interface.members">[view.interface.members]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+constexpr decltype(auto) back() requires <ins>(</ins>bidirectional_range&lt;D&gt; &amp;&amp; common_range&lt;D&gt;<ins>) ||</ins>
+                                         <ins>(random_access_range&lt;D&gt; &amp;&amp; sized_range&lt;D&gt;)</ins>;
+constexpr decltype(auto) back() const
+  requires <ins>(</ins>bidirectional_range&lt;const D&gt; &amp;&amp; common_range&lt;const D&gt;<ins>) ||</ins>
+           <ins>(random_access_range&lt;const D&gt; &amp;&amp; sized_range&lt;const D&gt;)</ins>;
+</pre>
+<blockquote>
+<p>
+-3- <i>Preconditions</i>: <code>!empty()</code> is <code>true</code>.
+<p/>
+-4- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+<ins>auto <i>common-arg-end</i> = []&lt;class R&gt;(R&amp; r) {
+  if constexpr (common_range&lt;R&gt;) {
+    return ranges::end(r);
+  } else {
+    return ranges::begin(r) + ranges::distance(r);
+  }
+};</ins>
+return *ranges::prev(<ins><i>common-arg-end</i></ins><del>ranges::end</del>(<i>derived</i>()));
+</pre></blockquote>
+</blockquote>
 </blockquote>
 
 </li>

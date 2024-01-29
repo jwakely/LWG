@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3436: std::construct_at should support arrays</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3436" href="lwg-active.html#3436">3436</a>. <tt>std::construct_at</tt> should support arrays</h3>
+<h3 id="3436"><a href="lwg-active.html#3436">3436</a>. <code>std::construct_at</code> should support arrays</h3>
 <p><b>Section:</b> 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-29 <b>Last modified:</b> 2021-12-11</p>
 <p><b>Priority: </b>2
@@ -55,21 +66,21 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-<tt>std::construct_at</tt> is ill-formed for array types, because the type of the <tt>new</tt>-expression is <tt>T</tt> 
-not <tt>T*</tt> so it cannot be converted to the return type.
+<code>std::construct_at</code> is ill-formed for array types, because the type of the <code>new</code>-expression is <code>T</code> 
+not <code>T*</code> so it cannot be converted to the return type.
 <p/>
-In C++17 <tt>allocator_traits::construct</tt> did work for arrays, because it returns <tt>void</tt> so there is no 
-ill-formed conversion. On the other hand, in C++17 <tt>allocator_traits::destroy</tt> didn't work for arrays, 
-because <tt>p-&gt;~T()</tt> isn't valid.
+In C++17 <code>allocator_traits::construct</code> did work for arrays, because it returns <code>void</code> so there is no 
+ill-formed conversion. On the other hand, in C++17 <code>allocator_traits::destroy</code> didn't work for arrays, 
+because <code>p-&gt;~T()</code> isn't valid.
 <p/>
-In C++20 <tt>allocator_traits::destroy</tt> does work, because <tt>std::destroy_at</tt> treats arrays specially, 
-but <tt>allocator_traits::construct</tt> no longer works because it uses <tt>std::construct_at</tt>.
+In C++20 <code>allocator_traits::destroy</code> does work, because <code>std::destroy_at</code> treats arrays specially, 
+but <code>allocator_traits::construct</code> no longer works because it uses <code>std::construct_at</code>.
 <p/>
-It seems unnecessary and/or confusing to remove support for arrays in <tt>construct</tt> when we're adding it in <tt>destroy</tt>.
+It seems unnecessary and/or confusing to remove support for arrays in <code>construct</code> when we're adding it in <code>destroy</code>.
 <p/>
-I suggest that <tt>std::construct_at</tt> should also handle arrays. It might be reasonable to restrict that 
-support to the case where <tt>sizeof...(Args) == 0</tt>, if supporting parenthesized aggregate-initialization 
-is not desirable in <tt>std::construct_at</tt>.
+I suggest that <code>std::construct_at</code> should also handle arrays. It might be reasonable to restrict that 
+support to the case where <code>sizeof...(Args) == 0</code>, if supporting parenthesized aggregate-initialization 
+is not desirable in <code>std::construct_at</code>.
 </p>
 
 <p><i>[2020-05-09; Reflector prioritization]</i></p>
@@ -86,7 +97,7 @@ Set priority to 2 after reflector discussions.
 </p>
 <blockquote class="note">
 <p>
-This wording is relative to <a href="https://wg21.link/N4878">N4878</a>. 
+This wording is relative to <a href="https://wg21.link/N4878" title=" Working Draft, Standard for Programming Language C++">N4878</a>. 
 </p>
 
 <ol>
@@ -104,7 +115,7 @@ namespace ranges {
 </pre>
 <blockquote>
 <p>
--1- <i>Constraints:</i> The expression <tt>::new (declval&lt;void*&gt;()) T(declval&lt;Args&gt;()...)</tt> is well-formed
+-1- <i>Constraints:</i> The expression <code>::new (declval&lt;void*&gt;()) T(declval&lt;Args&gt;()...)</code> is well-formed
 when treated as an unevaluated operand.
 <p/>
 -2- <i>Effects:</i> Equivalent to:
@@ -126,7 +137,7 @@ else
 
 <p>
 The previous PR allows constructing arbitrary number of elements when
-<tt>T</tt> is an array of unknown bound:</p>
+<code>T</code> is an array of unknown bound:</p>
 <blockquote><pre>
 extern int a[];
 std::construct_at(&amp;a, 0, 1, 2);
@@ -138,7 +149,7 @@ and leads to a UB.
 
 <p id="res-3436"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4901">N4901</a>. 
+This wording is relative to <a href="https://wg21.link/N4901" title=" Working Draft, Standard for Programming Language C++">N4901</a>. 
 </p>
 
 <ol>
@@ -156,9 +167,9 @@ namespace ranges {
 </pre>
 <blockquote>
 <p>
--1- <i>Constraints:</i> The expression <tt>::new (declval&lt;void*&gt;()) T(declval&lt;Args&gt;()...)</tt> is well-formed
-when treated as an unevaluated operand (7.2.3 <a href="https://wg21.link/expr.context">[expr.context]</a>) <ins>and <tt>is_unbounded_array_v&lt;T&gt;</tt> is 
-<tt>false</tt></ins>.
+-1- <i>Constraints:</i> The expression <code>::new (declval&lt;void*&gt;()) T(declval&lt;Args&gt;()...)</code> is well-formed
+when treated as an unevaluated operand (7.2.3 <a href="https://wg21.link/expr.context">[expr.context]</a>) <ins>and <code>is_unbounded_array_v&lt;T&gt;</code> is 
+<code>false</code></ins>.
 <p/>
 -2- <i>Effects:</i> Equivalent to:
 </p>

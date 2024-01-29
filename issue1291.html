@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 1291: Exceptions thrown during promise::set_value</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
-<h3><a name="1291" href="lwg-defects.html#1291">1291</a>. Exceptions thrown during <tt>promise::set_value</tt></h3>
+<h3 id="1291"><a href="lwg-defects.html#1291">1291</a>. Exceptions thrown during <code>promise::set_value</code></h3>
 <p><b>Section:</b> 33.10.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2009-12-18 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
@@ -59,20 +70,20 @@ In 33.10.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>
 </p>
 
 <p>
-Does <tt>promise&lt;R&gt;::set_value</tt> return normally if the copy&#47;move
-constructor of <tt>R</tt> throws?
+Does <code>promise&lt;R&gt;::set_value</code> return normally if the copy&#47;move
+constructor of <code>R</code> throws?
 </p>
 
 <p>
 The exception could be caught and set using
-<tt>promise&lt;R&gt;::set_exception</tt>, or it could be allowed to leave the
-<tt>set_value</tt> call, but it's not clear which is intended. I suggest the
+<code>promise&lt;R&gt;::set_exception</code>, or it could be allowed to leave the
+<code>set_value</code> call, but it's not clear which is intended. I suggest the
 exception should not be caught.
 </p>
 
 <p>
-N.B. This doesn't apply to <tt>promise&lt;R&amp;&gt;::set_value</tt> or
-<tt>promise&lt;void&gt;::set_value</tt> because they don't construct a new
+N.B. This doesn't apply to <code>promise&lt;R&amp;&gt;::set_value</code> or
+<code>promise&lt;void&gt;::set_value</code> because they don't construct a new
 object.
 </p>
 
@@ -96,10 +107,10 @@ Change 33.10.6 <a href="https://wg21.link/futures.promise">[futures.promise]</a>
 </p>
 
 <blockquote><p>
-18 <i>Throws:</i> <tt>future_error</tt> if its associated state is already
+18 <i>Throws:</i> <code>future_error</code> if its associated state is already
 ready<ins> or, for the first version an exception thrown by the copy constructor
-of <tt>R</tt>, or for the second version an exception thrown by the move
-constructor of <tt>R</tt></ins>.
+of <code>R</code>, or for the second version an exception thrown by the move
+constructor of <code>R</code></ins>.
 </p></blockquote>
 
 

@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3197: std::prev should not require BidirectionalIterator</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3197" href="lwg-active.html#3197">3197</a>. <tt>std::prev</tt> should not require <tt>BidirectionalIterator</tt></h3>
+<h3 id="3197"><a href="lwg-active.html#3197">3197</a>. <code>std::prev</code> should not require <code>BidirectionalIterator</code></h3>
 <p><b>Section:</b> 25.4.3 <a href="https://wg21.link/iterator.operations">[iterator.operations]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2019-04-03 <b>Last modified:</b> 2022-04-22</p>
 <p><b>Priority: </b>3
@@ -55,15 +66,15 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-MSVC++ (and apparently libc++) have asserts that <tt>std::prev</tt> only accepts <tt>BidirectionalIterator</tt>s, 
-because it's declared in the standard as accepting only <tt>BidirectionalIterator</tt>. libc++ changed their tests 
+MSVC++ (and apparently libc++) have asserts that <code>std::prev</code> only accepts <code>BidirectionalIterator</code>s, 
+because it's declared in the standard as accepting only <code>BidirectionalIterator</code>. libc++ changed their tests 
 (in <a href="https://github.com/llvm/llvm-project/commit/f51ee632475654a396f93da9d36841989e1c7742">this commit</a>), 
-apparently from a bug report from Ville and Jonathan, saying that one could theoretically call <tt>std::prev</tt> 
+apparently from a bug report from Ville and Jonathan, saying that one could theoretically call <code>std::prev</code> 
 with a negative number.
 <p/>
-The standardese in [iterator.operations] strongly indicates that <tt>prev</tt> requires a <tt>BidirectionalIterator</tt>, 
-but I don't see the usual wording that connects template type parameters of that name to the <tt>&lt;algorithm&gt;</tt> 
-requirements or similar. So perhaps one could argue that the name <tt>Bidirectional</tt> there has no meaning. Even 
+The standardese in [iterator.operations] strongly indicates that <code>prev</code> requires a <code>BidirectionalIterator</code>, 
+but I don't see the usual wording that connects template type parameters of that name to the <code>&lt;algorithm&gt;</code> 
+requirements or similar. So perhaps one could argue that the name <code>Bidirectional</code> there has no meaning. Even 
 if that is the case, that's a defect in the other direction.
 </p>
 
@@ -74,16 +85,16 @@ if that is the case, that's a defect in the other direction.
 
 <p>
 <a href="https://wg21.link/p2408">P2408</a> changes the requirements for
-types substituting <tt>BidirectionalIterator</tt> etc. in the Algorithms clause.
+types substituting <code>BidirectionalIterator</code> etc. in the Algorithms clause.
 We should consider whether that is appropriate here, especially as algorithms
-might make use of <tt>std::prev</tt> internally.
+might make use of <code>std::prev</code> internally.
 An algorithm that was changed by P2408 to accept types that model
-<tt>bidirectional_iterator</tt> instead of requiring
-<tt><i>Cpp17BidirectionalIterator</i></tt> might have to stop using
-<tt>std::prev</tt> if we don't resolve this issue to allow it.
+<code>bidirectional_iterator</code> instead of requiring
+<code><i>Cpp17BidirectionalIterator</i></code> might have to stop using
+<code>std::prev</code> if we don't resolve this issue to allow it.
 </p>
 <p>
-We should consider whether <tt>distance</tt>, <tt>advance</tt> and <tt>next</tt>
+We should consider whether <code>distance</code>, <code>advance</code> and <code>next</code>
 need the same treatment.
 </p>
 
@@ -101,7 +112,7 @@ need the same treatment.
 <p><b>Option A</b></p>
 
 <ol>
-<li><p>NAD, the name <tt>BidirectionalIterator</tt> actually means that <tt>prev</tt> requires bidirectional iterators, in which 
+<li><p>NAD, the name <code>BidirectionalIterator</code> actually means that <code>prev</code> requires bidirectional iterators, in which 
 case this change to libcxx is incorrect.</p>
 </li>
 </ol>
@@ -109,7 +120,7 @@ case this change to libcxx is incorrect.</p>
 <p><b>Option B</b></p>
 
 <ol>
-<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <tt>&lt;iterator&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <code>&lt;iterator&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -131,7 +142,7 @@ template&lt;class <del>Bidirectional</del><ins>Input</ins>Iterator&gt;
 </pre>
 <blockquote>
 <p>
--7- <i>Effects:</i> Equivalent to: <tt>advance(x, -n); return x;</tt>
+-7- <i>Effects:</i> Equivalent to: <code>advance(x, -n); return x;</code>
 </p>
 </blockquote>
 </blockquote>

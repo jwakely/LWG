@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3830: reverse_view should not cache when ranges::next has constant time complexity</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3830" href="lwg-active.html#3830">3830</a>. <tt>reverse_view</tt> should not cache when <tt>ranges::next</tt> has constant time complexity</h3>
+<h3 id="3830"><a href="lwg-active.html#3830">3830</a>. <code>reverse_view</code> should not cache when <code>ranges::next</code> has constant time complexity</h3>
 <p><b>Section:</b> 26.7.20.2 <a href="https://wg21.link/range.reverse.view">[range.reverse.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-11-14 <b>Last modified:</b> 2022-11-30</p>
 <p><b>Priority: </b>3
@@ -54,10 +65,10 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-In order to ensure that <tt>begin</tt> has an amortized constant time, when the underlying range is not a 
-common range, <tt>reverse_view</tt> always caches the result of <tt>ranges::next</tt>.
+In order to ensure that <code>begin</code> has an amortized constant time, when the underlying range is not a 
+common range, <code>reverse_view</code> always caches the result of <code>ranges::next</code>.
 <p/>
-However, for some non-common ranges, incrementing its <tt>begin</tt> to <tt>end</tt> still guarantees constant time, 
+However, for some non-common ranges, incrementing its <code>begin</code> to <code>end</code> still guarantees constant time, 
 for example:
 </p>
 <blockquote><pre>
@@ -78,9 +89,9 @@ int main() {
 }
 </pre></blockquote>
 <p>
-In the above example, although neither <tt>subrange</tt> is a common range, applying <tt>ranges::next</tt> 
+In the above example, although neither <code>subrange</code> is a common range, applying <code>ranges::next</code> 
 to their iterator-sentinel pairs is still constant time, in this case, there's no need to introduce a cache for 
-<tt>reverse_view</tt> to store the results. We shouldn't pay for things we don't need to use.
+<code>reverse_view</code> to store the results. We shouldn't pay for things we don't need to use.
 </p>
 
 <p><i>[2022-11-30; Reflector poll]</i></p>
@@ -91,7 +102,7 @@ Set priority to 3 after reflector poll.
 <p>
 "NAD as specified, the <i>Remarks</i> don't need to be precise, they already
 allow caching to be omitted if not needed. But we could still enable const
-overloads of <tt>begin</tt> for cases like these."
+overloads of <code>begin</code> for cases like these."
 </p>
 <p>
 "NAD, no need to complicate constraints for such contrived examples.
@@ -103,7 +114,7 @@ Any change here should be a paper covering all adaptors, not a piecemeal issue."
 
 <p id="res-3830"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a>.
+This wording is relative to <a href="https://wg21.link/N4917" title=" Working Draft, Standard for Programming Language C++">N4917</a>.
 </p>
 
 <ol>
@@ -121,11 +132,11 @@ constexpr reverse_iterator&lt;iterator_t&lt;V&gt;&gt; begin();
 make_reverse_iterator(ranges::next(ranges::begin(<i>base_</i>), ranges::end(<i>base_</i>)))
 </pre></blockquote>
 <p>
--3- <i>Remarks</i>: In order to provide the amortized constant time complexity required by the <tt>range</tt> concept, 
-this function caches the result within the <tt>reverse_view</tt> for use on subsequent calls <ins>when both 
-<tt>assignable_from&lt;I&amp;, S&gt;</tt> and <tt>random_access_iterator&lt;I&gt; &amp;&amp; 
-sized_sentinel_for&lt;S, I&gt;</tt> are <tt>false</tt>, where <tt>I</tt> is <tt>iterator_t&lt;V&gt;</tt> and 
-<tt>S</tt> is <tt>sentinel_t&lt;V&gt;</tt></ins>.
+-3- <i>Remarks</i>: In order to provide the amortized constant time complexity required by the <code>range</code> concept, 
+this function caches the result within the <code>reverse_view</code> for use on subsequent calls <ins>when both 
+<code>assignable_from&lt;I&amp;, S&gt;</code> and <code>random_access_iterator&lt;I&gt; &amp;&amp; 
+sized_sentinel_for&lt;S, I&gt;</code> are <code>false</code>, where <code>I</code> is <code>iterator_t&lt;V&gt;</code> and 
+<code>S</code> is <code>sentinel_t&lt;V&gt;</code></ins>.
 </p>
 </blockquote>
 </blockquote>

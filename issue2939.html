@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 2939: Some type-completeness constraints of traits are overspecified</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="2939" href="lwg-active.html#2939">2939</a>. Some type-completeness constraints of traits are overspecified</h3>
+<h3 id="2939"><a href="lwg-active.html#2939">2939</a>. Some type-completeness constraints of traits are overspecified</h3>
 <p><b>Section:</b> 21.3.3 <a href="https://wg21.link/meta.type.synop">[meta.type.synop]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2017-03-02 <b>Last modified:</b> 2020-02-13</p>
 <p><b>Priority: </b>2
@@ -55,16 +66,16 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#2797">2797</a> (RU 2) suggests that certain type-traits should be required to
+LWG <a href="lwg-defects.html#2797" title="Trait precondition violations">2797</a> (RU 2) suggests that certain type-traits should be required to
 diagnose violations of their pre-conditions. The basic idea is founded and I see no problems for
-requiring this for the mentioned traits <tt>alignment_of</tt> or <tt>is_base_of</tt>,
-for example. But if we want to require this diagnostics for some other traits, such as <tt>is_convertible</tt>,
-<tt>is_constructible</tt> (and friends), or <tt>is_callable</tt> (and possibly some others), we really should
+requiring this for the mentioned traits <code>alignment_of</code> or <code>is_base_of</code>,
+for example. But if we want to require this diagnostics for some other traits, such as <code>is_convertible</code>,
+<code>is_constructible</code> (and friends), or <code>is_callable</code> (and possibly some others), we really should
 be sure that our current requirements are OK. 
 <p/>
 Unfortunately, there exists some cases, where we currently overspecify imposing complete type requirements where they
 are not actually required. For example, for the following situation the answer of the trait could 
-be given without ever needing the complete type of <tt>X</tt>:
+be given without ever needing the complete type of <code>X</code>:
 </p>
 <blockquote><pre>
 struct X; // Never defined
@@ -78,9 +89,9 @@ require a complete type, so <em>generally</em> relaxing the current restrictions
 The core language has a solution for this "small" gap of situations, where the response of the compiler <em>might</em>
 depend on type completeness: Undefined behaviour. So, I believe we need a somewhat more detailled form to express the
 intend here. Informally, I would suggest that the program should only be ill-formed in the situation described by 
-LWG <a href="lwg-defects.html#2797">2797</a>, if there exists the <em>possibility</em> that the compiler would require complete types for the
-considered operation. The example shown above, <tt>std::is_convertible_v&lt;X, const X&amp;&gt;</tt>, would <b>never</b>
-require the need to complete <tt>X</tt>, so here no violation should exist.
+LWG <a href="lwg-defects.html#2797" title="Trait precondition violations">2797</a>, if there exists the <em>possibility</em> that the compiler would require complete types for the
+considered operation. The example shown above, <code>std::is_convertible_v&lt;X, const X&amp;&gt;</code>, would <b>never</b>
+require the need to complete <code>X</code>, so here no violation should exist.
 <p/>
 The presented example might seem a tiny one, but the Standard Library type traits are extreme fundamental tools and we should
 try to not give the impression that an approximate rule of the current type constraints breaks reasonable code.
@@ -91,16 +102,16 @@ this issue suggests to fix the current situation <em>before</em> enforcing a dia
 
 <p><i>[2017-03-04, Kona]</i></p>
 
-<p>Set priority to 2. Is related to <a href="lwg-defects.html#2797">2797</a>, but really needs an audit of the type traits.</p>
+<p>Set priority to 2. Is related to <a href="lwg-defects.html#2797" title="Trait precondition violations">2797</a>, but really needs an audit of the type traits.</p>
 
 <p><i>[2018-08 Batavia Monday issue discussion]</i></p>
 
-<p>Issues <a href="lwg-defects.html#2797">2797</a>, <a href="lwg-active.html#2939">2939</a>, <a href="lwg-defects.html#3022">3022</a>, and <a href="lwg-active.html#3099">3099</a> are all closely related. Walter to write a paper resolving them.</p>
+<p>Issues <a href="lwg-defects.html#2797" title="Trait precondition violations">2797</a>, <a href="lwg-active.html#2939" title="Some type-completeness constraints of traits are overspecified">2939</a>, <a href="lwg-defects.html#3022" title="is_convertible&lt;derived*, base*&gt; may lead to ODR">3022</a>, and <a href="lwg-active.html#3099" title="is_assignable&lt;Incomplete&amp;, Incomplete&amp;&gt;">3099</a> are all closely related. Walter to write a paper resolving them.</p>
 
 <p><i>[2020-02 Prague Thursday issue discussion]</i></p>
 
 <p>
-Two of the issues (<a href="lwg-defects.html#2797">2797</a> and <a href="lwg-defects.html#3022">3022</a>) had been resolved by the
+Two of the issues (<a href="lwg-defects.html#2797" title="Trait precondition violations">2797</a> and <a href="lwg-defects.html#3022" title="is_convertible&lt;derived*, base*&gt; may lead to ODR">3022</a>) had been resolved by the
 acceptance of <a href="https://wg21.link/p1285r0">P1285R0</a>.
 </p>
 

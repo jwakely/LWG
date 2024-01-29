@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>C++ Standard Library Issues to be moved in [INSERT CURRENT MEETING HERE]</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -51,7 +62,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left"><p>Revised 2023-03-24 at 10:15:06 UTC</p>
+<td align="left">Revised 2024-01-29 at 14:15:36 UTC
 </td>
 </tr>
 <tr>
@@ -65,276 +76,832 @@
 </table>
 <h2>Ready Issues</h2>
 <hr>
-<h3><a name="3884" href="#3884">3884</a><sup><a href="https://cplusplus.github.io/LWG/issue3884">(i)</a></sup>. <tt>flat_<i>foo</i></tt> is missing allocator-extended copy/move constructors</h3>
-<p><b>Section:</b> 24.6.9 <a href="https://wg21.link/flat.map">[flat.map]</a>, 24.6.10 <a href="https://wg21.link/flat.multimap">[flat.multimap]</a>, 24.6.11 <a href="https://wg21.link/flat.set">[flat.set]</a>, 24.6.12 <a href="https://wg21.link/flat.multiset">[flat.multiset]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2023-02-06 <b>Last modified:</b> 2023-03-23</p>
-<p><b>Priority: </b>Not Prioritized
+<h3 id="3767"><a href="#3767">3767</a><sup><a href="https://cplusplus.github.io/LWG/issue3767">(i)</a></sup>. <code>codecvt&lt;char<i>N</i>_t, char8_t, mbstate_t&gt;</code> incorrectly added to locale</h3>
+<p><b>Section:</b> 30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>, 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2023-11-07</p>
+<p><b>Priority: </b>3
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#flat.map">active issues</a> in [flat.map].</p>
-<p><b>View all other</b> <a href="lwg-index.html#flat.map">issues</a> in [flat.map].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>View all other</b> <a href="lwg-index.html#locale.category">issues</a> in [locale.category].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-This issue is part of the "<tt>flat_<i>foo</i></tt>" sequence, LWG <a href="lwg-defects.html#3786">3786</a>, <a href="lwg-active.html#3802">3802</a>,
-<a href="lwg-defects.html#3803">3803</a>, <a href="lwg-active.html#3804">3804</a>. <tt>flat_set</tt>, <tt>flat_multiset</tt>, <tt>flat_map</tt>, and
-<tt>flat_multimap</tt> all have implicitly defaulted copy and move constructors, but they lack
-allocator-extended versions of those constructors. This means that the following code is broken:
+Table [tab:locale.category.facets] includes the following two facets:
 </p>
-<blockquote><pre>
-// <a href="https://godbolt.org/z/qezv5rTrW">https://godbolt.org/z/qezv5rTrW</a>
-#include &lt;cassert&gt;
-#include &lt;flat_set&gt;
-#include &lt;memory_resource&gt;
-#include &lt;utility&gt;
-#include &lt;vector&gt;
-
-template&lt;class T, class Comp = std::less&lt;T&gt;&gt;
-using pmr_flat_set = std::flat_set&lt;T, Comp, std::pmr::vector&lt;T&gt;&gt;;
-
-int main() {
-  std::pmr::vector&lt;pmr_flat_set&lt;int&gt;&gt; vs = {
-    {1,2,3},
-    {4,5,6},
-  };
-  std::pmr::vector&lt;int&gt; v = std::move(vs[0]).extract();
-  assert(v.get_allocator().resource() == std::pmr::get_default_resource());
-}
-</pre></blockquote>
+<ul>
+<li><p><code>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</code></p></li>
+<li><p><code>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</code></p></li>
+</ul>
 <p>
-<tt>pmr_flat_set&lt;int&gt;</tt> advertises that it "<tt>uses_allocator</tt>" <tt>std::pmr::polymorphic_allocator&lt;int&gt;</tt>,
-but in fact it lacks the allocator-extended constructor overload set necessary to interoperate with <tt>std::pmr::vector</tt>.
-</p>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after five votes in favour during reflector poll.
+However, neither of those actually has anything to do with a locale and therefore 
+it doesn't make sense to dynamically register them with <code>std::locale</code>. 
+Instead they provide conversions between fixed encodings (UTF-8, UTF-16, UTF-32) 
+that are unrelated to locale encodings other than they may happen to coincide with 
+encodings of some locales by accident.
+<p/>
+The issue was introduced when adding <code>codecvt&lt;char[16|32]_t, char, mbstate_t&gt;</code> in 
+<a href="https://wg21.link/N2035" title=" Minimal Unicode support for the standard library">N2035</a> which gave no design rationale for using <code>codecvt</code> in the first 
+place. Likely it was trying to do a minimal amount of changes and copied the wording for 
+<code>codecvt&lt;wchar_t, char, mbstate_t&gt;</code> but unfortunately didn't consider encoding implications.
+<p/>
+<a href="https://wg21.link/P0482" title=" char8_t: A type for UTF-8 characters and strings (Revision 6)">P0482</a> changed <code>char</code> to <code>char8_t</code> in these facets which 
+made the issue more glaring but unfortunately, despite the breaking change, it failed to address it.
+<p/>
+Apart from an obvious design mistake this also adds a small overhead for every locale 
+construction because the implementation has to copy these pseudo-facets for no good 
+reason violating "don't pay for what you don't use" principle.
+<p/>
+A simple fix is to remove the two facets from table [tab:locale.category.facets] and make them 
+directly constructible.
 </p>
 
+<p><i>[2022-09-23; Reflector poll]</i></p>
 
-
-<p id="res-3884"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+Set priority to 3 after reflector poll. Send to SG16 (then maybe LEWG).
+</p>
+
+<p><i>[2022-09-28; SG16 responds]</i></p>
+
+<p>
+SG16 agrees that the codecvt facets mentioned in LWG3767
+"<code>codecvt&lt;char<i>N</i>_t, char8_t, mbstate_t&gt;</code>
+incorrectly added to locale" are intended to be invariant
+with respect to locale. Unanimously in favor.
+</p>
+
+<p><i>[Issaquah 2023-02-10; LWG issue processing]</i></p>
+
+<p>
+Removing these breaks most code using them today, because the most obvious
+way to use them is via <code>use_facet</code> on a locale, which would throw
+if they're removed (and because they were guaranteed to be present, code
+using them might have not bothered to check for them using <code>has_facet</code>).
+Instead of removing them, deprecate the guarantee that they're always present
+(so move them to D.24 <a href="https://wg21.link/depr.locale.category">[depr.locale.category]</a>).
+Don't bother changing the destructor.
+Victor to update wording.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4917" title=" Working Draft, Standard for Programming Language C++">N4917</a>.
 </p>
 
 <ol>
-<li><p>Modify 24.6.9.2 <a href="https://wg21.link/flat.map.defn">[flat.map.defn]</a> as indicated:</p>
+
+<li><p>Modify 30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>, Table 105 ([tab:locale.category.facets]) &mdash; 
+"Locale category facets" &mdash; as indicated:</p>
 
 <blockquote>
-<pre>
-namespace std {
-  template&lt;class Key, class T, class Compare = less&lt;Key&gt;,
-  class KeyContainer = vector&lt;Key&gt;, class MappedContainer = vector&lt;T&gt;&gt;
-  class flat_map {
-  public:
-    [&hellip;]
-    // <i>24.6.9.3 <a href="https://wg21.link/flat.map.cons">[flat.map.cons]</a>, construct/copy/destroy</i>
-    flat_map() : flat_map(key_compare()) { }
+<table border="1">
+<caption>Table 105: Locale category facets [tab:locale.category.facets]</caption>
+<tr>
+<th align="center">Category</th>
+<th align="center">Includes facets</th>
+</tr>
 
-    <ins>template&lt;class Allocator&gt;
-      flat_map(const flat_map&amp;, const Allocator&amp; a);
-    template&lt;class Allocator&gt;
-      flat_map(flat_map&amp;&amp;, const Allocator&amp; a);</ins>
+<tr>
+<td colspan="2" align="center">
+<code>&hellip;</code>
+</td>
+</tr>
 
-    [&hellip;]
-  };
-  [&hellip;]
-}
-</pre>
+<tr>
+<td>
+ctype
+</td>
+
+<td>
+<code>ctype&lt;char&gt;, ctype&lt;wchar_t&gt;<br/>
+codecvt&lt;char, char, mbstate_t&gt;<br/>
+<del>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</del><br/>
+<del>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</del><br/>
+codecvt&lt;wchar_t, char, mbstate_t&gt;</code>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<code>&hellip;</code>
+</td>
+</tr>
+
+</table>
 </blockquote>
 
 </li>
 
-<li><p>Modify 24.6.9.3 <a href="https://wg21.link/flat.map.cons">[flat.map.cons]</a> as indicated:</p>
+<li><p>Modify 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a> as indicated:</p>
+
+<blockquote>
+<blockquote>
+<pre>
+namespace std {
+  [&hellip;]
+  template&lt;class internT, class externT, class stateT&gt;
+    class codecvt : public locale::facet, public codecvt_base {
+    public:
+      using intern_type = internT;
+      using extern_type = externT;
+      using state_type = stateT;
+
+      explicit codecvt(size_t refs = 0);
+      <ins>~codecvt();</ins>
+
+      [&hellip;]
+    protected:
+      <del>~codecvt();</del>
+      [&hellip;]
+    };
+}
+</pre>
+</blockquote>
+<p>
+[&hellip;]
+<p/>
+-3- The specializations required in Table <del>105 [tab:locale.category.facets]</del><ins>106 [tab:locale.spec]</ins>
+(30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>) convert the implementation-defined native character set. 
+<code>codecvt&lt;char, char, mbstate_t&gt;</code> implements a degenerate conversion; it does not 
+convert at all. The specialization <code>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</code> converts 
+between the UTF-16 and UTF-8 encoding forms, and the specialization 
+<code>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</code> converts between the UTF-32 and UTF-8 encoding forms. 
+<code>codecvt&lt;wchar_t, char, mbstate_t&gt;</code> converts between the native character sets for ordinary 
+and wide characters. Specializations on <code>mbstate_t</code> perform conversion between encodings known to 
+the library implementer. Other encodings can be converted by specializing on a program-defined 
+<code>stateT</code> type. Objects of type <code>stateT</code> can contain any state that is useful to communicate 
+to or from the specialized <code>do_in</code> or <code>do_out</code> members.
+</p>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2023-02-10; Victor Zverovich comments and provides improved wording]</i></p>
+
+<p>
+Per today's LWG discussion the following changes have been implemented in revised wording:
+</p>
+<ul>
+<li><p>Deprecated the facets instead of removing them (also <code>_byname</code> variants which were previously missed).</p></li>
+<li><p>Removed the changes to facet dtor since with deprecation it's no longer critical to provide other ways to access them.</p></li>
+</ul>
+<p><i>[Kona 2023-11-07; move to Ready]</i></p>
+
+
+
+
+<p id="res-3767"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>, Table 105 ([tab:locale.category.facets]) &mdash; 
+"Locale category facets" &mdash; and Table 106 ([tab:locale.spec]) "Required specializations" as indicated:</p>
+
+<blockquote>
+<table border="1">
+<caption>Table 105: Locale category facets [tab:locale.category.facets]</caption>
+<tr>
+<th align="center">Category</th>
+<th align="center">Includes facets</th>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<code>&hellip;</code>
+</td>
+</tr>
+
+<tr>
+<td>
+ctype
+</td>
+
+<td>
+<code>ctype&lt;char&gt;, ctype&lt;wchar_t&gt;<br/>
+codecvt&lt;char, char, mbstate_t&gt;<br/>
+<del>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</del><br/>
+<del>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</del><br/>
+codecvt&lt;wchar_t, char, mbstate_t&gt;</code>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<code>&hellip;</code>
+</td>
+</tr>
+
+</table>
+[&hellip;]
+<table border="1">
+<caption>Table 106: Required specializations [tab:locale.spec]</caption>
+<tr>
+<th align="center">Category</th>
+<th align="center">Includes facets</th>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<code>&hellip;</code>
+</td>
+</tr>
+
+<tr>
+<td>
+ctype
+</td>
+
+<td>
+<code>ctype_byname&lt;char&gt;, ctype_byname&lt;wchar_t&gt;<br/>
+codecvt_byname&lt;char, char, mbstate_t&gt;<br/>
+<del>codecvt_byname&lt;char16_t, char8_t, mbstate_t&gt;</del><br/>
+<del>codecvt_byname&lt;char32_t, char8_t, mbstate_t&gt;</del><br/>
+codecvt_byname&lt;wchar_t, char, mbstate_t&gt;</code>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<code>&hellip;</code>
+</td>
+</tr>
+
+</table>
+</blockquote>
+
+</li>
+
+<li><p>Modify 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a> as indicated:</p>
+
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-3- The specializations required in Table 105 (30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>) 
+convert the implementation-defined native character set. 
+<code>codecvt&lt;char, char, mbstate_t&gt;</code> implements a degenerate conversion; it does not 
+convert at all. <del>The specialization <code>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</code> converts 
+between the UTF-16 and UTF-8 encoding forms, and the specialization 
+<code>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</code> converts between the UTF-32 and UTF-8 encoding forms.</del> 
+<code>codecvt&lt;wchar_t, char, mbstate_t&gt;</code> converts between the native character sets for ordinary 
+and wide characters. Specializations on <code>mbstate_t</code> perform conversion between encodings known to 
+the library implementer. Other encodings can be converted by specializing on a program-defined 
+<code>stateT</code> type. Objects of type <code>stateT</code> can contain any state that is useful to communicate 
+to or from the specialized <code>do_in</code> or <code>do_out</code> members.
+</p>
+</blockquote>
+</li>
+
+
+<li><p>Modify D.24 <a href="https://wg21.link/depr.locale.category">[depr.locale.category]</a> (Deprecated locale category facets) in Annex D as indicated:</p>
+
+<blockquote>
+<p>
+-1- The <code>ctype</code> locale category includes the following facets as if they were specified in table Table 105
+[tab:locale.category.facets] of 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a>.
+</p>
+<blockquote><pre>
+codecvt&lt;char16_t, char, mbstate_t&gt;
+codecvt&lt;char32_t, char, mbstate_t&gt;
+<ins>codecvt&lt;char16_t, char8_t, mbstate_t&gt;
+codecvt&lt;char32_t, char8_t, mbstate_t&gt;</ins>
+</pre></blockquote>
+<p>
+-1- The <code>ctype</code> locale category includes the following facets as if they were specified in table Table 106
+[tab:locale.spec] of 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a>.
+</p>
+<blockquote><pre>
+codecvt_byname&lt;char16_t, char, mbstate_t&gt;
+codecvt_byname&lt;char32_t, char, mbstate_t&gt;
+<ins>codecvt_byname&lt;char16_t, char8_t, mbstate_t&gt;
+codecvt_byname&lt;char32_t, char8_t, mbstate_t&gt;</ins>
+</pre></blockquote>
+<p>
+-3- The following class template specializations are required in addition to those specified in 30.4.2.5 <a href="https://wg21.link/locale.codecvt">[locale.codecvt]</a>. 
+The specialization<ins>s</ins> <code>codecvt&lt;char16_t, char, mbstate_t&gt;</code> <ins>and <code>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</code></ins> 
+convert<del>s</del> between the UTF-16 and UTF-8 encoding forms, and the specialization<ins>s</ins> 
+<code>codecvt&lt;char32_t, char, mbstate_t&gt;</code> <ins>and <code>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</code></ins> 
+convert<del>s</del> between the UTF-32 and UTF-8 encoding forms.
+</p>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="3919"><a href="#3919">3919</a><sup><a href="https://cplusplus.github.io/LWG/issue3919">(i)</a></sup>. <code>enumerate_view</code> may invoke UB for sized common non-forward underlying ranges</h3>
+<p><b>Section:</b> 26.7.23 <a href="https://wg21.link/range.enumerate">[range.enumerate]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2023-04-07 <b>Last modified:</b> 2023-11-10</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+For a sized common range, <code>enumerate_view::end()</code> is specified to call
+<code>ranges::distance</code>. But <code>ranges::distance</code> is not necessarily well-defined
+for a sized non-forward range after calling <code>ranges::begin</code> (according to
+26.4.3 <a href="https://wg21.link/range.sized">[range.sized]</a>).
+<p/>
+So for a sized common non-forward underlying range, it seems calling
+<code>enumerate_view::begin()</code> followed by <code>enumerate_view::end()</code> may invoke UB
+and thus make <code>enumerate_view</code> potentially unusable for such ranges.
+<p/>
+I suppose we might need to instead call and cache the result of
+<code>ranges::distance</code> from <code>enumerate_view::begin()</code> for such ranges.
+</p>
+
+<p><i>[2022-04-12; Patrick Palka provides wording]</i></p>
+
+<p>
+The proposed wording follows the suggestion provided by Tim Song, to simply make <code>enumerate</code> non-common for this case.
+</p>
+
+<p><i>[2023-05-24; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
+<p><i>[Kona 2023-11-10; move to Ready]</i></p>
+
+
+
+
+<p id="res-3919"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4944" title=" Working Draft, Standard for Programming Language C++">N4944</a>.
+</p>
+
+<ol>
+<li>
+<p>Modify 26.7.23.2 <a href="https://wg21.link/range.enumerate.view">[range.enumerate.view]</a>, class template class <code>enumerate_view</code> synopsis, as indicated:</p>
+
+<blockquote>
+<blockquote><pre>
+[&hellip;]
+constexpr auto end() requires (!<i>simple-view</i>&lt;V&gt;) {
+  if constexpr (<ins>forward_range&lt;V&gt; &amp;&amp;</ins> common_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
+    return <i>iterator</i>&lt;false&gt;(ranges::end(<i>base_</i>), ranges::distance(<i>base_</i>));
+  else
+    return <i>sentinel</i>&lt;false&gt;(ranges::end(<i>base_</i>));
+}
+constexpr auto end() const requires <i>range-with-movable-references</i>&lt;const V&gt; {
+  if constexpr (<ins>forward_range&lt;const V&gt; &amp;&amp;</ins> common_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
+    return <i>iterator</i>&lt;true&gt;(ranges::end(<i>base_</i>), ranges::distance(<i>base_</i>));
+  else
+    return <i>sentinel</i>&lt;true&gt;(ranges::end(<i>base_</i>));
+}
+[&hellip;]
+</pre></blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="3950"><a href="#3950">3950</a><sup><a href="https://cplusplus.github.io/LWG/issue3950">(i)</a></sup>. <code>std::basic_string_view</code> comparison operators are overspecified</h3>
+<p><b>Section:</b> 23.3.2 <a href="https://wg21.link/string.view.synop">[string.view.synop]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Giuseppe D'Angelo <b>Opened:</b> 2023-06-21 <b>Last modified:</b> 2023-11-10</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <code>&lt;string_view&gt;</code> synopsis in 23.3.2 <a href="https://wg21.link/string.view.synop">[string.view.synop]</a> has these signatures
+for <code>operator==</code> and <code>operator&lt;=&gt;</code>:
+</p>
+<blockquote><pre>
+// <i>23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, non-member comparison functions</i>
+template&lt;class charT, class traits&gt;
+  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; x,
+                            basic_string_view&lt;charT, traits&gt; y) noexcept;
+template&lt;class charT, class traits&gt;
+  constexpr see below operator&lt;=&gt;(basic_string_view&lt;charT, traits&gt; x,
+                                  basic_string_view&lt;charT, traits&gt; y) noexcept;
+
+// <i>see 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, sufficient additional overloads of comparison functions</i>
+</pre></blockquote>
+<p>
+In 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, paragraph 1 states that "Implementations
+shall provide sufficient additional overloads" so that all comparisons
+between a <code>basic_string_view&lt;C, T&gt;</code> object and an object of a type
+convertible to <code>basic_string_view&lt;C, T&gt;</code> work (with the reasonable
+semantics).
+<p/>
+The associated Example 1 proposes this implementation strategy for
+<code>operator==</code>:
+</p>
+<blockquote><pre>
+template&lt;class charT, class traits&gt;
+  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
+                            basic_string_view&lt;charT, traits&gt; rhs) noexcept {
+    return lhs.compare(rhs) == 0;
+  }
+template&lt;class charT, class traits&gt;
+  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
+                            type_identity_t&lt;basic_string_view&lt;charT, traits&gt;&gt; rhs) noexcept {
+    return lhs.compare(rhs) == 0;
+  }
+</pre></blockquote>
+<p>
+With the current semantics of rewritten candidates for the comparison
+operators, it is however superfluous to actually specify both overloads
+(the same applies for <code>operator&lt;=&gt;</code>).
+<p/>
+The second overload (using <code>type_identity_t</code>) is indeed necessary to
+implement the "sufficient additional overloads" part of 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, 
+but it is also sufficient, as all the following cases
+</p>
+<ul>
+<li><p><code>sv == sv</code></p></li>
+<li><p><code>sv == <i>convertible_to_sv</i></code></p></li>
+<li><p><code><i>convertible_to_sv</i> == sv</code></p></li>
+</ul>
+<p>
+can in fact use it (directly, or after being rewritten e.g. with the
+arguments swapped).
+<p/>
+The reason why we still do have both operators seems to be historical;
+there is an explanation offered <a href="https://stackoverflow.com/a/70851101">here</a> by Barry Revzin.
+<p/>
+Basically, there were three overloads before a bunch of papers regarding
+<code>operator&lt;=&gt;</code> and <code>operator==</code> were merged:
+</p>
+<ol>
+<li><p><code>operator==(<i>bsv</i>, <i>bsv</i>)</code> to deal with <code>sv == sv</code>;</p></li>
+<li><p><code>operator==(<i>bsv</i>, type_identity_t&lt;<i>bsv</i>&gt;)</code> and</p></li>
+<li><p><code>operator==(type_identity_t&lt;<i>bsv</i>&gt;, <i>bsv</i>)</code> to deal with 
+<code>sv == <i>convertible_to_sv</i></code> and vice versa.</p></li>
+</ol>
+<p>
+Overload (1) was necessary because with only (2) and (3) a call like 
+<code>sv == sv</code> would otherwise be ambiguous. With the adoption of the rewriting
+rules, overload (3) has been dropped, without realizing that overload
+(1) would then become redundant.
+<p/>
+The specification of these overloads can be greatly simplified by
+adjusting the signatures to explicitly use <code>type_identity_t</code>.
+</p>
+
+<p><i>[Kona 2023-11-10; move to Ready]</i></p>
+
+<p>
+Editorial issue <a href="https://github.com/cplusplus/draft/pull/6324">6324</a>
+provides the changes as a pull request to the draft.
+</p>
+
+
+<p id="res-3950"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4950" title=" Working Draft, Standard for Programming Language C++">N4950</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.3.2 <a href="https://wg21.link/string.view.synop">[string.view.synop]</a>, header <code>&lt;string_view&gt;</code> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+// <i>23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, non-member comparison functions</i>
+template&lt;class charT, class traits&gt;
+  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; x,
+                            <ins>type_identity_t&lt;</ins>basic_string_view&lt;charT, traits&gt;<ins>&gt;</ins> y) noexcept;
+
+template&lt;class charT, class traits&gt;
+  constexpr <i>see below</i> operator&lt;=&gt;(basic_string_view&lt;charT, traits&gt; x,
+                                  <ins>type_identity_t&lt;</ins>basic_string_view&lt;charT, traits&gt;<ins>&gt;</ins> y) noexcept;
+
+<del>// <i>see 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, sufficient additional overloads of comparison functions</i></del>
+[&hellip;]
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a> as indicated:</p>
+
+<blockquote>
+<p>
+<del>-1- Let <code>S</code> be <code>basic_string_view&lt;charT, traits&gt;</code>, and <code>sv</code> be an instance of <code>S</code>. 
+Implementations shall provide sufficient additional overloads marked <code>constexpr</code> and <code>noexcept</code> so that an 
+object <code>t</code> with an implicit conversion to <code>S</code> can be compared according to Table 81 
+[tab:string.view.comparison.overloads].</del>
+</p>
+
+<table border="1">
+<caption><del>Table 81: Additional <code>basic_string_view</code> comparison overloads [tab:string.view.comparison.overloads]</del></caption>
+<tr>
+<th align="center"><del>Expression</del></th>
+<th align="center"><del>Equivalent to</del></th>
+</tr>
+
+<tr>
+<td><del>
+<code>t == sv</code>
+</del></td>
+<td><del>
+<code>S(t) == sv</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>sv == t</code>
+</del></td>
+<td><del>
+<code>sv == S(t)</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>t != sv</code>
+</del></td>
+<td><del>
+<code>S(t) != sv</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>sv != t</code>
+</del></td>
+<td><del>
+<code>sv != S(t)</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>t &lt; sv</code>
+</del></td>
+<td><del>
+<code>S(t) &lt; sv</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>sv &lt; t</code>
+</del></td>
+<td><del>
+<code>sv &lt; S(t)</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>t &gt; sv</code>
+</del></td>
+<td><del>
+<code>S(t) &gt; sv</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>sv &gt; t</code>
+</del></td>
+<td><del>
+<code>sv &gt; S(t)</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>t &lt;= sv</code>
+</del></td>
+<td><del>
+<code>S(t) &lt;= sv</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>sv &lt;= t</code>
+</del></td>
+<td><del>
+<code>sv &lt;= S(t)</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>t &gt;= sv</code>
+</del></td>
+<td><del>
+<code>S(t) &gt;= sv</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>sv &gt;= t</code>
+</del></td>
+<td><del>
+<code>sv &gt;= S(t)</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>t &lt;=&gt; sv</code>
+</del></td>
+<td><del>
+<code>S(t) &lt;=&gt; sv</code>
+</del></td>
+</tr>
+
+<tr>
+<td><del>
+<code>sv &lt;=&gt; t</code>
+</del></td>
+<td><del>
+<code>sv &lt;=&gt; S(t)</code>
+</del></td>
+</tr>
+
+</table>
+<p>
+<del>[<i>Example 1</i>: A sample conforming implementation for <code>operator==</code> would be:</del>
+</p>
+<blockquote><pre>
+<del>template&lt;class charT, class traits&gt;
+  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
+                            basic_string_view&lt;charT, traits&gt; rhs) noexcept {
+    return lhs.compare(rhs) == 0;
+  }
+template&lt;class charT, class traits&gt;
+  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
+                            type_identity_t&lt;basic_string_view&lt;charT, traits&gt;&gt; rhs) noexcept {
+    return lhs.compare(rhs) == 0;
+  }</del>
+</pre></blockquote>
+<p>
+<del>&mdash; <i>end example</i>]</del>
+</p>
+<pre>
+template&lt;class charT, class traits&gt;
+  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
+                            <ins>type_identity_t&lt;</ins>basic_string_view&lt;charT, traits&gt;<ins>&gt;</ins> rhs) noexcept;
+
+</pre>
+<blockquote>
+<p>
+-2- <i>Returns:</i> <code>lhs.compare(rhs) == 0</code>.
+</p>
+</blockquote>
+<pre>
+template&lt;class charT, class traits&gt;
+  constexpr <i>see below</i> operator&lt;=&gt;(basic_string_view&lt;charT, traits&gt; lhs,
+                                  <ins>type_identity_t&lt;</ins>basic_string_view&lt;charT, traits&gt;<ins>&gt;</ins> rhs) noexcept;
+</pre>
+<blockquote>
+<p>
+-3- Let <code>R</code> denote the type <code>traits::comparison_category</code> if that <i>qualified-id</i> is valid and denotes a
+type (13.10.3 <a href="https://wg21.link/temp.deduct">[temp.deduct]</a>), otherwise <code>R</code> is <code>weak_ordering</code>.
+<p/>
+-4- <i>Mandates</i>: <code>R</code> denotes a comparison category type (17.11.2 <a href="https://wg21.link/cmp.categories">[cmp.categories]</a>).
+<p/>
+-5- <i>Returns</i>: <code>static_cast&lt;R&gt;(lhs.compare(rhs) &lt;=&gt; 0)</code>.
+<p/>
+<ins> [<i>Note</i>: The usage of <code>type_identity_t</code> as parameter ensures that an object of type 
+<code>basic_string_view&lt;charT, traits&gt;</code> can always be compared with an object of a type <code>T</code> 
+with an implicit conversion to <code>basic_string_view&lt;charT, traits&gt;</code>, and vice versa, as per 
+12.2.2.3 <a href="https://wg21.link/over.match.oper">[over.match.oper]</a>. &mdash; <i>end note</i>]</ins>
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="3975"><a href="#3975">3975</a><sup><a href="https://cplusplus.github.io/LWG/issue3975">(i)</a></sup>. Specializations of <code>basic_format_context</code> should not be permitted</h3>
+<p><b>Section:</b> 22.14.6.6 <a href="https://wg21.link/format.context">[format.context]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Brian Bi <b>Opened:</b> 2023-08-13 <b>Last modified:</b> 2023-11-07</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.context">issues</a> in [format.context].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The current wording allows users to specialize <code>std::basic_format_context</code>. However, an implementation is not 
+likely to accept a program that uses the library in a way that would instantiate such a specialization, because 
+22.14.6.6 <a href="https://wg21.link/format.context">[format.context]</a> does not provide a complete description of the interface that such a specialization 
+would need to have (e.g., it does not provide a means to initialize the exposition-only <code>args_</code> member). Since the 
+library was not designed to be able to work with user specializations of <code>std::basic_format_context</code>, declaring 
+such specializations should be explicitly disallowed.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
+</p>
+
+<ol>
+
+<li><p>Modify the 22.14.6.6 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- An instance of <code>basic_format_context</code> holds formatting state consisting of the formatting arguments and
+the output iterator.
+<p/>
+<ins>-?- The behavior of a program that adds specializations of <code>basic_format_context</code> is undefined.</ins>
+<p/>
+-2- <code>Out</code> shall model <code>output_iterator&lt;const charT&amp;&gt;</code>.
+</p>
+</blockquote>
+
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2023-09-23; Daniel comments and provides improved wording]</i></p>
+
+<p>
+During the reflector discussion, Dietmar pointed out that the constraint can in principle be checked statically (e.g. when the 
+Library creates or refers to an instantiation of <code>basic_format_context</code>), so we can reduce the rather draconian consequence of
+"undefined behaviour" to "ill-formed, no diagnostics required". Furthermore, the new wording also adds the same constraint to
+<code>basic_format_parse_context</code> as suggested by Tim. This is needed, since only one public constructor is specified, but
+that specification does not allow to construct an object a non-zero <code>num_args_</code> or with the type information necessary 
+for the <code>check_dynamic_spec*</code> functions, so the library has an unspecified way to realize this.
+</p>
+
+<p><i>[2023-10-30; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
+<p><i>[Kona 2023-11-07; move to Ready]</i></p>
+
+
+
+
+<p id="res-3975"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
+</p>
 
 <blockquote class="note">
 <p>
-[<i>Drafting note</i>: As a drive-by fix, a missing closing <tt>&gt;</tt> is inserted in p11.]
+[<i>Drafting note:</i> The suggested wording form is borrowed from exactly the same wording form used for <code>allocator_traits</code>.]
 </p>
 </blockquote>
 
-<blockquote>
-<pre>
-<ins>template&lt;class Allocator&gt;
-  flat_map(const flat_map&amp;, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  flat_map(flat_map&amp;&amp;, const Allocator&amp; a);</ins>
-template&lt;class Allocator&gt;
-  flat_map(const key_compare&amp; comp, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  explicit flat_map(const Allocator&amp; a);
-template&lt;class InputIterator, class Allocator&gt;
-  flat_map(InputIterator first, InputIterator last, const key_compare&amp; comp, const Allocator&amp; a);
-template&lt;class InputIterator, class Allocator&gt;
-  flat_map(InputIterator first, InputIterator last, const Allocator&amp; a);
-[&hellip;]
-</pre>
+<ol>
+
+<li><p>Modify 22.14.6.6 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
+
 <blockquote>
 <p>
--11- <i>Constraints</i>: <tt>uses_allocator_v&lt;key_container_type, Allocator<ins>&gt;</ins></tt> is <tt>true</tt> and
-<tt>uses_allocator_v&lt;mapped_container_type, Allocator&gt;</tt> is <tt>true</tt>.
+-1- An instance of <code>basic_format_context</code> holds formatting state consisting of the formatting arguments and
+the output iterator.
 <p/>
--12- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt>c.keys</tt> and
-<tt>c.values</tt> are constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
+<ins>-?- If a program declares an explicit or partial specialization of <code>basic_format_context</code>, the program is ill-formed,
+no diagnostic required.</ins>
+<p/>
+-2- <code>Out</code> shall model <code>output_iterator&lt;const charT&amp;&gt;</code>.
 </p>
 </blockquote>
-</blockquote>
 
 </li>
 
-<li><p>Modify 24.6.10.2 <a href="https://wg21.link/flat.multimap.defn">[flat.multimap.defn]</a> as indicated:</p>
+<li><p>Modify 22.14.6.5 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> as indicated:</p>
 
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class Key, class T, class Compare = less&lt;Key&gt;,
-  class KeyContainer = vector&lt;Key&gt;, class MappedContainer = vector&lt;T&gt;&gt;
-  class flat_multimap {
-  public:
-    [&hellip;]
-    // <i>24.6.10.3 <a href="https://wg21.link/flat.multimap.cons">[flat.multimap.cons]</a>, construct/copy/destroy</i>
-    flat_multimap() : flat_multimap(key_compare()) { }
-
-    <ins>template&lt;class Allocator&gt;
-      flat_multimap(const flat_multimap&amp;, const Allocator&amp; a);
-    template&lt;class Allocator&gt;
-      flat_multimap(flat_multimap&amp;&amp;, const Allocator&amp; a);</ins>
-
-    [&hellip;]
-  };
-  [&hellip;]
-}
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.10.3 <a href="https://wg21.link/flat.multimap.cons">[flat.multimap.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-<ins>template&lt;class Allocator&gt;
-  flat_multimap(const flat_multimap&amp;, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  flat_multimap(flat_multimap&amp;&amp;, const Allocator&amp; a);</ins>
-template&lt;class Allocator&gt;
-  flat_multimap(const key_compare&amp; comp, const Allocator&amp; a);
-[&hellip;]
-</pre>
 <blockquote>
 <p>
--11- <i>Constraints</i>: <tt>uses_allocator_v&lt;key_container_type, Allocator&gt;</tt> is <tt>true</tt> and
-<tt>uses_allocator_v&lt;mapped_container_type, Allocator&gt;</tt> is <tt>true</tt>.
+-1- An instance of <code>basic_format_parse_context</code> holds the format string parsing state consisting of the format
+string range being parsed and the argument counter for automatic indexing.
 <p/>
--12- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt>c.keys</tt> and
-<tt>c.values</tt> are constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
+<ins>-?- If a program declares an explicit or partial specialization of <code>basic_format_parse_context</code>, the program is ill-formed,
+no diagnostic required.</ins>
 </p>
 </blockquote>
-</blockquote>
 
 </li>
-
-<li><p>Modify 24.6.11.2 <a href="https://wg21.link/flat.set.defn">[flat.set.defn]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class Key, class Compare = less&lt;Key&gt;, class KeyContainer = vector&lt;Key&gt;&gt;
-  class flat_set {
-  public:
-    [&hellip;]
-    // <i>24.6.11.3 <a href="https://wg21.link/flat.set.cons">[flat.set.cons]</a>, constructors</i>
-    flat_set() : flat_set(key_compare()) { }
-
-    <ins>template&lt;class Allocator&gt;
-      flat_set(const flat_set&amp;, const Allocator&amp; a);
-    template&lt;class Allocator&gt;
-      flat_set(flat_set&amp;&amp;, const Allocator&amp; a);</ins>
-
-    [&hellip;]
-  };
-  [&hellip;]
-}
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.11.3 <a href="https://wg21.link/flat.set.cons">[flat.set.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-<ins>template&lt;class Allocator&gt;
-  flat_set(const flat_set&amp;, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  flat_set(flat_set&amp;&amp;, const Allocator&amp; a);</ins>
-template&lt;class Allocator&gt;
-  flat_set(const key_compare&amp; comp, const Allocator&amp; a);
-[&hellip;]
-</pre>
-<blockquote>
-<p>
--9- <i>Constraints</i>: <tt>uses_allocator_v&lt;container_type, Allocator&gt;</tt> is <tt>true</tt>.
-<p/>
--10- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt><i>c</i></tt> is
-constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
-</p>
-</blockquote>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.12.2 <a href="https://wg21.link/flat.multiset.defn">[flat.multiset.defn]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std {
-  template&lt;class Key, class Compare = less&lt;Key&gt;, class KeyContainer = vector&lt;Key&gt;&gt;
-  class flat_multiset {
-  public:
-    [&hellip;]
-    // <i>24.6.12.3 <a href="https://wg21.link/flat.multiset.cons">[flat.multiset.cons]</a>, constructors</i>
-    flat_multiset() : flat_multiset(key_compare()) { }
-
-    <ins>template&lt;class Allocator&gt;
-      flat_multiset(const flat_multiset&amp;, const Allocator&amp; a);
-    template&lt;class Allocator&gt;
-      flat_multiset(flat_multiset&amp;&amp;, const Allocator&amp; a);</ins>
-
-    [&hellip;]
-  };
-  [&hellip;]
-}
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 24.6.12.3 <a href="https://wg21.link/flat.multiset.cons">[flat.multiset.cons]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-<ins>template&lt;class Allocator&gt;
-  flat_multiset(const flat_multiset&amp;, const Allocator&amp; a);
-template&lt;class Allocator&gt;
-  flat_multiset(flat_multiset&amp;&amp;, const Allocator&amp; a);</ins>
-template&lt;class Allocator&gt;
-  flat_multiset(const key_compare&amp; comp, const Allocator&amp; a);
-[&hellip;]
-</pre>
-<blockquote>
-<p>
--9- <i>Constraints</i>: <tt>uses_allocator_v&lt;container_type, Allocator&gt;</tt> is <tt>true</tt>.
-<p/>
--10- <i>Effects</i>: Equivalent to the corresponding non-allocator constructors except that <tt><i>c</i></tt> is
-constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.link/allocator.uses.construction">[allocator.uses.construction]</a>).
-</p>
-</blockquote>
-</blockquote>
-
-</li>
-
 </ol>
 
 
@@ -342,111 +909,85 @@ constructed with uses-allocator construction (20.2.8.2 <a href="https://wg21.lin
 
 
 <hr>
-<h3><a name="3885" href="#3885">3885</a><sup><a href="https://cplusplus.github.io/LWG/issue3885">(i)</a></sup>. '<tt>op</tt>' should be in [zombie.names]</h3>
-<p><b>Section:</b> 16.4.5.3.2 <a href="https://wg21.link/zombie.names">[zombie.names]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-02-11 <b>Last modified:</b> 2023-03-22</p>
-<p><b>Priority: </b>Not Prioritized
+<h3 id="3984"><a href="#3984">3984</a><sup><a href="https://cplusplus.github.io/LWG/issue3984">(i)</a></sup>. <code>ranges::to</code>'s recursion branch may be ill-formed</h3>
+<p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-08-23 <b>Last modified:</b> 2023-11-07</p>
+<p><b>Priority: </b>3
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
+<p><b>View all other</b> <a href="lwg-index.html#range.utility.conv.to">issues</a> in [range.utility.conv.to].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-C++98 and C++11 defined a protected member <tt>std::bind1st::op</tt> so '<tt>op</tt>' should still be a reserved name, 
-just like '<tt>bind1st</tt>' itself.
+When <code>r</code> is a nested range, <code>ranges::to</code> constructs the object recursively through <code>r | views::transform(...)</code>.
+<p/>
+However, the expression is ill-formed when the type of lvalue <code>r</code> does not model <code>viewable_range</code> 
+(<a href="https://godbolt.org/z/98rxGz73Y">demo</a>):
 </p>
+<blockquote><pre>
+#include &lt;ranges&gt;
+#include &lt;vector&gt;
+#include &lt;list&gt;
 
-<p><i>[2023-03-22; Reflector poll]</i></p>
+int main() {
+  std::vector&lt;std::vector&lt;int&gt;&gt; v;
+  auto r = std::views::all(std::move(v));
+  auto l = std::ranges::to&lt;std::list&lt;std::list&lt;int&gt;&gt;&gt;(r); // <span style="color:red;font-weight:bolder">hard error in MSVC-STL and libc++</span>
+}
+</pre></blockquote>
+
+<p><i>[2023-11-03; Reflector poll]</i></p>
 
 <p>
-Set status to Tentatively Ready after seven votes in favour during reflector poll.
+Set priority to 3 after reflector poll.
+"Should be <code>std::forward&lt;R&gt;(r)</code> instead?"
 </p>
 
+<p><i>[Kona 2023-11-07; move to Ready]</i></p>
 
 
-<p id="res-3885"><b>Proposed resolution:</b></p>
+
+
+<p id="res-3984"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
 </p>
 
 <ol>
-<li><p>Modify 16.4.5.3.2 <a href="https://wg21.link/zombie.names">[zombie.names]</a> as indicated:</p>
+
+<li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
 
 <blockquote>
+<pre>
+template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
+  constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
+</pre>
+<blockquote>
 <p>
--2- The following names are reserved as members for previous standardization, and may not be used as a name
-for object-like macros in portable code:
+-1- <i>Mandates</i>: <code>C</code> is a cv-unqualified class type.
+</p>
+<p>
+-2- <i>Returns</i>: An object of type <code>C</code> constructed from the elements of <code>r</code> in the following manner:
 </p>
 <ol style="list-style-type: none">
-<li><p>(2.1) &mdash; <tt>argument_type</tt>,</p></li>
+<li><p>(2.1) &mdash; If <code>C</code> does not satisfy <code>input_range</code> or 
+<code>convertible_to&lt;range_reference_t&lt;R&gt;, range_value_t&lt;C&gt;&gt;</code> is <code>true</code>:</p>
+<ol style="list-style-type: none">
 <li><p>[&hellip;]</p></li>
-<li><p>(2.3) &mdash; <tt>io_state</tt>,</p></li>
-<li><p><ins>(2.?) &mdash; <tt>op</tt>,</ins></p></li>
-<li><p>(2.4) &mdash; <tt>open_mode</tt>,</p></li>
-<li><p>[&hellip;]</p></li>
-</ol>
-</blockquote>
-
-</li>
-
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3887" href="#3887">3887</a><sup><a href="https://cplusplus.github.io/LWG/issue3887">(i)</a></sup>. Version macro for <tt>allocate_at_least</tt></h3>
-<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2023-02-14 <b>Last modified:</b> 2023-03-22</p>
-<p><b>Priority: </b>Not Prioritized
+</ol></li>
+<li><p>(2.2) &mdash; Otherwise, if <code>input_range&lt;range_reference_t&lt;R&gt;&gt;</code> is <code>true</code>:
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
-<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-In Issaquah, we just adopted <a href="https://wg21.link/P2652R0">P2652R0</a>, forbidding user specialization of <tt>allocator_traits</tt>. 
-<p/>
-It looks like we did not deem that worthy of a feature macro.
-<p/>
-However, it also changed the interface of the C++23 addition, <tt>allocate_at_least</tt>, which is covered by the macro 
-<tt>__cpp_lib_allocate_at_least</tt>.
-<p/>
-I believe we should have updated that macro for this significant change in how that function is accessed 
-(from free function to a member of <tt>allocator_traits</tt>). Unfortunately, there are no more meetings 
-to process a comment to that effect, and I suspect this rises beyond the purview of an editorial change, 
-although I live in hope (as the original paper left the value of the macro to the editor, although we 
-approved existing working papers where that macro does have a value, i.e., status quo).
-</p>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after seven votes in favour during reflector poll.
-But "if we don’t get the editors to do it for C++23 there doesn’t seem to be
-any point doing it."
-</p>
-
-
-
-<p id="res-3887"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <tt>&lt;version&gt;</tt> synopsis, as indicated and replace
-the placeholder <tt>YYYYMM</tt> by the year and month of adoption of <a href="https://wg21.link/P2652R0">P2652R0</a>:</p>
-
 <blockquote>
 <pre>
-[&hellip;]
-#define __cpp_lib_algorithm_iterator_requirements  202207L
-  // <i>also in &lt;algorithm&gt;, &lt;numeric&gt;, &lt;memory&gt;</i>
-#define __cpp_lib_allocate_at_least                <del>202106</del><ins>YYYYMM</ins>L // <i>also in &lt;memory&gt;</i>
-#define __cpp_lib_allocator_traits_is_always_equal 201411L
-  // <i>also in [&hellip;]</i>
-[&hellip;]
+to&lt;C&gt;(<ins>ref_view(</ins>r<ins>)</ins> | views::transform([](auto&amp;&amp; elem) {
+  return to&lt;range_value_t&lt;C&gt;&gt;(std::forward&lt;decltype(elem)&gt;(elem));
+}), std::forward&lt;Args&gt;(args)...);
 </pre>
+</blockquote>
+</li>
+<li><p>(2.3) &mdash; Otherwise, the program is ill-formed.</p></li>
+</ol>
+</blockquote>
 </blockquote>
 
 </li>
@@ -458,276 +999,120 @@ the placeholder <tt>YYYYMM</tt> by the year and month of adoption of <a href="ht
 
 
 <hr>
-<h3><a name="3893" href="#3893">3893</a><sup><a href="https://cplusplus.github.io/LWG/issue3893">(i)</a></sup>. LWG 3661 broke <tt>atomic&lt;shared_ptr&lt;T&gt;&gt; a; a = nullptr;</tt></h3>
-<p><b>Section:</b> 33.5.8.7.2 <a href="https://wg21.link/util.smartptr.atomic.shared">[util.smartptr.atomic.shared]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Zachary Wassall <b>Opened:</b> 2023-02-22 <b>Last modified:</b> 2023-03-22</p>
-<p><b>Priority: </b>Not Prioritized
+<h3 id="3988"><a href="#3988">3988</a><sup><a href="https://cplusplus.github.io/LWG/issue3988">(i)</a></sup>. Should <code>as_const_view</code> and <code>basic_const_iterator</code> provide <code>base()</code>?</h3>
+<p><b>Section:</b> 25.5.3 <a href="https://wg21.link/const.iterators">[const.iterators]</a>, 26.7.21.2 <a href="https://wg21.link/range.as.const.view">[range.as.const.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-08-28 <b>Last modified:</b> 2023-11-07</p>
+<p><b>Priority: </b>3
 </p>
-<p><b>View all other</b> <a href="lwg-index.html#util.smartptr.atomic.shared">issues</a> in [util.smartptr.atomic.shared].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>View other</b> <a href="lwg-index-open.html#const.iterators">active issues</a> in [const.iterators].</p>
+<p><b>View all other</b> <a href="lwg-index.html#const.iterators">issues</a> in [const.iterators].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3661">3661</a>, "<tt>constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr);</tt> should work" 
-added the following to <tt>atomic&lt;shared_ptr&lt;T&gt;&gt;</tt>:
+Currently, both <code>as_const_view</code> and <code>basic_const_iterator</code> provide <code>base()</code> members to 
+return the underlying range and iterator, which seems to expose vulnerabilities in modifying them:
 </p>
 <blockquote><pre>
-constexpr atomic(nullptr_t) noexcept : atomic() { }
+#include &lt;vector&gt;
+#include &lt;ranges&gt;
+
+int main() {
+  std::vector v{1, 2, 3};
+  
+  auto f = [](std::span&lt;int&gt;::const_iterator i) {
+    *i.base() = 4;
+  };
+  f(std::span{v}.cbegin());
+
+  auto g = [](const std::ranges::constant_range auto&amp; r) {
+    r.begin().base()[1] = 5;
+    r.base()[2] = 6;
+  };
+  g(std::ranges::as_const_view(v));
+
+  // v now becomes [4, 5, 6]
+}
 </pre></blockquote>
 <p>
-I believe that doing so broke the following example:
-</p>
-<blockquote><pre>
-atomic&lt;shared_ptr&lt;T&gt;&gt; a;
-a = nullptr;
-</pre></blockquote>
-<p>
-For reference, <tt>atomic&lt;shared_ptr&lt;T&gt;&gt;</tt> provides two assignment operator overloads:
-</p>
-<blockquote><pre>
-void operator=(const atomic&amp;) = delete;          // #1
-void operator=(shared_ptr&lt;T&gt; desired) noexcept;  // #2
-</pre></blockquote>
-<p>
-Prior to LWG <a href="lwg-defects.html#3661">3661</a>, the assignment in the example unambiguously matches #2. #1 is not viable because 
-<tt>nullptr_t</tt> is not convertible to <tt>atomic&lt;shared_ptr&lt;T&gt;&gt;</tt>. After LWG 3611, #1 is viable 
-and the assignment is ambiguous between #1 and #2.
-<p/>
-I believe this could be remedied easily enough by adding an assignment operator to match the added 
-<tt>nullptr_t</tt> constructor:
-</p>
-<blockquote><pre>
-void operator=(nullptr_t) noexcept;
-</pre></blockquote>
-
-<p><i>[2023-02-25; Daniel comments and provides wording]</i></p>
-
-<p>
-The suggested delegation below to <tt>store(nullptr)</tt> is not ambiguous and calls the constructor
-<tt>shared_ptr(nullptr_t)</tt>, which is guaranteed to be no-throwing.
+I don't think such a shortcut should be provided as it doesn't seem to be the intention and could be harmful.
 </p>
 
-<p><i>[2023-03-22; Reflector poll]</i></p>
+<p><i>[2023-10-30; Reflector poll]</i></p>
 
 <p>
-Set status to Tentatively Ready after six votes in favour during reflector poll.
+Set priority to 3 after reflector poll.
+Send to SG9.
 </p>
 
+<p><i>[Kona 2023-11-07; move to Ready]</i></p>
 
 
-<p id="res-3893"><b>Proposed resolution:</b></p>
+
+
+<p id="res-3988"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
 </p>
 
 <ol>
 
-<li><p>Modify 33.5.8.7.2 <a href="https://wg21.link/util.smartptr.atomic.shared">[util.smartptr.atomic.shared]</a> as indicated:</p>
+<li><p>Modify 25.5.3.3 <a href="https://wg21.link/const.iterators.iterator">[const.iterators.iterator]</a>, class template <code>basic_const_iterator</code> synopsis, as indicated:</p>
 
-<blockquote>
 <blockquote>
 <pre>
 namespace std {
-  template&lt;class T&gt; struct atomic&lt;shared_ptr&lt;T&gt;&gt; {
+  [&hellip;]
+
+  template&lt;input_iterator Iterator&gt;
+  class basic_const_iterator {
     [&hellip;]
-    constexpr atomic() noexcept;
-    constexpr atomic(nullptr_t) noexcept : atomic() { }
-    atomic(shared_ptr&lt;T&gt; desired) noexcept;
-    atomic(const atomic&amp;) = delete;
-    void operator=(const atomic&amp;) = delete;
+    <del>constexpr const Iterator&amp; base() const &amp; noexcept;</del>
+    <del>constexpr Iterator base() &amp;&amp;;</del>
     [&hellip;]
-    void operator=(shared_ptr&lt;T&gt; desired) noexcept;
-    <ins>void operator=(nullptr_t) noexcept;</ins>
-    [&hellip;]
-  private:
-    shared_ptr&lt;T&gt; p; // <i>exposition only</i>
   };
 }
 </pre>
 </blockquote>
-[&hellip;]
-<pre>
-void operator=(shared_ptr&lt;T&gt; desired) noexcept;
-</pre>
-<blockquote>
-<p>
--5- <i>Effects</i>: Equivalent to <tt>store(desired)</tt>.
-</p>
-</blockquote>
-<pre>
-<ins>void operator=(nullptr_t) noexcept;</ins>
-</pre>
-<blockquote>
-<p>
-<ins>-?- <i>Effects</i>: Equivalent to <tt>store(nullptr)</tt>.</ins>
-</p>
-</blockquote>
-</blockquote>
-
 
 </li>
 
+<li><p>Modify 25.5.3.5 <a href="https://wg21.link/const.iterators.ops">[const.iterators.ops]</a> as indicated:</p>
 
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3894" href="#3894">3894</a><sup><a href="https://cplusplus.github.io/LWG/issue3894">(i)</a></sup>. <tt>generator::promise_type::yield_value(ranges::elements_of&lt;Rng, Alloc&gt;)</tt> should not be <tt>noexcept</tt></h3>
-<p><b>Section:</b> 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2023-02-25 <b>Last modified:</b> 2023-03-22</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#coro.generator.promise">active issues</a> in [coro.generator.promise].</p>
-<p><b>View all other</b> <a href="lwg-index.html#coro.generator.promise">issues</a> in [coro.generator.promise].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The overload of <tt>yield_value</tt> for yielding elements of arbitrary ranges does so by creating a nested generator, 
-but to do so it needs to:
-</p>
-<ul>
-<li><p>call <tt>ranges::begin</tt>/<tt>ranges::end</tt> on the range  </p></li>
-<li><p>allocate a new coroutine frame (unless the allocation is elided by the compiler, which isn't guaranteed)</p></li>
-<li><p>copy/move the iterator and sentinel into the coroutine frame</p></li>
-</ul>
-<p>
-All of these are allowed to throw, so this overload should not be <tt>noexcept</tt>.
-</p>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after six votes in favour during reflector poll.
-</p>
-
-
-
-<p id="res-3894"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
-
-<blockquote>
 <blockquote>
 <pre>
-namespace std {
-  template&lt;class Ref, class V, class Allocator&gt;
-  class generator&lt;Ref, V, Allocator&gt;::promise_type {
-  public:
-    [&hellip;]
-    auto yield_value(const remove_reference_t&lt;yielded&gt;&amp; lval)
-      requires is_rvalue_reference_v&lt;yielded&gt; &amp;&amp;
-        constructible_from&lt;remove_cvref_t&lt;yielded&gt;, const remove_reference_t&lt;yielded&gt;&amp;&gt;;
-    
-    template&lt;class R2, class V2, class Alloc2, class Unused&gt;
-      requires same_as&lt;typename generator&lt;R2, V2, Alloc2&gt;::yielded, yielded&gt;
-        auto yield_value(ranges::elements_of&lt;generator&lt;R2, V2, Alloc2&gt;&amp;&amp;, Unused&gt; g) noexcept;
-    
-    template&lt;ranges::input_range R, class Alloc&gt;
-      requires convertible_to&lt;ranges::range_reference_t&lt;R&gt;, yielded&gt;
-        auto yield_value(ranges::elements_of&lt;R, Alloc&gt; r) <del>noexcept</del>;
-    [&hellip;]
-   };
-}
+<del>constexpr const Iterator&amp; base() const &amp; noexcept;</del>
 </pre>
+<blockquote>
+<p>
+<del>-4- <i>Effects</i>: Equivalent to: <code>return <i>current_</i>;</code></del>
+</p>
 </blockquote>
-[&hellip;]
 <pre>
-template&lt;ranges::input_range R, class Alloc&gt;
-  requires convertible_to&lt;ranges::range_reference_t&lt;R&gt;, yielded&gt;
-  auto yield_value(ranges::elements_of&lt;R, Alloc&gt; r) <del>noexcept</del>;
+<del>constexpr Iterator base() &amp;&amp;;</del>
 </pre>
 <blockquote>
 <p>
--13- <i>Effects</i>: Equivalent to:
+<del>-5- <i>Effects</i>: Equivalent to: <code>return std::move(<i>current_</i>);</code></del>
 </p>
-<blockquote><pre>
-auto nested = [](allocator_arg_t, Alloc, ranges::iterator_t&lt;R&gt; i, ranges::sentinel_t&lt;R&gt; s)
-  -&gt; generator&lt;yielded, ranges::range_value_t&lt;R&gt;, Alloc&gt; {
-    for (; i != s; ++i) {
-      co_yield static_cast&lt;yielded&gt;(*i);
-    }
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 26.7.21.2 <a href="https://wg21.link/range.as.const.view">[range.as.const.view]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std::ranges {
+  template&lt;view V&gt;
+    requires input_range&lt;V&gt;
+  class as_const_view : public view_interface&lt;as_const_view&lt;V&gt;&gt; {
+    [&hellip;]
+    <del>constexpr V base() const &amp; requires copy_constructible&lt;V&gt; { return <i>base_</i>; }</del>
+    <del>constexpr V base() &amp;&amp; { return std::move(<i>base_</i>); }</del>
+    [&hellip;]
   };
-return yield_value(ranges::elements_of(nested(
-  allocator_arg, r.allocator, ranges::begin(r.range), ranges::end(r.range))));
-</pre></blockquote>
-[&hellip;]
-</blockquote>
-</blockquote>
-
-
-</li>
-
-
-</ol>
-
-
-
-
-
-<hr>
-<h3><a name="3903" href="#3903">3903</a><sup><a href="https://cplusplus.github.io/LWG/issue3903">(i)</a></sup>. <tt>span</tt> destructor is redundantly <tt>noexcept</tt></h3>
-<p><b>Section:</b> 24.7.2.2.1 <a href="https://wg21.link/span.overview">[span.overview]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
- <b>Submitter:</b> Ben Craig <b>Opened:</b> 2023-03-11 <b>Last modified:</b> 2023-03-22</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#span.overview">active issues</a> in [span.overview].</p>
-<p><b>View all other</b> <a href="lwg-index.html#span.overview">issues</a> in [span.overview].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The <tt>span</tt> class template synopsis in 24.7.2.2.1 <a href="https://wg21.link/span.overview">[span.overview]</a> has this declaration:
-</p>
-<blockquote><pre>
-~span() noexcept = default;
-</pre></blockquote>
-<p>
-The <tt>noexcept</tt> is redundant, as <tt>~span</tt> is <tt>noexcept</tt> automatically. I think the entire 
-declaration is unnecessary as well. There is no additional specification for <tt>~span()</tt> at all, much 
-less some that warrants inclusion in the class template synopsis.
-<p/>
-Recommended fix:
-</p>
-<blockquote><pre>
-<del>~span() noexcept = default;</del>
-</pre></blockquote>
-<p>
-Alternative fix:
-</p>
-<blockquote><pre>
-~span() <del>noexcept</del> = default;
-</pre></blockquote>
-
-<p><i>[2023-03-22; Reflector poll]</i></p>
-
-<p>
-Set status to Tentatively Ready after six votes in favour during reflector poll.
-</p>
-
-
-
-<p id="res-3903"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 24.7.2.2.1 <a href="https://wg21.link/span.overview">[span.overview]</a>, class template <tt>span</tt> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-
-<del>~span() noexcept = default;</del>
-
-[&hellip;]
+}
 </pre>
 </blockquote>
 

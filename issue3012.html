@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3012: atomic&lt;T&gt; is unimplementable for non-is_trivially_copy_constructible T</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
-<h3><a name="3012" href="lwg-defects.html#3012">3012</a>. <tt>atomic&lt;T&gt;</tt> is unimplementable for non-<tt>is_trivially_copy_constructible T</tt></h3>
+<h3 id="3012"><a href="lwg-defects.html#3012">3012</a>. <code>atomic&lt;T&gt;</code> is unimplementable for non-<code>is_trivially_copy_constructible T</code></h3>
 <p><b>Section:</b> 33.5.8 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2017-08-16 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>2
@@ -54,8 +65,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-33.5.8 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> requires that <tt>T</tt> for <tt>std::atomic</tt> is trivially copyable. 
-Unfortunately, that's not sufficient to implement <tt>atomic</tt>. Consider <tt>atomic&lt;T&gt;::load</tt>, which 
+33.5.8 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> requires that <code>T</code> for <code>std::atomic</code> is trivially copyable. 
+Unfortunately, that's not sufficient to implement <code>atomic</code>. Consider <code>atomic&lt;T&gt;::load</code>, which 
 wants to look something like this:
 </p>
 <blockquote><pre>
@@ -70,7 +81,7 @@ struct atomic {
 };
 </pre></blockquote>
 <p>
-Forming this return statement, though, requires that <tt>T</tt> is copy constructible &mdash; trivially copyable things 
+Forming this return statement, though, requires that <code>T</code> is copy constructible &mdash; trivially copyable things 
 aren't necessarily copyable! For example, the following is trivially copyable but breaks libc++, libstdc++, and msvc++:
 </p>
 <blockquote><pre>
@@ -86,9 +97,9 @@ struct NonAssignable {
 };
 </pre></blockquote>
 <p>
-All three standard libraries are happy as long as <tt>T</tt> is trivially copy constructible, assignability is not required. 
+All three standard libraries are happy as long as <code>T</code> is trivially copy constructible, assignability is not required. 
 Casey Carter says that we might want to still require trivially copy assignable though, since what happens when you do an 
-<tt>atomic&lt;T&gt;::store</tt> is morally an "assignment" even if it doesn't use the user's assignment operator.
+<code>atomic&lt;T&gt;::store</code> is morally an "assignment" even if it doesn't use the user's assignment operator.
 </p>
 
 <p><i>[2017-11 Albuquerque Wednesday issue processing]</i></p>
@@ -106,8 +117,8 @@ Casey Carter says that we might want to still require trivially copy assignable 
 
 <blockquote>
 <p>
--1- <ins>If <tt>is_trivially_copy_constructible_v&lt;T&gt;</tt> is <tt>false</tt>, the program is ill-formed</ins><del>The
-template argument for <tt>T</tt> shall be trivially copyable (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
+-1- <ins>If <code>is_trivially_copy_constructible_v&lt;T&gt;</code> is <code>false</code>, the program is ill-formed</ins><del>The
+template argument for <code>T</code> shall be trivially copyable (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
 arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
 </p>
 </blockquote>
@@ -124,9 +135,9 @@ arguments that are not also statically initializable may be difficult to use. &m
 
 <blockquote>
 <p>
--1- <ins>If <tt>is_copy_constructible_v&lt;T&gt;</tt> is <tt>false</tt> or if
-<tt>is_trivially_copyable_v&lt;T&gt;</tt> is <tt>false</tt>, the program is ill-formed</ins><del>The
-template argument for <tt>T</tt> shall be trivially copyable (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
+-1- <ins>If <code>is_copy_constructible_v&lt;T&gt;</code> is <code>false</code> or if
+<code>is_trivially_copyable_v&lt;T&gt;</code> is <code>false</code>, the program is ill-formed</ins><del>The
+template argument for <code>T</code> shall be trivially copyable (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. [<i>Note:</i> Type
 arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
 </p>
 </blockquote>
@@ -140,7 +151,7 @@ arguments that are not also statically initializable may be difficult to use. &m
 According to my understanding during Albuquerque Saturday issue processing we agreed that we want the type used 
 with the atomics to have non-deleted and trivial copy/move construction and assignment.
 <p/>
-Wording note: <tt>CopyConstructible</tt> and <tt>CopyAssignable</tt> include semantic requirements that are not 
+Wording note: <code>CopyConstructible</code> and <code>CopyAssignable</code> include semantic requirements that are not 
 checkable at compile time, so these are requirements imposed on the user and cannot be validated by an
 implementation without heroic efforts.
 </p>
@@ -158,10 +169,10 @@ implementation without heroic efforts.
 
 <blockquote>
 <p>
--1- The template argument for <tt>T</tt> shall <ins>meet the <tt>CopyConstructible</tt> and <tt>CopyAssignable</tt>
-requirements. If <tt>is_trivially_copyable_v&lt;T&gt; &amp;&amp; is_copy_constructible_v&lt;T&gt; &amp;&amp; 
-is_move_constructible_v&lt;T&gt; &amp;&amp; is_copy_assignable_v&lt;T&gt; &amp;&amp; is_move_assignable_v&lt;T&gt;</tt> 
-is <tt>false</tt>, the program is ill-formed</ins><del>be trivially copyable (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. 
+-1- The template argument for <code>T</code> shall <ins>meet the <code>CopyConstructible</code> and <code>CopyAssignable</code>
+requirements. If <code>is_trivially_copyable_v&lt;T&gt; &amp;&amp; is_copy_constructible_v&lt;T&gt; &amp;&amp; 
+is_move_constructible_v&lt;T&gt; &amp;&amp; is_copy_assignable_v&lt;T&gt; &amp;&amp; is_move_assignable_v&lt;T&gt;</code> 
+is <code>false</code>, the program is ill-formed</ins><del>be trivially copyable (6.8 <a href="https://wg21.link/basic.types">[basic.types]</a>)</del>. 
 [<i>Note:</i> Type arguments that are not also statically initializable may be difficult to use. &mdash; <i>end note</i>]
 </p>
 </blockquote>

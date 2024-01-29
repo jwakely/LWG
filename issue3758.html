@@ -1,13 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3758: Element-relocating operations of std::vector and std::deque 
 should conditionally require Cpp17CopyInsertable in their preconditions</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -18,7 +19,17 @@ should conditionally require Cpp17CopyInsertable in their preconditions</title>
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -46,7 +57,7 @@ should conditionally require Cpp17CopyInsertable in their preconditions</title>
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3758" href="lwg-active.html#3758">3758</a>. Element-relocating operations of <tt>std::vector</tt> and <tt>std::deque</tt> 
+<h3 id="3758"><a href="lwg-active.html#3758">3758</a>. Element-relocating operations of <code>std::vector</code> and <code>std::deque</code> 
 should conditionally require <i>Cpp17CopyInsertable</i> in their preconditions</h3>
 <p><b>Section:</b> 24.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>, 24.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a>, 24.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a>, 24.3.8.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-08-24 <b>Last modified:</b> 2022-11-06</p>
@@ -59,16 +70,16 @@ should conditionally require <i>Cpp17CopyInsertable</i> in their preconditions</
 <p>
 This issue is raised from <a href="https://github.com/cplusplus/draft/issues/5776">editorial issue #5776</a>.
 <p/>
-In order to achieve strong exception safety, some operations of <tt>std:vector</tt> and 
-<tt>std::deque</tt> may use copy insertion for relocation of old elements, if move construction 
+In order to achieve strong exception safety, some operations of <code>std:vector</code> and 
+<code>std::deque</code> may use copy insertion for relocation of old elements, if move construction 
 of its element type is potentially throwing and copy insertion is available. However, currently 
 only <i>Cpp17MoveInsertable</i> is mentioned in many of their Preconditions (e.g. those of 
-<tt>insert</tt> for rvalues), which seemly fails to cover the cases in which copy insertion is 
+<code>insert</code> for rvalues), which seemly fails to cover the cases in which copy insertion is 
 formally invalid but the semantic requirements of <i>Cpp17CopyInsertable</i> are not met.
 <p/>
 Perhaps we should create a new named requirement for these operations, which is equivalent to 
-<i>Cpp17CopyInsertable</i> when <tt>!is_nothrow_move_constructible_v&lt;T&gt; &amp;&amp; 
-is_copy_constructible_v&lt;T&gt;</tt> is <tt>true</tt>, and equivalent to <i>Cpp17MoveInsertable</i> 
+<i>Cpp17CopyInsertable</i> when <code>!is_nothrow_move_constructible_v&lt;T&gt; &amp;&amp; 
+is_copy_constructible_v&lt;T&gt;</code> is <code>true</code>, and equivalent to <i>Cpp17MoveInsertable</i> 
 otherwise.
 </p>
 
@@ -80,7 +91,7 @@ Set priority to 3 after reflector poll.
 <p>
 Jonathan: I think the point (which LWG 3758 fails to explain clearly) is that today's implementations 
 sometimes use copy insertion when move insertion is syntactically valid, but is potentially-throwing. 
-But the preconditions don't require copy insertion. If <tt>vector::resize(size_type)</tt> decides to 
+But the preconditions don't require copy insertion. If <code>vector::resize(size_type)</code> decides to 
 use copy construction, because move construction might throw and the type is copy constructible (which 
 is implied to be permitted by the <i>Remarks</i>), do we require <i>Cpp17CopyInsertable</i>'s semantic 
 requirement that the new value is equivalent to the one we copied? We don't say so.<br/>
@@ -91,7 +102,7 @@ but the implementation decides to copy not move. What are the preconditions on t
 <p><i>[2022-11-06; Daniel comments]</i></p>
 
 <p>
-This issue has considerable overlap with LWG <a href="lwg-active.html#2158">2158</a>.
+This issue has considerable overlap with LWG <a href="lwg-active.html#2158" title="Conditional copy&#47;move in std::vector">2158</a>.
 </p>
 
 

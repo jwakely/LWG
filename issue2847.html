@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 2847: sin(float) should call sinf(float)</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="2847" href="lwg-active.html#2847">2847</a>. <tt>sin(float)</tt> should call <tt>sinf(float)</tt></h3>
+<h3 id="2847"><a href="lwg-active.html#2847">2847</a>. <code>sin(float)</code> should call <code>sinf(float)</code></h3>
 <p><b>Section:</b> 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2016-12-15 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>3
@@ -56,9 +67,9 @@
 <p><b>Discussion:</b></p>
 <p>
 With <a href="https://wg21.link/p0175r1">P0175R1</a>, we now show in [cmath.syn] three overloads for
-the <tt>sin</tt> function: One taking a <tt>float</tt>, one taking a <tt>double</tt>,
-and one taking a <tt>long double</tt>. However, there is no statement that <tt>sin(long double)</tt> 
-should actually invoke <tt>sinl</tt>, presumably delivering extra precision.
+the <code>sin</code> function: One taking a <code>float</code>, one taking a <code>double</code>,
+and one taking a <code>long double</code>. However, there is no statement that <code>sin(long double)</code> 
+should actually invoke <code>sinl</code>, presumably delivering extra precision.
 <p/>
 An implementation like
 </p>

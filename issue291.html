@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 291: Underspecification of set algorithms</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#CD1">CD1</a> status.</em></p>
-<h3><a name="291" href="lwg-defects.html#291">291</a>. Underspecification of set algorithms</h3>
+<h3 id="291"><a href="lwg-defects.html#291">291</a>. Underspecification of set algorithms</h3>
 <p><b>Section:</b> 27.8.7 <a href="https://wg21.link/alg.set.operations">[alg.set.operations]</a> <b>Status:</b> <a href="lwg-active.html#CD1">CD1</a>
  <b>Submitter:</b> Matt Austern <b>Opened:</b> 2001-01-03 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
@@ -55,8 +66,8 @@
 <p><b>Discussion:</b></p>
 <p>
 The standard library contains four algorithms that compute set
-operations on sorted ranges: <tt>set_union</tt>, <tt>set_intersection</tt>,
-<tt>set_difference</tt>, and <tt>set_symmetric_difference</tt>.  Each
+operations on sorted ranges: <code>set_union</code>, <code>set_intersection</code>,
+<code>set_difference</code>, and <code>set_symmetric_difference</code>.  Each
 of these algorithms takes two sorted ranges as inputs, and writes the
 output of the appropriate set operation to an output range.  The elements
 in the output range are sorted.
@@ -68,11 +79,11 @@ apply to ranges containing multiple copies of a given element.  Two
 elements are considered to be &quot;the same&quot; if, according to an
 ordering relation provided by the user, neither one is less than the
 other.  So, for example, if one input range contains five copies of an
-element and another contains three, the output range of <tt>set_union</tt>
+element and another contains three, the output range of <code>set_union</code>
 will contain five copies, the output range of
-<tt>set_intersection</tt> will contain three, the output range of
-<tt>set_difference</tt> will contain two, and the output range of
-<tt>set_symmetric_difference</tt> will contain two.
+<code>set_intersection</code> will contain three, the output range of
+<code>set_difference</code> will contain two, and the output range of
+<code>set_symmetric_difference</code> will contain two.
 </p>
 
 <p>

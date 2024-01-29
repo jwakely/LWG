@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 934: duration is missing operator%</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
-<h3><a name="934" href="lwg-defects.html#934">934</a>. <tt>duration</tt> is missing <tt>operator%</tt></h3>
+<h3 id="934"><a href="lwg-defects.html#934">934</a>. <code>duration</code> is missing <code>operator%</code></h3>
 <p><b>Section:</b> 29.5 <a href="https://wg21.link/time.duration">[time.duration]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
  <b>Submitter:</b> Terry Golubiewski <b>Opened:</b> 2008-11-30 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
@@ -57,9 +68,9 @@
 <p><b>Addresses US 81</b></p>
 
 <p>
-<tt>duration</tt> is missing <tt>operator%</tt>.  This operator is convenient
-for computing where in a time frame a given <tt>duration</tt> lies.  A
-motivating example is converting a <tt>duration</tt> into a "broken-down"
+<code>duration</code> is missing <code>operator%</code>.  This operator is convenient
+for computing where in a time frame a given <code>duration</code> lies.  A
+motivating example is converting a <code>duration</code> into a "broken-down"
 time duration such as hours::minutes::seconds:
 </p>
 
@@ -90,7 +101,7 @@ Summit:
 
 <blockquote><p>
 Agree except that there is a typo in the proposed resolution. The member
-operators should be <tt>operator%=</tt>.
+operators should be <code>operator%=</code>.
 </p></blockquote>
 
 <p><i>[
@@ -120,9 +131,9 @@ formula.
 
 <blockquote>
 <p>
-Howard to open a separate issue (<a href="lwg-defects.html#1177">1177</a>) to handle the removal of member
+Howard to open a separate issue (<a href="lwg-defects.html#1177" title="Improve &quot;diagnostic required&quot; wording">1177</a>) to handle the removal of member
 functions from overload sets, provide wording, and possibly demonstrate
-how this can be implemented using enable_if (see <a href="lwg-defects.html#947">947</a>).
+how this can be implemented using enable_if (see <a href="lwg-defects.html#947" title="duration arithmetic: contradictory requirements">947</a>).
 </p>
 <p>
 Move to Ready.
@@ -146,7 +157,7 @@ template &lt;class Rep1, class Period1, class Rep2, class Period2&gt;
 </pre></blockquote>
 
 <p>
-Add to the synopsis of <tt>duration</tt> in 29.5 <a href="https://wg21.link/time.duration">[time.duration]</a>:
+Add to the synopsis of <code>duration</code> in 29.5 <a href="https://wg21.link/time.duration">[time.duration]</a>:
 </p>
 
 <blockquote><pre>
@@ -170,10 +181,10 @@ duration&amp; operator%=(const rep&amp; rhs);
 </pre>
 <blockquote>
 <p>
-<i>Effects:</i> <tt>rep_ %= rhs</tt>.
+<i>Effects:</i> <code>rep_ %= rhs</code>.
 </p>
 <p>
-<i>Returns:</i> <tt>*this</tt>.
+<i>Returns:</i> <code>*this</code>.
 </p>
 </blockquote>
 
@@ -182,10 +193,10 @@ duration&amp; operator%=(const duration&amp; d);
 </pre>
 <blockquote>
 <p>
-<i>Effects:</i> <tt>rep_ %= d.count()</tt>.
+<i>Effects:</i> <code>rep_ %= d.count()</code>.
 </p>
 <p>
-<i>Returns:</i> <tt>*this</tt>.
+<i>Returns:</i> <code>*this</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -203,11 +214,11 @@ template &lt;class Rep1, class Period, class Rep2&gt;
 </pre>
 <blockquote>
 <p>
-<i>Requires:</i> <tt>Rep2</tt> shall be implicitly convertible to <tt>CR(Rep1, Rep2)</tt> and
-<tt>Rep2</tt> shall not be an instantiation of <tt>duration</tt>. Diagnostic required.
+<i>Requires:</i> <code>Rep2</code> shall be implicitly convertible to <code>CR(Rep1, Rep2)</code> and
+<code>Rep2</code> shall not be an instantiation of <code>duration</code>. Diagnostic required.
 </p>
 <p>
-<i>Returns:</i> <tt>duration&lt;CR, Period&gt;(d) %= s</tt>.
+<i>Returns:</i> <code>duration&lt;CR, Period&gt;(d) %= s</code>.
 </p>
 </blockquote>
 
@@ -218,7 +229,7 @@ template &lt;class Rep1, class Period1, class Rep2, class Period2&gt;
 </pre>
 <blockquote>
 <p>
-<i>Returns:</i> <tt>common_type&lt;duration&lt;Rep1, Period1&gt;, duration&lt;Rep2, Period2&gt;&gt;::type(lhs) %= rhs</tt>.
+<i>Returns:</i> <code>common_type&lt;duration&lt;Rep1, Period1&gt;, duration&lt;Rep2, Period2&gt;&gt;::type(lhs) %= rhs</code>.
 </p>
 </blockquote>
 

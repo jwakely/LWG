@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 1029: Specialized algorithms for memory management need to be concept-constrained templates</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -44,9 +55,9 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD Concepts">NAD Concepts</a> status.</em></p>
-<h3><a name="1029" href="lwg-closed.html#1029">1029</a>. Specialized algorithms for memory management need to be concept-constrained templates</h3>
-<p><b>Section:</b> 27.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> <b>Status:</b> <a href="lwg-active.html#NAD Concepts">NAD Concepts</a>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD_Concepts">NAD Concepts</a> status.</em></p>
+<h3 id="1029"><a href="lwg-closed.html#1029">1029</a>. Specialized algorithms for memory management need to be concept-constrained templates</h3>
+<p><b>Section:</b> 27.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> <b>Status:</b> <a href="lwg-active.html#NAD_Concepts">NAD Concepts</a>
  <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2009-03-11 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -57,7 +68,7 @@
 
 <p><b>Addresses UK 210 [CD1]</b></p>
 
-<p>Related to <a href="lwg-closed.html#582">582</a></p>
+<p>Related to <a href="lwg-closed.html#582" title="specialized algorithms and volatile storage">582</a></p>
 
 <p>
 Specialized algorithms for memory management need requirements to be
@@ -92,22 +103,22 @@ Daniel adds:
 <blockquote>
 <ol>
 <li>
-I suggest <tt>Size</tt> should require <tt>IntegralLike</tt> and not <tt>UnsignedIntegralLike</tt>,
+I suggest <code>Size</code> should require <code>IntegralLike</code> and not <code>UnsignedIntegralLike</code>,
 because otherwise simple int-literals could not be provided as arguments
-and it would conflict with other algorithms that only require <tt>IntegralLike</tt>.
+and it would conflict with other algorithms that only require <code>IntegralLike</code>.
 </li>
 <li>
 <p>
 The current for-loop-test relies on evaluation in boolean context which is
-not provided by <tt>ArithmeticLike</tt> and it's refinements. I propose to change the
+not provided by <code>ArithmeticLike</code> and it's refinements. I propose to change the
 corresponding for-loop-headers to:
 </p>
 <ol style="list-style-type:lower-alpha">
 <li>
-for <tt>uninitialized_copy_n</tt>: <tt>for ( ; n &gt; Size(0); ++result, ++first, --n) {</tt>
+for <code>uninitialized_copy_n</code>: <code>for ( ; n &gt; Size(0); ++result, ++first, --n) {</code>
 </li>
 <li>
-for <tt>uninitialized_fill_n</tt>: <tt>for (; n &gt; Size(0); ++first, --n) {</tt>
+for <code>uninitialized_fill_n</code>: <code>for (; n &gt; Size(0); ++first, --n) {</code>
 </li>
 </ol>
 </li>
@@ -130,7 +141,7 @@ For the record I agree with Daniel's suggestion.
 20.2 <a href="https://wg21.link/memory">[memory]</a> p2
 </p>
 <p>
-Update the synopsis for <tt>&lt;memory&gt;</tt>
+Update the synopsis for <code>&lt;memory&gt;</code>
 </p>
 <blockquote><pre>
 template &lt;<del>class</del> InputIterator <ins>InIter</ins>,
@@ -188,7 +199,7 @@ for (; first != last; ++result, ++first)  {
 </pre></blockquote>
 
 <p>
--2- <i>Returns:</i> <tt>result</tt>
+-2- <i>Returns:</i> <code>result</code>
 </p>
 
 </blockquote>

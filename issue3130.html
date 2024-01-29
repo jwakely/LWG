@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3130: &sect;[input.output] needs many addressof</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
-<h3><a name="3130" href="lwg-defects.html#3130">3130</a>. &sect;[input.output] needs many <tt>addressof</tt></h3>
+<h3 id="3130"><a href="lwg-defects.html#3130">3130</a>. &sect;[input.output] needs many <code>addressof</code></h3>
 <p><b>Section:</b> 31 <a href="https://wg21.link/input.output">[input.output]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2018-06-30 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>0
@@ -54,10 +65,10 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-There are 27 instances of <tt>&amp;sb</tt> and one instance of <tt>&amp;rhs</tt> in 
-Clause 31 <a href="https://wg21.link/input.output">[input.output]</a>, each of which needs to use <tt>addressof</tt> because
+There are 27 instances of <code>&amp;sb</code> and one instance of <code>&amp;rhs</code> in 
+Clause 31 <a href="https://wg21.link/input.output">[input.output]</a>, each of which needs to use <code>addressof</code> because
 the operand has a user-provided template type parameter as an associated class and so
-the use of unary <tt>&amp;</tt> is subject to ADL hijacking.
+the use of unary <code>&amp;</code> is subject to ADL hijacking.
 </p>
 
 <p><i>[2018-07-20 Status to Tentatively Ready after five positive votes on the reflector.]</i></p>
@@ -82,7 +93,7 @@ basic_ios&amp; copyfmt(const basic_ios&amp; rhs);
 </pre>
 <blockquote>
 <p>
--16- <i>Effects:</i> If <tt>(this == <del>&amp;</del><ins>addressof(</ins>rhs<ins>)</ins>)</tt> 
+-16- <i>Effects:</i> If <code>(this == <del>&amp;</del><ins>addressof(</ins>rhs<ins>)</ins>)</code> 
 does nothing. [&hellip;]
 </p>
 </blockquote>
@@ -99,10 +110,10 @@ explicit basic_istringstream(ios_base::openmode which);
 </pre>
 <blockquote>
 <p>
--1- <i>Effects:</i> Constructs an object of class <tt>basic_istringstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_istream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.5.2 <a href="https://wg21.link/istream">[istream]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_stringbuf&lt;charT, traits, Allocator&gt;(which | ios_base::in)</tt> (31.8.2.2 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
+-1- <i>Effects:</i> Constructs an object of class <code>basic_istringstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_istream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.5.2 <a href="https://wg21.link/istream">[istream]</a>) and initializing <code>sb</code> with 
+<code>basic_stringbuf&lt;charT, traits, Allocator&gt;(which | ios_base::in)</code> (31.8.2.2 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
 </p>
 </blockquote>
 <pre>
@@ -112,10 +123,10 @@ explicit basic_istringstream(
 </pre>
 <blockquote>
 <p>
--2- <i>Effects:</i> Constructs an object of class <tt>basic_istringstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_istream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.5.2 <a href="https://wg21.link/istream">[istream]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_stringbuf&lt;charT, traits, Allocator&gt;(str, which | ios_base::in)</tt> (31.8.2.2 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
+-2- <i>Effects:</i> Constructs an object of class <code>basic_istringstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_istream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.5.2 <a href="https://wg21.link/istream">[istream]</a>) and initializing <code>sb</code> with 
+<code>basic_stringbuf&lt;charT, traits, Allocator&gt;(str, which | ios_base::in)</code> (31.8.2.2 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
 </p>
 </blockquote>
 <pre>
@@ -123,10 +134,10 @@ basic_istringstream(basic_istringstream&amp;&amp; rhs);
 </pre>
 <blockquote>
 <p>
--3- <i>Effects:</i> Move constructs from the rvalue <tt>rhs</tt>. This is accomplished
-by move constructing the base class, and the contained <tt>basic_stringbuf</tt>.
-Next <tt>basic_istream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-is called to install the contained <tt>basic_stringbuf</tt>.
+-3- <i>Effects:</i> Move constructs from the rvalue <code>rhs</code>. This is accomplished
+by move constructing the base class, and the contained <code>basic_stringbuf</code>.
+Next <code>basic_istream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+is called to install the contained <code>basic_stringbuf</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -142,7 +153,7 @@ basic_stringbuf&lt;charT, traits, Allocator&gt;* rdbuf() const;
 </pre>
 <blockquote>
 <p>
--1- <i>Returns:</i> <tt>const_cast&lt;basic_stringbuf&lt;charT, traits, Allocator&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>.
+-1- <i>Returns:</i> <code>const_cast&lt;basic_stringbuf&lt;charT, traits, Allocator&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -158,10 +169,10 @@ explicit basic_ostringstream(ios_base::openmode which);
 </pre>
 <blockquote>
 <p>
--1- <i>Effects:</i> Constructs an object of class <tt>basic_ostringstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_ostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.6.2 <a href="https://wg21.link/ostream">[ostream]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_stringbuf&lt;charT, traits, Allocator&gt;(which | ios_base::out)</tt> (31.8.2.2 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
+-1- <i>Effects:</i> Constructs an object of class <code>basic_ostringstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_ostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.6.2 <a href="https://wg21.link/ostream">[ostream]</a>) and initializing <code>sb</code> with 
+<code>basic_stringbuf&lt;charT, traits, Allocator&gt;(which | ios_base::out)</code> (31.8.2.2 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
 </p>
 </blockquote>
 <pre>
@@ -171,10 +182,10 @@ explicit basic_ostringstream(
 </pre>
 <blockquote>
 <p>
--2- <i>Effects:</i> Constructs an object of class <tt>basic_ostringstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_ostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.6.2 <a href="https://wg21.link/ostream">[ostream]</a>) and initializing <tt>sb</tt> with
-<tt>basic_stringbuf&lt;charT, traits, Allocator&gt;(str, which | ios_base::out)</tt> (31.8.2.2 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
+-2- <i>Effects:</i> Constructs an object of class <code>basic_ostringstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_ostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.6.2 <a href="https://wg21.link/ostream">[ostream]</a>) and initializing <code>sb</code> with
+<code>basic_stringbuf&lt;charT, traits, Allocator&gt;(str, which | ios_base::out)</code> (31.8.2.2 <a href="https://wg21.link/stringbuf.cons">[stringbuf.cons]</a>).
 </p>
 </blockquote>
 <pre>
@@ -182,10 +193,10 @@ basic_ostringstream(basic_ostringstream&amp;&amp; rhs);
 </pre>
 <blockquote>
 <p>
--3- <i>Effects:</i> Move constructs from the rvalue <tt>rhs</tt>. This is accomplished 
-by move constructing the base class, and the contained <tt>basic_stringbuf</tt>. 
-Next <tt>basic_ostream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-is called to install the contained <tt>basic_stringbuf</tt>.
+-3- <i>Effects:</i> Move constructs from the rvalue <code>rhs</code>. This is accomplished 
+by move constructing the base class, and the contained <code>basic_stringbuf</code>. 
+Next <code>basic_ostream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+is called to install the contained <code>basic_stringbuf</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -201,7 +212,7 @@ basic_stringbuf&lt;charT, traits, Allocator&gt;* rdbuf() const;
 </pre>
 <blockquote>
 <p>
--1- <i>Returns:</i> <tt>const_cast&lt;basic_stringbuf&lt;charT, traits, Allocator&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>.
+-1- <i>Returns:</i> <code>const_cast&lt;basic_stringbuf&lt;charT, traits, Allocator&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -217,10 +228,10 @@ explicit basic_stringstream(ios_base::openmode which);
 </pre>
 <blockquote>
 <p>
--1- <i>Effects:</i> Constructs an object of class <tt>basic_stringstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_iostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.5.7.2 <a href="https://wg21.link/iostream.cons">[iostream.cons]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_stringbuf&lt;charT, traits, Allocator&gt;(which)</tt>.
+-1- <i>Effects:</i> Constructs an object of class <code>basic_stringstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_iostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.5.7.2 <a href="https://wg21.link/iostream.cons">[iostream.cons]</a>) and initializing <code>sb</code> with 
+<code>basic_stringbuf&lt;charT, traits, Allocator&gt;(which)</code>.
 </p>
 </blockquote>
 <pre>
@@ -230,10 +241,10 @@ explicit basic_stringstream(
 </pre>
 <blockquote>
 <p>
--2- <i>Effects:</i> Constructs an object of class <tt>basic_stringstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_iostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.5.7.2 <a href="https://wg21.link/iostream.cons">[iostream.cons]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_stringbuf&lt;charT, traits, Allocator&gt;(str, which)</tt>.
+-2- <i>Effects:</i> Constructs an object of class <code>basic_stringstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_iostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.5.7.2 <a href="https://wg21.link/iostream.cons">[iostream.cons]</a>) and initializing <code>sb</code> with 
+<code>basic_stringbuf&lt;charT, traits, Allocator&gt;(str, which)</code>.
 </p>
 </blockquote>
 <pre>
@@ -241,10 +252,10 @@ basic_stringstream(basic_stringstream&amp;&amp; rhs);
 </pre>
 <blockquote>
 <p>
--3- <i>Effects:</i> Move constructs from the rvalue <tt>rhs</tt>. This is accomplished 
-by move constructing the base class, and the contained <tt>basic_stringbuf</tt>. 
-Next <tt>basic_istream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-is called to install the contained <tt>basic_stringbuf</tt>.
+-3- <i>Effects:</i> Move constructs from the rvalue <code>rhs</code>. This is accomplished 
+by move constructing the base class, and the contained <code>basic_stringbuf</code>. 
+Next <code>basic_istream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+is called to install the contained <code>basic_stringbuf</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -260,7 +271,7 @@ basic_stringbuf&lt;charT, traits, Allocator&gt;* rdbuf() const;
 </pre>
 <blockquote>
 <p>
--1- <i>Returns:</i> <tt>const_cast&lt;basic_stringbuf&lt;charT, traits, Allocator&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt><ins>.</ins>
+-1- <i>Returns:</i> <code>const_cast&lt;basic_stringbuf&lt;charT, traits, Allocator&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code><ins>.</ins>
 </p>
 </blockquote>
 </blockquote>
@@ -268,7 +279,7 @@ basic_stringbuf&lt;charT, traits, Allocator&gt;* rdbuf() const;
 
 <li>
 <p>
-Change 31.10.3.2 <a href="https://wg21.link/ifstream.cons">[ifstream.cons]</a> as indicated:
+Change 31.10.4.2 <a href="https://wg21.link/ifstream.cons">[ifstream.cons]</a> as indicated:
 </p>
 <blockquote>
 <pre>
@@ -276,10 +287,10 @@ basic_ifstream();
 </pre>
 <blockquote>
 <p>
--1- <i>Effects:</i> Constructs an object of class <tt>basic_ifstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_istream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.5.2.2 <a href="https://wg21.link/istream.cons">[istream.cons]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_filebuf&lt;charT, traits&gt;()</tt> (31.10.2.2 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>).
+-1- <i>Effects:</i> Constructs an object of class <code>basic_ifstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_istream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.5.2.2 <a href="https://wg21.link/istream.cons">[istream.cons]</a>) and initializing <code>sb</code> with 
+<code>basic_filebuf&lt;charT, traits&gt;()</code> (31.10.3.2 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>).
 </p>
 </blockquote>
 <pre>
@@ -290,11 +301,11 @@ explicit basic_ifstream(const filesystem::path::value_type* s,
 </pre>
 <blockquote>
 <p>
--2- <i>Effects:</i> Constructs an object of class <tt>basic_ifstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_istream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.5.2.2 <a href="https://wg21.link/istream.cons">[istream.cons]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_filebuf&lt;charT, traits&gt;()</tt> (31.10.2.2 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>), then calls 
-<tt>rdbuf()-&gt;open(s, mode | ios_base::in)</tt>. If that function returns a null pointer, calls <tt>setstate(failbit)</tt>.
+-2- <i>Effects:</i> Constructs an object of class <code>basic_ifstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_istream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.5.2.2 <a href="https://wg21.link/istream.cons">[istream.cons]</a>) and initializing <code>sb</code> with 
+<code>basic_filebuf&lt;charT, traits&gt;()</code> (31.10.3.2 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>), then calls 
+<code>rdbuf()-&gt;open(s, mode | ios_base::in)</code>. If that function returns a null pointer, calls <code>setstate(failbit)</code>.
 </p>
 </blockquote>
 <p>[&hellip;]</p>
@@ -303,10 +314,10 @@ basic_ifstream(basic_ifstream&amp;&amp; rhs);
 </pre>
 <blockquote>
 <p>
--4- <i>Effects:</i> Move constructs from the rvalue <tt>rhs</tt>. This is accomplished 
-by move constructing the base class, and the contained <tt>basic_filebuf</tt>. 
-Next <tt>basic_istream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-is called to install the contained <tt>basic_filebuf</tt>.
+-4- <i>Effects:</i> Move constructs from the rvalue <code>rhs</code>. This is accomplished 
+by move constructing the base class, and the contained <code>basic_filebuf</code>. 
+Next <code>basic_istream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+is called to install the contained <code>basic_filebuf</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -314,7 +325,7 @@ is called to install the contained <tt>basic_filebuf</tt>.
 
 <li>
 <p>
-Change 31.10.3.4 <a href="https://wg21.link/ifstream.members">[ifstream.members]</a> p1 as indicated:
+Change 31.10.4.4 <a href="https://wg21.link/ifstream.members">[ifstream.members]</a> p1 as indicated:
 </p>
 <blockquote>
 <pre>
@@ -322,7 +333,7 @@ basic_filebuf&lt;charT, traits&gt;* rdbuf() const;
 </pre>
 <blockquote>
 <p>
--1- <i>Returns:</i> <tt>const_cast&lt;basic_filebuf&lt;charT, traits&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>.
+-1- <i>Returns:</i> <code>const_cast&lt;basic_filebuf&lt;charT, traits&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -330,7 +341,7 @@ basic_filebuf&lt;charT, traits&gt;* rdbuf() const;
 
 <li>
 <p>
-Change 31.10.4.2 <a href="https://wg21.link/ofstream.cons">[ofstream.cons]</a> as indicated:
+Change 31.10.5.2 <a href="https://wg21.link/ofstream.cons">[ofstream.cons]</a> as indicated:
 </p>
 <blockquote>
 <pre>
@@ -338,10 +349,10 @@ basic_ofstream();
 </pre>
 <blockquote>
 <p>
--1- <i>Effects:</i> Constructs an object of class <tt>basic_ofstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_ostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.6.2.2 <a href="https://wg21.link/ostream.cons">[ostream.cons]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_filebuf&lt;charT, traits&gt;()</tt> (31.10.2.2 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>).
+-1- <i>Effects:</i> Constructs an object of class <code>basic_ofstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_ostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.6.2.2 <a href="https://wg21.link/ostream.cons">[ostream.cons]</a>) and initializing <code>sb</code> with 
+<code>basic_filebuf&lt;charT, traits&gt;()</code> (31.10.3.2 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>).
 </p>
 </blockquote>
 <pre>
@@ -352,11 +363,11 @@ explicit basic_ofstream(const filesystem::path::value_type* s,
 </pre>
 <blockquote>
 <p>
--2- <i>Effects:</i> Constructs an object of class <tt>basic_ofstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_ostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.6.2.2 <a href="https://wg21.link/ostream.cons">[ostream.cons]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_filebuf&lt;charT, traits&gt;()</tt> (31.10.2.2 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>), then calls 
-<tt>rdbuf()-&gt;open(s, mode | ios_base::out)</tt>. If that function returns a null pointer, calls <tt>setstate(failbit)</tt>.
+-2- <i>Effects:</i> Constructs an object of class <code>basic_ofstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_ostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.6.2.2 <a href="https://wg21.link/ostream.cons">[ostream.cons]</a>) and initializing <code>sb</code> with 
+<code>basic_filebuf&lt;charT, traits&gt;()</code> (31.10.3.2 <a href="https://wg21.link/filebuf.cons">[filebuf.cons]</a>), then calls 
+<code>rdbuf()-&gt;open(s, mode | ios_base::out)</code>. If that function returns a null pointer, calls <code>setstate(failbit)</code>.
 </p>
 </blockquote>
 <p>[&hellip;]</p>
@@ -365,10 +376,10 @@ basic_ofstream(basic_ofstream&amp;&amp; rhs);
 </pre>
 <blockquote>
 <p>
--4- <i>Effects:</i> Move constructs from the rvalue <tt>rhs</tt>. This is accomplished 
-by move constructing the base class, and the contained <tt>basic_filebuf</tt>. 
-Next <tt>basic_ostream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-is called to install the contained <tt>basic_filebuf</tt>.
+-4- <i>Effects:</i> Move constructs from the rvalue <code>rhs</code>. This is accomplished 
+by move constructing the base class, and the contained <code>basic_filebuf</code>. 
+Next <code>basic_ostream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+is called to install the contained <code>basic_filebuf</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -376,7 +387,7 @@ is called to install the contained <tt>basic_filebuf</tt>.
 
 <li>
 <p>
-Change 31.10.4.4 <a href="https://wg21.link/ofstream.members">[ofstream.members]</a> p1 as indicated:
+Change 31.10.5.4 <a href="https://wg21.link/ofstream.members">[ofstream.members]</a> p1 as indicated:
 </p>
 <blockquote>
 <pre>
@@ -384,7 +395,7 @@ basic_filebuf&lt;charT, traits&gt;* rdbuf() const;
 </pre>
 <blockquote>
 <p>
--1- <i>Returns:</i> <tt>const_cast&lt;basic_filebuf&lt;charT, traits&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>.
+-1- <i>Returns:</i> <code>const_cast&lt;basic_filebuf&lt;charT, traits&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -392,7 +403,7 @@ basic_filebuf&lt;charT, traits&gt;* rdbuf() const;
 
 <li>
 <p>
-Change 31.10.5.2 <a href="https://wg21.link/fstream.cons">[fstream.cons]</a> as indicated:
+Change 31.10.6.2 <a href="https://wg21.link/fstream.cons">[fstream.cons]</a> as indicated:
 </p>
 <blockquote>
 <pre>
@@ -400,10 +411,10 @@ basic_fstream();
 </pre>
 <blockquote>
 <p>
--1- <i>Effects:</i> Constructs an object of class <tt>basic_fstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_iostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.5.7.2 <a href="https://wg21.link/iostream.cons">[iostream.cons]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_filebuf&lt;charT, traits&gt;()</tt>.
+-1- <i>Effects:</i> Constructs an object of class <code>basic_fstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_iostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.5.7.2 <a href="https://wg21.link/iostream.cons">[iostream.cons]</a>) and initializing <code>sb</code> with 
+<code>basic_filebuf&lt;charT, traits&gt;()</code>.
 </p>
 </blockquote>
 <pre>
@@ -416,11 +427,11 @@ explicit basic_fstream(
 </pre>
 <blockquote>
 <p>
--2- <i>Effects:</i> Constructs an object of class <tt>basic_fstream&lt;charT, traits&gt;</tt>,
-initializing the base class with <tt>basic_iostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-(31.7.5.7.2 <a href="https://wg21.link/iostream.cons">[iostream.cons]</a>) and initializing <tt>sb</tt> with 
-<tt>basic_filebuf&lt;charT, traits&gt;()</tt>, then calls <tt>rdbuf()-&gt;open(s, mode)</tt>.
-If that function returns a null pointer, calls <tt>setstate(failbit)</tt>.
+-2- <i>Effects:</i> Constructs an object of class <code>basic_fstream&lt;charT, traits&gt;</code>,
+initializing the base class with <code>basic_iostream&lt;charT, traits&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+(31.7.5.7.2 <a href="https://wg21.link/iostream.cons">[iostream.cons]</a>) and initializing <code>sb</code> with 
+<code>basic_filebuf&lt;charT, traits&gt;()</code>, then calls <code>rdbuf()-&gt;open(s, mode)</code>.
+If that function returns a null pointer, calls <code>setstate(failbit)</code>.
 </p>
 </blockquote>
 <p>[&hellip;]</p>
@@ -429,10 +440,10 @@ basic_fstream(basic_fstream&amp;&amp; rhs);
 </pre>
 <blockquote>
 <p>
--4- <i>Effects:</i> Move constructs from the rvalue <tt>rhs</tt>. This is accomplished 
-by move constructing the base class, and the contained <tt>basic_filebuf</tt>. 
-Next <tt>basic_istream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>
-is called to install the contained <tt>basic_filebuf</tt>.
+-4- <i>Effects:</i> Move constructs from the rvalue <code>rhs</code>. This is accomplished 
+by move constructing the base class, and the contained <code>basic_filebuf</code>. 
+Next <code>basic_istream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>
+is called to install the contained <code>basic_filebuf</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -440,7 +451,7 @@ is called to install the contained <tt>basic_filebuf</tt>.
 
 <li>
 <p>
-Change 31.10.5.4 <a href="https://wg21.link/fstream.members">[fstream.members]</a> p1 as indicated:
+Change 31.10.6.4 <a href="https://wg21.link/fstream.members">[fstream.members]</a> p1 as indicated:
 </p>
 <blockquote>
 <pre>
@@ -448,7 +459,7 @@ basic_filebuf&lt;charT, traits&gt;* rdbuf() const;
 </pre>
 <blockquote>
 <p>
--1- <i>Returns:</i> <tt>const_cast&lt;basic_filebuf&lt;charT, traits&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>.
+-1- <i>Returns:</i> <code>const_cast&lt;basic_filebuf&lt;charT, traits&gt;*&gt;(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>.
 </p>
 </blockquote>
 </blockquote>
@@ -456,11 +467,11 @@ basic_filebuf&lt;charT, traits&gt;* rdbuf() const;
 
 <li>
 <p>
-Change 31.11.3.1 <a href="https://wg21.link/syncstream.osyncstream.overview">[syncstream.osyncstream.overview]</a>, class template <tt>basic_osyncstream</tt> synopsis, as indicated:
+Change 31.11.3.1 <a href="https://wg21.link/syncstream.osyncstream.overview">[syncstream.osyncstream.overview]</a>, class template <code>basic_osyncstream</code> synopsis, as indicated:
 </p>
 <blockquote class="note">
 <p>
-[<i>Drafting note</i>: The text shown below assumes the application of the proposed resolution of issue <a href="lwg-defects.html#3127">3127</a>.]
+[<i>Drafting note</i>: The text shown below assumes the application of the proposed resolution of issue <a href="lwg-defects.html#3127" title="basic_osyncstream::rdbuf needs a const_cast">3127</a>.]
 </p>
 </blockquote>
 <blockquote>
@@ -492,8 +503,8 @@ basic_osyncstream(streambuf_type* buf, const Allocator&amp; allocator);
 </pre>
 <blockquote>
 <p>
--1- <i>Effects:</i> Initializes <tt>sb</tt> from <tt>buf</tt> and <tt>allocator</tt>. 
-Initializes the base class with <tt>basic_ostream<ins>&lt;charT, traits&gt;</ins>(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>.
+-1- <i>Effects:</i> Initializes <code>sb</code> from <code>buf</code> and <code>allocator</code>. 
+Initializes the base class with <code>basic_ostream<ins>&lt;charT, traits&gt;</ins>(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>.
 <p/>
 -2- [&hellip;]
 <p/>
@@ -505,8 +516,8 @@ basic_osyncstream(basic_osyncstream&amp;&amp; other) noexcept;
 </pre>
 <blockquote>
 <p>
--4- <i>Effects:</i> Move constructs the base class and <tt>sb</tt> from the corresponding subobjects of <tt>other</tt>,
-and calls <tt>basic_ostream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</tt>.
+-4- <i>Effects:</i> Move constructs the base class and <code>sb</code> from the corresponding subobjects of <code>other</code>,
+and calls <code>basic_ostream&lt;charT, traits&gt;::set_rdbuf(<del>&amp;</del><ins>addressof(</ins>sb<ins>)</ins>)</code>.
 <p/>
 -5- [&hellip;]
 </p>

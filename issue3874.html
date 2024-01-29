@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3874: Rename __cpp_lib_ranges_to_container to __cpp_lib_ranges_to</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
-<h3><a name="3874" href="lwg-closed.html#3874">3874</a>. Rename <tt>__cpp_lib_ranges_to_container</tt> to <tt>__cpp_lib_ranges_to</tt></h3>
+<h3 id="3874"><a href="lwg-closed.html#3874">3874</a>. Rename <code>__cpp_lib_ranges_to_container</code> to <code>__cpp_lib_ranges_to</code></h3>
 <p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-02-05 <b>Last modified:</b> 2023-02-08</p>
 <p><b>Priority: </b>Not Prioritized
@@ -55,10 +66,10 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#NAD">NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3785">3785</a> enables <tt>ranges::to</tt> to construct a non-range object from a range, 
+LWG <a href="lwg-defects.html#3785" title="ranges::to is over-constrained on the destination type being a range">3785</a> enables <code>ranges::to</code> to construct a non-range object from a range, 
 confirming that this is the intended part of the original design.
 <p/>
-However, the feature test macro for <tt>ranges::to</tt> is still named <tt>__cpp_lib_ranges_to_container</tt>, 
+However, the feature test macro for <code>ranges::to</code> is still named <code>__cpp_lib_ranges_to_container</code>, 
 where the "container" part seems confusing to users.
 </p>
 <p><i>[Issaquah 2023-02-08 Status changed: New &rarr; NAD.]</i></p>
@@ -69,12 +80,12 @@ it doesn't have to be a precise description of the feature.</p>
 
 <p id="res-3874"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <ol>
 <li>
-<p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <tt>&lt;version&gt;</tt> synopsis, as indicated:</p>
+<p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a>, header <code>&lt;version&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>

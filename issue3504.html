@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3504: condition_variable::wait_for is overspecified</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3504" href="lwg-active.html#3504">3504</a>. <tt>condition_variable::wait_for</tt> is overspecified</h3>
+<h3 id="3504"><a href="lwg-active.html#3504">3504</a>. <code>condition_variable::wait_for</code> is overspecified</h3>
 <p><b>Section:</b> 33.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2020-11-29</p>
 <p><b>Priority: </b>3
@@ -57,32 +68,32 @@
 33.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> p24 says:
 </p>
 <blockquote><p>
-<i>Effects:</i> Equivalent to: <tt>return wait_until(lock, chrono::steady_clock::now() + rel_time);</tt>
+<i>Effects:</i> Equivalent to: <code>return wait_until(lock, chrono::steady_clock::now() + rel_time);</code>
 </p></blockquote>
 <p>
-This is overspecification, removing implementer freedom to make <tt>cv.wait_for(duration&lt;float&gt;(1))</tt> work accurately.
+This is overspecification, removing implementer freedom to make <code>cv.wait_for(duration&lt;float&gt;(1))</code> work accurately.
 <p/>
-The type of <tt>steady_clock::now() + duration&lt;float&gt;(n)</tt> is <tt>time_point&lt;steady_clock, 
-duration&lt;float, steady_clock::period&gt;&gt;</tt>. If the steady clock's period is <tt>std::nano</tt> 
-and its epoch is the time the system booted, then in under a second a 32-bit <tt>float</tt> becomes unable 
-to exactly represent those <tt>time_points</tt>! Every second after boot makes <tt>duration&lt;float, nano&gt;</tt> 
+The type of <code>steady_clock::now() + duration&lt;float&gt;(n)</code> is <code>time_point&lt;steady_clock, 
+duration&lt;float, steady_clock::period&gt;&gt;</code>. If the steady clock's period is <code>std::nano</code> 
+and its epoch is the time the system booted, then in under a second a 32-bit <code>float</code> becomes unable 
+to exactly represent those <code>time_points</code>! Every second after boot makes <code>duration&lt;float, nano&gt;</code> 
 less precise.
 <p/>
-This means that adding a <tt>duration&lt;float&gt;</tt> to a <tt>time_point</tt> (or <tt>duration</tt>) 
+This means that adding a <code>duration&lt;float&gt;</code> to a <code>time_point</code> (or <code>duration</code>) 
 measured in nanoseconds is unlikely to produce an accurate value. Either it will round down to a value less 
-than <tt>now()</tt>, or round up to one greater than <tt>now() + 1s</tt>. Either way, the <tt>wait_for(rel_time)</tt> 
+than <code>now()</code>, or round up to one greater than <code>now() + 1s</code>. Either way, the <code>wait_for(rel_time)</code> 
 doesn't wait for the specified time, and users think the implementation is faulty.
 <p/>
-A possible solution is to use <tt>steady_clock::now() + ceil&lt;steady_clock::duration&gt;(rel_time)</tt> 
+A possible solution is to use <code>steady_clock::now() + ceil&lt;steady_clock::duration&gt;(rel_time)</code> 
 instead. This converts the relative time to a suitably large integer, and then the addition is not affected 
-by floating-point rounding errors due to the limited precision of 32-bit <tt>float</tt>. Libstdc++ has been 
+by floating-point rounding errors due to the limited precision of 32-bit <code>float</code>. Libstdc++ has been 
 doing this for nearly three years. Alternatively, the standard could just say that the relative timeout is 
 converted to an absolute timeout measured against the steady clock, and leave the details to the implementation. 
 Some implementations might not be affected by the problem (e.g. if the steady clock measures milliseconds, 
 or processes only run for a few seconds and use the process start as the steady clock's epoch).
 <p/>
-This also affects the other overload of <tt>condition_variable::wait_for</tt>, and both overloads of 
-<tt>condition_variable_any::wait_for</tt>.
+This also affects the other overload of <code>condition_variable::wait_for</code>, and both overloads of 
+<code>condition_variable_any::wait_for</code>.
 </p>
 
 <p><i>[2020-11-29; Reflector prioritization]</i></p>

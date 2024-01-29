@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3871: Adjust note about terminate</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -44,14 +55,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
-<h3><a name="3871" href="lwg-defects.html#3871">3871</a>. Adjust note about <tt>terminate</tt></h3>
-<p><b>Section:</b> 16.4.2.5 <a href="https://wg21.link/compliance">[compliance]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> CA <b>Opened:</b> 2023-02-01 <b>Last modified:</b> 2023-02-13</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
+<h3 id="3871"><a href="lwg-defects.html#3871">3871</a>. Adjust note about <code>terminate</code></h3>
+<p><b>Section:</b> 16.4.2.5 <a href="https://wg21.link/compliance">[compliance]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+ <b>Submitter:</b> CA <b>Opened:</b> 2023-02-01 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#compliance">issues</a> in [compliance].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 This is the resolution for NB comment <b><a href="https://github.com/cplusplus/nbballot/issues/463">CA-076</a></b>
@@ -61,26 +72,26 @@ This is the resolution for NB comment <b><a href="https://github.com/cplusplus/n
 </p>
 <blockquote>
 [<i>Note 1</i>: Throwing a standard library provided exception is not
-observably different from <tt>terminate()</tt> if the implementation
+observably different from <code>terminate()</code> if the implementation
 does not unwind the stack during exception handling
 (14.4 <a href="https://wg21.link/except.handle">[except.handle]</a>)
 and the user's program contains no catch blocks. &mdash; <i>end note</i>]
 </blockquote>
 <p>
-Even under the conditions described by the note, a call to <tt>terminate()</tt>
+Even under the conditions described by the note, a call to <code>terminate()</code>
 is observably different from throwing an exception if the current
-<tt>terminate_handler</tt> function observes what would have been
+<code>terminate_handler</code> function observes what would have been
 the currently handled exception in the case where the exception was thrown.
 </p>
 <p>
 The set of conditions should be extended to include something along the lines of
-"and the current <tt>terminate_handler</tt> function simply calls <tt>abort()</tt>".
+"and the current <code>terminate_handler</code> function simply calls <code>abort()</code>".
 </p>
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
 <blockquote class="note">
 
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <ol>
@@ -92,12 +103,12 @@ Modify 16.4.2.5 <a href="https://wg21.link/compliance">[compliance]</a>, "Freest
 <blockquote>
 -4-
 [<i>Note 1</i>: Throwing a standard library provided exception is not
-observably different from <tt>terminate()</tt> if the implementation
+observably different from <code>terminate()</code> if the implementation
 does not unwind the stack during exception handling
 (14.4 <a href="https://wg21.link/except.handle">[except.handle]</a>)
 and the user's program contains no catch blocks
-<ins>and the current <tt>terminate_handler</tt> function simply calls
-<tt>abort()</tt></ins>.
+<ins>and the current <code>terminate_handler</code> function simply calls
+<code>abort()</code></ins>.
 &mdash; <i>end note</i>]
 </blockquote>
 </li>
@@ -112,13 +123,13 @@ Poll: keep note and change as proposed? 3/1/10.<br/>
 Poll: drop the note entirely? 10/0/5.<br/>
 Drop the note and move to Immediate for C++20: 9/0/2.
 </p>
-<p><i>[2023-02-13 Status changed: Immediate &rarr; WP.]</i></p>
+<p><i>[2023-02-13 Approved at February 2023 meeting in Issaquah. Status changed: Immediate &rarr; WP.]</i></p>
 
 
 
 <p id="res-3871"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <ol>
@@ -131,7 +142,7 @@ Modify 16.4.2.5 <a href="https://wg21.link/compliance">[compliance]</a>, "Freest
 <del>
 -4-
 [<i>Note 1</i>: Throwing a standard library provided exception is not
-observably different from <tt>terminate()</tt> if the implementation
+observably different from <code>terminate()</code> if the implementation
 does not unwind the stack during exception handling
 (14.4 <a href="https://wg21.link/except.handle">[except.handle]</a>)
 and the user's program contains no catch blocks.

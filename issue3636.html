@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3636: formatter&lt;T&gt;::format should be const-qualified</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -44,14 +55,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
-<h3><a name="3636" href="lwg-defects.html#3636">3636</a>. <tt>formatter&lt;T&gt;::format</tt> should be <tt>const</tt>-qualified</h3>
-<p><b>Section:</b> 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-11 <b>Last modified:</b> 2022-11-17</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
+<h3 id="3636"><a href="lwg-defects.html#3636">3636</a>. <code>formatter&lt;T&gt;::format</code> should be <code>const</code>-qualified</h3>
+<p><b>Section:</b> 22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2021-11-11 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#formatter.requirements">issues</a> in [formatter.requirements].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 In <a href="https://reviews.llvm.org/D112017">libc++ review</a>, we've noticed that we don't understand 
@@ -60,7 +71,7 @@ the implications of 22.14.6.1 <a href="https://wg21.link/formatter.requirements"
 </p>
 <blockquote>
 <p>
-(3.1) &mdash; <tt>f</tt> is a <b>value</b> of type <tt>F</tt>,
+(3.1) &mdash; <code>f</code> is a <b>value</b> of type <code>F</code>,
 <p/>
 [&hellip;]
 <p/>
@@ -68,16 +79,16 @@ Table 70: <i>BasicFormatter</i> requirements [tab:formatter.basic]
 <p/>
 [&hellip;]
 <p/>
-<tt>f.parse(pc)</tt> [<em>must compile</em>] [&hellip;]
+<code>f.parse(pc)</code> [<em>must compile</em>] [&hellip;]
 <p/>
-<tt>f.format(u, fc)</tt> [<em>must compile</em>] [&hellip;]
+<code>f.format(u, fc)</code> [<em>must compile</em>] [&hellip;]
 </p>
 </blockquote>
 <p>
-According to Victor Zverovich, his intent was that <tt>f.parse(pc)</tt> should modify the 
-state of <tt>f</tt>, but <tt>f.format(u, fc)</tt> should merely read <tt>f</tt>'s state to 
+According to Victor Zverovich, his intent was that <code>f.parse(pc)</code> should modify the 
+state of <code>f</code>, but <code>f.format(u, fc)</code> should merely read <code>f</code>'s state to 
 support format string compilation where formatter objects are immutable and therefore the 
-<tt>format</tt> function must be <tt>const</tt>-qualified. 
+<code>format</code> function must be <code>const</code>-qualified. 
 <p/>
 That is, a typical formatter should look something like this (modulo errors introduced by me):
 </p>
@@ -90,8 +101,8 @@ struct WidgetFormatter {
 </pre>
 </blockquote>
 <p>
-However, this is not reflected in the wording, which treats <tt>parse</tt> and <tt>format</tt> symmetrically.
-Also, there is at least one example that shows a non-const <tt>format</tt> method:
+However, this is not reflected in the wording, which treats <code>parse</code> and <code>format</code> symmetrically.
+Also, there is at least one example that shows a non-const <code>format</code> method:
 </p>
 <blockquote>
 <pre>
@@ -108,12 +119,12 @@ Victor writes:
 <blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
 <p>
 Maybe we should [&hellip;] open an LWG issue clarifying that all standard formatters have a 
-<tt>const</tt> format function.
+<code>const</code> format function.
 </p>
 </blockquote>
 <p>
 I'd like to be even more assertive: Let's open an LWG issue clarifying that all formatters must have a 
-<tt>const</tt> format function!
+<code>const</code> format function!
 </p>
 
 <p><i>[2022-01-30; Reflector poll]</i></p>
@@ -131,7 +142,7 @@ Set priority to 1 after reflector poll.
 
 <p id="res-3636"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
+This wording is relative to <a href="https://wg21.link/N4901" title=" Working Draft, Standard for Programming Language C++">N4901</a>.
 </p>
 
 <ol>
@@ -141,21 +152,21 @@ This wording is relative to <a href="https://wg21.link/N4901">N4901</a>.
 <blockquote class="note">
 <p>
 [<i>Drafting note:</i> It might also be reasonable to do a drive-by clarification that when the Table 70 says 
-"Stores the parsed format specifiers in <tt>*this</tt>," what it actually means is "Stores the parsed format 
-specifiers in <tt>g</tt>." (But I don't think anyone's seriously confused by that wording.)
+"Stores the parsed format specifiers in <code>*this</code>," what it actually means is "Stores the parsed format 
+specifiers in <code>g</code>." (But I don't think anyone's seriously confused by that wording.)
 </p>
 </blockquote>
 
 <blockquote>
 <p>
--3- Given character type <tt>charT</tt>, output iterator type <tt>Out</tt>, and formatting argument type <tt>T</tt>, 
+-3- Given character type <code>charT</code>, output iterator type <code>Out</code>, and formatting argument type <code>T</code>, 
 in Table 70 and Table 71:
 </p>
 <ol style="list-style-type:none">
-<li><p>(3.1) &mdash; <tt>f</tt> is a value of type <ins>(possibly <tt>const</tt>)</ins> <tt>F</tt>,</p></li>
-<li><p><ins>(3.?) &mdash; <tt>g</tt> is an lvalue of type <tt>F</tt>,</ins></p></li>
-<li><p>(3.2) &mdash; <tt>u</tt> is an lvalue of type <tt>T</tt>,</p></li>
-<li><p>(3.3) &mdash; <tt>t</tt> is a value of a type convertible to (possibly <tt>const</tt>) <tt>T</tt>,</p></li>
+<li><p>(3.1) &mdash; <code>f</code> is a value of type <ins>(possibly <code>const</code>)</ins> <code>F</code>,</p></li>
+<li><p><ins>(3.?) &mdash; <code>g</code> is an lvalue of type <code>F</code>,</ins></p></li>
+<li><p>(3.2) &mdash; <code>u</code> is an lvalue of type <code>T</code>,</p></li>
+<li><p>(3.3) &mdash; <code>t</code> is a value of a type convertible to (possibly <code>const</code>) <code>T</code>,</p></li>
 <li><p>[&hellip;]</p></li>
 </ol>
 <p>
@@ -172,21 +183,21 @@ in Table 70 and Table 71:
 
 <tr>
 <td>
-<tt><del>f</del><ins>g</ins>.parse(pc)</tt>
+<code><del>f</del><ins>g</ins>.parse(pc)</code>
 </td>
 <td>
-<tt>PC::iterator</tt>
+<code>PC::iterator</code>
 </td>
 <td>
 [&hellip;]<br/>
-Stores the parsed format specifiers in <tt>*this</tt> and
+Stores the parsed format specifiers in <code>*this</code> and
 returns an iterator past the end of the parsed range.
 </td>
 </tr>
 
 <tr>
 <td colspan="3" align="center">
-<tt>&hellip;</tt>
+<code>&hellip;</code>
 </td>
 </tr>
 </table>
@@ -199,7 +210,7 @@ returns an iterator past the end of the parsed range.
 
 <blockquote>
 <p>
--6- An enabled specialization <tt>formatter&lt;T, charT&gt;</tt> meets the <i>BasicFormatter</i> requirements 
+-6- An enabled specialization <code>formatter&lt;T, charT&gt;</code> meets the <i>BasicFormatter</i> requirements 
 (22.14.6.1 <a href="https://wg21.link/formatter.requirements">[formatter.requirements]</a>).
 <p/>
 [<i>Example 1</i>:
@@ -234,7 +245,7 @@ void advance_to(iterator it);
 </pre>
 <blockquote>
 <p>
--8- <i>Effects:</i> Equivalent to: <tt>out_ = std::move(it);</tt>
+-8- <i>Effects:</i> Equivalent to: <code>out_ = std::move(it);</code>
 <p/>
 [<i>Example 1</i>:
 </p>
@@ -283,7 +294,7 @@ struct formatter&lt;chrono::<i>local-time-format-t</i>&lt;Duration&gt;, charT&gt
 </pre>
 <blockquote>
 <p>
--15- Let <tt>f</tt> be [&hellip;]
+-15- Let <code>f</code> be [&hellip;]
 <p/>
 -16- <i>Remarks:</i> [&hellip;]
 </p>

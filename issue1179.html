@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 1179: Probably editorial in [structure.specifications]</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -44,9 +55,9 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD Editorial">NAD Editorial</a> status.</em></p>
-<h3><a name="1179" href="lwg-closed.html#1179">1179</a>. Probably editorial in [structure.specifications]</h3>
-<p><b>Section:</b> 16.3.2.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> <b>Status:</b> <a href="lwg-active.html#NAD Editorial">NAD Editorial</a>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD_Editorial">NAD Editorial</a> status.</em></p>
+<h3 id="1179"><a href="lwg-closed.html#1179">1179</a>. Probably editorial in [structure.specifications]</h3>
+<p><b>Section:</b> 16.3.2.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a> <b>Status:</b> <a href="lwg-active.html#NAD_Editorial">NAD Editorial</a>
  <b>Submitter:</b> Robert Klarer <b>Opened:</b> 2009-07-21 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -55,19 +66,19 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#NAD Editorial">NAD Editorial</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-While reviewing <a href="lwg-closed.html#971">971</a> I noted that 16.3.2.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a>/7 says:
+While reviewing <a href="lwg-closed.html#971" title="Spurious diagnostic conversion function">971</a> I noted that 16.3.2.4 <a href="https://wg21.link/structure.specifications">[structure.specifications]</a>/7 says:
 </p>
 
 <blockquote><p>
 -7- Error conditions specify conditions where a function may fail. The
-conditions are listed, together with a suitable explanation, as the <tt>enum
-class errc</tt> constants (19.5) that could be used as an argument to
-function <tt>make_error_condition</tt> (19.5.3.6).
+conditions are listed, together with a suitable explanation, as the <code>enum
+class errc</code> constants (19.5) that could be used as an argument to
+function <code>make_error_condition</code> (19.5.3.6).
 </p></blockquote>
 
 <p>
-This paragraph should mention <tt>make_error_code</tt> or the text "that
-could be used as an argument to function <tt>make_error_condition</tt>
+This paragraph should mention <code>make_error_code</code> or the text "that
+could be used as an argument to function <code>make_error_condition</code>
 (19.5.3.6)" should be deleted.  I believe this is editorial.
 </p>
 
@@ -107,7 +118,7 @@ if (ec == errc::permission_denied)
 </pre></blockquote>
 
 <p>
-the implicit conversion <tt>errc-&gt;error_condition</tt> makes the if-test
+the implicit conversion <code>errc-&gt;error_condition</code> makes the if-test
 equivalent to:
 </p>
 
@@ -125,7 +136,7 @@ if (ec == make_error_code(errc::permission_denied))
 
 <p>
 the test is now checking for a specific error code. The test may
-evaluate to <tt>false</tt> even though <tt>foobar()</tt> failed due to the documented
+evaluate to <code>false</code> even though <code>foobar()</code> failed due to the documented
 error condition "Insufficient privilege".
 </p>
 </blockquote>
@@ -141,10 +152,10 @@ NAD Editorial.
 </p>
 <p>
 What the WP says right now is literally true: these codes can be used as
-an argument to <tt>make_error_condition</tt>. (It is also true that they can be
-used as an argument to <tt>make_error_code</tt>, which the WP doesn't say.) Maybe
+an argument to <code>make_error_condition</code>. (It is also true that they can be
+used as an argument to <code>make_error_code</code>, which the WP doesn't say.) Maybe
 it would be clearer to just delete "that could be used as an argument to
-function <tt>make_error_condition</tt>", since that fact is already implied by
+function <code>make_error_condition</code>", since that fact is already implied by
 other things that we say. We believe that this is editorial.
 </p>
 </blockquote>

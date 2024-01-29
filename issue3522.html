@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3522: Missing requirement on InputIterator template parameter for priority_queue constructors</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -44,18 +55,18 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
-<h3><a name="3522" href="lwg-defects.html#3522">3522</a>. Missing requirement on <tt>InputIterator</tt> template parameter for <tt>priority_queue</tt> constructors</h3>
-<p><b>Section:</b> 24.6.7 <a href="https://wg21.link/priority.queue">[priority.queue]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-02-17 <b>Last modified:</b> 2021-06-07</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
+<h3 id="3522"><a href="lwg-defects.html#3522">3522</a>. Missing requirement on <code>InputIterator</code> template parameter for <code>priority_queue</code> constructors</h3>
+<p><b>Section:</b> 24.6.7 <a href="https://wg21.link/priority.queue">[priority.queue]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2021-02-17 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#priority.queue">issues</a> in [priority.queue].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 There is nothing in 24.6.7 <a href="https://wg21.link/priority.queue">[priority.queue]</a> or more generally 24.6 <a href="https://wg21.link/container.adaptors">[container.adaptors]</a>
-saying that <tt>InputIterator</tt> in the following constructor templates has to be an input iterator.
+saying that <code>InputIterator</code> in the following constructor templates has to be an input iterator.
 </p>
 <blockquote><pre>
 template&lt;class InputIterator&gt;
@@ -72,7 +83,7 @@ The second constructor template above therefore accepts
 std::priority_queue&lt;int&gt; x = {1, 2};
 </pre></blockquote>
 <p>
-to produce a <tt>priority_queue</tt> that contains a single element <tt>2</tt>. This behavior seems extremely questionable.
+to produce a <code>priority_queue</code> that contains a single element <code>2</code>. This behavior seems extremely questionable.
 </p>
 
 <p><i>[2021-02-26; LWG telecon]</i></p>
@@ -108,14 +119,14 @@ This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
 <blockquote>
 <p>
 <ins>-?- A constructor template of a container adaptor shall not participate in
-overload resolution if it has an <tt>InputIterator</tt> template parameter and a
+overload resolution if it has an <code>InputIterator</code> template parameter and a
 type that does not qualify as an input iterator is deduced for that parameter.</ins>
 </p>
 <p>
 -4- A deduction guide for a container adaptor shall not participate in overload resolution if any of the following are true:
 </p>
 <ol style="list-style-type: none">
-<li><p>(4.1) &mdash; It has an <tt>InputIterator</tt> template parameter and a type that does not qualify as an input iterator is deduced for that parameter.</p></li>
+<li><p>(4.1) &mdash; It has an <code>InputIterator</code> template parameter and a type that does not qualify as an input iterator is deduced for that parameter.</p></li>
 <li><p>[&hellip;]</p></li>
 </ol>
 </blockquote>

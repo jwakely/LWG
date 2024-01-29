@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3629: make_error_code and make_error_condition are customization points</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -44,14 +55,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
-<h3><a name="3629" href="lwg-defects.html#3629">3629</a>. <code>make_error_code</code> and <code>make_error_condition</code> are customization points</h3>
-<p><b>Section:</b> 19.5 <a href="https://wg21.link/syserr">[syserr]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-10-31 <b>Last modified:</b> 2022-11-17</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
+<h3 id="3629"><a href="lwg-defects.html#3629">3629</a>. <code>make_error_code</code> and <code>make_error_condition</code> are customization points</h3>
+<p><b>Section:</b> 19.5 <a href="https://wg21.link/syserr">[syserr]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2021-10-31 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#syserr">issues</a> in [syserr].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 The rule in 16.4.2.2 <a href="https://wg21.link/contents">[contents]</a> means that the calls to
@@ -149,13 +160,13 @@ unqualified name lookup and argument-dependent lookup"
 to simply "established as-if by performing argument-dependent lookup".
 </p>
 <p>
-This resolves the question of whether <tt>std::make_error_code(errc)</tt>,
-<tt>std::make_error_code(io_errc)</tt>, etc. should be visible to the
+This resolves the question of whether <code>std::make_error_code(errc)</code>,
+<code>std::make_error_code(io_errc)</code>, etc. should be visible to the
 unqualified name lookup. This affects whether a program-defined type that
-specializes <tt>is_error_code_enum</tt> but doesn't provide an overload of
-<tt>make_error_code</tt> should find the overloads in namespace <tt>std</tt>
+specializes <code>is_error_code_enum</code> but doesn't provide an overload of
+<code>make_error_code</code> should find the overloads in namespace <code>std</code>
 and consider them for overload resolution, via implicit conversion to
-<tt>std::errc</tt>, <tt>std::io_errc</tt>, etc.
+<code>std::errc</code>, <code>std::io_errc</code>, etc.
 </p>
 
 <p><i>[2022-09-23; Reflector poll]</i></p>
@@ -170,7 +181,7 @@ Set status to Tentatively Ready after seven votes in favour during reflector pol
 
 <p id="res-3629"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+This wording is relative to <a href="https://wg21.link/N4910" title=" Working Draft, Standard for Programming Language C++">N4910</a>.
 </p>
 
 <ul>

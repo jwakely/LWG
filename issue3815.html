@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3815: Freestanding enumerators specification is lacking</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
-<h3><a name="3815" href="lwg-defects.html#3815">3815</a>. Freestanding enumerators specification is lacking</h3>
+<h3 id="3815"><a href="lwg-defects.html#3815">3815</a>. Freestanding enumerators specification is lacking</h3>
 <p><b>Section:</b> 16.3.3.6 <a href="https://wg21.link/freestanding.item">[freestanding.item]</a>, 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
  <b>Submitter:</b> Ben Craig <b>Opened:</b> 2022-11-06 <b>Last modified:</b> 2023-02-07</p>
 <p><b>Priority: </b>Not Prioritized
@@ -55,15 +66,15 @@
 <p><b>Discussion:</b></p>
 <p>
 This is a partial resolution of <b><a href="https://github.com/cplusplus/nbballot/issues/442">GB-130</a></b> 
-(33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <tt>memory_order_acquire</tt> etc should be freestanding).
+(33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <code>memory_order_acquire</code> etc should be freestanding).
 <p/>
-It's not entirely clear whether the enumerators for the <tt>std::memory_order</tt> enum type are also freestanding, 
+It's not entirely clear whether the enumerators for the <code>std::memory_order</code> enum type are also freestanding, 
 as those enumerators aren't shown in the synopsis, only in 33.5.4 <a href="https://wg21.link/atomics.order">[atomics.order]</a>.
 </p>
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
 <blockquote class="note">
 <p>
-This wording is relative to <a href="https://wg21.link/N4917">N4917</a> <b>assuming that LWG <a href="lwg-defects.html#3753">3753</a> has been accepted 
+This wording is relative to <a href="https://wg21.link/N4917" title=" Working Draft, Standard for Programming Language C++">N4917</a> <b>assuming that LWG <a href="lwg-defects.html#3753" title="Clarify entity vs. freestanding entity">3753</a> has been accepted 
 (freestanding entity -&gt; freestanding item)</b>.
 </p>
 
@@ -162,9 +173,9 @@ hosted implementation.
 
 <p><i>[2022-11-08; Kona - move to open]</i></p>
 
-<p>This will be resolved by the combined resolution in <a href="lwg-defects.html#3753">3753</a>.</p>
+<p>This will be resolved by the combined resolution in <a href="lwg-defects.html#3753" title="Clarify entity vs. freestanding entity">3753</a>.</p>
 
-<p><i>[2022-11-22 Resolved by <a href="lwg-defects.html#3753">3753</a> accepted in Kona. Status changed: Open &rarr; Resolved.]</i></p>
+<p><i>[2022-11-22 Resolved by <a href="lwg-defects.html#3753" title="Clarify entity vs. freestanding entity">3753</a> accepted in Kona. Status changed: Open &rarr; Resolved.]</i></p>
 
 
 

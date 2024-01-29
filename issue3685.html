@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3685: In lazy_split_view, CTAD doesn't work when given an input_range input and a tiny-range pattern</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3685" href="lwg-active.html#3685">3685</a>. In <tt>lazy_split_view</tt>, CTAD doesn't work when given an <tt>input_range</tt> input and a <tt><i>tiny-range</i></tt> pattern</h3>
+<h3 id="3685"><a href="lwg-active.html#3685">3685</a>. In <code>lazy_split_view</code>, CTAD doesn't work when given an <code>input_range</code> input and a <code><i>tiny-range</i></code> pattern</h3>
 <p><b>Section:</b> 26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Konstantin Varlamov <b>Opened:</b> 2022-03-23 <b>Last modified:</b> 2022-05-17</p>
 <p><b>Priority: </b>3
@@ -55,27 +66,27 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-In <tt>lazy_split_view</tt>, the deduction guide that accepts two arbitrary types wraps the arguments in 
-<tt>views::all_t</tt> (26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>):
+In <code>lazy_split_view</code>, the deduction guide that accepts two arbitrary types wraps the arguments in 
+<code>views::all_t</code> (26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>):
 </p>
 <blockquote><pre>
 template&lt;class R, class P&gt;
   lazy_split_view(R&amp;&amp;, P&amp;&amp;) -&gt; lazy_split_view&lt;views::all_t&lt;R&gt;, views::all_t&lt;P&gt;&gt;;
 </pre></blockquote>
 <p>
-When trying to use an <tt>input_range</tt> as the input, <tt>lazy_split_view</tt> requires the pattern 
-type to satisfy the exposition-only concept <tt><i>tiny-range</i></tt>. Trying to use CTAD with an 
-<tt>input_range</tt> and a <tt><i>tiny-range</i></tt> as arguments results in a compiler error, as demonstrated
+When trying to use an <code>input_range</code> as the input, <code>lazy_split_view</code> requires the pattern 
+type to satisfy the exposition-only concept <code><i>tiny-range</i></code>. Trying to use CTAD with an 
+<code>input_range</code> and a <code><i>tiny-range</i></code> as arguments results in a compiler error, as demonstrated
 in the <a href="https://godbolt.org/z/37bs9hq1T">demo link</a>:
 </p>
 <blockquote><pre>
-// Assuming `InputRange` and `TinyRange` are valid types satisfying the
+// Assuming <code class='backtick'>InputRange</code> and <code class='backtick'>TinyRange</code> are valid types satisfying the
 // corresponding concepts.
 std::ranges::lazy_split_view view{InputRange(), TinyRange()}; // Compiler error
 </pre></blockquote>
 <p>
-The underlying reason is that <tt><i>tiny-range</i></tt> requires the given type to contain a static member function 
-<tt>size()</tt> that returns a number <tt>&lt;=1</tt> (26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>):
+The underlying reason is that <code><i>tiny-range</i></code> requires the given type to contain a static member function 
+<code>size()</code> that returns a number <code>&lt;=1</code> (26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>):
 </p>
 <blockquote><pre>
 template&lt;class R&gt;
@@ -85,15 +96,15 @@ template&lt;class R&gt;
     (remove_reference_t&lt;R&gt;::size() &lt;= 1);
 </pre></blockquote>
 <p>
-However, when given a range, <tt>views::all_t</tt> wraps the type in a <tt>ranges::owning_view</tt>. 
-<tt>owning_view</tt> doesn't satisfy <tt><i>tiny-range</i></tt> for any template parameter because it 
-never contains the static <tt>size()</tt> function required by the concept.
+However, when given a range, <code>views::all_t</code> wraps the type in a <code>ranges::owning_view</code>. 
+<code>owning_view</code> doesn't satisfy <code><i>tiny-range</i></code> for any template parameter because it 
+never contains the static <code>size()</code> function required by the concept.
 <p/>
-A general resolution might be modifying <tt>owning_view</tt> so that it satisfies <tt><i>tiny-range</i></tt> 
-when the given type is a <tt><i>tiny-range</i></tt> (that would require moving the <tt><i>tiny-range</i></tt> 
+A general resolution might be modifying <code>owning_view</code> so that it satisfies <code><i>tiny-range</i></code> 
+when the given type is a <code><i>tiny-range</i></code> (that would require moving the <code><i>tiny-range</i></code> 
 concept from 26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a> to 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>). A more 
-localized solution can be to change the deduction guide in <tt>lazy_split_view</tt> to avoid wrapping 
-a type satisfying <tt><i>tiny-range</i></tt> in <tt>views::all_t</tt>.
+localized solution can be to change the deduction guide in <code>lazy_split_view</code> to avoid wrapping 
+a type satisfying <code><i>tiny-range</i></code> in <code>views::all_t</code>.
 </p>
 
 <p><i>[2022-05-17; Reflector poll]</i></p>
@@ -106,7 +117,7 @@ Set priority to 3 after reflector poll. One vote for NAD.
 
 <p id="res-3685"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+This wording is relative to <a href="https://wg21.link/N4910" title=" Working Draft, Standard for Programming Language C++">N4910</a>.
 </p>
 
 <ol>
@@ -115,7 +126,7 @@ This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
 <blockquote class="note">
 <p>
 [<i>Drafting note:</i> This change effectively just moves the definitions of 
-<tt><i>require-constant</i></tt> and <tt><i>tiny-range</i></tt> from 26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>
+<code><i>require-constant</i></code> and <code><i>tiny-range</i></code> from 26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>
 to 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>.]
 </p>
 </blockquote>
@@ -138,7 +149,7 @@ concept <i>tiny-range</i> = <i>// exposition only</i>
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.6.3 <a href="https://wg21.link/range.owning.view">[range.owning.view]</a>, class template <tt>owning_view</tt> synopsis, as indicated:</p>
+<li><p>Modify 26.7.6.3 <a href="https://wg21.link/range.owning.view">[range.owning.view]</a>, class template <code>owning_view</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -154,12 +165,12 @@ constexpr auto size() const requires sized_range&lt;const R&gt;
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>, class template <tt>lazy_split_view</tt> synopsis, as indicated:</p>
+<li><p>Modify 26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>, class template <code>lazy_split_view</code> synopsis, as indicated:</p>
 
 <blockquote class="note">
 <p>
 [<i>Drafting note:</i> This change effectively just moves the definitions of 
-<tt><i>require-constant</i></tt> and <tt><i>tiny-range</i></tt> from 26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>
+<code><i>require-constant</i></code> and <code><i>tiny-range</i></code> from 26.7.16.2 <a href="https://wg21.link/range.lazy.split.view">[range.lazy.split.view]</a>
 to 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>.]
 </p>
 </blockquote>

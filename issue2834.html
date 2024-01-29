@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 2834: Resolution LWG 2223 is missing wording about end iterators</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++17">C++17</a> status.</em></p>
-<h3><a name="2834" href="lwg-defects.html#2834">2834</a>. Resolution LWG 2223 is missing wording about end iterators</h3>
+<h3 id="2834"><a href="lwg-defects.html#2834">2834</a>. Resolution LWG 2223 is missing wording about end iterators</h3>
 <p><b>Section:</b> 23.4.3.5 <a href="https://wg21.link/string.capacity">[string.capacity]</a>, 24.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a>, 24.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
  <b>Submitter:</b> Thomas Koeppe <b>Opened:</b> 2016-11-29 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>0
@@ -54,14 +65,14 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++17">C++17</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The resolution of LWG <a href="lwg-defects.html#2223">2223</a> added the wording "Reallocation invalidates all the references, pointers, 
-and iterators referring to the elements in the sequence." to a number of <tt>shrink_to_fit</tt> operations.
+The resolution of LWG <a href="lwg-defects.html#2223" title="shrink_to_fit effect on iterator validity">2223</a> added the wording "Reallocation invalidates all the references, pointers, 
+and iterators referring to the elements in the sequence." to a number of <code>shrink_to_fit</code> operations.
 <p/>
 This seems to be missing any mention of end iterators. Surely end iterators are invalidated, too?
 <p/>
 Suggested resolution:
 <p/>
-For <tt>string</tt>, <tt>deque</tt>, and <tt>vector</tt> each, append as follows:
+For <code>string</code>, <code>deque</code>, and <code>vector</code> each, append as follows:
 <p/>
 Reallocation invalidates all the references, pointers, and iterators referring to the elements in the sequence <ins>as 
 well as the past-the-end iterator</ins>.
@@ -102,7 +113,7 @@ void shrink_to_fit();
 <p>
 [&hellip;]
 <p/>
--8- <i>Remarks:</i> <tt>shrink_to_fit</tt> invalidates all the references, pointers, and iterators referring to the elements
+-8- <i>Remarks:</i> <code>shrink_to_fit</code> invalidates all the references, pointers, and iterators referring to the elements
 in the sequence <ins>as well as the past-the-end iterator</ins>. 
 </p>
 </blockquote>

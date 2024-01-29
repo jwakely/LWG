@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 868: Default construction and value-initialization</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
-<h3><a name="868" href="lwg-defects.html#868">868</a>. Default construction and value-initialization</h3>
+<h3 id="868"><a href="lwg-defects.html#868">868</a>. Default construction and value-initialization</h3>
 <p><b>Section:</b> 24 <a href="https://wg21.link/containers">[containers]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
  <b>Submitter:</b> Alberto Ganesh Barbati <b>Opened:</b> 2008-07-22 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
@@ -60,12 +71,12 @@ the introduction of the concept of value-initialization. In a few such
 places the concept of value-initialization is more correct than the
 current wording (for example when the type involved can be a built-in)
 so a replacement is in order. Two of such places are already covered by
-issue <a href="lwg-closed.html#867">867</a>. This issue deliberately addresses the hopefully
+issue <a href="lwg-closed.html#867" title="Valarray and value-initialization">867</a>. This issue deliberately addresses the hopefully
 non-controversial changes in the attempt of being approved more quickly.
-A few other occurrences (for example in <tt>std::tuple</tt>,
-<tt>std::reverse_iterator</tt> and <tt>std::move_iterator</tt>) are left to separate
-issues. For <tt>std::reverse_iterator</tt>, see also issue <a href="lwg-closed.html#408">408</a>. This issue is
-related with issue <a href="lwg-defects.html#724">724</a>.
+A few other occurrences (for example in <code>std::tuple</code>,
+<code>std::reverse_iterator</code> and <code>std::move_iterator</code>) are left to separate
+issues. For <code>std::reverse_iterator</code>, see also issue <a href="lwg-closed.html#408" title="Is vector&lt;reverse_iterator&lt;char*&gt; &gt; forbidden?">408</a>. This issue is
+related with issue <a href="lwg-defects.html#724" title="DefaultConstructible is not defined">724</a>.
 </p>
 
 <p><i>[
@@ -80,7 +91,7 @@ Dennett will review the library and provide a complete list and will
 double-check the vocabulary.
 </p>
 <p>
-This issue relates to Issue <a href="lwg-defects.html#886">886</a> tuple construction
+This issue relates to Issue <a href="lwg-defects.html#886" title="tuple construction">886</a> tuple construction
 </p>
 </blockquote>
 
@@ -124,7 +135,7 @@ proposed
 <p>
 In the following paragraphs, we are not proposing changes because
 it's not clear whether we actually prefer value-initialization over
-default-initialization (now partially covered by <a href="lwg-defects.html#1012">1012</a>):
+default-initialization (now partially covered by <a href="lwg-defects.html#1012" title="reverse_iterator default ctor should value initialize">1012</a>):
 </p>
 <ul>
     <li><p>20.3.1.3.2 <a href="https://wg21.link/unique.ptr.single.ctor">[unique.ptr.single.ctor]</a> para 3 e 7</p></li>
@@ -167,22 +178,22 @@ of
 </p>
 
 <blockquote><p>
-"[..] The <tt>Allocator</tt> object used shall be a copy of the <tt>Allocator></tt>
-object passed to the <tt>basic_string</tt> object's
-constructor or, if the constructor does not take an <tt>Allocator</tt>
+"[..] The <code>Allocator</code> object used shall be a copy of the <code>Allocator></code>
+object passed to the <code>basic_string</code> object's
+constructor or, if the constructor does not take an <code>Allocator</code>
 argument, a copy of a default-constructed
-<tt>Allocator</tt> object."
+<code>Allocator</code> object."
 </p></blockquote>
 </li>
 
 <li>
 <p>
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2723.pdf">N2723</a>,
-28.5.3.4 <a href="https://wg21.link/rand.req.eng">[rand.req.eng]</a>, Table 109, expression "<tt>T()</tt>":
+28.5.3.4 <a href="https://wg21.link/rand.req.eng">[rand.req.eng]</a>, Table 109, expression "<code>T()</code>":
 </p>
 <blockquote><p>
 Pre-&#47;post-condition: "Creates an engine with the same initial state as
-all other default-constructed engines of type <tt>X</tt>."
+all other default-constructed engines of type <code>X</code>."
 </p></blockquote>
 
 <p>
@@ -279,7 +290,7 @@ Move to Ready.
 
 
 <blockquote><p>
-Moved to review in order to enable conflict resolution with <a href="lwg-defects.html#704">704</a>.
+Moved to review in order to enable conflict resolution with <a href="lwg-defects.html#704" title="MoveAssignable requirement for container value type overly strict">704</a>.
 </p></blockquote>
 
 <p><i>[
@@ -312,8 +323,8 @@ Change 16.4.4.2 <a href="https://wg21.link/utility.arg.requirements">[utility.ar
 <blockquote><p>
 2 In general, a default constructor is
 not required. Certain container class member function signatures
-specify <del>the default constructor</del><ins><tt>T()</tt></ins>
-as a default argument. <tt>T()</tt> shall be a well-defined expression (8.5)
+specify <del>the default constructor</del><ins><code>T()</code></ins>
+as a default argument. <code>T()</code> shall be a well-defined expression (8.5)
 if one of those signatures is called using the default argument
 (8.3.6).
 </p></blockquote>
@@ -323,7 +334,7 @@ Change 24.3.8.2 <a href="https://wg21.link/deque.cons">[deque.cons]</a> para 3:
 </p>
 
 <blockquote><p>
-3 <i>Effects:</i> Constructs a deque with <tt>n</tt>
+3 <i>Effects:</i> Constructs a deque with <code>n</code>
 <del>default constructed</del><ins>value-initialized</ins>
 elements. 
 </p></blockquote>
@@ -333,9 +344,9 @@ Change 24.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a> 
 </p>
 
 <blockquote><p>
-1 <i>Effects:</i> If <tt>sz &lt; size()</tt>, equivalent
-to <tt>erase(begin() + sz, end());</tt>. If <tt>size() &lt; sz</tt>, 
-appends <tt>sz - size()</tt> <del>default constructed</del><ins>value-initialized</ins>
+1 <i>Effects:</i> If <code>sz &lt; size()</code>, equivalent
+to <code>erase(begin() + sz, end());</code>. If <code>size() &lt; sz</code>, 
+appends <code>sz - size()</code> <del>default constructed</del><ins>value-initialized</ins>
 elements to the sequence.
 </p></blockquote>
 
@@ -344,7 +355,7 @@ Change  [forwardlist.cons] para 3:
 </p>
 
 <blockquote><p>
-3 <i>Effects:</i> Constructs a <tt>forward_list</tt> object with <tt>n</tt> 
+3 <i>Effects:</i> Constructs a <code>forward_list</code> object with <code>n</code> 
 <del>default constructed</del><ins>value-initialized</ins> elements.
 </p></blockquote>
 
@@ -356,7 +367,7 @@ Change  [forwardlist.modifiers] para 22:
 22 <i>Effects:</i> [...] For the first signature
 the inserted elements are <del>default
 constructed</del><ins>value-initialized</ins>,
-and for the second signature they are copies of <tt>c</tt>.
+and for the second signature they are copies of <code>c</code>.
 </p></blockquote>
 
 <p>
@@ -364,7 +375,7 @@ Change 24.3.10.2 <a href="https://wg21.link/list.cons">[list.cons]</a> para 3:
 </p>
 
 <blockquote><p>
-3 <i>Effects:</i> Constructs a <tt>list</tt> with <tt>n</tt> <del>default
+3 <i>Effects:</i> Constructs a <code>list</code> with <code>n</code> <del>default
 constructed</del><ins>value-initialized</ins>
 elements. 
 </p></blockquote>
@@ -374,9 +385,9 @@ Change 24.3.10.3 <a href="https://wg21.link/list.capacity">[list.capacity]</a> p
 </p>
 
 <blockquote><p>
-1 <i>Effects:</i> If <tt>sz &lt; size()</tt>, equivalent
-to <tt>list&lt;T&gt;::iterator it = begin(); advance(it, sz); erase(it,
-end());</tt>. If <tt>size() &lt; sz</tt>, <tt>appends sz - size()</tt> 
+1 <i>Effects:</i> If <code>sz &lt; size()</code>, equivalent
+to <code>list&lt;T&gt;::iterator it = begin(); advance(it, sz); erase(it,
+end());</code>. If <code>size() &lt; sz</code>, <code>appends sz - size()</code> 
 <del>default constructed</del><ins>value-initialized</ins> elements to 
 the sequence.
 </p></blockquote>
@@ -386,7 +397,7 @@ Change 24.3.11.2 <a href="https://wg21.link/vector.cons">[vector.cons]</a> para 
 </p>
 
 <blockquote><p>
-3 <i>Effects:</i> Constructs a <tt>vector</tt> with <tt>n</tt>
+3 <i>Effects:</i> Constructs a <code>vector</code> with <code>n</code>
 <del>default constructed</del><ins>value-initialized</ins>
 elements. 
 </p></blockquote>
@@ -396,9 +407,9 @@ Change 24.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</
 </p>
 
 <blockquote><p>
-9 <i>Effects:</i> If <tt>sz &lt; size()</tt>, equivalent
-to <tt>erase(begin() + sz, end());</tt>. If <tt>size() &lt; sz</tt>, appends 
-<tt>sz - size()</tt> <del>default constructed</del><ins>value-initialized</ins>
+9 <i>Effects:</i> If <code>sz &lt; size()</code>, equivalent
+to <code>erase(begin() + sz, end());</code>. If <code>size() &lt; sz</code>, appends 
+<code>sz - size()</code> <del>default constructed</del><ins>value-initialized</ins>
 elements to the sequence.
 </p></blockquote>
 

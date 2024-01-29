@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3907: Can iterator types of range adaptors and range factories be SCARY?</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,15 +56,15 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3907" href="lwg-active.html#3907">3907</a>. Can iterator types of range adaptors and range factories be SCARY?</h3>
+<h3 id="3907"><a href="lwg-active.html#3907">3907</a>. Can iterator types of range adaptors and range factories be SCARY?</h3>
 <p><b>Section:</b> 26.6 <a href="https://wg21.link/range.factories">[range.factories]</a>, 26.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-03-18 <b>Last modified:</b> 2023-03-18</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-03-18 <b>Last modified:</b> 2023-06-01</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-[For the term SCARY see <a href="https://wg21.link/N2911">N2911</a> and <a href="https://wg21.link/N2913">N2913</a>.]
+[For the term SCARY see <a href="https://wg21.link/N2911" title=" Minimizing Dependencies within Generic Classes for Faster and Smaller Programs">N2911</a> and <a href="https://wg21.link/N2913" title=" SCARY Iterator Assignment and Initialization">N2913</a>.]
 <p/>
 In 26.6 <a href="https://wg21.link/range.factories">[range.factories]</a> and 26.7 <a href="https://wg21.link/range.adaptors">[range.adaptors]</a>, many iterator types are specified 
 as exposition-only nested classes or nested class templates.
@@ -63,7 +74,7 @@ This has some observable differences from specifying them as class templates dec
 <ol>
 <li><p>value types are generally not associated entities of iterators or sentinels during ADL, which prevents 
 unintended overloads to be found;</p></li>
-<li><p>two different range adaptor/factory types, e.g. <tt>iota_view&lt;I, S1&gt;</tt> and <tt>iota_view&lt;I, S2&gt;</tt>, 
+<li><p>two different range adaptor/factory types, e.g. <code>iota_view&lt;I, S1&gt;</code> and <code>iota_view&lt;I, S2&gt;</code>, 
 have different iterator types.</p></li>
 </ol>
 <p>
@@ -72,6 +83,19 @@ adaptor/factory types to have two different iterator types, even when the same i
 <p/>
 Sentinel types don't seem able to be SCARY as they are dependent on iterator types.
 </p>
+
+<p><i>[2023-06-01; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p>
+"The ADL hiding stuff is a red herring - SCARY-ness doesn't prevent ADL hiding.
+Shouldn't require them to be different types (and similarly should not require
+const/non-const iterators to be implemented as class templates with a single
+bool template parameter)."
+</p>
+
 
 
 <p id="res-3907"><b>Proposed resolution:</b></p>

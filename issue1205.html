@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 1205: Some algorithms could more clearly document their handling of empty ranges</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
-<h3><a name="1205" href="lwg-defects.html#1205">1205</a>. Some algorithms could more clearly document their handling of empty ranges</h3>
+<h3 id="1205"><a href="lwg-defects.html#1205">1205</a>. Some algorithms could more clearly document their handling of empty ranges</h3>
 <p><b>Section:</b> 27 <a href="https://wg21.link/algorithms">[algorithms]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
  <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2009-09-13 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
@@ -66,8 +77,8 @@ rather than require some subtle intuition of the supplied wording.
 </p>
 
 <blockquote><p>
-<i>Returns:</i> <tt>true</tt> if <tt>pred(*i)</tt> is <tt>true</tt> for every
-iterator <tt>i</tt> in the range <tt>[first,last)</tt>, ...
+<i>Returns:</i> <code>true</code> if <code>pred(*i)</code> is <code>true</code> for every
+iterator <code>i</code> in the range <code>[first,last)</code>, ...
 </p></blockquote>
 
 <p>
@@ -75,7 +86,7 @@ What does this mean if the range is empty?
 </p>
 
 <p>
-I believe that we intend this to be <tt>true</tt> and suggest a
+I believe that we intend this to be <code>true</code> and suggest a
 non-normative note to clarify:
 </p>
 
@@ -84,7 +95,7 @@ Add to p1  [alg.all_of]:
 </p>
 
 <blockquote><p>
-[<i>Note:</i> Returns <tt>true</tt> if <tt>[first,last)</tt> is empty. 
+[<i>Note:</i> Returns <code>true</code> if <code>[first,last)</code> is empty. 
 &mdash; <i>end note</i>]
 </p></blockquote>
 
@@ -93,8 +104,8 @@ Add to p1  [alg.all_of]:
 </p>
 
 <blockquote><p>
-<i>Returns:</i> <tt>true</tt> if <tt>pred(*i)</tt> is <tt>false</tt> for every
-iterator <tt>i</tt> in the range <tt>[first,last)</tt>, ...
+<i>Returns:</i> <code>true</code> if <code>pred(*i)</code> is <code>false</code> for every
+iterator <code>i</code> in the range <code>[first,last)</code>, ...
 </p></blockquote>
 
 <p>
@@ -102,7 +113,7 @@ What does this mean if the range empty?
 </p>
 
 <p>
-I believe that we intend this to be <tt>true</tt> and suggest a
+I believe that we intend this to be <code>true</code> and suggest a
 non-normative note to clarify:
 </p>
 
@@ -111,7 +122,7 @@ Add to p1  [alg.none_of]:
 </p>
 
 <blockquote><p>
-[<i>Note:</i> Returns <tt>true</tt> if <tt>[first,last)</tt> is empty. 
+[<i>Note:</i> Returns <code>true</code> if <code>[first,last)</code> is empty. 
 &mdash; <i>end note</i>]
 </p></blockquote>
 
@@ -122,7 +133,7 @@ Add to p1  [alg.none_of]:
 <p>
 The specification for an empty range is actually fairly clear in this
 case, but a note wouldn't hurt and would be consistent with proposals
-for <tt>all_of</tt>/<tt>none_of</tt> algorithms.
+for <code>all_of</code>/<code>none_of</code> algorithms.
 </p>
 
 <p>
@@ -130,7 +141,7 @@ Add to p1  [alg.any_of]:
 </p>
 
 <blockquote><p>
-[<i>Note:</i> Returns <tt>false</tt> if <tt>[first,last)</tt> is empty. 
+[<i>Note:</i> Returns <code>false</code> if <code>[first,last)</code> is empty. 
 &mdash; <i>end note</i>]
 </p></blockquote>
 
@@ -139,14 +150,14 @@ Add to p1  [alg.any_of]:
 </p>
 
 <p>
-what does this mean if <tt>[first2,last2)</tt> is empty?
+what does this mean if <code>[first2,last2)</code> is empty?
 </p>
 
 <p>
 I believe the wording suggests the algorithm should return
-<tt>last1</tt> in this case, but am not 100% sure. Is this in fact the
+<code>last1</code> in this case, but am not 100% sure. Is this in fact the
 correct result anyway? Surely an empty range should always match and the
-naive expected result would be <tt>first1</tt>?
+naive expected result would be <code>first1</code>?
 </p>
 
 <p>
@@ -158,7 +169,7 @@ Add to p2 27.6.8 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a>:
 </p>
 
 <blockquote><p>
-[<i>Note:</i> Returns <tt>last1</tt> if <tt>[first2,last2)</tt> is
+[<i>Note:</i> Returns <code>last1</code> if <code>[first2,last2)</code> is
 empty. &mdash; <i>end note</i>]
 </p></blockquote>
 
@@ -175,7 +186,7 @@ Alternative wording: (NOT a note)
 Add to p2 27.6.8 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a>:
 </p>
 <blockquote><p>
-Returns <tt>first1</tt> if <tt>[first2,last2)</tt> is empty.
+Returns <code>first1</code> if <code>[first2,last2)</code> is empty.
 </p></blockquote>
 
 <p>
@@ -183,7 +194,7 @@ Returns <tt>first1</tt> if <tt>[first2,last2)</tt> is empty.
 </p>
 
 <p>
-The phrasing seems precise when <tt>[first2, last2)</tt> is empty, but a small
+The phrasing seems precise when <code>[first2, last2)</code> is empty, but a small
 note to confirm the reader's understanding might still help.
 </p>
 
@@ -191,7 +202,7 @@ note to confirm the reader's understanding might still help.
 Add to p2 27.6.9 <a href="https://wg21.link/alg.find.first.of">[alg.find.first.of]</a>
 </p>
 <blockquote><p>
-[<i>Note:</i> Returns <tt>last1</tt> if <tt>[first2,last2)</tt> is
+[<i>Note:</i> Returns <code>last1</code> if <code>[first2,last2)</code> is
 empty. &mdash; <i>end note</i>]
 </p></blockquote>
 
@@ -200,14 +211,14 @@ empty. &mdash; <i>end note</i>]
 </p>
 
 <p>
-What is the expected result if <tt>[first2, last2)</tt> is empty?
+What is the expected result if <code>[first2, last2)</code> is empty?
 </p>
 
 <p>
-I believe the wording suggests the algorithm should return <tt>last1</tt> in this
+I believe the wording suggests the algorithm should return <code>last1</code> in this
 case, but am not 100% sure. Is this in fact the correct result anyway? 
 Surely an empty range should always match and the naive expected result
-would be <tt>first1</tt>?
+would be <code>first1</code>?
 </p>
 
 <p>
@@ -219,7 +230,7 @@ Add to p2 27.6.15 <a href="https://wg21.link/alg.search">[alg.search]</a>:
 </p>
 
 <blockquote><p>
-[<i>Note:</i> Returns <tt>last1</tt> if <tt>[first2,last2)</tt> is
+[<i>Note:</i> Returns <code>last1</code> if <code>[first2,last2)</code> is
 empty. &mdash; <i>end note</i>]
 </p></blockquote>
 
@@ -237,7 +248,7 @@ Add to p2 27.6.15 <a href="https://wg21.link/alg.search">[alg.search]</a>:
 </p>
 
 <blockquote><p>
-Returns <tt>first1</tt> if <tt>[first2,last2)</tt> is empty.
+Returns <code>first1</code> if <code>[first2,last2)</code> is empty.
 </p></blockquote>
 
 <p>
@@ -257,7 +268,7 @@ Add to p1 27.8.5 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a>
 </p>
 
 <blockquote><p>
-[<i>Note:</i> Returns <tt>true</tt> if <tt>[first,last)</tt> is empty. 
+[<i>Note:</i> Returns <code>true</code> if <code>[first,last)</code> is empty. 
 &mdash; <i>end note</i>]
 </p></blockquote>
 
@@ -266,13 +277,13 @@ Add to p1 27.8.5 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a>
 </p>
 
 <blockquote><p>
-<i>Returns:</i> <tt>true</tt> if every element in the range
-<tt>[first2,last2)</tt> is contained in the range
-<tt>[first1,last1)</tt>. ...
+<i>Returns:</i> <code>true</code> if every element in the range
+<code>[first2,last2)</code> is contained in the range
+<code>[first1,last1)</code>. ...
 </p></blockquote>
 
 <p>
-I really don't know what this means if <tt>[first2,last2)</tt> is empty.
+I really don't know what this means if <code>[first2,last2)</code> is empty.
 I could loosely guess that this implies empty ranges always match, and
 my proposed wording is to clarify exactly that:
 </p>
@@ -282,7 +293,7 @@ Add to p1 27.8.7.2 <a href="https://wg21.link/includes">[includes]</a>:
 </p>
 
 <blockquote><p>
-[<i>Note:</i> Returns <tt>true</tt> if <tt>[first2,last2)</tt> is empty.
+[<i>Note:</i> Returns <code>true</code> if <code>[first2,last2)</code> is empty.
 &mdash; <i>end note</i>]
 </p></blockquote>
 
@@ -291,7 +302,7 @@ Add to p1 27.8.7.2 <a href="https://wg21.link/includes">[includes]</a>:
 </p>
 
 <p>
-The effects clause is invalid if the range <tt>[first,last)</tt> is empty, unlike
+The effects clause is invalid if the range <code>[first,last)</code> is empty, unlike
 all the other heap alogorithms.  The should be called out in the
 requirements.
 </p>
@@ -304,7 +315,7 @@ Revise p2 27.8.8.3 <a href="https://wg21.link/pop.heap">[pop.heap]</a>
 </p>
 
 <blockquote><p>
-<i>Requires:</i> The range <tt>[first,last)</tt> shall be a valid
+<i>Requires:</i> The range <code>[first,last)</code> shall be a valid
 <ins>non-empty</ins> heap.
 </p></blockquote>
 
@@ -317,8 +328,8 @@ Revise p2 27.8.8.3 <a href="https://wg21.link/pop.heap">[pop.heap]</a>
 </p>
 
 <p>
-<tt>minmax_element</tt> does not clearly specify behaviour for an empty
-range in the same way that <tt>min_element</tt> and <tt>max_element</tt> do.
+<code>minmax_element</code> does not clearly specify behaviour for an empty
+range in the same way that <code>min_element</code> and <code>max_element</code> do.
 </p>
 
 <p>
@@ -326,7 +337,7 @@ Add to p31 27.8.9 <a href="https://wg21.link/alg.min.max">[alg.min.max]</a>:
 </p>
 
 <blockquote><p>
-Returns <tt>make_pair(first, first)</tt> if <tt>first == last</tt>.
+Returns <code>make_pair(first, first)</code> if <code>first == last</code>.
 </p></blockquote>
 
 <p>
@@ -349,8 +360,8 @@ non-empty sequence, but not to another empty sequence. &mdash; <i>end note</i>]
 </p></blockquote>
 
 <p><i>[
-2009-11-11 Howard changes Notes to Remarks and changed <tt>search</tt> to
-return <tt>first1</tt> instead of <tt>last1</tt>.
+2009-11-11 Howard changes Notes to Remarks and changed <code>search</code> to
+return <code>first1</code> instead of <code>last1</code>.
 ]</i></p>
 
 
@@ -365,7 +376,7 @@ return <tt>first1</tt> instead of <tt>last1</tt>.
 Add to  [alg.all_of]:
 </p>
 <blockquote><p><ins>
-<i>Remarks:</i> Returns <tt>true</tt> if <tt>[first,last)</tt> is empty. 
+<i>Remarks:</i> Returns <code>true</code> if <code>[first,last)</code> is empty. 
 </ins></p></blockquote>
 
 <p>
@@ -373,21 +384,21 @@ Add to  [alg.any_of]:
 </p>
 
 <blockquote><p><ins>
-<i>Remarks:</i> Returns <tt>false</tt> if <tt>[first,last)</tt> is empty. 
+<i>Remarks:</i> Returns <code>false</code> if <code>[first,last)</code> is empty. 
 </ins></p></blockquote>
 
 <p>
 Add to  [alg.none_of]:
 </p>
 <blockquote><p><ins>
-<i>Remarks:</i> Returns <tt>true</tt> if <tt>[first,last)</tt> is empty. 
+<i>Remarks:</i> Returns <code>true</code> if <code>[first,last)</code> is empty. 
 </ins></p></blockquote>
 
 <p>
 Add to 27.6.8 <a href="https://wg21.link/alg.find.end">[alg.find.end]</a>:
 </p>
 <blockquote><p><ins>
-<i>Remarks:</i> Returns <tt>last1</tt> if <tt>[first2,last2)</tt> is
+<i>Remarks:</i> Returns <code>last1</code> if <code>[first2,last2)</code> is
 empty.
 </ins></p></blockquote>
 
@@ -395,7 +406,7 @@ empty.
 Add to 27.6.9 <a href="https://wg21.link/alg.find.first.of">[alg.find.first.of]</a>
 </p>
 <blockquote><p><ins>
-<i>Remarks:</i> Returns <tt>last1</tt> if <tt>[first2,last2)</tt> is
+<i>Remarks:</i> Returns <code>last1</code> if <code>[first2,last2)</code> is
 empty.
 </ins></p></blockquote>
 
@@ -403,7 +414,7 @@ empty.
 Add to 27.6.15 <a href="https://wg21.link/alg.search">[alg.search]</a>:
 </p>
 <blockquote><p><ins>
-<i>Remarks:</i> Returns <tt>first1</tt> if <tt>[first2,last2)</tt> is
+<i>Remarks:</i> Returns <code>first1</code> if <code>[first2,last2)</code> is
 empty.
 </ins></p></blockquote>
 
@@ -411,21 +422,21 @@ empty.
 Add to 27.8.5 <a href="https://wg21.link/alg.partitions">[alg.partitions]</a>:
 </p>
 <blockquote><p><ins>
-<i>Remarks:</i> Returns <tt>true</tt> if <tt>[first,last)</tt> is empty. 
+<i>Remarks:</i> Returns <code>true</code> if <code>[first,last)</code> is empty. 
 </ins></p></blockquote>
 
 <p>
 Add to 27.8.7.2 <a href="https://wg21.link/includes">[includes]</a>:
 </p>
 <blockquote><p><ins>
-<i>Remarks:</i> Returns <tt>true</tt> if <tt>[first2,last2)</tt> is empty. 
+<i>Remarks:</i> Returns <code>true</code> if <code>[first2,last2)</code> is empty. 
 </ins></p></blockquote>
 
 <p>
 Revise p2 27.8.8.3 <a href="https://wg21.link/pop.heap">[pop.heap]</a>
 </p>
 <blockquote><p>
-<i>Requires:</i> The range <tt>[first,last)</tt> shall be a valid
+<i>Requires:</i> The range <code>[first,last)</code> shall be a valid
 <ins>non-empty</ins> heap.
 </p></blockquote>
 
@@ -445,11 +456,11 @@ template&lt;class ForwardIterator, class Compare&gt;
     minmax_element(ForwardIterator first, ForwardIterator last, Compare comp);
 </pre>
 <blockquote><p>
-<i>Returns:</i> <tt>make_pair(m, M)</tt>, where <tt>m</tt> is the first iterator in
-<tt>[first,last)</tt> such that no iterator in the range refers to a smaller
-element, and where <tt>M</tt> is the last iterator in <tt>[first,last)</tt> such that no
+<i>Returns:</i> <code>make_pair(m, M)</code>, where <code>m</code> is the first iterator in
+<code>[first,last)</code> such that no iterator in the range refers to a smaller
+element, and where <code>M</code> is the last iterator in <code>[first,last)</code> such that no
 iterator in the range refers to a larger element. 
-<ins>Returns <tt>make_pair(first, first)</tt> if <tt>first == last</tt>.</ins>
+<ins>Returns <code>make_pair(first, first)</code> if <code>first == last</code>.</ins>
 </p></blockquote>
 </blockquote>
 

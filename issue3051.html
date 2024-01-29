@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3051: Floating point classifications were inadvertently changed in P0175</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
-<h3><a name="3051" href="lwg-defects.html#3051">3051</a>. Floating point classifications were inadvertently changed in P0175</h3>
+<h3 id="3051"><a href="lwg-defects.html#3051">3051</a>. Floating point classifications were inadvertently changed in P0175</h3>
 <p><b>Section:</b> 28.7.1 <a href="https://wg21.link/cmath.syn">[cmath.syn]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Thomas K&ouml;ppe <b>Opened:</b> 2018-01-23 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>0
@@ -57,23 +68,23 @@
 <p>
 The paper <a href="https://wg21.link/p0175">P0175</a> was meant to be a purely editorial change to 
 spell out the synopses of the "C library" headers. However it contained the following inadvertent 
-normative change: The floating point classification functions <tt>isinf</tt>, <tt>isfinite</tt>, 
-<tt>signbit</tt>, etc. (but not <tt>fpclassify</tt>) used to be specified to return "<tt>bool</tt>" 
+normative change: The floating point classification functions <code>isinf</code>, <code>isfinite</code>, 
+<code>signbit</code>, etc. (but not <code>fpclassify</code>) used to be specified to return "<code>bool</code>" 
 in C++14. In C, those are macros, but in C++ they have always been functions. During the preparation 
-of P0175, I recreated the function signatures copying the return type "<tt>int</tt>" from C, but 
+of P0175, I recreated the function signatures copying the return type "<code>int</code>" from C, but 
 failed to notice that we had already specified those functions differently, so the return type was 
-changed to "<tt>int</tt>".
+changed to "<code>int</code>".
 <p/>
-To restore the intended specification, we should change the return types of all the <tt>is...</tt> 
-and <tt>signbit</tt> classification functions back to <tt>bool</tt>. Alternatively, we could decide 
-that the return type should actually be <tt>int</tt>, but that would be a larger discussion.
+To restore the intended specification, we should change the return types of all the <code>is...</code> 
+and <code>signbit</code> classification functions back to <code>bool</code>. Alternatively, we could decide 
+that the return type should actually be <code>int</code>, but that would be a larger discussion.
 <p/>
-Proposed resolution for restoring the original wording: Replace return type "<tt>int</tt>" with 
-return type "<tt>bool</tt>" and for all the classification/comparison functions after 
-"<i>// classification/comparison functions</i>" in [cmath.syn] <em>except</em> the <tt>fpclassify</tt> 
+Proposed resolution for restoring the original wording: Replace return type "<code>int</code>" with 
+return type "<code>bool</code>" and for all the classification/comparison functions after 
+"<i>// classification/comparison functions</i>" in [cmath.syn] <em>except</em> the <code>fpclassify</code> 
 functions.
 <p/>
-Related previous issue was LWG <a href="lwg-defects.html#1327">1327</a> and the corresponding 
+Related previous issue was LWG <a href="lwg-defects.html#1327" title="templates defined in &lt;cmath&gt; replacing C macros with the same name">1327</a> and the corresponding 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2010/n3141.pdf#page=188">NB comment US-136</a> 
 resolution.
 </p>

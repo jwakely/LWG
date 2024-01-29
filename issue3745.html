@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3745: std::atomic_wait and its friends lack noexcept</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -44,25 +55,25 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
-<h3><a name="3745" href="lwg-defects.html#3745">3745</a>. <tt>std::atomic_wait</tt> and its friends lack <tt>noexcept</tt></h3>
-<p><b>Section:</b> 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-07-25 <b>Last modified:</b> 2022-11-17</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
+<h3 id="3745"><a href="lwg-defects.html#3745">3745</a>. <code>std::atomic_wait</code> and its friends lack <code>noexcept</code></h3>
+<p><b>Section:</b> 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2022-07-25 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#atomics.syn">active issues</a> in [atomics.syn].</p>
 <p><b>View all other</b> <a href="lwg-index.html#atomics.syn">issues</a> in [atomics.syn].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Currently function templates <tt>std::atomic_wait</tt>, <tt>std::atomic_wait_explicit</tt>, 
-<tt>std::atomic_notify_one</tt>, and <tt>std::atomic_notify_all</tt> are not <tt>noexcept</tt> 
-in the Working Draft, but the equivalent member functions are all <tt>noexcept</tt>. I think 
-these function templates should be specified as <tt>noexcept</tt>, in order to be consistent 
-with the <tt>std::atomic_flag_*</tt> free functions, the corresponding member functions, and 
-other <tt>std::atomic_*</tt> function templates.
+Currently function templates <code>std::atomic_wait</code>, <code>std::atomic_wait_explicit</code>, 
+<code>std::atomic_notify_one</code>, and <code>std::atomic_notify_all</code> are not <code>noexcept</code> 
+in the Working Draft, but the equivalent member functions are all <code>noexcept</code>. I think 
+these function templates should be specified as <code>noexcept</code>, in order to be consistent 
+with the <code>std::atomic_flag_*</code> free functions, the corresponding member functions, and 
+other <code>std::atomic_*</code> function templates.
 <p/>
-Mainstream implementations (libc++, libstdc++, and MSVC STL) have already added <tt>noexcept</tt> 
+Mainstream implementations (libc++, libstdc++, and MSVC STL) have already added <code>noexcept</code> 
 to them.
 </p>
 
@@ -86,11 +97,11 @@ from adding noexcept to the rest of these functions."
 
 <p id="res-3745"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4910">N4910</a>.
+This wording is relative to <a href="https://wg21.link/N4910" title=" Working Draft, Standard for Programming Language C++">N4910</a>.
 </p>
 
 <ol>
-<li><p>Modify 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a>, header <tt>&lt;atomic&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 33.5.2 <a href="https://wg21.link/atomics.syn">[atomics.syn]</a>, header <code>&lt;atomic&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>

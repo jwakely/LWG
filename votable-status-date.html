@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>LWG Index by Status and Date</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -43,78 +54,78 @@
 </style>
 </head>
 <body>
-<h1>C++ Standard Library Issues List (Revision D124)</h1>
+<h1>C++ Standard Library Issues List (Revision D125)</h1>
 <h1>Index by Status and Date</h1>
 <p>Reference ISO/IEC IS 14882:2020(E)</p>
 <p>
 This document is the Index by Status and Date for the <a href="lwg-active.html">Library Active Issues List</a>,
 <a href="lwg-defects.html">Library Defect Reports and Accepted Issues</a>, and <a href="lwg-closed.html">Library Closed Issues List</a>.
 </p>
-<p><p>Revised 2023-03-24 at 10:15:06 UTC</p>
-</p><h2><a name="Tentatively Ready"</a>Tentatively Ready (6 issues)</h2>
-<table border="1" cellpadding="4">
+<p>Revised 2024-01-29 at 14:15:36 UTC
+</p><h2 id="Ready">Ready (6 issues)</h2>
+<table class="issues-index">
 <tr>
-  <td align="center"><a href="lwg-toc.html"><b>Issue</b></a></td>
-  <td align="center"><a href="lwg-status.html"><b>Status</b></a></td>
-  <td align="center"><a href="lwg-index.html"><b>Section</b></a></td>
-  <td align="center"><b>Title</b></td>
-  <td align="center"><b>Proposed Resolution</b></td>
-  <td align="center"><a href="unresolved-prioritized.html"><b>Priority</b></a></td>
-  <td align="center"><b>Duplicates</b></td>
+  <th><a href="lwg-toc.html">Issue</a></th>
+  <th><a href="lwg-status.html">Status</a></th>
+  <th><a href="lwg-index.html">Section</a></th>
+  <th>Title</th>
+  <th>Proposed Resolution</th>
+  <th><a href="unresolved-prioritized.html">Priority</a></th>
+  <th>Duplicates</th>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3884">3884</a><sup><a href="https://cplusplus.github.io/LWG/issue3884">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3884"></a></td>
-<td align="left">24.6.9 [flat.map]<a name="flat.map"></a></td>
-<td align="left"><tt>flat_<i>foo</i></tt> is missing allocator-extended copy/move constructors</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
+<td id="3950"><a href="lwg-active.html#3950" title="std::basic_string_view comparison operators are overspecified">3950</a><sup><a href="https://cplusplus.github.io/LWG/issue3950">(i)</a></sup></td>
+<td><a href="lwg-active.html#Ready">Ready</a></td>
+<td>23.3.2 [string.view.synop]</td>
+<td><code>std::basic_string_view</code> comparison operators are overspecified</td>
+<td>Yes</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3885">3885</a><sup><a href="https://cplusplus.github.io/LWG/issue3885">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3885"></a></td>
-<td align="left">16.4.5.3.2 [zombie.names]<a name="zombie.names"></a></td>
-<td align="left">'<tt>op</tt>' should be in [zombie.names]</td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
+<td id="3919"><a href="lwg-active.html#3919" title="enumerate_view may invoke UB for sized common non-forward underlying ranges">3919</a><sup><a href="https://cplusplus.github.io/LWG/issue3919">(i)</a></sup></td>
+<td><a href="lwg-active.html#Ready">Ready</a></td>
+<td>26.7.23 [range.enumerate]</td>
+<td><code>enumerate_view</code> may invoke UB for sized common non-forward underlying ranges</td>
+<td>Yes</td>
+<td>3</td>
+<td></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3887">3887</a><sup><a href="https://cplusplus.github.io/LWG/issue3887">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3887"></a></td>
-<td align="left">17.3.2 [version.syn]<a name="version.syn"></a></td>
-<td align="left">Version macro for <tt>allocate_at_least</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
+<td id="3975"><a href="lwg-active.html#3975" title="Specializations of basic_format_context should not be permitted">3975</a><sup><a href="https://cplusplus.github.io/LWG/issue3975">(i)</a></sup></td>
+<td><a href="lwg-active.html#Ready">Ready</a></td>
+<td>22.14.6.6 [format.context]</td>
+<td>Specializations of <code>basic_format_context</code> should not be permitted</td>
+<td>Yes</td>
+<td>3</td>
+<td></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3903">3903</a><sup><a href="https://cplusplus.github.io/LWG/issue3903">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3903"></a></td>
-<td align="left">24.7.2.2.1 [span.overview]<a name="span.overview"></a></td>
-<td align="left"><tt>span</tt> destructor is redundantly <tt>noexcept</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
+<td id="3988"><a href="lwg-active.html#3988" title="Should as_const_view and basic_const_iterator provide base()?">3988</a><sup><a href="https://cplusplus.github.io/LWG/issue3988">(i)</a></sup></td>
+<td><a href="lwg-active.html#Ready">Ready</a></td>
+<td>25.5.3 [const.iterators]</td>
+<td>Should <code>as_const_view</code> and <code>basic_const_iterator</code> provide <code>base()</code>?</td>
+<td>Yes</td>
+<td>3</td>
+<td></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3894">3894</a><sup><a href="https://cplusplus.github.io/LWG/issue3894">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3894"></a></td>
-<td align="left">26.8.5 [coro.generator.promise]<a name="coro.generator.promise"></a></td>
-<td align="left"><tt>generator::promise_type::yield_value(ranges::elements_of&lt;Rng, Alloc&gt;)</tt> should not be <tt>noexcept</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
+<td id="3984"><a href="lwg-active.html#3984" title="ranges::to's recursion branch may be ill-formed">3984</a><sup><a href="https://cplusplus.github.io/LWG/issue3984">(i)</a></sup></td>
+<td><a href="lwg-active.html#Ready">Ready</a></td>
+<td>26.5.7.2 [range.utility.conv.to]</td>
+<td><code>ranges::to</code>'s recursion branch may be ill-formed</td>
+<td>Yes</td>
+<td>3</td>
+<td></td>
 </tr>
 <tr>
-<td align="right"><a href="lwg-active.html#3893">3893</a><sup><a href="https://cplusplus.github.io/LWG/issue3893">(i)</a></sup></td>
-<td align="left"><a href="lwg-active.html#Ready">Tentatively Ready</a><a name="3893"></a></td>
-<td align="left">33.5.8.7.2 [util.smartptr.atomic.shared]<a name="util.smartptr.atomic.shared"></a></td>
-<td align="left">LWG 3661 broke <tt>atomic&lt;shared_ptr&lt;T&gt;&gt; a; a = nullptr;</tt></td>
-<td align="center">Yes</td>
-<td align="center"></td>
-<td align="left"></td>
+<td id="3767"><a href="lwg-active.html#3767" title="codecvt&lt;charN_t, char8_t, mbstate_t&gt; incorrectly added to locale">3767</a><sup><a href="https://cplusplus.github.io/LWG/issue3767">(i)</a></sup></td>
+<td><a href="lwg-active.html#Ready">Ready</a></td>
+<td>30.3.1.2.1 [locale.category]</td>
+<td><code>codecvt&lt;char<i>N</i>_t, char8_t, mbstate_t&gt;</code> incorrectly added to locale</td>
+<td>Yes</td>
+<td>3</td>
+<td></td>
 </tr>
 </table>
 </body>

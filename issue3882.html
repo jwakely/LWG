@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3882: tuple relational operators have confused friendships</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3882" href="lwg-active.html#3882">3882</a>. <tt>tuple</tt> relational operators have confused friendships</h3>
+<h3 id="3882"><a href="lwg-active.html#3882">3882</a>. <code>tuple</code> relational operators have confused friendships</h3>
 <p><b>Section:</b> 22.4.9 <a href="https://wg21.link/tuple.rel">[tuple.rel]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Corentin Jabot <b>Opened:</b> 2023-02-08 <b>Last modified:</b> 2023-03-22</p>
 <p><b>Priority: </b>3
@@ -64,14 +75,14 @@ template&lt;class... TTypes, <i>tuple-like</i> UTuple>
 <p>
 Is defined as a non-member non-friend function that "is to be found via argument-dependent lookup only."
 <p/>
-The intent is that it should be defined as a hidden friend in <tt>tuple</tt>.
+The intent is that it should be defined as a hidden friend in <code>tuple</code>.
 <p/>
 The current specification is confusing as to which class should contain that hidden friend, or how to otherwise 
-implement that adl only restriction. (An hostile reading may consider it to be a hidden friend of <tt>UTuple</tt>), 
-and does not follow the guidance of <a href="https://wg21.link/P1601">P1601</a> "Recommendations for Specifying ``Hidden Friends''".
+implement that adl only restriction. (An hostile reading may consider it to be a hidden friend of <code>UTuple</code>), 
+and does not follow the guidance of <a href="https://wg21.link/P1601" title=" Recommendations for Specifying “Hidden Friends”">P1601</a> "Recommendations for Specifying ``Hidden Friends''".
 <p/>
-We should consider making these <tt>operator==</tt> and <tt>operator&lt;=&gt;</tt> overloads hidden friends of 
-<tt>tuple</tt>, i.e.
+We should consider making these <code>operator==</code> and <code>operator&lt;=&gt;</code> overloads hidden friends of 
+<code>tuple</code>, i.e.
 </p>
 <blockquote><pre>
 std::tuple {
@@ -89,11 +100,11 @@ std::tuple {
 <blockquote class="note">
 
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <ol>
-<li><p>Modify 22.4.2 <a href="https://wg21.link/tuple.syn">[tuple.syn]</a>, header <tt>&lt;tuple&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 22.4.2 <a href="https://wg21.link/tuple.syn">[tuple.syn]</a>, header <code>&lt;tuple&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -116,7 +127,7 @@ namespace std {
 
 </li>
 
-<li><p>Modify 22.4.4 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a>, class template <tt>tuple</tt> synopsis, as indicated:</p>
+<li><p>Modify 22.4.4 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a>, class template <code>tuple</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -137,7 +148,7 @@ namespace std {
     <ins>template&lt;<i>tuple-like</i> UTuple&gt;
       friend constexpr <i>see below</i> operator&lt;=&gt;(const tuple&amp;, const UTuple&amp;);</ins>
 
-    // <i>22.4.4.3 <a href="https://wg21.link/tuple.swap">[tuple.swap]</a>, tuple swap</i>
+    // <i>22.4.4.4 <a href="https://wg21.link/tuple.swap">[tuple.swap]</a>, tuple swap</i>
     constexpr void swap(tuple&amp;) noexcept(<i>see below</i>);
     constexpr void swap(const tuple&amp;) const noexcept(<i>see below</i>);
   };
@@ -159,8 +170,8 @@ template&lt;<del>class... TTypes,</del> <i>tuple-like</i> UTuple&gt;
 </pre>
 <blockquote>
 <p>
--1- For the first overload let <tt>UTuple</tt> be <tt>tuple&lt;UTypes...&gt;</tt>. <ins>For the second overload
-let <tt>TTypes</tt> denote the pack <tt>Types</tt>.</ins>
+-1- For the first overload let <code>UTuple</code> be <code>tuple&lt;UTypes...&gt;</code>. <ins>For the second overload
+let <code>TTypes</code> denote the pack <code>Types</code>.</ins>
 <p/>
 [&hellip;]
 <p/>
@@ -168,7 +179,7 @@ let <tt>TTypes</tt> denote the pack <tt>Types</tt>.</ins>
 </p>
 <ol style="list-style-type: none">
 <li><p>(5.1) &mdash; The elementary comparisons are performed in order from the zeroth index upwards. No comparisons
-or element accesses are performed after the first equality comparison that evaluates to <tt>false</tt>.</p></li>
+or element accesses are performed after the first equality comparison that evaluates to <code>false</code>.</p></li>
 <li><p>(5.2) &mdash; The second overload is to be found via argument-dependent lookup (6.5.4 <a href="https://wg21.link/basic.lookup.argdep">[basic.lookup.argdep]</a>) only.</p></li>
 </ol>
 </blockquote>
@@ -182,9 +193,9 @@ template&lt;<del>class... TTypes,</del> <i>tuple-like</i> UTuple&gt;
 </pre>
 <blockquote>
 <p>
--6- For the second overload, <ins>let <tt>TTypes</tt> denote the pack <tt>Types</tt> and</ins> <tt>Elems</tt> denotes the 
-pack of types <tt>tuple_element_t&lt;0, UTuple&gt;, tuple_element_t&lt;1, UTuple&gt;, ... , 
-tuple_element_t&lt;tuple_size_v&lt;UTuple&gt; - 1, UTuple&gt;</tt>.
+-6- For the second overload, <ins>let <code>TTypes</code> denote the pack <code>Types</code> and</ins> <code>Elems</code> denotes the 
+pack of types <code>tuple_element_t&lt;0, UTuple&gt;, tuple_element_t&lt;1, UTuple&gt;, ... , 
+tuple_element_t&lt;tuple_size_v&lt;UTuple&gt; - 1, UTuple&gt;</code>.
 <p/>
 [&hellip;]
 <p/>
@@ -205,7 +216,7 @@ The revised wording ensures that no ambiguity exists between the overload candid
 being found via argument-dependent lookup only has been eliminated, because the general conventions of 16.4.6.6 <a href="https://wg21.link/hidden.friends">[hidden.friends]</a>
 apply. 
 <p/>
-The reusage of the exposition-only concept <tt><i>different-from</i></tt> is already existing practice in various places of 
+The reusage of the exposition-only concept <code><i>different-from</i></code> is already existing practice in various places of 
 22.4 <a href="https://wg21.link/tuple">[tuple]</a>. We have also existing wording practice where we have an extra <i>Constraints:</i> element added even though 
 a prototype has already a language constraint as part of its signature.
 </p>
@@ -220,11 +231,11 @@ Set priority to 3 after reflector poll.
 
 <p id="res-3882"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <ol>
-<li><p>Modify 22.4.2 <a href="https://wg21.link/tuple.syn">[tuple.syn]</a>, header <tt>&lt;tuple&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 22.4.2 <a href="https://wg21.link/tuple.syn">[tuple.syn]</a>, header <code>&lt;tuple&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -247,7 +258,7 @@ namespace std {
 
 </li>
 
-<li><p>Modify 22.4.4 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a>, class template <tt>tuple</tt> synopsis, as indicated:</p>
+<li><p>Modify 22.4.4 <a href="https://wg21.link/tuple.tuple">[tuple.tuple]</a>, class template <code>tuple</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -268,7 +279,7 @@ namespace std {
     <ins>template&lt;<i>tuple-like</i> UTuple&gt;
       friend constexpr <i>see below</i> operator&lt;=&gt;(const tuple&amp;, const UTuple&amp;);</ins>
 
-    // <i>22.4.4.3 <a href="https://wg21.link/tuple.swap">[tuple.swap]</a>, tuple swap</i>
+    // <i>22.4.4.4 <a href="https://wg21.link/tuple.swap">[tuple.swap]</a>, tuple swap</i>
     constexpr void swap(tuple&amp;) noexcept(<i>see below</i>);
     constexpr void swap(const tuple&amp;) const noexcept(<i>see below</i>);
   };
@@ -290,11 +301,11 @@ template&lt;<del>class... TTypes,</del> <i>tuple-like</i> UTuple&gt;
 </pre>
 <blockquote>
 <p>
--1- For the first overload let <tt>UTuple</tt> be <tt>tuple&lt;UTypes...&gt;</tt>. <ins>For the second overload
-let <tt>TTypes</tt> denote the pack <tt>Types</tt>.</ins>
+-1- For the first overload let <code>UTuple</code> be <code>tuple&lt;UTypes...&gt;</code>. <ins>For the second overload
+let <code>TTypes</code> denote the pack <code>Types</code>.</ins>
 <p/>
-<ins>-?- <i>Constraints</i>: For the second overload, <tt><i>different-from</i>&lt;UTuple, tuple&gt;</tt> 
-(26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>) is <tt>true</tt>.</ins>
+<ins>-?- <i>Constraints</i>: For the second overload, <code><i>different-from</i>&lt;UTuple, tuple&gt;</code> 
+(26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>) is <code>true</code>.</ins>
 <p/>
 -2- <i>Mandates</i>: [&hellip;]
 <p/>
@@ -304,7 +315,7 @@ let <tt>TTypes</tt> denote the pack <tt>Types</tt>.</ins>
 </p>
 <ol style="list-style-type: none">
 <li><p><del>(5.1) &mdash;</del> The elementary comparisons are performed in order from the zeroth index upwards. No comparisons
-or element accesses are performed after the first equality comparison that evaluates to <tt>false</tt>.</p></li>
+or element accesses are performed after the first equality comparison that evaluates to <code>false</code>.</p></li>
 <li><p><del>(5.2) &mdash; The second overload is to be found via argument-dependent lookup (6.5.4 <a href="https://wg21.link/basic.lookup.argdep">[basic.lookup.argdep]</a>) only.</del></p></li>
 </ol>
 </blockquote>
@@ -318,12 +329,12 @@ template&lt;<del>class... TTypes,</del> <i>tuple-like</i> UTuple&gt;
 </pre>
 <blockquote>
 <p>
--6- For the second overload, <ins>let <tt>TTypes</tt> denote the pack <tt>Types</tt> and</ins> <tt>Elems</tt> denotes the 
-pack of types <tt>tuple_element_t&lt;0, UTuple&gt;, tuple_element_t&lt;1, UTuple&gt;, ... , 
-tuple_element_t&lt;tuple_size_v&lt;UTuple&gt; - 1, UTuple&gt;</tt>.
+-6- For the second overload, <ins>let <code>TTypes</code> denote the pack <code>Types</code> and</ins> <code>Elems</code> denotes the 
+pack of types <code>tuple_element_t&lt;0, UTuple&gt;, tuple_element_t&lt;1, UTuple&gt;, ... , 
+tuple_element_t&lt;tuple_size_v&lt;UTuple&gt; - 1, UTuple&gt;</code>.
 <p/>
-<ins>-?- <i>Constraints</i>: For the second overload, <tt><i>different-from</i>&lt;UTuple, tuple&gt;</tt> 
-(26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>) is <tt>true</tt>.</ins>
+<ins>-?- <i>Constraints</i>: For the second overload, <code><i>different-from</i>&lt;UTuple, tuple&gt;</code> 
+(26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>) is <code>true</code>.</ins>
 <p/>
 -7- <i>Effects</i>: [&hellip;]
 <p/>

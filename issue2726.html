@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 2726: [recursive_]directory_iterator::increment(error_code&amp;) is underspecified</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++17">C++17</a> status.</em></p>
-<h3><a name="2726" href="lwg-defects.html#2726">2726</a>. <tt>[recursive_]directory_iterator::increment(error_code&amp;)</tt> is underspecified</h3>
+<h3 id="2726"><a href="lwg-defects.html#2726">2726</a>. <code>[recursive_]directory_iterator::increment(error_code&amp;)</code> is underspecified</h3>
 <p><b>Section:</b> 31.12.11.2 <a href="https://wg21.link/fs.dir.itr.members">[fs.dir.itr.members]</a>, 31.12.12.2 <a href="https://wg21.link/fs.rec.dir.itr.members">[fs.rec.dir.itr.members]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2016-06-20 <b>Last modified:</b> 2017-07-30</p>
 <p><b>Priority: </b>0
@@ -54,8 +65,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++17">C++17</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Setting <tt>X</tt> as being either <tt>directory_iterator</tt> or <tt>recursive_directory_iterator</tt> there exists a member function
-in <tt>X</tt>,
+Setting <code>X</code> as being either <code>directory_iterator</code> or <code>recursive_directory_iterator</code> there exists a member function
+in <code>X</code>,
 </p>
 <blockquote>
 <pre>
@@ -69,9 +80,9 @@ whose effects are described as:
 As specified by Input iterators (24.2.3).
 </p></blockquote>
 <p>
-which is somewhat surprising, because for input iterators there is no call expression naming <tt>increment</tt> specified.
+which is somewhat surprising, because for input iterators there is no call expression naming <code>increment</code> specified.
 <p/>
-The intention here is to consider <tt>increment</tt> as a another name for the prefix increment operator of iterators, but that 
+The intention here is to consider <code>increment</code> as a another name for the prefix increment operator of iterators, but that 
 needs to be expressed somewhere.
 </p>
 <p><i>[2016-06 Oulu]</i></p>
@@ -86,7 +97,7 @@ needs to be expressed somewhere.
 <blockquote class="note">
 <p>
 [<i>Drafting note:</i> The suggested wording for this issue also repairs the information loss that had been caused by the
-third bullet of the proposed resolution of <a href="lwg-defects.html#2704">2704</a>]
+third bullet of the proposed resolution of <a href="lwg-defects.html#2704" title="recursive_directory_iterator's members should require '*this is dereferenceable'">2704</a>]
 </p>
 </blockquote>
 </p>

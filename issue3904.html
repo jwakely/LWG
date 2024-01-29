@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3904: lazy_split_view::outer-iterator's const-converting constructor isn't setting trailing_empty_</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -44,19 +55,18 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3><a name="3904" href="lwg-active.html#3904">3904</a>. <tt>lazy_split_view::<i>outer-iterator</i></tt>'s <tt>const</tt>-converting constructor isn't setting <tt><i>trailing_empty_</i></tt></h3>
-<p><b>Section:</b> 26.7.16.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2023-03-13 <b>Last modified:</b> 2023-03-18</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3 id="3904"><a href="lwg-defects.html#3904">3904</a>. <code>lazy_split_view::<i>outer-iterator</i></code>'s <code>const</code>-converting constructor isn't setting <code><i>trailing_empty_</i></code></h3>
+<p><b>Section:</b> 26.7.16.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2023-03-13 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.lazy.split.outer">active issues</a> in [range.lazy.split.outer].</p>
 <p><b>View all other</b> <a href="lwg-index.html#range.lazy.split.outer">issues</a> in [range.lazy.split.outer].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-It seems the <tt>const</tt>-converting constructor for <tt>lazy_split_view</tt>'s iterator fails
-to propagate <tt><i>trailing_empty_</i></tt> from the argument, which effectively results in
+It seems the <code>const</code>-converting constructor for <code>lazy_split_view</code>'s iterator fails
+to propagate <code><i>trailing_empty_</i></code> from the argument, which effectively results in
 the trailing empty range getting skipped over:
 </p>
 <blockquote><pre>
@@ -67,10 +77,19 @@ decltype(std::as_const(r).begin()) j = i; // <span style="color:red;font-weight:
 auto k = r.end(); // <span style="color:red;font-weight:bolder">k.trailing_empty_ is correctly false, and we wrongly have j == k</span>
 </pre></blockquote>
 
+<p><i>[2023-05-24; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+<p><i>[2023-06-17 Approved at June 2023 meeting in Varna. Status changed: Voting &rarr; WP.]</i></p>
+
+
 
 <p id="res-3904"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <ol>
@@ -84,9 +103,9 @@ constexpr <i>outer-iterator</i>(<i>outer-iterator</i>&lt;!Const&gt; i)
 </pre>
 <blockquote>
 <p>
--4- <i>Effects</i>: Initializes <tt><i>parent_</i></tt> with <tt>i.<i>parent_</i></tt><ins>,</ins> 
-<del>and</del> <tt><i>current_</i></tt> with <tt>std::move(i.<i>current_</i>)</tt><ins>, and 
-<tt><i>trailing_empty_</i></tt> with <tt>i.<i>trailing_empty_</i></tt></ins>.
+-4- <i>Effects</i>: Initializes <code><i>parent_</i></code> with <code>i.<i>parent_</i></code><ins>,</ins> 
+<del>and</del> <code><i>current_</i></code> with <code>std::move(i.<i>current_</i>)</code><ins>, and 
+<code><i>trailing_empty_</i></code> with <code>i.<i>trailing_empty_</i></code></ins>.
 </p>
 </blockquote>
 </blockquote>

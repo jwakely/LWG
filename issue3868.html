@@ -1,12 +1,13 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-    "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <title>Issue 3868: Constrained algorithms should not require output_iterator</title>
-<style type="text/css">
+<style>
   p {text-align:justify}
   li {text-align:justify}
+  pre code.backtick::before { content: "`" }
+  pre code.backtick::after { content: "`" }
   blockquote.note
   {
     background-color:#E0E0E0;
@@ -17,7 +18,17 @@
   }
   ins {background-color:#A0FFA0}
   del {background-color:#FFA0A0}
-  table {border-collapse: collapse;}
+  table.issues-index { border: 1px solid; border-collapse: collapse; }
+  table.issues-index th { text-align: center; padding: 4px; border: 1px solid; }
+  table.issues-index td { padding: 4px; border: 1px solid; }
+  table.issues-index td:nth-child(1) { text-align: right; }
+  table.issues-index td:nth-child(2) { text-align: left; }
+  table.issues-index td:nth-child(3) { text-align: left; }
+  table.issues-index td:nth-child(4) { text-align: left; }
+  table.issues-index td:nth-child(5) { text-align: center; }
+  table.issues-index td:nth-child(6) { text-align: center; }
+  table.issues-index td:nth-child(7) { text-align: left; }
+  table.issues-index td:nth-child(5) span.no-pr { color: red; }
   @media (prefers-color-scheme: dark) {
      html {
         color: #ddd;
@@ -45,7 +56,7 @@
 <body>
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#LEWG">LEWG</a> status.</em></p>
-<h3><a name="3868" href="lwg-active.html#3868">3868</a>. Constrained algorithms should not require <tt>output_iterator</tt></h3>
+<h3 id="3868"><a href="lwg-active.html#3868">3868</a>. Constrained algorithms should not require <code>output_iterator</code></h3>
 <p><b>Section:</b> 27.7.5 <a href="https://wg21.link/alg.replace">[alg.replace]</a>, 27.7.6 <a href="https://wg21.link/alg.fill">[alg.fill]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-01-29 <b>Last modified:</b> 2023-02-06</p>
 <p><b>Priority: </b>4
@@ -54,18 +65,18 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-In C++20, <tt>output_iterator</tt> is required to support <tt>*o++ = t</tt> mainly for backward compatibility,
+In C++20, <code>output_iterator</code> is required to support <code>*o++ = t</code> mainly for backward compatibility,
 that is to say, in addition to avoiding needless breakage, this semantic is actually not very useful, as it can 
-be equivalently replaced by <tt>*o = t; ++o;</tt>.
+be equivalently replaced by <code>*o = t; ++o;</code>.
 <p/>
 This is reflected in the current implementation for constrained algorithms in libstdc++ and MSVC-STL. 
-Even if the algorithm explicitly requires <tt>output_iterator</tt>, there is no code of the form <tt>*o++ = t</tt> in practice,
+Even if the algorithm explicitly requires <code>output_iterator</code>, there is no code of the form <code>*o++ = t</code> in practice,
 and the latter of a more generic form is used instead.
 <p/>
-It seems to me that constrained algorithms should never require <tt>output_iterator</tt>, since there really isn't
-any desirable reason to use <tt>*o++ = t</tt> in the new iterator system.
-It would be more appropriate to relax <tt>output_iterator</tt> to <tt>weakly_incrementable</tt> 
-(or <tt>input_or_output_iterator</tt>) and <tt>indirectly_writable</tt>,
+It seems to me that constrained algorithms should never require <code>output_iterator</code>, since there really isn't
+any desirable reason to use <code>*o++ = t</code> in the new iterator system.
+It would be more appropriate to relax <code>output_iterator</code> to <code>weakly_incrementable</code> 
+(or <code>input_or_output_iterator</code>) and <code>indirectly_writable</code>,
 given that many constrained algorithms already do that.
 </p>
 
@@ -80,11 +91,11 @@ Several votes for NAD.
 
 <p id="res-3868"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4928">N4928</a>.
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <ol>
-<li><p>Modify 27.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a>, header <tt>&lt;algorithm&gt;</tt> synopsis, as indicated:</p>
+<li><p>Modify 27.4 <a href="https://wg21.link/algorithm.syn">[algorithm.syn]</a>, header <code>&lt;algorithm&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -207,7 +218,7 @@ template&lt;class T, <ins>input_or_output_iterator</ins><del>output_iterator&lt;
 </pre>
 <blockquote>
 <p>
--1- Let <i>N</i> be max(0, <tt>n</tt>) for the <tt>fill_n</tt> algorithms, and <tt>last - first</tt> for the <tt>fill</tt> algorithms.
+-1- Let <i>N</i> be max(0, <code>n</code>) for the <code>fill_n</code> algorithms, and <code>last - first</code> for the <code>fill</code> algorithms.
 <p/>
 [&hellip;]
 </p>
