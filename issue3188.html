@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3188: istreambuf_iterator::pointer should not be unspecified</title>
+<meta property="og:title" content="Issue 3188: istreambuf_iterator::pointer should not be unspecified">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3188.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -68,7 +74,7 @@
 <p>
 The current working paper requires <code>iterator_traits&lt;Iter&gt;::pointer</code> to be <code>void</code> if <code>Iter</code> 
 doesn't define <code>operator-&gt;</code> (25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a>). We recently removed <code>operator-&gt;</code> 
-from <code>istreambuf_iterator</code> via LWG <a href="lwg-defects.html#2790" title="Missing specification of istreambuf_iterator::operator-&gt;">2790</a>, therefore either its <code>pointer</code> member should be 
+from <code>istreambuf_iterator</code> via LWG <a href="lwg-defects.html#2790" title="Missing specification of istreambuf_iterator::operator-&gt; (Status: C++17)">2790</a>, therefore either its <code>pointer</code> member should be 
 <code>void</code>, or there should be a partial specialization of <code>iterator_traits</code>. Do we want to change 
 <i>unspecified</i> to <code>void</code> in the class synopsis in [istreambuf.iterator]?
 </p>

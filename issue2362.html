@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <title>Issue 2362: unique, associative emplace() should not move/copy the mapped_type constructor 
 arguments when no insertion happens</title>
+<meta property="og:title" content="Issue 2362: unique, associative emplace() should not move/copy the mapped_type constructor 
+arguments when no insertion happens">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2362.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -106,7 +113,7 @@ that <code>emplace()</code> must construct the key before doing the lookup, and 
 must not then move the key after it determines whether an insert is
 going to happen, and the <code>mapped_type</code> instance must live next to the key.
 <p/>
-The very similar issue <a href="lwg-closed.html#2006" title="emplace broken for associative containers">2006</a> was previously marked NAD, with
+The very similar issue <a href="lwg-closed.html#2006" title="emplace broken for associative containers (Status: NAD)">2006</a> was previously marked NAD, with
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2010/n3178.htm">N3178</a> as
 discussion. However, given LEWG's interest in the alternate behavior,
 we should reopen the question in this issue.

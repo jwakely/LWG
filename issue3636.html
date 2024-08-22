@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3636: formatter&lt;T&gt;::format should be const-qualified</title>
+<meta property="og:title" content="Issue 3636: formatter&lt;T&gt;::format should be const-qualified">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3636.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -206,7 +212,7 @@ returns an iterator past the end of the parsed range.
 
 </li>
 
-<li><p>Modify 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
+<li><p>Modify 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -237,7 +243,7 @@ template&lt;&gt; struct std::formatter&lt;color&gt; : std::formatter&lt;const ch
 </blockquote>
 </li>
 
-<li><p>Modify 22.14.6.6 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
+<li><p>Modify 22.14.6.7 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
 
 <blockquote>
 <pre>

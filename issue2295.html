@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2295: Locale name when the provided Facet is a nullptr</title>
+<meta property="og:title" content="Issue 2295: Locale name when the provided Facet is a nullptr">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2295.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -85,7 +91,7 @@ I've tried it on two implementations (MSVC,GCC) and they are inconsistent with e
 Daniel Kr&uuml;gler:
 <p/>
 As currently written, the <i>Remarks</i> element applies unconditionally for all cases and thus should
-"win". The question arises whether the introduction of this element by LWG <a href="lwg-closed.html#424" title="normative notes">424</a> had actually intended
+"win". The question arises whether the introduction of this element by LWG <a href="lwg-closed.html#424" title="normative notes (Status: NAD Editorial)">424</a> had actually intended
 to change the previous <i>Note</i> to a <i>Remarks</i> element. In either case the wording should be improved
 to clarify this special case.
 </p>
@@ -93,14 +99,14 @@ to clarify this special case.
 <p><i>[2022-02-14; Daniel comments]</i></p>
 
 <p>
-This issue seems to have some overlap with LWG <a href="lwg-defects.html#3676" title="Name of locale composed using std::locale::none">3676</a> so both should presumably be resolved
+This issue seems to have some overlap with LWG <a href="lwg-defects.html#3676" title="Name of locale composed using std::locale::none (Status: Resolved)">3676</a> so both should presumably be resolved
 in a harmonized way.
 </p>
 
 <p><i>[2022-11-01; Jonathan provides wording]</i></p>
 
 <p>
-This also resolves <a href="lwg-defects.html#3673" title="&sect;[locale.cons] Ambiguous argument in Throws for locale+name+category constructor">3673</a> and <a href="lwg-defects.html#3676" title="Name of locale composed using std::locale::none">3676</a>.
+This also resolves <a href="lwg-defects.html#3673" title="&sect;[locale.cons] Ambiguous argument in Throws for locale+name+category constructor (Status: Resolved)">3673</a> and <a href="lwg-defects.html#3676" title="Name of locale composed using std::locale::none (Status: Resolved)">3676</a>.
 </p>
 
 <p><i>[2022-11-04; Jonathan revises wording after feedback]</i></p>

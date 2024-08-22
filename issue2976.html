@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2976: Dangling uses_allocator specialization for packaged_task</title>
+<meta property="og:title" content="Issue 2976: Dangling uses_allocator specialization for packaged_task">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2976.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-When LWG <a href="lwg-defects.html#2921" title="packaged_task and type-erased allocators">2921</a> removed allocator support from <code>packaged_task</code>, it forgot
+When LWG <a href="lwg-defects.html#2921" title="packaged_task and type-erased allocators (Status: C++17)">2921</a> removed allocator support from <code>packaged_task</code>, it forgot
 to remove the <code>uses_allocator</code> partial specialization.
 </p>
 
@@ -77,7 +83,7 @@ to remove the <code>uses_allocator</code> partial specialization.
 <p><i>[2017-06-26, Billy O'Neal reopens]</i></p>
 
 <p>
-I think <a href="lwg-defects.html#2921" title="packaged_task and type-erased allocators">2921</a> was resolved in error. If <code>promise&lt;T&gt;</code> can have an allocator, there's no 
+I think <a href="lwg-defects.html#2921" title="packaged_task and type-erased allocators (Status: C++17)">2921</a> was resolved in error. If <code>promise&lt;T&gt;</code> can have an allocator, there's no 
 reason for <code>packaged_task&lt;T&gt;</code> to not have one. If we remove it from <code>packaged_task</code> we should 
 remove it from <code>promise</code> as well.
 <p/>
@@ -92,9 +98,9 @@ If LWG decides to remove allocator support here then there are more bits that ne
 <p><i>[2017-06-26, Tim updates P/R to remove more dangling bits.]</i></p>
 
 <p>
-The additional point in the P/R effectively reverts the second part of the resolution of <a href="lwg-defects.html#2752" title="&quot;Throws:&quot; clauses of async and packaged_task are unimplementable">2752</a>.
+The additional point in the P/R effectively reverts the second part of the resolution of <a href="lwg-defects.html#2752" title="&quot;Throws:&quot; clauses of async and packaged_task are unimplementable (Status: C++17)">2752</a>.
 <p/>
-The alternative resolution for this issue is, of course, to just revert the resolution of 2921. In that case <a href="lwg-defects.html#2245" title="packaged_task::reset() memory allocation">2245</a> needs to be reopened.
+The alternative resolution for this issue is, of course, to just revert the resolution of 2921. In that case <a href="lwg-defects.html#2245" title="packaged_task::reset() memory allocation (Status: Resolved)">2245</a> needs to be reopened.
 </p>
 
 <p><i>[2016-07, Toronto Saturday afternoon issues processing]</i></p>

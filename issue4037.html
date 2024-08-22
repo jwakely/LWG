@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4037: Static data members of ctype_base are not yet required to be usable in constant expressions</title>
+<meta property="og:title" content="Issue 4037: Static data members of ctype_base are not yet required to be usable in constant expressions">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4037.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -55,19 +61,28 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3 id="4037"><a href="lwg-active.html#4037">4037</a>. Static data members of <code>ctype_base</code> are not yet required to be usable in constant expressions</h3>
-<p><b>Section:</b> 30.4.2.1 <a href="https://wg21.link/category.ctype.general">[category.ctype.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-01-12 <b>Last modified:</b> 2024-01-14</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3 id="4037"><a href="lwg-defects.html#4037">4037</a>. Static data members of <code>ctype_base</code> are not yet required to be usable in constant expressions</h3>
+<p><b>Section:</b> 30.4.2.1 <a href="https://wg21.link/category.ctype.general">[category.ctype.general]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-01-12 <b>Last modified:</b> 2024-04-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 It may be desired that static data members <code>ctype_base</code> are "real constants", i.e. usable in constant expressions. 
 However, this is not strictly required because <code>mask</code> is only required to be a bitmask type that can be a class type, 
 which makes the plain <code>const</code> potentially insufficient.
 </p>
+
+<p><i>[2024-03-12; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+<p><i>[Tokyo 2024-03-23; Status changed: Voting &rarr; WP.]</i></p>
+
 
 
 <p id="res-4037"><b>Proposed resolution:</b></p>

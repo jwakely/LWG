@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3265: move_iterator's conversions are more broken after P1207</title>
+<meta property="og:title" content="Issue 3265: move_iterator's conversions are more broken after P1207">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3265.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -70,7 +76,7 @@ were technically broken before P1207:
 </p>
 <ul>
 <li><p>25.5.4.4 <a href="https://wg21.link/move.iter.cons">[move.iter.cons]</a> para 3 (and 5 for that matter) is an instance of LWG 
-<a href="lwg-active.html#3105" title="T1 is convertible to T2">3105</a>; it should instead mandate that <code>u.base()</code> is convertible to <code>Iterator</code>.</p></li>
+<a href="lwg-active.html#3105" title="T1 is convertible to T2 (Status: New)">3105</a>; it should instead mandate that <code>u.base()</code> is convertible to <code>Iterator</code>.</p></li>
 <li><p>25.5.4.4 <a href="https://wg21.link/move.iter.cons">[move.iter.cons]</a> para 5 uses "is convertible" to guard an assignment operation 
 instead of a conversion; it should instead mandate.</p></li>
 </ul>
@@ -156,7 +162,7 @@ LWG Review. Some wording improvements have been made and lead to revised wording
 
 <p>Reviewed revised wording and moved to Ready for Varna.</p>
 
-<p><i>[2020-07-17; superseded by <a href="lwg-defects.html#3435" title="three_way_comparable_with&lt;reverse_iterator&lt;int*&gt;, reverse_iterator&lt;const int*&gt;&gt;">3435</a>]</i></p>
+<p><i>[2020-07-17; superseded by <a href="lwg-defects.html#3435" title="three_way_comparable_with&lt;reverse_iterator&lt;int*&gt;, reverse_iterator&lt;const int*&gt;&gt; (Status: C++23)">3435</a>]</i></p>
 
 <p><i>[2020-11-09 Approved In November virtual meeting. Status changed: Ready &rarr; WP.]</i></p>
 

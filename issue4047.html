@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4047: Explicitly specifying template arguments for std::swap should not be supported</title>
+<meta property="og:title" content="Issue 4047: Explicitly specifying template arguments for std::swap should not be supported">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4047.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -58,8 +64,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4047"><a href="lwg-active.html#4047">4047</a>. Explicitly specifying template arguments for <code>std::swap</code> should not be supported</h3>
 <p><b>Section:</b> 16.4.5.2.1 <a href="https://wg21.link/namespace.std">[namespace.std]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-01-25 <b>Last modified:</b> 2024-01-27</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-01-25 <b>Last modified:</b> 2024-03-15</p>
+<p><b>Priority: </b>4
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#namespace.std">active issues</a> in [namespace.std].</p>
 <p><b>View all other</b> <a href="lwg-index.html#namespace.std">issues</a> in [namespace.std].</p>
@@ -80,6 +86,21 @@ Perhaps we should explicitly state that explicitly specifying templates for <cod
 (27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>/15), to avoid possible reading that there are some guarantees, derived 
 from signatures of overloads, for doing so.
 </p>
+
+<p><i>[2024-03-15; Reflector poll]</i></p>
+
+<p>
+Set priority to 4 after reflector poll.
+</p>
+<p> NAD - if a user does this and it breaks, so be it.</p>
+<p>NAD as an issue creating a new kind of library policy for the first time.
+Needs a paper.</p>
+<p>
+Not unique to <code>std::swap</code>. We should forbid this throughout
+the standard library.
+</p>
+<p>Closely related to LWG <a href="lwg-active.html#2146" title="Are reference types Copy&#47;Move-Constructible&#47;Assignable or Destructible? (Status: Open)">2146</a>.</p>
+
 
 
 <p id="res-4047"><b>Proposed resolution:</b></p>

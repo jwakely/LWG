@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <title>Issue 2407: packaged_task(allocator_arg_t, const Allocator&amp;, F&amp;&amp;) should neither be constrained nor 
 explicit</title>
+<meta property="og:title" content="Issue 2407: packaged_task(allocator_arg_t, const Allocator&amp;, F&amp;&amp;) should neither be constrained nor 
+explicit">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2407.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -67,7 +74,7 @@ explicit</title>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++17">C++17</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#2097" title="packaged_task constructors should be constrained">2097</a>'s resolution was slightly too aggressive. It constrained 
+LWG <a href="lwg-defects.html#2097" title="packaged_task constructors should be constrained (Status: C++14)">2097</a>'s resolution was slightly too aggressive. It constrained 
 <code>packaged_task(allocator_arg_t, const Allocator&amp;, F&amp;&amp;)</code>, but that's unnecessary because 
 <code>packaged_task</code> doesn't have any other three-argument constructors. Additionally, it's marked as 
 <code>explicit</code> (going back to WP N2798 when <code>packaged_task</code> first appeared) which is unnecessary.

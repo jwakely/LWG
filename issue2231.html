@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2231: DR 704 removes complexity guarantee for clear()</title>
+<meta property="og:title" content="Issue 2231: DR 704 removes complexity guarantee for clear()">
+<meta property="og:description" content="C++ library issue. Status: C++14">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2231.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -70,7 +76,7 @@ From the question at <a href="http://stackoverflow.com/q/14094408/981959">stacko
 </p>
 
 <p>
-Were we aware that the resolution to LWG <a href="lwg-defects.html#704" title="MoveAssignable requirement for container value type overly strict">704</a> means there is no complexity guarantee for 
+Were we aware that the resolution to LWG <a href="lwg-defects.html#704" title="MoveAssignable requirement for container value type overly strict (Status: C++11)">704</a> means there is no complexity guarantee for 
 <code>clear()</code> on most sequence containers? Previously it was implied by defining it in terms of 
 <code>erase(begin(), end())</code> but we no longer do that.
 </p>

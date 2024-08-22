@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 679: resize parameter by value</title>
+<meta property="og:title" content="Issue 679: resize parameter by value">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue679.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -147,7 +153,7 @@ CodeWarrior library with no reports of problems which I am aware of.
 
 <p id="res-679"><b>Proposed resolution:</b></p>
 <p>
-Change 24.3.8 <a href="https://wg21.link/deque">[deque]</a>, p2:
+Change 24.3.9 <a href="https://wg21.link/deque">[deque]</a>, p2:
 </p>
 
 <blockquote><pre>
@@ -157,7 +163,7 @@ class deque {
 </pre></blockquote>
 
 <p>
-Change 24.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a>, p3:
+Change 24.3.9.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a>, p3:
 </p>
 
 <blockquote><pre>
@@ -165,7 +171,7 @@ void resize(size_type sz, <ins>const </ins>T<ins>&amp;</ins> c);
 </pre></blockquote>
 
 <p>
-Change 24.3.10 <a href="https://wg21.link/list">[list]</a>, p2:
+Change 24.3.11 <a href="https://wg21.link/list">[list]</a>, p2:
 </p>
 
 <blockquote><pre>
@@ -175,7 +181,7 @@ class list {
 </pre></blockquote>
 
 <p>
-Change 24.3.10.3 <a href="https://wg21.link/list.capacity">[list.capacity]</a>, p3:
+Change 24.3.11.3 <a href="https://wg21.link/list.capacity">[list.capacity]</a>, p3:
 </p>
 
 <blockquote><pre>
@@ -183,7 +189,7 @@ void resize(size_type sz, <ins>const </ins>T<ins>&amp;</ins> c);
 </pre></blockquote>
 
 <p>
-Change 24.3.11 <a href="https://wg21.link/vector">[vector]</a>, p2:
+Change 24.3.12 <a href="https://wg21.link/vector">[vector]</a>, p2:
 </p>
 
 <blockquote><pre>
@@ -193,7 +199,7 @@ class vector {
 </pre></blockquote>
 
 <p>
-Change 24.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>, p11:
+Change 24.3.12.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>, p11:
 </p>
 
 <blockquote><pre>

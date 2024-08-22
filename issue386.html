@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 386: Reverse iterator's operator[] has impossible return type</title>
+<meta property="og:title" content="Issue 386: Reverse iterator's operator[] has impossible return type">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue386.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -76,7 +82,7 @@ which is the same as <code>iterator_traits&lt;Iterator&gt;::reference</code>.
   to <code>Iterator</code>'s value type.  The return type specified for
   reverse_iterator's operator[] would thus appear to be impossible.</p>
 
-<p>With the resolution of issue <a href="lwg-closed.html#299" title="Incorrect return types for iterator dereference">299</a>, the type of
+<p>With the resolution of issue <a href="lwg-closed.html#299" title="Incorrect return types for iterator dereference (Status: NAD Editorial)">299</a>, the type of
   <code>a[n]</code> will continue to be required (for random access
   iterators) to be convertible to the value type, and also <code>a[n] =
   t</code> will be a valid expression.  Implementations of

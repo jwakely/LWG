@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 787: complexity of binary_search</title>
+<meta property="og:title" content="Issue 787: complexity of binary_search">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue787.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -79,8 +85,8 @@ This should be precised and brought in line with the nomenclature used for
 <p>
 All existing libraries I'm aware of, delegate to
 <code>lower_bound</code> (+ one further comparison). Since
-issue <a href="lwg-defects.html#384" title="equal_range has unimplementable runtime complexity">384</a> has now WP status, the resolution of #787 should
-be brought in-line with <a href="lwg-defects.html#384" title="equal_range has unimplementable runtime complexity">384</a> by changing the <code>+ 2</code>
+issue <a href="lwg-defects.html#384" title="equal_range has unimplementable runtime complexity (Status: CD1)">384</a> has now WP status, the resolution of #787 should
+be brought in-line with <a href="lwg-defects.html#384" title="equal_range has unimplementable runtime complexity (Status: CD1)">384</a> by changing the <code>+ 2</code>
 to <code>+ O(1)</code>.
 </p>
 

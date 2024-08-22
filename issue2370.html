@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2370: Operations involving type-erased allocators should not be noexcept in std::function</title>
+<meta property="og:title" content="Issue 2370: Operations involving type-erased allocators should not be noexcept in std::function">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2370.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -135,7 +141,7 @@ which formalizes type-erased allocators.
 
 <p>
 For cross-referencing purposes: The resolution of this issue should be
-harmonized with any resolution to LWG <a href="lwg-defects.html#2062" title="Effect contradictions w&#47;o no-throw guarantee of std::function swaps">2062</a>, which questions the <code>noexcept</code>
+harmonized with any resolution to LWG <a href="lwg-defects.html#2062" title="Effect contradictions w&#47;o no-throw guarantee of std::function swaps (Status: C++17)">2062</a>, which questions the <code>noexcept</code>
 specification on the following member functions of std::function:
 </p>
 
@@ -155,7 +161,7 @@ STL: note that <code>noexcept</code> is an issue and large chunks of allocator s
 <p><i>[2015-12-16, Daniel comments]</i></p>
 
 <p>
-See <a href="lwg-defects.html#2564" title="[fund.ts.v2] std::experimental::function constructors taking allocator arguments may throw exceptions">2564</a> for a corresponding issue addressing library fundamentals v2.
+See <a href="lwg-defects.html#2564" title="[fund.ts.v2] std::experimental::function constructors taking allocator arguments may throw exceptions (Status: Resolved)">2564</a> for a corresponding issue addressing library fundamentals v2.
 </p>
 
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>

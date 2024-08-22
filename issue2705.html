@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2705: Questionable precondition on Sequence containers a.assign(n, t)</title>
+<meta property="og:title" content="Issue 2705: Questionable precondition on Sequence containers a.assign(n, t)">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2705.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -80,7 +86,7 @@ All of these use an element of itself which may be moved or destroyed by
 the modification.
 <p/>
 From what I see so far, the first three are required to work. Please
-see library issue <a href="lwg-closed.html#526" title="Is it undefined if a function in the standard changes in parameters?">526</a> for validity of them.
+see library issue <a href="lwg-closed.html#526" title="Is it undefined if a function in the standard changes in parameters? (Status: NAD)">526</a> for validity of them.
 <p/>
 But only the last one is undefined because it violates a precondition of
 a sequence container operation. I think this is too subtle.
@@ -175,7 +181,7 @@ basic_string&amp; assign(size_type n, charT c);
 This can be seen as another gap.
 <p/>
 Looking back on the history, I found that the definition of <code>assign(n, t)</code>
-was changed at C++14 for library issue <a href="lwg-defects.html#2209" title="assign() overspecified for sequence containers">2209</a>. There were more restricting 
+was changed at C++14 for library issue <a href="lwg-defects.html#2209" title="assign() overspecified for sequence containers (Status: C++14)">2209</a>. There were more restricting 
 definitions like this:
 </p>
 <blockquote>

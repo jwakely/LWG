@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3003: &lt;future&gt; still has type-erased allocators in promise</title>
+<meta property="og:title" content="Issue 3003: &lt;future&gt; still has type-erased allocators in promise">
+<meta property="og:description" content="C++ library issue. Status: Open">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3003.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-In Toronto Saturday afternoon LWG discussed LWG <a href="lwg-defects.html#2976" title="Dangling uses_allocator specialization for packaged_task">2976</a> which finishes the job of removing allocator 
+In Toronto Saturday afternoon LWG discussed LWG <a href="lwg-defects.html#2976" title="Dangling uses_allocator specialization for packaged_task (Status: C++20)">2976</a> which finishes the job of removing allocator 
 support from <code>packaged_task</code>. LWG confirmed that, despite the removal of <code>packaged_task</code> allocators 
 "because it looks like <code>std::function</code>" was incorrect, they wanted to keep the allocator removals anyway, 
 in large part due to this resolution being a response to an NB comment.
@@ -89,7 +95,7 @@ to be used on elements constructed in the shared state, and allows the emplace-c
 
 <p><i>[2019-06-03]</i></p>
 
-<p>Jonathan observes that this resolution conflicts with <a href="lwg-active.html#2095" title="promise and packaged_task missing constructors needed for uses-allocator construction">2095</a>.</p>
+<p>Jonathan observes that this resolution conflicts with <a href="lwg-active.html#2095" title="promise and packaged_task missing constructors needed for uses-allocator construction (Status: LEWG)">2095</a>.</p>
 
 
 <p id="res-3003"><b>Proposed resolution:</b></p>

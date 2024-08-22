@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3119: Program-definedness of closure types</title>
+<meta property="og:title" content="Issue 3119: Program-definedness of closure types">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3119.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,14 +63,14 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3 id="3119"><a href="lwg-defects.html#3119">3119</a>. Program-definedness of closure types</h3>
-<p><b>Section:</b> 3.40 <a href="https://wg21.link/defns.prog.def.spec">[defns.prog.def.spec]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 3.41 <a href="https://wg21.link/defns.prog.def.spec">[defns.prog.def.spec]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Hubert Tong <b>Opened:</b> 2018-06-09 <b>Last modified:</b> 2021-06-06</p>
 <p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The description of closure types in 7.5.5.2 <a href="https://wg21.link/expr.prim.lambda.closure">[expr.prim.lambda.closure]</a> says:
+The description of closure types in 7.5.6.2 <a href="https://wg21.link/expr.prim.lambda.closure">[expr.prim.lambda.closure]</a> says:
 </p>
 <blockquote>
 <p>
@@ -72,7 +78,7 @@ An implementation may define the closure type differently [&hellip;]
 </p>
 </blockquote>
 <p>
-The proposed resolution to LWG <a href="lwg-defects.html#2139" title="What is a user-defined type?">2139</a> defines a "program-defined type" to be a
+The proposed resolution to LWG <a href="lwg-defects.html#2139" title="What is a user-defined type? (Status: C++20)">2139</a> defines a "program-defined type" to be a
 </p>
 <blockquote>
 <p>
@@ -102,7 +108,7 @@ specialization of <code>std::common_type</code>.
 </p><p>
 Since it's guaranteed that even distinct utterances of identical lambda
 expressions produce closures with distinct types
-(7.5.5.2 <a href="https://wg21.link/expr.prim.lambda.closure">[expr.prim.lambda.closure]</a>), adding closure types to our term
+(7.5.6.2 <a href="https://wg21.link/expr.prim.lambda.closure">[expr.prim.lambda.closure]</a>), adding closure types to our term
 "program-defined type" is consistent with the intended use despite that such
 types are technically defined by the implementation.
 </p>
@@ -112,12 +118,12 @@ types are technically defined by the implementation.
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
 <ul>
-<li><p>Modify 3.41 <a href="https://wg21.link/defns.prog.def.type">[defns.prog.def.type]</a> as follows:</p>
+<li><p>Modify 3.42 <a href="https://wg21.link/defns.prog.def.type">[defns.prog.def.type]</a> as follows:</p>
 <blockquote>
 <b>program-defined type</b><br/>
 class type or enumeration type that is not part of the C++ standard library and
 not defined by the implementation <ins>(except for closure types
-(7.5.5.2 <a href="https://wg21.link/expr.prim.lambda.closure">[expr.prim.lambda.closure]</a>) for program-defined lambda
+(7.5.6.2 <a href="https://wg21.link/expr.prim.lambda.closure">[expr.prim.lambda.closure]</a>) for program-defined lambda
 expressions)</ins>, or an instantiation of a program-defined specialization
 </blockquote>
 </li>
@@ -138,7 +144,7 @@ expressions)</ins>, or an instantiation of a program-defined specialization
 <p>This wording is relative to <a href="https://wg21.link/n4762">N4762</a>.</p>
 
 <ul>
-<li><p>Modify 3.41 <a href="https://wg21.link/defns.prog.def.type">[defns.prog.def.type]</a> as follows:</p>
+<li><p>Modify 3.42 <a href="https://wg21.link/defns.prog.def.type">[defns.prog.def.type]</a> as follows:</p>
 <blockquote>
 <b>program-defined type</b><br/>
 <ins>non-closure </ins>class type or enumeration type that is not part of the

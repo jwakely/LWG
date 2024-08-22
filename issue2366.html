@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2366: istreambuf_iterator end-of-stream equality</title>
+<meta property="og:title" content="Issue 2366: istreambuf_iterator end-of-stream equality">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2366.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -95,7 +101,7 @@ the iterators should compare equal.
 
 <p>
 I agree that they should compare equal, but that's in conflict with the
-resolution of LWG <a href="lwg-defects.html#2544" title="istreambuf_iterator(basic_streambuf&lt;charT, traits&gt;* s) effects unclear when s is 0">2544</a>, which says that <code>begin</code>
+resolution of LWG <a href="lwg-defects.html#2544" title="istreambuf_iterator(basic_streambuf&lt;charT, traits&gt;* s) effects unclear when s is 0 (Status: C++17)">2544</a>, which says that <code>begin</code>
 must not be at end-of-stream because <code>&amp;buf</code> is not null.
 </p>
 

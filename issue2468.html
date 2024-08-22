@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2468: Self-move-assignment of library types</title>
+<meta property="og:title" content="Issue 2468: Self-move-assignment of library types">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2468.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -176,9 +182,9 @@ operations listed in those requirements must work as specified whether
 <p><i>[2016-08-07, Daniel reopens]</i></p>
 
 <p>
-With the acceptance of LWG <a href="lwg-defects.html#2598" title="addressof works on temporaries">2598</a>, the proposed wording is invalid code, because it attempts to
+With the acceptance of LWG <a href="lwg-defects.html#2598" title="addressof works on temporaries (Status: C++17)">2598</a>, the proposed wording is invalid code, because it attempts to
 call <code>std::addressof</code> with an rvalue argument. It should be pointed out that the new restriction 
-caused by <a href="lwg-defects.html#2598" title="addressof works on temporaries">2598</a> doesn't affect real code, because any identity test within a move assignment
+caused by <a href="lwg-defects.html#2598" title="addressof works on temporaries (Status: C++17)">2598</a> doesn't affect real code, because any identity test within a move assignment
 operator (or any comparable function) would act on the current function argument, which is an lvalue in the
 context of the function body. The existing wording form of the issue could still be kept, if a helper variable
 would be introduced such as:

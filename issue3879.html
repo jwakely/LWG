@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3879: erase_if for flat_{,multi}set is incorrectly specified</title>
+<meta property="og:title" content="Issue 3879: erase_if for flat_{,multi}set is incorrectly specified">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3879.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
 <h3 id="3879"><a href="lwg-defects.html#3879">3879</a>. <code>erase_if</code> for <code>flat_{,multi}set</code> is incorrectly specified</h3>
-<p><b>Section:</b> 24.6.11.5 <a href="https://wg21.link/flat.set.erasure">[flat.set.erasure]</a>, 24.6.12.5 <a href="https://wg21.link/flat.multiset.erasure">[flat.multiset.erasure]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+<p><b>Section:</b> 24.6.11.6 <a href="https://wg21.link/flat.set.erasure">[flat.set.erasure]</a>, 24.6.12.6 <a href="https://wg21.link/flat.multiset.erasure">[flat.multiset.erasure]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2023-02-09 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -82,7 +88,7 @@ the set only present constant views of its elements.
 This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 <ol>
-<li><p>Modify 24.6.11.5 <a href="https://wg21.link/flat.set.erasure">[flat.set.erasure]</a> as indicated:</p>
+<li><p>Modify 24.6.11.6 <a href="https://wg21.link/flat.set.erasure">[flat.set.erasure]</a> as indicated:</p>
 <blockquote>
 <pre>
 template&lt;class Key, class Compare, class KeyContainer, class Predicate&gt;
@@ -117,7 +123,7 @@ Erases all elements <code>e</code> in <code>c</code> for which <i>E</i> holds.
 <p/>
 <ins>-5- <i>Remarks:</i> Stable (16.4.6.8 <a href="https://wg21.link/algorithm.stable">[algorithm.stable]</a>). 
 If an invocation of <code>erase_if</code> exits via an exception, <code>c</code> is in a valid but
-unspecified state (3.64 <a href="https://wg21.link/defns.valid">[defns.valid]</a>). </ins>
+unspecified state (3.65 <a href="https://wg21.link/defns.valid">[defns.valid]</a>). </ins>
 <p/>
 <ins>
 [<i>Note 1</i>: <code>c</code> still meets its invariants, but can be empty. &mdash; <i>end note</i>]
@@ -126,7 +132,7 @@ unspecified state (3.64 <a href="https://wg21.link/defns.valid">[defns.valid]</a
 </blockquote>
 </blockquote>
 </li>
-<li><p>Modify 24.6.12.5 <a href="https://wg21.link/flat.multiset.erasure">[flat.multiset.erasure]</a> as indicated:</p>
+<li><p>Modify 24.6.12.6 <a href="https://wg21.link/flat.multiset.erasure">[flat.multiset.erasure]</a> as indicated:</p>
 <blockquote>
 <pre>
 template&lt;class Key, class Compare, class KeyContainer, class Predicate&gt;
@@ -161,7 +167,7 @@ Erases all elements <code>e</code> in <code>c</code> for which <i>E</i> holds.
 <p/>
 <ins>-5- <i>Remarks:</i> Stable (16.4.6.8 <a href="https://wg21.link/algorithm.stable">[algorithm.stable]</a>). 
 If an invocation of <code>erase_if</code> exits via an exception, <code>c</code> is in a valid but
-unspecified state (3.64 <a href="https://wg21.link/defns.valid">[defns.valid]</a>). </ins>
+unspecified state (3.65 <a href="https://wg21.link/defns.valid">[defns.valid]</a>). </ins>
 <p/>
 <ins>
 [<i>Note 1</i>: <code>c</code> still meets its invariants, but can be empty. &mdash; <i>end note</i>]

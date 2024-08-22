@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2421: Non-specification of handling zero size in std::align [ptr.align]</title>
+<meta property="og:title" content="Issue 2421: Non-specification of handling zero size in std::align [ptr.align]">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2421.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>Discussion:</b></p>
 <p>
 The specification of <code>std::align</code> does not appear to specify what happens when the value of the <code>size</code> 
-parameter is 0. (The question of what happens when <code>alignment</code> is 0 is mentioned in another Defect Report, <a href="lwg-defects.html#2377" title="std::align requirements overly strict">2377</a>; 
+parameter is 0. (The question of what happens when <code>alignment</code> is 0 is mentioned in another Defect Report, <a href="lwg-defects.html#2377" title="std::align requirements overly strict (Status: C++17)">2377</a>; 
 it would change the behavior to be undefined rather than potentially implementation-defined.)
 <p/>
 The case of <code>size</code> being 0 is interesting because the result is ambiguous. Consider the following code's output:

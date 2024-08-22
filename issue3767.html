@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3767: codecvt&lt;charN_t, char8_t, mbstate_t&gt; incorrectly added to locale</title>
+<meta property="og:title" content="Issue 3767: codecvt&lt;charN_t, char8_t, mbstate_t&gt; incorrectly added to locale">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3767.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -55,14 +61,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Ready</a> status.</em></p>
-<h3 id="3767"><a href="lwg-active.html#3767">3767</a>. <code>codecvt&lt;char<i>N</i>_t, char8_t, mbstate_t&gt;</code> incorrectly added to locale</h3>
-<p><b>Section:</b> 30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>, 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2023-11-07</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3 id="3767"><a href="lwg-defects.html#3767">3767</a>. <code>codecvt&lt;char<i>N</i>_t, char8_t, mbstate_t&gt;</code> incorrectly added to locale</h3>
+<p><b>Section:</b> 30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>, 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2024-04-02</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#locale.category">issues</a> in [locale.category].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Table [tab:locale.category.facets] includes the following two facets:
@@ -117,7 +123,7 @@ way to use them is via <code>use_facet</code> on a locale, which would throw
 if they're removed (and because they were guaranteed to be present, code
 using them might have not bothered to check for them using <code>has_facet</code>).
 Instead of removing them, deprecate the guarantee that they're always present
-(so move them to D.24 <a href="https://wg21.link/depr.locale.category">[depr.locale.category]</a>).
+(so move them to D.20 <a href="https://wg21.link/depr.locale.category">[depr.locale.category]</a>).
 Don't bother changing the destructor.
 Victor to update wording.
 </p>
@@ -231,6 +237,8 @@ Per today's LWG discussion the following changes have been implemented in revise
 <p><i>[Kona 2023-11-07; move to Ready]</i></p>
 
 
+<p><i>[Tokyo 2024-03-23; Status changed: Voting &rarr; WP.]</i></p>
+
 
 
 <p id="res-3767"><b>Proposed resolution:</b></p>
@@ -339,7 +347,7 @@ to or from the specialized <code>do_in</code> or <code>do_out</code> members.
 </li>
 
 
-<li><p>Modify D.24 <a href="https://wg21.link/depr.locale.category">[depr.locale.category]</a> (Deprecated locale category facets) in Annex D as indicated:</p>
+<li><p>Modify D.20 <a href="https://wg21.link/depr.locale.category">[depr.locale.category]</a> (Deprecated locale category facets) in Annex D as indicated:</p>
 
 <blockquote>
 <p>

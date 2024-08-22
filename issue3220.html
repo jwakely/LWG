@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3220: P0558 broke conforming C++14 uses of atomic shared_ptr</title>
+<meta property="og:title" content="Issue 3220: P0558 broke conforming C++14 uses of atomic shared_ptr">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3220.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -96,7 +102,7 @@ template&lt;class T&gt; void atomic_store(atomic&lt;T&gt;*, typename atomic&lt;T
 </pre></blockquote>
 <p>
 The program intends to call the "other" <code>atomic_store</code> from
-D.21 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>:
+99 [depr.util.smartptr.shared.atomic]:
 </p>
 <blockquote><pre>
 template&lt;class T&gt; void atomic_store(shared_ptr&lt;T&gt;*, shared_ptr&lt;T&gt;); <i>// #3</i>
@@ -115,7 +121,7 @@ argument <code>T</code> shall be trivially copyable"
 <p/>
 The fix is fairly straightforward since <code>atomic&lt;T&gt;::value_type</code> is always an alias
 for <code>T</code>: for those non-member atomic functions with overloads defined in
-D.21 <a href="https://wg21.link/depr.util.smartptr.shared.atomic">[depr.util.smartptr.shared.atomic]</a>, use a different form to require that <code>T</code>
+99 [depr.util.smartptr.shared.atomic], use a different form to require that <code>T</code>
 in the type of the second parameter is non-deduced.
 </p>
 

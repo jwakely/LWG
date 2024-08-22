@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3075: basic_string needs deduction guides from basic_string_view</title>
+<meta property="og:title" content="Issue 3075: basic_string needs deduction guides from basic_string_view">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3075.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The Proposed Resolution for LWG <a href="lwg-defects.html#2946" title="LWG 2758's resolution missed further corrections">2946</a> appears to be correct and we've implemented it in MSVC, 
+The Proposed Resolution for LWG <a href="lwg-defects.html#2946" title="LWG 2758's resolution missed further corrections (Status: C++20)">2946</a> appears to be correct and we've implemented it in MSVC, 
 but it worsens a pre-existing problem with basic_string class template argument deduction.
 <p/>
 The following <code>s1</code> and <code>s2</code> compiled in C++17 before LWG 2946's PR, fail 
@@ -98,7 +104,7 @@ Additionally, we need to handle the <code>size_type</code> parameters in the sam
 containers do. This PR has been implemented in MSVC.
 </p>
 
-<p><i>[2018-14: Wednesday night issues processing: both this and <a href="lwg-defects.html#2946" title="LWG 2758's resolution missed further corrections">2946</a> to status "Immediate".]</i></p>
+<p><i>[2018-14: Wednesday night issues processing: both this and <a href="lwg-defects.html#2946" title="LWG 2758's resolution missed further corrections (Status: C++20)">2946</a> to status "Immediate".]</i></p>
 
 <p><i>[2018-3-17 Adopted in Jacksonville]</i></p>
 

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2137: Misleadingly constrained post-condition in the presence of exceptions</title>
+<meta property="og:title" content="Issue 2137: Misleadingly constrained post-condition in the presence of exceptions">
+<meta property="og:description" content="C++ library issue. Status: Open">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2137.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -74,7 +80,7 @@ The post-conditions of <code>basic_regex&lt;&gt;::assign</code> 32.7.3 <a href="
 </p></blockquote>
 <p>
 The default expectation in the library is that post-conditions only hold, if there is no failure 
-(see also <a href="lwg-active.html#2136" title="Postconditions vs. exceptions">2136</a>), therefore the initial condition should be removed to prevent any
+(see also <a href="lwg-active.html#2136" title="Postconditions vs. exceptions (Status: Open)">2136</a>), therefore the initial condition should be removed to prevent any
 misunderstanding.
 </p>
 
@@ -84,10 +90,10 @@ misunderstanding.
 
 
 <p>
-A favorable resolution clearly depends on a favorable resolution to <a href="lwg-active.html#2136" title="Postconditions vs. exceptions">2136</a>.
+A favorable resolution clearly depends on a favorable resolution to <a href="lwg-active.html#2136" title="Postconditions vs. exceptions (Status: Open)">2136</a>.
 There is also a concern that this is just one example of where we would want to apply
 such a wording clean-up, and which is really needed to resolve both this issue and
-<a href="lwg-active.html#2136" title="Postconditions vs. exceptions">2136</a> is a paper providing the clause 17 wording that gives the guarantee
+<a href="lwg-active.html#2136" title="Postconditions vs. exceptions (Status: Open)">2136</a> is a paper providing the clause 17 wording that gives the guarantee
 for <i>postcondition</i> paragraphs, and then reviews clauses 18-30 to apply that
 guarantee consistently.  We do not want to pick up these issues piecemeal, as we risk
 opening many issues in an ongoing process.

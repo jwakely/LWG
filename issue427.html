@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 427: Stage 2 and rationale of DR 221</title>
+<meta property="og:title" content="Issue 427: Stage 2 and rationale of DR 221">
+<meta property="og:description" content="C++ library issue. Status: C++11">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue427.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -95,7 +101,7 @@ instantiate the num_get template on user-defined types.
   and traits is in order.  The LWG considered and rejected the
   possibility of changing numeric facets to use narrowing instead of
   widening.  This may be a good idea for other reasons (see issue
-  <a href="lwg-closed.html#459" title="Requirement for widening in stage 2 is overspecification">459</a>), but it doesn't solve the problem raised by this
+  <a href="lwg-closed.html#459" title="Requirement for widening in stage 2 is overspecification (Status: NAD)">459</a>), but it doesn't solve the problem raised by this
   issue.  Whether we use widen or narrow the <code>num_get</code> facet
   still has no idea which traits class the user wants to use for 
   the comparison, because only streams, not facets, are passed traits
@@ -283,7 +289,7 @@ not belong to the set of required specializations.</ins>
 
 <li>
 <p>
-Change 30.4.7.2.2 <a href="https://wg21.link/locale.money.get.virtuals">[locale.money.get.virtuals]</a>/4:
+Change 30.4.7.2.3 <a href="https://wg21.link/locale.money.get.virtuals">[locale.money.get.virtuals]</a>/4:
 </p>
 
 <blockquote>
@@ -302,7 +308,7 @@ sscanf(buf2, "%Lf", &amp;units);
 
 <li>
 <p>
-Change 30.4.7.3.2 <a href="https://wg21.link/locale.money.put.virtuals">[locale.money.put.virtuals]</a>/1:
+Change 30.4.7.3.3 <a href="https://wg21.link/locale.money.put.virtuals">[locale.money.put.virtuals]</a>/1:
 </p>
 
 <blockquote><p>
@@ -583,7 +589,7 @@ not belong to the set of required specializations - <i>end note</i>].</ins>
 
 <li>
 <p>
-Change 30.4.7.2.2 <a href="https://wg21.link/locale.money.get.virtuals">[locale.money.get.virtuals]</a>/4:
+Change 30.4.7.2.3 <a href="https://wg21.link/locale.money.get.virtuals">[locale.money.get.virtuals]</a>/4:
 </p>
 
 <blockquote>
@@ -602,7 +608,7 @@ sscanf(buf2, "%Lf", &amp;units);
 
 <li>
 <p>
-Change 30.4.7.3.2 <a href="https://wg21.link/locale.money.put.virtuals">[locale.money.put.virtuals]</a>/1:
+Change 30.4.7.3.3 <a href="https://wg21.link/locale.money.put.virtuals">[locale.money.put.virtuals]</a>/1:
 </p>
 
 <blockquote><p>

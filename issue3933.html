@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3933: P1467R9 accidentally changed the signatures of certain constructors of std::complex</title>
+<meta property="og:title" content="Issue 3933: P1467R9 accidentally changed the signatures of certain constructors of std::complex">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3933.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -130,7 +136,7 @@ integrate the addition of the extended floating-point types here, as quoted from
 the explicit specializations was the explicit-ness of the constructors that take a complex number of a different type. 
 </blockquote>
 <p>
-This issue has some overlap with LWG <a href="lwg-active.html#3934" title="std::complex&lt;T&gt;::operator=(const T&amp;) has no specification">3934</a>, which suggests a yet missing specification for
+This issue has some overlap with LWG <a href="lwg-active.html#3934" title="std::complex&lt;T&gt;::operator=(const T&amp;) has no specification (Status: New)">3934</a>, which suggests a yet missing specification for
 the assignment operator taking the <code>value_type</code> as parameter.
 </p>
 
@@ -205,7 +211,7 @@ constexpr complex(const T&amp; re = T(), const T&amp; im = T()) <ins>requires (!
 <p>
 [<i>Drafting note</i>: We have an pre-existing specification hole that the effects of the non-compound assignment 
 operator taking the <code>value_type</code> as parameter are nowhere specified. This is going to be submitted as a
-separate issue, see LWG <a href="lwg-active.html#3934" title="std::complex&lt;T&gt;::operator=(const T&amp;) has no specification">3934</a>.]
+separate issue, see LWG <a href="lwg-active.html#3934" title="std::complex&lt;T&gt;::operator=(const T&amp;) has no specification (Status: New)">3934</a>.]
 </p>
 </blockquote>
 

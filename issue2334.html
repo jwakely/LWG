@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2334: atomic's default constructor requires "uninitialized" state even for types with non-trivial default-constructor</title>
+<meta property="og:title" content="Issue 2334: atomic's default constructor requires &quot;uninitialized&quot; state even for types with non-trivial default-constructor">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2334.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -110,7 +116,7 @@ refer to types that are valid <code>C</code>-types, but the example type <code>S
 To make the mental model of <code>atomic</code>'s default constructor more intuitive for user-code, I suggest to clarify the wording
 to have the effects of default-initialization instead. The current state seems more like an unintended effect of imprecise
 language used here and has some similarities to wording that was incorrectly used to specify <code>atomic_flag</code> initialization
-as described by LWG <a href="lwg-defects.html#2159" title="atomic_flag initialization">2159</a>.
+as described by LWG <a href="lwg-defects.html#2159" title="atomic_flag initialization (Status: C++14)">2159</a>.
 </p>
 
 <p><i>[2014-05-17, Daniel comments and provides alternative wording]</i></p>

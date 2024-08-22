@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 365: Lack of const-qualification in clause 27</title>
+<meta property="og:title" content="Issue 365: Lack of const-qualification in clause 27">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue365.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -74,7 +80,7 @@ document N1360 for details and rationale.
 <p>The list of member functions under discussion: <code>in_avail</code>,
 <code>showmanyc</code>, <code>tellg</code>, <code>tellp</code>, <code>is_open</code>.</p>
 
-<p>Related issue: <a href="lwg-closed.html#73" title="is_open should be const">73</a></p>
+<p>Related issue: <a href="lwg-closed.html#73" title="is_open should be const (Status: NAD)">73</a></p>
 
 
 
@@ -93,7 +99,7 @@ document N1360 for details and rationale.
 <p><b>Rationale:</b></p>
 <p>Of the changes proposed in N1360, the only one that is safe is
 changing the filestreams' is_open to const.  The LWG believed that
-this was NAD the first time it considered this issue (issue <a href="lwg-closed.html#73" title="is_open should be const">73</a>), but now thinks otherwise.  The corresponding streambuf
+this was NAD the first time it considered this issue (issue <a href="lwg-closed.html#73" title="is_open should be const (Status: NAD)">73</a>), but now thinks otherwise.  The corresponding streambuf
 member function, after all,is already const.</p>
 
 <p>The other proposed changes are less safe, because some streambuf

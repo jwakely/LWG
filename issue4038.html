@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4038: std::text_encoding::aliases_view should have constexpr iterators</title>
+<meta property="og:title" content="Issue 4038: std::text_encoding::aliases_view should have constexpr iterators">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4038.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -55,19 +61,28 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3 id="4038"><a href="lwg-active.html#4038">4038</a>. <code>std::text_encoding::aliases_view</code> should have constexpr iterators</h3>
-<p><b>Section:</b> 30.6.2.5 <a href="https://wg21.link/text.encoding.aliases">[text.encoding.aliases]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-01-16 <b>Last modified:</b> 2024-01-16</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3 id="4038"><a href="lwg-defects.html#4038">4038</a>. <code>std::text_encoding::aliases_view</code> should have constexpr iterators</h3>
+<p><b>Section:</b> 30.6.2.5 <a href="https://wg21.link/text.encoding.aliases">[text.encoding.aliases]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-01-16 <b>Last modified:</b> 2024-04-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 <code>aliases_view::begin()</code> and <code>aliases_view::end()</code>
 are constexpr functions, but there is no requirement that you can use
 the returned iterator and sentinel in constant expressions.
 </p>
+
+<p><i>[2024-03-12; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+<p><i>[Tokyo 2024-03-23; Status changed: Voting &rarr; WP.]</i></p>
+
 
 
 <p id="res-4038"><b>Proposed resolution:</b></p>

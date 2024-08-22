@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2751: shared_ptr deleter not specified to observe expired weak_ptr instances</title>
+<meta property="og:title" content="Issue 2751: shared_ptr deleter not specified to observe expired weak_ptr instances">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2751.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -102,7 +108,7 @@ is not reasonable). Otherwise it's necessary to move-construct a copy
 of the deleter and use that copy to destroy the owned pointer. We do
 not want to be required to do that.
 </p>
-<p>See also <a href="lwg-active.html#2262" title="Requirement for unique_ptr&lt;T&gt;::get_deleter()(p) to be able to destroy the unique_ptr">2262</a>.</p>
+<p>See also <a href="lwg-active.html#2262" title="Requirement for unique_ptr&lt;T&gt;::get_deleter()(p) to be able to destroy the unique_ptr (Status: Open)">2262</a>.</p>
 
 <p><i>[2017-09-20, Jonathan comments]</i></p>
 

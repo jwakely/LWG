@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2369: constexpr max(initializer_list) vs max_element</title>
+<meta property="og:title" content="Issue 2369: constexpr max(initializer_list) vs max_element">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2369.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++17">C++17</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-As part of the resolution for LWG issue <a href="lwg-defects.html#2350" title="min, max, and minmax should be constexpr">2350</a>, <code>max(initializer_list)</code> was marked as <code>constexpr</code>. Looking 
+As part of the resolution for LWG issue <a href="lwg-defects.html#2350" title="min, max, and minmax should be constexpr (Status: C++14)">2350</a>, <code>max(initializer_list)</code> was marked as <code>constexpr</code>. Looking 
 at two implementations of this function (libstdc++ and libc++), both implement it in terms of <code>max_element</code>, which is <em>not</em> 
 marked as <code>constexpr</code>. This is inconsistent and forces some small amount of code duplication in the implementation. Unless we 
 remove <code>constexpr</code> from this overload of <code>max</code>, I believe we should add <code>constexpr</code> to <code>max_element</code>.

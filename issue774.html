@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 774: Member swap undefined for most containers</title>
+<meta property="og:title" content="Issue 774: Member swap undefined for most containers">
+<meta property="og:description" content="C++ library issue. Status: C++11">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue774.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -148,7 +154,7 @@ is no longer applicable.
 <blockquote>
 <ol>
 <li>
-It assumes that the proposed resolution for <a href="lwg-defects.html#883" title="swap circular definition">883</a> is applied,
+It assumes that the proposed resolution for <a href="lwg-defects.html#883" title="swap circular definition (Status: C++11)">883</a> is applied,
 which breaks the circularity of definition between member
 <code>swap</code> and free <code>swap</code>.
 </li>
@@ -162,7 +168,7 @@ next refactoring phase of generalized allocators.
 <li>
 It requires that compare objects, key equal functions and
 hash functions in containers are swapped via unqualified free
-<code>swap</code> according to <a href="lwg-defects.html#594" title="Disadvantages of defining Swappable in terms of CopyConstructible and Assignable">594</a>.
+<code>swap</code> according to <a href="lwg-defects.html#594" title="Disadvantages of defining Swappable in terms of CopyConstructible and Assignable (Status: Resolved)">594</a>.
 </li>
 </ol>
 </blockquote>
@@ -174,7 +180,7 @@ hash functions in containers are swapped via unqualified free
 
 <blockquote><p>
 The outcome of this issue should be considered with the outcome of 
-<a href="lwg-defects.html#1198" title="Container adaptor swap: member or non-member?">1198</a> both in style and in content (e.g. bullet 9 suggests to
+<a href="lwg-defects.html#1198" title="Container adaptor swap: member or non-member? (Status: C++11)">1198</a> both in style and in content (e.g. bullet 9 suggests to
 define the semantic of <code>void priority_queue::swap(priority_queue&amp;)</code> 
 in terms of the member <code>swap</code> of the container).
 </p></blockquote>
@@ -287,7 +293,7 @@ dependency should be added to <code>&lt;queue&gt;</code>
 
 <li>
 <p>
-Add one further clause at the end of 24.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a>:
+Add one further clause at the end of 24.3.8.4 <a href="https://wg21.link/array.special">[array.special]</a>:
 </p>
 <p><i>[This part is added, because otherwise <code>array::swap</code> would otherwise
 contradict the
@@ -304,7 +310,7 @@ an exception.</ins>
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 24.3.8 <a href="https://wg21.link/deque">[deque]</a>, class template <code>deque</code> synopsis change as indicated:
+In 24.3.9 <a href="https://wg21.link/deque">[deque]</a>, class template <code>deque</code> synopsis change as indicated:
 </p>
 <blockquote><pre>
 void swap(deque<del>&lt;T,Alloc&gt;</del>&amp;);
@@ -313,7 +319,7 @@ void swap(deque<del>&lt;T,Alloc&gt;</del>&amp;);
 
 <li>
 <p>
-At the end of 24.3.8.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a> add as indicated:
+At the end of 24.3.9.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a> add as indicated:
 </p>
 
 <blockquote><pre>
@@ -371,7 +377,7 @@ with that of <code>x</code>.</ins>
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 24.3.10 <a href="https://wg21.link/list">[list]</a>, class template <code>list</code> synopsis change as indicated:
+In 24.3.11 <a href="https://wg21.link/list">[list]</a>, class template <code>list</code> synopsis change as indicated:
 </p>
 
 <blockquote><pre>
@@ -381,7 +387,7 @@ void swap(list<del>&lt;T,Allocator&gt;</del>&amp;);
 
 <li>
 <p>
-At the end of 24.3.10.4 <a href="https://wg21.link/list.modifiers">[list.modifiers]</a> add as indicated:
+At the end of 24.3.11.4 <a href="https://wg21.link/list.modifiers">[list.modifiers]</a> add as indicated:
 </p>
 
 <blockquote><pre>
@@ -442,7 +448,7 @@ contradict the general contract of 24.2.2 <a href="https://wg21.link/container.r
 <ol style="list-style-type:lower-alpha">
 <li>
 <p>
-In 24.3.11 <a href="https://wg21.link/vector">[vector]</a>, class template <code>vector</code> synopsis change as indicated:
+In 24.3.12 <a href="https://wg21.link/vector">[vector]</a>, class template <code>vector</code> synopsis change as indicated:
 </p>
 
 <blockquote><pre>
@@ -452,7 +458,7 @@ void swap(vector<del>&lt;T,Allocator&gt;</del>&amp;);
 
 <li>
 <p>
-Change 24.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> p. 8 as indicated:
+Change 24.3.12.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> p. 8 as indicated:
 </p>
 
 <blockquote><pre>
@@ -819,12 +825,12 @@ This resolution is based on the September 2009 WP,
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2960.pdf">N2960</a>,
 except that it assumes that
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2982.pdf">N2982</a>
-and issues <a href="lwg-defects.html#883" title="swap circular definition">883</a> and <a href="lwg-closed.html#1232" title="Still swap's with rvalue-references">1232</a> have already been applied.  Note in
+and issues <a href="lwg-defects.html#883" title="swap circular definition (Status: C++11)">883</a> and <a href="lwg-closed.html#1232" title="Still swap's with rvalue-references (Status: NAD Editorial)">1232</a> have already been applied.  Note in
 particular that Table 91 in
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2960.pdf">N2960</a>
 is refered to as Table 90 because
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2982.pdf">N2982</a>
-removed the old Table 90.  This resolution also addresses issue <a href="lwg-defects.html#431" title="Swapping containers with unequal allocators">431</a>.
+removed the old Table 90.  This resolution also addresses issue <a href="lwg-defects.html#431" title="Swapping containers with unequal allocators (Status: Resolved)">431</a>.
 ]</i></p>
 
 <p>
@@ -928,11 +934,11 @@ assignment operator</del><ins>swap</ins> of the container's <code>Hash</code>
 or <code>Pred</code> object (if any).
 </p></blockquote>
 <p>
-Modify section 24.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a>:
+Modify section 24.3.8.4 <a href="https://wg21.link/array.special">[array.special]</a>:
 </p>
 <blockquote>
 <p>
-<b>array specialized algorithms 24.3.7.4 <a href="https://wg21.link/array.special">[array.special]</a></b>
+<b>array specialized algorithms 24.3.8.4 <a href="https://wg21.link/array.special">[array.special]</a></b>
 </p>
 <p>
 <code>template &lt;class T, size_t N&gt; void swap(array&lt;T,N&gt;&amp; x,array&lt;T,N&gt;&amp; y);</code>

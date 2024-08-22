@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3814: Add freestanding items requested by NB comments</title>
+<meta property="og:title" content="Issue 3814: Add freestanding items requested by NB comments">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3814.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -142,7 +148,7 @@ class repeat_view; <ins>// <i>freestanding</i></ins>
 
 namespace views { inline constexpr <i>unspecified</i> repeat = <i>unspecified</i>; } <ins>// <i>freestanding</i></ins>
 [&hellip;]
-// <i>26.7.31 <a href="https://wg21.link/range.stride">[range.stride]</a>, stride view</i>
+// <i>26.7.32 <a href="https://wg21.link/range.stride">[range.stride]</a>, stride view</i>
 template&lt;input_range V&gt;
   requires view&lt;V&gt;
 class stride_view; <ins>// <i>freestanding</i></ins>
@@ -152,7 +158,7 @@ template&lt;class V&gt;
 
 namespace views { inline constexpr <i>unspecified</i> stride = <i>unspecified</i>; } <ins>// <i>freestanding</i></ins>
 
-// <i>26.7.32 <a href="https://wg21.link/range.cartesian">[range.cartesian]</a>, cartesian product view</i>
+// <i>26.7.33 <a href="https://wg21.link/range.cartesian">[range.cartesian]</a>, cartesian product view</i>
 template&lt;input_range First, forward_range... Vs&gt;
   requires (view&lt;First&gt; &amp;&amp; ... &amp;&amp; view&lt;Vs&gt;)
 class cartesian_product_view; <ins>// <i>freestanding</i></ins>

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2943: Problematic specification of the wide version of basic_filebuf::open</title>
+<meta property="og:title" content="Issue 2943: Problematic specification of the wide version of basic_filebuf::open">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2943.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#2676" title="Provide filesystem::path overloads for File-based streams">2676</a> specified <code>basic_filebuf::open(const std::filesystem::path::value_type* s, ios_base::openmode mode)</code> 
+LWG <a href="lwg-defects.html#2676" title="Provide filesystem::path overloads for File-based streams (Status: C++17)">2676</a> specified <code>basic_filebuf::open(const std::filesystem::path::value_type* s, ios_base::openmode mode)</code> 
 by simply reusing the specification for the <code>const char*</code> overload, but that specification is incorrect for the wide overload: 
 it says that <code>s</code> is an NTBS &mdash; a null-terminated byte string &mdash; which it isn't. Moreover, it specifies that 
 the file is opened as if by calling <code>fopen(s, modstr)</code>, but that call is ill-formed if <code>s</code> isn't a <code>const char*</code>.
@@ -107,7 +113,7 @@ basic_filebuf* open(const filesystem::path::value_type* s,
 </pre>
 <blockquote>
 <p>
-<ins>-?- <i>Requires:</i> <code>s</code> shall point to a NTCTS (3.34 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</ins>
+<ins>-?- <i>Requires:</i> <code>s</code> shall point to a NTCTS (3.35 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</ins>
 <p/>
 -2- <i>Effects:</i> If <code>is_open() != false</code>, returns a null pointer. Otherwise, initializes the 
 <code>filebuf</code> as required. It then opens <ins>the file to which <code>s</code> resolves, if possible, as 
@@ -151,7 +157,7 @@ basic_filebuf* open(const filesystem::path::value_type* s,
 </pre>
 <blockquote>
 <p>
-<ins>-?- <i>Expects:</i> <code>s</code> shall point to a NTCTS (3.34 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</ins>
+<ins>-?- <i>Expects:</i> <code>s</code> shall point to a NTCTS (3.35 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</ins>
 <p/>
 -2- <i>Effects:</i> If <code>is_open() != false</code>, returns a null pointer. Otherwise, initializes the 
 <code>filebuf</code> as required. It then opens <ins>the file to which <code>s</code> resolves, if possible, as 

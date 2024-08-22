@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2469: Wrong specification of Requires clause of operator[] for map and unordered_map</title>
+<meta property="og:title" content="Issue 2469: Wrong specification of Requires clause of operator[] for map and unordered_map">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2469.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -122,7 +128,7 @@ not its members types.
 <p><i>[2015-02 Cologne]</i></p>
 
 <p>
-This issue is related to <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified">2464</a>.
+This issue is related to <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified (Status: C++17)">2464</a>.
 <p/>
 GR: Effects should say "returns ...". DK: Or just have a Returns clause? MC: A Returns clause is a directive to implementers.
 <p/>
@@ -134,7 +140,7 @@ TK/DK: This PR fails to address the requirements about which it complained in th
 <p>
 The revised wording fixes the proper usage of the magic "Equivalent to" wording, which automatically induces <i>Requires:</i>, 
 <i>Returns:</i>, and <i>Complexity:</i> elements (and possibly more). This allows us to strike all the remaining
-elements, because they fall out from the semantics of the wording defined by <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified">2464</a>. In particular it is important
+elements, because they fall out from the semantics of the wording defined by <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified (Status: C++17)">2464</a>. In particular it is important
 to realize that the wording form
 </p>
 <blockquote>
@@ -163,8 +169,8 @@ into member <code>first</code> and would value-initialize member <code>second</c
 <blockquote class="note">
 <p>This wording is relative to N4296.</p>
 
-<p>Accept resolution of the issue issue <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified">2464</a> and define <code>operator[]</code> as follows 
-(This would also address issue <a href="lwg-defects.html#2274" title="Does map::operator[] value-initialize or default-insert a missing element?">2274</a>):</p>
+<p>Accept resolution of the issue issue <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified (Status: C++17)">2464</a> and define <code>operator[]</code> as follows 
+(This would also address issue <a href="lwg-defects.html#2274" title="Does map::operator[] value-initialize or default-insert a missing element? (Status: Resolved)">2274</a>):</p>
 
 <ol>
 <li><p>Change 24.4.4.3 <a href="https://wg21.link/map.access">[map.access]</a> as indicated:</p>
@@ -221,8 +227,8 @@ value <code>value_type(std::move(k), mapped_type())</code></del><ins>For the fir
 <blockquote class="note">
 <p>This wording is relative to N4296.</p>
 
-<p>Accept resolution of the issue issue <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified">2464</a> and define <code>operator[]</code> as follows 
-(This would also address issue <a href="lwg-defects.html#2274" title="Does map::operator[] value-initialize or default-insert a missing element?">2274</a>):</p>
+<p>Accept resolution of the issue issue <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified (Status: C++17)">2464</a> and define <code>operator[]</code> as follows 
+(This would also address issue <a href="lwg-defects.html#2274" title="Does map::operator[] value-initialize or default-insert a missing element? (Status: Resolved)">2274</a>):</p>
 
 <ol>
 <li><p>Change 24.4.4.3 <a href="https://wg21.link/map.access">[map.access]</a> as indicated:</p>
@@ -307,8 +313,8 @@ value <code>value_type(std::move(k), mapped_type())</code></del><ins>For the fir
 <p id="res-2469"><b>Proposed resolution:</b></p>
 <p>This wording is relative to N4431.</p>
 
-<p>Accept resolution of the issue issue <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified">2464</a> and define <code>operator[]</code> as follows 
-(This would also address issue <a href="lwg-defects.html#2274" title="Does map::operator[] value-initialize or default-insert a missing element?">2274</a>):</p>
+<p>Accept resolution of the issue issue <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified (Status: C++17)">2464</a> and define <code>operator[]</code> as follows 
+(This would also address issue <a href="lwg-defects.html#2274" title="Does map::operator[] value-initialize or default-insert a missing element? (Status: Resolved)">2274</a>):</p>
 
 <ol>
 <li><p>Change 24.4.4.3 <a href="https://wg21.link/map.access">[map.access]</a> as indicated:</p>

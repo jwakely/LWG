@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3085: char_traits::copy precondition too weak</title>
+<meta property="og:title" content="Issue 3085: char_traits::copy precondition too weak">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3085.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -84,7 +90,7 @@ assert(std::char_traits&lt;char&gt;::compare(p, "aab", 3) == 0);
 </pre></blockquote>
 <p>
 If the intention is to allow <code>memcpy</code> as a valid implementation then the precondition is 
-wrong (unfortunately nobody realized this when fixing <code>char_traits::move</code> in LWG DR <a href="lwg-defects.html#7" title="String clause minor problems">7</a>). 
+wrong (unfortunately nobody realized this when fixing <code>char_traits::move</code> in LWG DR <a href="lwg-defects.html#7" title="String clause minor problems (Status: TC1)">7</a>). 
 If the intention is to require <code>memmove</code> then it is strange to have separate <code>copy</code> and 
 <code>move</code> functions that both use <code>memmove</code>.
 <p/>

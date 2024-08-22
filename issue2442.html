@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2442: call_once() shouldn't DECAY_COPY()</title>
+<meta property="og:title" content="Issue 2442: call_once() shouldn't DECAY_COPY()">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2442.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,8 +71,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++17">C++17</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-When LWG <a href="lwg-defects.html#891" title="std::thread, std::call_once issue">891</a> overhauled <code>call_once()</code>'s specification, it used <code>decay_copy()</code>, following 
-LWG <a href="lwg-defects.html#929" title="Thread constructor">929</a>'s overhaul of <code>thread</code>'s constructor.
+When LWG <a href="lwg-defects.html#891" title="std::thread, std::call_once issue (Status: C++11)">891</a> overhauled <code>call_once()</code>'s specification, it used <code>decay_copy()</code>, following 
+LWG <a href="lwg-defects.html#929" title="Thread constructor (Status: C++11)">929</a>'s overhaul of <code>thread</code>'s constructor.
 <p/>
 In <code>thread</code>'s constructor, this is necessary and critically important. 33.4.3.3 <a href="https://wg21.link/thread.thread.constr">[thread.thread.constr]</a>/5 
 "The new thread of execution executes <code><i>INVOKE</i>(<i>DECAY_COPY</i>(std::forward&lt;F&gt;(f)), 

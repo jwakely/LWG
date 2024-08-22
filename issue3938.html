@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3938: Cannot use std::expected monadic ops with move-only error_type</title>
+<meta property="og:title" content="Issue 3938: Cannot use std::expected monadic ops with move-only error_type">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3938.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>Discussion:</b></p>
 <p>
 The monadic ops for <code>std::expected</code> are specified in terms of calls
-to <code>value()</code> and <code>error()</code>, but LWG <a href="lwg-defects.html#3843" title="std::expected&lt;T,E&gt;::value() &amp; assumes E is copy constructible">3843</a>
+to <code>value()</code> and <code>error()</code>, but LWG <a href="lwg-defects.html#3843" title="std::expected&lt;T,E&gt;::value() &amp; assumes E is copy constructible (Status: C++23)">3843</a>
 ("<code>std::expected&lt;T,E&gt;::value()&amp;</code> assumes <code>E</code>
 is copy constructible") added additional <i>Mandates</i> requirements to
 <code>value()</code>. This means that you can never call <code>value()</code>

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3672: common_iterator::operator-&gt;() should return by value</title>
+<meta property="og:title" content="Issue 3672: common_iterator::operator-&gt;() should return by value">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3672.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -68,7 +74,7 @@
 25.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> p5 (5.1) says that <code>common_iterator&lt;T*, S&gt;::operator-&gt;()</code> 
 returns <code>std::get&lt;T*&gt;(v_)</code> which has type <code>T* const&amp;</code>. That means that 
 <code>iterator_traits::pointer</code> is <code>T* const&amp;</code> as well (this was recently clarified by LWG 
-<a href="lwg-defects.html#3660" title="iterator_traits&lt;common_iterator&gt;::pointer should conform to &sect;[iterator.traits]">3660</a>). We have an actual pointer here, why are we returning it by reference?
+<a href="lwg-defects.html#3660" title="iterator_traits&lt;common_iterator&gt;::pointer should conform to &sect;[iterator.traits] (Status: C++23)">3660</a>). We have an actual pointer here, why are we returning it by reference?
 <p/>
 For the three bullet points in 25.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> p5, the second and third return by value 
 anyway, so <code>decltype(auto)</code> is equivalent to <code>auto</code>. For the first bullet, it would make a lot 

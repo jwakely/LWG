@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2321: Moving containers should (usually) be required to preserve iterators</title>
+<meta property="og:title" content="Issue 2321: Moving containers should (usually) be required to preserve iterators">
+<meta property="og:description" content="C++ library issue. Status: Open">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2321.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -116,12 +122,12 @@ MC: This was last updated a year ago in Issaquah.
 Emile Cormier
 <a href="https://lists.isocpp.org/std-proposals/2023/01/5439.php">observed</a>
 that the proposed resolution of this issue contradicts with changes made by
-LWG <a href="lwg-defects.html#2839" title="Self-move-assignment of library types, again">2839</a>. Specifially, the current draft does not require
+LWG <a href="lwg-defects.html#2839" title="Self-move-assignment of library types, again (Status: C++23)">2839</a>. Specifially, the current draft does not require
 container elements to be preserved on self-move-assignment.
 If this issue is accepted, it would either need to allow
 iterator invalidation on self-move-assignment or remove the
 "If <code>a</code> and <code>rv</code> do not refer to the same object"
-changes added to the container requirements by LWG <a href="lwg-defects.html#2839" title="Self-move-assignment of library types, again">2839</a>.
+changes added to the container requirements by LWG <a href="lwg-defects.html#2839" title="Self-move-assignment of library types, again (Status: C++23)">2839</a>.
 </p>
 
 

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3664: LWG 3392 broke std::ranges::distance(a, a+3)</title>
+<meta property="og:title" content="Issue 3664: LWG 3392 broke std::ranges::distance(a, a+3)">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3664.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -84,14 +90,14 @@ int main() {
 </pre>
 </blockquote>
 <p>
-Before LWG <a href="lwg-defects.html#3392" title="ranges::distance() cannot be used on a move-only iterator with a sized sentinel">3392</a>, we had a single iterator-pair overload:
+Before LWG <a href="lwg-defects.html#3392" title="ranges::distance() cannot be used on a move-only iterator with a sized sentinel (Status: C++23)">3392</a>, we had a single iterator-pair overload:
 </p>
 <blockquote><pre>
 template&lt;input_or_output_iterator I, sentinel_for&lt;I&gt; S&gt;
   constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
 </pre></blockquote>
 <p>
-which works fine for C pointers. After LWG <a href="lwg-defects.html#3392" title="ranges::distance() cannot be used on a move-only iterator with a sized sentinel">3392</a>, we have two
+which works fine for C pointers. After LWG <a href="lwg-defects.html#3392" title="ranges::distance() cannot be used on a move-only iterator with a sized sentinel (Status: C++23)">3392</a>, we have two
 iterator-pair overloads:
 </p>
 <blockquote><pre>

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3267: Rebound allocators and is_always_equal</title>
+<meta property="og:title" content="Issue 3267: Rebound allocators and is_always_equal">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3267.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -316,7 +322,7 @@ is <code>U</code>. &mdash; <i>end note</i>]
 <p><i>[2023-01-08; Jiang An comments and provides improved wording]</i></p>
 
 <p>
-Exception specifications of some container operations (added by <a href="https://wg21.link/N4258" title=" Cleaning up noexcept in the Library (Rev 3)">N4258</a> and LWG <a href="lwg-defects.html#3778" title="vector&lt;bool&gt; missing exception specifications">3778</a>) 
+Exception specifications of some container operations (added by <a href="https://wg21.link/N4258" title=" Cleaning up noexcept in the Library (Rev 3)">N4258</a> and LWG <a href="lwg-defects.html#3778" title="vector&lt;bool&gt; missing exception specifications (Status: C++23)">3778</a>) 
 are specified with the propagation properties of template parameter <code>Allocator</code>. However, for node-based 
 containers and <code>std::deque</code> (and common implementations of <code>std::vector&lt;bool, A&gt;</code>), 
 rebound allocators are needed to be propagated, and common implementations are currently detecting the propagation 

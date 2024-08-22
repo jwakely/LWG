@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 409: Closing an fstream should clear error state</title>
+<meta property="og:title" content="Issue 409: Closing an fstream should clear error state">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue409.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -73,7 +79,7 @@ the EOF bit in the stream's error state is still set.  This is
 counterintuitive.
 </p>
 <p>
-The LWG considered this issue once before, as issue <a href="lwg-defects.html#22" title="Member open vs. flags">22</a>,
+The LWG considered this issue once before, as issue <a href="lwg-defects.html#22" title="Member open vs. flags (Status: TC1)">22</a>,
 and put in a footnote to clarify that the strict reading was indeed
 correct.  We did that because we believed the standard was
 unambiguous and consistent, and that we should not make architectural

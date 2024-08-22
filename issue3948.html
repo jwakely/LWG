@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3948: possibly-const-range and as-const-pointer should be noexcept</title>
+<meta property="og:title" content="Issue 3948: possibly-const-range and as-const-pointer should be noexcept">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3948.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -94,7 +100,7 @@ This wording is relative to <a href="https://wg21.link/N4950" title=" Working Dr
 <blockquote>
 <pre>
 [&hellip;]
-// <i>26.7.21 <a href="https://wg21.link/range.as.const">[range.as.const]</a>, as const view</i>
+// <i>26.7.22 <a href="https://wg21.link/range.as.const">[range.as.const]</a>, as const view</i>
 template&lt;input_range R&gt;
   constexpr auto&amp; <i>possibly-const-range</i>(R&amp; r) <ins>noexcept</ins> {      // <i>exposition only</i>
     if constexpr (constant_range&lt;const R&gt; &amp;&amp; !constant_range&lt;R&gt;) {

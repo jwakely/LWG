@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2858: LWG 2472: actually an incompatibility with C++03</title>
+<meta property="og:title" content="Issue 2858: LWG 2472: actually an incompatibility with C++03">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2858.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,8 +71,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Further to LWG <a href="lwg-active.html#2472" title="Heterogeneous comparisons in the standard library can result in ambiguities">2472</a>, the case of <code>reverse_iterator</code> comparisons is a regression introduced 
-by LWG <a href="lwg-defects.html#280" title="Comparison of reverse_iterator to const reverse_iterator">280</a>.
+Further to LWG <a href="lwg-active.html#2472" title="Heterogeneous comparisons in the standard library can result in ambiguities (Status: New)">2472</a>, the case of <code>reverse_iterator</code> comparisons is a regression introduced 
+by LWG <a href="lwg-defects.html#280" title="Comparison of reverse_iterator to const reverse_iterator (Status: CD1)">280</a>.
 <p/>
 Consider the following program:
 </p>
@@ -81,7 +87,7 @@ bool f(std::reverse_iterator&lt;int *&gt; it) { return it != it; }
 <p>
 Under C++03, the <code>operator!=</code> in lib.reverse.iterator is more specialized than the <code>operator!=</code> in <code>std::rel_ops</code>.
 <p/>
-Following LWG <a href="lwg-defects.html#280" title="Comparison of reverse_iterator to const reverse_iterator">280</a>, neither <code>operator!=</code> candidate is more specialized than the other. The program is 
+Following LWG <a href="lwg-defects.html#280" title="Comparison of reverse_iterator to const reverse_iterator (Status: CD1)">280</a>, neither <code>operator!=</code> candidate is more specialized than the other. The program is 
 observed to fail with libc++.
 <p/>
 Online compiler example, see <a href="http://melpon.org/wandbox/permlink/aeOn1wiOi2CRKwwc">here</a>.

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3704: LWG 2059 added overloads that might be ill-formed for sets</title>
+<meta property="og:title" content="Issue 3704: LWG 2059 added overloads that might be ill-formed for sets">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3704.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -64,7 +70,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The restored <code>erase(iterator)</code> overloads introduced by LWG <a href="lwg-defects.html#2059" title="C++0x ambiguity problem with map::erase">2059</a> would be duplicates 
+The restored <code>erase(iterator)</code> overloads introduced by LWG <a href="lwg-defects.html#2059" title="C++0x ambiguity problem with map::erase (Status: C++17)">2059</a> would be duplicates 
 of the <code>erase(const_iterator)</code> ones if <code>iterator</code> and <code>const_iterator</code> are the same 
 type, which is allowed for sets.
 <p/>

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2274: Does map::operator[] value-initialize or default-insert a missing element?</title>
+<meta property="og:title" content="Issue 2274: Does map::operator[] value-initialize or default-insert a missing element?">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2274.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -184,17 +190,17 @@ T&amp; operator[](key_type&amp;&amp; x);
 </blockquote>
 </blockquote>
 <p>
-This would simplify the wording and also after resolution of the issue <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified">2464</a>, this wording would 
+This would simplify the wording and also after resolution of the issue <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified (Status: C++17)">2464</a>, this wording would 
 also address this issue.
 </p>
 
 <p><i>[2015-02 Cologne]</i></p>
 
 <p>
-Wait until <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified">2464</a> and <a href="lwg-defects.html#2469" title="Wrong specification of Requires clause of operator[] for map and unordered_map">2469</a> are in, which solve this.
+Wait until <a href="lwg-defects.html#2464" title="try_emplace and insert_or_assign misspecified (Status: C++17)">2464</a> and <a href="lwg-defects.html#2469" title="Wrong specification of Requires clause of operator[] for map and unordered_map (Status: C++17)">2469</a> are in, which solve this.
 </p>
 
-<p><i>[2015-05-06 Lenexa: This is resolved by <a href="lwg-defects.html#2469" title="Wrong specification of Requires clause of operator[] for map and unordered_map">2469</a>.]</i></p>
+<p><i>[2015-05-06 Lenexa: This is resolved by <a href="lwg-defects.html#2469" title="Wrong specification of Requires clause of operator[] for map and unordered_map (Status: C++17)">2469</a>.]</i></p>
 
 
 

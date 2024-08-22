@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2752: &quot;Throws:&quot; clauses of async and packaged_task are unimplementable</title>
+<meta property="og:title" content="Issue 2752: &quot;Throws:&quot; clauses of async and packaged_task are unimplementable">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2752.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -68,7 +74,7 @@
 <p>
 <code>std::async</code> is a request from the user for type erasure; as any given function gets passed to <code>async</code>
 which returns only <code>future&lt;ReturnType&gt;</code>. Therefore, it needs to be able to allocate memory, as other issues
-(e.g. LWG <a href="lwg-active.html#2202" title="Missing allocator support by async">2202</a>) indicate. However, async's <em>Throws</em> clause doesn't allow an implementation to do
+(e.g. LWG <a href="lwg-active.html#2202" title="Missing allocator support by async (Status: Deferred)">2202</a>) indicate. However, async's <em>Throws</em> clause doesn't allow an implementation to do
 this, as it permits only <code>future_error</code>.
 <p/>
 <code>std::packaged_task</code>'s constructor allocates memory using a user supplied allocator. An implementation needs to

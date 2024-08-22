@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3979: Should we reject std::bind_front&lt;42&gt;() and its friends?</title>
+<meta property="og:title" content="Issue 3979: Should we reject std::bind_front&lt;42&gt;() and its friends?">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3979.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -58,8 +64,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="3979"><a href="lwg-active.html#3979">3979</a>. Should we reject <code>std::bind_front&lt;42&gt;()</code> and its friends?</h3>
 <p><b>Section:</b> 22.10.13 <a href="https://wg21.link/func.not.fn">[func.not.fn]</a>, 22.10.14 <a href="https://wg21.link/func.bind.partial">[func.bind.partial]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-08-22 <b>Last modified:</b> 2023-09-24</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-08-22 <b>Last modified:</b> 2024-02-22</p>
+<p><b>Priority: </b>4
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#func.not.fn">issues</a> in [func.not.fn].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -73,6 +79,24 @@ Note that we might need to separately handle NTTP of scalar and class types for 
 <a href="https://wg21.link/CWG2459">CWG2459</a> is not resolved, because it might be necessary to avoid copying a 
 template parameter object.
 </p>
+
+<p><i>[2024-02-22; Reflector poll]</i></p>
+
+<p>
+Set priority to 4 after reflector poll in September 2023.
+</p>
+<p>
+"Not convinced it's worth adding a small amount of future maintenance burden
+to catch a tiny amount of nonsense-but-not-dangerous code slightly earlier
+(at the point of call instead of point of use)."
+</p>
+<p>
+"NAD. We reject <code>bind_front&lt;null_f&gt;()</code> because
+<code>bind_front(null_f)()</code> compiles but gives UB.
+Neither <code>bind_front(42)()</code> nor <code>bind_front&lt;42&gt;()</code>
+compiles."
+</p>
+
 
 
 <p id="res-3979"><b>Proposed resolution:</b></p>

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2940: result_of specification also needs a little cleanup</title>
+<meta property="og:title" content="Issue 2940: result_of specification also needs a little cleanup">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2940.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3 id="2940"><a href="lwg-defects.html#2940">2940</a>. <code>result_of</code> specification also needs a little cleanup</h3>
-<p><b>Section:</b> D.16 <a href="https://wg21.link/depr.meta.types">[depr.meta.types]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> D.14 <a href="https://wg21.link/depr.meta.types">[depr.meta.types]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2017-03-04 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>3
 </p>
@@ -66,7 +72,7 @@
 <p><b>Discussion:</b></p>
 <p>
 <a href="https://wg21.link/p0604r0">P0604R0</a> missed a similar adjustment that was performed for the
-deprecated type trait templates <code>is_literal_type</code> and <code>is_literal_type_v</code> via LWG <a href="lwg-defects.html#2838" title="is_literal_type specification needs a little cleanup">2838</a>: 
+deprecated type trait templates <code>is_literal_type</code> and <code>is_literal_type_v</code> via LWG <a href="lwg-defects.html#2838" title="is_literal_type specification needs a little cleanup (Status: C++17)">2838</a>: 
 <p/>
 Moving the <code>result_of</code> to Annex D means that the general prohibition against specializing type traits 
 in [meta.type.synop]/1 does no longer exist, so should be explicitly spelled out. Wording will be provided
@@ -93,7 +99,7 @@ to ensure correctness for the first deprecated trait template that would permit 
 <p>This wording is relative to <a href="https://wg21.link/n4659">N4659</a>.</p>
 
 <ol>
-<li><p>Change D.16 <a href="https://wg21.link/depr.meta.types">[depr.meta.types]</a> as indicated:</p>
+<li><p>Change D.14 <a href="https://wg21.link/depr.meta.types">[depr.meta.types]</a> as indicated:</p>
 <blockquote>
 <p>
 -4- The behavior of a program that adds specializations for <ins>any of the templates defined in this subclause</ins> 

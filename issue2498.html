@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <title>Issue 2498: operator&gt;&gt;(basic_istream&amp;&amp;, T&amp;&amp;) returns basic_istream&amp;, but should probably return 
 basic_istream&amp;&amp;</title>
+<meta property="og:title" content="Issue 2498: operator&gt;&gt;(basic_istream&amp;&amp;, T&amp;&amp;) returns basic_istream&amp;, but should probably return 
+basic_istream&amp;&amp;">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2498.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -84,7 +91,7 @@ preserve the value category properly.
 <p>
 JW: think this needs proper consideration, it would make <pre>stream() &gt;&gt; x &gt;&gt; y &gt;&gt; z</pre> go from 3 operator&gt;&gt; calls to 6 operator&gt;&gt; calls, and wouldn't prevent dangling references (change the example to auto&amp;&amp;) <br/>
 </p>
-<p><i>[2020-02 Resolved by the adoption of <a href="lwg-defects.html#1203" title="More useful rvalue stream insertion">1203</a> in Prague.]</i></p>
+<p><i>[2020-02 Resolved by the adoption of <a href="lwg-defects.html#1203" title="More useful rvalue stream insertion (Status: C++20)">1203</a> in Prague.]</i></p>
 
 <p><i>[2020-11-09 Resolved for C++20. Status changed: Tentatively Resolved &rarr; Resolved.]</i></p>
 

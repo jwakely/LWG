@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2554: Swapping multidimensional arrays is never noexcept</title>
+<meta property="og:title" content="Issue 2554: Swapping multidimensional arrays is never noexcept">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2554.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -98,7 +104,7 @@ move-constructible nor move-assignable.
 <b>Daniel:</b>
 <p/>
 The here described problem is another example for the currently broken <code>swap</code> exception specifications in the Standard
-library as pointed out by LWG <a href="lwg-defects.html#2456" title="Incorrect exception specifications for 'swap' throughout library">2456</a>. The paper 
+library as pointed out by LWG <a href="lwg-defects.html#2456" title="Incorrect exception specifications for 'swap' throughout library (Status: Resolved)">2456</a>. The paper 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4511.html">N4511</a> describes a resolution that would address
 this problem. If the array <code>swap</code> overload would be declared instead as follows,
 </p>

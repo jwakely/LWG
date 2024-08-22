@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4003: view_interface::back is overconstrained</title>
+<meta property="og:title" content="Issue 4003: view_interface::back is overconstrained">
+<meta property="og:description" content="C++ library issue. Status: Tentatively NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4003.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -58,7 +64,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">Tentatively NAD</a> status.</em></p>
 <h3 id="4003"><a href="lwg-active.html#4003">4003</a>. <code>view_interface::back</code> is overconstrained</h3>
 <p><b>Section:</b> 26.5.3 <a href="https://wg21.link/view.interface">[view.interface]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-10-28 <b>Last modified:</b> 2023-11-07</p>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-10-28 <b>Last modified:</b> 2024-06-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#view.interface">issues</a> in [view.interface].</p>
@@ -85,7 +91,7 @@ static_assert(std::get&lt;0&gt;(z.back()) == 4); // ok
 
 <p><i>[2023-11-07; Reflector poll]</i></p>
 
-+<p>NAD. "During the <code>concat</code> discussion LEWG decided not to
+<p>NAD. "During the <code>concat</code> discussion LEWG decided not to
 support the corner case of random-access sized but not-common ranges."
 "If we did want to address such ranges, would be better to enforce commonness
 for random-access sized ranges by having <code>ranges::end</code> return

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3944: Formatters converting sequences of char to sequences of wchar_t</title>
+<meta property="og:title" content="Issue 3944: Formatters converting sequences of char to sequences of wchar_t">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3944.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -55,14 +61,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#SG16">SG16</a> status.</em></p>
-<h3 id="3944"><a href="lwg-active.html#3944">3944</a>. Formatters converting sequences of <code>char</code> to sequences of <code>wchar_t</code></h3>
-<p><b>Section:</b> 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> <b>Status:</b> <a href="lwg-active.html#SG16">SG16</a>
- <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2023-06-01 <b>Last modified:</b> 2023-07-29</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3 id="3944"><a href="lwg-defects.html#3944">3944</a>. Formatters converting sequences of <code>char</code> to sequences of <code>wchar_t</code></h3>
+<p><b>Section:</b> 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2023-06-01 <b>Last modified:</b> 2024-07-08</p>
 <p><b>Priority: </b>3
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#format.formatter.spec">active issues</a> in [format.formatter.spec].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.formatter.spec">issues</a> in [format.formatter.spec].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 I noticed some interesting features introduced by the range based
@@ -107,7 +113,7 @@ estimation of string types. The conversion of <code>char</code> to <code>wchar_t
 convert the individual code units, which will give incorrect results for
 multi-byte code points. It will not transcode UTF-8 to UTF-16/32. The
 current behavior is not in line with the note in
-22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/2
+22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/2
 </p>
 <blockquote><p>
 [<i>Note 1</i>: Specializations such as <code>formatter&lt;wchar_t, char&gt;</code> and
@@ -125,7 +131,7 @@ template&lt;ranges::input_range R&gt;
 struct formatter&lt;R, wchar_t&gt; : __disabled_formatter {};
 </pre></blockquote>
 <p>
-where <code>__disabled_formatter</code> satisfies 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/5, would
+where <code>__disabled_formatter</code> satisfies 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/5, would
 do the trick. This disables the conversion for all sequences not only
 the string types. So <code>vector</code>, <code>array</code>, <code>span</code>, etc. would be disabled.
 <p/>
@@ -134,7 +140,7 @@ users to explicitly opt in to this formatter for their own
 specializations.
 <p/>
 An alternative would be to only disable this conversion for string type
-specializations (22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/2.2) where <code>char</code> to 
+specializations (22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/2.2) where <code>char</code> to 
 <code>wchar_t</code> is used:
 </p>
 <blockquote><pre>
@@ -187,6 +193,11 @@ Set status to SG16 and priority to 3 after reflector poll.
 
 <p><i>[2023-07-26; Mark de Wever provides wording confirmed by SG16]</i></p>
 
+<p><i>[2024-03-18; Tokyo: move to Ready]</i></p>
+
+
+<p><i>[St. Louis 2024-06-29; Status changed: Voting &rarr; WP.]</i></p>
+
 
 
 <p id="res-3944"><b>Proposed resolution:</b></p>
@@ -196,7 +207,7 @@ This wording is relative to <a href="https://wg21.link/N4950" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
+<li><p>Modify 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>

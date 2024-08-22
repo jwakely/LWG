@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 1313: Seed sequence's param function not useful for pure output iterator</title>
+<meta property="og:title" content="Issue 1313: Seed sequence's param function not useful for pure output iterator">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue1313.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -77,7 +83,7 @@ void param(OutputIterator ob);
 <p>
 The fact that this function returns <code>void</code> instead of the value of
 <code>ob</code> after accepting the sequence data leads to the same problem as in
-issue <a href="lwg-defects.html#865" title="More algorithms that throw away information">865</a> - In case of pure output iterators there is no way to
+issue <a href="lwg-defects.html#865" title="More algorithms that throw away information (Status: C++11)">865</a> - In case of pure output iterators there is no way to
 serialize further data into that data sink.
 </p>
 

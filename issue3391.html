@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3391: Problems with counted_iterator/move_iterator::base() const &amp;</title>
+<meta property="og:title" content="Issue 3391: Problems with counted_iterator/move_iterator::base() const &amp;">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3391.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -69,7 +75,7 @@ It is not possible to use the <code>const &amp;</code> overloads of <code>counte
 <code>move_iterator::base()</code> to get at an underlying move-only iterator in order to compare it 
 against a sentinel.
 <p/>
-More concretely, assuming issue LWG <a href="lwg-defects.html#3389" title="A move-only iterator still does not have a counted_iterator">3389</a> is fixed, this means that
+More concretely, assuming issue LWG <a href="lwg-defects.html#3389" title="A move-only iterator still does not have a counted_iterator (Status: C++20)">3389</a> is fixed, this means that
 </p>
 <blockquote><pre>
 auto v = r | views::take(5);

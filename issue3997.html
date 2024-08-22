@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3997: std::formatter specializations should be consistently restricted to supported character types</title>
+<meta property="og:title" content="Issue 3997: std::formatter specializations should be consistently restricted to supported character types">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3997.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/2 requires some <code>std::formatter</code> specializations are only enabled 
+22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/2 requires some <code>std::formatter</code> specializations are only enabled 
 for character types <code>char</code> and <code>wchar_t</code>. But for specializations that are explicitly shown in 
 the synopses (22.14.1 <a href="https://wg21.link/format.syn">[format.syn]</a>, 29.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, and 33.4.3.2 <a href="https://wg21.link/thread.thread.id">[thread.thread.id]</a>), 
 there is no such restrictions for <code>charT</code>. The difference may be observable via the <code>std::formattable</code> 

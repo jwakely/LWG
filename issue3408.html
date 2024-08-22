@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3408: LWG 3291 reveals deficiencies in counted_iterator</title>
+<meta property="og:title" content="Issue 3408: LWG 3291 reveals deficiencies in counted_iterator">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3408.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#Resolved">Resolved</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3291" title="iota_view::iterator has the wrong iterator_category">3291</a> makes changes to <code>iota_view</code> so that it no longer falsely claims
+LWG <a href="lwg-defects.html#3291" title="iota_view::iterator has the wrong iterator_category (Status: C++20)">3291</a> makes changes to <code>iota_view</code> so that it no longer falsely claims
 it's a C++17 forward iterator. A side effect of this change is that the <code>counted_iterator</code>
 of an <code>iota_view</code> can no longer model <code>forward_iterator</code>, no matter what the
 properties of the underlying <code>weakly_incrementable</code> type are. For example, the following

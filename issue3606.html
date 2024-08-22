@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3606: Missing regex_traits::locale_type requirements</title>
+<meta property="og:title" content="Issue 3606: Missing regex_traits::locale_type requirements">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3606.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -73,7 +79,7 @@ interface that a custom regex traits type needs from it? Why is none of this spe
 <p/>
 Currently the only requirement on <code>locale_type</code> in the standard is that it's copy constructible. 
 Clearly it needs to be default constructible as well, otherwise you can't construct a <code>basic_regex</code>, 
-since none of them allows passing in a locale, so they have to default construct it (see also LWG <a href="lwg-active.html#2431" title="Missing regular expression traits requirements">2431</a>).
+since none of them allows passing in a locale, so they have to default construct it (see also LWG <a href="lwg-active.html#2431" title="Missing regular expression traits requirements (Status: New)">2431</a>).
 <p/>
 The other requirements on <code>locale_type</code> are a mystery. Why do we allow custom locale types, 
 but not say anything about what they should do? Can we just require <code>locale_type</code> to be <code>std::locale</code>? 

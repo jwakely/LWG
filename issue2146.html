@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2146: Are reference types Copy&#47;Move-Constructible&#47;Assignable or Destructible?</title>
+<meta property="og:title" content="Issue 2146: Are reference types Copy&#47;Move-Constructible&#47;Assignable or Destructible?">
+<meta property="og:description" content="C++ library issue. Status: Open">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2146.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -58,7 +64,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3 id="2146"><a href="lwg-active.html#2146">2146</a>. Are reference types <code>Copy</code>&#47;<code>Move-Constructible</code>&#47;<code>Assignable</code> or <code>Destructible</code>?</h3>
 <p><b>Section:</b> 16.4.4.2 <a href="https://wg21.link/utility.arg.requirements">[utility.arg.requirements]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Nikolay Ivchenkov <b>Opened:</b> 2012-03-23 <b>Last modified:</b> 2020-10-02</p>
+ <b>Submitter:</b> Nikolay Ivchenkov <b>Opened:</b> 2012-03-23 <b>Last modified:</b> 2024-03-15</p>
 <p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#utility.arg.requirements">issues</a> in [utility.arg.requirements].</p>
@@ -164,9 +170,9 @@ type? Maybe the wording should say that <code>std::decay&lt;F&gt;::type</code> a
 <p><i>[2016-06, Oulu]</i></p>
 
 <p>
-During an independent survey performed by Daniel as part of the analysis of LWG <a href="lwg-defects.html#2716" title="Specification of shuffle and sample disallows lvalue URNGs">2716</a>,
+During an independent survey performed by Daniel as part of the analysis of LWG <a href="lwg-defects.html#2716" title="Specification of shuffle and sample disallows lvalue URNGs (Status: C++17)">2716</a>,
 some overlap was found between these two issues. Daniel suggested to take responsibility for surveying
-LWG <a href="lwg-active.html#2146" title="Are reference types Copy&#47;Move-Constructible&#47;Assignable or Destructible?">2146</a> and opined that the P/R of LWG <a href="lwg-defects.html#2716" title="Specification of shuffle and sample disallows lvalue URNGs">2716</a> should restrict to forwarding 
+LWG <a href="lwg-active.html#2146" title="Are reference types Copy&#47;Move-Constructible&#47;Assignable or Destructible? (Status: Open)">2146</a> and opined that the P/R of LWG <a href="lwg-defects.html#2716" title="Specification of shuffle and sample disallows lvalue URNGs (Status: C++17)">2716</a> should restrict to forwarding 
 references, where the deduction to lvalue references can happen without providing an explicit template
 argument just by providing an lvalue function argument.
 </p>
@@ -194,6 +200,9 @@ or <code>decay</code> as needed, but there are still places where we incorrectly
 state requirements in terms of types that might be references.
 The <code>swap</code> case still needs solving. Still need a survey.
 </p>
+
+<p><i>[2024-03-15; LWG <a href="lwg-active.html#4047" title="Explicitly specifying template arguments for std::swap should not be supported (Status: New)">4047</a> addresses the <code>swap</code> part]</i></p>
+
 
 
 

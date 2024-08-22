@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2217: operator==(sub_match, string) slices on embedded '\0's</title>
+<meta property="og:title" content="Issue 2217: operator==(sub_match, string) slices on embedded '\0's">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2217.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -87,7 +93,7 @@ honor embedded <code>'\0'</code> characters. This could allow a <code>sub_match<
 <p><i>[Daniel:]</i></p>
 
 <p>
-This wording change was done intentionally as of LWG <a href="lwg-defects.html#1181" title="Invalid sub_match comparison operators">1181</a>, but the here mentioned slicing
+This wording change was done intentionally as of LWG <a href="lwg-defects.html#1181" title="Invalid sub_match comparison operators (Status: C++11)">1181</a>, but the here mentioned slicing
 effect was not considered at that time. It seems best to use another overload of compare to fix this problem:
 </p>
 <blockquote><p>

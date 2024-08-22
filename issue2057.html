@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2057: time_point + duration semantics should be made constexpr conforming</title>
+<meta property="og:title" content="Issue 2057: time_point + duration semantics should be made constexpr conforming">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2057.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#Resolved">Resolved</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-It has been observed by LWG <a href="lwg-defects.html#2054" title="time_point constructors need to be constexpr">2054</a> that the specification of some <code>time_point</code> member functions
+It has been observed by LWG <a href="lwg-defects.html#2054" title="time_point constructors need to be constexpr (Status: Resolved)">2054</a> that the specification of some <code>time_point</code> member functions
 already imply that <code>time_point</code> needs to be a literal type and suggests to specify the constructors
 and the member function <code>time_since_epoch()</code> as <code>constexpr</code> functions at the
 minimum necessary. Adding further <code>constexpr</code> specifier to other operations should
@@ -81,7 +87,7 @@ operator+(const time_point&lt;Clock, Duration1&gt;&amp; lhs, const duration&lt;R
 -1- <i>Returns</i>: <code>CT(lhs) += rhs</code>, where <code>CT</code> is the type of the return value.
 </p></blockquote></blockquote>
 <p>
-for similar reasons as those mentioned in <a href="lwg-defects.html#2020" title="Time utility arithmetic constexpr functions have invalid effects">2020</a>. The semantics should be fixed to allow
+for similar reasons as those mentioned in <a href="lwg-defects.html#2020" title="Time utility arithmetic constexpr functions have invalid effects (Status: C++11)">2020</a>. The semantics should be fixed to allow
 for making them <code>constexpr</code>. This issue should also be considered as a placeholder for a request
 to make the remaining <code>time_point</code> operations similarly <code>constexpr</code> as had been done for 
 <code>duration</code>.

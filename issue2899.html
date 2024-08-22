@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2899: is_(nothrow_)move_constructible and tuple, optional and unique_ptr</title>
+<meta property="og:title" content="Issue 2899: is_(nothrow_)move_constructible and tuple, optional and unique_ptr">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2899.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -263,7 +269,7 @@ and <code>is_assignable_v&lt;T1&amp;, U2&amp;&amp;&gt;</code> is <code>true</cod
 <p><i>[2019-02-14; Jonathan comments and provides revised wording]</i></p>
 
 <p>
-The suggested change was already made to <code>std::optional</code> by LWG <a href="lwg-defects.html#2756" title="C++ WP optional&lt;T&gt; should 'forward' T's implicit conversions">2756</a>. The current P/R for 2899 
+The suggested change was already made to <code>std::optional</code> by LWG <a href="lwg-defects.html#2756" title="C++ WP optional&lt;T&gt; should 'forward' T's implicit conversions (Status: C++17)">2756</a>. The current P/R for 2899 
 doesn't resolve the issue for <code>std::tuple</code> or <code>std::unique_ptr</code>. I hope the following alternative does.
 </p>
 

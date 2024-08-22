@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3676: Name of locale composed using std::locale::none</title>
+<meta property="og:title" content="Issue 3676: Name of locale composed using std::locale::none">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3676.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -78,7 +84,7 @@ The resulting locale has a name if and only if the first two arguments have name
 </p></blockquote>
 <p>
 The case where <code>cats</code> is <code>locale::none</code> seems very similar to the issue that 
-LWG <a href="lwg-defects.html#2295" title="Locale name when the provided Facet is a nullptr">2295</a> reports with the case where the provided facet pointer is <code>nullptr</code>.
+LWG <a href="lwg-defects.html#2295" title="Locale name when the provided Facet is a nullptr (Status: C++23)">2295</a> reports with the case where the provided facet pointer is <code>nullptr</code>.
 That is, if no composition is actually occurring, then using the name of <code>other</code> 
 seems to be reasonable.
 <p/>
@@ -96,7 +102,7 @@ Set priority to 3 after reflector poll.
 
 <p><i>[2022-11-01; Jonathan comments]</i></p>
 
-<p>The proposed resolution of <a href="lwg-defects.html#2295" title="Locale name when the provided Facet is a nullptr">2295</a> would resolve this too.</p>
+<p>The proposed resolution of <a href="lwg-defects.html#2295" title="Locale name when the provided Facet is a nullptr (Status: C++23)">2295</a> would resolve this too.</p>
 
 <p><i>[2023-03-22 LWG 2295 was approved in Issaquah. Status changed: New &rarr; Resolved.]</i></p>
 

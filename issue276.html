@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 276: Assignable requirement for container value type overly strict</title>
+<meta property="og:title" content="Issue 276: Assignable requirement for container value type overly strict">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue276.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -90,14 +96,14 @@ general.
 
 <p>
 For example, the proposed resolution of active library issue 
-<a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys">103</a> is to make set::iterator a constant iterator; this
+<a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a> is to make set::iterator a constant iterator; this
 means that no set operations can exploit the fact that the stored
 objects are Assignable.
 </p>
 
 <p>
 This is related to, but slightly broader than, closed issue
-<a href="lwg-closed.html#140" title="map&lt;Key, T&gt;::value_type does not satisfy the assignable requirement">140</a>.
+<a href="lwg-closed.html#140" title="map&lt;Key, T&gt;::value_type does not satisfy the assignable requirement (Status: NAD Editorial)">140</a>.
 </p>
 
 
@@ -198,7 +204,7 @@ to forbid such implementations.</p>
 
 <p>Note that the type stored in a standard container must still satisfy
 the requirements of the container's allocator; this rules out, for
-example, such types as "const int".  See issue <a href="lwg-defects.html#274" title="a missing/impossible allocator requirement">274</a>
+example, such types as "const int".  See issue <a href="lwg-defects.html#274" title="a missing/impossible allocator requirement (Status: CD1)">274</a>
 for more details.
 </p>
 

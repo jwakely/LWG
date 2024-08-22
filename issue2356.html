@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2356: Stability of erasure in unordered associative containers</title>
+<meta property="og:title" content="Issue 2356: Stability of erasure in unordered associative containers">
+<meta property="og:description" content="C++ library issue. Status: C++14">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2356.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++14">C++14</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Issue <a href="lwg-defects.html#518" title="Are insert and erase stable for unordered_multiset and unordered_multimap?">518</a> resolution for unordered associative containers, modelled after that of issue <a href="lwg-defects.html#371" title="Stability of multiset and multimap member functions">371</a>, 
+Issue <a href="lwg-defects.html#518" title="Are insert and erase stable for unordered_multiset and unordered_multimap? (Status: CD1)">518</a> resolution for unordered associative containers, modelled after that of issue <a href="lwg-defects.html#371" title="Stability of multiset and multimap member functions (Status: CD1)">371</a>, 
 which is related to associative containers, states that insertion, erasure and rehashing preserve the relative ordering 
 of equivalent elements. Unfortunately, this is not sufficient to guarantee the validity of code such as this:
 </p>
@@ -81,7 +87,7 @@ while (i != m.end()) {
 }
 </pre></blockquote>
 <p>
-(which is a direct translation from <code>multimap</code> to <code>unordered_multimap</code> of the motivating example in <a href="lwg-defects.html#371" title="Stability of multiset and multimap member functions">371</a>), 
+(which is a direct translation from <code>multimap</code> to <code>unordered_multimap</code> of the motivating example in <a href="lwg-defects.html#371" title="Stability of multiset and multimap member functions (Status: CD1)">371</a>), 
 or even this:
 </p>
 <blockquote><pre>

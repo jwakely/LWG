@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2357: Remaining "Assignable" requirement</title>
+<meta property="og:title" content="Issue 2357: Remaining &quot;Assignable&quot; requirement">
+<meta property="og:description" content="C++ library issue. Status: C++14">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2357.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -72,9 +78,9 @@ The <i>Requires</i> element of <code>partition_copy</code> says (emphasis mine):
 </p></blockquote>
 <p>
 The C++03 term <code>Assignable</code> was replaced by <code>CopyAssignable</code>, remaining cleanups happened via LWG issue
-<a href="lwg-closed.html#972" title="The term &quot;Assignable&quot; undefined but still in use">972</a>, but algorithm <code>partition_copy</code> was not affected at that time (during that time the requirements
+<a href="lwg-closed.html#972" title="The term &quot;Assignable&quot; undefined but still in use (Status: NAD Editorial)">972</a>, but algorithm <code>partition_copy</code> was not affected at that time (during that time the requirements
 of <code>partition_copy</code> didn't mention writable nor assignable, but I cannot track down at the moment where these requirements
-had been added). Presumably this requirement should be corrected similarly to the approach used in <a href="lwg-closed.html#972" title="The term &quot;Assignable&quot; undefined but still in use">972</a>.
+had been added). Presumably this requirement should be corrected similarly to the approach used in <a href="lwg-closed.html#972" title="The term &quot;Assignable&quot; undefined but still in use (Status: NAD Editorial)">972</a>.
 <p/>
 Another question is whether a <code>CopyAssignable</code> is needed here, given the fact that we already require "writable to" an 
 <code>OutputIterator</code> which is defined in 25.3.1 <a href="https://wg21.link/iterator.requirements.general">[iterator.requirements.general]</a> and does already impose the necessary

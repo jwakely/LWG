@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 1182: Unfortunate hash dependencies</title>
+<meta property="og:title" content="Issue 1182: Unfortunate hash dependencies">
+<meta property="og:description" content="C++ library issue. Status: C++11">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue1182.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -180,19 +186,19 @@ containers (24.5 <a href="https://wg21.link/unord">[unord]</a>).
 </li>
 
 <li>
-Issue <a href="lwg-defects.html#889" title="thread::id comparisons">889</a> independently suggests moving the specialization
+Issue <a href="lwg-defects.html#889" title="thread::id comparisons (Status: Resolved)">889</a> independently suggests moving the specialization
 <code>std::hash&lt;std::thread::id&gt;</code> to header <code>&lt;thread&gt;</code>.
 </li>
 </ul>
 
 <p><i>[
 2009-11-13 Alisdair adopts Daniel's suggestion and the extended note from
-<a href="lwg-defects.html#889" title="thread::id comparisons">889</a>.
+<a href="lwg-defects.html#889" title="thread::id comparisons (Status: Resolved)">889</a>.
 ]</i></p>
 
 
 <p><i>[
-2010-01-31 Alisdair: related to <a href="lwg-defects.html#1245" title="std::hash&lt;string&gt; &amp; co">1245</a> and <a href="lwg-defects.html#978" title="Hashing smart pointers">978</a>.
+2010-01-31 Alisdair: related to <a href="lwg-defects.html#1245" title="std::hash&lt;string&gt; &amp; co (Status: C++11)">1245</a> and <a href="lwg-defects.html#978" title="Hashing smart pointers (Status: C++11)">978</a>.
 ]</i></p>
 
 
@@ -286,7 +292,7 @@ template &lt;&gt; struct hash&lt;wstring&gt;;</ins></pre>
 template &lt;class T&gt; struct hash;
 template &lt;class Allocator&gt; struct hash&lt;vector&lt;bool, Allocator&gt;&gt;;</ins></pre>
 </blockquote>
-<p><i>Add a new paragraph to the end of 24.3.12 <a href="https://wg21.link/vector.bool">[vector.bool]</a> </i> </p>
+<p><i>Add a new paragraph to the end of 24.3.13 <a href="https://wg21.link/vector.bool">[vector.bool]</a> </i> </p>
 <blockquote>
   <pre><ins>template &lt;class Allocator&gt; struct hash&lt;vector&lt;bool, Allocator&gt;&gt;;</ins></pre>
     <p><ins>Specialization meeting the requirements of class template <code>hash</code> 22.10.19 <a href="https://wg21.link/unord.hash">[unord.hash]</a>.</ins></p>

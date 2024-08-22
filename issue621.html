@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 621: non-const copy assignment operators of helper arrays</title>
+<meta property="og:title" content="Issue 621: non-const copy assignment operators of helper arrays">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue621.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -70,7 +76,7 @@ The computed and  "fill" assignment operators of <code>valarray</code>
 helper     array     class    templates     (<code>slice_array</code>,
 <code>gslice_array</code>,         <code>mask_array</code>,        and
 <code>indirect_array</code>) are const  member functions of each class
-template     (the     latter    by     the     resolution    of  <a href="lwg-defects.html#123" title="Should valarray helper arrays fill functions be const?">123</a>
+template     (the     latter    by     the     resolution    of  <a href="lwg-defects.html#123" title="Should valarray helper arrays fill functions be const? (Status: CD1)">123</a>
 since  they have reference  semantics and thus do  not affect
 the state of  the object on which they are  called.  However, the copy
 assignment  operators  of  these  class  templates,  which  also  have

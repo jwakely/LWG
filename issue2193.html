@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2193: Default constructors for standard library containers are explicit</title>
+<meta property="og:title" content="Issue 2193: Default constructors for standard library containers are explicit">
+<meta property="og:description" content="C++ library issue. Status: C++14">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2193.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -148,7 +154,7 @@ a default ctor.
 
 
 <p>
-Issue <a href="lwg-active.html#2303" title="Explicit instantiation of std::vector&lt;UserType&gt; broken?">2303</a> describes the more general problem related to explicit instantiation requests in the current
+Issue <a href="lwg-active.html#2303" title="Explicit instantiation of std::vector&lt;UserType&gt; broken? (Status: New)">2303</a> describes the more general problem related to explicit instantiation requests in the current
 library and may help to solve this problem here as well.
 </p>
 
@@ -178,14 +184,14 @@ explicit basic_string(const Allocator&amp; a<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change class template <code>deque</code> synopsis, 24.3.8.1 <a href="https://wg21.link/deque.overview">[deque.overview]</a> p2 as indicated:</p>
+<li><p>Change class template <code>deque</code> synopsis, 24.3.9.1 <a href="https://wg21.link/deque.overview">[deque.overview]</a> p2 as indicated:</p>
 <blockquote><pre>
 <ins>deque() : deque(Allocator()) {}</ins>
 explicit deque(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 24.3.8.2 <a href="https://wg21.link/deque.cons">[deque.cons]</a> before p1 as indicated:</p>
+<li><p>Change 24.3.9.2 <a href="https://wg21.link/deque.cons">[deque.cons]</a> before p1 as indicated:</p>
 <blockquote><pre>
 explicit deque(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
@@ -204,33 +210,33 @@ explicit forward_list(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change class template <code>list</code> synopsis, 24.3.10.1 <a href="https://wg21.link/list.overview">[list.overview]</a> p2 as indicated:</p>
+<li><p>Change class template <code>list</code> synopsis, 24.3.11.1 <a href="https://wg21.link/list.overview">[list.overview]</a> p2 as indicated:</p>
 <blockquote><pre>
 <ins>list() : list(Allocator()) {}</ins>
 explicit list(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 24.3.10.2 <a href="https://wg21.link/list.cons">[list.cons]</a> before p1 as indicated:</p>
+<li><p>Change 24.3.11.2 <a href="https://wg21.link/list.cons">[list.cons]</a> before p1 as indicated:</p>
 <blockquote><pre>
 explicit list(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change class template <code>vector</code> synopsis, 24.3.11.1 <a href="https://wg21.link/vector.overview">[vector.overview]</a> p2 as indicated:</p>
+<li><p>Change class template <code>vector</code> synopsis, 24.3.12.1 <a href="https://wg21.link/vector.overview">[vector.overview]</a> p2 as indicated:</p>
 <blockquote><pre>
 <ins>vector() : vector(Allocator()) {}</ins>
 explicit vector(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 24.3.11.2 <a href="https://wg21.link/vector.cons">[vector.cons]</a> before p1 as indicated:</p>
+<li><p>Change 24.3.12.2 <a href="https://wg21.link/vector.cons">[vector.cons]</a> before p1 as indicated:</p>
 <blockquote><pre>
 explicit vector(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change class template specialization <code>vector&lt;bool&gt;</code> synopsis, 24.3.12 <a href="https://wg21.link/vector.bool">[vector.bool]</a> p1 as indicated:</p>
+<li><p>Change class template specialization <code>vector&lt;bool&gt;</code> synopsis, 24.3.13 <a href="https://wg21.link/vector.bool">[vector.bool]</a> p1 as indicated:</p>
 <blockquote><pre>
 <ins>vector() : vector(Allocator()) {}</ins>
 explicit vector(const Allocator&amp;<del> = Allocator()</del>);
@@ -405,14 +411,14 @@ explicit basic_string(const Allocator&amp; a<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change class template <code>deque</code> synopsis, 24.3.8.1 <a href="https://wg21.link/deque.overview">[deque.overview]</a> p2 as indicated:</p>
+<li><p>Change class template <code>deque</code> synopsis, 24.3.9.1 <a href="https://wg21.link/deque.overview">[deque.overview]</a> p2 as indicated:</p>
 <blockquote><pre>
 <ins>deque() : deque(Allocator()) { }</ins>
 explicit deque(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 24.3.8.2 <a href="https://wg21.link/deque.cons">[deque.cons]</a> before p1 as indicated:</p>
+<li><p>Change 24.3.9.2 <a href="https://wg21.link/deque.cons">[deque.cons]</a> before p1 as indicated:</p>
 <blockquote><pre>
 explicit deque(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
@@ -431,33 +437,33 @@ explicit forward_list(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change class template <code>list</code> synopsis, 24.3.10.1 <a href="https://wg21.link/list.overview">[list.overview]</a> p2 as indicated:</p>
+<li><p>Change class template <code>list</code> synopsis, 24.3.11.1 <a href="https://wg21.link/list.overview">[list.overview]</a> p2 as indicated:</p>
 <blockquote><pre>
 <ins>list() : list(Allocator()) { }</ins>
 explicit list(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 24.3.10.2 <a href="https://wg21.link/list.cons">[list.cons]</a> before p1 as indicated:</p>
+<li><p>Change 24.3.11.2 <a href="https://wg21.link/list.cons">[list.cons]</a> before p1 as indicated:</p>
 <blockquote><pre>
 explicit list(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change class template <code>vector</code> synopsis, 24.3.11.1 <a href="https://wg21.link/vector.overview">[vector.overview]</a> p2 as indicated:</p>
+<li><p>Change class template <code>vector</code> synopsis, 24.3.12.1 <a href="https://wg21.link/vector.overview">[vector.overview]</a> p2 as indicated:</p>
 <blockquote><pre>
 <ins>vector() : vector(Allocator()) { }</ins>
 explicit vector(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change 24.3.11.2 <a href="https://wg21.link/vector.cons">[vector.cons]</a> before p1 as indicated:</p>
+<li><p>Change 24.3.12.2 <a href="https://wg21.link/vector.cons">[vector.cons]</a> before p1 as indicated:</p>
 <blockquote><pre>
 explicit vector(const Allocator&amp;<del> = Allocator()</del>);
 </pre></blockquote>
 </li>
 
-<li><p>Change class template specialization <code>vector&lt;bool&gt;</code> synopsis, 24.3.12 <a href="https://wg21.link/vector.bool">[vector.bool]</a> p1 as indicated:</p>
+<li><p>Change class template specialization <code>vector&lt;bool&gt;</code> synopsis, 24.3.13 <a href="https://wg21.link/vector.bool">[vector.bool]</a> p1 as indicated:</p>
 <blockquote><pre>
 <ins>vector() : vector(Allocator()) { }</ins>
 explicit vector(const Allocator&amp;<del> = Allocator()</del>);

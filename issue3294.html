@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3294: zoned_time deduction guides misinterprets string/char*</title>
+<meta property="og:title" content="Issue 3294: zoned_time deduction guides misinterprets string/char*">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3294.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -89,7 +95,7 @@ the deduction from <code>TimeZonePtr</code> constructor candidates.
 In addition, we disable the deduction from <code>string_view</code>
 constructors, that would produce better candidates than the deduction guides
 and create <code>zoned_time</code> instances with durations coarser than
-<code>seconds</code> (causing similar issue as LWG <a href="lwg-defects.html#3232" title="Inconsistency in zoned_time deduction guides">3232</a>):
+<code>seconds</code> (causing similar issue as LWG <a href="lwg-defects.html#3232" title="Inconsistency in zoned_time deduction guides (Status: C++20)">3232</a>):
 </p>
 <blockquote>
 <pre>

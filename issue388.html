@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 388: Use of complex as a key in associative containers</title>
+<meta property="og:title" content="Issue 388: Use of complex as a key in associative containers">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue388.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -86,7 +92,7 @@ over to <code>std::less&lt;T&gt;</code> which is used, among other things, by as
 containers as an ordering useful to meet complexity requirements.
 </p>
 
-<p>Related issue: <a href="lwg-closed.html#348" title="Minor issue with std::pair operator&lt;">348</a>.</p>
+<p>Related issue: <a href="lwg-closed.html#348" title="Minor issue with std::pair operator&lt; (Status: Dup)">348</a>.</p>
 
 <p><i>[
 Pre Bellevue: Reopened at the request of Alisdair.
@@ -120,7 +126,7 @@ function object. NAD
 believes this should not be treated a DR: it's a request for a design
 change, not a defect in the existing standard.  Most people (10-3)
 believed that we probably don't want this change, period: as with
-issue <a href="lwg-closed.html#348" title="Minor issue with std::pair operator&lt;">348</a>, it's hard to know where to draw the line.
+issue <a href="lwg-closed.html#348" title="Minor issue with std::pair operator&lt; (Status: Dup)">348</a>, it's hard to know where to draw the line.
 The LWG noted that users who want to put objects into an associative
 container for which <code>operator&lt;</code> isn't defined can simply
 provide their own comparison function object.</p>

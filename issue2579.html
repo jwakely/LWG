@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2579: Inconsistency wrt Allocators in basic_string assignment vs. basic_string::assign</title>
+<meta property="og:title" content="Issue 2579: Inconsistency wrt Allocators in basic_string assignment vs. basic_string::assign">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2579.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++17">C++17</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-In issue <a href="lwg-defects.html#2063" title="Contradictory requirements for string move assignment">2063</a>, we changed the <i>Effects</i> of <code>basic_string::assign(basic_string&amp;&amp;)</code> to match the 
+In issue <a href="lwg-defects.html#2063" title="Contradictory requirements for string move assignment (Status: C++17)">2063</a>, we changed the <i>Effects</i> of <code>basic_string::assign(basic_string&amp;&amp;)</code> to match the 
 behavior of <code>basic_string::operator=(basic_string&amp;&amp;)</code>, making them consistent.
 <p/>
 We did not consider <code>basic_string::assign(const basic_string&amp;)</code>, and its <i>Effects</i> differ from 

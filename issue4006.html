@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4006: chunk_view::outer-iterator::value_type should provide empty</title>
+<meta property="og:title" content="Issue 4006: chunk_view::outer-iterator::value_type should provide empty">
+<meta property="og:description" content="C++ library issue. Status: Tentatively NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4006.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -55,14 +61,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">Tentatively NAD</a> status.</em></p>
 <h3 id="4006"><a href="lwg-active.html#4006">4006</a>. <code>chunk_view::<i>outer-iterator</i>::value_type</code> should provide <code>empty</code></h3>
-<p><b>Section:</b> 26.7.28.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-11-05 <b>Last modified:</b> 2023-11-05</p>
+<p><b>Section:</b> 26.7.29.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#NAD">Tentatively NAD</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-11-05 <b>Last modified:</b> 2024-03-11</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.chunk.outer.value">issues</a> in [range.chunk.outer.value].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 <code>chunk_view::<i>outer-iterator</i>::value_type</code> can determine whether it is empty by simply checking whether the 
@@ -91,6 +97,20 @@ int main() {
 }
 </pre></blockquote>
 
+<p><i>[2024-03-11; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively NAD after reflector poll in November 2023.
+</p>
+<p>
+"The example shows you could use it if it existed, but not why that would be useful."
+</p>
+<p>
+"This is a bad idea - the fact that the chunk 'shrinks' as it is iterated over
+is an implementation detail and not supposed to be observable."
+</p>
+
+
 
 <p id="res-4006"><b>Proposed resolution:</b></p>
 <p>
@@ -99,7 +119,7 @@ This wording is relative to <a href="https://wg21.link/N4964" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 26.7.28.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> as indicated:</p>
+<li><p>Modify 26.7.29.4 <a href="https://wg21.link/range.chunk.outer.value">[range.chunk.outer.value]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>

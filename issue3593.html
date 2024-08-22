@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3593: Several iterators' base() const &amp; and lazy_split_view::outer-iterator::value_type::end() missing noexcept</title>
+<meta property="og:title" content="Issue 3593: Several iterators' base() const &amp; and lazy_split_view::outer-iterator::value_type::end() missing noexcept">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3593.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
 <h3 id="3593"><a href="lwg-defects.html#3593">3593</a>. Several iterators' <code>base() const &amp;</code> and <code>lazy_split_view::<i>outer-iterator</i>::value_type::end()</code> missing <code>noexcept</code></h3>
-<p><b>Section:</b> 25.5.4 <a href="https://wg21.link/move.iterators">[move.iterators]</a>, 25.5.7 <a href="https://wg21.link/iterators.counted">[iterators.counted]</a>, 26.7.8.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a>, 26.7.9.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>, 26.7.16.4 <a href="https://wg21.link/range.lazy.split.outer.value">[range.lazy.split.outer.value]</a>, 26.7.16.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a>, 26.7.22.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+<p><b>Section:</b> 25.5.4 <a href="https://wg21.link/move.iterators">[move.iterators]</a>, 25.5.7 <a href="https://wg21.link/iterators.counted">[iterators.counted]</a>, 26.7.8.3 <a href="https://wg21.link/range.filter.iterator">[range.filter.iterator]</a>, 26.7.9.3 <a href="https://wg21.link/range.transform.iterator">[range.transform.iterator]</a>, 26.7.16.4 <a href="https://wg21.link/range.lazy.split.outer.value">[range.lazy.split.outer.value]</a>, 26.7.16.5 <a href="https://wg21.link/range.lazy.split.inner">[range.lazy.split.inner]</a>, 26.7.23.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2021-09-14 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3391" title="Problems with counted_iterator/move_iterator::base() const &amp;">3391</a> and <a href="lwg-defects.html#3533" title="Make base() const &amp; consistent across iterator wrappers that supports input_iterators">3533</a> changed some iterators' <code>base() const &amp;</code> from returning value to 
+LWG <a href="lwg-defects.html#3391" title="Problems with counted_iterator/move_iterator::base() const &amp; (Status: C++23)">3391</a> and <a href="lwg-defects.html#3533" title="Make base() const &amp; consistent across iterator wrappers that supports input_iterators (Status: C++23)">3533</a> changed some iterators' <code>base() const &amp;</code> from returning value to 
 returning <code>const</code> reference, which also prevents them from throwing exceptions, we should add <code>noexcept</code> for them. 
 Also, <code>lazy_split_view::<i>outer-iterator</i>::value_type::end()</code> can be <code>noexcept</code> since it only returns 
 <code>default_sentinel</code>.
@@ -231,7 +237,7 @@ constexpr const iterator_t&lt;<i>Base</i>&gt;&amp; base() const &amp; <ins>noexc
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.22.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as indicated:</p>
+<li><p>Modify 26.7.23.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>

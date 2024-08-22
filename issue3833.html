@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3833: Remove specialization template&lt;size_t N&gt; struct formatter&lt;const charT[N], charT&gt;</title>
+<meta property="og:title" content="Issue 3833: Remove specialization template&lt;size_t N&gt; struct formatter&lt;const charT[N], charT&gt;">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3833.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,11 +63,10 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
 <h3 id="3833"><a href="lwg-defects.html#3833">3833</a>. Remove specialization <code>template&lt;size_t N&gt; struct formatter&lt;const charT[N], charT&gt;</code></h3>
-<p><b>Section:</b> 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+<p><b>Section:</b> 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
  <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-11-27 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>2
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#format.formatter.spec">active issues</a> in [format.formatter.spec].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.formatter.spec">issues</a> in [format.formatter.spec].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -74,7 +79,7 @@ template&lt;size_t N&gt; struct formatter&lt;const charT[N], charT&gt;;
 <p>
 Charlie disliked that since MSVC STL already shipped it and Victor
 mentioned it was useful. Instead of proposing to remove the
-specialization in LWG <a href="lwg-defects.html#3701" title="Make formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt; requirement explicit">3701</a> ("Make <code>formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt;</code> 
+specialization in LWG <a href="lwg-defects.html#3701" title="Make formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt; requirement explicit (Status: C++23)">3701</a> ("Make <code>formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt;</code> 
 requirement explicit") I proposed to keep it. It's unused but it doesn't hurt. 
 <p/>
 That was until <a href="https://wg21.link/P2585R0" title=" Improving default container formatting">P2585R0</a> "Improve default container formatting". This paper makes it no 
@@ -147,7 +152,7 @@ This wording is relative to <a href="https://wg21.link/N4917" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
+<li><p>Modify 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -181,7 +186,7 @@ template&lt;class traits&gt;
 
 <blockquote>
 <p>
-<ins><b>Affected subclause</b>: 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a></ins>
+<ins><b>Affected subclause</b>: 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a></ins>
 <p/>
 <ins><b>Change</b>: Remove the <code>formatter</code> specialization
 <code>template&lt;size_t N&gt; struct formatter&lt;const charT[N], charT&gt;</code>.</ins>
@@ -215,7 +220,7 @@ This wording is relative to <a href="https://wg21.link/N4928" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
+<li><p>Modify 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -249,7 +254,7 @@ template&lt;class traits&gt;
 
 <blockquote>
 <p>
-<ins><b>Affected subclause</b>: 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a></ins>
+<ins><b>Affected subclause</b>: 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a></ins>
 <p/>
 <ins><b>Change</b>: Removed the <code>formatter</code> specialization
 <code>template&lt;size_t N&gt; struct formatter&lt;const charT[N], charT&gt;</code>.</ins>

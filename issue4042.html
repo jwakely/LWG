@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4042: std::print should permit an efficient implementation</title>
+<meta property="og:title" content="Issue 4042: std::print should permit an efficient implementation">
+<meta property="og:description" content="C++ library issue. Status: LEWG">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4042.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -55,15 +61,15 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#LEWG">LEWG</a> status.</em></p>
 <h3 id="4042"><a href="lwg-active.html#4042">4042</a>. <code>std::print</code> should permit an efficient implementation</h3>
-<p><b>Section:</b> 31.7.10 <a href="https://wg21.link/print.fun">[print.fun]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2024-01-20 <b>Last modified:</b> 2024-01-21</p>
-<p><b>Priority: </b>Not Prioritized
+<p><b>Section:</b> 31.7.10 <a href="https://wg21.link/print.fun">[print.fun]</a> <b>Status:</b> <a href="lwg-active.html#LEWG">LEWG</a>
+ <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2024-01-20 <b>Last modified:</b> 2024-03-12</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#print.fun">active issues</a> in [print.fun].</p>
 <p><b>View all other</b> <a href="lwg-index.html#print.fun">issues</a> in [print.fun].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#LEWG">LEWG</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 <code>std::print</code>/<code>std::vprint*</code> is currently defined in terms of formatting into a temporary string, e.g. 
@@ -98,6 +104,20 @@ case of a write error. It might be a bit weird considering that the spec says th
 alternative resolution is to replace <code>vformat</code> with <code>vformat_to</code> info some unspecified buffer iterator 
 and state noninterleaving requirement separately. 
 </p>
+
+<p><i>[2024-02-19; Feb 2024 mailing]</i></p>
+
+<p>This would be resolved by <a href="https://wg21.link/P3107" title=" Permit an efficient implementation of std::print">P3107</a>.</p>
+
+<p><i>[2024-03-12; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 and status to LEWG after reflector poll in January 2024.
+</p>
+<p>
+"This loses the guarantee that if the formatting throws then there's no output."
+</p>
+
 
 
 <p id="res-4042"><b>Proposed resolution:</b></p>

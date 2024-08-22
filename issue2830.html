@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2830: insert_return_type is only defined for containers with unique keys</title>
+<meta property="og:title" content="Issue 2830: insert_return_type is only defined for containers with unique keys">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2830.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -69,7 +75,7 @@
 The requirements for associative and unordered associative containers list <code>insert_return_type</code> for all 
 containers, but looking at the class description in 24.4.4.1 <a href="https://wg21.link/map.overview">[map.overview]</a>, 24.4.5.1 <a href="https://wg21.link/multimap.overview">[multimap.overview]</a> 
 etc. it's only defined for containers with unique keys. Jonathan Wakely pointed out that this depends on the 
-resolution of LWG <a href="lwg-closed.html#2772" title="Inconsistency in the insert(node) interface">2772</a>, which might remove <code>insert_return_type</code> completely.
+resolution of LWG <a href="lwg-closed.html#2772" title="Inconsistency in the insert(node) interface (Status: NAD)">2772</a>, which might remove <code>insert_return_type</code> completely.
 <p/>
 A possible resolution would be to put in 24.2.7 <a href="https://wg21.link/associative.reqmts">[associative.reqmts]</a>: '<code>insert_return_type</code> 
 <ins>(<code>map</code> and <code>set</code> only)</ins>' and in 24.2.8 <a href="https://wg21.link/unord.req">[unord.req]</a>: '<code>insert_return_type</code> 

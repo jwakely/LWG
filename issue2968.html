@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2968: Inconsistencies between basic_string reserve and vector/unordered_map/unordered_set reserve functions</title>
+<meta property="og:title" content="Issue 2968: Inconsistencies between basic_string reserve and vector/unordered_map/unordered_set reserve functions">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2968.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -78,7 +84,7 @@ request. &mdash; <i>end note</i>]
 <p>
 A call to <code>basic_string</code>'s <code>reserve</code> function with <code>res_arg &lt;= size()</code> is taken as a non-binding 
 request to shrink the capacity, whereas for <code>vector</code> (and similarly for <code>unordered_map</code> and <code>unordered_set</code>)
-according to 24.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> p3:
+according to 24.3.12.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> p3:
 </p>
 <blockquote>
 <p>

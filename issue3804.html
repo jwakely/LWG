@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3804: flat_foo missing some allocator-extended deduction guides</title>
+<meta property="og:title" content="Issue 3804: flat_foo missing some allocator-extended deduction guides">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3804.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -86,7 +92,7 @@ std::priority_queue pq1 = std::priority_queue(v, std::less(), MyAllocator&lt;int
 std::priority_queue pq2 = std::priority_queue(v.begin(), v.end(), MyAllocator&lt;int&gt;());
 std::priority_queue pq3 = std::priority_queue(v.begin(), v.end(), std::less(), MyAllocator&lt;int&gt;());
 // BEFORE AND AFTER: pq1 compiles successfully
-// BEFORE AND AFTER: pq2 and pq3 also compile successfully thanks to LWG <a href="lwg-defects.html#3506" title="Missing allocator-extended constructors for priority_queue">3506</a>
+// BEFORE AND AFTER: pq2 and pq3 also compile successfully thanks to LWG <a href="lwg-defects.html#3506" title="Missing allocator-extended constructors for priority_queue (Status: C++23)">3506</a>
 </pre></blockquote>
 
 <p><i>[2022-11-04; Reflector poll]</i></p>

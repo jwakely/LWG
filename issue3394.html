@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3394: ranges::basic_istream_view::iterator has an empty iterator_traits</title>
+<meta property="og:title" content="Issue 3394: ranges::basic_istream_view::iterator has an empty iterator_traits">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3394.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -97,7 +103,7 @@ Jonathan and Casey have concerns about the proposed resolution. Casey: The wordi
 as if this iterator is supposed to be an <code><i>cpp17-input-iterator</i></code>.
 <p/>
 See also LWG <a href="lwg-defects.html#3283" title="Types satisfying input_iterator but not equality_comparable look like
-C++17 output iterators">3283</a> and  <a href="lwg-defects.html#3289" title="Cannot opt out of C++17 iterator-ness without also opting out of C++20 iterator-ness">3289</a>.
+C++17 output iterators (Status: Resolved)">3283</a> and  <a href="lwg-defects.html#3289" title="Cannot opt out of C++17 iterator-ness without also opting out of C++20 iterator-ness (Status: Resolved)">3289</a>.
 </p>
 
 <p><i>[2020-02 Prioritized as P2 Monday morning in Prague]</i></p>
@@ -140,7 +146,7 @@ LWG decided for NAD: The <code>ranges::basic_istream_view::iterator</code> is a 
 and thus cannot meet the <i>Cpp17</i> requirements (even <code>output_iterator_tag</code>), as such it should not 
 specialize <code>iterator_traits</code>, to avoid misleading results when it is passed to new algorithms.
 <p/>
-A related issue, LWG <a href="lwg-defects.html#3397" title="ranges::basic_istream_view::iterator should not provide iterator_category">3397</a>, is supposed to take care for a problem with the definition of the
+A related issue, LWG <a href="lwg-defects.html#3397" title="ranges::basic_istream_view::iterator should not provide iterator_category (Status: C++20)">3397</a>, is supposed to take care for a problem with the definition of the
 <code>iterator_category</code> member type of this template.
 </p>
 <p><i>[2020-11-09 Status changed: Tentatively NAD &rarr; NAD.]</i></p>

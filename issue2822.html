@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2822: Resolution for LWG 2742 introduces ambiguities</title>
+<meta property="og:title" content="Issue 2822: Resolution for LWG 2742 introduces ambiguities">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2822.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,14 +71,14 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#NAD">NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The new constructor added for LWG <a href="lwg-defects.html#2742" title="Inconsistent string interface taking string_view">2742</a> causes an ambiguity when attempting to construct from a (non-const) <code>char*</code>
+The new constructor added for LWG <a href="lwg-defects.html#2742" title="Inconsistent string interface taking string_view (Status: C++17)">2742</a> causes an ambiguity when attempting to construct from a (non-const) <code>char*</code>
 </p>
 <blockquote><pre>
 char s[] = "whoops"; 
 std::string str(s, 2, 4);
 </pre></blockquote>
 <p>
-This is the same problem discussed in <a href="lwg-defects.html#2758" title="std::string{}.assign(&quot;ABCDE&quot;, 0, 1) is ambiguous">2758</a>, and the fix is the same: disable that new constructor if <code>T</code> 
+This is the same problem discussed in <a href="lwg-defects.html#2758" title="std::string{}.assign(&quot;ABCDE&quot;, 0, 1) is ambiguous (Status: C++17)">2758</a>, and the fix is the same: disable that new constructor if <code>T</code> 
 is convertible to <code>const_pointer</code>, so that the old constructor is used instead.
 </p>
 

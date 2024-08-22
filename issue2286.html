@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2286: stringbuf::underflow() underspecified</title>
+<meta property="og:title" content="Issue 2286: stringbuf::underflow() underspecified">
+<meta property="og:description" content="C++ library issue. Status: Open">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2286.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -72,7 +78,7 @@ return <code>traits::eof()</code> when a read position is not available.
 The semantics of <code>basic_stringbuf</code> require, and existing libraries implement it so that this function makes 
 a read position available if possible to do so, e.g. if some characters were inserted into the stream since the 
 last call to <code>overflow()</code>, resulting in <code>pptr() &gt; egptr()</code>. Compare to the conceptually similar 
-D.13.2.4 <a href="https://wg21.link/depr.strstreambuf.virtuals">[depr.strstreambuf.virtuals]</a>/15.
+99 [depr.strstreambuf.virtuals]/15.
 </p>
 
 <p><i>[2018-06-06, Billy argues for NAD]</i></p>

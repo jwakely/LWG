@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2185: Missing throws clause for future/shared_future::wait_for/wait_until</title>
+<meta property="og:title" content="Issue 2185: Missing throws clause for future/shared_future::wait_for/wait_until">
+<meta property="og:description" content="C++ library issue. Status: C++14">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2185.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -68,7 +74,7 @@
 <p>
 The functions <code>future::wait_for</code>, <code>future::wait_until</code>, <code>shared_future::wait_for</code>, and
 <code>shared_future::wait_for</code> can throw any timeout-related exceptions. It would be better if the wording
-could be more explicit. This is in line with the changes proposed in LWG <a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate">2093</a>'s <em>Throws</em> element
+could be more explicit. This is in line with the changes proposed in LWG <a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate (Status: C++14)">2093</a>'s <em>Throws</em> element
 of <code>condition_variable::wait</code> with predicate.
 </p>
 
@@ -77,12 +83,12 @@ of <code>condition_variable::wait</code> with predicate.
 <p>
 The phrase timeout-related exception does not exist.
 </p>
-<p><a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate">2093</a> was put in review, and there is some dependency here with this issue.
+<p><a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate (Status: C++14)">2093</a> was put in review, and there is some dependency here with this issue.
 </p>
 <p>If you provide a user-defined clock that throws, we need to put back an exception to allow that to be done.
 </p>
 <p>
-We will put this in review and say that this cannot go in before <a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate">2093</a>.
+We will put this in review and say that this cannot go in before <a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate (Status: C++14)">2093</a>.
 </p>
 
 <p><i>[2013-04-20, Bristol]</i></p>
@@ -92,7 +98,7 @@ We will put this in review and say that this cannot go in before <a href="lwg-de
 
 
 <p id="res-2185"><b>Proposed resolution:</b></p>
-<p><i>[This resolution should not be adopted before resolving <a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate">2093</a>]</i></p>
+<p><i>[This resolution should not be adopted before resolving <a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate (Status: C++14)">2093</a>]</i></p>
 
 
 <p><i>[This wording is relative to N3376.]</i></p>

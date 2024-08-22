@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3364: Initialize data members of ranges and their iterators</title>
+<meta property="og:title" content="Issue 3364: Initialize data members of ranges and their iterators">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3364.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3 id="3364"><a href="lwg-defects.html#3364">3364</a>. Initialize data members of ranges and their iterators</h3>
-<p><b>Section:</b> 26.7.11.2 <a href="https://wg21.link/range.take.while.view">[range.take.while.view]</a>, 26.7.12.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a>, 26.7.13.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a>, 26.7.22.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 26.7.11.2 <a href="https://wg21.link/range.take.while.view">[range.take.while.view]</a>, 26.7.12.2 <a href="https://wg21.link/range.drop.view">[range.drop.view]</a>, 26.7.13.2 <a href="https://wg21.link/range.drop.while.view">[range.drop.while.view]</a>, 26.7.23.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Johel Ernesto Guerrero Pe&ntilde;a <b>Opened:</b> 2020-01-07 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>0
 </p>
@@ -112,7 +118,7 @@ private:
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.22.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as follows:</p>
+<li><p>Modify 26.7.23.3 <a href="https://wg21.link/range.elements.iterator">[range.elements.iterator]</a> as follows:</p>
 <blockquote>
 <pre>
 class elements_view&lt;V, N&gt;::iterator {                <i>// exposition only</i>

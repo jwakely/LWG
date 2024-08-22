@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3233: Broken requirements for shared_ptr converting constructors</title>
+<meta property="og:title" content="Issue 3233: Broken requirements for shared_ptr converting constructors">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3233.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Issue <a href="lwg-defects.html#2875" title="shared_ptr::shared_ptr(Y*, D, [&hellip;]) constructors should be constrained">2875</a> added 20.3.2.2.2 <a href="https://wg21.link/util.smartptr.shared.const">[util.smartptr.shared.const]</a> paragraph 13:
+Issue <a href="lwg-defects.html#2875" title="shared_ptr::shared_ptr(Y*, D, [&hellip;]) constructors should be constrained (Status: C++17)">2875</a> added 20.3.2.2.2 <a href="https://wg21.link/util.smartptr.shared.const">[util.smartptr.shared.const]</a> paragraph 13:
 <blockquote>
 <i>Remarks</i>: When <code>T</code> is an array type, this constructor shall not participate in overload
 resolution unless <code>is_move_constructible_v&lt;D&gt;</code> is <code>true</code>, the expression

@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 302: Need error indication from codecvt&lt;&gt;::do_length</title>
+<meta property="og:title" content="Issue 302: Need error indication from codecvt&lt;&gt;::do_length">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue302.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -67,7 +73,7 @@
 <p>
 The effects of <code>codecvt&lt;&gt;::do_length()</code> are described in
 22.2.1.5.2, paragraph 10.  As implied by that paragraph, and clarified
-in issue <a href="lwg-defects.html#75" title="Contradiction in codecvt::length's argument types">75</a>, <code>codecvt&lt;&gt;::do_length()</code> must
+in issue <a href="lwg-defects.html#75" title="Contradiction in codecvt::length's argument types (Status: TC1)">75</a>, <code>codecvt&lt;&gt;::do_length()</code> must
 process the source data and update the <code>stateT</code> argument just
 as if the data had been processed by <code>codecvt&lt;&gt;::in()</code>.
 However, the standard does not specify how <code>do_length()</code> would

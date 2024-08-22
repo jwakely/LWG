@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 123: Should valarray helper arrays fill functions be const?</title>
+<meta property="og:title" content="Issue 123: Should valarray helper arrays fill functions be const?">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue123.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -194,7 +200,7 @@ is not. For example, look at slice_array. This operator= in Section
 
 <p><b>Rationale:</b></p>
 <p>There's no good reason for one version of operator= being const and
-another one not.  Because of issue <a href="lwg-defects.html#253" title="valarray helper functions are almost entirely useless">253</a>, this now
+another one not.  Because of issue <a href="lwg-defects.html#253" title="valarray helper functions are almost entirely useless (Status: CD1)">253</a>, this now
 matters: these functions are now callable in more circumstances.  In
 many existing implementations, both versions are already const.</p>
 

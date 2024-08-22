@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 817: bind needs to be moved</title>
+<meta property="og:title" content="Issue 817: bind needs to be moved">
+<meta property="og:description" content="C++ library issue. Status: C++11">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue817.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -72,7 +78,7 @@ requires only move construction of its contained functor and bound arguments.
 That way move-only functors can be passed to objects such as <code>thread</code>.
 </p>
 <p>
-This issue is related to issue <a href="lwg-defects.html#816" title="Should bind()'s returned functor have a nofail copy ctor when bind() is nofail?">816</a>.
+This issue is related to issue <a href="lwg-defects.html#816" title="Should bind()'s returned functor have a nofail copy ctor when bind() is nofail? (Status: Resolved)">816</a>.
 </p>
 
 <p>
@@ -157,7 +163,7 @@ a place to see the complete solution in one place.
 22.10.15.4 <a href="https://wg21.link/func.bind.bind">[func.bind.bind]</a>/p3, p6 and p7 were accidently removed from N2798.
 </li>
 <li>
-Issue <a href="lwg-defects.html#929" title="Thread constructor">929</a> argues for a way to pass by &amp;&amp; for
+Issue <a href="lwg-defects.html#929" title="Thread constructor (Status: C++11)">929</a> argues for a way to pass by &amp;&amp; for
 efficiency but retain the decaying behavior of pass by value for the
 <code>thread</code> constructor.  That same solution is applicable here.
 </li>

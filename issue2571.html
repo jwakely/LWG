@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2571: &sect;[map.modifiers]/2 imposes nonsensical requirement on insert(InputIterator, InputIterator)</title>
+<meta property="og:title" content="Issue 2571: &sect;[map.modifiers]/2 imposes nonsensical requirement on insert(InputIterator, InputIterator)">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2571.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -91,7 +97,7 @@ a template parameter called <code>P</code>.
 This paragraph used to have text saying "The signature taking <code>InputIterator</code> parameters does not require 
 <code>CopyConstructible</code> of either <code>key_type</code> or <code>mapped_type</code> if the dereferenced <code>InputIterator</code> 
 returns a non-<code>const</code> rvalue <code>pair&lt;key_type,mapped_type&gt;</code>. Otherwise <code>CopyConstructible</code> is 
-required for both <code>key_type</code> and <code>mapped_type</code>", but that was removed by LWG <a href="lwg-defects.html#2005" title="unordered_map::insert(T&amp;&amp;) protection should apply to map too">2005</a>, whose PR 
+required for both <code>key_type</code> and <code>mapped_type</code>", but that was removed by LWG <a href="lwg-defects.html#2005" title="unordered_map::insert(T&amp;&amp;) protection should apply to map too (Status: C++14)">2005</a>, whose PR 
 was written as if that overload didn't exist in the text.
 <p/>
 It looks like the text addressing this overload is redundant to the requirements on <code>a.insert(i, j)</code> in Table 102 

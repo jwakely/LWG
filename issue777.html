@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 777: Atomics Library Issue</title>
+<meta property="og:title" content="Issue 777: Atomics Library Issue">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue777.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -85,7 +91,7 @@ post Bellevue Peter adds:
 
 <blockquote>
 <p>
-Issue <a href="lwg-defects.html#777" title="Atomics Library Issue">777</a> suggests making <code>atomic_load</code> operate on <code>const</code> objects. There is a
+Issue <a href="lwg-defects.html#777" title="Atomics Library Issue (Status: CD1)">777</a> suggests making <code>atomic_load</code> operate on <code>const</code> objects. There is a
 subtle point here. Atomic loads do not generally write to the object, except
 potentially for the <code>memory_order_seq_cst</code> constraint. Depending on the
 architecture, a dummy write with the same value may be required to be issued

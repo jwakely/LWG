@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3890: ABI issue for integer-class types</title>
+<meta property="og:title" content="Issue 3890: ABI issue for integer-class types">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3890.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -68,7 +74,7 @@
 Currently integer-class types are required to be wider than every integer type 
 (25.3.4.4 <a href="https://wg21.link/iterator.concept.winc">[iterator.concept.winc]</a>/3). As a result, if compiler provides extended integer types 
 later whose width are not less than that of an integer-class type, then integer-class types with 
-that width must be abandoned, which seems ABI-breaking (see also LWG <a href="lwg-defects.html#3828" title="Sync intmax_t and uintmax_t with C2x">3828</a>).
+that width must be abandoned, which seems ABI-breaking (see also LWG <a href="lwg-defects.html#3828" title="Sync intmax_t and uintmax_t with C2x (Status: C++23)">3828</a>).
 <p/>
 I think we should allow some extended integer types to be wider than some integer-class types.
 </p>

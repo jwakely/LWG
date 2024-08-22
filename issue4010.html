@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4010: subrange::advance should be improved</title>
+<meta property="og:title" content="Issue 4010: subrange::advance should be improved">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4010.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -58,8 +64,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4010"><a href="lwg-active.html#4010">4010</a>. <code>subrange::advance</code> should be improved</h3>
 <p><b>Section:</b> 26.5.4.3 <a href="https://wg21.link/range.subrange.access">[range.subrange.access]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-11-09 <b>Last modified:</b> 2023-11-18</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-11-09 <b>Last modified:</b> 2024-03-11</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.subrange.access">issues</a> in [range.subrange.access].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -69,6 +75,21 @@
 n, <i>end_</i>)</code>, which has &#x1d4aa;(<code>n</code>) complexity for non-common random-access ranges,
 which can be improved to &#x1d4aa;(1) with the help of the <code><i>size_</i></code> member (if provided).
 </p>
+
+<p><i>[2024-03-11; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p>
+Jonathan: The "Effects: Equivalent to" wording strongly suggests doing exactly
+what it suggests there, and  the difference would be observable in the number
+of times the iterator is compared to the sentinel. I'm not sure if we care
+about that, or if an implementation would be free to make this change as QoI.
+Regarding the proposed resolution, we know the type of <code>n</code>
+so we don't need to use <code>decltype(n)</code> in the cast.
+</p>
+
 
 
 <p id="res-4010"><b>Proposed resolution:</b></p>

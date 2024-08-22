@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 767: Forwarding and backward compatibility</title>
+<meta property="og:title" content="Issue 767: Forwarding and backward compatibility">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue767.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -123,7 +129,7 @@ I have not made any general audit for such problems elsewhere.
 </blockquote>
 
 <p><i>[
-Related to <a href="lwg-defects.html#756" title="Container adaptors push">756</a>
+Related to <a href="lwg-defects.html#756" title="Container adaptors push (Status: Resolved)">756</a>
 ]</i></p>
 
 
@@ -151,8 +157,8 @@ Another approach is to change the member names. Yet another approach is
 to forbid the extension in absence of concepts.
 </p>
 <p>
-Resolution: These issues (<a href="lwg-defects.html#756" title="Container adaptors push">756</a>, <a href="lwg-defects.html#767" title="Forwarding and backward compatibility">767</a>, <a href="lwg-closed.html#760" title="The emplace issue">760</a>, 
-<a href="lwg-closed.html#763" title="Renaming emplace() overloads">763</a>) will be subsumed into a paper to be produced by Alan Talbot 
+Resolution: These issues (<a href="lwg-defects.html#756" title="Container adaptors push (Status: Resolved)">756</a>, <a href="lwg-defects.html#767" title="Forwarding and backward compatibility (Status: Resolved)">767</a>, <a href="lwg-closed.html#760" title="The emplace issue (Status: NAD)">760</a>, 
+<a href="lwg-closed.html#763" title="Renaming emplace() overloads (Status: NAD)">763</a>) will be subsumed into a paper to be produced by Alan Talbot 
 in time for review at the 2008 meeting in France. Once this paper is produced, 
 these issues will be moved to <del>NAD</del><ins>Resolved</ins>.
 </p>
@@ -239,7 +245,7 @@ Add the following rows to Table 90 "Optional sequence container operations", 24.
 </blockquote>
 
 <p>
-Change the synopsis in 24.3.8 <a href="https://wg21.link/deque">[deque]</a>:
+Change the synopsis in 24.3.9 <a href="https://wg21.link/deque">[deque]</a>:
 </p>
 
 <blockquote><pre>
@@ -252,7 +258,7 @@ template &lt;class... Args&gt; <ins>requires Constructible&lt;T, Args&amp;&amp;.
 </pre></blockquote>
 
 <p>
-Change 24.3.8.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a>:
+Change 24.3.9.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a>:
 </p>
 
 <blockquote><pre>
@@ -265,7 +271,7 @@ template &lt;class... Args&gt; <ins>requires Constructible&lt;T, Args&amp;&amp;.
 </pre></blockquote>
 
 <p>
-Change the synopsis in 24.3.10 <a href="https://wg21.link/list">[list]</a>:
+Change the synopsis in 24.3.11 <a href="https://wg21.link/list">[list]</a>:
 </p>
 
 <blockquote><pre>
@@ -278,7 +284,7 @@ template &lt;class... Args&gt; <ins>requires Constructible&lt;T, Args&amp;&amp;.
 </pre></blockquote>
 
 <p>
-Change 24.3.10.4 <a href="https://wg21.link/list.modifiers">[list.modifiers]</a>:
+Change 24.3.11.4 <a href="https://wg21.link/list.modifiers">[list.modifiers]</a>:
 </p>
 
 <blockquote><pre>
@@ -291,7 +297,7 @@ template &lt;class... Args&gt; <ins>requires Constructible&lt;T, Args&amp;&amp;.
 </pre></blockquote>
 
 <p>
-Change the synopsis in 24.3.11 <a href="https://wg21.link/vector">[vector]</a>:
+Change the synopsis in 24.3.12 <a href="https://wg21.link/vector">[vector]</a>:
 </p>
 
 <blockquote><pre>
@@ -301,7 +307,7 @@ template &lt;class... Args&gt; <ins>requires Constructible&lt;T, Args&amp;&amp;.
 </pre></blockquote>
 
 <p>
-Change 24.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a>:
+Change 24.3.12.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a>:
 </p>
 
 <blockquote><pre>

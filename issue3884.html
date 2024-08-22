@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3884: flat_foo is missing allocator-extended copy/move constructors</title>
+<meta property="og:title" content="Issue 3884: flat_foo is missing allocator-extended copy/move constructors">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3884.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,8 +72,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-This issue is part of the "<code>flat_<i>foo</i></code>" sequence, LWG <a href="lwg-defects.html#3786" title="Flat maps' deduction guide needs to default Allocator to be useful">3786</a>, <a href="lwg-active.html#3802" title="flat_foo allocator-extended constructors lack move semantics">3802</a>,
-<a href="lwg-defects.html#3803" title="flat_foo constructors taking KeyContainer lack KeyCompare parameter">3803</a>, <a href="lwg-active.html#3804" title="flat_foo missing some allocator-extended deduction guides">3804</a>. <code>flat_set</code>, <code>flat_multiset</code>, <code>flat_map</code>, and
+This issue is part of the "<code>flat_<i>foo</i></code>" sequence, LWG <a href="lwg-defects.html#3786" title="Flat maps' deduction guide needs to default Allocator to be useful (Status: C++23)">3786</a>, <a href="lwg-active.html#3802" title="flat_foo allocator-extended constructors lack move semantics (Status: New)">3802</a>,
+<a href="lwg-defects.html#3803" title="flat_foo constructors taking KeyContainer lack KeyCompare parameter (Status: C++23)">3803</a>, <a href="lwg-active.html#3804" title="flat_foo missing some allocator-extended deduction guides (Status: New)">3804</a>. <code>flat_set</code>, <code>flat_multiset</code>, <code>flat_map</code>, and
 <code>flat_multimap</code> all have implicitly defaulted copy and move constructors, but they lack
 allocator-extended versions of those constructors. This means that the following code is broken:
 </p>

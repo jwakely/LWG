@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2429: std::basic_ostringstream is missing an allocator-extended constructor</title>
+<meta property="og:title" content="Issue 2429: std::basic_ostringstream is missing an allocator-extended constructor">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2429.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -71,7 +77,7 @@ where I was then in turn asked to report the issue.
 <p/>
 The problem: The <code>std::basic_ostringstream</code> class template can be instantiated with an allocator type, but none of the 
 constructors provided accept an allocator argument, which means it's impossible to use <code>std::basic_ostringstream</code> with 
-stateful allocators. The C++ Standard Library Defect Report List seems to already mention a similar issue (<a href="lwg-defects.html#2210" title="Missing allocator-extended constructor for allocator-aware containers">2210</a>).
+stateful allocators. The C++ Standard Library Defect Report List seems to already mention a similar issue (<a href="lwg-defects.html#2210" title="Missing allocator-extended constructor for allocator-aware containers (Status: C++14)">2210</a>).
 </p>
 
 <p><i>[2014-11 Urbana]</i></p>

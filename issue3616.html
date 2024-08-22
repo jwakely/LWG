@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3616: LWG 3498 seems to miss the non-member swap for basic_syncbuf</title>
+<meta property="og:title" content="Issue 3616: LWG 3498 seems to miss the non-member swap for basic_syncbuf">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3616.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -64,8 +70,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3498" title="Inconsistent noexcept-specifiers for basic_syncbuf">3498</a> fixes the inconsistent <code>noexcept</code>-specifiers for member functions of <code>basic_syncbuf</code>, 
-but the proposed resolution in LWG <a href="lwg-defects.html#3498" title="Inconsistent noexcept-specifiers for basic_syncbuf">3498</a> seems to miss the non-member <code>swap</code>, which also has 
+LWG <a href="lwg-defects.html#3498" title="Inconsistent noexcept-specifiers for basic_syncbuf (Status: C++23)">3498</a> fixes the inconsistent <code>noexcept</code>-specifiers for member functions of <code>basic_syncbuf</code>, 
+but the proposed resolution in LWG <a href="lwg-defects.html#3498" title="Inconsistent noexcept-specifiers for basic_syncbuf (Status: C++23)">3498</a> seems to miss the non-member <code>swap</code>, which also has 
 inconsistent <code>noexcept</code>-specifier: 31.11.2.6 <a href="https://wg21.link/syncstream.syncbuf.special">[syncstream.syncbuf.special]</a> says it's <code>noexcept</code>, 
 while 31.11.1 <a href="https://wg21.link/syncstream.syn">[syncstream.syn]</a> says it's not.
 <p/>

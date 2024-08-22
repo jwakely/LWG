@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3367: Integer-class conversions should not throw</title>
+<meta property="og:title" content="Issue 3367: Integer-class conversions should not throw">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3367.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -76,7 +82,7 @@ Integer-class types must provide the same guarantees to support the same use cas
 <ol>
 <li><p>We probably need to think about providing the stronger guarantee that all integer-class operations 
 are also <code>noexcept</code> in addition to the guarantee that they do not throw any exceptions.</p></li>
-<li><p>The fixed wording in LWG <a href="lwg-defects.html#3358" title="&sect;[span.cons] is mistaken that to_address can throw">3358</a>, 24.7.2.2.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p9 depends on the no-throw-guarantee 
+<li><p>The fixed wording in LWG <a href="lwg-defects.html#3358" title="&sect;[span.cons] is mistaken that to_address can throw (Status: C++20)">3358</a>, 24.7.2.2.2 <a href="https://wg21.link/span.cons">[span.cons]</a> p9 depends on the no-throw-guarantee 
 of integer-class conversions to integral types.</p></li>
 </ol>
 

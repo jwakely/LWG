@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4046: Effects of inserting into or erasing from flat container adaptors when an exception is thrown need to be more permissive</title>
+<meta property="og:title" content="Issue 4046: Effects of inserting into or erasing from flat container adaptors when an exception is thrown need to be more permissive">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4046.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -58,8 +64,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4046"><a href="lwg-active.html#4046">4046</a>. Effects of inserting into or erasing from flat container adaptors when an exception is thrown need to be more permissive</h3>
 <p><b>Section:</b> 24.2.7.2 <a href="https://wg21.link/associative.reqmts.except">[associative.reqmts.except]</a>, 24.6.9.1 <a href="https://wg21.link/flat.map.overview">[flat.map.overview]</a>, 24.6.10.1 <a href="https://wg21.link/flat.multimap.overview">[flat.multimap.overview]</a>, 24.6.11.1 <a href="https://wg21.link/flat.set.overview">[flat.set.overview]</a>, 24.6.12.1 <a href="https://wg21.link/flat.multiset.overview">[flat.multiset.overview]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-01-23 <b>Last modified:</b> 2024-01-27</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-01-23 <b>Last modified:</b> 2024-03-15</p>
+<p><b>Priority: </b>2
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -78,6 +84,14 @@ a guarantee.
 <p/>
 Perhaps we should conditionally relax the requirements when the underlying containers can't provide them.
 </p>
+
+<p><i>[2024-03-15; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+</p>
+<p> <a href="https://wg21.link/P2767" title=" flat_map/flat_set omnibus">P2767</a> §3.5 is related/conflicting.  </p>
+
 
 
 <p id="res-4046"><b>Proposed resolution:</b></p>

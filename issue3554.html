@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3554: chrono::parse needs const charT* and basic_string_view&lt;charT&gt; overloads</title>
+<meta property="og:title" content="Issue 3554: chrono::parse needs const charT* and basic_string_view&lt;charT&gt; overloads">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3554.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -348,7 +354,7 @@ can't call it with a temporary string.
 <p/>
 Additionally, since the underlying API (<code>from_stream</code>) requires a
 null-terminated string, the usual practice is to avoid providing a
-<code>string_view</code> overload (see, e.g., LWG <a href="lwg-defects.html#3430" title="std::fstream &amp; co. should be constructible from string_view">3430</a>). The wording
+<code>string_view</code> overload (see, e.g., LWG <a href="lwg-defects.html#3430" title="std::fstream &amp; co. should be constructible from string_view (Status: C++23)">3430</a>). The wording
 below therefore only provides <code>const charT*</code> overloads. It does not use
 "Equivalent to" to avoid requiring that the <code>basic_string</code> overload
 and the <code>const charT*</code> overload return the same type. As the manipulator

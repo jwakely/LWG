@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 1301: clear() and assignment</title>
+<meta property="og:title" content="Issue 1301: clear() and assignment">
+<meta property="og:description" content="C++ library issue. Status: NAD Editorial">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue1301.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -128,7 +134,7 @@ sense if we have to move an element, but why should that be required from
 <p>
 First, I read the newly proposed spec for <code>clear()</code> that it does in
 general <em>not</em> invalidate a previous past-the-end iterator value, but
-<code>deque</code> says in 24.3.8.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a> for the semantics of
+<code>deque</code> says in 24.3.9.4 <a href="https://wg21.link/deque.modifiers">[deque.modifiers]</a> for the semantics of
 <code>erase</code> that erasures at the end will invalidate the past-the-end
 iterator. With removal of a direct binding between <code>clear()</code> and
 <code>erase()</code> there seem to be some fixes necessary. One way to fix that
@@ -136,7 +142,7 @@ would be to mention in Table 94 that this "may also invalidate the past-the-end
 iterator" and then to mention for all specific containers where this does not
 happen, the exception, [1] e.g. in <code>std::vector</code>. <code>std::vector</code>
 has no own specification of <code>clear()</code> and one aspect of the closed issue
-<a href="lwg-active.html#1102" title="std::vector's reallocation policy still unclear">1102</a> was to realize just that (indirectly via <code>erase</code>). IMO
+<a href="lwg-active.html#1102" title="std::vector's reallocation policy still unclear (Status: Open)">1102</a> was to realize just that (indirectly via <code>erase</code>). IMO
 we should now add an extra specification for <code>clear()</code>. Btw.:
 <code>std::vector::erase</code> reads to me that it would invalidate previous
 past-the-end values (and that seems correct in general).
@@ -162,7 +168,7 @@ Rationale added below.
 
 <p><b>Rationale:</b></p>
 <p>
-Solved as proposed by LWG <a href="lwg-defects.html#704" title="MoveAssignable requirement for container value type overly strict">704</a>.
+Solved as proposed by LWG <a href="lwg-defects.html#704" title="MoveAssignable requirement for container value type overly strict (Status: C++11)">704</a>.
 </p>
 
 

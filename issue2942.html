@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2942: LWG 2873's resolution missed weak_ptr::owner_before</title>
+<meta property="og:title" content="Issue 2942: LWG 2873's resolution missed weak_ptr::owner_before">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2942.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>Discussion:</b></p>
 <p>
 The NB comment asked for <code>noexcept</code> on <code>shared_ptr::owner_before</code>, <code>weak_ptr::owner_before</code>, and 
-<code>owner_less::operator()</code>, but the PR of LWG <a href="lwg-defects.html#2873" title="Add noexcept to several shared_ptr related functions">2873</a> only added it to the first and the third one.
+<code>owner_less::operator()</code>, but the PR of LWG <a href="lwg-defects.html#2873" title="Add noexcept to several shared_ptr related functions (Status: C++17)">2873</a> only added it to the first and the third one.
 </p>
 
 <p><i>[2017-06-03, Moved to Tentatively Ready after 6 positive votes on c++std-lib]</i></p>

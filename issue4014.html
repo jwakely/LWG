@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4014: LWG 3809 changes behavior of some existing std::subtract_with_carry_engine code</title>
+<meta property="og:title" content="Issue 4014: LWG 3809 changes behavior of some existing std::subtract_with_carry_engine code">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4014.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Issue <a href="lwg-defects.html#3809" title="Is std::subtract_with_carry_engine&lt;uint16_t&gt; supposed to work?">3809</a> pointed out that <code>subtract_with_carry_engine&lt;T&gt;</code> can be seeded with values 
+Issue <a href="lwg-defects.html#3809" title="Is std::subtract_with_carry_engine&lt;uint16_t&gt; supposed to work? (Status: WP)">3809</a> pointed out that <code>subtract_with_carry_engine&lt;T&gt;</code> can be seeded with values 
 from a <code>linear_congruential_engine&lt;T, 40014u, 0u, 2147483563u&gt;</code> object, which results in narrowing 
 when <code>T</code> is less than 32 bits. Part of the resolution was to modify the LCG seed sequence as follows:
 </p>
@@ -180,7 +186,7 @@ The new proposed resolution below restores the old behaviour for that type.
 
 <p id="res-4014"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4964" title=" Working Draft, Programming Languages — C++">N4964</a> <em>after the wording changes applied</em> by LWG <a href="lwg-defects.html#3809" title="Is std::subtract_with_carry_engine&lt;uint16_t&gt; supposed to work?">3809</a>,
+This wording is relative to <a href="https://wg21.link/N4964" title=" Working Draft, Programming Languages — C++">N4964</a> <em>after the wording changes applied</em> by LWG <a href="lwg-defects.html#3809" title="Is std::subtract_with_carry_engine&lt;uint16_t&gt; supposed to work? (Status: WP)">3809</a>,
 which had been accepted into the working paper during the Kona 2023-11 meeting.
 </p>
 

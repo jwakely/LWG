@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4013: lazy_split_view::outer-iterator::value_type should not provide default constructor</title>
+<meta property="og:title" content="Issue 4013: lazy_split_view::outer-iterator::value_type should not provide default constructor">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4013.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -55,14 +61,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3 id="4013"><a href="lwg-active.html#4013">4013</a>. <code>lazy_split_view::<i>outer-iterator</i>::value_type</code> should not provide default constructor</h3>
-<p><b>Section:</b> 26.7.16.4 <a href="https://wg21.link/range.lazy.split.outer.value">[range.lazy.split.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-11-11 <b>Last modified:</b> 2023-11-18</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3 id="4013"><a href="lwg-defects.html#4013">4013</a>. <code>lazy_split_view::<i>outer-iterator</i>::value_type</code> should not provide default constructor</h3>
+<p><b>Section:</b> 26.7.16.4 <a href="https://wg21.link/range.lazy.split.outer.value">[range.lazy.split.outer.value]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-11-11 <b>Last modified:</b> 2024-04-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.lazy.split.outer.value">issues</a> in [range.lazy.split.outer.value].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 After <a href="https://wg21.link/P2325" title=" Views should not be required to be default constructible">P2325</a>, there is no reason for <code>lazy_split_view::<i>outer-iterator</i>::value_type</code> 
@@ -79,6 +85,15 @@ static_assert(!std::ranges::range_value_t&lt;decltype(split)&gt;{});  // <span s
 Also, the other constructor should be private because it makes no sense for the user to construct it arbitrarily, 
 which is not the intention.
 </p>
+
+<p><i>[2024-03-11; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+<p><i>[Tokyo 2024-03-23; Status changed: Voting &rarr; WP.]</i></p>
+
 
 
 <p id="res-4013"><b>Proposed resolution:</b></p>

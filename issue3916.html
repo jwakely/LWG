@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3916: allocator, polymorphic_allocator, and containers should forbid cv-qualified types</title>
+<meta property="og:title" content="Issue 3916: allocator, polymorphic_allocator, and containers should forbid cv-qualified types">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3916.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#2447" title="Allocators and volatile-qualified value types">2447</a> adjusted what is now <a href="https://wg21.link/N4944" title=" Working Draft, Standard for Programming Language C++">N4944</a> 16.4.4.6.1 <a href="https://wg21.link/allocator.requirements.general">[allocator.requirements.general]</a>/2.1 
+LWG <a href="lwg-defects.html#2447" title="Allocators and volatile-qualified value types (Status: C++17)">2447</a> adjusted what is now <a href="https://wg21.link/N4944" title=" Working Draft, Standard for Programming Language C++">N4944</a> 16.4.4.6.1 <a href="https://wg21.link/allocator.requirements.general">[allocator.requirements.general]</a>/2.1 
 so that the <i>Cpp17Allocator</i> requirements are specified for <i>cv</i>-unqualified object types only.
 <p/>
 However, nothing in 20.2.10 <a href="https://wg21.link/default.allocator">[default.allocator]</a> restricts what <code>T</code> in <code>allocator&lt;T&gt;</code> can be, 

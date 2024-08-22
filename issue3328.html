@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3328: Clarify that std::string is not good for UTF-8</title>
+<meta property="og:title" content="Issue 3328: Clarify that std::string is not good for UTF-8">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3328.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3 id="3328"><a href="lwg-defects.html#3328">3328</a>. Clarify that <code>std::string</code> is not good for UTF-8</h3>
-<p><b>Section:</b> D.25 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> D.21 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> The Netherlands <b>Opened:</b> 2019-11-07 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>0
 </p>
@@ -88,7 +94,7 @@ Add clarification that <code>std::string</code> is the wrong type for utf8 strin
 <b>Jeff Garland:</b>
 <p/>
 SG16 in Belfast: Recommend to accept with a modification to update the example in
-D.25 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> p4 to state that <code>std::u8string</code> should
+D.21 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> p4 to state that <code>std::u8string</code> should
 be preferred for UTF-8 data.
 <p/>
 Rationale: The example code is representative of historic use of <code>std::filesystem::u8path</code>
@@ -101,7 +107,7 @@ non-normative example and may therefore be considered editorial.
 <p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
 
 <ol>
-<li><p>Modify D.25 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> as indicated:</p>
+<li><p>Modify D.21 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -153,7 +159,7 @@ Billy O'Neal provides updated wording.
 <p>This wording is relative to <a href="https://wg21.link/n4835">N4835</a>.</p>
 
 <ol>
-<li><p>Modify D.25 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> as indicated:</p>
+<li><p>Modify D.21 <a href="https://wg21.link/depr.fs.path.factory">[depr.fs.path.factory]</a> as indicated:</p>
 
 <blockquote>
 <p>

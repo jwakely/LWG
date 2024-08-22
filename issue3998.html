@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3998: Constants in std::regex_constants should be allowed to be enumerators</title>
+<meta property="og:title" content="Issue 3998: Constants in std::regex_constants should be allowed to be enumerators">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3998.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -58,8 +64,8 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="3998"><a href="lwg-active.html#3998">3998</a>. Constants in <code>std::regex_constants</code> should be allowed to be enumerators</h3>
 <p><b>Section:</b> 32.4 <a href="https://wg21.link/re.const">[re.const]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-10-18 <b>Last modified:</b> 2023-10-21</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-10-18 <b>Last modified:</b> 2024-02-22</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#re.const">issues</a> in [re.const].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
@@ -79,6 +85,21 @@ Notes: since C++20, we can even make the enumeration types scoped and expose the
 namespace by using-declaration or using-enum-declaration. <a href="https://wg21.link/P0439R0" title=" Make memory_order a scoped enumeration">P0439R0</a> might be related, 
 since it changed former enumerators to <code>constexpr</code> variables.
 </p>
+
+<p><i>[2024-02-22; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll in October 2023.
+</p>
+<p><i>[Jonathan commented]</i></p>
+
+<p>
+"Why only change the <code class='backtick'>regex_constants</code> bitmask constants,
+and not those for <code>ctype_base::mask</code>,
+<code>ios_base::fmtflags</code>, <code>ios_base::iostate</code>,
+and <code>ios_base::openmode</code>?"
+</p>
+
 
 
 <p id="res-3998"><b>Proposed resolution:</b></p>

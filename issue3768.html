@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3768: possibly-const-range is overconstrained</title>
+<meta property="og:title" content="Issue 3768: possibly-const-range is overconstrained">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3768.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -101,7 +107,7 @@ This wording is relative to <a href="https://wg21.link/N4917" title=" Working Dr
 namespace std::ranges {
   [&hellip;]
 
-  // <i>26.7.21 <a href="https://wg21.link/range.as.const">[range.as.const]</a>, as const view</i>
+  // <i>26.7.22 <a href="https://wg21.link/range.as.const">[range.as.const]</a>, as const view</i>
   template&lt;<del>input_</del>range R&gt;
     constexpr auto&amp; <i>possibly-const-range</i>(R&amp; r) {          // <i>exposition only</i>
       if constexpr (constant_range&lt;const R&gt; &amp;&amp; !constant_range&lt;R&gt;) {

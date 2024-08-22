@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3701: Make formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt; requirement explicit</title>
+<meta property="og:title" content="Issue 3701: Make formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt; requirement explicit">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3701.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,11 +63,10 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
 <h3 id="3701"><a href="lwg-defects.html#3701">3701</a>. Make <code>formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt;</code> requirement explicit</h3>
-<p><b>Section:</b> 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+<p><b>Section:</b> 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
  <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-05-17 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#format.formatter.spec">active issues</a> in [format.formatter.spec].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.formatter.spec">issues</a> in [format.formatter.spec].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -76,7 +81,7 @@ requirements (22.14.6.1 <a href="https://wg21.link/formatter.requirements">[form
 </blockquote>
 <p>
 The issue is that <code>remove_cvref_t&lt;const charT[N]&gt;</code> becomes <code>charT[N]</code>. 
-22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/2.2 requires a specialization for
+22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/2.2 requires a specialization for
 </p>
 <blockquote>
 <pre>
@@ -132,7 +137,7 @@ This wording is relative to <a href="https://wg21.link/N4910" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 22.14.6.3 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
+<li><p>Modify 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a> as indicated:</p>
 
 <blockquote>
 <p>

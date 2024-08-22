@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2957: bind's specification doesn't apply the cv-qualification of the call wrapper to the callable object</title>
+<meta property="og:title" content="Issue 2957: bind's specification doesn't apply the cv-qualification of the call wrapper to the callable object">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2957.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -76,7 +82,7 @@ regard to the <i>cv</i>-qualification of the call wrapper <code>g</code>. But th
 definition means that <code>fd</code> is always <i>cv</i>-unqualified, rather than having
 its <i>cv</i>-qualification change with that of <code>g</code> as intended.
 <p/>
-LWG <a href="lwg-defects.html#2545" title="Simplify wording for bind without explicitly specified return type">2545</a> accidentally exacerbated the problem by removing any hint that
+LWG <a href="lwg-defects.html#2545" title="Simplify wording for bind without explicitly specified return type (Status: C++17)">2545</a> accidentally exacerbated the problem by removing any hint that
 <code>fd</code>'s <i>cv</i>-qualifier followed that of the call wrapper.
 <p/>
 A similar issue affects the type of <code>td<sub><i>i</i></sub></code> for nested binds.

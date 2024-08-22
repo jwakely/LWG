@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3441: Misleading note about calls to customization points</title>
+<meta property="og:title" content="Issue 3441: Misleading note about calls to customization points">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3441.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -97,7 +103,7 @@ This is not what happens, as the call to <code>std::swap</code> does not find <c
 
 <p><i>[2020-07-17; Priority set to 1 in telecon]</i></p>
 
-<p>Related to <a href="lwg-defects.html#3442" title="Unsatisfiable suggested implementation of customization points">3442</a>.</p>
+<p>Related to <a href="lwg-defects.html#3442" title="Unsatisfiable suggested implementation of customization points (Status: Resolved)">3442</a>.</p>
 
 <p><i>[2020-09-11; discussed during telecon]</i></p>
 
@@ -167,7 +173,7 @@ overloads. Just by forbidding users from using <code>data</code>
 for their own functions isn't sufficient to allow the library to
 use ADL to call <code>data</code>, and it's unclear why we'd want
 that anyway (what problem with <code>std::data</code> are we trying
-to solve that way?). As shown in LWG <a href="lwg-defects.html#3442" title="Unsatisfiable suggested implementation of customization points">3442</a>, if
+to solve that way?). As shown in LWG <a href="lwg-defects.html#3442" title="Unsatisfiable suggested implementation of customization points (Status: Resolved)">3442</a>, if
 <code>std::data</code> became a customization point that would be
 a backwards-incompatible change, and create a portability problem
 if some implementations did that and others didn't.

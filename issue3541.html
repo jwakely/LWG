@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3541: indirectly_readable_traits should be SFINAE-friendly for all types</title>
+<meta property="og:title" content="Issue 3541: indirectly_readable_traits should be SFINAE-friendly for all types">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3541.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Following the outcome of LWG <a href="lwg-defects.html#3446" title="indirectly_readable_traits ambiguity for types with both value_type and element_type">3446</a>, a strict implementation of <code>std::indirectly_readable_traits</code> 
+Following the outcome of LWG <a href="lwg-defects.html#3446" title="indirectly_readable_traits ambiguity for types with both value_type and element_type (Status: C++23)">3446</a>, a strict implementation of <code>std::indirectly_readable_traits</code> 
 isn't SFINAE-friendly for types that have different <code>value_type</code> and <code>element_type</code> members due to 
 the ambiguity between the <code><i>has-member-value-type</i></code> and <code><i>has-member-element-type</i></code> 
 specialisations. Other traits types are empty when requirements aren't met; we should follow suit here.

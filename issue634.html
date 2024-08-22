@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 634: allocator.address() doesn't work for types overloading operator&amp;</title>
+<meta property="og:title" content="Issue 634: allocator.address() doesn't work for types overloading operator&amp;">
+<meta property="og:description" content="C++ library issue. Status: CD1">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue634.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -63,7 +69,7 @@
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#allocator.members">issues</a> in [allocator.members].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#CD1">CD1</a> status.</p>
-<p><b>Duplicate of:</b> <a href="lwg-closed.html#350" title="allocator&lt;&gt;::address">350</a></p>
+<p><b>Duplicate of:</b> <a href="lwg-closed.html#350" title="allocator&lt;&gt;::address (Status: Dup)">350</a></p>
 <p><b>Discussion:</b></p>
 
 <p>
@@ -102,7 +108,7 @@ On the other hand, some code truly needs the address of an object, and not a pro
 <a href="http://www.boost.org/libs/utility/utility.htm#addressof"><code>boost::addressof</code></a>.
 It appears to me that this would be useful functionality for the default allocator.  Adopting
 this definition for <code>allocator::address</code> would free the standard of requiring
-anything special from types which overload <code>operator&amp;</code>.  Issue <a href="lwg-closed.html#580" title="unused allocator members">580</a>
+anything special from types which overload <code>operator&amp;</code>.  Issue <a href="lwg-closed.html#580" title="unused allocator members (Status: NAD Editorial)">580</a>
 is expected to make use of <code>allocator::address</code> mandatory for containers.
 </p>
 

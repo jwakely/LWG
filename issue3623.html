@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3623: Uses of std::reverse_iterator with containers should not require manually including &lt;iterator&gt;</title>
+<meta property="og:title" content="Issue 3623: Uses of std::reverse_iterator with containers should not require manually including &lt;iterator&gt;">
+<meta property="og:description" content="C++ library issue. Status: New">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3623.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -89,7 +95,7 @@ or <code>std::rbegin</code> is provided, the definitions of <code>std::reverse_i
 are also provided. This strategy is already implemented by libc++, libstdc++, and MSVC STL, and thus I believe we 
 should standardize it to reduce uncertainty for users.
 <p/>
-Note that the situation for <code>std::reverse_iterator</code> is different from LWG <a href="lwg-closed.html#1361" title="Does use of std::size_t in a header imply that typedef name is available to users?">1361</a>, because every 
+Note that the situation for <code>std::reverse_iterator</code> is different from LWG <a href="lwg-closed.html#1361" title="Does use of std::size_t in a header imply that typedef name is available to users? (Status: NAD)">1361</a>, because every 
 operation on <code>std::size_t</code> is still valid when the typedef-name itself is absent, but <code>==</code> and 
 <code>!=</code> on <code>std::reverse_iterator</code> fail if the corresponding declarations are unavailable.
 </p>

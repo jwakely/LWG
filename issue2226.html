@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2226: wstring_convert methods do not take allocator instance</title>
+<meta property="og:title" content="Issue 2226: wstring_convert methods do not take allocator instance">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2226.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
 <h3 id="2226"><a href="lwg-closed.html#2226">2226</a>. <code>wstring_convert</code> methods do not take allocator instance</h3>
-<p><b>Section:</b> D.23.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+<p><b>Section:</b> 99 [depr.conversions.string] <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Glen Fernandes <b>Opened:</b> 2012-12-14 <b>Last modified:</b> 2019-02-26</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -67,7 +73,7 @@
 <p><b>Discussion:</b></p>
 
 <p>
-The <code>wstring_convert</code> class template, described in D.23.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a>, does not 
+The <code>wstring_convert</code> class template, described in 99 [depr.conversions.string], does not 
 support custom stateful allocators. It only supports custom stateless allocators.
 <p/>
 The <code>to_bytes</code> member function returns <code>basic_string&lt;char, char_traits&lt;char&gt;, Byte_alloc&gt;</code>  
@@ -109,7 +115,7 @@ the C++11 allocator model to know that this is the addition to make?</p>
 <p>This wording is relative to N3485.</p>
 
 <ol>
-<li><p>In D.23.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a>/2 and /6 "Class template <code>wstring_convert</code> synopsis" change the overloads 
+<li><p>In 99 [depr.conversions.string]/2 and /6 "Class template <code>wstring_convert</code> synopsis" change the overloads 
 of the member function <code>from_bytes()</code> so that all four overloads take an additional parameter
 which is an instance of <code>Wide_alloc</code>:</p>
 
@@ -121,7 +127,7 @@ wide_string from_bytes(const char *first, const char *last<ins>, const Wide_allo
 </pre></blockquote>
 </li>
 
-<li><p>In D.23.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a> /8 specify that this <code>Wide_alloc</code> allocator parameter is used to
+<li><p>In 99 [depr.conversions.string] /8 specify that this <code>Wide_alloc</code> allocator parameter is used to
 construct the <code>wide_string</code> object returned from the function:</p>
 
 <p>
@@ -143,7 +149,7 @@ from the function.</ins></p></li>
 </ul>
 </li>
 
-<li><p>In D.23.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a>/2 and /12 "Class template <code>wstring_convert</code> synopsis" change the overloads 
+<li><p>In 99 [depr.conversions.string]/2 and /12 "Class template <code>wstring_convert</code> synopsis" change the overloads 
 of the member function <code>to_bytes()</code> so that all four overloads take an additional parameter
 which is an instance of <code>Byte_alloc</code>:</p>
 
@@ -155,7 +161,7 @@ byte_string to_bytes(const Elem *first, const Elem *last<ins>, const Byte_alloc&
 </pre></blockquote>
 </li>
 
-<li><p>In D.23.2 <a href="https://wg21.link/depr.conversions.string">[depr.conversions.string]</a> /13 specify that this <code>Byte_alloc</code> allocator parameter is used to
+<li><p>In 99 [depr.conversions.string] /13 specify that this <code>Byte_alloc</code> allocator parameter is used to
 construct the <code>byte_string</code> object returned from the function:</p>
 
 <p>

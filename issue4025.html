@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4025: Move assignment operator of std::expected&lt;cv void, E&gt; should not be conditionally deleted</title>
+<meta property="og:title" content="Issue 4025: Move assignment operator of std::expected&lt;cv void, E&gt; should not be conditionally deleted">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4025.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -55,20 +61,29 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3 id="4025"><a href="lwg-active.html#4025">4025</a>. Move assignment operator of <code>std::expected&lt;<i>cv</i> void, E&gt;</code> should not be conditionally deleted</h3>
-<p><b>Section:</b> 22.8.7.4 <a href="https://wg21.link/expected.void.assign">[expected.void.assign]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-12-16 <b>Last modified:</b> 2023-12-22</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3 id="4025"><a href="lwg-defects.html#4025">4025</a>. Move assignment operator of <code>std::expected&lt;<i>cv</i> void, E&gt;</code> should not be conditionally deleted</h3>
+<p><b>Section:</b> 22.8.7.4 <a href="https://wg21.link/expected.void.assign">[expected.void.assign]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-12-16 <b>Last modified:</b> 2024-04-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#expected.void.assign">issues</a> in [expected.void.assign].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 It seems intended that copy functions of <code>std::optional</code>, <code>std::variant</code>, and <code>std::expected</code> 
 are conditionally deleted, while move functions are constrained. However, the move assignment operator of 
 <code>std::expected&lt;<i>cv</i> void, E&gt;</code> is currently conditionally deleted, which is inconsistent.
 </p>
+
+<p><i>[2024-03-11; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+<p><i>[Tokyo 2024-03-23; Status changed: Voting &rarr; WP.]</i></p>
+
 
 
 <p id="res-4025"><b>Proposed resolution:</b></p>

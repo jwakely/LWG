@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2958: Moves improperly defined as deleted</title>
+<meta property="og:title" content="Issue 2958: Moves improperly defined as deleted">
+<meta property="og:description" content="C++ library issue. Status: C++20">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2958.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++20">C++20</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#2729" title="Missing SFINAE on std::pair::operator=">2729</a> constrained many <code>pair</code> &amp; <code>tuple</code> assignment operators to "not participate in overload resolution" and "be defined as deleted if." As discussed when LWG reviewed <a href="lwg-defects.html#2756" title="C++ WP optional&lt;T&gt; should 'forward' T's implicit conversions">2756</a>, it is undesirable to require 
+LWG <a href="lwg-defects.html#2729" title="Missing SFINAE on std::pair::operator= (Status: C++17)">2729</a> constrained many <code>pair</code> &amp; <code>tuple</code> assignment operators to "not participate in overload resolution" and "be defined as deleted if." As discussed when LWG reviewed <a href="lwg-defects.html#2756" title="C++ WP optional&lt;T&gt; should 'forward' T's implicit conversions (Status: C++17)">2756</a>, it is undesirable to require 
 that a move constructor or assignment operator be "defined as deleted," since it is unclear whether that operation should be 
 <em>implicitly</em> deleted, and therefore not participate in overload resolution, or <em>explicitly</em> deleted and therefore 
 impede overload resolution for usages that would otherwise find copies.

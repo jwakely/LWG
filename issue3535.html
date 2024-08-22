@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3535: join_view::iterator::iterator_category and ::iterator_concept lie</title>
+<meta property="og:title" content="Issue 3535: join_view::iterator::iterator_category and ::iterator_concept lie">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3535.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -82,7 +88,7 @@ the concepts require substantial syntax &mdash; but slightly misleading. It is, 
 <code>iterator_category</code> which must not denote a type derived from a tag that corresponds to a stronger category 
 than that iterator implements.
 <p/>
-It's worth pointing out, that LWG <a href="lwg-defects.html#3313" title="join_view::iterator::operator-- is incorrectly constrained">3313</a> fixed the constraints on <code>operator--()</code> and 
+It's worth pointing out, that LWG <a href="lwg-defects.html#3313" title="join_view::iterator::operator-- is incorrectly constrained (Status: C++20)">3313</a> fixed the constraints on <code>operator--()</code> and 
 <code>operator--(int)</code> by adding the <code>common_range</code> requirements, but failed to make a consistent change 
 to the definitions of <code>iterator_concept</code> and <code>iterator_category</code>.
 </p>

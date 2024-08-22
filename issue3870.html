@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3870: Remove voidify</title>
+<meta property="og:title" content="Issue 3870: Remove voidify">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3870.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -58,7 +64,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
 <h3 id="3870"><a href="lwg-defects.html#3870">3870</a>. Remove <code><i>voidify</i></code></h3>
 <p><b>Section:</b> 27.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-01-30 <b>Last modified:</b> 2023-11-22</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-01-30 <b>Last modified:</b> 2024-03-18</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
@@ -113,7 +119,7 @@ would invalidate that benefit. If accepted, objects with dynamic storage
 duration (such as those created by <code>std::construct_as</code> and the
 <code>std::uninitialized_xxx</code> algorithms) would never be const objects,
 so casting away the const would not be undefined. So implicitly removing
-const in <code><i>voidify</i></code> would still allowing modifying "truly const"
+const in <code><i>voidify</i></code> would still allow modifying "truly const"
 objects (resulting in undefined behaviour), without being able to create
 "truly const" objects in locations where that actually <i>is</i> safe.
 If CWG 2514 is accepted, the <code><i>voidify</i></code> behaviour would be all

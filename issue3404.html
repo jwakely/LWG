@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3404: Finish removing subrange's conversions from pair-like</title>
+<meta property="og:title" content="Issue 3404: Finish removing subrange's conversions from pair-like">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3404.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,8 +71,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Both LWG <a href="lwg-defects.html#3281" title="Conversion from pair-like types to subrange is a silent semantic promotion">3281</a> "Conversion from <code><i>pair-like</i></code> types to <code>subrange</code> is a 
-silent semantic promotion" and LWG <a href="lwg-defects.html#3282" title="subrange converting constructor should disallow derived to base conversions">3282</a> "<code>subrange</code> converting constructor should 
+Both LWG <a href="lwg-defects.html#3281" title="Conversion from pair-like types to subrange is a silent semantic promotion (Status: C++20)">3281</a> "Conversion from <code><i>pair-like</i></code> types to <code>subrange</code> is a 
+silent semantic promotion" and LWG <a href="lwg-defects.html#3282" title="subrange converting constructor should disallow derived to base conversions (Status: C++20)">3282</a> "<code>subrange</code> converting constructor should 
 disallow derived to base conversions" removed <code>subrange</code>'s hated implicit conversions from 
 <code><i>pair-like</i></code> types. Notably, neither issue removed the two "<code><i>iterator-sentinel-pair</i></code>" 
 deduction guides which target the removed constructors nor the exposition-only <code><i>iterator-sentinel-pair</i></code> 

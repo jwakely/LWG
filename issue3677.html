@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3677: Is a cv-qualified pair specially handled in uses-allocator construction?</title>
+<meta property="og:title" content="Issue 3677: Is a cv-qualified pair specially handled in uses-allocator construction?">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3677.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -70,7 +76,7 @@ specializations of <code>pair</code> in 20.2.8.2 <a href="https://wg21.link/allo
 <p/>
 Currently MSVC STL only considered <i>cv</i>-unqualified pair types as such specializations, 
 while libstdc++ accept both <i>cv</i>-unqualified and <code>const</code>-qualified pair types as 
-such specializations. The resolution of LWG <a href="lwg-defects.html#3525" title="uses_allocator_construction_args fails to handle types convertible to pair">3525</a> uses <code>remove_cv_t</code>,
+such specializations. The resolution of LWG <a href="lwg-defects.html#3525" title="uses_allocator_construction_args fails to handle types convertible to pair (Status: C++23)">3525</a> uses <code>remove_cv_t</code>,
 which possibly imply that the specialization of pair may be <i>cv</i>-qualified.
 <p/>
 The difference can be observed via the following program:

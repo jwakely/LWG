@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 839: Maps and sets missing splice operation</title>
+<meta property="og:title" content="Issue 839: Maps and sets missing splice operation">
+<meta property="og:description" content="C++ library issue. Status: Resolved">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue839.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -291,7 +297,7 @@ s.insert(std::move(p));
 <li>
 <p>
 Move a move-only or heavy object out of an associative container (as opposed to
-the proposal in <a href="lwg-defects.html#1041" title="Add associative/unordered container functions that allow to extract elements">1041</a>):
+the proposal in <a href="lwg-defects.html#1041" title="Add associative/unordered container functions that allow to extract elements (Status: Resolved)">1041</a>):
 </p>
 <blockquote><pre>
 MoveOnly x = std::move(*s.remove(i));
@@ -316,7 +322,7 @@ the node.
 </ol>
 
 <p>
-Contrast this with the <a href="lwg-defects.html#1041" title="Add associative/unordered container functions that allow to extract elements">1041</a> solution:
+Contrast this with the <a href="lwg-defects.html#1041" title="Add associative/unordered container functions that allow to extract elements (Status: Resolved)">1041</a> solution:
 </p>
 <blockquote><pre>
 MoveOnly x = std::move(s.extract(i).first);

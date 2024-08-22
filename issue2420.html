@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2420: function&lt;void(ArgTypes...)&gt; does not discard the return value of the target object</title>
+<meta property="og:title" content="Issue 2420: function&lt;void(ArgTypes...)&gt; does not discard the return value of the target object">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2420.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>Discussion:</b></p>
 <p>
 <code>function&lt;void(ArgTypes...)&gt;</code> should discard the return value of the target object. This behavior was 
-in the original proposal, and it was removed (accidentally?) by the resolution of LWG <a href="lwg-defects.html#870" title="Do unordered containers not support function pointers for predicate&#47;hasher?">870</a>.
+in the original proposal, and it was removed (accidentally?) by the resolution of LWG <a href="lwg-defects.html#870" title="Do unordered containers not support function pointers for predicate&#47;hasher? (Status: C++11)">870</a>.
 </p>
 
 <p>
@@ -91,7 +97,7 @@ convertible to <code>R</code></ins>.
 <p><i>[2014-10-05 Daniel comments]</i></p>
 
 <p>
-This side-effect was indeed not intended by <a href="lwg-defects.html#870" title="Do unordered containers not support function pointers for predicate&#47;hasher?">870</a>.
+This side-effect was indeed not intended by <a href="lwg-defects.html#870" title="Do unordered containers not support function pointers for predicate&#47;hasher? (Status: C++11)">870</a>.
 </p>
 
 <p><i>[2015-05, Lenexa]</i></p>

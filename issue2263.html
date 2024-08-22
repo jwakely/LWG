@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2263: Comparing iterators and allocator pointers with different const-character</title>
+<meta property="og:title" content="Issue 2263: Comparing iterators and allocator pointers with different const-character">
+<meta property="og:description" content="C++ library issue. Status: C++14">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2263.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,14 +72,14 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++14">C++14</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-This ancient issue <a href="lwg-defects.html#179" title="Comparison of const_iterators to iterators doesn't work">179</a> says one ought to be able to compare iterators with <code>const_iterators</code> 
+This ancient issue <a href="lwg-defects.html#179" title="Comparison of const_iterators to iterators doesn't work (Status: CD1)">179</a> says one ought to be able to compare iterators with <code>const_iterators</code> 
 from any given container.  I'm having trouble finding words that guarantee this in C++11.  This impacts not only a 
 container's iterators, but also the allocator requirements in  [llocator.requirements] surrounding 
 <code>pointer</code>, <code>const_pointer</code>, <code>void_pointer</code> and <code>const_void_pointer</code>.  E.g. can one 
 compare a <code>pointer</code> with a <code>const_pointer</code>? 
 <p/>
 Since <code>allocator::pointer</code> and <code>const_pointer</code> are required to be random access iterators, one could 
-expect that the <a href="lwg-defects.html#179" title="Comparison of const_iterators to iterators doesn't work">179</a> guarantees apply for them as well.
+expect that the <a href="lwg-defects.html#179" title="Comparison of const_iterators to iterators doesn't work (Status: CD1)">179</a> guarantees apply for them as well.
 </p>
 
 <p><i>[
@@ -82,10 +88,10 @@ Daniel comments:
 
 
 <p>
-The wording for <a href="lwg-defects.html#179" title="Comparison of const_iterators to iterators doesn't work">179</a> was part of several working drafts (e.g. also in 
+The wording for <a href="lwg-defects.html#179" title="Comparison of const_iterators to iterators doesn't work (Status: CD1)">179</a> was part of several working drafts (e.g. also in 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2010/n3092.pdf">N3092</a>) over some time and suddenly got lost
 in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2011/n3242.pdf">N3242</a>, presumably by accident. Whatever we
-decide for allocator pointers, I expect that we need to restore the  <a href="lwg-defects.html#179" title="Comparison of const_iterators to iterators doesn't work">179</a> wording as part of the overall resolution:
+decide for allocator pointers, I expect that we need to restore the  <a href="lwg-defects.html#179" title="Comparison of const_iterators to iterators doesn't work (Status: CD1)">179</a> wording as part of the overall resolution:
 </p>
 
 <p>Reinsert after 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> p6:</p>

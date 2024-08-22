@@ -62,7 +62,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left">Revised 2024-01-29 at 17:32:58 UTC
+<td align="left">Revised 2024-08-22 at 10:18:00 UTC
 </td>
 </tr>
 <tr>
@@ -76,321 +76,394 @@
 </table>
 <h2>Ready Issues</h2>
 <hr>
-<h3 id="3767"><a href="#3767">3767</a><sup><a href="https://cplusplus.github.io/LWG/issue3767">(i)</a></sup>. <code>codecvt&lt;char<i>N</i>_t, char8_t, mbstate_t&gt;</code> incorrectly added to locale</h3>
-<p><b>Section:</b> 30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>, 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Victor Zverovich <b>Opened:</b> 2022-09-05 <b>Last modified:</b> 2023-11-07</p>
-<p><b>Priority: </b>3
+<h3 id="3436"><a href="#3436">3436</a><sup><a href="https://cplusplus.github.io/LWG/issue3436">(i)</a></sup>. <code>std::construct_at</code> should support arrays</h3>
+<p><b>Section:</b> 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-29 <b>Last modified:</b> 2024-06-24</p>
+<p><b>Priority: </b>2
 </p>
-<p><b>View all other</b> <a href="lwg-index.html#locale.category">issues</a> in [locale.category].</p>
+<p><b>View other</b> <a href="lwg-index-open.html#specialized.construct">active issues</a> in [specialized.construct].</p>
+<p><b>View all other</b> <a href="lwg-index.html#specialized.construct">issues</a> in [specialized.construct].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-Table [tab:locale.category.facets] includes the following two facets:
-</p>
-<ul>
-<li><p><code>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</code></p></li>
-<li><p><code>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</code></p></li>
-</ul>
-<p>
-However, neither of those actually has anything to do with a locale and therefore 
-it doesn't make sense to dynamically register them with <code>std::locale</code>. 
-Instead they provide conversions between fixed encodings (UTF-8, UTF-16, UTF-32) 
-that are unrelated to locale encodings other than they may happen to coincide with 
-encodings of some locales by accident.
+<code>std::construct_at</code> is ill-formed for array types, because the type of the <code>new</code>-expression is <code>T</code> 
+not <code>T*</code> so it cannot be converted to the return type.
 <p/>
-The issue was introduced when adding <code>codecvt&lt;char[16|32]_t, char, mbstate_t&gt;</code> in 
-<a href="https://wg21.link/N2035" title=" Minimal Unicode support for the standard library">N2035</a> which gave no design rationale for using <code>codecvt</code> in the first 
-place. Likely it was trying to do a minimal amount of changes and copied the wording for 
-<code>codecvt&lt;wchar_t, char, mbstate_t&gt;</code> but unfortunately didn't consider encoding implications.
+In C++17 <code>allocator_traits::construct</code> did work for arrays, because it returns <code>void</code> so there is no 
+ill-formed conversion. On the other hand, in C++17 <code>allocator_traits::destroy</code> didn't work for arrays, 
+because <code>p-&gt;~T()</code> isn't valid.
 <p/>
-<a href="https://wg21.link/P0482" title=" char8_t: A type for UTF-8 characters and strings (Revision 6)">P0482</a> changed <code>char</code> to <code>char8_t</code> in these facets which 
-made the issue more glaring but unfortunately, despite the breaking change, it failed to address it.
+In C++20 <code>allocator_traits::destroy</code> does work, because <code>std::destroy_at</code> treats arrays specially, 
+but <code>allocator_traits::construct</code> no longer works because it uses <code>std::construct_at</code>.
 <p/>
-Apart from an obvious design mistake this also adds a small overhead for every locale 
-construction because the implementation has to copy these pseudo-facets for no good 
-reason violating "don't pay for what you don't use" principle.
+It seems unnecessary and/or confusing to remove support for arrays in <code>construct</code> when we're adding it in <code>destroy</code>.
 <p/>
-A simple fix is to remove the two facets from table [tab:locale.category.facets] and make them 
-directly constructible.
+I suggest that <code>std::construct_at</code> should also handle arrays. It might be reasonable to restrict that 
+support to the case where <code>sizeof...(Args) == 0</code>, if supporting parenthesized aggregate-initialization 
+is not desirable in <code>std::construct_at</code>.
 </p>
 
-<p><i>[2022-09-23; Reflector poll]</i></p>
+<p><i>[2020-05-09; Reflector prioritization]</i></p>
 
 <p>
-Set priority to 3 after reflector poll. Send to SG16 (then maybe LEWG).
+Set priority to 2 after reflector discussions.
 </p>
 
-<p><i>[2022-09-28; SG16 responds]</i></p>
+<p><i>[2021-01-16; Zhihao Yuan provides wording]</i></p>
+
 
 <p>
-SG16 agrees that the codecvt facets mentioned in LWG3767
-"<code>codecvt&lt;char<i>N</i>_t, char8_t, mbstate_t&gt;</code>
-incorrectly added to locale" are intended to be invariant
-with respect to locale. Unanimously in favor.
+<strong>Previous resolution [SUPERSEDED]:</strong>
+</p>
+<blockquote class="note">
+<p>
+This wording is relative to <a href="https://wg21.link/N4878" title=" Working Draft, Standard for Programming Language C++">N4878</a>. 
 </p>
 
-<p><i>[Issaquah 2023-02-10; LWG issue processing]</i></p>
+<ol>
+<li><p>Modify 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T, class... Args&gt;
+  constexpr T* construct_at(T* location, Args&amp;&amp;... args);
+
+namespace ranges {
+  template&lt;class T, class... Args&gt;
+    constexpr T* construct_at(T* location, Args&amp;&amp;... args);
+}
+</pre>
+<blockquote>
+<p>
+-1- <i>Constraints:</i> The expression <code>::new (declval&lt;void*&gt;()) T(declval&lt;Args&gt;()...)</code> is well-formed
+when treated as an unevaluated operand.
+<p/>
+-2- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+<del>return</del><ins>auto ptr =</ins> ::new (<i>voidify</i>(*location)) T(std::forward&lt;Args&gt;(args)...);
+<ins>if constexpr (is_array_v&lt;T&gt;)
+  return launder(location);
+else
+  return ptr;</ins>
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2021-12-07; Zhihao Yuan comments and provides improved wording]</i></p>
 
 <p>
-Removing these breaks most code using them today, because the most obvious
-way to use them is via <code>use_facet</code> on a locale, which would throw
-if they're removed (and because they were guaranteed to be present, code
-using them might have not bothered to check for them using <code>has_facet</code>).
-Instead of removing them, deprecate the guarantee that they're always present
-(so move them to D.24 <a href="https://wg21.link/depr.locale.category">[depr.locale.category]</a>).
-Don't bother changing the destructor.
-Victor to update wording.
+The previous PR allows constructing arbitrary number of elements when
+<code>T</code> is an array of unknown bound:</p>
+<blockquote><pre>
+extern int a[];
+std::construct_at(&amp;a, 0, 1, 2);
+</pre></blockquote>
+<p>
+and leads to a UB.
+</p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4901" title=" Working Draft, Standard for Programming Language C++">N4901</a>. 
+</p>
+
+<ol>
+<li><p>Modify 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T, class... Args&gt;
+  constexpr T* construct_at(T* location, Args&amp;&amp;... args);
+
+namespace ranges {
+  template&lt;class T, class... Args&gt;
+    constexpr T* construct_at(T* location, Args&amp;&amp;... args);
+}
+</pre>
+<blockquote>
+<p>
+-1- <i>Constraints:</i> The expression <code>::new (declval&lt;void*&gt;()) T(declval&lt;Args&gt;()...)</code> is well-formed
+when treated as an unevaluated operand (7.2.3 <a href="https://wg21.link/expr.context">[expr.context]</a>) <ins>and <code>is_unbounded_array_v&lt;T&gt;</code> is 
+<code>false</code></ins>.
+<p/>
+-2- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+<del>return</del><ins>auto ptr =</ins> ::new (<i>voidify</i>(*location)) T(std::forward&lt;Args&gt;(args)...);
+<ins>if constexpr (is_array_v&lt;T&gt;)
+  return launder(location);
+else
+  return ptr;</ins>
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2024-03-18; Jonathan provides new wording]</i></p>
+
+<p>
+During Core review in Varna, Hubert suggested creating <code class='backtick'>T[1]</code> for the array case.
 </p>
 
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
 <blockquote class="note">
 
 <p>
-This wording is relative to <a href="https://wg21.link/N4917" title=" Working Draft, Standard for Programming Language C++">N4917</a>.
+This wording is relative to <a href="https://wg21.link/N4971" title=" Working Draft, Programming Languages — C++">N4971</a>.
 </p>
 
 <ol>
+<li><p>Modify 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
 
-<li><p>Modify 30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>, Table 105 ([tab:locale.category.facets]) &mdash; 
-"Locale category facets" &mdash; as indicated:</p>
-
-<blockquote>
-<table border="1">
-<caption>Table 105: Locale category facets [tab:locale.category.facets]</caption>
-<tr>
-<th align="center">Category</th>
-<th align="center">Includes facets</th>
-</tr>
-
-<tr>
-<td colspan="2" align="center">
-<code>&hellip;</code>
-</td>
-</tr>
-
-<tr>
-<td>
-ctype
-</td>
-
-<td>
-<code>ctype&lt;char&gt;, ctype&lt;wchar_t&gt;<br/>
-codecvt&lt;char, char, mbstate_t&gt;<br/>
-<del>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</del><br/>
-<del>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</del><br/>
-codecvt&lt;wchar_t, char, mbstate_t&gt;</code>
-</td>
-</tr>
-
-<tr>
-<td colspan="2" align="center">
-<code>&hellip;</code>
-</td>
-</tr>
-
-</table>
-</blockquote>
-
-</li>
-
-<li><p>Modify 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a> as indicated:</p>
-
-<blockquote>
 <blockquote>
 <pre>
-namespace std {
-  [&hellip;]
-  template&lt;class internT, class externT, class stateT&gt;
-    class codecvt : public locale::facet, public codecvt_base {
-    public:
-      using intern_type = internT;
-      using extern_type = externT;
-      using state_type = stateT;
+template&lt;class T, class... Args&gt;
+  constexpr T* construct_at(T* location, Args&amp;&amp;... args);
 
-      explicit codecvt(size_t refs = 0);
-      <ins>~codecvt();</ins>
+namespace ranges {
+  template&lt;class T, class... Args&gt;
+    constexpr T* construct_at(T* location, Args&amp;&amp;... args);
+}
+</pre>
+<blockquote>
+<p>
+-1- <i>Constraints:</i>
+<ins><code>is_unbounded_array_v&lt;T&gt;</code> is <code>false</code>.</ins>
+The expression <code>::new (declval&lt;void*&gt;()) T(declval&lt;Args&gt;()...)</code> is well-formed
+when treated as an unevaluated operand (7.2.3 <a href="https://wg21.link/expr.context">[expr.context]</a>).
+<p/>
+-2- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+<ins>if constexpr (is_array_v&lt;T&gt;)
+  return ::new (<i>voidify</i>(*location)) T[1]{{std::forward&lt;Args&gt;(args)...}};
+else</ins>
+  return ::new (<i>voidify</i>(*location)) T(std::forward&lt;Args&gt;(args)...);
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
 
-      [&hellip;]
-    protected:
-      <del>~codecvt();</del>
-      [&hellip;]
-    };
+<p><i>[St. Louis 2024-06-24; Jonathan provides improved wording]</i></p>
+
+<p>
+Why not support unbounded arrays, deducing the bound from <code class='backtick'>sizeof...(Args)</code>?
+<br/>
+JW: There's no motivation to support that here in <code class='backtick'>construct_at</code>.
+It isn't possible to create unbounded arrays via allocators,
+nor via any of the <code class='backtick'>uninitialized_xxx</code> algorithms. Extending <code class='backtick'>construct_at</code>
+that way seems like a design change, not restoring support for something
+that used to work with allocators and then got broken in C++20.
+</p>
+<p>
+Tim observed that the proposed resolution is ill-formed if <code class='backtick'>T</code> has an
+explicit default constructor. Value-initialization would work for that case,
+and there seems to be little motivation for supplying arguments to
+initialize the array. In C++17 the <code class='backtick'>allocator_traits::construct</code> case only
+supported value-initialization.
+</p>
+
+<p><i>[St. Louis 2024-06-24; move to Ready.]</i></p>
+
+
+
+<p id="res-3436"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+</p>
+
+<ol>
+<li><p>Modify 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T, class... Args&gt;
+  constexpr T* construct_at(T* location, Args&amp;&amp;... args);
+
+namespace ranges {
+  template&lt;class T, class... Args&gt;
+    constexpr T* construct_at(T* location, Args&amp;&amp;... args);
+}
+</pre>
+<blockquote>
+<p>
+-1- <i>Constraints:</i>
+<ins><code>is_unbounded_array_v&lt;T&gt;</code> is <code>false</code>.</ins>
+The expression <code>::new (declval&lt;void*&gt;()) T(declval&lt;Args&gt;()...)</code> is well-formed
+when treated as an unevaluated operand (7.2.3 <a href="https://wg21.link/expr.context">[expr.context]</a>).
+</p>
+<p>
+<ins>-?- <i>Mandates</i>:
+If <code>is_array_v&lt;T&gt;</code> is <code class='backtick'>true</code>, <code class='backtick'>sizeof...(Args)</code> is zero.
+</ins>
+</p>
+<p>
+-2- <i>Effects:</i> Equivalent to:
+</p>
+<blockquote><pre>
+<ins>if constexpr (is_array_v&lt;T&gt;)
+  return ::new (<i>voidify</i>(*location)) T[1]();
+else</ins>
+  return ::new (<i>voidify</i>(*location)) T(std::forward&lt;Args&gt;(args)...);
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3 id="3899"><a href="#3899">3899</a><sup><a href="https://cplusplus.github.io/LWG/issue3899">(i)</a></sup>. <code>co_yield</code>ing elements of an lvalue <code>generator</code> is unnecessarily inefficient</h3>
+<p><b>Section:</b> 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2023-03-04 <b>Last modified:</b> 2024-06-28</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#coro.generator.promise">active issues</a> in [coro.generator.promise].</p>
+<p><b>View all other</b> <a href="lwg-index.html#coro.generator.promise">issues</a> in [coro.generator.promise].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Consider:
+</p>
+<blockquote>
+<pre>
+std::generator&lt;int&gt; f();
+std::generator&lt;int&gt; g() {
+    auto gen = f();
+    auto gen2 = f();
+    co_yield std::ranges::elements_of(std::move(gen));   // #1
+    co_yield std::ranges::elements_of(gen2);             // #2
+    // other stuff
 }
 </pre>
 </blockquote>
 <p>
-[&hellip;]
-<p/>
--3- The specializations required in Table <del>105 [tab:locale.category.facets]</del><ins>106 [tab:locale.spec]</ins>
-(30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>) convert the implementation-defined native character set. 
-<code>codecvt&lt;char, char, mbstate_t&gt;</code> implements a degenerate conversion; it does not 
-convert at all. The specialization <code>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</code> converts 
-between the UTF-16 and UTF-8 encoding forms, and the specialization 
-<code>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</code> converts between the UTF-32 and UTF-8 encoding forms. 
-<code>codecvt&lt;wchar_t, char, mbstate_t&gt;</code> converts between the native character sets for ordinary 
-and wide characters. Specializations on <code>mbstate_t</code> perform conversion between encodings known to 
-the library implementer. Other encodings can be converted by specializing on a program-defined 
-<code>stateT</code> type. Objects of type <code>stateT</code> can contain any state that is useful to communicate 
-to or from the specialized <code>do_in</code> or <code>do_out</code> members.
-</p>
-</blockquote>
-</li>
-
-</ol>
-</blockquote>
-
-<p><i>[2023-02-10; Victor Zverovich comments and provides improved wording]</i></p>
-
-<p>
-Per today's LWG discussion the following changes have been implemented in revised wording:
+Both #1 and #2 compile. The differences are:
 </p>
 <ul>
-<li><p>Deprecated the facets instead of removing them (also <code>_byname</code> variants which were previously missed).</p></li>
-<li><p>Removed the changes to facet dtor since with deprecation it's no longer critical to provide other ways to access them.</p></li>
+<li>
+<p>
+#2 is significantly less efficient (it uses the general overload of <code>yield_value</code>,
+so it creates a new coroutine frame and doesn't do symmetric transfer into <code>gen2</code>'s coroutine)
+</p>
+</li>
+<li>
+<p>
+the coroutine frame of <code>gen</code> and <code>gen2</code> are destroyed at different
+times: <code>gen</code>'s frame is destroyed at the end of #1, but <code>gen2</code>'s is
+not destroyed until the closing brace.
+</p>
+</li>
 </ul>
-<p><i>[Kona 2023-11-07; move to Ready]</i></p>
+<p>
+But as far as the user is concerned, neither <code>gen</code> nor <code>gen2</code> is
+usable after the <code>co_yield</code>. In both cases the only things you can do
+with the objects are:
+</p>
+<ul>
+<li><p>destroying them;</p></li>
+<li><p>assigning to them;</p></li>
+<li><p>call <code>end()</code> on them to get a copy of <code>default_sentinel</code>.</p></li>
+</ul>
+<p>
+We could make #2 ill-formed, but that seems unnecessary: there is no meaningful
+difference between <code>generator</code> and any other single-pass input range
+(or a <code>generator</code> with a different yielded type that has to go through
+the general overload) in this regard. We should just make #2 do the efficient
+thing too.
+</p>
+
+<p><i>[2023-03-22; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+
+<p><i>[St. Louis 2024-06-28; move to Ready]</i></p>
 
 
 
 
-<p id="res-3767"><b>Proposed resolution:</b></p>
+<p id="res-3899"><b>Proposed resolution:</b></p>
 <p>
 This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <ol>
 
-<li><p>Modify 30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>, Table 105 ([tab:locale.category.facets]) &mdash; 
-"Locale category facets" &mdash; and Table 106 ([tab:locale.spec]) "Required specializations" as indicated:</p>
+<li><p>Modify 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
 
 <blockquote>
-<table border="1">
-<caption>Table 105: Locale category facets [tab:locale.category.facets]</caption>
-<tr>
-<th align="center">Category</th>
-<th align="center">Includes facets</th>
-</tr>
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class Ref, class V, class Allocator&gt;
+  class generator&lt;Ref, V, Allocator&gt;::promise_type {
+  public:
+    [&hellip;]
+    auto yield_value(const remove_reference_t&lt;yielded&gt;&amp; lval)
+      requires is_rvalue_reference_v&lt;yielded&gt; &amp;&amp;
+        constructible_from&lt;remove_cvref_t&lt;yielded&gt;, const remove_reference_t&lt;yielded&gt;&amp;&gt;;
 
-<tr>
-<td colspan="2" align="center">
-<code>&hellip;</code>
-</td>
-</tr>
+    template&lt;class R2, class V2, class Alloc2, class Unused&gt;
+      requires same_as&lt;typename generator&lt;R2, V2, Alloc2&gt;::yielded, yielded&gt;
+        auto yield_value(ranges::elements_of&lt;generator&lt;R2, V2, Alloc2&gt;&amp;&amp;, Unused&gt; g) noexcept;
+<ins>    template&lt;class R2, class V2, class Alloc2, class Unused&gt;
+      requires same_as&lt;typename generator&lt;R2, V2, Alloc2&gt;::yielded, yielded&gt;
+        auto yield_value(ranges::elements_of&lt;generator&lt;R2, V2, Alloc2&gt;&amp;, Unused&gt; g) noexcept;</ins>
 
-<tr>
-<td>
-ctype
-</td>
-
-<td>
-<code>ctype&lt;char&gt;, ctype&lt;wchar_t&gt;<br/>
-codecvt&lt;char, char, mbstate_t&gt;<br/>
-<del>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</del><br/>
-<del>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</del><br/>
-codecvt&lt;wchar_t, char, mbstate_t&gt;</code>
-</td>
-</tr>
-
-<tr>
-<td colspan="2" align="center">
-<code>&hellip;</code>
-</td>
-</tr>
-
-</table>
-[&hellip;]
-<table border="1">
-<caption>Table 106: Required specializations [tab:locale.spec]</caption>
-<tr>
-<th align="center">Category</th>
-<th align="center">Includes facets</th>
-</tr>
-
-<tr>
-<td colspan="2" align="center">
-<code>&hellip;</code>
-</td>
-</tr>
-
-<tr>
-<td>
-ctype
-</td>
-
-<td>
-<code>ctype_byname&lt;char&gt;, ctype_byname&lt;wchar_t&gt;<br/>
-codecvt_byname&lt;char, char, mbstate_t&gt;<br/>
-<del>codecvt_byname&lt;char16_t, char8_t, mbstate_t&gt;</del><br/>
-<del>codecvt_byname&lt;char32_t, char8_t, mbstate_t&gt;</del><br/>
-codecvt_byname&lt;wchar_t, char, mbstate_t&gt;</code>
-</td>
-</tr>
-
-<tr>
-<td colspan="2" align="center">
-<code>&hellip;</code>
-</td>
-</tr>
-
-</table>
+    template&lt;ranges::input_range R, class Alloc&gt;
+      requires convertible_to&lt;ranges::range_reference_t&lt;R&gt;, yielded&gt;
+        auto yield_value(ranges::elements_of&lt;R, Alloc&gt; r) noexcept;
+    [&hellip;]
+   };
+}
+</pre>
 </blockquote>
-
-</li>
-
-<li><p>Modify 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a> as indicated:</p>
-
+[&hellip;]
+<pre>
+template&lt;class R2, class V2, class Alloc2, class Unused&gt;
+  requires same_as&lt;typename generator&lt;R2, V2, Alloc2&gt;::yielded, yielded&gt;
+  auto yield_value(ranges::elements_of&lt;generator&lt;R2, V2, Alloc2&gt;&amp;&amp;, Unused&gt; g) noexcept;
+<ins>template&lt;class R2, class V2, class Alloc2, class Unused&gt;
+  requires same_as&lt;typename generator&lt;R2, V2, Alloc2&gt;::yielded, yielded&gt;
+  auto yield_value(ranges::elements_of&lt;generator&lt;R2, V2, Alloc2&gt;&amp;, Unused&gt; g) noexcept;</ins>
+</pre>
 <blockquote>
 <p>
-[&hellip;]
+-10- <i>Preconditions</i>: A handle referring to the coroutine whose promise object
+is <code>*this</code> is at the top of <code>*<i>active_</i></code> of some generator
+object <code>x</code>. The coroutine referred to by <code>g.range.<i>coroutine_</i></code>
+is suspended at its initial suspend point.
 <p/>
--3- The specializations required in Table 105 (30.3.1.2.1 <a href="https://wg21.link/locale.category">[locale.category]</a>) 
-convert the implementation-defined native character set. 
-<code>codecvt&lt;char, char, mbstate_t&gt;</code> implements a degenerate conversion; it does not 
-convert at all. <del>The specialization <code>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</code> converts 
-between the UTF-16 and UTF-8 encoding forms, and the specialization 
-<code>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</code> converts between the UTF-32 and UTF-8 encoding forms.</del> 
-<code>codecvt&lt;wchar_t, char, mbstate_t&gt;</code> converts between the native character sets for ordinary 
-and wide characters. Specializations on <code>mbstate_t</code> perform conversion between encodings known to 
-the library implementer. Other encodings can be converted by specializing on a program-defined 
-<code>stateT</code> type. Objects of type <code>stateT</code> can contain any state that is useful to communicate 
-to or from the specialized <code>do_in</code> or <code>do_out</code> members.
+-11- <i>Returns:</i> An awaitable object of an unspecified type (7.6.2.4 <a href="https://wg21.link/expr.await">[expr.await]</a>)
+into which <code>g.range</code> is moved, whose member <code>await_ready</code> returns <code>false</code>,
+whose member <code>await_suspend</code> pushes <code>g.range.<i>coroutine_</i></code> into <code>*x.<i>active_</i></code>
+and resumes execution of the coroutine referred to by <code>g.range.<i>coroutine_</i></code>,
+and whose member <code>await_resume</code> evaluates <code>rethrow_exception(<i>except_</i>)</code>
+if <code>bool(<i>except_</i>)</code> is <code>true</code>. If <code>bool(<i>except_</i>)</code> is <code>false</code>,
+the <code>await_resume</code> member has no effects.
+<p/>
+-12- <i>Remarks</i>: A <i>yield-expression</i> that calls
+<del>this function</del><ins>one of these functions</ins> has type
+<code>void</code> (7.6.17 <a href="https://wg21.link/expr.yield">[expr.yield]</a>).
 </p>
 </blockquote>
-</li>
-
-
-<li><p>Modify D.24 <a href="https://wg21.link/depr.locale.category">[depr.locale.category]</a> (Deprecated locale category facets) in Annex D as indicated:</p>
-
-<blockquote>
-<p>
--1- The <code>ctype</code> locale category includes the following facets as if they were specified in table Table 105
-[tab:locale.category.facets] of 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a>.
-</p>
-<blockquote><pre>
-codecvt&lt;char16_t, char, mbstate_t&gt;
-codecvt&lt;char32_t, char, mbstate_t&gt;
-<ins>codecvt&lt;char16_t, char8_t, mbstate_t&gt;
-codecvt&lt;char32_t, char8_t, mbstate_t&gt;</ins>
-</pre></blockquote>
-<p>
--1- The <code>ctype</code> locale category includes the following facets as if they were specified in table Table 106
-[tab:locale.spec] of 30.4.2.5.1 <a href="https://wg21.link/locale.codecvt.general">[locale.codecvt.general]</a>.
-</p>
-<blockquote><pre>
-codecvt_byname&lt;char16_t, char, mbstate_t&gt;
-codecvt_byname&lt;char32_t, char, mbstate_t&gt;
-<ins>codecvt_byname&lt;char16_t, char8_t, mbstate_t&gt;
-codecvt_byname&lt;char32_t, char8_t, mbstate_t&gt;</ins>
-</pre></blockquote>
-<p>
--3- The following class template specializations are required in addition to those specified in 30.4.2.5 <a href="https://wg21.link/locale.codecvt">[locale.codecvt]</a>. 
-The specialization<ins>s</ins> <code>codecvt&lt;char16_t, char, mbstate_t&gt;</code> <ins>and <code>codecvt&lt;char16_t, char8_t, mbstate_t&gt;</code></ins> 
-convert<del>s</del> between the UTF-16 and UTF-8 encoding forms, and the specialization<ins>s</ins> 
-<code>codecvt&lt;char32_t, char, mbstate_t&gt;</code> <ins>and <code>codecvt&lt;char32_t, char8_t, mbstate_t&gt;</code></ins> 
-convert<del>s</del> between the UTF-32 and UTF-8 encoding forms.
-</p>
 </blockquote>
+
 </li>
+
 
 </ol>
 
@@ -399,72 +472,126 @@ convert<del>s</del> between the UTF-32 and UTF-8 encoding forms.
 
 
 <hr>
-<h3 id="3919"><a href="#3919">3919</a><sup><a href="https://cplusplus.github.io/LWG/issue3919">(i)</a></sup>. <code>enumerate_view</code> may invoke UB for sized common non-forward underlying ranges</h3>
-<p><b>Section:</b> 26.7.23 <a href="https://wg21.link/range.enumerate">[range.enumerate]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2023-04-07 <b>Last modified:</b> 2023-11-10</p>
+<h3 id="3900"><a href="#3900">3900</a><sup><a href="https://cplusplus.github.io/LWG/issue3900">(i)</a></sup>. The <code>allocator_arg_t</code> overloads of <code>generator::promise_type::operator new</code>
+should not be constrained</h3>
+<p><b>Section:</b> 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Tim Song <b>Opened:</b> 2023-03-04 <b>Last modified:</b> 2024-06-28</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#coro.generator.promise">active issues</a> in [coro.generator.promise].</p>
+<p><b>View all other</b> <a href="lwg-index.html#coro.generator.promise">issues</a> in [coro.generator.promise].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-For a sized common range, <code>enumerate_view::end()</code> is specified to call
-<code>ranges::distance</code>. But <code>ranges::distance</code> is not necessarily well-defined
-for a sized non-forward range after calling <code>ranges::begin</code> (according to
-26.4.3 <a href="https://wg21.link/range.sized">[range.sized]</a>).
+When the allocator is not type-erased, the <code>allocator_arg_t</code> overloads of
+<code>generator::promise_type::operator new</code> are constrained on
+<code>convertible_to&lt;const Alloc&amp;, Allocator&gt;</code>. As a result, if the
+the allocator is default-constructible (like <code>polymorphic_allocator</code> is)
+but the user accidentally provided a wrong type (say, <code>memory_resource&amp;</code>
+instead of <code>memory_resource*</code>), their code will silently fall back to
+using a default-constructed allocator. It would seem better to take the tag
+as definitive evidence of the user's intent to supply an allocator for the coroutine,
+and error out if the supplied allocator cannot be used.
 <p/>
-So for a sized common non-forward underlying range, it seems calling
-<code>enumerate_view::begin()</code> followed by <code>enumerate_view::end()</code> may invoke UB
-and thus make <code>enumerate_view</code> potentially unusable for such ranges.
-<p/>
-I suppose we might need to instead call and cache the result of
-<code>ranges::distance</code> from <code>enumerate_view::begin()</code> for such ranges.
+This change does mean that the user cannot deliberately pass an incompatible
+allocator (preceded by an <code>std::allocator_arg_t</code> tag) for their own use
+inside the coroutine, but that sort of API seems fragile and confusing at best,
+since the usual case is that allocators so passed <i>will</i> be used by
+<code>generator</code>.
 </p>
 
-<p><i>[2022-04-12; Patrick Palka provides wording]</i></p>
-
-<p>
-The proposed wording follows the suggestion provided by Tim Song, to simply make <code>enumerate</code> non-common for this case.
-</p>
-
-<p><i>[2023-05-24; Reflector poll]</i></p>
+<p><i>[2023-03-22; Reflector poll]</i></p>
 
 <p>
 Set priority to 3 after reflector poll.
 </p>
 
-<p><i>[Kona 2023-11-10; move to Ready]</i></p>
+<p><i>[St. Louis 2024-06-28; move to Ready]</i></p>
 
 
 
 
-<p id="res-3919"><b>Proposed resolution:</b></p>
+<p id="res-3900"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4944" title=" Working Draft, Standard for Programming Language C++">N4944</a>.
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
 </p>
 
 <ol>
-<li>
-<p>Modify 26.7.23.2 <a href="https://wg21.link/range.enumerate.view">[range.enumerate.view]</a>, class template class <code>enumerate_view</code> synopsis, as indicated:</p>
+
+<li><p>Modify 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
 
 <blockquote>
-<blockquote><pre>
-[&hellip;]
-constexpr auto end() requires (!<i>simple-view</i>&lt;V&gt;) {
-  if constexpr (<ins>forward_range&lt;V&gt; &amp;&amp;</ins> common_range&lt;V&gt; &amp;&amp; sized_range&lt;V&gt;)
-    return <i>iterator</i>&lt;false&gt;(ranges::end(<i>base_</i>), ranges::distance(<i>base_</i>));
-  else
-    return <i>sentinel</i>&lt;false&gt;(ranges::end(<i>base_</i>));
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class Ref, class V, class Allocator&gt;
+  class generator&lt;Ref, V, Allocator&gt;::promise_type {
+  public:
+    [&hellip;]
+    void* operator new(size_t size)
+      requires same_as&lt;Allocator, void&gt; || default_initializable&lt;Allocator&gt;;
+
+    template&lt;class Alloc, class... Args&gt;
+      <del>requires same_as&lt;Allocator, void&gt; || convertible_to&lt;const Alloc&amp;, Allocator&gt;</del>
+        void* operator new(size_t size, allocator_arg_t, const Alloc&amp; alloc, const Args&amp;...);
+
+    template&lt;class This, class Alloc, class... Args&gt;
+      <del>requires same_as&lt;Allocator, void&gt; || convertible_to&lt;const Alloc&amp;, Allocator&gt;</del>
+        void* operator new(size_t size, const This&amp;, allocator_arg_t, const Alloc&amp; alloc,
+                           const Args&amp;...);
+    [&hellip;]
+   };
 }
-constexpr auto end() const requires <i>range-with-movable-references</i>&lt;const V&gt; {
-  if constexpr (<ins>forward_range&lt;const V&gt; &amp;&amp;</ins> common_range&lt;const V&gt; &amp;&amp; sized_range&lt;const V&gt;)
-    return <i>iterator</i>&lt;true&gt;(ranges::end(<i>base_</i>), ranges::distance(<i>base_</i>));
-  else
-    return <i>sentinel</i>&lt;true&gt;(ranges::end(<i>base_</i>));
-}
-[&hellip;]
-</pre></blockquote>
+</pre>
 </blockquote>
+[&hellip;]
+<pre>
+void* operator new(size_t size)
+  requires same_as&lt;Allocator, void&gt; || default_initializable&lt;Allocator&gt;;
+
+template&lt;class Alloc, class... Args&gt;
+  <del>requires same_as&lt;Allocator, void&gt; || convertible_to&lt;const Alloc&amp;, Allocator&gt;</del>
+  void* operator new(size_t size, allocator_arg_t, const Alloc&amp; alloc, const Args&amp;...);
+
+template&lt;class This, class Alloc, class... Args&gt;
+  <del>requires same_as&lt;Allocator, void&gt; || convertible_to&lt;const Alloc&amp;, Allocator&gt;</del>
+  void* operator new(size_t size, const This&amp;, allocator_arg_t, const Alloc&amp; alloc,
+                     const Args&amp;...);
+</pre>
+<blockquote>
+<p>
+-17- Let <code>A</code> be
+</p>
+<ol style="list-style-type: none">
+  <li><p>(17.1) &mdash; <code>Allocator</code>, if it is not <code>void</code>,</p></li>
+  <li><p>(17.2) &mdash; <code>Alloc</code> for the overloads with a template parameter <code>Alloc</code>, or</p></li>
+  <li><p>(17.3) &mdash; <code>allocator&lt;void&gt;</code> otherwise.</p></li>
+</ol>
+<p>
+Let <code>B</code> be <code>allocator_traits&lt;A&gt;::template rebind_alloc&lt;U&gt;</code>
+where <code>U</code> is an unspecified type whose size and alignment are both
+<code>__STDCPP_DEFAULT_NEW_ALIGNMENT__</code>.
+<p/>
+-18- <i>Mandates</i>: <code>allocator_traits&lt;B&gt;::pointer</code> is a pointer type.
+<ins>For the overloads with a template parameter <code>Alloc</code>,
+<code>same_as&lt;Allocator, void&gt; || convertible_to&lt;const Alloc&amp;, Allocator&gt;</code> is modeled.</ins>
+<p/>
+-19- <i>Effects</i>: Initializes an allocator <code>b</code> of type <code>B</code> with <code>A(alloc)</code>,
+for the overloads with a function parameter <code>alloc</code>, and with <code>A()</code> otherwise.
+Uses <code>b</code> to allocate storage for the smallest array of <code>U</code> sufficient
+to provide storage for a coroutine state of size <code>size</code>, and unspecified
+additional state necessary to ensure that <code>operator delete</code> can later
+deallocate this memory block with an allocator equal to <code>b</code>.
+<p/>
+-20- <i>Returns:</i> A pointer to the allocated storage.
+</p>
+
+</blockquote>
+</blockquote>
+
+
 </li>
+
 
 </ol>
 
@@ -473,435 +600,1778 @@ constexpr auto end() const requires <i>range-with-movable-references</i>&lt;cons
 
 
 <hr>
-<h3 id="3950"><a href="#3950">3950</a><sup><a href="https://cplusplus.github.io/LWG/issue3950">(i)</a></sup>. <code>std::basic_string_view</code> comparison operators are overspecified</h3>
-<p><b>Section:</b> 23.3.2 <a href="https://wg21.link/string.view.synop">[string.view.synop]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Giuseppe D'Angelo <b>Opened:</b> 2023-06-21 <b>Last modified:</b> 2023-11-10</p>
-<p><b>Priority: </b>Not Prioritized
-</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-The <code>&lt;string_view&gt;</code> synopsis in 23.3.2 <a href="https://wg21.link/string.view.synop">[string.view.synop]</a> has these signatures
-for <code>operator==</code> and <code>operator&lt;=&gt;</code>:
-</p>
-<blockquote><pre>
-// <i>23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, non-member comparison functions</i>
-template&lt;class charT, class traits&gt;
-  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; x,
-                            basic_string_view&lt;charT, traits&gt; y) noexcept;
-template&lt;class charT, class traits&gt;
-  constexpr see below operator&lt;=&gt;(basic_string_view&lt;charT, traits&gt; x,
-                                  basic_string_view&lt;charT, traits&gt; y) noexcept;
-
-// <i>see 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, sufficient additional overloads of comparison functions</i>
-</pre></blockquote>
-<p>
-In 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, paragraph 1 states that "Implementations
-shall provide sufficient additional overloads" so that all comparisons
-between a <code>basic_string_view&lt;C, T&gt;</code> object and an object of a type
-convertible to <code>basic_string_view&lt;C, T&gt;</code> work (with the reasonable
-semantics).
-<p/>
-The associated Example 1 proposes this implementation strategy for
-<code>operator==</code>:
-</p>
-<blockquote><pre>
-template&lt;class charT, class traits&gt;
-  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
-                            basic_string_view&lt;charT, traits&gt; rhs) noexcept {
-    return lhs.compare(rhs) == 0;
-  }
-template&lt;class charT, class traits&gt;
-  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
-                            type_identity_t&lt;basic_string_view&lt;charT, traits&gt;&gt; rhs) noexcept {
-    return lhs.compare(rhs) == 0;
-  }
-</pre></blockquote>
-<p>
-With the current semantics of rewritten candidates for the comparison
-operators, it is however superfluous to actually specify both overloads
-(the same applies for <code>operator&lt;=&gt;</code>).
-<p/>
-The second overload (using <code>type_identity_t</code>) is indeed necessary to
-implement the "sufficient additional overloads" part of 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, 
-but it is also sufficient, as all the following cases
-</p>
-<ul>
-<li><p><code>sv == sv</code></p></li>
-<li><p><code>sv == <i>convertible_to_sv</i></code></p></li>
-<li><p><code><i>convertible_to_sv</i> == sv</code></p></li>
-</ul>
-<p>
-can in fact use it (directly, or after being rewritten e.g. with the
-arguments swapped).
-<p/>
-The reason why we still do have both operators seems to be historical;
-there is an explanation offered <a href="https://stackoverflow.com/a/70851101">here</a> by Barry Revzin.
-<p/>
-Basically, there were three overloads before a bunch of papers regarding
-<code>operator&lt;=&gt;</code> and <code>operator==</code> were merged:
-</p>
-<ol>
-<li><p><code>operator==(<i>bsv</i>, <i>bsv</i>)</code> to deal with <code>sv == sv</code>;</p></li>
-<li><p><code>operator==(<i>bsv</i>, type_identity_t&lt;<i>bsv</i>&gt;)</code> and</p></li>
-<li><p><code>operator==(type_identity_t&lt;<i>bsv</i>&gt;, <i>bsv</i>)</code> to deal with 
-<code>sv == <i>convertible_to_sv</i></code> and vice versa.</p></li>
-</ol>
-<p>
-Overload (1) was necessary because with only (2) and (3) a call like 
-<code>sv == sv</code> would otherwise be ambiguous. With the adoption of the rewriting
-rules, overload (3) has been dropped, without realizing that overload
-(1) would then become redundant.
-<p/>
-The specification of these overloads can be greatly simplified by
-adjusting the signatures to explicitly use <code>type_identity_t</code>.
-</p>
-
-<p><i>[Kona 2023-11-10; move to Ready]</i></p>
-
-<p>
-Editorial issue <a href="https://github.com/cplusplus/draft/pull/6324">6324</a>
-provides the changes as a pull request to the draft.
-</p>
-
-
-<p id="res-3950"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4950" title=" Working Draft, Standard for Programming Language C++">N4950</a>.
-</p>
-
-<ol>
-<li><p>Modify 23.3.2 <a href="https://wg21.link/string.view.synop">[string.view.synop]</a>, header <code>&lt;string_view&gt;</code> synopsis, as indicated:</p>
-
-<blockquote>
-<pre>
-[&hellip;]
-// <i>23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, non-member comparison functions</i>
-template&lt;class charT, class traits&gt;
-  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; x,
-                            <ins>type_identity_t&lt;</ins>basic_string_view&lt;charT, traits&gt;<ins>&gt;</ins> y) noexcept;
-
-template&lt;class charT, class traits&gt;
-  constexpr <i>see below</i> operator&lt;=&gt;(basic_string_view&lt;charT, traits&gt; x,
-                                  <ins>type_identity_t&lt;</ins>basic_string_view&lt;charT, traits&gt;<ins>&gt;</ins> y) noexcept;
-
-<del>// <i>see 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a>, sufficient additional overloads of comparison functions</i></del>
-[&hellip;]
-</pre>
-</blockquote>
-</li>
-
-<li><p>Modify 23.3.4 <a href="https://wg21.link/string.view.comparison">[string.view.comparison]</a> as indicated:</p>
-
-<blockquote>
-<p>
-<del>-1- Let <code>S</code> be <code>basic_string_view&lt;charT, traits&gt;</code>, and <code>sv</code> be an instance of <code>S</code>. 
-Implementations shall provide sufficient additional overloads marked <code>constexpr</code> and <code>noexcept</code> so that an 
-object <code>t</code> with an implicit conversion to <code>S</code> can be compared according to Table 81 
-[tab:string.view.comparison.overloads].</del>
-</p>
-
-<table border="1">
-<caption><del>Table 81: Additional <code>basic_string_view</code> comparison overloads [tab:string.view.comparison.overloads]</del></caption>
-<tr>
-<th align="center"><del>Expression</del></th>
-<th align="center"><del>Equivalent to</del></th>
-</tr>
-
-<tr>
-<td><del>
-<code>t == sv</code>
-</del></td>
-<td><del>
-<code>S(t) == sv</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>sv == t</code>
-</del></td>
-<td><del>
-<code>sv == S(t)</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>t != sv</code>
-</del></td>
-<td><del>
-<code>S(t) != sv</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>sv != t</code>
-</del></td>
-<td><del>
-<code>sv != S(t)</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>t &lt; sv</code>
-</del></td>
-<td><del>
-<code>S(t) &lt; sv</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>sv &lt; t</code>
-</del></td>
-<td><del>
-<code>sv &lt; S(t)</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>t &gt; sv</code>
-</del></td>
-<td><del>
-<code>S(t) &gt; sv</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>sv &gt; t</code>
-</del></td>
-<td><del>
-<code>sv &gt; S(t)</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>t &lt;= sv</code>
-</del></td>
-<td><del>
-<code>S(t) &lt;= sv</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>sv &lt;= t</code>
-</del></td>
-<td><del>
-<code>sv &lt;= S(t)</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>t &gt;= sv</code>
-</del></td>
-<td><del>
-<code>S(t) &gt;= sv</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>sv &gt;= t</code>
-</del></td>
-<td><del>
-<code>sv &gt;= S(t)</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>t &lt;=&gt; sv</code>
-</del></td>
-<td><del>
-<code>S(t) &lt;=&gt; sv</code>
-</del></td>
-</tr>
-
-<tr>
-<td><del>
-<code>sv &lt;=&gt; t</code>
-</del></td>
-<td><del>
-<code>sv &lt;=&gt; S(t)</code>
-</del></td>
-</tr>
-
-</table>
-<p>
-<del>[<i>Example 1</i>: A sample conforming implementation for <code>operator==</code> would be:</del>
-</p>
-<blockquote><pre>
-<del>template&lt;class charT, class traits&gt;
-  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
-                            basic_string_view&lt;charT, traits&gt; rhs) noexcept {
-    return lhs.compare(rhs) == 0;
-  }
-template&lt;class charT, class traits&gt;
-  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
-                            type_identity_t&lt;basic_string_view&lt;charT, traits&gt;&gt; rhs) noexcept {
-    return lhs.compare(rhs) == 0;
-  }</del>
-</pre></blockquote>
-<p>
-<del>&mdash; <i>end example</i>]</del>
-</p>
-<pre>
-template&lt;class charT, class traits&gt;
-  constexpr bool operator==(basic_string_view&lt;charT, traits&gt; lhs,
-                            <ins>type_identity_t&lt;</ins>basic_string_view&lt;charT, traits&gt;<ins>&gt;</ins> rhs) noexcept;
-
-</pre>
-<blockquote>
-<p>
--2- <i>Returns:</i> <code>lhs.compare(rhs) == 0</code>.
-</p>
-</blockquote>
-<pre>
-template&lt;class charT, class traits&gt;
-  constexpr <i>see below</i> operator&lt;=&gt;(basic_string_view&lt;charT, traits&gt; lhs,
-                                  <ins>type_identity_t&lt;</ins>basic_string_view&lt;charT, traits&gt;<ins>&gt;</ins> rhs) noexcept;
-</pre>
-<blockquote>
-<p>
--3- Let <code>R</code> denote the type <code>traits::comparison_category</code> if that <i>qualified-id</i> is valid and denotes a
-type (13.10.3 <a href="https://wg21.link/temp.deduct">[temp.deduct]</a>), otherwise <code>R</code> is <code>weak_ordering</code>.
-<p/>
--4- <i>Mandates</i>: <code>R</code> denotes a comparison category type (17.11.2 <a href="https://wg21.link/cmp.categories">[cmp.categories]</a>).
-<p/>
--5- <i>Returns</i>: <code>static_cast&lt;R&gt;(lhs.compare(rhs) &lt;=&gt; 0)</code>.
-<p/>
-<ins> [<i>Note</i>: The usage of <code>type_identity_t</code> as parameter ensures that an object of type 
-<code>basic_string_view&lt;charT, traits&gt;</code> can always be compared with an object of a type <code>T</code> 
-with an implicit conversion to <code>basic_string_view&lt;charT, traits&gt;</code>, and vice versa, as per 
-12.2.2.3 <a href="https://wg21.link/over.match.oper">[over.match.oper]</a>. &mdash; <i>end note</i>]</ins>
-</p>
-</blockquote>
-</blockquote>
-
-</li>
-
-</ol>
-
-
-
-
-
-<hr>
-<h3 id="3975"><a href="#3975">3975</a><sup><a href="https://cplusplus.github.io/LWG/issue3975">(i)</a></sup>. Specializations of <code>basic_format_context</code> should not be permitted</h3>
-<p><b>Section:</b> 22.14.6.6 <a href="https://wg21.link/format.context">[format.context]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Brian Bi <b>Opened:</b> 2023-08-13 <b>Last modified:</b> 2023-11-07</p>
+<h3 id="3918"><a href="#3918">3918</a><sup><a href="https://cplusplus.github.io/LWG/issue3918">(i)</a></sup>. <code>std::uninitialized_move/_n</code> and guaranteed copy elision</h3>
+<p><b>Section:</b> 27.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-04-04 <b>Last modified:</b> 2024-06-26</p>
 <p><b>Priority: </b>3
 </p>
-<p><b>View all other</b> <a href="lwg-index.html#format.context">issues</a> in [format.context].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The current wording allows users to specialize <code>std::basic_format_context</code>. However, an implementation is not 
-likely to accept a program that uses the library in a way that would instantiate such a specialization, because 
-22.14.6.6 <a href="https://wg21.link/format.context">[format.context]</a> does not provide a complete description of the interface that such a specialization 
-would need to have (e.g., it does not provide a means to initialize the exposition-only <code>args_</code> member). Since the 
-library was not designed to be able to work with user specializations of <code>std::basic_format_context</code>, declaring 
-such specializations should be explicitly disallowed.
+Currently <code>std::move</code> is unconditionally used in <code>std::uninitialized_move</code> and <code>std::uninitialized_move_n</code>, 
+which may involve unnecessary move construction if dereferencing the input iterator yields a prvalue.
+<p/>
+The status quo was mentioned in <a href="https://github.com/cplusplus/papers/issues/975#issuecomment-990323753">paper issue #975</a>, 
+but no further process is done since then.
+</p>
+
+<p><i>[2023-06-01; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll. Send to LEWG.
+</p>
+<p>
+"<a href="https://wg21.link/P2283" title=" constexpr for specialized memory algorithms">P2283</a> wants to remove guaranteed elision here."
+"Poorly motivated, not clear anybody is using these algos with proxy iterators."
+"Consider using <code>iter_move</code> in the move algos."
 </p>
 
 <p><strong>Previous resolution [SUPERSEDED]:</strong></p>
 <blockquote class="note">
 
 <p>
-This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
+This wording is relative to <a href="https://wg21.link/N4944" title=" Working Draft, Standard for Programming Language C++">N4944</a>.
 </p>
 
 <ol>
-
-<li><p>Modify the 22.14.6.6 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
+<li>
+<p>Modify 27.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> as indicated:</p>
 
 <blockquote>
 <p>
--1- An instance of <code>basic_format_context</code> holds formatting state consisting of the formatting arguments and
-the output iterator.
-<p/>
-<ins>-?- The behavior of a program that adds specializations of <code>basic_format_context</code> is undefined.</ins>
-<p/>
--2- <code>Out</code> shall model <code>output_iterator&lt;const charT&amp;&gt;</code>.
+-3- Some algorithms specified in 27.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> make use of the <ins>following</ins> exposition-only 
+function<ins>s</ins> <del><code><i>voidify</i></code></del>:
 </p>
+<blockquote><pre>
+template&lt;class T&gt;
+  constexpr void* <i>voidify</i>(T&amp; obj) noexcept {
+    return addressof(obj);
+  }
+  
+<ins>template&lt;class I&gt;
+  decltype(auto) <i>deref-move</i>(const I&amp; it) {
+    if constexpr (is_lvalue_reference_v&lt;decltype(*it)&gt;)
+      return std::move(*it);
+    else
+      return *it;
+  }</ins>
+</pre></blockquote>
 </blockquote>
+</li>
 
+<li>
+<p>Modify 27.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class InputIterator, class NoThrowForwardIterator&gt;
+  NoThrowForwardIterator uninitialized_move(InputIterator first, InputIterator last,
+                                            NoThrowForwardIterator result);
+</pre>
+<blockquote>
+<p>
+-1- <i>Preconditions</i>: <code>result + [0, (last - first))</code> does not overlap with <code>[first, last)</code>.
+<p/>
+-2- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+for (; first != last; (void)++result, ++first)
+  ::new (<i>voidify</i>(*result))
+    typename iterator_traits&lt;NoThrowForwardIterator&gt;::value_type(<del>std::move(*</del><ins><i>deref-move</i>(</ins>first));
+return result;
+</pre></blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class InputIterator, class Size, class NoThrowForwardIterator&gt;
+  pair&lt;InputIterator, NoThrowForwardIterator&gt;
+    uninitialized_move_n(InputIterator first, Size n, NoThrowForwardIterator result);
+</pre>
+<blockquote>
+<p>
+-6- <i>Preconditions</i>: <code>result + [0, n)</code> does not overlap with <code>first + [0, n)</code>.
+<p/>
+-7- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+for (; n &gt; 0; ++result,(void) ++first, --n)
+  ::new (<i>voidify</i>(*result))
+    typename iterator_traits&lt;NoThrowForwardIterator&gt;::value_type(<del>std::move(*</del><ins><i>deref-move</i>(</ins>first));
+return {first, result};
+</pre></blockquote>
+</blockquote>
+</blockquote>
 </li>
 </ol>
 </blockquote>
 
-<p><i>[2023-09-23; Daniel comments and provides improved wording]</i></p>
+<p><i>[2024-03-22; Tokyo: Jonathan updates wording after LEWG review]</i></p>
 
 <p>
-During the reflector discussion, Dietmar pointed out that the constraint can in principle be checked statically (e.g. when the 
-Library creates or refers to an instantiation of <code>basic_format_context</code>), so we can reduce the rather draconian consequence of
-"undefined behaviour" to "ill-formed, no diagnostics required". Furthermore, the new wording also adds the same constraint to
-<code>basic_format_parse_context</code> as suggested by Tim. This is needed, since only one public constructor is specified, but
-that specification does not allow to construct an object a non-zero <code>num_args_</code> or with the type information necessary 
-for the <code>check_dynamic_spec*</code> functions, so the library has an unspecified way to realize this.
+LEWG agrees it would be good to do this.
+Using <code class='backtick'>iter_move</code> was discussed, but it was noted that the versions of these
+algos in the <code class='backtick'>ranges</code> namespace already use it and introducing
+<code class='backtick'>ranges::iter_move</code> into the non-ranges versions wasn't desirable.
+It was observed that the proposed <em>deref-move</em> has a
+<code>const I&amp;</code> parameter which would be ill-formed for any iterator
+with a non-const <code class='backtick'>operator*</code> member. Suggested removing the const and
+recommended LWG to accept the proposed resolution.
 </p>
 
-<p><i>[2023-10-30; Reflector poll]</i></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4971" title=" Working Draft, Programming Languages — C++">N4971</a>.
+</p>
+
+<ol>
+<li>
+<p>Modify 27.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- Some algorithms specified in 27.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> make use of the <ins>following</ins> exposition-only 
+function<ins>s</ins> <del><code><i>voidify</i></code></del>:
+</p>
+<blockquote><pre>
+template&lt;class T&gt;
+  constexpr void* <i>voidify</i>(T&amp; obj) noexcept {
+    return addressof(obj);
+  }
+  
+<ins>template&lt;class I&gt;
+  decltype(auto) <i>deref-move</i>(I&amp; it) {
+    if constexpr (is_lvalue_reference_v&lt;decltype(*it)&gt;)
+      return std::move(*it);
+    else
+      return *it;
+  }</ins>
+</pre></blockquote>
+</blockquote>
+</li>
+
+<li>
+<p>Modify 27.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class InputIterator, class NoThrowForwardIterator&gt;
+  NoThrowForwardIterator uninitialized_move(InputIterator first, InputIterator last,
+                                            NoThrowForwardIterator result);
+</pre>
+<blockquote>
+<p>
+-1- <i>Preconditions</i>: <code>result + [0, (last - first))</code> does not overlap with <code>[first, last)</code>.
+<p/>
+-2- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+for (; first != last; (void)++result, ++first)
+  ::new (<i>voidify</i>(*result))
+    typename iterator_traits&lt;NoThrowForwardIterator&gt;::value_type(<del>std::move(*</del><ins><i>deref-move</i>(</ins>first));
+return result;
+</pre></blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class InputIterator, class Size, class NoThrowForwardIterator&gt;
+  pair&lt;InputIterator, NoThrowForwardIterator&gt;
+    uninitialized_move_n(InputIterator first, Size n, NoThrowForwardIterator result);
+</pre>
+<blockquote>
+<p>
+-6- <i>Preconditions</i>: <code>result + [0, n)</code> does not overlap with <code>first + [0, n)</code>.
+<p/>
+-7- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+for (; n &gt; 0; ++result,(void) ++first, --n)
+  ::new (<i>voidify</i>(*result))
+    typename iterator_traits&lt;NoThrowForwardIterator&gt;::value_type(<del>std::move(*</del><ins><i>deref-move</i>(</ins>first));
+return {first, result};
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[St. Louis 2024-06-24; revert P/R and move to Ready]</i></p>
+
+<p>
+Tim observed that the iterator requirements require all iterators to be
+const-dereferenceable, so there was no reason to remove the const.
+Restore the original resolution and move to Ready.
+</p>
+
+
+
+<p id="res-3918"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4971" title=" Working Draft, Programming Languages — C++">N4971</a>.
+</p>
+
+<ol>
+<li>
+<p>Modify 27.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- Some algorithms specified in 27.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> make use of the <ins>following</ins> exposition-only 
+function<ins>s</ins> <del><code><i>voidify</i></code></del>:
+</p>
+<blockquote><pre>
+template&lt;class T&gt;
+  constexpr void* <i>voidify</i>(T&amp; obj) noexcept {
+    return addressof(obj);
+  }
+
+<ins>template&lt;class I&gt;
+  decltype(auto) <i>deref-move</i>(I&amp; it) {
+    if constexpr (is_lvalue_reference_v&lt;decltype(*it)&gt;)
+      return std::move(*it);
+    else
+      return *it;
+  }</ins>
+</pre></blockquote>
+</blockquote>
+</li>
+
+<li>
+<p>Modify 27.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class InputIterator, class NoThrowForwardIterator&gt;
+  NoThrowForwardIterator uninitialized_move(InputIterator first, InputIterator last,
+                                            NoThrowForwardIterator result);
+</pre>
+<blockquote>
+<p>
+-1- <i>Preconditions</i>: <code>result + [0, (last - first))</code> does not overlap with <code>[first, last)</code>.
+<p/>
+-2- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+for (; first != last; (void)++result, ++first)
+  ::new (<i>voidify</i>(*result))
+    typename iterator_traits&lt;NoThrowForwardIterator&gt;::value_type(<del>std::move(*</del><ins><i>deref-move</i>(</ins>first));
+return result;
+</pre></blockquote>
+</blockquote>
+[&hellip;]
+<pre>
+template&lt;class InputIterator, class Size, class NoThrowForwardIterator&gt;
+  pair&lt;InputIterator, NoThrowForwardIterator&gt;
+    uninitialized_move_n(InputIterator first, Size n, NoThrowForwardIterator result);
+</pre>
+<blockquote>
+<p>
+-6- <i>Preconditions</i>: <code>result + [0, n)</code> does not overlap with <code>first + [0, n)</code>.
+<p/>
+-7- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+for (; n &gt; 0; ++result,(void) ++first, --n)
+  ::new (<i>voidify</i>(*result))
+    typename iterator_traits&lt;NoThrowForwardIterator&gt;::value_type(<del>std::move(*</del><ins><i>deref-move</i>(</ins>first));
+return {first, result};
+</pre></blockquote>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4024"><a href="#4024">4024</a><sup><a href="https://cplusplus.github.io/LWG/issue4024">(i)</a></sup>. Underspecified destruction of objects created in <code>std::make_shared_for_overwrite/std::allocate_shared_for_overwrite</code></h3>
+<p><b>Section:</b> 20.3.2.2.7 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-12-16 <b>Last modified:</b> 2024-08-21</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#util.smartptr.shared.create">active issues</a> in [util.smartptr.shared.create].</p>
+<p><b>View all other</b> <a href="lwg-index.html#util.smartptr.shared.create">issues</a> in [util.smartptr.shared.create].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, only destructions of non-array (sub)objects created in <code>std::make_shared</code> and <code>std::allocate_shared</code> 
+are specified in 20.3.2.2.7 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a>. Presumably, objects created in 
+<code>std::make_shared_for_overwrite</code> and <code>std::allocate_shared_for_overwrite</code> should be destroyed by plain 
+destructor calls.
+</p>
+
+<p><i>[2024-03-11; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll in December 2023.
+</p>
+<p>
+This was the <a href="https://wg21.link/P1020R1" title=" Smart pointer creation with default initialization">P1020R1</a> author's intent (see LWG reflector mail
+in November 2018) but it was never clarified in the wording. This fixes that.
+</p>
+
+<p><i>[2024-08-21; Move to Ready at LWG telecon]</i></p>
+
+
+
+
+<p id="res-4024"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4964" title=" Working Draft, Programming Languages — C++">N4964</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 20.3.2.2.7 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T, ...&gt;
+  shared_ptr&lt;T&gt; make_shared(<i>args</i>);
+template&lt;class T, class A, ...&gt;
+  shared_ptr&lt;T&gt; allocate_shared(const A&amp; a, <i>args</i>);
+template&lt;class T, ...&gt;
+  shared_ptr&lt;T&gt; make_shared_for_overwrite(<i>args</i>);
+template&lt;class T, class A, ...&gt;
+  shared_ptr&lt;T&gt; allocate_shared_for_overwrite(const A&amp; a, <i>args</i>);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-7- <i>Remarks:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p>[&hellip;]</p></li>
+<li><p>(7.11) &mdash; When a (sub)object of non-array type <code>U</code> that was initialized by 
+<code>make_shared</code><ins>, <code>make_shared_for_overwrite</code>, or <code>allocate_shared_for_overwrite</code></ins> 
+is to be destroyed, it is destroyed via the expression <code>pv-&gt;~U()</code> where <code>pv</code> points to that 
+object of type <code>U</code>.</p></li>
+<li><p>[&hellip;]</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+
+
+<hr>
+<h3 id="4027"><a href="#4027">4027</a><sup><a href="https://cplusplus.github.io/LWG/issue4027">(i)</a></sup>. <code><i>possibly-const-range</i></code> should prefer returning <code>const R&amp;</code></h3>
+<p><b>Section:</b> 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-12-17 <b>Last modified:</b> 2024-06-28</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#ranges.syn">active issues</a> in [ranges.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#ranges.syn">issues</a> in [ranges.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<code><i>possibly-const-range</i></code> currently only returns <code>const R&amp;</code> when <code>R</code> does not 
+satisfy <code>constant_range</code> and <code>const R</code> satisfies <code>constant_range</code>.
+<p/>
+Although it's not clear why we need the former condition, this does diverge from the legacy <code>std::cbegin</code> 
+(<a href="https://godbolt.org/z/636osY7os">demo</a>):
+</p>
+<blockquote><pre>
+#include &lt;ranges&gt;
+
+int main() {
+  auto r = std::views::single(0)
+        | std::views::transform([](int) { return 0; });
+  using C1 = decltype(std::ranges::cbegin(r));
+  using C2 = decltype(std::cbegin(r));
+  static_assert(std::same_as&lt;C1, C2&gt;); // <span style="color:red;font-weight:bolder">failed</span>
+}
+</pre></blockquote>
+<p>
+Since <code>R</code> itself is <code>constant_range</code>, so <code><i>possibly-const-range</i></code>, above just returns 
+<code>R&amp;</code> and <code>C1</code> is <code>transform_view::<i>iterator</i>&lt;false&gt;</code>; <code>std::cbegin</code> 
+specifies to return <code>as_const(r).begin()</code>, which makes that <code>C2</code> is 
+<code>transform_view::<i>iterator</i>&lt;true&gt;</code> which is different from <code>C1</code>.
+<p/>
+I believe <code>const R&amp;</code> should always be returned if it's a range, regardless of whether <code>const R</code> 
+or <code>R</code> is a <code>constant_range</code>, just as <code><i>fmt-maybe-const</i></code> in format ranges always prefers 
+<code>const R</code> over <code>R</code>.
+<p/>
+Although it is theoretically possible for <code>R</code> to satisfy <code>constant_range</code> and that <code>const R</code> 
+is a mutable range, such nonsense range type should not be of interest.
+<p/>
+This relaxation of constraints allows for maximum consistency with <code>std::cbegin</code>, and in some cases can 
+preserve constness to the greatest extent (<a href="https://godbolt.org/z/3hYToMq35">demo</a>):
+</p>
+<blockquote><pre>
+#include &lt;ranges&gt;
+
+int main() {
+  auto r = std::views::single(0) | std::views::lazy_split(0);
+  (*std::ranges::cbegin(r)).front() = 42; // ok
+  (*std::cbegin(r)).front() = 42; // <span style="color:red;font-weight:bolder">not ok</span>
+}
+</pre></blockquote>
+<p>
+Above, <code>*std::ranges::cbegin</code> returns a range of type <code>const lazy_split_view::<i>outer-iterator</i>&lt;false&gt;::value_type</code>, 
+which does not satisfy <code>constant_range</code> because its reference type is <code>int&amp;</code>.
+<p/>
+However, <code>*std::cbegin(r)</code> returns <code>lazy_split_view::<i>outer-iterator</i>&lt;true&gt;::value_type</code> 
+whose reference type is <code>const int&amp;</code> and satisfies <code>constant_range</code>.
+</p>
+
+<p><i>[2024-03-11; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll. Send to SG9.
+</p>
+
+<p><i>[St. Louis 2024-06-28; LWG and SG9 joint session: move to Ready]</i></p>
+
+
+
+
+<p id="res-4027"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4971" title=" Working Draft, Programming Languages — C++">N4971</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <code>&lt;ranges&gt;</code> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+#include &lt;compare&gt;              // <i>see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
+#include &lt;initializer_list&gt;     // <i>see 17.10.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
+#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
+
+namespace std::ranges {
+  [&hellip;]
+
+  // <i>26.7.22 <a href="https://wg21.link/range.as.const">[range.as.const]</a>, as const view</i>
+  template&lt;input_range R&gt;
+    constexpr auto&amp; <i>possibly-const-range</i>(R&amp; r) noexcept { // <i>exposition only</i>
+      if constexpr (<ins>input</ins><del>constant</del>_range&lt;const R&gt;<del> &amp;&amp; !constant_range&lt;R&gt;</del>) {
+        return const_cast&lt;const R&amp;&gt;(r);
+      } else {
+        return r;
+      }
+    }
+
+  [&hellip;]
+}
+</pre>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+
+
+<hr>
+<h3 id="4044"><a href="#4044">4044</a><sup><a href="https://cplusplus.github.io/LWG/issue4044">(i)</a></sup>. Confusing requirements for <code>std::print</code> on POSIX platforms</h3>
+<p><b>Section:</b> 31.7.10 <a href="https://wg21.link/print.fun">[print.fun]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-01-24 <b>Last modified:</b> 2024-06-24</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#print.fun">active issues</a> in [print.fun].</p>
+<p><b>View all other</b> <a href="lwg-index.html#print.fun">issues</a> in [print.fun].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The effects for <code>vprintf_unicode</code> say:
+</p>
+
+<blockquote>
+<p>
+If <code>stream</code> refers to a terminal capable of displaying Unicode,
+writes <code>out</code> to the terminal using the native Unicode API;
+if <code>out</code> contains invalid code units, the behavior is undefined
+and implementations are encouraged to diagnose it.
+Otherwise writes <code>out</code> to <code>stream</code> unchanged.
+If the native Unicode API is used, the function flushes <code>stream</code>
+before writing <code>out</code>.
+</p>
+<p>
+[<i>Note 1</i>:
+On POSIX and Windows, <code>stream</code> referring to a terminal means that,
+respectively, <code>isatty(fileno(stream))</code> and
+<code>GetConsoleMode(_get_osfhandle(_fileno(stream)), ...)</code>
+return nonzero.
+&mdash; <i>end note</i>]
+</p>
+<p>
+[<i>Note 2</i>:
+On Windows, the native Unicode API is <code>WriteConsoleW</code>.
+&mdash; <i>end note</i>]
+</p>
+<p>-8-
+<i>Throws</i>:  [...]
+</p>
+<p>-9-
+<i>Recommended practice</i>:
+If invoking the native Unicode API requires transcoding, implementations
+should substitute invalid code units with
+<span style="font-variant: small-caps">u+fffd replacement character</span>
+per the Unicode Standard, Chapter 3.9
+<span style="font-variant: small-caps">u+fffd</span> Substitution in Conversion.
+</p>
+</blockquote>
+
+<p>
+The very explicit mention of <code>isatty</code> for POSIX platforms has
+confused at least two implementers into thinking that we're supposed to
+use <code>isatty</code>, and supposed to do something differently based
+on what it returns. That seems consistent with the nearly identical wording
+in 22.14.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> paragraph 12, which says
+"Implementations should use either UTF-8, UTF-16, or UTF-32,
+on platforms <u>capable of displaying Unicode text in a terminal</u>"
+and then has a note explicitly saying this is the case for Windows-based and
+many POSIX-based operating systems. So it seems clear that POSIX platforms
+are supposed to be considered to have "a terminal capable of displaying
+Unicode text", and so <code>std::print</code> should use <code>isatty</code>
+and then use a native Unicode API, and diagnose invalid code units.
+</p>
+<p>
+This is a problem however, because <code>isatty</code> needs
+to make a system call on Linux, adding 500ns to every <code>std::print</code>
+call. This results in a 10x slowdown on Linux, where <code>std::print</code>
+can take just 60ns without the <code>isatty</code> check.
+</p>
+<p>
+From discussions with Tom Honermann I learned that the "native Unicode API"
+wording is only relevant on Windows. This makes sense, because for POSIX
+platforms, writing to a terminal is done using the usual stdio functions,
+so there's no need to treat a terminal differently to any other file stream.
+And substitution of invalid code units with
+<span style="font-variant: small-caps">u+fffd</span>
+is recommended for Windows because that's what typical modern terminals do on
+POSIX platforms, so requiring the implementation to do that on Windows gives
+consistent behaviour. But the implementation doesn't need to do anything to
+make that happen with a POSIX terminal, it happens anyway.
+So the <code>isatty</code> check is unnecessary for POSIX platforms,
+and the note mentioning it just causes confusion and has no benefit.
+</p>
+
+<p>
+Secondly, there initially seems to be a contradiction between the 
+"implementations are encouraged to diagnose it" wording and the later
+<i>Recommended practice</i>. In fact, there's no contradiction because
+the native Unicode API might accept UTF-8 and therefore require no
+transcoding, and so the <i>Recommended practice</i> wouldn't apply.
+The intention is that diagnosing invalid UTF-8 is still desirable in this case,
+but how should it be diagnosed? By writing an error to the terminal alongside
+the formatted string?
+Or by substituting <span style="font-variant: small-caps">u+fffd</span> maybe?
+If the latter is the intention, why is one suggestion in the middle of the
+<i>Effects</i>, and one given as <i>Recommended practice</i>?
+</p>
+
+<p>
+The proposed resolution attempts to clarify that a "native Unicode API"
+is only needed if that's how you display Unicode on the terminal.
+It also moves the flushing requirement to be adjacent to the other
+requirements for systems using a native Unicode API instead of on its own
+later in the paragraph.
+And the suggestion to diagnose invalid code units is moved into the
+<i>Recommended practice</i> and clarified that it's only relevant if
+using a native Unicode API. I'm still not entirely happy with encouragement
+to diagnose invalid code units without giving any clue as to how that should
+be done. What does it mean to diagnose something at runtime? That's novel
+for the C++ standard. The way it's currently phrased seems to imply something
+other than <span style="font-variant: small-caps">u+fffd</span> substitution
+should be done, although that seems the most obvious implementation to me.
+</p>
+
+
+<p><i>[2024-03-12; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll and send to SG16.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4971" title=" Working Draft, Programming Languages — C++">N4971</a>.
+</p>
+
+<ol>
+<li><p>Modify 31.7.6.3.5 <a href="https://wg21.link/ostream.formatted.print">[ostream.formatted.print]</a> as indicated:</p>
+<blockquote>
+<pre>
+void vprint_unicode(ostream&amp; os, string_view fmt, format_args args);
+void vprint_nonunicode(ostream&amp; os, string_view fmt, format_args args);
+</pre>
+<p>-3-
+<i>Effects</i>:
+Behaves as a formatted output function
+(31.7.6.3.1 <a href="https://wg21.link/ostream.formatted.reqmts">[ostream.formatted.reqmts]</a>)
+of <code>os</code>, except that:
+<ol style="list-style-type: none">
+<li>(3.1) &ndash;
+failure to generate output is reported as specified below, and
+</li>
+<li>(3.2) &ndash;
+any exception thrown by the call to <code>vformat</code> is propagated without
+regard to the value of <code>os.exceptions()</code> and without turning on
+<code>ios_base::badbit</code> in the error state of <code>os</code>.
+</li>
+</ol>
+</p>
+<p>
+After constructing a <code>sentry</code> object,
+the function initializes an automatic variable via
+<pre><code>  string out = vformat(os.getloc(), fmt, args); </code></pre>
+If the function is <code>vprint_unicode</code>
+and <code>os</code> is a stream that
+refers to a terminal capable of displaying Unicode
+<ins>via a native Unicode API,</ins>
+which is determined in an implementation-defined manner,
+<ins>flushes <code>os</code> and then</ins>
+writes <code>out</code> to the terminal using the native Unicode API;
+if <code>out</code> contains invalid code units, the behavior is undefined
+<del>and implementations are encouraged to diagnose it</del>.
+<del>
+If the native Unicode API is used, the function flushes <code>os</code>
+before writing <code>out</code>.
+</del>
+Otherwise, (if <code>os</code> is not such a stream or the function is
+<code>vprint_nonunicode</code>), inserts the character sequence
+[<code>out.begin()</code>,<code>out.end()</code>) into <code>os</code>.
+If writing to the terminal or inserting into <code>os</code> fails, calls
+<code>os.setstate(ios_base::badbit)</code>
+(which may throw <code>ios_base::failure</code>).
+</p>
+<p>-4-
+<i>Recommended practice</i>:
+For <code>vprint_unicode</code>,
+if invoking the native Unicode API requires transcoding, implementations
+should substitute invalid code units with
+<span style="font-variant: small-caps">u+fffd replacement character</span>
+per the Unicode Standard, Chapter 3.9
+<span style="font-variant: small-caps">u+fffd</span> Substitution in Conversion.
+<ins>
+If invoking the native Unicode API  does not require transcoding,
+implementations are encouraged to diagnose invalid code units.
+</ins>
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 31.7.10 <a href="https://wg21.link/print.fun">[print.fun]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+void vprint_unicode(FILE* stream, string_view fmt, format_args args);
+</pre>
+<p>-6-
+<i>Preconditions</i>:
+<code>stream</code> is a valid pointer to an output C stream.
+</p>
+<p>-7-
+<i>Effects</i>:
+The function initializes an automatic variable via
+<pre><code>  string out = vformat(fmt, args); </code></pre>
+If <code>stream</code> refers to a terminal capable of displaying Unicode
+<ins>via a native Unicode API</ins>,
+<ins>flushes <code>stream</code> and then</ins>
+writes <code>out</code> to the terminal using the native Unicode API;
+if <code>out</code> contains invalid code units, the behavior is undefined
+<del>and implementations are encouraged to diagnose it</del>.
+Otherwise writes <code>out</code> to <code>stream</code> unchanged.
+<del>
+If the native Unicode API is used, the function flushes <code>stream</code>
+before writing <code>out</code>.
+</del>
+</p>
+<p>
+[<i>Note 1</i>:
+On <del>POSIX and</del> Windows<del>,</del>
+<ins>the native Unicode API is <code>WriteConsoleW</code> and</ins>
+<code>stream</code> referring to a terminal means that<del>,
+respectively, <code>isatty(fileno(stream))</code> and</del>
+<code>GetConsoleMode(_get_osfhandle(_fileno(stream)), ...)</code>
+return nonzero.
+&mdash; <i>end note</i>]
+</p>
+<p>
+<del>
+[<i>Note 2</i>:
+On Windows, the native Unicode API is <code>WriteConsoleW</code>.
+&mdash; <i>end note</i>]
+</del>
+</p>
+<p>-8-
+<i>Throws</i>:  [...]
+</p>
+<p>-9-
+<i>Recommended practice</i>:
+If invoking the native Unicode API requires transcoding, implementations
+should substitute invalid code units with
+<span style="font-variant: small-caps">u+fffd replacement character</span>
+per the Unicode Standard, Chapter 3.9
+<span style="font-variant: small-caps">u+fffd</span> Substitution in Conversion.
+<ins>
+If invoking the native Unicode API  does not require transcoding,
+implementations are encouraged to diagnose invalid code units.
+</ins>
+</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2024-03-12; Jonathan updates wording based on SG16 feedback]</i></p>
+
+<p>
+SG16 reviewed the issue and approved the proposed resolution with
+the wording about diagnosing invalid code units removed.
+</p>
+<p>
+SG16 favors removing the following text (both occurrences) from the proposed
+wording. This is motivated by a lack of understanding regarding what it means
+to diagnose such invalid code unit sequences given that the input is likely
+provided at run-time.
+
+<blockquote>
+If invoking the native Unicode API does not require transcoding, implementations are encouraged to diagnose invalid code units.
+</blockquote>
+</p>
+
+<p>
+Some concern was expressed regarding how the current wording is structured.
+At present, the wording leads with a Windows centric perspective;
+if the stream refers to a terminal ... use the native Unicode API ...
+otherwise write code units to the stream.
+It might be an improvement to structure the wording such that use of the native
+Unicode API is presented as a fallback for implementations that require its use
+when writing directly to the stream is not sufficient to produce desired
+results. In other words, the wording should permit direct writing to the stream
+even when the stream is directed to a terminal and a native Unicode API is
+available when the implementation has reason to believe that doing so will
+produce the correct results. For example, Microsoft's HoloLens has a Windows
+based operating system, but it only supports use of UTF-8 as the system code
+page and therefore would not require the native Unicode API bypass;
+implementations for it could avoid the overhead of checking to see if the
+stream is directed to a console.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4971" title=" Working Draft, Programming Languages — C++">N4971</a>.
+</p>
+
+<ol>
+<li><p>Modify 31.7.6.3.5 <a href="https://wg21.link/ostream.formatted.print">[ostream.formatted.print]</a> as indicated:</p>
+<blockquote>
+<pre>
+void vprint_unicode(ostream&amp; os, string_view fmt, format_args args);
+void vprint_nonunicode(ostream&amp; os, string_view fmt, format_args args);
+</pre>
+<p>-3-
+<i>Effects</i>:
+Behaves as a formatted output function
+(31.7.6.3.1 <a href="https://wg21.link/ostream.formatted.reqmts">[ostream.formatted.reqmts]</a>)
+of <code>os</code>, except that:
+<ol style="list-style-type: none">
+<li>(3.1) &ndash;
+failure to generate output is reported as specified below, and
+</li>
+<li>(3.2) &ndash;
+any exception thrown by the call to <code>vformat</code> is propagated without
+regard to the value of <code>os.exceptions()</code> and without turning on
+<code>ios_base::badbit</code> in the error state of <code>os</code>.
+</li>
+</ol>
+</p>
+<p>
+After constructing a <code>sentry</code> object,
+the function initializes an automatic variable via
+<pre><code>  string out = vformat(os.getloc(), fmt, args); </code></pre>
+If the function is <code>vprint_unicode</code>
+and <code>os</code> is a stream that
+refers to a terminal <ins>that is only</ins> capable of displaying Unicode
+<ins>via a native Unicode API,</ins>
+which is determined in an implementation-defined manner,
+<ins>flushes <code>os</code> and then</ins>
+writes <code>out</code> to the terminal using the native Unicode API;
+if <code>out</code> contains invalid code units, the behavior is undefined
+<del>and implementations are encouraged to diagnose it</del>.
+<del>
+If the native Unicode API is used, the function flushes <code>os</code>
+before writing <code>out</code>.
+</del>
+Otherwise, (if <code>os</code> is not such a stream or the function is
+<code>vprint_nonunicode</code>), inserts the character sequence
+[<code>out.begin()</code>,<code>out.end()</code>) into <code>os</code>.
+If writing to the terminal or inserting into <code>os</code> fails, calls
+<code>os.setstate(ios_base::badbit)</code>
+(which may throw <code>ios_base::failure</code>).
+</p>
+<p>-4-
+<i>Recommended practice</i>:
+For <code>vprint_unicode</code>,
+if invoking the native Unicode API requires transcoding, implementations
+should substitute invalid code units with
+<span style="font-variant: small-caps">u+fffd replacement character</span>
+per the Unicode Standard, Chapter 3.9
+<span style="font-variant: small-caps">u+fffd</span> Substitution in Conversion.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 31.7.10 <a href="https://wg21.link/print.fun">[print.fun]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+void vprint_unicode(FILE* stream, string_view fmt, format_args args);
+</pre>
+<p>-6-
+<i>Preconditions</i>:
+<code>stream</code> is a valid pointer to an output C stream.
+</p>
+<p>-7-
+<i>Effects</i>:
+The function initializes an automatic variable via
+<pre><code>  string out = vformat(fmt, args); </code></pre>
+If <code>stream</code> refers to a terminal <ins>that is only</ins>
+capable of displaying Unicode
+<ins>via a native Unicode API</ins>,
+<ins>flushes <code>stream</code> and then</ins>
+writes <code>out</code> to the terminal using the native Unicode API;
+if <code>out</code> contains invalid code units, the behavior is undefined
+<del>and implementations are encouraged to diagnose it</del>.
+Otherwise writes <code>out</code> to <code>stream</code> unchanged.
+<del>
+If the native Unicode API is used, the function flushes <code>stream</code>
+before writing <code>out</code>.
+</del>
+</p>
+<p>
+[<i>Note 1</i>:
+On <del>POSIX and</del> Windows<del>,</del>
+<ins>the native Unicode API is <code>WriteConsoleW</code> and</ins>
+<code>stream</code> referring to a terminal means that<del>,
+respectively, <code>isatty(fileno(stream))</code> and</del>
+<code>GetConsoleMode(_get_osfhandle(_fileno(stream)), ...)</code>
+return nonzero.
+&mdash; <i>end note</i>]
+</p>
+<p>
+<del>
+[<i>Note 2</i>:
+On Windows, the native Unicode API is <code>WriteConsoleW</code>.
+&mdash; <i>end note</i>]
+</del>
+</p>
+<p>-8-
+<i>Throws</i>:  [...]
+</p>
+<p>-9-
+<i>Recommended practice</i>:
+If invoking the native Unicode API requires transcoding, implementations
+should substitute invalid code units with
+<span style="font-variant: small-caps">u+fffd replacement character</span>
+per the Unicode Standard, Chapter 3.9
+<span style="font-variant: small-caps">u+fffd</span> Substitution in Conversion.
+</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2024-03-19; Tokyo: Jonathan updates wording after LWG review]</i></p>
+
+<p>
+Split the <em>Effects</em>: into separate bullets for the "native Unicode API"
+and "otherwise" cases. Remove the now-redundant "if <code class='backtick'>os</code> is not such a stream"
+parenthesis.
+</p>
+
+<p><i>[St. Louis 2024-06-24; move to Ready.]</i></p>
+
+
+
+<p id="res-4044"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4971" title=" Working Draft, Programming Languages — C++">N4971</a>.
+</p>
+
+<ol>
+<li><p>Modify 31.7.6.3.5 <a href="https://wg21.link/ostream.formatted.print">[ostream.formatted.print]</a> as indicated:</p>
+<blockquote>
+<pre>
+void vprint_unicode(ostream&amp; os, string_view fmt, format_args args);
+void vprint_nonunicode(ostream&amp; os, string_view fmt, format_args args);
+</pre>
+<p>-3-
+<i>Effects</i>:
+Behaves as a formatted output function
+(31.7.6.3.1 <a href="https://wg21.link/ostream.formatted.reqmts">[ostream.formatted.reqmts]</a>)
+of <code>os</code>, except that:
+<ol style="list-style-type: none">
+<li>(3.1) &ndash;
+failure to generate output is reported as specified below, and
+</li>
+<li>(3.2) &ndash;
+any exception thrown by the call to <code>vformat</code> is propagated without
+regard to the value of <code>os.exceptions()</code> and without turning on
+<code>ios_base::badbit</code> in the error state of <code>os</code>.
+</li>
+</ol>
+</p>
+
+<p>
+<ins>-?-</ins>
+After constructing a <code>sentry</code> object,
+the function initializes an automatic variable via
+<pre><code>  string out = vformat(os.getloc(), fmt, args); </code></pre>
+<ol style="list-style-type: none">
+<li><ins>(?.1) &ndash; </ins>
+If the function is <code>vprint_unicode</code>
+and <code>os</code> is a stream that
+refers to a terminal <ins>that is only</ins> capable of displaying Unicode
+<ins>via a native Unicode API,</ins>
+which is determined in an implementation-defined manner,
+<ins>flushes <code>os</code> and then</ins>
+writes <code>out</code> to the terminal using the native Unicode API;
+if <code>out</code> contains invalid code units, the behavior is undefined
+<del>and implementations are encouraged to diagnose it.</del>
+<del>
+If the native Unicode API is used, the function flushes <code>os</code>
+before writing <code>out</code></del>.
+</li>
+<li><ins>(?.2) &ndash; </ins>
+Otherwise,
+<del>
+(if <code>os</code> is not such a stream or the function is
+<code>vprint_nonunicode</code>),
+</del>
+inserts the character sequence
+[<code>out.begin()</code>,<code>out.end()</code>) into <code>os</code>.
+</li>
+</ol>
+</p>
+<p>
+<ins>-?-</ins>
+If writing to the terminal or inserting into <code>os</code> fails, calls
+<code>os.setstate(ios_base::badbit)</code>
+(which may throw <code>ios_base::failure</code>).
+</p>
+<p>-4-
+<i>Recommended practice</i>:
+For <code>vprint_unicode</code>,
+if invoking the native Unicode API requires transcoding, implementations
+should substitute invalid code units with
+<span style="font-variant: small-caps">u+fffd replacement character</span>
+per the Unicode Standard, Chapter 3.9
+<span style="font-variant: small-caps">u+fffd</span> Substitution in Conversion.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 31.7.10 <a href="https://wg21.link/print.fun">[print.fun]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+void vprint_unicode(FILE* stream, string_view fmt, format_args args);
+</pre>
+<p>-6-
+<i>Preconditions</i>:
+<code>stream</code> is a valid pointer to an output C stream.
+</p>
+<p>-7-
+<i>Effects</i>:
+The function initializes an automatic variable via
+<pre><code>  string out = vformat(fmt, args); </code></pre>
+<ol style="list-style-type: none">
+<li><ins>(7.1) &ndash; </ins>
+If <code>stream</code> refers to a terminal <ins>that is only</ins>
+capable of displaying Unicode
+<ins>via a native Unicode API</ins>,
+<ins>flushes <code>stream</code> and then</ins>
+writes <code>out</code> to the terminal using the native Unicode API;
+if <code>out</code> contains invalid code units, the behavior is undefined
+<del>and implementations are encouraged to diagnose it</del>.
+</li>
+<li><ins>(7.2) &ndash; </ins>
+Otherwise writes <code>out</code> to <code>stream</code> unchanged.
+</li>
+</ol>
+</p>
+<p>
+<del>
+If the native Unicode API is used, the function flushes <code>stream</code>
+before writing <code>out</code>.
+</del>
+</p>
+<p>
+[<i>Note 1</i>:
+On <del>POSIX and</del> Windows<del>,</del>
+<ins>the native Unicode API is <code>WriteConsoleW</code> and</ins>
+<code>stream</code> referring to a terminal means that<del>,
+respectively, <code>isatty(fileno(stream))</code> and</del>
+<code>GetConsoleMode(_get_osfhandle(_fileno(stream)), ...)</code>
+return<ins>s</ins> nonzero.
+&mdash; <i>end note</i>]
+</p>
+<p>
+<del>
+[<i>Note 2</i>:
+On Windows, the native Unicode API is <code>WriteConsoleW</code>.
+&mdash; <i>end note</i>]
+</del>
+</p>
+<p>-8-
+<i>Throws</i>:  [...]
+</p>
+<p>-9-
+<i>Recommended practice</i>:
+If invoking the native Unicode API requires transcoding, implementations
+should substitute invalid code units with
+<span style="font-variant: small-caps">u+fffd replacement character</span>
+per the Unicode Standard, Chapter 3.9
+<span style="font-variant: small-caps">u+fffd</span> Substitution in Conversion.
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="4064"><a href="#4064">4064</a><sup><a href="https://cplusplus.github.io/LWG/issue4064">(i)</a></sup>. Clarify that <code>std::launder</code> is not needed when using the result of <code>std::memcpy</code></h3>
+<p><b>Section:</b> 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jan Schultke <b>Opened:</b> 2024-04-05 <b>Last modified:</b> 2024-06-28</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<blockquote><pre>
+int x = 0;
+alignas(int) std::byte y[sizeof(int)];
+int z = *static_cast&lt;int*&gt;(std::memcpy(y, &amp;x, sizeof(int)));
+</pre></blockquote>
+<p>
+This example should be well-defined, even without the use of <code>std::launder</code>.
+<code>std::memcpy</code> implicitly creates an <code>int</code> inside <code>y</code>, and 
+<a href="https://www.iso-9899.info/n3047.html#7.26.2.1p3">https://www.iso-9899.info/n3047.html#7.26.2.1p3</a> 
+states that
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<p>
+The <code>memcpy</code> function returns the value of [the destination operand].
+</p>
+</blockquote>
+<p>
+In conjunction with 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> p3, this presumably means that <code>std::memcpy</code> 
+returns a pointer to the (first) implicitly-created object, and no use of <code>std::launder</code> 
+is necessary.
+<p/>
+The wording should be clarified to clearly support this interpretation or reject it.
+</p>
+
+<p><i>[2024-06-24; Reflector poll]</i></p>
 
 <p>
 Set priority to 3 after reflector poll.
 </p>
 
-<p><i>[Kona 2023-11-07; move to Ready]</i></p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 
-
-
-
-<p id="res-3975"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
+This wording is relative to <a href="https://wg21.link/N4971" title=" Working Draft, Programming Languages — C++">N4971</a>.
 </p>
+
+<ol>
+<li><p>Modify 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3- The functions <code>memcpy</code> and <code>memmove</code> are signal-safe (17.13.5 <a href="https://wg21.link/support.signal">[support.signal]</a>). 
+Both functions implicitly create objects (6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>) in the destination region of 
+storage immediately prior to copying the sequence of characters to the destination. <ins>Both functions 
+return a pointer to a suitable created object.</ins>
+</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[St. Louis 2024-06-26; CWG suggested improved wording]</i></p>
+
+<p><i>[St. Louis 2024-06-28; LWG: move to Ready]</i></p>
+
+
+
+
+<p id="res-4064"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+</p>
+
+<ol>
+<li><p>Modify 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-3-
+The functions <code>memcpy</code> and <code>memmove</code> are signal-safe
+(17.13.5 <a href="https://wg21.link/support.signal">[support.signal]</a>).
+<del>Both</del> <ins>Each of these</ins> functions implicitly
+<del>create</del> <ins>creates</ins> objects (6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>)
+in the destination region of storage immediately prior to copying
+the sequence of characters to the destination.
+<ins>Each of these functions returns a pointer to a suitable created object,
+if any, otherwise the value of the first parameter.</ins>
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4072"><a href="#4072">4072</a><sup><a href="https://cplusplus.github.io/LWG/issue4072">(i)</a></sup>. <code class='backtick'>std::optional</code> comparisons: constrain harder</h3>
+<p><b>Section:</b> 22.5.8 <a href="https://wg21.link/optional.comp.with.t">[optional.comp.with.t]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-04-19 <b>Last modified:</b> 2024-08-21</p>
+<p><b>Priority: </b>1
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#optional.comp.with.t">issues</a> in [optional.comp.with.t].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<a href="https://wg21.link/P2944R3" title=" Comparisons for reference_wrapper">P2944R3</a> added constraints to <code class='backtick'>std::optional</code>'s comparisons, e.g.
+</p>
+<blockquote>
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator==(const optional&lt;T&gt;&amp; x, const optional&lt;U&gt;&amp; y);
+</code></pre>
+-1- <em><del>Mandates</del><ins>Constraints</ins></em>:
+The expression <code class='backtick'>*x == *y</code> is well-formed and its result is convertible to <code class='backtick'>bool</code>.
+<p> &hellip; </p>
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator==(const optional&lt;T&gt;&amp; x, const U&amp; v);
+</code></pre>
+-1- <em><del>Mandates</del><ins>Constraints</ins></em>:
+The expression <code class='backtick'>*x == v</code> is well-formed and its result is convertible to <code class='backtick'>bool</code>.
+</blockquote>
+
+<p>
+But I don't think the constraint on the second one (the "compare with value")
+is correct. If we try to compare two optionals that can't be compared,
+such as <code>optional&lt;void*&gt;</code> and <code>optional&lt;int&gt;</code>,
+then the first overload is not valid due to the new constraints, and so does
+not participate in overload resolution.  But that means we now consider the
+second overload, but that's ambiguous. We could either use
+<code>operator==&lt;void*, optional&lt;int&gt;&gt;</code> or we could use
+<code>operator==&lt;optional&lt;void*&gt;, int&gt;</code> with the arguments
+reversed (using the C++20 default comparison rules).
+We never even get as far as checking the new constraints on those overloads,
+because they're simply ambiguous.
+</p>
+<p>
+Before <a href="https://wg21.link/P2944R3" title=" Comparisons for reference_wrapper">P2944R3</a> overload resolution always would have selected
+the first overload, for comparing two optionals. But because that is now
+constrained away, we consider an overload that should never be used for
+comparing two optionals. The solution is to add an additional constraint
+to the "compare with value" overloads so that they won't be used when the
+"value" is really another optional.
+</p>
+
+<p>
+A similar change was made to <code class='backtick'>optional</code>'s <code>operator&lt;=&gt;</code> by
+LWG <a href="lwg-defects.html#3566" title="Constraint recursion for operator&lt;=&gt;(optional&lt;T&gt;, U) (Status: C++23)">3566</a>, and modified by LWG <a href="lwg-defects.html#3746" title="optional's spaceship with U with a type derived from optional 
+causes infinite constraint meta-recursion (Status: C++23)">3746</a>.
+I haven't analyzed whether we need the modification here too.
+</p>
+
+<p>
+The proposed resolution (without <em><code class='backtick'>is-derived-from-optional</code></em>)
+has been implemented and tested in libstdc++.
+</p>
+
+<p><i>[2024-06-24; Reflector poll]</i></p>
+
+<p>
+Set priority to 1 after reflector poll.
+LWG <a href="lwg-defects.html#3746" title="optional's spaceship with U with a type derived from optional 
+causes infinite constraint meta-recursion (Status: C++23)">3746</a> changes might be needed here too,
+i.e, consider types derived from <code class='backtick'>optional</code>, not only <code class='backtick'>optional</code> itself.
+</p>
+
+<p><i>[2024-08-21; Move to Ready at LWG telecon]</i></p>
+
+
+
+
+<p id="res-4072"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.5.8 <a href="https://wg21.link/optional.comp.with.t">[optional.comp.with.t]</a> as indicated:</p>
+
+<blockquote>
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator==(const optional&lt;T&gt;&amp; x, const U&amp; v);
+</code></pre>
+<p>-1-
+<em>Constraints</em>:
+<ins><code class='backtick'>U</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>*x == v</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator==(const T&amp; v, const optional&lt;U&gt;&amp; x);
+</code></pre>
+<p>-3-
+<em>Constraints</em>:
+<ins><code class='backtick'>T</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>v == *x</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator!=(const optional&lt;T&gt;&amp; x, const U&amp; v);
+</code></pre>
+<p>-5-
+<em>Constraints</em>:
+<ins><code class='backtick'>U</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>*x != v</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator!=(const T&amp; v, const optional&lt;U&gt;&amp; x);
+</code></pre>
+<p>-7-
+<em>Constraints</em>:
+<ins><code class='backtick'>T</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>v != *x</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator&lt;(const optional&lt;T&gt;&amp; x, const U&amp; v);
+</code></pre>
+<p>-9-
+<em>Constraints</em>:
+<ins><code class='backtick'>U</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>*x &lt; v</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator&lt;(const T&amp; v, const optional&lt;U&gt;&amp; x);
+</code></pre>
+<p>-11-
+<em>Constraints</em>:
+<ins><code class='backtick'>T</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>v &lt; *x</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator&gt;(const optional&lt;T&gt;&amp; x, const U&amp; v);
+</code></pre>
+<p>-13-
+<em>Constraints</em>:
+<ins><code class='backtick'>U</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>*x &gt; v</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator&gt;(const T&amp; v, const optional&lt;U&gt;&amp; x);
+</code></pre>
+<p>-15-
+<em>Constraints</em>:
+<ins><code class='backtick'>T</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>v &gt; *x</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator&lt;=(const optional&lt;T&gt;&amp; x, const U&amp; v);
+</code></pre>
+<p>-17-
+<em>Constraints</em>:
+<ins><code class='backtick'>U</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>*x &lt;= v</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator&lt;=(const T&amp; v, const optional&lt;U&gt;&amp; x);
+</code></pre>
+<p>-19-
+<em>Constraints</em>:
+<ins><code class='backtick'>T</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>v &lt;= *x</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator&gt;=(const optional&lt;T&gt;&amp; x, const U&amp; v);
+</code></pre>
+<p>-21-
+<em>Constraints</em>:
+<ins><code class='backtick'>U</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code class='backtick'>*x &amp;gt;= v</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+
+<pre><code>
+template&lt;class T, class U&gt; constexpr bool operator&gt;=(const T&amp; v, const optional&lt;U&gt;&amp; x);
+</code></pre>
+<p>-23-
+<em>Constraints</em>:
+<ins><code class='backtick'>T</code> is not a specialization of <code class='backtick'>optional</code>.</ins>
+The expression <code>v &gt;= *x</code> is well-formed
+and its result is convertible to <code class='backtick'>bool</code>.
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4112"><a href="#4112">4112</a><sup><a href="https://cplusplus.github.io/LWG/issue4112">(i)</a></sup>. <code><i>has-arrow</i></code> should required <code>operator-&gt;()</code> to be <code>const</code>-qualified</h3>
+<p><b>Section:</b> 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-06-22 <b>Last modified:</b> 2024-06-24</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The helper concept <code><i>has-arrow</i></code> in 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> does not 
+require that <code>I::operator-&gt;()</code> be <code>const</code>-qualified, which is inconsistent with 
+the constraints on <code>reverse_iterator</code> and <code>common_iterator</code>'s <code>operator-&gt;()</code> 
+as the latter two both require the underlying iterator has <code>const operator-&gt;()</code> member.
+<p/>
+We should enhance the semantics of <code><i>has-arrow</i></code> so that
+<i>implicit expression variations</i> (18.2 <a href="https://wg21.link/concepts.equality">[concepts.equality]</a>)
+prohibit silly games.
+</p>
+
+<p><i>[St. Louis 2024-06-24; move to Ready]</i></p>
+
+
+
+
+<p id="res-4112"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+[&hellip;]
+
+template&lt;class I&gt;
+  concept <i>has-arrow</i> =                                       // <i>exposition only</i>
+    input_iterator&lt;I&gt; &amp;&amp; (is_pointer_v&lt;I&gt; || requires(<ins>const</ins> I i) { i.operator-&gt;(); });
+
+[&hellip;]
+</pre>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4113"><a href="#4113">4113</a><sup><a href="https://cplusplus.github.io/LWG/issue4113">(i)</a></sup>. Disallow <code>has_unique_object_representations&lt;Incomplete[]&gt;</code></h3>
+<p><b>Section:</b> 21.3.5.4 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-06-25 <b>Last modified:</b> 2024-08-02</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#meta.unary.prop">active issues</a> in [meta.unary.prop].</p>
+<p><b>View all other</b> <a href="lwg-index.html#meta.unary.prop">issues</a> in [meta.unary.prop].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The type completeness requirements for <code class='backtick'>has_unique_object_representations</code> say:
+<blockquote>
+<code class='backtick'>T</code> shall be a complete type, <i>cv</i> <code class='backtick'>void</code>, or an array of unknown bound.
+</blockquote>
+</p>
+<p>
+This implies that the trait works for all arrays of unknown bound,
+whether the element type is complete or not. That seems to be incorrect,
+because <code>has_unique_object_representations_v&lt;Incomplete[]&gt;</code>
+is required to have the same result as
+<code>has_unique_object_representations_v&lt;Incomplete&gt;</code>
+which is ill-formed if <code class='backtick'>Incomplete</code> is an incomplete class type.
+</p>
+
+<p>
+I think we need the element type to be complete to be able to give an answer.
+Alternatively, if the intended result for an array of unknown bound is false
+(maybe because there can be no objects of type <code class='backtick'>T[]</code>, or because we can't
+know that two objects declared as <code class='backtick'>extern T a[];</code> and <code class='backtick'>extern T b[];</code> have
+the same number of elements?) then the condition for the trait needs to be
+special-cased as <code class='backtick'>false</code> for arrays of unknown bound.
+The current spec is inconsistent, we can't allow arrays of unknown bound
+and apply the current rules to determine the trait's result.
+</p>
+
+<p><i>[2024-08-02; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after nine votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4113"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+</p>
+
+<ol>
+<li><p>Modify 21.3.5.4 <a href="https://wg21.link/meta.unary.prop">[meta.unary.prop]</a> as indicated:</p>
+
+<blockquote>
+<table style="border: 1px solid; border-spacing: 1.5em">
+<thead style="text-align: center">
+<tr><th>Template</th><th>Condition</th><th>Preconditions</th></tr>
+</thead>
+<tbody style="vertical-align: top">
+<tr><td>&hellip;</td><td>&hellip;</td><td>&hellip;</td></tr>
+<tr>
+<td>
+<pre><code>template&lt;class T&gt;
+struct has_unique_object_representations;</code></pre>
+</td>
+<td>
+For an array type <code class='backtick'>T</code>, the same result as
+<code>has_unique_object_representations_v&lt;remove_all_extents_t&lt;T&gt;&gt;</code>,
+otherwise <i>see below</i>.
+</td>
+<td>
+<ins><code>remove_all_extents_t&lt;T&gt;</code></ins>
+<del><code>T</code></del>
+shall be a complete type<del>,</del>
+<ins>or</ins> <i>cv</i> <code class='backtick'>void</code><del>, or an array of unknown bound</del>.
+</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<blockquote class="note">
+<p>
+[<i>Drafting note</i>: We could use <code>remove_extent_t&lt;T&gt;</code>
+to remove just the first array dimension, because only that first one can
+have an unknown bound.
+The proposed resolution uses <code>remove_all_extents_t&lt;T&gt;</code>
+for consistency with the <b>Condition</b> column.]
+</p>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4119"><a href="#4119">4119</a><sup><a href="https://cplusplus.github.io/LWG/issue4119">(i)</a></sup>. <code>generator::promise_type::yield_value(ranges::elements_of&lt;R, Alloc&gt;)</code>'s nested <code>generator</code> may be ill-formed</h3>
+<p><b>Section:</b> 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-07-11 <b>Last modified:</b> 2024-08-02</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#coro.generator.promise">active issues</a> in [coro.generator.promise].</p>
+<p><b>View all other</b> <a href="lwg-index.html#coro.generator.promise">issues</a> in [coro.generator.promise].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The nested coroutine is specified to return <code>generator&lt;yielded, ranges::range_value_t&lt;R&gt;, Alloc&gt;</code> 
+which can be problematic as the value type of <code>R</code> is really irrelevant to <code>yielded</code>, 
+unnecessarily violating the <code>generator</code>'s <i>Mandates</i> (<a href="https://godbolt.org/z/PzGP3G7rr">demo</a>):
+</p>
+<blockquote><pre>
+#include &lt;generator&gt;
+#include &lt;vector&gt;
+
+std::generator&lt;std::span&lt;int&gt;&gt; f() {
+  std::vector&lt;int&gt; v;
+  co_yield v; // ok
+}
+
+std::generator&lt;std::span&lt;int&gt;&gt; g() {
+  std::vector&lt;std::vector&lt;int&gt;&gt; v;
+  co_yield std::ranges::elements_of(v); // <span style="color:red;font-weight:bolder">hard error</span>
+}
+</pre></blockquote>
+<p>
+This proposed resolution is to change the second template parameter from <code>range_value_t&lt;R&gt;</code> 
+to <code>void</code> since that type doesn't matter to us.
+</p>
+
+<p><i>[2024-08-02; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after five votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4119"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4986" title=" Working Draft, Programming Languages — C++">N4986</a>.
+</p>
+<ol>
+<li><p>Modify 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;ranges::input_range R, class Alloc&gt;
+  requires convertible_to&lt;ranges::range_reference_t&lt;R&gt;, yielded&gt;
+  auto yield_value(ranges::elements_of&lt;R, Alloc&gt; r);
+</pre>
+<blockquote>
+<p>
+-13- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote><pre>
+auto nested = [](allocator_arg_t, Alloc, ranges::iterator_t&lt;R&gt; i, ranges::sentinel_t&lt;R&gt; s)
+  -&gt; generator&lt;yielded, <del>ranges::range_value_t&lt;R&gt;</del><ins>void</ins>, Alloc&gt; {
+    for (; i != s; ++i) {
+      co_yield static_cast&lt;yielded&gt;(*i);
+    }
+  };
+return yield_value(ranges::elements_of(nested(
+  allocator_arg, r.allocator, ranges::begin(r.range), ranges::end(r.range))));
+</pre></blockquote>
+[&hellip;]
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4124"><a href="#4124">4124</a><sup><a href="https://cplusplus.github.io/LWG/issue4124">(i)</a></sup>. Cannot format <code class='backtick'>zoned_time</code> with resolution coarser than seconds</h3>
+<p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-07-26 <b>Last modified:</b> 2024-08-02</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#time.format">active issues</a> in [time.format].</p>
+<p><b>View all other</b> <a href="lwg-index.html#time.format">issues</a> in [time.format].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The
+<code>std::formatter&lt;std::chrono::zoned_time&lt;Duration, TimeZonePtr&gt;&gt;</code>
+specialization calls <code class='backtick'>tp.get_local_time()</code> for the object it passes to its
+base class' <code class='backtick'>format</code> function. But <code class='backtick'>get_local_time()</code> does not return a
+<code>local_time&lt;Duration&gt;</code>, it returns
+<code>local_time&lt;common_type_t&lt;Duration, seconds&gt;&gt;</code>.
+The base class' <code class='backtick'>format</code> function is only defined for
+<code>local_time&lt;Duration&gt;</code>.
+That means this is ill-formed, even though the static assert passes:
+<pre><code>using namespace std::chrono;
+  static_assert( std::formattable&lt;zoned_time&lt;minutes&gt;, char&gt; );
+  zoned_time&lt;minutes&gt; zt;
+  (void) std::format("{}", zt); // error: cannot convert local_time&lt;seconds&gt; to local_time&lt;minutes&gt;
+</code></pre>
+</p>
+
+<p>
+Additionally, it's not specified what output you should get for:
+<pre><code><code class='backtick'>std::format("{}", local_time_format(zt.get_local_time()));</code>
+</code></pre>
+29.12 <a href="https://wg21.link/time.format">[time.format]</a> p7 says it's formatted as if by streaming to an
+<code class='backtick'>ostringstream</code>,
+but there is no <code>operator&lt;&lt;</code> for <i><code class='backtick'>local-time-format-t</code></i>.
+Presumably it should give the same result as <code>operator&lt;&lt;</code> for 
+a <code class='backtick'>zoned_time</code>, i.e. <code class='backtick'>"{:L%F %T %Z}"</code> with padding adjustments etc.
+</p>
+<p>
+The proposed resolution below has been implemented in libstdc++.
+</p>
+
+<p><i>[2024-08-02; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4124"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4986" title=" Working Draft, Programming Languages — C++">N4986</a>.
+</p>
+
+<ol>
+<li><p>Modify 29.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;classDuration, class charT&gt;
+  struct formatter&lt;chrono::<i>local-time-format-t</i>&lt;Duration&gt;, charT&gt;;
+</pre>
+<p>-17-
+Let <code class='backtick'>f</code> be a <code><i>locale-time-format-t</i>&lt;Duration&gt;</code> object
+passed to <code class='backtick'>formatter::format</code>.
+</p>
+<p>-18- <i>Remarks</i>:
+<ins>If the <i>chrono-specs</i> is omitted, the result is equivalent to
+using <code class='backtick'>%F %T %Z</code> as the <i>chrono-specs</i>.</ins>
+If <code class='backtick'>%Z</code> is used,
+it is replaced with <code class='backtick'>*f.abbrev</code> if <code class='backtick'>f.abbrev</code> is not a null pointer value.
+If <code class='backtick'>%Z</code> is used and <code class='backtick'>f.abbrev</code> is a null pointer value,
+an exception of type <code class='backtick'>format_error</code> is thrown.
+If <code class='backtick'>%z</code> (or a modified variant of <code class='backtick'>%z</code>) is used,
+it is formatted with the value of <code class='backtick'>*f.offset_sec</code> if <code class='backtick'>f.offset_sec</code> is
+not a null pointer value.
+If <code class='backtick'>%z</code> (or a modified variant of <code class='backtick'>%z</code>) is used and <code class='backtick'>f.offset_sec</code>
+is a null pointer value, then an exception of type <code class='backtick'>format_error</code> is thrown.
+</p>
+<pre>
+  template&lt;class Duration, class TimeZonePtr, class charT&gt;
+  struct formatter&lt;chrono::zoned_time&lt;Duration, TimeZonePtr&gt;, charT&gt;
+      : formatter&lt;chrono::<i>local-time-format-t</i>&lt;<ins>common_type_t&lt;</ins>Duration<ins>, seconds&gt;</ins>&gt;, charT&gt; {
+    template&lt;class FormatContext&gt;
+      typename FormatContext::iterator
+      format(const chrono::zoned_time&lt;Duration, TimeZonePtr&gt;&amp; tp, FormatContext&amp; ctx) const;
+  };
+</pre>
+<pre>
+template&lt;class FormatContext&gt;
+  typename FormatContext::iterator
+    format(const chrono::zoned_time&lt;Duration, TimeZonePtr&gt;&amp; tp, FormatContext&amp; ctx) const;
+</pre>
+<p>-19- <i>Effects</i>: Equivalent to:
+<blockquote>
+<pre>
+sys_info info = tp.get_info();
+return formatter&lt;chrono::<i>local-time-format-t</i>&lt;<ins>common_type_t&lt;</ins>Duration<ins>, seconds&gt;</ins>&gt;, charT&gt;::
+         format({tp.get_local_time(), &amp;info.abbrev, &amp;info.offset}, ctx);
+</pre>
+</blockquote>
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4126"><a href="#4126">4126</a><sup><a href="https://cplusplus.github.io/LWG/issue4126">(i)</a></sup>. Some feature-test macros for fully freestanding features are not yet marked freestanding</h3>
+<p><b>Section:</b> 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-07-24 <b>Last modified:</b> 2024-08-02</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#version.syn">active issues</a> in [version.syn].</p>
+<p><b>View all other</b> <a href="lwg-index.html#version.syn">issues</a> in [version.syn].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently (<a href="https://wg21.link/N4986" title=" Working Draft, Programming Languages — C++">N4986</a>), it's a bit weird in 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> that some feature-test
+macros are not marked freestanding, despite the indicated features being fully freestanding. The 
+freestanding status seems sometimes implicitly covered by "also in" headers that are mostly or all 
+freestanding, but sometimes not.
+<p/>
+I think it's more consistent to ensure feature-test macros for fully freestanding features are also freestanding.
+</p>
+
+<p><i>[2024-08-02; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 and set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4126"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4986" title=" Working Draft, Programming Languages — C++">N4986</a>.
+</p>
+
+<ol>
+<li><p>Modify 17.3.2 <a href="https://wg21.link/version.syn">[version.syn]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>
-[<i>Drafting note:</i> The suggested wording form is borrowed from exactly the same wording form used for <code>allocator_traits</code>.]
+[<i>Drafting note</i>:  <code>&lt;charconv&gt;</code> is not fully freestanding, but all functions made <code>constexpr</code> 
+by <a href="https://wg21.link/P2291R3" title=" Add Constexpr Modifiers to Functions to_chars and from_chars for Integral Types in Header">P2291R3</a> are furtherly made freestanding by <a href="https://wg21.link/P2338R4" title=" Freestanding Library: Character primitives and the C library">P2338R4</a>. ]
 </p>
 </blockquote>
 
-<ol>
-
-<li><p>Modify 22.14.6.6 <a href="https://wg21.link/format.context">[format.context]</a> as indicated:</p>
-
 <blockquote>
-<p>
--1- An instance of <code>basic_format_context</code> holds formatting state consisting of the formatting arguments and
-the output iterator.
-<p/>
-<ins>-?- If a program declares an explicit or partial specialization of <code>basic_format_context</code>, the program is ill-formed,
-no diagnostic required.</ins>
-<p/>
--2- <code>Out</code> shall model <code>output_iterator&lt;const charT&amp;&gt;</code>.
-</p>
+<pre>
+[&hellip;]
+#define __cpp_lib_common_reference                  202302L // <i><ins>freestanding,</ins> also in</i> &lt;type_traits&gt;
+#define __cpp_lib_common_reference_wrapper          202302L // <i><ins>freestanding,</ins> also in</i> &lt;functional&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_constexpr_charconv                202207L // <i><ins>freestanding,</ins> also in</i> &lt;charconv&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_coroutine                         201902L // <i><ins>freestanding,</ins> also in</i> &lt;coroutine&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_is_implicit_lifetime              202302L // <i><ins>freestanding,</ins> also in</i> &lt;type_traits&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_is_virtual_base_of                202406L // <i><ins>freestanding,</ins> also in</i> &lt;type_traits&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_is_within_lifetime                202306L // <i><ins>freestanding,</ins> also in</i> &lt;type_traits&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_mdspan                            202406L // <i><ins>freestanding,</ins> also in</i> &lt;mdspan&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_ratio                             202306L // <i><ins>freestanding,</ins> also in</i> &lt;ratio&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_span_initializer_list             202311L // <i><ins>freestanding,</ins> also in</i> &lt;span&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_submdspan                         202403L // <i><ins>freestanding,</ins> also in</i> &lt;mdspan&gt;
+[&hellip;]                                                                              
+#define __cpp_lib_to_array                          201907L // <i><ins>freestanding,</ins> also in</i> &lt;array&gt;
+[&hellip;]
+</pre>
 </blockquote>
 
 </li>
 
-<li><p>Modify 22.14.6.5 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> as indicated:</p>
-
-<blockquote>
-<p>
--1- An instance of <code>basic_format_parse_context</code> holds the format string parsing state consisting of the format
-string range being parsed and the argument counter for automatic indexing.
-<p/>
-<ins>-?- If a program declares an explicit or partial specialization of <code>basic_format_parse_context</code>, the program is ill-formed,
-no diagnostic required.</ins>
-</p>
-</blockquote>
-
-</li>
 </ol>
 
 
@@ -909,213 +2379,337 @@ no diagnostic required.</ins>
 
 
 <hr>
-<h3 id="3984"><a href="#3984">3984</a><sup><a href="https://cplusplus.github.io/LWG/issue3984">(i)</a></sup>. <code>ranges::to</code>'s recursion branch may be ill-formed</h3>
-<p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-08-23 <b>Last modified:</b> 2023-11-07</p>
-<p><b>Priority: </b>3
+<h3 id="4134"><a href="#4134">4134</a><sup><a href="https://cplusplus.github.io/LWG/issue4134">(i)</a></sup>. Issue with Philox algorithm specification</h3>
+<p><b>Section:</b> 28.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Ilya A. Burylov <b>Opened:</b> 2024-08-06 <b>Last modified:</b> 2024-08-21</p>
+<p><b>Priority: </b>1
 </p>
-<p><b>View other</b> <a href="lwg-index-open.html#range.utility.conv.to">active issues</a> in [range.utility.conv.to].</p>
-<p><b>View all other</b> <a href="lwg-index.html#range.utility.conv.to">issues</a> in [range.utility.conv.to].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-When <code>r</code> is a nested range, <code>ranges::to</code> constructs the object recursively through <code>r | views::transform(...)</code>.
+The <a href="https://wg21.link/P2075R6" title=" Philox as an extension of the C++ RNG engines">P2075R6</a> proposal introduced the Philox engine and described the algorithm closely 
+following the <a href="https://www.thesalmons.org/john/random123/papers/random123sc11.pdf">original paper</a> 
+(further Random123sc11).
 <p/>
-However, the expression is ill-formed when the type of lvalue <code>r</code> does not model <code>viewable_range</code> 
-(<a href="https://godbolt.org/z/98rxGz73Y">demo</a>):
+Matt Stephanson implemented P2075R6 and the 10000'th number did not match. Further investigation revealed 
+several places in Random123sc11 algorithm description, which either deviate from the reference implementation 
+written by Random123sc11 authors or loosely defined, which opens the way for different interpretations.
+<p/>
+All major implementations of the Philox algorithm (NumPy, Intel MKL, Nvidia cuRAND, etc.) match the 
+reference implementation written by Random123sc11 authors and we propose to align wording with that.
+<p/>
+The rationale of proposed changes:
+</p>
+<ol>
+<li><p>Random123sc11 refers to the permutation step as "the inputs are permuted using the Threefish 
+N-word P-box", thus the P2075R6 permutation table ([tab:rand.eng.philox.f]) is taken from 
+Threefish algorithm. But the permutation for N=4 in this table does not match the reference 
+implementations. It's worth noting that while Random123sc11 described the Philox algorithm for N=8 
+and N=16, there are no known reference implementations of it either provided by authors or 
+implemented by other libraries. We proposed to drop N=8 and N=16 for now and update 
+the permutation indices for N=4 to match the reference implementation. Note: the proposed resolution 
+allows extending N &gt; 4 cases in the future.</p></li>
+<li><p>The original paper describes the S-box update for X values in terms of <code>L'</code> and 
+<code>R'</code> but does not clarify their ordering as part of the counter. In order to match Random123sc11 
+reference implementation the ordering should be swapped.</p></li>
+<li><p>Philox alias templates should be updated, because the current ordering of constants matches the 
+specific optimization in the reference Random123sc11 implementation and not the generic algorithm 
+description.</p></li>
+</ol>
+<p>
+All proposed modifications below are confirmed by:
+</p>
+<ul>
+<li><p>Philox algorithm coauthor Mark Moraes who is planning to publish errata for the original Random123sc11 
+Philox paper.</p></li>
+<li><p>Matt Stephanson, who originally found the mismatch in P2075R6</p></li>
+<li><p>The <a href="https://github.com/rarutyun/iso_cpp_papers/blob/main/rng/philox/philox.hpp">updated 
+reference implementation</a>.</p></li>
+</ul>
+
+<p><i>[2024-08-21; Reflector poll]</i></p>
+
+<p>
+Set priority to 1 after reflector poll.
+</p>
+
+<p><i>[2024-08-21; Move to Ready at LWG telecon]</i></p>
+
+
+
+
+<p id="res-4134"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988">N4988</a>.
+</p>
+
+<ol>
+<li><p>Modify 28.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a>, [tab:rand.eng.philox.f] as indicated (This effectively reduces
+16 data columns to 4 data columns and 4 data rows to 2 data rows):</p>
+
+<blockquote>
+<table border="1">
+<caption>Table 101 &mdash; Values for the word permutation <i>f</i><sub><i>n</i></sub>(<i>j</i>) [tab:rand.eng.philox.f]</caption>
+<tr>
+  <th rowspan="2" colspan="2"><i>f</i><sub><i>n</i></sub>(<i>j</i>)</th>
+  <th colspan="16" align="center"><code><i>j</i></code></th>
+</tr>
+<tr>
+  <th>0</th>
+  <th>1</th>
+  <th>2</th>
+  <th>3</th>
+  <th><del>4</del></th>
+  <th><del>5</del></th>
+  <th><del>6</del></th>
+  <th><del>7</del></th>
+  <th><del>8</del></th>
+  <th><del>9</del></th>
+  <th><del>10</del></th>
+  <th><del>11</del></th>
+  <th><del>12</del></th>
+  <th><del>13</del></th>
+  <th><del>14</del></th>
+  <th><del>15</del></th>
+</tr>
+
+<tr>
+  <th rowspan="5"><i>n</i></th>
+</tr>
+<tr>
+  <th>2</th>
+    <td>0</td>
+    <td>1</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+  <th>4</th>
+    <td><ins>2</ins><del>0</del></td>
+    <td><ins>1</ins><del>3</del></td>
+    <td><ins>0</ins><del>2</del></td>
+    <td><ins>3</ins><del>1</del></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+  <th><del>8</del></th>
+    <td><del>2</del></td>
+    <td><del>1</del></td>
+    <td><del>4</del></td>
+    <td><del>7</del></td>
+    <td><del>6</del></td>
+    <td><del>5</del></td>
+    <td><del>0</del></td>
+    <td><del>3</del></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>  
+  <th><del>16</del></th>
+    <td><del>0</del></td>
+    <td><del>9</del></td>
+    <td><del>2</del></td>
+    <td><del>13</del></td>
+    <td><del>6</del></td>
+    <td><del>11</del></td>
+    <td><del>4</del></td>
+    <td><del>15</del></td>
+    <td><del>10</del></td>
+    <td><del>7</del></td>
+    <td><del>12</del></td>
+    <td><del>3</del></td>
+    <td><del>14</del></td>
+    <td><del>5</del></td>
+    <td><del>8</del></td>
+    <td><del>1</del></td>
+</tr>
+</table> 
+
+</blockquote>
+</li>
+
+<li><p>Modify 28.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-4- [&hellip;]
+</p>
+<ol style="list-style-type: none">
+<li><p>(4.1) &mdash; [&hellip;]</p></li>
+<li><p>(4.2) &mdash; The following computations are applied to the elements of the <i>V</i> sequence:</p>
+<blockquote>
+<p>
+<math><msub><mi>X</mi><mrow><mn>2</mn><mi>k</mi><mo>+</mo><mn>0</mn></mrow></msub></math> = <ins>mulhi</ins><del>mullo</del>(<math><msub><mi>V</mi><mrow><mn>2</mn><mi>k</mi><del><mo>+</mo><mn>1</mn></del></mrow></msub></math>,<math><msub><mi>M</mi><mi>k</mi></msub></math>,<i>w</i>)
+<ins>xor <math><msubsup><mi style="font-style: italic">key</mi><mi>k</mi><mi>q</mi></msubsup></math> xor <math><msub><mi>V</mi><mrow><mn>2</mn><mi>k</mi><mo>+</mo><mn>1</mn></mrow></msub></math></ins>
+<p/>
+<math><msub><mi>X</mi><mrow><mn>2</mn><mi>k</mi><mo>+</mo><mn>1</mn></mrow></msub></math> = <ins>mullo</ins><del>mulhi</del>(<math><msub><mi>V</mi><mrow><mn>2</mn><mi>k</mi><del><mo>+</mo><mn>1</mn></del></mrow></msub></math>,<math><msub><mi>M</mi><mi>k</mi></msub></math>,<i>w</i>)
+ <del>xor <math><msubsup><mi style="font-style: italic">key</mi><mi>k</mi><mi>q</mi></msubsup></math> xor <math><msub><mi>V</mi><mrow><mn>2</mn><mi>k</mi></mrow></msub></math></del>
+</p>
+</blockquote>
+</li>
+</ol>
+<p>
+-5- [&hellip;]
+<p/>
+-6- <i>Mandates</i>:
+</p>
+<ol style="list-style-type: none">
+<li><p>(6.1) &mdash; [&hellip;]</p></li>
+<li><p>(6.2) &mdash; <code>n == 2 || n == 4 <del>|| n == 8 || n == 16</del></code> is <code>true</code>, and</p></li>
+<li><p>(6.3) &mdash; [&hellip;]</p></li>
+<li><p>(6.4) &mdash; [&hellip;]</p></li>
+</ol>
+
+</blockquote>
+</li>
+
+<li><p>Modify 28.5.6 <a href="https://wg21.link/rand.predef">[rand.predef]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+using philox4x32 =
+      philox_engine&lt;uint_fast32_t, 32, 4, 10,
+       <ins>0xCD9E8D57</ins><del>0xD2511F53</del>, 0x9E3779B9, <ins>0xD2511F53</ins><del>0xCD9E8D57</del>, 0xBB67AE85&gt;;
+</pre>
+<blockquote>
+<p>
+-11- <i>Required behavior</i>: The 10000<sup>th</sup> consecutive invocation a default-constructed 
+object of type <code>philox4x32</code> produces the value <code>1955073260</code>.
+</p>
+</blockquote>
+<pre>
+using philox4x64 =
+      philox_engine&lt;uint_fast64_t, 64, 4, 10,
+       <ins>0xCA5A826395121157</ins><del>0xD2E7470EE14C6C93</del>, 0x9E3779B97F4A7C15, <ins>0xD2E7470EE14C6C93</ins><del>0xCA5A826395121157</del>, 0xBB67AE8584CAA73B&gt;;
+</pre>
+<blockquote>
+<p>
+-12- <i>Required behavior</i>: The 10000<sup>th</sup> consecutive invocation a default-constructed 
+object of type <code>philox4x64</code> produces the value 3409172418970261260.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4135"><a href="#4135">4135</a><sup><a href="https://cplusplus.github.io/LWG/issue4135">(i)</a></sup>. The helper lambda of <code>std::erase</code> for <code>list</code> should specify return type as
+  <code>bool</code></h3>
+<p><b>Section:</b> 24.3.10.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a>, 24.3.11.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-08-07 <b>Last modified:</b> 2024-08-21</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+<code>std::erase</code> for <code>list</code> is specified to return
+<code>erase_if(c, [&amp;](auto&amp; elem) { return elem == value; })</code>.
+However, the template parameter <code>Predicate</code> of <code>erase_if</code> only requires that the
+type of <code>decltype(pred(...))</code> satisfies <code><i>boolean-testable</i></code>, i.e., the
+return type of <code>elem == value</code> is not necessarily <code>bool</code>.
+<p/>
+This means it's worth explicitly specifying the lambda's return type as <code>bool</code> to avoid some 
+pedantic cases (<a href="https://godbolt.org/z/xPvYYnvY6">demo</a>):
 </p>
 <blockquote><pre>
-#include &lt;ranges&gt;
-#include &lt;vector&gt;
 #include &lt;list&gt;
 
+struct Bool {
+  Bool(const Bool&amp;) = delete;
+  operator bool() const;
+};
+
+struct Int {
+  Bool&amp; operator==(Int) const;
+};
+
 int main() {
-  std::vector&lt;std::vector&lt;int&gt;&gt; v;
-  auto r = std::views::all(std::move(v));
-  auto l = std::ranges::to&lt;std::list&lt;std::list&lt;int&gt;&gt;&gt;(r); // <span style="color:red;font-weight:bolder">hard error in MSVC-STL and libc++</span>
+  std::list&lt;Int&gt; l;
+  std::erase(l, Int{}); // <span  style="color:#C80000;font-weight:bold">unnecessary hard error</span>
 }
 </pre></blockquote>
 
-<p><i>[2023-11-03; Reflector poll]</i></p>
+<p><i>[2024-08-21; Reflector poll]</i></p>
 
 <p>
-Set priority to 3 after reflector poll.
-"Should be <code>std::forward&lt;R&gt;(r)</code> instead?"
+Set status to Tentatively Ready after nine votes in favour during reflector poll.
 </p>
 
-<p><i>[Kona 2023-11-07; move to Ready]</i></p>
 
 
-
-
-<p id="res-3984"><b>Proposed resolution:</b></p>
+<p id="res-4135"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
+This wording is relative to <a href="https://wg21.link/N4988">N4988</a>.
 </p>
 
 <ol>
 
-<li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
+<li><p>Modify 24.3.10.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a> as indicated:</p>
 
 <blockquote>
 <pre>
-template&lt;class C, input_range R, class... Args&gt; requires (!view&lt;C&gt;)
-  constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);
+template&lt;class T, class Allocator, class U = T&gt;
+  typename forward_list&lt;T, Allocator&gt;::size_type
+    erase(forward_list&lt;T, Allocator&gt;&amp; c, const U&amp; value);
 </pre>
 <blockquote>
 <p>
--1- <i>Mandates</i>: <code>C</code> is a cv-unqualified class type.
+-1- <i>Effects</i>: Equivalent to:
+  <code>return erase_if(c, [&amp;](<ins>const</ins> auto&amp; elem) <ins>-&gt; bool</ins> { return elem == value; });</code>
 </p>
-<p>
--2- <i>Returns</i>: An object of type <code>C</code> constructed from the elements of <code>r</code> in the following manner:
-</p>
-<ol style="list-style-type: none">
-<li><p>(2.1) &mdash; If <code>C</code> does not satisfy <code>input_range</code> or 
-<code>convertible_to&lt;range_reference_t&lt;R&gt;, range_value_t&lt;C&gt;&gt;</code> is <code>true</code>:</p>
-<ol style="list-style-type: none">
-<li><p>[&hellip;]</p></li>
-</ol></li>
-<li><p>(2.2) &mdash; Otherwise, if <code>input_range&lt;range_reference_t&lt;R&gt;&gt;</code> is <code>true</code>:
-</p>
-<blockquote>
-<pre>
-to&lt;C&gt;(<ins>ref_view(</ins>r<ins>)</ins> | views::transform([](auto&amp;&amp; elem) {
-  return to&lt;range_value_t&lt;C&gt;&gt;(std::forward&lt;decltype(elem)&gt;(elem));
-}), std::forward&lt;Args&gt;(args)...);
-</pre>
+</blockquote>
 </blockquote>
 </li>
-<li><p>(2.3) &mdash; Otherwise, the program is ill-formed.</p></li>
-</ol>
-</blockquote>
-</blockquote>
 
-</li>
-
-</ol>
-
-
-
-
-
-<hr>
-<h3 id="3988"><a href="#3988">3988</a><sup><a href="https://cplusplus.github.io/LWG/issue3988">(i)</a></sup>. Should <code>as_const_view</code> and <code>basic_const_iterator</code> provide <code>base()</code>?</h3>
-<p><b>Section:</b> 25.5.3 <a href="https://wg21.link/const.iterators">[const.iterators]</a>, 26.7.21.2 <a href="https://wg21.link/range.as.const.view">[range.as.const.view]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-08-28 <b>Last modified:</b> 2023-11-07</p>
-<p><b>Priority: </b>3
-</p>
-<p><b>View other</b> <a href="lwg-index-open.html#const.iterators">active issues</a> in [const.iterators].</p>
-<p><b>View all other</b> <a href="lwg-index.html#const.iterators">issues</a> in [const.iterators].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
-<p><b>Discussion:</b></p>
-<p>
-Currently, both <code>as_const_view</code> and <code>basic_const_iterator</code> provide <code>base()</code> members to 
-return the underlying range and iterator, which seems to expose vulnerabilities in modifying them:
-</p>
-<blockquote><pre>
-#include &lt;vector&gt;
-#include &lt;ranges&gt;
-
-int main() {
-  std::vector v{1, 2, 3};
-  
-  auto f = [](std::span&lt;int&gt;::const_iterator i) {
-    *i.base() = 4;
-  };
-  f(std::span{v}.cbegin());
-
-  auto g = [](const std::ranges::constant_range auto&amp; r) {
-    r.begin().base()[1] = 5;
-    r.base()[2] = 6;
-  };
-  g(std::ranges::as_const_view(v));
-
-  // v now becomes [4, 5, 6]
-}
-</pre></blockquote>
-<p>
-I don't think such a shortcut should be provided as it doesn't seem to be the intention and could be harmful.
-</p>
-
-<p><i>[2023-10-30; Reflector poll]</i></p>
-
-<p>
-Set priority to 3 after reflector poll.
-Send to SG9.
-</p>
-
-<p><i>[Kona 2023-11-07; move to Ready]</i></p>
-
-
-
-
-<p id="res-3988"><b>Proposed resolution:</b></p>
-<p>
-This wording is relative to <a href="https://wg21.link/N4958" title=" Working Draft, Programming Languages — C++">N4958</a>.
-</p>
-
-<ol>
-
-<li><p>Modify 25.5.3.3 <a href="https://wg21.link/const.iterators.iterator">[const.iterators.iterator]</a>, class template <code>basic_const_iterator</code> synopsis, as indicated:</p>
+<li><p>Modify 24.3.11.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a> as indicated:</p>
 
 <blockquote>
 <pre>
-namespace std {
-  [&hellip;]
-
-  template&lt;input_iterator Iterator&gt;
-  class basic_const_iterator {
-    [&hellip;]
-    <del>constexpr const Iterator&amp; base() const &amp; noexcept;</del>
-    <del>constexpr Iterator base() &amp;&amp;;</del>
-    [&hellip;]
-  };
-}
-</pre>
-</blockquote>
-
-</li>
-
-<li><p>Modify 25.5.3.5 <a href="https://wg21.link/const.iterators.ops">[const.iterators.ops]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-<del>constexpr const Iterator&amp; base() const &amp; noexcept;</del>
+template&lt;class T, class Allocator, class U = T&gt;
+  typename list&lt;T, Allocator&gt;::size_type
+    erase(list&lt;T, Allocator&gt;&amp; c, const U&amp; value);
 </pre>
 <blockquote>
 <p>
-<del>-4- <i>Effects</i>: Equivalent to: <code>return <i>current_</i>;</code></del>
-</p>
-</blockquote>
-<pre>
-<del>constexpr Iterator base() &amp;&amp;;</del>
-</pre>
-<blockquote>
-<p>
-<del>-5- <i>Effects</i>: Equivalent to: <code>return std::move(<i>current_</i>);</code></del>
+-1- <i>Effects</i>: Equivalent to:
+  <code>return erase_if(c, [&amp;](<ins>const</ins> auto&amp; elem) <ins>-&gt; bool</ins> { return elem == value; });</code>
 </p>
 </blockquote>
 </blockquote>
-
-</li>
-
-<li><p>Modify 26.7.21.2 <a href="https://wg21.link/range.as.const.view">[range.as.const.view]</a> as indicated:</p>
-
-<blockquote>
-<pre>
-namespace std::ranges {
-  template&lt;view V&gt;
-    requires input_range&lt;V&gt;
-  class as_const_view : public view_interface&lt;as_const_view&lt;V&gt;&gt; {
-    [&hellip;]
-    <del>constexpr V base() const &amp; requires copy_constructible&lt;V&gt; { return <i>base_</i>; }</del>
-    <del>constexpr V base() &amp;&amp; { return std::move(<i>base_</i>); }</del>
-    [&hellip;]
-  };
-}
-</pre>
-</blockquote>
-
 </li>
 
 </ol>

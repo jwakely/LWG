@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 832: Applying constexpr to System error support</title>
+<meta property="og:title" content="Issue 832: Applying constexpr to System error support">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue832.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -92,10 +98,10 @@ Thanks to Jens Maurer, Gabriel Dos Reis, and Bjarne Stroustrup for clarification
 </p>
 
 <p>
-LWG issue <a href="lwg-defects.html#804" title="Some problems with classes error_code/error_condition">804</a> is related in that it raises the question of whether the
+LWG issue <a href="lwg-defects.html#804" title="Some problems with classes error_code/error_condition (Status: CD1)">804</a> is related in that it raises the question of whether the
 exposition only member <code>cat_</code> of class <code>error_code</code> (19.5.4 <a href="https://wg21.link/syserr.errcode">[syserr.errcode]</a>) and class
 <code>error_condition</code> (19.5.5 <a href="https://wg21.link/syserr.errcondition">[syserr.errcondition]</a>) should be presented as a reference or pointer.
-While in the context of <a href="lwg-defects.html#804" title="Some problems with classes error_code/error_condition">804</a> that is arguably an editorial question,
+While in the context of <a href="lwg-defects.html#804" title="Some problems with classes error_code/error_condition (Status: CD1)">804</a> that is arguably an editorial question,
 presenting it as a pointer becomes more or less required with this
 proposal, given <code>constexpr</code> does not play well with references. The
 proposed resolution thus changes the private member to a pointer, which
@@ -134,9 +140,9 @@ Gabriel and Jens Maurer.
 
 <p id="res-832"><b>Proposed resolution:</b></p>
 <p>
-The proposed wording assumes the LWG <a href="lwg-defects.html#805" title="posix_error::posix_errno concerns">805</a> proposed wording has been
+The proposed wording assumes the LWG <a href="lwg-defects.html#805" title="posix_error::posix_errno concerns (Status: CD1)">805</a> proposed wording has been
 applied to the WP, resulting in the former <code>posix_category</code> being renamed
-<code>generic_category</code>. If <a href="lwg-defects.html#805" title="posix_error::posix_errno concerns">805</a> has not been applied, the names in this
+<code>generic_category</code>. If <a href="lwg-defects.html#805" title="posix_error::posix_errno concerns (Status: CD1)">805</a> has not been applied, the names in this
 proposal must be adjusted accordingly.
 </p>
 

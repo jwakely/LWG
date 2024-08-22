@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2560: is_constructible underspecified when applied to a function type</title>
+<meta property="og:title" content="Issue 2560: is_constructible underspecified when applied to a function type">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2560.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -82,7 +88,7 @@ T t(declval&lt;Args&gt;()...);
 </blockquote>
 <p>
 The problem here is that substituting in <code>T</code> as a function type doesn't give a variable definition that's not well-formed 
-(by 3.65 <a href="https://wg21.link/defns.well.formed">[defns.well.formed]</a>, well-formed means that it doesn't violate any syntactic or diagnosable semantic rules, and 
+(by 3.66 <a href="https://wg21.link/defns.well.formed">[defns.well.formed]</a>, well-formed means that it doesn't violate any syntactic or diagnosable semantic rules, and 
 it does not). Instead, it gives a logical absurdity: this wording forces us to imagine a variable of function type, which contradicts 
 the definition of "variable" in 3/6, but does so without violating any diagnosable language rule. So presumably the result must 
 be undefined behavior.

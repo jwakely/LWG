@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 459: Requirement for widening in stage 2 is overspecification</title>
+<meta property="og:title" content="Issue 459: Requirement for widening in stage 2 is overspecification">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue459.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -109,7 +115,7 @@ drastic. Existing implementations with the exception of libstdc++
 currently already use narrow() so the impact of the change on programs
 would presumably be isolated to just a single implementation. Further,
 since narrow() is not required to translate alternate wide digit
-representations such as those mentioned in issue <a href="lwg-defects.html#303" title="Bitset input operator underspecified">303</a> to
+representations such as those mentioned in issue <a href="lwg-defects.html#303" title="Bitset input operator underspecified (Status: CD1)">303</a> to
 their narrow equivalents (i.e., the portable source characters '0'
 through '9'), the change does not necessarily imply that these
 alternate digits would be treated as ordinary digits and accepted as

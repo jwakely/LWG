@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2347: reverse_iterator::operator[] calls const version of current[]</title>
+<meta property="og:title" content="Issue 2347: reverse_iterator::operator[] calls const version of current[]">
+<meta property="og:description" content="C++ library issue. Status: NAD">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2347.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -74,7 +80,7 @@ const reference. This const reference cannot be converted back to a
 mutable reference.
 <p/>
 This issue is related to the "<em>unspecified</em>" return value of
-<code>reverse_iterator::operator[]</code>, see defect <a href="lwg-defects.html#386" title="Reverse iterator's operator[] has impossible return type">386</a>.
+<code>reverse_iterator::operator[]</code>, see defect <a href="lwg-defects.html#386" title="Reverse iterator's operator[] has impossible return type (Status: CD1)">386</a>.
 <p/>
 The -1 is due to "current" pointing one item beyond the
 <code>reverse_iterator</code>'s real current value.

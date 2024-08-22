@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2223: shrink_to_fit effect on iterator validity</title>
+<meta property="og:title" content="Issue 2223: shrink_to_fit effect on iterator validity">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2223.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -57,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++17">C++17</a> status.</em></p>
 <h3 id="2223"><a href="lwg-defects.html#2223">2223</a>. <code>shrink_to_fit</code> effect on iterator validity</h3>
-<p><b>Section:</b> 24.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
+<p><b>Section:</b> 24.3.12.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
  <b>Submitter:</b> Juan Soulie <b>Opened:</b> 2012-12-17 <b>Last modified:</b> 2017-07-30</p>
 <p><b>Priority: </b>2
 </p>
@@ -67,7 +73,7 @@
 <p><b>Discussion:</b></p>
 
 <p>
-After the additions by <a href="lwg-defects.html#2033" title="Preconditions of reserve, shrink_to_fit, and resize functions">2033</a>, it appears clear that the intended effect includes a reallocation and 
+After the additions by <a href="lwg-defects.html#2033" title="Preconditions of reserve, shrink_to_fit, and resize functions (Status: C++14)">2033</a>, it appears clear that the intended effect includes a reallocation and 
 thus the potential effect on iterators should be explicitly added to the text in order to not contradict 
 24.2.2 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>/11, or at the very least, explicitly state that a reallocation may 
 happen.
@@ -87,7 +93,7 @@ and iterators referring to the elements in the sequence."
 </ul>
 <p>
 BTW, while we are at it, I believe the effect on iterators should also be explicitly stated in the other instance 
-a reallocation may happen: 24.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a>/1 &mdash; even if obvious, it only contradicts 
+a reallocation may happen: 24.3.12.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a>/1 &mdash; even if obvious, it only contradicts 
 24.2.2 <a href="https://wg21.link/container.requirements.general">[container.requirements.general]</a>/11 implicitly. 
 <p/>
 I propose to also insert "Reallocation invalidates all the references, pointers, and iterators referring to the 
@@ -210,7 +216,7 @@ optimizations. &mdash; <i>end note</i> ].
 </blockquote>
 </li>
 
-<li><p>Edit 24.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a> around p7 as indicated:</p>
+<li><p>Edit 24.3.9.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a> around p7 as indicated:</p>
 <blockquote><pre>
 void shrink_to_fit();
 </pre>
@@ -234,7 +240,7 @@ the references, pointers, and iterators referring to the elements in the sequenc
 </blockquote>
 </li>
 
-<li><p>Edit 24.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> around p7 as indicated:</p>
+<li><p>Edit 24.3.12.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> around p7 as indicated:</p>
 <blockquote><pre>
 void shrink_to_fit();
 </pre>
@@ -258,7 +264,7 @@ the references, pointers, and iterators referring to the elements in the sequenc
 </blockquote>
 </li>
 
-<li><p>Edit 24.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a> p1 as indicated:</p>
+<li><p>Edit 24.3.12.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a> p1 as indicated:</p>
 <blockquote><pre>
 iterator insert(const_iterator position, const T&amp; x);
 iterator insert(const_iterator position, T&amp;&amp; x);
@@ -344,7 +350,7 @@ elements in the sequence. If no reallocation happens, they remain valid.</ins>
 </blockquote>
 </li>
 
-<li><p>Change 24.3.8.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a> p5-p7 as depicted:</p>
+<li><p>Change 24.3.9.3 <a href="https://wg21.link/deque.capacity">[deque.capacity]</a> p5-p7 as depicted:</p>
 <blockquote>
 <pre>
 void shrink_to_fit();
@@ -369,7 +375,7 @@ and iterators referring to the elements in the sequence.</ins>
 </blockquote>
 </li>
 
-<li><p>Change 24.3.11.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> p7-p9 as depicted:</p>
+<li><p>Change 24.3.12.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a> p7-p9 as depicted:</p>
 <blockquote>
 <pre>
 void shrink_to_fit();
@@ -395,7 +401,7 @@ in the sequence. If no reallocation happens, they remain valid.</ins>
 </blockquote>
 </li>
 
-<li><p>Change 24.3.11.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a> p1 as depicted:</p>
+<li><p>Change 24.3.12.5 <a href="https://wg21.link/vector.modifiers">[vector.modifiers]</a> p1 as depicted:</p>
 
 <blockquote>
 <p>

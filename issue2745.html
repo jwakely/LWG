@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2745: [fund.ts.v2] Implementability of LWG 2451</title>
+<meta property="og:title" content="Issue 2745: [fund.ts.v2] Implementability of LWG 2451">
+<meta property="og:description" content="C++ library issue. Status: TS">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2745.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -66,7 +72,7 @@
 <p><b>Discussion:</b></p>
 <p><b>Addresses: fund.ts.v2</b></p>
 <p>
-LWG <a href="lwg-defects.html#2451" title="[fund.ts.v2] optional&lt;T&gt; should 'forward' T's implicit conversions">2451</a> adds conditionally explicit converting constructors to <code>optional&lt;T&gt;</code> that accept:
+LWG <a href="lwg-defects.html#2451" title="[fund.ts.v2] optional&lt;T&gt; should 'forward' T's implicit conversions (Status: TS)">2451</a> adds conditionally explicit converting constructors to <code>optional&lt;T&gt;</code> that accept:
 </p>
 <ol>
 <li>Types convertible to <code>T</code>: <code>template &lt;class U&gt; constexpr optional(T&amp;&amp;);</code></li>
@@ -97,8 +103,8 @@ the remarks requiring these constructors to be <code>constexpr</code>.
 
 <blockquote class="note">
 <p>
-Wording relative to N4600 + LWG <a href="lwg-defects.html#2451" title="[fund.ts.v2] optional&lt;T&gt; should 'forward' T's implicit conversions">2451</a>, although it should be noted that this resolution should be applied 
-wherever LWG <a href="lwg-defects.html#2451" title="[fund.ts.v2] optional&lt;T&gt; should 'forward' T's implicit conversions">2451</a> is applied, be that to the fundamentals TS or the specification of <code>optional</code> in the 
+Wording relative to N4600 + LWG <a href="lwg-defects.html#2451" title="[fund.ts.v2] optional&lt;T&gt; should 'forward' T's implicit conversions (Status: TS)">2451</a>, although it should be noted that this resolution should be applied 
+wherever LWG <a href="lwg-defects.html#2451" title="[fund.ts.v2] optional&lt;T&gt; should 'forward' T's implicit conversions (Status: TS)">2451</a> is applied, be that to the fundamentals TS or the specification of <code>optional</code> in the 
 C++ Working Paper.
 </p>
 </blockquote>
@@ -125,7 +131,7 @@ public:
 </blockquote>
 </li>
 
-<li><p>In 5.3.1 [fund.ts.v2::optional.object.ctor], modify the new signature specifications added by LWG <a href="lwg-defects.html#2451" title="[fund.ts.v2] optional&lt;T&gt; should 'forward' T's implicit conversions">2451</a></p>
+<li><p>In 5.3.1 [fund.ts.v2::optional.object.ctor], modify the new signature specifications added by LWG <a href="lwg-defects.html#2451" title="[fund.ts.v2] optional&lt;T&gt; should 'forward' T's implicit conversions (Status: TS)">2451</a></p>
 
 <blockquote>
 <pre>

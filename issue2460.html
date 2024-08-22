@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 2460: LWG issue 2408 and value categories</title>
+<meta property="og:title" content="Issue 2460: LWG issue 2408 and value categories">
+<meta property="og:description" content="C++ library issue. Status: C++17">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue2460.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++17">C++17</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG issue <a href="lwg-defects.html#2408" title="SFINAE-friendly common_type/iterator_traits is missing in C++14">2408</a> changes the meat of the specification of <code>common_type</code> to compute:
+LWG issue <a href="lwg-defects.html#2408" title="SFINAE-friendly common_type/iterator_traits is missing in C++14 (Status: C++17)">2408</a> changes the meat of the specification of <code>common_type</code> to compute:
 </p>
 <blockquote><p>
 [&hellip;] the type, if any, of an unevaluated conditional expression (5.16) whose first operand is an 
@@ -101,14 +107,14 @@ it always has at least a copy constructor, a copy assignment operator, and a des
 removes the usual library liberty to add additional members with names that don't collide with normal 
 usage (for instance, if a later version of the standard adds members, they can't be present here as a 
 conforming extension). Perhaps this should instead require that the class doesn't have members with any 
-of those five names? That's what <a href="lwg-defects.html#2408" title="SFINAE-friendly common_type/iterator_traits is missing in C++14">2408</a> does for <code>common_type</code>'s type member.
+of those five names? That's what <a href="lwg-defects.html#2408" title="SFINAE-friendly common_type/iterator_traits is missing in C++14 (Status: C++17)">2408</a> does for <code>common_type</code>'s type member.
 </p>
 
 <p><i>[2016-08 Chicago]</i></p>
 
 <p>This issue has two parts, one dealing with <code>common_type</code>, the other with <code>iterator_traits</code>. 
 The first of these is resolved by <a href="lwg-defects.html#2465" title="SFINAE-friendly common_type is nearly impossible to specialize
-correctly and regresses key functionality">2465</a>.  See below for the proposed resolution for the other one.</p>
+correctly and regresses key functionality (Status: Resolved)">2465</a>.  See below for the proposed resolution for the other one.</p>
 <p>Wed PM: Move to Tentatively Ready</p>
 
 

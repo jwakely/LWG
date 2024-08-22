@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3893: LWG 3661 broke atomic&lt;shared_ptr&lt;T&gt;&gt; a; a = nullptr;</title>
+<meta property="og:title" content="Issue 3893: LWG 3661 broke atomic&lt;shared_ptr&lt;T&gt;&gt; a; a = nullptr;">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3893.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -65,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3661" title="constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr); should work">3661</a>, "<code>constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr);</code> should work" 
+LWG <a href="lwg-defects.html#3661" title="constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr); should work (Status: C++23)">3661</a>, "<code>constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr);</code> should work" 
 added the following to <code>atomic&lt;shared_ptr&lt;T&gt;&gt;</code>:
 </p>
 <blockquote><pre>
@@ -86,7 +92,7 @@ void operator=(const atomic&amp;) = delete;          // #1
 void operator=(shared_ptr&lt;T&gt; desired) noexcept;  // #2
 </pre></blockquote>
 <p>
-Prior to LWG <a href="lwg-defects.html#3661" title="constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr); should work">3661</a>, the assignment in the example unambiguously matches #2. #1 is not viable because 
+Prior to LWG <a href="lwg-defects.html#3661" title="constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr); should work (Status: C++23)">3661</a>, the assignment in the example unambiguously matches #2. #1 is not viable because 
 <code>nullptr_t</code> is not convertible to <code>atomic&lt;shared_ptr&lt;T&gt;&gt;</code>. After LWG 3611, #1 is viable 
 and the assignment is ambiguous between #1 and #2.
 <p/>

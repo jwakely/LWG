@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 3631: basic_format_arg(T&amp;&amp;) should use remove_cvref_t&lt;T&gt; throughout</title>
+<meta property="og:title" content="Issue 3631: basic_format_arg(T&amp;&amp;) should use remove_cvref_t&lt;T&gt; throughout">
+<meta property="og:description" content="C++ library issue. Status: C++23">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue3631.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -146,7 +152,7 @@ are unnecessary (arguments are always lvalues), and so using <code>T&amp;</code>
 would be simpler.
 </p>
 <p>
-In order to resolve the overload ambiguities discussed in <a href="lwg-defects.html#3718" title="P2418R2 broke the overload resolution for std::basic_format_arg">3718</a>
+In order to resolve the overload ambiguities discussed in <a href="lwg-defects.html#3718" title="P2418R2 broke the overload resolution for std::basic_format_arg (Status: Resolved)">3718</a>
 replace all unary constructor overloads with a single constructor that works
 for any formattable type.
 </p>
@@ -189,7 +195,7 @@ shall be well-formed when treated as an unevaluated operand (7.2.3 <a href="http
 <p><ins>-?- <i>Preconditions</i>:
 If <code>decay_t&lt;T&gt;</code> is <code>char_type*</code> or <code>const char_type*</code>,
 <code>static_cast&lt;const char_type*&gt;(v)</code> points to a NTCTS
-(3.34 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</ins>
+(3.35 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</ins>
 </p>
 <p>
 -5- <i>Effects:</i>
@@ -237,7 +243,7 @@ explicit basic_format_arg(long double n) noexcept;
 explicit basic_format_arg(const char_type* s) noexcept;
 </del></pre>
 <blockquote>
-<p><del>-7- <i>Preconditions</i>: <code>s</code> points to a NTCTS (3.34 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</del></p>
+<p><del>-7- <i>Preconditions</i>: <code>s</code> points to a NTCTS (3.35 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</del></p>
 <p><del>-8- <i>Effects</i>: Initializes <code>value</code> with <code>s</code>.</del></p>
 </blockquote>
 
@@ -359,7 +365,7 @@ This wording is relative to <a href="https://wg21.link/N4917" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 22.14.6.2 <a href="https://wg21.link/format.formattable">[format.formattable]</a> as indicated:</p>
+<li><p>Modify 22.14.6.3 <a href="https://wg21.link/format.formattable">[format.formattable]</a> as indicated:</p>
 
 <p>
 -1- Let <code><i>fmt-iter-for</i>&lt;charT&gt;</code> be an unspecified type that models
@@ -460,7 +466,7 @@ shall be well-formed when treated as an unevaluated operand (7.2.3 <a href="http
 <p><ins>-?- <i>Preconditions</i>:
 If <code>decay_t&lt;T&gt;</code> is <code>char_type*</code> or <code>const char_type*</code>,
 <code>static_cast&lt;const char_type*&gt;(v)</code> points to a NTCTS
-(3.34 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</ins>
+(3.35 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</ins>
 </p>
 <p>
 -5- <i>Effects:</i>
@@ -508,7 +514,7 @@ explicit basic_format_arg(long double n) noexcept;
 explicit basic_format_arg(const char_type* s) noexcept;
 </del></pre>
 <blockquote>
-<p><del>-7- <i>Preconditions</i>: <code>s</code> points to a NTCTS (3.34 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</del></p>
+<p><del>-7- <i>Preconditions</i>: <code>s</code> points to a NTCTS (3.35 <a href="https://wg21.link/defns.ntcts">[defns.ntcts]</a>).</del></p>
 <p><del>-8- <i>Effects</i>: Initializes <code>value</code> with <code>s</code>.</del></p>
 </blockquote>
 

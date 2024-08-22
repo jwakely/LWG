@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Issue 4035: single_view should provide empty</title>
+<meta property="og:title" content="Issue 4035: single_view should provide empty">
+<meta property="og:description" content="C++ library issue. Status: WP">
+<meta property="og:url" content="https://cplusplus.github.io/LWG/issue4035.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="http://cplusplus.github.io/LWG/images/cpp_logo.png">
+<meta property="og:image:alt" content="C++ logo">
 <style>
   p {text-align:justify}
   li {text-align:justify}
@@ -55,14 +61,14 @@
 </head>
 <body>
 <hr>
-<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
-<h3 id="4035"><a href="lwg-active.html#4035">4035</a>. <code>single_view</code> should provide <code>empty</code></h3>
-<p><b>Section:</b> 26.6.3.2 <a href="https://wg21.link/range.single.view">[range.single.view]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-12-31 <b>Last modified:</b> 2024-01-15</p>
+<p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
+<h3 id="4035"><a href="lwg-defects.html#4035">4035</a>. <code>single_view</code> should provide <code>empty</code></h3>
+<p><b>Section:</b> 26.6.3.2 <a href="https://wg21.link/range.single.view">[range.single.view]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-12-31 <b>Last modified:</b> 2024-04-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#range.single.view">issues</a> in [range.single.view].</p>
-<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
 Although <code>single_view::empty</code> can be synthesized through <code>view_interface</code>,
@@ -81,6 +87,15 @@ static_assert(noexcept(single.empty())); // <span style="color:red;font-weight:b
 static_assert(noexcept(single.size()));
 </pre>
 </blockquote>
+
+<p><i>[2024-03-12; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+<p><i>[Tokyo 2024-03-23; Status changed: Voting &rarr; WP.]</i></p>
+
 
 
 <p id="res-4035"><b>Proposed resolution:</b></p>
