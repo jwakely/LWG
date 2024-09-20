@@ -72,7 +72,7 @@
 <p><b>Discussion:</b></p>
 <p>
 In order to remove the incorrect bi-convertibility of <code>reverse_iterator&lt;int*&gt;</code> and
-<code>reverse_iterator&lt;const int*&gt;</code>, LWG <a href="lwg-defects.html#3435" title="three_way_comparable_with&lt;reverse_iterator&lt;int*&gt;, reverse_iterator&lt;const int*&gt;&gt; (Status: C++23)">3435</a> adds two constraints to 
+<code>reverse_iterator&lt;const int*&gt;</code>, LWG <a href="lwg-defects.html#3435" title="three_way_comparable_with&lt;reverse_iterator&lt;int*&gt;, reverse_iterator&lt;const int*&gt;&gt; (Status: C++23)">3435</a><sup><a href="https://cplusplus.github.io/LWG/issue3435" title="Latest snapshot">(i)</a></sup> adds two constraints to 
 <code>reverse_iterator</code>'s converting assignment, namely
 <code>convertible_to&lt;const U&amp;, Iterator&gt;</code> and 
 <code>assignable_from&lt;Iterator&amp;, const U&amp;&gt;</code>, but since this function only assigns 

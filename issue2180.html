@@ -124,14 +124,14 @@ applied to a container that needs to allocate its elements used as the type for 
 Even though Clause 28 <a href="https://wg21.link/numerics">[numerics]</a> has mostly stronger exception constraints than other parts of the
 library the here discussed are overrestrictive, especially since no operation of <code>std::seed_seq</code> 
 except the template <code>generate</code> is actually needed within the library implementation, as mentioned in the 
-discussion of LWG <a href="lwg-closed.html#2124" title="Seed sequence over-specified (Status: NAD)">2124</a>.
+discussion of LWG <a href="lwg-closed.html#2124" title="Seed sequence over-specified (Status: NAD)">2124</a><sup><a href="https://cplusplus.github.io/LWG/issue2124" title="Latest snapshot">(i)</a></sup>.
 <p/>
 I suggest to remove the general no-exception constraints for operations of <code>std::seed_seq</code> except for
 member <code>size()</code> and the default constructor and to provide specific wording for <code>generate()</code> and
 <code>param()</code> to ensure that the algorithm itself is a nothrow operation, which is especially for
 <code>generate()</code> important, because the templates specified in 28.5.4 <a href="https://wg21.link/rand.eng">[rand.eng]</a> and 
 28.5.5 <a href="https://wg21.link/rand.adapt">[rand.adapt]</a> also depend on this property indirectly, which is further discussed in LWG 
-<a href="lwg-defects.html#2181" title="Exceptions from seed sequence operations (Status: C++17)">2181</a>.
+<a href="lwg-defects.html#2181" title="Exceptions from seed sequence operations (Status: C++17)">2181</a><sup><a href="https://cplusplus.github.io/LWG/issue2181" title="Latest snapshot">(i)</a></sup>.
 <p/>
 <u>Howard</u>:
 <p/>

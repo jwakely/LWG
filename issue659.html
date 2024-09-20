@@ -131,7 +131,7 @@ have <code>istreambuf_iterator::pointer</code> as return type, and this return t
 may in fact be a proxy.
 </p>
 <p>
-AFAIK, the resolution of <a href="lwg-defects.html#445" title="iterator_traits::reference unspecified for some iterator categories (Status: CD1)">445</a> ("<code>iterator_traits::reference</code>
+AFAIK, the resolution of <a href="lwg-defects.html#445" title="iterator_traits::reference unspecified for some iterator categories (Status: CD1)">445</a><sup><a href="https://cplusplus.github.io/LWG/issue445" title="Latest snapshot">(i)</a></sup> ("<code>iterator_traits::reference</code>
 unspecified for some iterator categories") implies that for any iterator
 class <code>Iter</code>, the return type of <code>operator-&gt;()</code> is <code>Iter::pointer</code>, by
 definition.  I don't think <code>Iter::pointer</code> needs to be a raw pointer.

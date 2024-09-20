@@ -72,11 +72,11 @@
 <p><b>Discussion:</b></p>
 
 <p>
-DR <a href="lwg-defects.html#704" title="MoveAssignable requirement for container value type overly strict (Status: C++11)">704</a> ensures allocator-aware containers can reuse existing
+DR <a href="lwg-defects.html#704" title="MoveAssignable requirement for container value type overly strict (Status: C++11)">704</a><sup><a href="https://cplusplus.github.io/LWG/issue704" title="Latest snapshot">(i)</a></sup> ensures allocator-aware containers can reuse existing
 elements during copy/move assignment, and sequence containers can do
 the same for <code>assign()</code>.
 <p/>
-But apart from <code>std::list</code> (which was changed by DR <a href="lwg-defects.html#320" title="list::assign overspecified (Status: CD1)">320</a>) the sequence
+But apart from <code>std::list</code> (which was changed by DR <a href="lwg-defects.html#320" title="list::assign overspecified (Status: CD1)">320</a><sup><a href="https://cplusplus.github.io/LWG/issue320" title="Latest snapshot">(i)</a></sup>) the sequence
 containers define the Effects of <code>assign()</code> in terms of <code>clear()</code> followed
 by <code>insert</code>.  A user-defined allocator can easily tell whether all old
 elements are cleared and then new elements inserted or whether existing elements are assigned 

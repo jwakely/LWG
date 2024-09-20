@@ -132,18 +132,18 @@ synchronization (e.g. <code>mutex</code> or <code>atomic</code>) are actually ne
 <p/>
 Here's what implementations currently do: Dinkumware/VC follows C++03 and doesn't use <code>deref_tmp</code> (attempting to 
 implement it is what led me to file this issue). According to Jonathan Wakely, libstdc++ also follows C++03 (see 
-<a href="http://gcc.gnu.org/PR51823">PR51823</a> which is suspended until LWG <a href="lwg-closed.html#2204" title="reverse_iterator should not require a second copy of the base iterator (Status: NAD)">2204</a> is resolved). According to 
+<a href="http://gcc.gnu.org/PR51823">PR51823</a> which is suspended until LWG <a href="lwg-closed.html#2204" title="reverse_iterator should not require a second copy of the base iterator (Status: NAD)">2204</a><sup><a href="https://cplusplus.github.io/LWG/issue2204" title="Latest snapshot">(i)</a></sup> is resolved). According to 
 Marshall Clow, libc++ uses <code>deref_tmp</code> with <code>mutable</code> but without synchronization, so it can trigger data races.
 <p/>
-This <code>deref_tmp</code> Standardese was added by LWG <a href="lwg-defects.html#198" title="Validity of pointers and references unspecified after iterator destruction (Status: CD1)">198</a> "Validity of pointers and references unspecified after 
+This <code>deref_tmp</code> Standardese was added by LWG <a href="lwg-defects.html#198" title="Validity of pointers and references unspecified after iterator destruction (Status: CD1)">198</a><sup><a href="https://cplusplus.github.io/LWG/issue198" title="Latest snapshot">(i)</a></sup> "Validity of pointers and references unspecified after 
 iterator destruction" and is present in Working Papers going back to <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2004/n1638.pdf">N1638</a> 
 on April 11, 2004, long before C++ recognized the existence of multithreading and developed the "<code>const</code> means simultaneously 
 readable" convention.
 <p/>
-A related issue is LWG <a href="lwg-defects.html#1052" title="reverse_iterator::operator-&gt; should also support smart pointers (Status: Resolved)">1052</a> "<code>reverse_iterator::operator-&gt;</code> should also support smart pointers" which 
+A related issue is LWG <a href="lwg-defects.html#1052" title="reverse_iterator::operator-&gt; should also support smart pointers (Status: Resolved)">1052</a><sup><a href="https://cplusplus.github.io/LWG/issue1052" title="Latest snapshot">(i)</a></sup> "<code>reverse_iterator::operator-&gt;</code> should also support smart pointers" which 
 mentioned the need to depict <code>mutable</code> in the Standardese, but it was resolved NAD Future and no change was made.
 <p/>
-Finally, LWG <a href="lwg-closed.html#2204" title="reverse_iterator should not require a second copy of the base iterator (Status: NAD)">2204</a> "<code>reverse_iterator</code> should not require a second copy of the base iterator" talked about 
+Finally, LWG <a href="lwg-closed.html#2204" title="reverse_iterator should not require a second copy of the base iterator (Status: NAD)">2204</a><sup><a href="https://cplusplus.github.io/LWG/issue2204" title="Latest snapshot">(i)</a></sup> "<code>reverse_iterator</code> should not require a second copy of the base iterator" talked about 
 removing <code>deref_tmp</code>, but without considering multithreading.
 <p/>
 I argue that <code>deref_tmp</code> must be removed. Its existence has highly undesirable consequences: either no synchronization 

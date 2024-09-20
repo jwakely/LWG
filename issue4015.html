@@ -64,13 +64,13 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3 id="4015"><a href="lwg-active.html#4015">4015</a>. LWG 3973 broke <code>const</code> overloads of <code>std::optional</code> monadic operations</h3>
 <p><b>Section:</b> 22.5.3.8 <a href="https://wg21.link/optional.monadic">[optional.monadic]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-11-24 <b>Last modified:</b> 2024-08-21</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-11-24 <b>Last modified:</b> 2024-08-22</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The resolution of LWG <a href="lwg-defects.html#3973" title="Monadic operations should be ADL-proof (Status: WP)">3973</a> (adopted in Kona) changed all
+The resolution of LWG <a href="lwg-defects.html#3973" title="Monadic operations should be ADL-proof (Status: WP)">3973</a><sup><a href="https://cplusplus.github.io/LWG/issue3973" title="Latest snapshot">(i)</a></sup> (adopted in Kona) changed all
 occurrences of <code>value()</code> to <code>*val</code>.
 The intention was not to change the meaning, just avoid the non-freestanding
 <code>value()</code> function, and avoid ADL that would be caused by using
@@ -146,7 +146,7 @@ discussion at a meeting.
 <blockquote class="note">
 
 <p>
-This wording is relative to <a href="https://wg21.link/N4964" title=" Working Draft, Programming Languages — C++">N4964</a> <em>after</em> application of the wording of LWG <a href="lwg-defects.html#3973" title="Monadic operations should be ADL-proof (Status: WP)">3973</a>.
+This wording is relative to <a href="https://wg21.link/N4964" title=" Working Draft, Programming Languages — C++">N4964</a> <em>after</em> application of the wording of LWG <a href="lwg-defects.html#3973" title="Monadic operations should be ADL-proof (Status: WP)">3973</a><sup><a href="https://cplusplus.github.io/LWG/issue3973" title="Latest snapshot">(i)</a></sup>.
 </p>
 
 <ol>
@@ -869,14 +869,20 @@ to destroy the contained value <ins>and sets <code><i>has_val</i></code> to <cod
 
 <p><i>[St. Louis 2024-06-24; Jonathan provides improved wording]</i></p>
 
-<p><i>[LWG telecon 2024-06-24; Replace 22.5.3.1 <a href="https://wg21.link/optional.optional.general">[optional.optional.general]</a> p1 and p2]</i></p>
+<p><i>[2024-08-21; LWG telecon]</i></p>
 
+<p>
+During telecon review it was suggested to replace
+22.5.3.1 <a href="https://wg21.link/optional.optional.general">[optional.optional.general]</a> p1 and p2.
+On the reflector Daniel requested to keep the "additional storage" prohibition,
+so that will be addressed by issue <a href="lwg-active.html#4141" title="Improve prohibitions on &quot;additional storage&quot; (Status: Tentatively Ready)">4141</a><sup><a href="https://cplusplus.github.io/LWG/issue4141" title="Latest snapshot">(i)</a></sup> instead.
+</p>
 
 
 
 <p id="res-4015"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
 </p>
 
 <ol>
@@ -920,10 +926,15 @@ Any instance of <code>optional&lt;T&gt;</code> at any given time either
 contains a value or does not contain a value.
 When an instance of <code>optional&lt;T&gt;</code> <i>contains a value</i>,
 it means that an object of type <code>T</code>,
-referred to as the optional object's <i>contained</i> value,
+referred to as the</del>
+<ins>An</ins>
+optional object's
+<ins>contained value</ins>
+<del><i>contained value</i>, </del>
 is allocated within the storage of the optional object.
 Implementations are not permitted to use additional storage,
 such as dynamic memory, to allocate its contained value.
+<del>
 When an object of type <code>optional&lt;T&gt;</code>
 is contextually converted to <code>bool</code>,
 the conversion returns <code class='backtick'>true</code> if the object contains a value;
@@ -1162,8 +1173,8 @@ constexpr optional&lt;T&gt;&amp; operator=(optional&amp;&amp; rhs) noexcept(<i>s
 unchanged. If an exception is thrown during the call to <code>T</code>'s move constructor, the state 
 of <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception 
 safety guarantee of <code>T</code>'s move constructor. If an exception is thrown during the call to 
-<code>T</code>'s move assignment, the state of <code><del>*</del><ins><i>val</i></ins><del>val</del></code> 
-and <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception 
+<code>T</code>'s move assignment, the <ins>states</ins> <del>state</del> of <code><del>*</del><ins><i>val</i></ins><del>val</del></code>
+and <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> <ins>are</ins> <del>is</del> determined by the exception
 safety guarantee of <code>T</code>'s move assignment.
 </p>
 </blockquote>
@@ -1185,8 +1196,8 @@ to <ins><code><i>val</i></code></ins><del>the contained value</del>; otherwise d
 -18- <i>Remarks</i>: If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> 
 remains unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of 
 <code>v</code> is determined by the exception safety guarantee of <code>T</code>'s constructor. If an exception 
-is thrown during the call to <code>T</code>'s assignment, the state of <code><ins><i>val</i></ins><del>*val</del></code> 
-and <code>v</code> is determined by the exception safety guarantee of <code>T</code>'s assignment.   
+is thrown during the call to <code>T</code>'s assignment, the <ins>states</ins> <del>state</del> of <code><ins><i>val</i></ins><del>*val</del></code>
+and <code>v</code> <ins>are</ins> <del>is</del> determined by the exception safety guarantee of <code>T</code>'s assignment.
 </p>
 </blockquote>
 <pre>
@@ -1230,8 +1241,8 @@ with <code><del>*</del>rhs<ins>.<i>val</i></ins></code> </td>
 unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of 
 <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
 guarantee of <code>T</code>'s constructor. If an exception is thrown during the call to <code>T</code>'s
-assignment, the state of <code><ins><i>val</i></ins><del>*val</del></code> and 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+assignment, the <ins>states</ins> <del>state</del> of <code><ins><i>val</i></ins><del>*val</del></code> and
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> <ins>are</ins> <del>is</del> determined by the exception safety
 guarantee of <code>T</code>'s assignment.
 </p>
 </blockquote>
@@ -1276,8 +1287,8 @@ template&lt;class U&gt; constexpr optional&lt;T&gt;&amp; operator=(optional&lt;U
 unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of 
 <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
 guarantee of <code>T</code>'s constructor. If an exception is thrown during the call to <code>T</code>'s
-assignment, the state of <code><ins><i>val</i></ins><del>*val</del></code> and 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+assignment, the <ins>states</ins> <del>state</del> of <code><ins><i>val</i></ins><del>*val</del></code> and
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> <ins>are</ins> <del>is</del> determined by the exception safety
 guarantee of <code>T</code>'s assignment.
 </p>
 </blockquote>
@@ -1377,8 +1388,8 @@ contains a value</td>
 the state of <code><ins><i>val</i></ins><del>*val</del></code> and 
 <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
 guarantee of <code>swap</code> for lvalues of <code>T</code>. If an exception is thrown during the call to 
-<code>T</code>'s move constructor, the state of <code><ins><i>val</i></ins><del>*val</del></code> and 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+<code>T</code>'s move constructor, the <ins>states</ins> <del>state</del> of <code><ins><i>val</i></ins><del>*val</del></code> and
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> <ins>are</ins> <del>is</del> determined by the exception safety
 guarantee of <code>T</code>'s move constructor.
 <p/>
 </p>

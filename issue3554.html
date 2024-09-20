@@ -354,7 +354,7 @@ can't call it with a temporary string.
 <p/>
 Additionally, since the underlying API (<code>from_stream</code>) requires a
 null-terminated string, the usual practice is to avoid providing a
-<code>string_view</code> overload (see, e.g., LWG <a href="lwg-defects.html#3430" title="std::fstream &amp; co. should be constructible from string_view (Status: C++23)">3430</a>). The wording
+<code>string_view</code> overload (see, e.g., LWG <a href="lwg-defects.html#3430" title="std::fstream &amp; co. should be constructible from string_view (Status: C++23)">3430</a><sup><a href="https://cplusplus.github.io/LWG/issue3430" title="Latest snapshot">(i)</a></sup>). The wording
 below therefore only provides <code>const charT*</code> overloads. It does not use
 "Equivalent to" to avoid requiring that the <code>basic_string</code> overload
 and the <code>const charT*</code> overload return the same type. As the manipulator

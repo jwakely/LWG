@@ -77,7 +77,7 @@ it always invokes the non-<code>const</code> object's <code>operator-&gt;()</cod
 <p/>
 <code>common_iterator::operator-&gt;</code> also requires that <code>I::operator-&gt;()</code> must be 
 <code>const</code>-qualified, which seems reasonable since the return type of <code>get&lt;I&gt;(v_)</code> 
-is <code>const I&amp;</code>. However, LWG <a href="lwg-defects.html#3672" title="common_iterator::operator-&gt;() should return by value (Status: C++23)">3672</a> makes <code>common_iterator::operator-&gt;()</code> 
+is <code>const I&amp;</code>. However, LWG <a href="lwg-defects.html#3672" title="common_iterator::operator-&gt;() should return by value (Status: C++23)">3672</a><sup><a href="https://cplusplus.github.io/LWG/issue3672" title="Latest snapshot">(i)</a></sup> makes <code>common_iterator::operator-&gt;()</code> 
 always return a value, which makes it unnecessary to detect the constness of <code>I::operator-&gt;()</code>, 
 because it will be invoked with a non-<code>const</code> returned object anyway.
 <p/>
@@ -90,7 +90,7 @@ consistent, and I believe this relaxation of constraints can bring some value.
 <p/>
 <b>Daniel:</b>
 <p/>
-This issue's second part of the resolution actually depends on <a href="lwg-defects.html#3672" title="common_iterator::operator-&gt;() should return by value (Status: C++23)">3672</a> being applied. But
+This issue's second part of the resolution actually depends on <a href="lwg-defects.html#3672" title="common_iterator::operator-&gt;() should return by value (Status: C++23)">3672</a><sup><a href="https://cplusplus.github.io/LWG/issue3672" title="Latest snapshot">(i)</a></sup> being applied. But
 note that the reference wording below is still <a href="https://wg21.link/N4910" title=" Working Draft, Standard for Programming Language C++">N4910</a>.
 </p>
 

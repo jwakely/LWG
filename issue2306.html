@@ -85,7 +85,7 @@ though <code>match_results</code> is a read-only container. In the container req
 </p>
 <p>
 That phrasing in the container requirements table is admittedly a little fuzzy and ought to be clarified (as discussed in 
-lwg issue <a href="lwg-defects.html#2182" title="Container::[const_]reference types are misleadingly specified (Status: C++14)">2182</a>), but in context it's clear that <code>Container::reference</code> ought to be a <code>T&amp;</code> 
+lwg issue <a href="lwg-defects.html#2182" title="Container::[const_]reference types are misleadingly specified (Status: C++14)">2182</a><sup><a href="https://cplusplus.github.io/LWG/issue2182" title="Latest snapshot">(i)</a></sup>), but in context it's clear that <code>Container::reference</code> ought to be a <code>T&amp;</code> 
 even for constant containers. In the rest of Clause 23 we see that <code>Container::reference</code> is <code>T&amp;</code>, not 
 <code>const T&amp;</code>, even for const-qualified containers and that it's <code>T&amp;</code>, not <code>const T&amp;</code>, even 
 for containers like <code>set</code> and <code>unordered_set</code> that provide const iterators only.

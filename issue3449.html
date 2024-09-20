@@ -72,7 +72,7 @@
 <p><b>Discussion:</b></p>
 <p>
 During reflector discussion it was noted that the issue observed in
-LWG <a href="lwg-defects.html#3448" title="transform_view's sentinel&lt;false&gt; not comparable with iterator&lt;true&gt; (Status: C++23)">3448</a> applies to <code>take_view::<i>sentinel</i></code>
+LWG <a href="lwg-defects.html#3448" title="transform_view's sentinel&lt;false&gt; not comparable with iterator&lt;true&gt; (Status: C++23)">3448</a><sup><a href="https://cplusplus.github.io/LWG/issue3448" title="Latest snapshot">(i)</a></sup> applies to <code>take_view::<i>sentinel</i></code>
 and <code>take_while_view::<i>sentinel</i></code> as well.
 </p>
 
@@ -83,7 +83,7 @@ and <code>take_while_view::<i>sentinel</i></code> as well.
 
 <p>
 Should be considered together with <a href="lwg-defects.html#3406" title="elements_view::begin() and elements_view::end() have incompatible
-constraints (Status: C++23)">3406</a> and <a href="lwg-defects.html#3448" title="transform_view's sentinel&lt;false&gt; not comparable with iterator&lt;true&gt; (Status: C++23)">3448</a>.
+constraints (Status: C++23)">3406</a><sup><a href="https://cplusplus.github.io/LWG/issue3406" title="Latest snapshot">(i)</a></sup> and <a href="lwg-defects.html#3448" title="transform_view's sentinel&lt;false&gt; not comparable with iterator&lt;true&gt; (Status: C++23)">3448</a><sup><a href="https://cplusplus.github.io/LWG/issue3448" title="Latest snapshot">(i)</a></sup>.
 </p>
 
 <p><i>[2020-10-02; Status to Tentatively Ready after five positive votes on the reflector]</i></p>
@@ -95,14 +95,14 @@ constraints (Status: C++23)">3406</a> and <a href="lwg-defects.html#3448" title=
 
 <p id="res-3449"><b>Proposed resolution:</b></p>
 <p>This wording is relative to <a href="https://wg21.link/n4861">N4861</a>. It assumes
-the <code><i>maybe-const</i></code> helper introduced by the P/R of LWG <a href="lwg-defects.html#3448" title="transform_view's sentinel&lt;false&gt; not comparable with iterator&lt;true&gt; (Status: C++23)">3448</a>.</p>
+the <code><i>maybe-const</i></code> helper introduced by the P/R of LWG <a href="lwg-defects.html#3448" title="transform_view's sentinel&lt;false&gt; not comparable with iterator&lt;true&gt; (Status: C++23)">3448</a><sup><a href="https://cplusplus.github.io/LWG/issue3448" title="Latest snapshot">(i)</a></sup>.</p>
 
 <ol>
 <li><p>Modify 26.7.10.3 <a href="https://wg21.link/range.take.sentinel">[range.take.sentinel]</a> as indicated:</p>
 
 <blockquote class="note"> 
 <p>
-[<i>Drafting note</i>: Unlike LWG <a href="lwg-defects.html#3448" title="transform_view's sentinel&lt;false&gt; not comparable with iterator&lt;true&gt; (Status: C++23)">3448</a>, these operators can't be easily templatized,
+[<i>Drafting note</i>: Unlike LWG <a href="lwg-defects.html#3448" title="transform_view's sentinel&lt;false&gt; not comparable with iterator&lt;true&gt; (Status: C++23)">3448</a><sup><a href="https://cplusplus.github.io/LWG/issue3448" title="Latest snapshot">(i)</a></sup>, these operators can't be easily templatized,
 so the approach taken here is to add an overload for the opposite constness instead.
 However, because <code>const V</code> may not even be a range (and therefore
 <code>iterator_t&lt;const V&gt;</code> may not be well-formed), we need to defer

@@ -95,7 +95,7 @@ or <code>std::rbegin</code> is provided, the definitions of <code>std::reverse_i
 are also provided. This strategy is already implemented by libc++, libstdc++, and MSVC STL, and thus I believe we 
 should standardize it to reduce uncertainty for users.
 <p/>
-Note that the situation for <code>std::reverse_iterator</code> is different from LWG <a href="lwg-closed.html#1361" title="Does use of std::size_t in a header imply that typedef name is available to users? (Status: NAD)">1361</a>, because every 
+Note that the situation for <code>std::reverse_iterator</code> is different from LWG <a href="lwg-closed.html#1361" title="Does use of std::size_t in a header imply that typedef name is available to users? (Status: NAD)">1361</a><sup><a href="https://cplusplus.github.io/LWG/issue1361" title="Latest snapshot">(i)</a></sup>, because every 
 operation on <code>std::size_t</code> is still valid when the typedef-name itself is absent, but <code>==</code> and 
 <code>!=</code> on <code>std::reverse_iterator</code> fail if the corresponding declarations are unavailable.
 </p>

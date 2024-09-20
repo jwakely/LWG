@@ -72,7 +72,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a> (RU 2) suggests that certain type-traits should be required to
+LWG <a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a><sup><a href="https://cplusplus.github.io/LWG/issue2797" title="Latest snapshot">(i)</a></sup> (RU 2) suggests that certain type-traits should be required to
 diagnose violations of their pre-conditions. The basic idea is founded and I see no problems for
 requiring this for the mentioned traits <code>alignment_of</code> or <code>is_base_of</code>,
 for example. But if we want to require this diagnostics for some other traits, such as <code>is_convertible</code>,
@@ -95,7 +95,7 @@ require a complete type, so <em>generally</em> relaxing the current restrictions
 The core language has a solution for this "small" gap of situations, where the response of the compiler <em>might</em>
 depend on type completeness: Undefined behaviour. So, I believe we need a somewhat more detailled form to express the
 intend here. Informally, I would suggest that the program should only be ill-formed in the situation described by 
-LWG <a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a>, if there exists the <em>possibility</em> that the compiler would require complete types for the
+LWG <a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a><sup><a href="https://cplusplus.github.io/LWG/issue2797" title="Latest snapshot">(i)</a></sup>, if there exists the <em>possibility</em> that the compiler would require complete types for the
 considered operation. The example shown above, <code>std::is_convertible_v&lt;X, const X&amp;&gt;</code>, would <b>never</b>
 require the need to complete <code>X</code>, so here no violation should exist.
 <p/>
@@ -108,16 +108,16 @@ this issue suggests to fix the current situation <em>before</em> enforcing a dia
 
 <p><i>[2017-03-04, Kona]</i></p>
 
-<p>Set priority to 2. Is related to <a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a>, but really needs an audit of the type traits.</p>
+<p>Set priority to 2. Is related to <a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a><sup><a href="https://cplusplus.github.io/LWG/issue2797" title="Latest snapshot">(i)</a></sup>, but really needs an audit of the type traits.</p>
 
 <p><i>[2018-08 Batavia Monday issue discussion]</i></p>
 
-<p>Issues <a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a>, <a href="lwg-active.html#2939" title="Some type-completeness constraints of traits are overspecified (Status: Open)">2939</a>, <a href="lwg-defects.html#3022" title="is_convertible&lt;derived*, base*&gt; may lead to ODR (Status: Resolved)">3022</a>, and <a href="lwg-active.html#3099" title="is_assignable&lt;Incomplete&amp;, Incomplete&amp;&gt; (Status: Open)">3099</a> are all closely related. Walter to write a paper resolving them.</p>
+<p>Issues <a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a><sup><a href="https://cplusplus.github.io/LWG/issue2797" title="Latest snapshot">(i)</a></sup>, <a href="lwg-active.html#2939" title="Some type-completeness constraints of traits are overspecified (Status: Open)">2939</a><sup><a href="https://cplusplus.github.io/LWG/issue2939" title="Latest snapshot">(i)</a></sup>, <a href="lwg-defects.html#3022" title="is_convertible&lt;derived*, base*&gt; may lead to ODR (Status: Resolved)">3022</a><sup><a href="https://cplusplus.github.io/LWG/issue3022" title="Latest snapshot">(i)</a></sup>, and <a href="lwg-active.html#3099" title="is_assignable&lt;Incomplete&amp;, Incomplete&amp;&gt; (Status: Open)">3099</a><sup><a href="https://cplusplus.github.io/LWG/issue3099" title="Latest snapshot">(i)</a></sup> are all closely related. Walter to write a paper resolving them.</p>
 
 <p><i>[2020-02 Prague Thursday issue discussion]</i></p>
 
 <p>
-Two of the issues (<a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a> and <a href="lwg-defects.html#3022" title="is_convertible&lt;derived*, base*&gt; may lead to ODR (Status: Resolved)">3022</a>) had been resolved by the
+Two of the issues (<a href="lwg-defects.html#2797" title="Trait precondition violations (Status: Resolved)">2797</a><sup><a href="https://cplusplus.github.io/LWG/issue2797" title="Latest snapshot">(i)</a></sup> and <a href="lwg-defects.html#3022" title="is_convertible&lt;derived*, base*&gt; may lead to ODR (Status: Resolved)">3022</a><sup><a href="https://cplusplus.github.io/LWG/issue3022" title="Latest snapshot">(i)</a></sup>) had been resolved by the
 acceptance of <a href="https://wg21.link/p1285r0">P1285R0</a>.
 </p>
 
@@ -297,7 +297,7 @@ to "Args contains a single type and that type is similar".
 
 
 <p id="res-2939"><b>Proposed resolution:</b></p>
-<p>This wording is relative to <a href="https://wg21.link/N4988">N4988</a>.</p>
+<p>This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.</p>
 <blockquote>
 <ol>
 <li>

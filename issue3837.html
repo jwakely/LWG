@@ -90,7 +90,7 @@ to <code>std::remove_if</code> or the container's <code>remove_if</code> (see
 <p/>
 Now, algorithms are generally allowed to take as many copies of
 predicates as they want &mdash; this is 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>/9, 
-but cf. LWG <a href="lwg-active.html#3049" title="Missing wording allowing algorithms to use copies of function objects as substitutes for their parameters (Status: Open)">3049</a>. 
+but cf. LWG <a href="lwg-active.html#3049" title="Missing wording allowing algorithms to use copies of function objects as substitutes for their parameters (Status: Open)">3049</a><sup><a href="https://cplusplus.github.io/LWG/issue3049" title="Latest snapshot">(i)</a></sup>. 
 However it still feels strange/sloppy that a copy here is <em>mandated</em> by the Standard.
 An implementation that would otherwise make no copies of a predicate in an algorithm 
 <em>must</em> make a copy in the <code>erase_if</code> overloads.
@@ -124,7 +124,7 @@ Set priority to 3 after reflector poll.
 is unspecified when the wording depicts a copy of a function object."
 </p>
 <p>
-Related to LWG <a href="lwg-active.html#3049" title="Missing wording allowing algorithms to use copies of function objects as substitutes for their parameters (Status: Open)">3049</a>.
+Related to LWG <a href="lwg-active.html#3049" title="Missing wording allowing algorithms to use copies of function objects as substitutes for their parameters (Status: Open)">3049</a><sup><a href="https://cplusplus.github.io/LWG/issue3049" title="Latest snapshot">(i)</a></sup>.
 </p>
 
 

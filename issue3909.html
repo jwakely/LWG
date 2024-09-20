@@ -70,7 +70,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#Tentatively NAD">Tentatively NAD</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-After LWG <a href="lwg-defects.html#3724" title="decay-copy should be constrained (Status: C++23)">3724</a>, <code>views::all</code> is well-constrained for view types,
+After LWG <a href="lwg-defects.html#3724" title="decay-copy should be constrained (Status: C++23)">3724</a><sup><a href="https://cplusplus.github.io/LWG/issue3724" title="Latest snapshot">(i)</a></sup>, <code>views::all</code> is well-constrained for view types,
 and the constraints are stronger than <code>viewable_range</code>.
 The difference is that given an expression such that <code>decltype</code> gives <code>R</code>,
 when <code>decay_t&lt;R&gt;</code> is a view type and the implicit conversion of <code>R</code>
@@ -96,7 +96,7 @@ This should have no impact on standard range adaptor objects.
 Set status to Tentatively NAD after three votes in favour during reflector poll.
 </p>
 <p>
-"First change is pointless. Second change is a duplicate of <a href="lwg-active.html#3896" title="The definition of viewable_range is not quite right (Status: New)">3896</a>.
+"First change is pointless. Second change is a duplicate of <a href="lwg-active.html#3896" title="The definition of viewable_range is not quite right (Status: New)">3896</a><sup><a href="https://cplusplus.github.io/LWG/issue3896" title="Latest snapshot">(i)</a></sup>.
 Range adaptors return a view over their first argument, so they need to
 require it's a <code>viewable_range</code>."
 </p>

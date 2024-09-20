@@ -182,9 +182,9 @@ operations listed in those requirements must work as specified whether
 <p><i>[2016-08-07, Daniel reopens]</i></p>
 
 <p>
-With the acceptance of LWG <a href="lwg-defects.html#2598" title="addressof works on temporaries (Status: C++17)">2598</a>, the proposed wording is invalid code, because it attempts to
+With the acceptance of LWG <a href="lwg-defects.html#2598" title="addressof works on temporaries (Status: C++17)">2598</a><sup><a href="https://cplusplus.github.io/LWG/issue2598" title="Latest snapshot">(i)</a></sup>, the proposed wording is invalid code, because it attempts to
 call <code>std::addressof</code> with an rvalue argument. It should be pointed out that the new restriction 
-caused by <a href="lwg-defects.html#2598" title="addressof works on temporaries (Status: C++17)">2598</a> doesn't affect real code, because any identity test within a move assignment
+caused by <a href="lwg-defects.html#2598" title="addressof works on temporaries (Status: C++17)">2598</a><sup><a href="https://cplusplus.github.io/LWG/issue2598" title="Latest snapshot">(i)</a></sup> doesn't affect real code, because any identity test within a move assignment
 operator (or any comparable function) would act on the current function argument, which is an lvalue in the
 context of the function body. The existing wording form of the issue could still be kept, if a helper variable
 would be introduced such as:

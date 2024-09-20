@@ -70,11 +70,11 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#2192" title="Validity and return type of std::abs(0u) is unclear (Status: C++17)">2192</a> changed the library specification so that you always get all the <code>std::abs</code> overloads for fundamental 
+LWG <a href="lwg-defects.html#2192" title="Validity and return type of std::abs(0u) is unclear (Status: C++17)">2192</a><sup><a href="https://cplusplus.github.io/LWG/issue2192" title="Latest snapshot">(i)</a></sup> changed the library specification so that you always get all the <code>std::abs</code> overloads for fundamental 
 types if you get any of them.
 <p/>
 Except that it missed one: <code>&lt;cinttypes&gt;</code> provides a <code>std::abs</code> (and <code>std::div</code>) overload for 
-<code>intmax_t</code> if it's not <code>long long</code> (since LWG <a href="lwg-defects.html#1449" title="Incomplete specification of header &lt;cinttypes&gt; (Status: C++11)">1449</a>). Presumably that one should also follow the 
+<code>intmax_t</code> if it's not <code>long long</code> (since LWG <a href="lwg-defects.html#1449" title="Incomplete specification of header &lt;cinttypes&gt; (Status: C++11)">1449</a><sup><a href="https://cplusplus.github.io/LWG/issue1449" title="Latest snapshot">(i)</a></sup>). Presumably that one should also follow the 
 <code>&lt;cstdlib&gt;</code>/<code>&lt;cmath&gt;</code> pattern and we should make the complete <code>abs</code> overload set available 
 whenever any of the three headers is included? (And likewise we should make the complete <code>std::div</code> overload set 
 available whenever either <code>&lt;cstdlib&gt;</code> or <code>&lt;cinttypes&gt;</code> is included.)

@@ -72,7 +72,7 @@
 <p><b>Discussion:</b></p>
 
 <p>
-LWG issue <a href="lwg-defects.html#2180" title="Exceptions from std::seed_seq operations (Status: C++14)">2180</a> points out some deficiences in regard to the specification of the library-provided
+LWG issue <a href="lwg-defects.html#2180" title="Exceptions from std::seed_seq operations (Status: C++14)">2180</a><sup><a href="https://cplusplus.github.io/LWG/issue2180" title="Latest snapshot">(i)</a></sup> points out some deficiences in regard to the specification of the library-provided
 type <code>std::seed_seq</code> regarding exceptions, but there is another specification problem 
 in regard to general types satisfying the <em>seed sequence</em> constraints (named <code>SSeq</code>) as described in 
 28.5.3.2 <a href="https://wg21.link/rand.req.seedseq">[rand.req.seedseq]</a>.
@@ -100,7 +100,7 @@ void linear_congruential_engine&lt;&gt;::seed(Sseq&amp; q);
 <p>
 None of these operations has an exclusion rule for exceptions.
 <p/>
-As described in <a href="lwg-defects.html#2180" title="Exceptions from std::seed_seq operations (Status: C++14)">2180</a> the wording for <code>std::seed_seq</code> should and can be fixed to ensure that 
+As described in <a href="lwg-defects.html#2180" title="Exceptions from std::seed_seq operations (Status: C++14)">2180</a><sup><a href="https://cplusplus.github.io/LWG/issue2180" title="Latest snapshot">(i)</a></sup> the wording for <code>std::seed_seq</code> should and can be fixed to ensure that 
 operations of <code>seed_seq::generate()</code> won't throw except from operations of the provided iterator range, 
 but there is no corresponding "safety belt" for user-provided <code>SSeq</code> types, since 28.5.3.2 <a href="https://wg21.link/rand.req.seedseq">[rand.req.seedseq]</a>
 does not impose no-throw requirements onto operations of <em>seed sequences</em>.

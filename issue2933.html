@@ -71,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#Resolved">Resolved</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The current PR for LWG <a href="lwg-defects.html#2773" title="Making std::ignore constexpr (Status: C++17)">2773</a> changes <code>std::ignore</code> to be a <code>constexpr</code> variable. However it says 
+The current PR for LWG <a href="lwg-defects.html#2773" title="Making std::ignore constexpr (Status: C++17)">2773</a><sup><a href="https://cplusplus.github.io/LWG/issue2773" title="Latest snapshot">(i)</a></sup> changes <code>std::ignore</code> to be a <code>constexpr</code> variable. However it says 
 nothing about whether using <code>std::ignore</code> in <code>std::tie</code> is a constant expression. I think the intent was clearly 
 to allow this. Therefore I suggest we update the resolution to explicitly call this out in a note. (I don't think new normative 
 wording is needed).

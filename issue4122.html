@@ -70,7 +70,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-This is almost the same problem as LWG <a href="lwg-defects.html#4071" title="reference_wrapper comparisons are not SFINAE-friendly (Status: WP)">4071</a> except that it happens to <code>std::inplace_vector</code>. 
+This is almost the same problem as LWG <a href="lwg-defects.html#4071" title="reference_wrapper comparisons are not SFINAE-friendly (Status: WP)">4071</a><sup><a href="https://cplusplus.github.io/LWG/issue4071" title="Latest snapshot">(i)</a></sup> except that it happens to <code>std::inplace_vector</code>. 
 As the <code>operator&lt;=&gt;</code> overload for <code>std::inplace_vector</code> is a non-template function whose return 
 type (<code><i>synth-three-way-result</i>&lt;T&gt;</code>) is not deduced, when the return type is ill-formed, hard 
 error occurs in the instantiation of the enclosing <code>std::inplace_vector&lt;T, N&gt;</code>.

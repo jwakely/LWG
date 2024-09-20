@@ -86,13 +86,13 @@ came in 33.6.4.4 <a href="https://wg21.link/thread.sharedmutex.requirements">[th
 duration shall be rounded up to the nearest native tick period. [&hellip;]
 </p></blockquote>
 <p> 
-while a very similar one had been removed for 33.6.4.3 <a href="https://wg21.link/thread.timedmutex.requirements">[thread.timedmutex.requirements]</a> by LWG <a href="lwg-defects.html#2091" title="Misplaced effect in m.try_lock_for() (Status: C++14)">2091</a>. 
+while a very similar one had been removed for 33.6.4.3 <a href="https://wg21.link/thread.timedmutex.requirements">[thread.timedmutex.requirements]</a> by LWG <a href="lwg-defects.html#2091" title="Misplaced effect in m.try_lock_for() (Status: C++14)">2091</a><sup><a href="https://cplusplus.github.io/LWG/issue2091" title="Latest snapshot">(i)</a></sup>. 
 <p/>
 Having this guaranteed effect for <code>try_lock_shared_for</code> but not for <code>try_lock_for</code> seems inconsistent
 and astonishing.
 <p/>
 If the actual intended restriction imposed onto the implementation is to forbid early wakeups here, we should ensure that
-to hold for timed mutex's <code>try_lock_for</code> as well. Note that the rationale provided for LWG <a href="lwg-defects.html#2091" title="Misplaced effect in m.try_lock_for() (Status: C++14)">2091</a> was
+to hold for timed mutex's <code>try_lock_for</code> as well. Note that the rationale provided for LWG <a href="lwg-defects.html#2091" title="Misplaced effect in m.try_lock_for() (Status: C++14)">2091</a><sup><a href="https://cplusplus.github.io/LWG/issue2091" title="Latest snapshot">(i)</a></sup> was
 a potential late wakeup situation, but it seems that there is no implementation restriction that prevents early wakeups.
 </p>
 </li>
@@ -108,7 +108,7 @@ the corresponding <code>TimedLockable</code> requirements, but there are no <cod
 <li>
 <p>
 The shared-lock requirements for <code>*lock_for/_until()</code> functions require "<i>Throws:</i> Nothing."
-instead of "<i>Throws:</i> Timeout-related exceptions (30.2.4)." which had been added by LWG <a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate (Status: C++14)">2093</a>, because user-provided
+instead of "<i>Throws:</i> Timeout-related exceptions (30.2.4)." which had been added by LWG <a href="lwg-defects.html#2093" title="Throws clause of condition_variable::wait with predicate (Status: C++14)">2093</a><sup><a href="https://cplusplus.github.io/LWG/issue2093" title="Latest snapshot">(i)</a></sup>, because user-provided
 clocks, durations, or time points may throw exceptions. 
 </p>
 </li>

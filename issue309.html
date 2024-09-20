@@ -84,9 +84,9 @@ others propagate.
 The text also mentions that the functions may call setstate(failbit)
 (without actually saying on what object, but presumably the stream
 argument is meant).  That may have been fine for
-basic_istream&lt;&gt;::sentry prior to issue <a href="lwg-defects.html#195" title="Should basic_istream::sentry's constructor ever set eofbit? (Status: TC1)">195</a>, since
+basic_istream&lt;&gt;::sentry prior to issue <a href="lwg-defects.html#195" title="Should basic_istream::sentry's constructor ever set eofbit? (Status: TC1)">195</a><sup><a href="https://cplusplus.github.io/LWG/issue195" title="Latest snapshot">(i)</a></sup>, since
 the function performs an input operation which may fail. However,
-issue <a href="lwg-defects.html#195" title="Should basic_istream::sentry's constructor ever set eofbit? (Status: TC1)">195</a> amends  [istream::sentry], p2 to
+issue <a href="lwg-defects.html#195" title="Should basic_istream::sentry's constructor ever set eofbit? (Status: TC1)">195</a><sup><a href="https://cplusplus.github.io/LWG/issue195" title="Latest snapshot">(i)</a></sup> amends  [istream::sentry], p2 to
 clarify that the function should actually call setstate(failbit |
 eofbit), so the sentence in p3 is redundant or even somewhat
 contradictory.

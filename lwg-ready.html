@@ -62,7 +62,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left">Revised 2024-08-22 at 10:18:00 UTC
+<td align="left">Revised 2024-09-20 at 12:59:18 UTC
 </td>
 </tr>
 <tr>
@@ -319,6 +319,224 @@ else</ins>
 </blockquote>
 </li>
 </ol>
+
+
+
+
+<hr>
+<h3 id="3886"><a href="#3886">3886</a><sup><a href="https://cplusplus.github.io/LWG/issue3886">(i)</a></sup>. Monad mo' problems</h3>
+<p><b>Section:</b> 22.5.3.1 <a href="https://wg21.link/optional.optional.general">[optional.optional.general]</a>, 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2023-02-13 <b>Last modified:</b> 2024-09-19</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#optional.optional.general">active issues</a> in [optional.optional.general].</p>
+<p><b>View all other</b> <a href="lwg-index.html#optional.optional.general">issues</a> in [optional.optional.general].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+While implementing <a href="https://wg21.link/P2505R5" title=" Monadic Functions for std::expected">P2505R5</a> "Monadic Functions for <code>std::expected</code>" we found it odd that
+the template type parameter for the assignment operator that accepts an argument by forwarding reference is
+defaulted, but the template type parameter for <code>value_or</code> is not. For consistency, it would seem that
+<code><i>meow</i>.value_or(<i>woof</i>)</code> should accept the same arguments <code><i>woof</i></code> as does
+<code><i>meow</i> = <i>woof</i></code>, even when those arguments are braced-initializers.
+<p/>
+That said, it would be peculiar to default the template type parameter of <code>value_or</code> to <code>T</code>
+instead of <code>remove_cv_t&lt;T&gt;</code>. For <code>expected&lt;const vector&lt;int&gt;, int&gt; <i>meow</i>{unexpect, 42};</code>,
+for example, <code><i>meow</i>.value_or({1, 2, 3})</code> would create a temporary <code>const vector&lt;int&gt;</code>
+for the argument and return a copy of that argument. Were the default template argument instead
+<code>remove_cv_t&lt;T&gt;</code>, <code><i>meow</i>.value_or({1, 2, 3})</code> could move construct its return value
+from the argument <code>vector&lt;int&gt;</code>. For the same reason, the constructor that accepts a forwarding
+reference with a default template argument of <code>T</code> should default that argument to <code>remove_cv_t&lt;T&gt;</code>.
+<p/>
+For consistency, it would be best to default the template argument of the perfect-forwarding construct,
+perfect-forwarding assignment operator, and <code>value_or</code> to <code>remove_cv_t&lt;T&gt;</code>. Since all of
+the arguments presented apply equally to <code>optional</code>, we believe <code>optional</code> should be changed
+consistently with <code>expected</code>. MSVCSTL has prototyped these changes successfully.
+</p>
+
+<p><i>[2023-03-22; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p><i>[2024-09-18; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-3886"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4928" title=" Working Draft, Standard for Programming Language C++">N4928</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.5.3.1 <a href="https://wg21.link/optional.optional.general">[optional.optional.general]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class T&gt;
+  class optional {
+  public:
+    [&hellip;]
+    template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt;
+      constexpr explicit(<i>see below</i>) optional(U&amp;&amp;);
+    [&hellip;]
+    template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr optional&amp; operator=(U&amp;&amp;);
+    [&hellip;]
+    template&lt;class U <ins>= remove_cv_t&lt;T&gt;</ins>&gt; constexpr T value_or(U&amp;&amp;) const &amp;;
+    template&lt;class U <ins>= remove_cv_t&lt;T&gt;</ins>&gt; constexpr T value_or(U&amp;&amp;) &amp;&amp;;
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.5.3.2 <a href="https://wg21.link/optional.ctor">[optional.ctor]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr explicit(<i>see below</i>) optional(U&amp;&amp; v);
+</pre>
+<blockquote>
+<p>
+-23- <i>Constraints</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.5.3.4 <a href="https://wg21.link/optional.assign">[optional.assign]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr optional&amp; operator=(U&amp;&amp; v);
+</pre>
+<blockquote>
+<p>
+-12- <i>Constraints</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.5.3.7 <a href="https://wg21.link/optional.observe">[optional.observe]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U <ins>= remove_cv_t&lt;T&gt;</ins>&gt; constexpr T value_or(U&amp;&amp; v) const &amp;;
+</pre>
+<blockquote>
+<p>
+-15- <i>Mandates</i>: [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template&lt;class U <ins>= remove_cv_t&lt;T&gt;</ins>&gt; constexpr T value_or(U&amp;&amp; v) &amp;&amp;;
+</pre>
+<blockquote>
+<p>
+-17- <i>Mandates</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class T, class E&gt;
+  class expected {
+  public:
+    [&hellip;]
+    template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt;
+      constexpr explicit(<i>see below</i>) expected(U&amp;&amp; v);
+    [&hellip;]
+    template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt; constexpr expected&amp; operator=(U&amp;&amp;);
+    [&hellip;]
+    template&lt;class U <ins>= remove_cv_t&lt;T&gt;</ins>&gt; constexpr T value_or(U&amp;&amp;) const &amp;;
+    template&lt;class U <ins>= remove_cv_t&lt;T&gt;</ins>&gt; constexpr T value_or(U&amp;&amp;) &amp;&amp;;
+    [&hellip;]
+  };
+  [&hellip;]
+}
+</pre>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.8.6.2 <a href="https://wg21.link/expected.object.cons">[expected.object.cons]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt;
+  constexpr explicit(!is_convertible_v&lt;U, T&gt;) expected(U&amp;&amp; v);
+</pre>
+<blockquote>
+<p>
+-23- <i>Constraints</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.8.6.4 <a href="https://wg21.link/expected.object.assign">[expected.object.assign]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U = <ins>remove_cv_t&lt;</ins>T<ins>&gt;</ins>&gt;
+  constexpr expected&amp; operator=(U&amp;&amp; v);
+</pre>
+<blockquote>
+<p>
+-9- <i>Constraints</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+<li><p>Modify 22.8.6.6 <a href="https://wg21.link/expected.object.obs">[expected.object.obs]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class U <ins>= remove_cv_t&lt;T&gt;</ins>&gt; constexpr T value_or(U&amp;&amp; v) const &amp;;
+</pre>
+<blockquote>
+<p>
+-16- <i>Mandates</i>: [&hellip;]
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+template&lt;class U <ins>= remove_cv_t&lt;T&gt;</ins>&gt; constexpr T value_or(U&amp;&amp; v) &amp;&amp;;
+</pre>
+<blockquote>
+<p>
+-18- <i>Mandates</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+
+</ol>
+
 
 
 
@@ -1803,8 +2021,8 @@ to the "compare with value" overloads so that they won't be used when the
 
 <p>
 A similar change was made to <code class='backtick'>optional</code>'s <code>operator&lt;=&gt;</code> by
-LWG <a href="lwg-defects.html#3566" title="Constraint recursion for operator&lt;=&gt;(optional&lt;T&gt;, U) (Status: C++23)">3566</a>, and modified by LWG <a href="lwg-defects.html#3746" title="optional's spaceship with U with a type derived from optional 
-causes infinite constraint meta-recursion (Status: C++23)">3746</a>.
+LWG <a href="lwg-defects.html#3566" title="Constraint recursion for operator&lt;=&gt;(optional&lt;T&gt;, U) (Status: C++23)">3566</a><sup><a href="https://cplusplus.github.io/LWG/issue3566" title="Latest snapshot">(i)</a></sup>, and modified by LWG <a href="lwg-defects.html#3746" title="optional's spaceship with U with a type derived from optional 
+causes infinite constraint meta-recursion (Status: C++23)">3746</a><sup><a href="https://cplusplus.github.io/LWG/issue3746" title="Latest snapshot">(i)</a></sup>.
 I haven't analyzed whether we need the modification here too.
 </p>
 
@@ -1818,7 +2036,7 @@ has been implemented and tested in libstdc++.
 <p>
 Set priority to 1 after reflector poll.
 LWG <a href="lwg-defects.html#3746" title="optional's spaceship with U with a type derived from optional 
-causes infinite constraint meta-recursion (Status: C++23)">3746</a> changes might be needed here too,
+causes infinite constraint meta-recursion (Status: C++23)">3746</a><sup><a href="https://cplusplus.github.io/LWG/issue3746" title="Latest snapshot">(i)</a></sup> changes might be needed here too,
 i.e, consider types derived from <code class='backtick'>optional</code>, not only <code class='backtick'>optional</code> itself.
 </p>
 
@@ -1958,6 +2176,123 @@ and its result is convertible to <code class='backtick'>bool</code>.
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3 id="4084"><a href="#4084">4084</a><sup><a href="https://cplusplus.github.io/LWG/issue4084">(i)</a></sup>. <code>std::fixed</code> ignores <code>std::uppercase</code></h3>
+<p><b>Section:</b> 30.4.3.3.3 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-04-30 <b>Last modified:</b> 2024-09-19</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#facet.num.put.virtuals">active issues</a> in [facet.num.put.virtuals].</p>
+<p><b>View all other</b> <a href="lwg-index.html#facet.num.put.virtuals">issues</a> in [facet.num.put.virtuals].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In Table 114 &ndash; Floating-point conversions [tab:facet.num.put.fp]
+we specify that a floating-point value should be printed as if by <code class='backtick'>%f</code>
+when <code>(flags &amp; floatfield) == fixed</code>.
+This ignores whether <code class='backtick'>uppercase</code> is also set in <code class='backtick'>flags</code>,
+meaning there is no way to use the conversion specifier <code class='backtick'>%F</code>
+that was added to <code class='backtick'>printf</code> in C99.
+</p>
+<p>
+That's fine for finite values, because 1.23 in fixed format has
+no exponent character and no hex digits that would need to use uppercase.
+But <code class='backtick'>%f</code> and <code class='backtick'>%F</code> are not equivalent for non-finite values,
+because <code class='backtick'>%F</code> prints <code class='backtick'>"NAN"</code> and <code class='backtick'>"INF"</code> (or <code class='backtick'>"INFINITY"</code>).
+It seems there is no way to print <code class='backtick'>"NAN"</code> or <code class='backtick'>"INF"</code> using <code class='backtick'>std::num_put</code>.
+</p>
+<p>
+Libstdc++ and MSVC print <code class='backtick'>"inf"</code> for the following code,
+but libc++ prints <code class='backtick'>"INF"</code> which I think is non-conforming:
+</p>
+<pre><code>    std::cout &lt;&lt; std::uppercase &lt;&lt; std::fixed &lt;&lt; std::numeric_limits&lt;double&gt;::infinity();
+</code></pre>
+<p>
+The libc++ behaviour seems more useful and less surprising.
+</p>
+
+<p><i>[2024-05-08; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll. Send to LEWG.
+</p>
+<p><i>[2024-09-17; LEWG mailing list vote]</i></p>
+
+<p>
+Set status to Open after LEWG approved the proposed change.
+</p>
+<p><i>[2024-09-19; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after eight votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4084"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+</p>
+<ol>
+<li><p>Modify 30.4.3.3.3 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> as indicated:</p>
+
+<blockquote>
+<table style="border: 1px solid">
+<caption style="caption-side: top">
+Table 114 &ndash; Floating-point conversions [tab:facet.num.put.fp]
+</caption>
+<tr style="text-align: center">
+<th style="border-bottom: 1px solid">State</th>
+<th style="border-bottom: 1px solid"><code class='backtick'>stdio</code> equivalent</th>
+</tr>
+<tr>
+<td>
+<code class='backtick'>floatfield == ios_base::fixed</code> <ins><code>&amp;&amp; !uppercase</code></ins>
+</td>
+<td style="text-align: center"><code class='backtick'>%f</code></td>
+</tr>
+<tr>
+<td><ins><code class='backtick'>floatfield == ios_base::fixed</code></ins></td>
+<td style="text-align: center"><ins><code class='backtick'>%F</code></ins></td>
+</tr>
+<tr>
+<td><code>floatfield == ios_base::scientific &amp;&amp; !uppercase</code></td>
+<td style="text-align: center"><code class='backtick'>%e</code></td>
+</tr>
+<tr>
+<td><code>floatfield == ios_base::scientific</code></td>
+<td style="text-align: center"><code class='backtick'>%E</code></td>
+</tr>
+<tr>
+<td>
+<code>
+floatfield == (ios_base::fixed | ios_base::scientific)` &amp;&amp; !uppercase
+</code>
+</td>
+<td style="text-align: center"><code class='backtick'>%a</code></td>
+</tr>
+<tr>
+<td><code>floatfield == (ios_base::fixed | ios_base::scientific)</code></td>
+<td style="text-align: center"><code class='backtick'>%A</code></td>
+</tr>
+<tr>
+<td><code class='backtick'>!uppercase</code></td>
+<td style="text-align: center"><code class='backtick'>%g</code></td>
+</tr>
+<tr>
+<td><em>otherwise</em></td>
+<td style="text-align: center"><code class='backtick'>%G</code></td>
+</tr>
+</table>
+</blockquote>
+</li>
+</ol>
+
 
 
 
@@ -2384,6 +2719,8 @@ by <a href="https://wg21.link/P2291R3" title=" Add Constexpr Modifiers to Functi
  <b>Submitter:</b> Ilya A. Burylov <b>Opened:</b> 2024-08-06 <b>Last modified:</b> 2024-08-21</p>
 <p><b>Priority: </b>1
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#rand.eng.philox">active issues</a> in [rand.eng.philox].</p>
+<p><b>View all other</b> <a href="lwg-index.html#rand.eng.philox">issues</a> in [rand.eng.philox].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
@@ -2440,7 +2777,7 @@ Set priority to 1 after reflector poll.
 
 <p id="res-4134"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4988">N4988</a>.
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
 </p>
 
 <ol>
@@ -2673,7 +3010,7 @@ Set status to Tentatively Ready after nine votes in favour during reflector poll
 
 <p id="res-4135"><b>Proposed resolution:</b></p>
 <p>
-This wording is relative to <a href="https://wg21.link/N4988">N4988</a>.
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
 </p>
 
 <ol>
@@ -2712,6 +3049,494 @@ template&lt;class T, class Allocator, class U = T&gt;
 </blockquote>
 </li>
 
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4140"><a href="#4140">4140</a><sup><a href="https://cplusplus.github.io/LWG/issue4140">(i)</a></sup>. Useless default constructors for bit reference types</h3>
+<p><b>Section:</b> 22.9.2.1 <a href="https://wg21.link/template.bitset.general">[template.bitset.general]</a>, 24.3.13.1 <a href="https://wg21.link/vector.bool.pspc">[vector.bool.pspc]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-08-21 <b>Last modified:</b> 2024-09-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The standard shows a private default constructor for
+<code>bitset&lt;N&gt;::reference</code>
+but does not define its semantics, and nothing in the spec refers to it.
+It was present in C++98, then in C++11 it got <code class='backtick'>noexcept</code> added to it,
+and in C++23 it was made <code class='backtick'>constexpr</code> by <a href="https://wg21.link/P2417R2" title=" A more constexpr bitset">P2417R2</a>. That's quite
+a lot of churn for an unusuable member function with no definition.
+</p>
+<p>
+In libstdc++ it's declared as private, but never defined.
+In libc++ it doesn't exist at all.
+In MSVC it is private and defined (and presumably used somewhere).
+There's no reason for the standard to declare it.
+Implementers can define it as private if they want to, or not.
+The spec doesn't need to say anything for that to be true.
+We can also remove the friend declaration, because implementers know how to
+do that too.
+</p>
+<p>
+I suspect it was added as private originally so that it didn't look like
+<code class='backtick'>reference</code> should have an implicitly-defined default constructor,
+which would have been the case in previous standards with no other
+constructors declared.
+However, C++20 added <code>reference(const reference&amp;) = default;</code>
+which suppresses the implicit default constructor, so declaring the
+default constructor as private is now unnecessary.
+</p>
+<p>
+Jiang An pointed out in an editorial pull request that
+<code>vector&lt;bool, Alloc&gt;::reference</code>
+has exactly the same issue.
+</p>
+
+<p><i>[2024-09-18; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after eight votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4140"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.9.2.1 <a href="https://wg21.link/template.bitset.general">[template.bitset.general]</a> as indicated:</p>
+<blockquote>
+<pre>
+namespace std {
+  template&lt;size_t N&gt; class bitset {
+  public:
+    <i>// bit reference</i>
+    class reference {
+      <del>friend class bitset;</del>
+      <del>constexpr reference() noexcept;</del>
+
+    public:
+      constexpr reference(const reference&amp;) = default;
+      constexpr ~reference();
+      constexpr reference&amp; operator=(bool x) noexcept;            <i>// for</i> b[i] = x;
+      constexpr reference&amp; operator=(const reference&amp;) noexcept;  <i>// for</i> b[i] = b[j];
+      constexpr bool operator~() const noexcept;                  <i>// flips the bit</i>
+      constexpr operator bool() const noexcept;                   <i>// for</i> x = b[i];
+      constexpr reference&amp; flip() noexcept;                       <i>// for</i> b[i].flip();
+    };
+</pre>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.13.1 <a href="https://wg21.link/vector.bool.pspc">[vector.bool.pspc]</a>, <code>vector&lt;bool, Allocator&gt;</code> synopsis, as indicated:</p>
+<blockquote>
+<pre>
+namespace std {
+  template&lt;class Allocator&gt;
+  class vector&lt;bool, Allocator&gt; {
+  public:
+    <i>// types</i>
+    [&hellip;]
+    <i>// bit reference</i>
+    class reference {
+      <del>friend class vector;</del>
+      <del>constexpr reference() noexcept;</del>
+
+    public:
+      constexpr reference(const reference&amp;) = default;
+      constexpr ~reference();
+      constexpr operator bool() const noexcept;
+      constexpr reference&amp; operator=(bool x) noexcept;
+      constexpr reference&amp; operator=(const reference&amp; x) noexcept;
+      constexpr const reference&amp; operator=(bool x) const noexcept;
+      constexpr void flip() noexcept;   <i>// flips the bit</i>
+    };
+</pre>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="4141"><a href="#4141">4141</a><sup><a href="https://cplusplus.github.io/LWG/issue4141">(i)</a></sup>. Improve prohibitions on "additional storage"</h3>
+<p><b>Section:</b> 22.5.3.1 <a href="https://wg21.link/optional.optional.general">[optional.optional.general]</a>, 22.6.3.1 <a href="https://wg21.link/variant.variant.general">[variant.variant.general]</a>, 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a>, 22.8.7.1 <a href="https://wg21.link/expected.void.general">[expected.void.general]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-08-22 <b>Last modified:</b> 2024-09-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#optional.optional.general">active issues</a> in [optional.optional.general].</p>
+<p><b>View all other</b> <a href="lwg-index.html#optional.optional.general">issues</a> in [optional.optional.general].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+This issue was split out from issue <a href="lwg-active.html#4015" title="LWG 3973 broke const overloads of std::optional monadic operations (Status: Open)">4015</a><sup><a href="https://cplusplus.github.io/LWG/issue4015" title="Latest snapshot">(i)</a></sup>.
+</p>
+<p>
+<code class='backtick'>optional</code>, <code class='backtick'>variant</code> and <code class='backtick'>expected</code> all use similar wording to require
+their contained value to be a subobject, rather than dynamically allocated
+and referred to by a pointer, e.g.
+<blockquote>
+When an instance of <code>optional&lt;T&gt;</code> contains a value,
+it means that an object of type <code>T</code>, referred to as the
+optional object’s <i>contained value</i>,
+is allocated within the storage of the optional object.
+Implementations are not permitted to use additional storage,
+such as dynamic memory, to allocate its contained value.
+</blockquote>
+</p>
+
+<p>
+During the LWG reviews of <a href="https://wg21.link/P2300" title=" `std::execution`">P2300</a> in St. Louis, concerns were
+raised about the form of this wording and whether it's normatively meaningful.
+Except for the special case of standard-layout class types, the standard has
+very few requirements on where or how storage for subobjects is allocated.
+The library should not be trying to dictate more than the language guarantees.
+It would be better to refer to wording from 6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>
+such as <i>subobject</i>, <i>provides storage</i>, or <i>nested within</i>.
+Any of these terms would provide the desired properties, without using
+different (and possibly inconsistent) terminology.
+</p>
+<p>
+Using an array of bytes to <i>provide storage</i> for the contained value would
+make it tricky to meet the constexpr requirements of types like <code class='backtick'>optional</code>.
+This means in practice, the most restrictive of these terms, <i>subobject</i>,
+is probably accurate and the only plausible implementation strategy.
+However, I don't see any reason to outlaw other implementation strategies that
+might be possible in future (say, with a constexpr type cast, or non-standard
+compiler-specific instrinics).
+For this reason, the proposed resolution below uses <i>nested within</i>,
+which provides the desired guarantee without imposing additional restrictions
+on implementations.
+</p>
+
+<p><i>[2024-09-18; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4141"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.5.3.1 <a href="https://wg21.link/optional.optional.general">[optional.optional.general]</a> as indicated:</p>
+
+<blockquote class="note">
+[<i>Drafting note</i>:
+This edit modifies the same paragraph as issue <a href="lwg-active.html#4015" title="LWG 3973 broke const overloads of std::optional monadic operations (Status: Open)">4015</a><sup><a href="https://cplusplus.github.io/LWG/issue4015" title="Latest snapshot">(i)</a></sup>,
+but that other issue intentionally doesn't touch the affected sentence here
+(except for removing the italics on "contained value").
+The intention is that the merge conflict can be resolved in the obvious way:
+"An optional object's contained value
+is nested within (6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>) the optional object."]
+</blockquote>
+
+<blockquote>
+<p>
+-1-
+Any instance of <code>optional&lt;T&gt;</code> at any given time either
+contains a value or does not contain a value.
+When an instance of <code>optional&lt;T&gt;</code> <i>contains a value</i>,
+it means that an object of type <code>T</code>,
+referred to as the optional object's <i>contained value</i>,
+is
+<del>allocated within the storage of</del>
+<ins>nested within (6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>)</ins>
+the optional object.
+<del>
+Implementations are not permitted to use additional storage,
+such as dynamic memory, to allocate its contained value.
+</del>
+When an object of type <code>optional&lt;T&gt;</code>
+is contextually converted to <code>bool</code>,
+the conversion returns <code class='backtick'>true</code> if the object contains a value;
+otherwise the conversion returns <code class='backtick'>false</code>.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.6.3.1 <a href="https://wg21.link/variant.variant.general">[variant.variant.general]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1-
+Any instance of <code>variant</code> at any given time either
+holds a value of one of its alternative types or holds no value.
+When an instance of <code>variant</code> holds a value of alternative type <code class='backtick'>T</code>,
+it means that a value of type <code>T</code>,
+referred to as the <code class='backtick'>variant</code> object's <i>contained value</i>,
+is
+<del>allocated within the storage of</del>
+<ins>nested within (6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>)</ins>
+the <code class='backtick'>variant</code> object.
+<del>
+Implementations are not permitted to use additional storage,
+such as dynamic memory, to allocate the contained value.
+</del>
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.8.6.1 <a href="https://wg21.link/expected.object.general">[expected.object.general]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1-
+Any object of type <code>expected&lt;T, E&gt;</code> either contains
+a value of type <code class='backtick'>T</code> or a value of type <code class='backtick'>E</code>
+<del>within its own storage</del>
+<ins>nested within (6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>) it</ins>.
+<del>
+Implementations are not permitted to use additional storage,
+such as dynamic memory,
+to allocate the object of type <code class='backtick'>T</code> or the object of type <code class='backtick'>E</code>.
+</del>
+Member <i><code>has_val</code></i> indicates whether the
+<code>expected&lt;T, E&gt;</code> object contains an object of type <code class='backtick'>T</code>.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 22.8.7.1 <a href="https://wg21.link/expected.void.general">[expected.void.general]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1-
+Any object of type <code>expected&lt;T, E&gt;</code> either represents
+a value of type <code class='backtick'>T</code>, or contains a value of type <code class='backtick'>E</code>
+<del>within its own storage</del>
+<ins>nested within (6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>) it</ins>.
+<del>
+Implementations are not permitted to use additional storage,
+such as dynamic memory, to allocate the object of type <code class='backtick'>E</code>.
+</del>
+Member <i><code>has_val</code></i> indicates whether the
+<code>expected&lt;T, E&gt;</code> represents a value of type <code class='backtick'>T</code>.
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="4142"><a href="#4142">4142</a><sup><a href="https://cplusplus.github.io/LWG/issue4142">(i)</a></sup>. <code>format_parse_context::check_dynamic_spec</code> should require at least one type</h3>
+<p><b>Section:</b> 22.14.6.6 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-08-28 <b>Last modified:</b> 2024-09-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#format.parse.ctx">issues</a> in [format.parse.ctx].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The <i>Mandates</i>: conditions for <code class='backtick'>format_parse_context::check_dynamic_spec</code>
+are:
+<blockquote>
+-14- <i>Mandates</i>:
+The types in <code class='backtick'>Ts...</code> are unique. Each type in <code class='backtick'>Ts...</code> is one of <code class='backtick'>bool</code>,
+<code class='backtick'>char_type</code>, <code class='backtick'>int</code>, <code class='backtick'>unsigned int</code>, <code class='backtick'>long long int</code>, <code class='backtick'>unsigned long long int</code>,
+<code class='backtick'>float</code>, <code class='backtick'>double</code>, <code class='backtick'>long double</code>, <code class='backtick'>const char_type*</code>,
+<code>basic_string_view&lt;char_type&gt;</code>, or <code class='backtick'>const void*</code>.
+</blockquote>
+</p>
+<p>
+There seems to be no reason to allow <code class='backtick'>Ts</code> to be an empty pack,
+that's not useful. There is no valid arg-id value that can be passed to it
+if the list of types is empty, since <code class='backtick'>arg(n)</code> will never be one of the types
+in an empty pack. So it's never a constant expression if the pack is empty.
+</p>
+
+<p><i>[2024-09-18; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4142"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+
+<ol>
+<li><p>Modify 22.14.6.6 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> as indicated:</p>
+
+<pre><code>template&lt;class... Ts&gt;
+  constexpr void check_dynamic_spec(size_t id) noexcept;
+</code></pre>
+<blockquote>
+<p>
+-14- <i>Mandates</i>:
+<ins><code class='backtick'>sizeof...(Ts)</code> &ge; 1.</ins>
+The types in <code class='backtick'>Ts...</code> are unique. Each type in <code class='backtick'>Ts...</code> is one of <code class='backtick'>bool</code>,
+<code class='backtick'>char_type</code>, <code class='backtick'>int</code>, <code class='backtick'>unsigned int</code>, <code class='backtick'>long long int</code>, <code class='backtick'>unsigned long long int</code>,
+<code class='backtick'>float</code>, <code class='backtick'>double</code>, <code class='backtick'>long double</code>, <code class='backtick'>const char_type*</code>,
+<code>basic_string_view&lt;char_type&gt;</code>, or <code class='backtick'>const void*</code>.
+</p>
+<p>
+-15- <i>Remarks</i>:
+A call to this function is a core constant expression only if:
+<ol style="list-style-type: none">
+<li>(15.1) &mdash; <code>id &lt; num_args_</code> is <code class='backtick'>true</code> and</li>
+<li>(15.2) &mdash; the type of the corresponding format argument
+(after conversion to <code>basic_format_arg&lt;Context&gt;</code>)
+is one of the types in <code class='backtick'>Ts...</code>.</li>
+</ol>
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="4147"><a href="#4147">4147</a><sup><a href="https://cplusplus.github.io/LWG/issue4147">(i)</a></sup>. Precondition on <code>inplace_vector::emplace</code></h3>
+<p><b>Section:</b> 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2024-08-26 <b>Last modified:</b> 2024-09-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#sequence.reqmts">active issues</a> in [sequence.reqmts].</p>
+<p><b>View all other</b> <a href="lwg-index.html#sequence.reqmts">issues</a> in [sequence.reqmts].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Inserting into the middle of an <code>inplace_vector</code>, just like inserting into the middle of a 
+<code>vector</code> or <code>deque</code>, requires that we construct the new element out-of-line, shift 
+down the trailing elements (<i>Cpp17MoveAssignable</i>), and then move-construct the new element 
+into place (<i>Cpp17MoveInsertable</i>). <a href="https://wg21.link/P0843R14" title=" inplace_vector">P0843R14</a> failed to make this change, but 
+it should have.
+</p>
+
+<p><i>[2024-09-18; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after nine votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4147"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> as indicated:</p>
+
+<blockquote><pre>
+a.emplace(p, args)
+</pre>
+<blockquote>
+<p>
+-19- <i>Result</i>: <code>iterator</code>.
+<p/>
+-20- <i>Preconditions</i>: <code>T</code> is <i>Cpp17EmplaceConstructible</i> into <code>X</code> 
+from <code>args</code>. For <code>vector</code><ins>, inplace_vector,</ins> and <code>deque</code>, 
+<code>T</code> is also <i>Cpp17MoveInsertable</i> into <code>X</code> and <i>Cpp17MoveAssignable</i>.
+<p/>
+-21- <i>Effects</i>: Inserts an object of type <code>T</code> constructed with 
+<code>std::forward&lt;Args&gt;(args)...</code> before <code>p</code>.
+<p/>
+[<i>Note 1</i>: <code>args</code> can directly or indirectly refer to a value in <code>a</code>. 
+&mdash; <i>end note</i>]
+<p/>
+-22- <i>Returns</i>: An iterator that points to the new element constructed from <code>args</code> 
+into <code>a</code>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="4148"><a href="#4148">4148</a><sup><a href="https://cplusplus.github.io/LWG/issue4148">(i)</a></sup>. <code>unique_ptr::operator*</code> should not allow dangling references</h3>
+<p><b>Section:</b> 20.3.1.3.5 <a href="https://wg21.link/unique.ptr.single.observers">[unique.ptr.single.observers]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-09-02 <b>Last modified:</b> 2024-09-18</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#unique.ptr.single.observers">active issues</a> in [unique.ptr.single.observers].</p>
+<p><b>View all other</b> <a href="lwg-index.html#unique.ptr.single.observers">issues</a> in [unique.ptr.single.observers].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+If <code>unique_ptr&lt;T,D&gt;::element_type*</code> and <code>D::pointer</code>
+are not the same type, it's possible for <code class='backtick'>operator*()</code> to return a dangling
+reference that has undefined behaviour.
+</p>
+<pre><code>
+  struct deleter {
+    using pointer = long*;
+    void operator()(pointer) const {}
+  };
+  long l = 0;
+  std::unique_ptr&lt;const int, deleter&gt; p(&amp;l);
+  int i = *p; <i><strong>// undefined</strong></i>
+</code></pre>
+<p>
+We should make this case ill-formed.
+</p>
+
+<p><i>[2024-09-18; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4148"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+<ol>
+<li><p>Modify 20.3.1.3.5 <a href="https://wg21.link/unique.ptr.single.observers">[unique.ptr.single.observers]</a> as indicated:</p>
+<blockquote>
+<pre>
+constexpr add_lvalue_reference_t&lt;T&gt; operator*() const noexcept(noexcept(*declval&lt;pointer&gt;()));
+</pre>
+<blockquote>
+<p>
+<ins>-?- <i>Mandates</i>:
+<code>reference_converts_from_temporary_v&lt;add_lvalue_reference_t&lt;T&gt;,
+decltype(*declval&lt;pointer&gt;())&gt;</code>
+is <code class='backtick'>false</code>.
+</ins>
+</p>
+<p>
+-1- <i>Preconditions</i>: <code class='backtick'>get() != nullptr</code> <ins>is <code class='backtick'>true</code></ins>.
+</p>
+<p>
+-2- <i>Returns</i>: <code class='backtick'>*get()</code>.
+</p>
+</blockquote>
+</blockquote>
+</li>
 </ol>
 
 

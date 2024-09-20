@@ -126,14 +126,14 @@ That leads to an implementation that tolerates objects bound to the function par
 member function may be elements or sub-objects of elements of the container.
 <p/>
 My position is that the standard is correct as written, but needs a clarification in this area. Self-referencing 
-<code>emplace</code> should be legal and give the result Nikolay expects. The proposed resolution of LWG <a href="lwg-closed.html#760" title="The emplace issue (Status: NAD)">760</a> 
+<code>emplace</code> should be legal and give the result Nikolay expects. The proposed resolution of LWG <a href="lwg-closed.html#760" title="The emplace issue (Status: NAD)">760</a><sup><a href="https://cplusplus.github.io/LWG/issue760" title="Latest snapshot">(i)</a></sup> 
 is not correct.
 </p>
 
 <p><i>[2015-02 Cologne]</i></p>
 
 <p>
-LWG agrees with the analysis including the assessment of LWG <a href="lwg-closed.html#760" title="The emplace issue (Status: NAD)">760</a> and would appreciate a concrete wording proposal.
+LWG agrees with the analysis including the assessment of LWG <a href="lwg-closed.html#760" title="The emplace issue (Status: NAD)">760</a><sup><a href="https://cplusplus.github.io/LWG/issue760" title="Latest snapshot">(i)</a></sup> and would appreciate a concrete wording proposal.
 </p>
 
 <p><i>[2015-04-07 dyp comments]</i></p>
@@ -196,15 +196,15 @@ creation of intermediate objects.
 The creation of intermediate objects also affects other functions, such
 as <code>vector.insert</code>. Since aliasing the vector is only allowed for
 the single-element forms of <code>insert</code> and <code>emplace</code> (see
-<a href="lwg-closed.html#526" title="Is it undefined if a function in the standard changes in parameters? (Status: NAD)">526</a>), the range-forms are not affected. Similarly,
+<a href="lwg-closed.html#526" title="Is it undefined if a function in the standard changes in parameters? (Status: NAD)">526</a><sup><a href="https://cplusplus.github.io/LWG/issue526" title="Latest snapshot">(i)</a></sup>), the range-forms are not affected. Similarly,
 aliasing is not allowed for the rvalue-reference overload. See also LWG
-<a href="lwg-defects.html#2266" title="vector and deque have incorrect insert requirements (Status: C++17)">2266</a>.
+<a href="lwg-defects.html#2266" title="vector and deque have incorrect insert requirements (Status: C++17)">2266</a><sup><a href="https://cplusplus.github.io/LWG/issue2266" title="Latest snapshot">(i)</a></sup>.
 </p>
 
 <p>
 There might be a problem with a requirement of
 <code>std::is_constructible&lt;T, Args...&gt;</code> related to the issues
-described in LWG <a href="lwg-active.html#2461" title="Interaction between allocators and container exception safety guarantees (Status: New)">2461</a>. For example, a scoped allocator
+described in LWG <a href="lwg-active.html#2461" title="Interaction between allocators and container exception safety guarantees (Status: New)">2461</a><sup><a href="https://cplusplus.github.io/LWG/issue2461" title="Latest snapshot">(i)</a></sup>. For example, a scoped allocator
 adapter passes additional arguments to the constructor of the value
 type. This is currently not done in recent implementations of libstdc++
 and libc++ when creating the intermediate objects, they simply create

@@ -67,6 +67,7 @@
  <b>Submitter:</b> Mark de Wever <b>Opened:</b> 2022-11-27 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>2
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#format.formatter.spec">active issues</a> in [format.formatter.spec].</p>
 <p><b>View all other</b> <a href="lwg-index.html#format.formatter.spec">issues</a> in [format.formatter.spec].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -79,7 +80,7 @@ template&lt;size_t N&gt; struct formatter&lt;const charT[N], charT&gt;;
 <p>
 Charlie disliked that since MSVC STL already shipped it and Victor
 mentioned it was useful. Instead of proposing to remove the
-specialization in LWG <a href="lwg-defects.html#3701" title="Make formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt; requirement explicit (Status: C++23)">3701</a> ("Make <code>formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt;</code> 
+specialization in LWG <a href="lwg-defects.html#3701" title="Make formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt; requirement explicit (Status: C++23)">3701</a><sup><a href="https://cplusplus.github.io/LWG/issue3701" title="Latest snapshot">(i)</a></sup> ("Make <code>formatter&lt;remove_cvref_t&lt;const charT[N]&gt;, charT&gt;</code> 
 requirement explicit") I proposed to keep it. It's unused but it doesn't hurt. 
 <p/>
 That was until <a href="https://wg21.link/P2585R0" title=" Improving default container formatting">P2585R0</a> "Improve default container formatting". This paper makes it no 

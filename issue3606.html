@@ -79,7 +79,7 @@ interface that a custom regex traits type needs from it? Why is none of this spe
 <p/>
 Currently the only requirement on <code>locale_type</code> in the standard is that it's copy constructible. 
 Clearly it needs to be default constructible as well, otherwise you can't construct a <code>basic_regex</code>, 
-since none of them allows passing in a locale, so they have to default construct it (see also LWG <a href="lwg-active.html#2431" title="Missing regular expression traits requirements (Status: New)">2431</a>).
+since none of them allows passing in a locale, so they have to default construct it (see also LWG <a href="lwg-active.html#2431" title="Missing regular expression traits requirements (Status: New)">2431</a><sup><a href="https://cplusplus.github.io/LWG/issue2431" title="Latest snapshot">(i)</a></sup>).
 <p/>
 The other requirements on <code>locale_type</code> are a mystery. Why do we allow custom locale types, 
 but not say anything about what they should do? Can we just require <code>locale_type</code> to be <code>std::locale</code>? 

@@ -71,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3661" title="constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr); should work (Status: C++23)">3661</a>, "<code>constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr);</code> should work" 
+LWG <a href="lwg-defects.html#3661" title="constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr); should work (Status: C++23)">3661</a><sup><a href="https://cplusplus.github.io/LWG/issue3661" title="Latest snapshot">(i)</a></sup>, "<code>constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr);</code> should work" 
 added the following to <code>atomic&lt;shared_ptr&lt;T&gt;&gt;</code>:
 </p>
 <blockquote><pre>
@@ -92,7 +92,7 @@ void operator=(const atomic&amp;) = delete;          // #1
 void operator=(shared_ptr&lt;T&gt; desired) noexcept;  // #2
 </pre></blockquote>
 <p>
-Prior to LWG <a href="lwg-defects.html#3661" title="constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr); should work (Status: C++23)">3661</a>, the assignment in the example unambiguously matches #2. #1 is not viable because 
+Prior to LWG <a href="lwg-defects.html#3661" title="constinit atomic&lt;shared_ptr&lt;T&gt;&gt; a(nullptr); should work (Status: C++23)">3661</a><sup><a href="https://cplusplus.github.io/LWG/issue3661" title="Latest snapshot">(i)</a></sup>, the assignment in the example unambiguously matches #2. #1 is not viable because 
 <code>nullptr_t</code> is not convertible to <code>atomic&lt;shared_ptr&lt;T&gt;&gt;</code>. After LWG 3611, #1 is viable 
 and the assignment is ambiguous between #1 and #2.
 <p/>

@@ -72,7 +72,7 @@
 <p><b>Discussion:</b></p>
 <p>
 Currently the <code>value_type</code> of <code>std::expected</code> can be a <i>cv</i>-qualified type, which is  possibly intented. 
-However, LWG <a href="lwg-defects.html#3870" title="Remove voidify (Status: C++23)">3870</a> disallows <code>std::construct_at</code> to construct objects via <code><i>cv</i> T*</code>, which 
+However, LWG <a href="lwg-defects.html#3870" title="Remove voidify (Status: C++23)">3870</a><sup><a href="https://cplusplus.github.io/LWG/issue3870" title="Latest snapshot">(i)</a></sup> disallows <code>std::construct_at</code> to construct objects via <code><i>cv</i> T*</code>, which 
 breaks <code>std::expected&lt;<i>cv</i> T, E&gt;</code> because some operations are specified with <code>std::construct_at</code> 
 (22.8.6.4 <a href="https://wg21.link/expected.object.assign">[expected.object.assign]</a>, 22.8.6.5 <a href="https://wg21.link/expected.object.swap">[expected.object.swap]</a>).
 <p/>

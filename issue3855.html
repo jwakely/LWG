@@ -82,7 +82,7 @@ For example, when <code>disable_sized_range&lt;R&gt;</code> is specialized to <c
 <p/>
 Since the <code>lazy_split_view</code>'s iterator uses <code>R::size()</code> to get the constant value of the pattern, 
 we must ensure that this is indeed how <code>ranges::size</code> is calculated. Also, I think we can simplify 
-<code><i>tiny-range</i></code> with <code>bool_constant</code> in a way similar to LWG <a href="lwg-defects.html#3150" title="UniformRandomBitGenerator should validate min and max (Status: C++20)">3150</a>, which removes the 
+<code><i>tiny-range</i></code> with <code>bool_constant</code> in a way similar to LWG <a href="lwg-defects.html#3150" title="UniformRandomBitGenerator should validate min and max (Status: C++20)">3150</a><sup><a href="https://cplusplus.github.io/LWG/issue3150" title="Latest snapshot">(i)</a></sup>, which removes the 
 introduction of <code><i>require-constant</i></code>.
 </p>
 

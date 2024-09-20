@@ -72,8 +72,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-This issue is part of the "<code>flat_<i>foo</i></code>" sequence, LWG <a href="lwg-defects.html#3786" title="Flat maps' deduction guide needs to default Allocator to be useful (Status: C++23)">3786</a>, <a href="lwg-active.html#3802" title="flat_foo allocator-extended constructors lack move semantics (Status: New)">3802</a>,
-<a href="lwg-defects.html#3803" title="flat_foo constructors taking KeyContainer lack KeyCompare parameter (Status: C++23)">3803</a>, <a href="lwg-active.html#3804" title="flat_foo missing some allocator-extended deduction guides (Status: New)">3804</a>. <code>flat_set</code>, <code>flat_multiset</code>, <code>flat_map</code>, and
+This issue is part of the "<code>flat_<i>foo</i></code>" sequence, LWG <a href="lwg-defects.html#3786" title="Flat maps' deduction guide needs to default Allocator to be useful (Status: C++23)">3786</a><sup><a href="https://cplusplus.github.io/LWG/issue3786" title="Latest snapshot">(i)</a></sup>, <a href="lwg-active.html#3802" title="flat_foo allocator-extended constructors lack move semantics (Status: New)">3802</a><sup><a href="https://cplusplus.github.io/LWG/issue3802" title="Latest snapshot">(i)</a></sup>,
+<a href="lwg-defects.html#3803" title="flat_foo constructors taking KeyContainer lack KeyCompare parameter (Status: C++23)">3803</a><sup><a href="https://cplusplus.github.io/LWG/issue3803" title="Latest snapshot">(i)</a></sup>, <a href="lwg-active.html#3804" title="flat_foo missing some allocator-extended deduction guides (Status: New)">3804</a><sup><a href="https://cplusplus.github.io/LWG/issue3804" title="Latest snapshot">(i)</a></sup>. <code>flat_set</code>, <code>flat_multiset</code>, <code>flat_map</code>, and
 <code>flat_multimap</code> all have implicitly defaulted copy and move constructors, but they lack
 allocator-extended versions of those constructors. This means that the following code is broken:
 </p>

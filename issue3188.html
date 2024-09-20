@@ -74,7 +74,7 @@
 <p>
 The current working paper requires <code>iterator_traits&lt;Iter&gt;::pointer</code> to be <code>void</code> if <code>Iter</code> 
 doesn't define <code>operator-&gt;</code> (25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a>). We recently removed <code>operator-&gt;</code> 
-from <code>istreambuf_iterator</code> via LWG <a href="lwg-defects.html#2790" title="Missing specification of istreambuf_iterator::operator-&gt; (Status: C++17)">2790</a>, therefore either its <code>pointer</code> member should be 
+from <code>istreambuf_iterator</code> via LWG <a href="lwg-defects.html#2790" title="Missing specification of istreambuf_iterator::operator-&gt; (Status: C++17)">2790</a><sup><a href="https://cplusplus.github.io/LWG/issue2790" title="Latest snapshot">(i)</a></sup>, therefore either its <code>pointer</code> member should be 
 <code>void</code>, or there should be a partial specialization of <code>iterator_traits</code>. Do we want to change 
 <i>unspecified</i> to <code>void</code> in the class synopsis in [istreambuf.iterator]?
 </p>

@@ -76,7 +76,7 @@ initializer_list">
 <p><b>Discussion:</b></p>
 <p>
 Overloads for <code>std::rbegin</code>/<code>rend</code> for built-in arrays and <code>std::initializer_list</code>'s has 
-no preconditions and never throw exceptions, thus should be <code>noexcept</code>. LWG <a href="lwg-defects.html#2280" title="begin/end for arrays should be constexpr and noexcept (Status: C++14)">2280</a> 
+no preconditions and never throw exceptions, thus should be <code>noexcept</code>. LWG <a href="lwg-defects.html#2280" title="begin/end for arrays should be constexpr and noexcept (Status: C++14)">2280</a><sup><a href="https://cplusplus.github.io/LWG/issue2280" title="Latest snapshot">(i)</a></sup> 
 addressed a similar issue for <code>std::begin/end</code>.
 <p/>
 Suggestion: change these declarations in 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> (p10, 11, 12, 13) as indicated:
@@ -95,7 +95,7 @@ template&lt;class E&gt; constexpr reverse_iterator&lt;const E*&gt; rend(initiali
 <p>
 If this change is accepted, we may also specify <em>conditional</em> <code>noexcept</code> for <code>std::crbegin/crend</code> 
 (in 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> p14, 15), by adding <code>noexcept(noexcept(std::rbegin/crend(c)))</code>, like in 
-LWG <a href="lwg-defects.html#2280" title="begin/end for arrays should be constexpr and noexcept (Status: C++14)">2280</a>.
+LWG <a href="lwg-defects.html#2280" title="begin/end for arrays should be constexpr and noexcept (Status: C++14)">2280</a><sup><a href="https://cplusplus.github.io/LWG/issue2280" title="Latest snapshot">(i)</a></sup>.
 <p/>
 Conditional noexcept for other functions in 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> (p2, 3, 7, 8, 16, 18, 20 22) may also be 
 added for consistency.
@@ -105,7 +105,7 @@ added for consistency.
 
 <p>
 There is intentionally no P/R provided at this point, but I'm volunteering to provide it if we got feedback whether
-adding <em>conditional</em> <code>noexcept</code> specifiers similar to those provided by LWG <a href="lwg-defects.html#2280" title="begin/end for arrays should be constexpr and noexcept (Status: C++14)">2280</a> would
+adding <em>conditional</em> <code>noexcept</code> specifiers similar to those provided by LWG <a href="lwg-defects.html#2280" title="begin/end for arrays should be constexpr and noexcept (Status: C++14)">2280</a><sup><a href="https://cplusplus.github.io/LWG/issue2280" title="Latest snapshot">(i)</a></sup> would
 be preferred or not.
 </p>
 

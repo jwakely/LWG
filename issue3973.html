@@ -71,8 +71,8 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#WP">WP</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3938" title="Cannot use std::expected monadic ops with move-only error_type (Status: WP)">3938</a> switched to use <code>**this</code> to access the value stored in <code>std::expected</code>. 
-However, as shown in LWG <a href="lwg-active.html#3969" title="std::ranges::fold_left_first_with_iter should be more ADL-proof (Status: New)">3969</a>, <code>**this</code> can trigger ADL and find an unwanted overload, 
+LWG <a href="lwg-defects.html#3938" title="Cannot use std::expected monadic ops with move-only error_type (Status: WP)">3938</a><sup><a href="https://cplusplus.github.io/LWG/issue3938" title="Latest snapshot">(i)</a></sup> switched to use <code>**this</code> to access the value stored in <code>std::expected</code>. 
+However, as shown in LWG <a href="lwg-active.html#3969" title="std::ranges::fold_left_first_with_iter should be more ADL-proof (Status: New)">3969</a><sup><a href="https://cplusplus.github.io/LWG/issue3969" title="Latest snapshot">(i)</a></sup>, <code>**this</code> can trigger ADL and find an unwanted overload, 
 and thus may caused unintended behavior.
 <p/>
 Current implementations behave correctly (<a href="https://godbolt.org/z/3b1Tbs1jd">Godbolt link</a>): they 

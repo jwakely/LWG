@@ -83,7 +83,7 @@ This has the same problem that <code>reverse_iterator</code>'s <code>operator[]<
 have: if the underlying iterator's <code>operator[]</code> returns a proxy, the
 implicit conversion to <code>value_type&amp;&amp;</code> could end up referencing a temporary
 that has already been destroyed. This is essentially the same issue that
-we dealt with for <code>reverse_iterator</code> in DR <a href="lwg-defects.html#386" title="Reverse iterator's operator[] has impossible return type (Status: CD1)">386</a>.
+we dealt with for <code>reverse_iterator</code> in DR <a href="lwg-defects.html#386" title="Reverse iterator's operator[] has impossible return type (Status: CD1)">386</a><sup><a href="https://cplusplus.github.io/LWG/issue386" title="Latest snapshot">(i)</a></sup>.
 </p>
 
 <p><i>[
@@ -97,7 +97,7 @@ we dealt with for <code>reverse_iterator</code> in DR <a href="lwg-defects.html#
 
 
 <blockquote><p>
-I recommend closing this as  a duplicate of <a href="lwg-closed.html#1051" title="Specify subscript operation return types of reverse_iterator and move_iterator (Status: NAD)">1051</a> which addresses
+I recommend closing this as  a duplicate of <a href="lwg-closed.html#1051" title="Specify subscript operation return types of reverse_iterator and move_iterator (Status: NAD)">1051</a><sup><a href="https://cplusplus.github.io/LWG/issue1051" title="Latest snapshot">(i)</a></sup> which addresses
 this issue for both <code>move_iterator</code> and <code>reverse_iterator</code>.
 </p></blockquote>
 
@@ -107,8 +107,8 @@ this issue for both <code>move_iterator</code> and <code>reverse_iterator</code>
 
 
 <blockquote><p>
-Move to Ready. Note that if <a href="lwg-closed.html#1051" title="Specify subscript operation return types of reverse_iterator and move_iterator (Status: NAD)">1051</a> is reopened, it may yield a
-better resolution, but <a href="lwg-closed.html#1051" title="Specify subscript operation return types of reverse_iterator and move_iterator (Status: NAD)">1051</a> is currently marked NAD.
+Move to Ready. Note that if <a href="lwg-closed.html#1051" title="Specify subscript operation return types of reverse_iterator and move_iterator (Status: NAD)">1051</a><sup><a href="https://cplusplus.github.io/LWG/issue1051" title="Latest snapshot">(i)</a></sup> is reopened, it may yield a
+better resolution, but <a href="lwg-closed.html#1051" title="Specify subscript operation return types of reverse_iterator and move_iterator (Status: NAD)">1051</a><sup><a href="https://cplusplus.github.io/LWG/issue1051" title="Latest snapshot">(i)</a></sup> is currently marked NAD.
 </p></blockquote>
 
 

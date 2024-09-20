@@ -72,12 +72,12 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3870" title="Remove voidify (Status: C++23)">3870</a> removed the support for constructing objects via <i>cv</i>-qualified lvalues. 
+LWG <a href="lwg-defects.html#3870" title="Remove voidify (Status: C++23)">3870</a><sup><a href="https://cplusplus.github.io/LWG/issue3870" title="Latest snapshot">(i)</a></sup> removed the support for constructing objects via <i>cv</i>-qualified lvalues. 
 However, it had not changed anything in the immediate context, which means some previously permitted 
 usages become hard errors instead of substitution failures.
 <p/>
 Note that <code>ranges::uninitialized_default_construct</code> and <code>ranges::uninitialized_default_construct_n</code> 
-are underconstrained even before LWG <a href="lwg-defects.html#3870" title="Remove voidify (Status: C++23)">3870</a>, because <code>remove_reference_t&lt;iter_reference_t&lt;I&gt;&gt;</code> 
+are underconstrained even before LWG <a href="lwg-defects.html#3870" title="Remove voidify (Status: C++23)">3870</a><sup><a href="https://cplusplus.github.io/LWG/issue3870" title="Latest snapshot">(i)</a></sup>, because <code>remove_reference_t&lt;iter_reference_t&lt;I&gt;&gt;</code> 
 may be a <code>const</code> type, while only it's <i>cv</i>-unqualified version (<code>iter_value_t&lt;I&gt;</code>) 
 is required to be <code>default_initializable</code>.
 <p/>

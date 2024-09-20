@@ -103,7 +103,7 @@ Jonathan and Casey have concerns about the proposed resolution. Casey: The wordi
 as if this iterator is supposed to be an <code><i>cpp17-input-iterator</i></code>.
 <p/>
 See also LWG <a href="lwg-defects.html#3283" title="Types satisfying input_iterator but not equality_comparable look like
-C++17 output iterators (Status: Resolved)">3283</a> and  <a href="lwg-defects.html#3289" title="Cannot opt out of C++17 iterator-ness without also opting out of C++20 iterator-ness (Status: Resolved)">3289</a>.
+C++17 output iterators (Status: Resolved)">3283</a><sup><a href="https://cplusplus.github.io/LWG/issue3283" title="Latest snapshot">(i)</a></sup> and  <a href="lwg-defects.html#3289" title="Cannot opt out of C++17 iterator-ness without also opting out of C++20 iterator-ness (Status: Resolved)">3289</a><sup><a href="https://cplusplus.github.io/LWG/issue3289" title="Latest snapshot">(i)</a></sup>.
 </p>
 
 <p><i>[2020-02 Prioritized as P2 Monday morning in Prague]</i></p>
@@ -146,7 +146,7 @@ LWG decided for NAD: The <code>ranges::basic_istream_view::iterator</code> is a 
 and thus cannot meet the <i>Cpp17</i> requirements (even <code>output_iterator_tag</code>), as such it should not 
 specialize <code>iterator_traits</code>, to avoid misleading results when it is passed to new algorithms.
 <p/>
-A related issue, LWG <a href="lwg-defects.html#3397" title="ranges::basic_istream_view::iterator should not provide iterator_category (Status: C++20)">3397</a>, is supposed to take care for a problem with the definition of the
+A related issue, LWG <a href="lwg-defects.html#3397" title="ranges::basic_istream_view::iterator should not provide iterator_category (Status: C++20)">3397</a><sup><a href="https://cplusplus.github.io/LWG/issue3397" title="Latest snapshot">(i)</a></sup>, is supposed to take care for a problem with the definition of the
 <code>iterator_category</code> member type of this template.
 </p>
 <p><i>[2020-11-09 Status changed: Tentatively NAD &rarr; NAD.]</i></p>

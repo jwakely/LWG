@@ -297,7 +297,7 @@ s.insert(std::move(p));
 <li>
 <p>
 Move a move-only or heavy object out of an associative container (as opposed to
-the proposal in <a href="lwg-defects.html#1041" title="Add associative/unordered container functions that allow to extract elements (Status: Resolved)">1041</a>):
+the proposal in <a href="lwg-defects.html#1041" title="Add associative/unordered container functions that allow to extract elements (Status: Resolved)">1041</a><sup><a href="https://cplusplus.github.io/LWG/issue1041" title="Latest snapshot">(i)</a></sup>):
 </p>
 <blockquote><pre>
 MoveOnly x = std::move(*s.remove(i));
@@ -322,7 +322,7 @@ the node.
 </ol>
 
 <p>
-Contrast this with the <a href="lwg-defects.html#1041" title="Add associative/unordered container functions that allow to extract elements (Status: Resolved)">1041</a> solution:
+Contrast this with the <a href="lwg-defects.html#1041" title="Add associative/unordered container functions that allow to extract elements (Status: Resolved)">1041</a><sup><a href="https://cplusplus.github.io/LWG/issue1041" title="Latest snapshot">(i)</a></sup> solution:
 </p>
 <blockquote><pre>
 MoveOnly x = std::move(s.extract(i).first);

@@ -95,7 +95,7 @@ the deduction from <code>TimeZonePtr</code> constructor candidates.
 In addition, we disable the deduction from <code>string_view</code>
 constructors, that would produce better candidates than the deduction guides
 and create <code>zoned_time</code> instances with durations coarser than
-<code>seconds</code> (causing similar issue as LWG <a href="lwg-defects.html#3232" title="Inconsistency in zoned_time deduction guides (Status: C++20)">3232</a>):
+<code>seconds</code> (causing similar issue as LWG <a href="lwg-defects.html#3232" title="Inconsistency in zoned_time deduction guides (Status: C++20)">3232</a><sup><a href="https://cplusplus.github.io/LWG/issue3232" title="Latest snapshot">(i)</a></sup>):
 </p>
 <blockquote>
 <pre>

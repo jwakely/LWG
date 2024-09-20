@@ -76,7 +76,7 @@ to rule out non-iterators in template constraints (<code>std::filesystem::path</
 is one example in the standard library).
 <p/>
 C++20 changed <code>iterator_traits</code> to automatically detect its members in
-some cases, and this detection can cause constraint recursion. LWG <a href="lwg-defects.html#3244" title="Constraints for Source in &sect;[fs.path.req] insufficiently constrainty (Status: C++20)">3244</a> 
+some cases, and this detection can cause constraint recursion. LWG <a href="lwg-defects.html#3244" title="Constraints for Source in &sect;[fs.path.req] insufficiently constrainty (Status: C++20)">3244</a><sup><a href="https://cplusplus.github.io/LWG/issue3244" title="Latest snapshot">(i)</a></sup> 
 tries to fix this for <code>path</code> by short-circuiting the check when the source type is 
 <code>path</code> itself, but this isn't sufficient:
 </p>

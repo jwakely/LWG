@@ -71,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3539" title="format_to must not copy models of output_iterator&lt;const charT&amp;&gt; (Status: C++23)">3539</a> fixed copies of potentially-move-only iterators in the <code>format_to</code> and 
+LWG <a href="lwg-defects.html#3539" title="format_to must not copy models of output_iterator&lt;const charT&amp;&gt; (Status: C++23)">3539</a><sup><a href="https://cplusplus.github.io/LWG/issue3539" title="Latest snapshot">(i)</a></sup> fixed copies of potentially-move-only iterators in the <code>format_to</code> and 
 <code>vformat_to</code> overloads, but missed the fact that member functions of <code>basic_format_context</code> 
 are specified to copy iterators as well. In particular, 22.14.6.7 <a href="https://wg21.link/format.context">[format.context]</a> states:
 </p>

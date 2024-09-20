@@ -75,7 +75,7 @@
 The requirements for associative and unordered associative containers list <code>insert_return_type</code> for all 
 containers, but looking at the class description in 24.4.4.1 <a href="https://wg21.link/map.overview">[map.overview]</a>, 24.4.5.1 <a href="https://wg21.link/multimap.overview">[multimap.overview]</a> 
 etc. it's only defined for containers with unique keys. Jonathan Wakely pointed out that this depends on the 
-resolution of LWG <a href="lwg-closed.html#2772" title="Inconsistency in the insert(node) interface (Status: NAD)">2772</a>, which might remove <code>insert_return_type</code> completely.
+resolution of LWG <a href="lwg-closed.html#2772" title="Inconsistency in the insert(node) interface (Status: NAD)">2772</a><sup><a href="https://cplusplus.github.io/LWG/issue2772" title="Latest snapshot">(i)</a></sup>, which might remove <code>insert_return_type</code> completely.
 <p/>
 A possible resolution would be to put in 24.2.7 <a href="https://wg21.link/associative.reqmts">[associative.reqmts]</a>: '<code>insert_return_type</code> 
 <ins>(<code>map</code> and <code>set</code> only)</ins>' and in 24.2.8 <a href="https://wg21.link/unord.req">[unord.req]</a>: '<code>insert_return_type</code> 

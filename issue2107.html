@@ -90,7 +90,7 @@ subtle ways to satisfy this rule and still return a short-lived reference, meani
 algorithms can't be guaranteed that <code>forward_iterator_tag</code> will imply 
 long-lived references.
 <p/>
-On the other hand, defect <a href="lwg-defects.html#198" title="Validity of pointers and references unspecified after iterator destruction (Status: CD1)">198</a>, which added the invalidation wording
+On the other hand, defect <a href="lwg-defects.html#198" title="Validity of pointers and references unspecified after iterator destruction (Status: CD1)">198</a><sup><a href="https://cplusplus.github.io/LWG/issue198" title="Latest snapshot">(i)</a></sup>, which added the invalidation wording
 to iterator.requirements.general, refers to iterators with short-lived references 
 being used as arguments to reverse_iterator, which requires <code>BidirectionalIterator</code>s. 
 If <code>ForwardIterator</code> required long-lived references, this would be impossible.

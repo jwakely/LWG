@@ -71,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#117" title="basic_ostream uses nonexistent num_put member functions (Status: CD1)">117</a> fixed insertion of a <code class='backtick'>float</code> into an ostream by
+LWG <a href="lwg-defects.html#117" title="basic_ostream uses nonexistent num_put member functions (Status: CD1)">117</a><sup><a href="https://cplusplus.github.io/LWG/issue117" title="Latest snapshot">(i)</a></sup> fixed insertion of a <code class='backtick'>float</code> into an ostream by
 requiring a cast to <code class='backtick'>double</code>. This gives a surprising result on RISC-V when
 inserting a negative NaN, because RISC-V floating-point instructions do
 not preserve the sign or payload of NaN values. This means that

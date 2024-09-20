@@ -75,14 +75,14 @@
 Scott Meyers' mentions on a recent posting on <a
 href="http://groups.google.de/group/comp.std.c++/msg/6f9160fc428bcbea">c.s.c++</a>
 some arguments that point to an incomplete resolution
-of <a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a> and to an inconsistency of requirements on keys in ordered and
+of <a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a><sup><a href="https://cplusplus.github.io/LWG/issue103" title="Latest snapshot">(i)</a></sup> and to an inconsistency of requirements on keys in ordered and
 unordered associative
 containers:
 </p>
 
 <blockquote>
 <p>
-1) <a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a> introduced the term immutable without defining it in a unique manner in
+1) <a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a><sup><a href="https://cplusplus.github.io/LWG/issue103" title="Latest snapshot">(i)</a></sup> introduced the term immutable without defining it in a unique manner in
 24.2.7 <a href="https://wg21.link/associative.reqmts">[associative.reqmts]</a>/5:
 </p>
 
@@ -95,7 +95,7 @@ According to conventional dictionaries immutable is an unconditional way of
 saying that something cannot be changed. So without any further explicit
 allowance a user <em>always</em> runs into undefined behavior if (s)he attempts
 to modify such a key. IMO this was not the intend of the committee to resolve
-<a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a> in that way because the comments suggest an interpretation that
+<a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a><sup><a href="https://cplusplus.github.io/LWG/issue103" title="Latest snapshot">(i)</a></sup> in that way because the comments suggest an interpretation that
 should give any user the freedom to modify the key in an <em>explicit</em> way
 <em>provided</em> it would not affect the sort order in that container.
 </p>
@@ -116,7 +116,7 @@ is measured by the <code>hasher</code> and <code>key_equal</code>.
 I suggest to fix the unconditional wording involved with "immutable keys"
 by at least adding a hint for the reader that users <em>may</em> perform such
 changes in an explicit manner <em>and</em> to perform similar wording changes
-as <a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a> did for the ordered associative containers also for the unordered
+as <a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a><sup><a href="https://cplusplus.github.io/LWG/issue103" title="Latest snapshot">(i)</a></sup> did for the ordered associative containers also for the unordered
 containers.
 </p>
 </blockquote>
@@ -180,7 +180,7 @@ Change 24.2.7 <a href="https://wg21.link/associative.reqmts">[associative.reqmts
 too strong requirement that keys must not be changed at all and brings this line
 in sync with 24.2.8 <a href="https://wg21.link/unord.req">[unord.req]</a>/7. We take care about the real
 constraints by the remaining suggested changes. The rationale provided by LWG
-<a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a> didn't really argue why that addition is necessary, and I
+<a href="lwg-defects.html#103" title="set::iterator is required to be modifiable, but this allows modification of keys (Status: CD1)">103</a><sup><a href="https://cplusplus.github.io/LWG/issue103" title="Latest snapshot">(i)</a></sup> didn't really argue why that addition is necessary, and I
 believe the remaining additions make it clear that any user changes have strong
 restrictions]</i>:
 </p>

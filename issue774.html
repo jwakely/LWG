@@ -154,7 +154,7 @@ is no longer applicable.
 <blockquote>
 <ol>
 <li>
-It assumes that the proposed resolution for <a href="lwg-defects.html#883" title="swap circular definition (Status: C++11)">883</a> is applied,
+It assumes that the proposed resolution for <a href="lwg-defects.html#883" title="swap circular definition (Status: C++11)">883</a><sup><a href="https://cplusplus.github.io/LWG/issue883" title="Latest snapshot">(i)</a></sup> is applied,
 which breaks the circularity of definition between member
 <code>swap</code> and free <code>swap</code>.
 </li>
@@ -168,7 +168,7 @@ next refactoring phase of generalized allocators.
 <li>
 It requires that compare objects, key equal functions and
 hash functions in containers are swapped via unqualified free
-<code>swap</code> according to <a href="lwg-defects.html#594" title="Disadvantages of defining Swappable in terms of CopyConstructible and Assignable (Status: Resolved)">594</a>.
+<code>swap</code> according to <a href="lwg-defects.html#594" title="Disadvantages of defining Swappable in terms of CopyConstructible and Assignable (Status: Resolved)">594</a><sup><a href="https://cplusplus.github.io/LWG/issue594" title="Latest snapshot">(i)</a></sup>.
 </li>
 </ol>
 </blockquote>
@@ -180,7 +180,7 @@ hash functions in containers are swapped via unqualified free
 
 <blockquote><p>
 The outcome of this issue should be considered with the outcome of 
-<a href="lwg-defects.html#1198" title="Container adaptor swap: member or non-member? (Status: C++11)">1198</a> both in style and in content (e.g. bullet 9 suggests to
+<a href="lwg-defects.html#1198" title="Container adaptor swap: member or non-member? (Status: C++11)">1198</a><sup><a href="https://cplusplus.github.io/LWG/issue1198" title="Latest snapshot">(i)</a></sup> both in style and in content (e.g. bullet 9 suggests to
 define the semantic of <code>void priority_queue::swap(priority_queue&amp;)</code> 
 in terms of the member <code>swap</code> of the container).
 </p></blockquote>
@@ -825,12 +825,12 @@ This resolution is based on the September 2009 WP,
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2960.pdf">N2960</a>,
 except that it assumes that
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2982.pdf">N2982</a>
-and issues <a href="lwg-defects.html#883" title="swap circular definition (Status: C++11)">883</a> and <a href="lwg-closed.html#1232" title="Still swap's with rvalue-references (Status: NAD Editorial)">1232</a> have already been applied.  Note in
+and issues <a href="lwg-defects.html#883" title="swap circular definition (Status: C++11)">883</a><sup><a href="https://cplusplus.github.io/LWG/issue883" title="Latest snapshot">(i)</a></sup> and <a href="lwg-closed.html#1232" title="Still swap's with rvalue-references (Status: NAD Editorial)">1232</a><sup><a href="https://cplusplus.github.io/LWG/issue1232" title="Latest snapshot">(i)</a></sup> have already been applied.  Note in
 particular that Table 91 in
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2960.pdf">N2960</a>
 is refered to as Table 90 because
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2009/n2982.pdf">N2982</a>
-removed the old Table 90.  This resolution also addresses issue <a href="lwg-defects.html#431" title="Swapping containers with unequal allocators (Status: Resolved)">431</a>.
+removed the old Table 90.  This resolution also addresses issue <a href="lwg-defects.html#431" title="Swapping containers with unequal allocators (Status: Resolved)">431</a><sup><a href="https://cplusplus.github.io/LWG/issue431" title="Latest snapshot">(i)</a></sup>.
 ]</i></p>
 
 <p>

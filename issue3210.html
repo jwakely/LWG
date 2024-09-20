@@ -75,7 +75,7 @@ passed to allocator <code>construct</code> and <code>destroy</code></h3>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-I implemented the fix for LWG <a href="lwg-defects.html#3008" title="make_shared (sub)object destruction semantics are not specified (Status: C++20)">3008</a> and Stephan pointed out there's an inconsistency here 
+I implemented the fix for LWG <a href="lwg-defects.html#3008" title="make_shared (sub)object destruction semantics are not specified (Status: C++20)">3008</a><sup><a href="https://cplusplus.github.io/LWG/issue3008" title="Latest snapshot">(i)</a></sup> and Stephan pointed out there's an inconsistency here 
 for <code>allocate_shared&lt;const T&gt;</code>.
 <p/>
 20.3.2.2.7 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> p3 says that the allocator construct call is done without removing 
@@ -97,7 +97,7 @@ changes the experience for C++17 customers because <code>allocate_shared</code> 
 instead of a <code>const T</code>, but not in a way substantially different to edits 
 <a href="https://wg21.link/p0674">P0674</a> already made here.</p></li>
 <li><p>Back out <code>allocate_shared</code>'s interaction with this part of the allocator model (reverting 
-this part of <a href="https://wg21.link/p0674">P0674</a> and reopening LWG <a href="lwg-defects.html#3008" title="make_shared (sub)object destruction semantics are not specified (Status: C++20)">3008</a>).</p></li>
+this part of <a href="https://wg21.link/p0674">P0674</a> and reopening LWG <a href="lwg-defects.html#3008" title="make_shared (sub)object destruction semantics are not specified (Status: C++20)">3008</a><sup><a href="https://cplusplus.github.io/LWG/issue3008" title="Latest snapshot">(i)</a></sup>).</p></li>
 <li><p>Go around the problem by prohibiting <code>allocate_shared&lt;const T&gt;</code>, which breaks 
 existing C++17 customers.</p></li>
 </ol>

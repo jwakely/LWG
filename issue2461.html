@@ -178,7 +178,7 @@ non-<code>CopyInsertable</code> <code>T</code>, the effects are unspecified.
 <p>
 The wording leads to the following problem:
 Copy and move assignment are invoked directly from <code>vector</code>.
-For intermediary objects (see <a href="lwg-defects.html#2164" title="What are the semantics of vector.emplace(vector.begin(), vector.back())? (Status: C++20)">2164</a>),
+For intermediary objects (see <a href="lwg-defects.html#2164" title="What are the semantics of vector.emplace(vector.begin(), vector.back())? (Status: C++20)">2164</a><sup><a href="https://cplusplus.github.io/LWG/issue2164" title="Latest snapshot">(i)</a></sup>),
 <code>vector</code> also directly invokes the copy and move constructor of the value type.
 However, construction of the actual element within the buffer is invoked via the allocator abstraction.
 As discussed above, the allocator currently is not required to call a copy/move constructor.
@@ -287,7 +287,7 @@ Another problem arises for value types whose constructors are private,
 but may be called by the allocator e.g. via friendship.
 Those value types are not <code>MoveConstructible</code> 
 (<code>is_move_constructible</code> is false), yet they can be <code>MoveInsertable</code>.
-It is not possible for <code>vector</code> to create intermediary objects (see <a href="lwg-defects.html#2164" title="What are the semantics of vector.emplace(vector.begin(), vector.back())? (Status: C++20)">2164</a>) of such a type
+It is not possible for <code>vector</code> to create intermediary objects (see <a href="lwg-defects.html#2164" title="What are the semantics of vector.emplace(vector.begin(), vector.back())? (Status: C++20)">2164</a><sup><a href="https://cplusplus.github.io/LWG/issue2164" title="Latest snapshot">(i)</a></sup>) of such a type
 by directly using the move constructor.
 Current implementations of the single-element forms of <code>vector::insert</code> and <code>vector::emplace</code>
 do create intermediary objects by directly calling one of the value type's constructors,
@@ -375,7 +375,7 @@ Solution 1 discussed in this issue also breaks support for the <code>polymorphic
 of the Library Fundamentals TS v1, in addition to already mentioned <code>std::scoped_allocator_adapter</code>. Furthermore 
 there is unknown impact on the other user-defined state-full allocators code written in the C++11.
 <p/>
-In addition the library resolution proposed in the LWG issues <a href="lwg-defects.html#2089" title="std::allocator::construct should use uniform initialization (Status: Resolved)">2089</a> and 
+In addition the library resolution proposed in the LWG issues <a href="lwg-defects.html#2089" title="std::allocator::construct should use uniform initialization (Status: Resolved)">2089</a><sup><a href="https://cplusplus.github.io/LWG/issue2089" title="Latest snapshot">(i)</a></sup> and 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4462.html">N4462</a>, 
 will break the relation between the <code>std::allocator_trait::construct</code> method and 
 copy/move constructor even for the standard <code>std::allocator</code>. As example please consider following class:

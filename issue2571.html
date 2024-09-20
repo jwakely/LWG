@@ -97,7 +97,7 @@ a template parameter called <code>P</code>.
 This paragraph used to have text saying "The signature taking <code>InputIterator</code> parameters does not require 
 <code>CopyConstructible</code> of either <code>key_type</code> or <code>mapped_type</code> if the dereferenced <code>InputIterator</code> 
 returns a non-<code>const</code> rvalue <code>pair&lt;key_type,mapped_type&gt;</code>. Otherwise <code>CopyConstructible</code> is 
-required for both <code>key_type</code> and <code>mapped_type</code>", but that was removed by LWG <a href="lwg-defects.html#2005" title="unordered_map::insert(T&amp;&amp;) protection should apply to map too (Status: C++14)">2005</a>, whose PR 
+required for both <code>key_type</code> and <code>mapped_type</code>", but that was removed by LWG <a href="lwg-defects.html#2005" title="unordered_map::insert(T&amp;&amp;) protection should apply to map too (Status: C++14)">2005</a><sup><a href="https://cplusplus.github.io/LWG/issue2005" title="Latest snapshot">(i)</a></sup>, whose PR 
 was written as if that overload didn't exist in the text.
 <p/>
 It looks like the text addressing this overload is redundant to the requirements on <code>a.insert(i, j)</code> in Table 102 

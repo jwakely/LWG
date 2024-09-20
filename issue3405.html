@@ -71,14 +71,14 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-LWG <a href="lwg-defects.html#3280" title="View converting constructors can cause constraint recursion and are unneeded (Status: C++20)">3280</a> struck the problematic/extraneous converting constructor templates from the 
+LWG <a href="lwg-defects.html#3280" title="View converting constructors can cause constraint recursion and are unneeded (Status: C++20)">3280</a><sup><a href="https://cplusplus.github.io/LWG/issue3280" title="Latest snapshot">(i)</a></sup> struck the problematic/extraneous converting constructor templates from the 
 <code><i>meow</i>_view</code> range adaptor types in the standard library with the exception of <code>common_view</code>. 
 The omission of <code>common_view</code> seems to have been simply an oversight: its converting constructor 
 template is no less problematic or extraneous. We should remove <code>common_view</code>'s converting 
 constructor template as well to finish the task. Both <code>cmcstl2</code> and <code>range-v3</code> removed 
 the converting constructor template from <code>common_view</code> when removing the other converting 
 constructor templates, so we have implementation experience that this change is good as well as 
-consistent with the general thrust of LWG <a href="lwg-defects.html#3280" title="View converting constructors can cause constraint recursion and are unneeded (Status: C++20)">3280</a>.
+consistent with the general thrust of LWG <a href="lwg-defects.html#3280" title="View converting constructors can cause constraint recursion and are unneeded (Status: C++20)">3280</a><sup><a href="https://cplusplus.github.io/LWG/issue3280" title="Latest snapshot">(i)</a></sup>.
 </p>
 
 <p><i>[2020-03-11 Issue Prioritization]</i></p>

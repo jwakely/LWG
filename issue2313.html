@@ -103,7 +103,7 @@ tuple_size&lt;array&lt;T, N&gt; &gt;::value
 They should be required to behave like the "primary template". This is more than a stylistic decision &mdash; it allows 
 <code>tuple_size</code> to be passed to a function taking <code>integral_constant</code>.
 <p/>
-LWG <a href="lwg-defects.html#1118" title="tuple query APIs do not support cv-qualification (Status: C++11)">1118</a> noticed this underspecification, but instead of correcting it, the resolution changed 
+LWG <a href="lwg-defects.html#1118" title="tuple query APIs do not support cv-qualification (Status: C++11)">1118</a><sup><a href="https://cplusplus.github.io/LWG/issue1118" title="Latest snapshot">(i)</a></sup> noticed this underspecification, but instead of correcting it, the resolution changed 
 22.4.7 <a href="https://wg21.link/tuple.helper">[tuple.helper]</a>/3 to require <code>tuple_size&lt;<i>cv</i> T&gt;</code> to derive from 
 <code>integral_constant&lt;remove_cv&lt;decltype(TS::value)&gt;::type, TS::value&gt;</code>. This is unnecessarily overgeneralized.  
 <code>tuple_size</code> is primarily for tuples, where it is required to be <code>size_t</code>, and it has been extended to handle 

@@ -142,7 +142,7 @@ would be to mention in Table 94 that this "may also invalidate the past-the-end
 iterator" and then to mention for all specific containers where this does not
 happen, the exception, [1] e.g. in <code>std::vector</code>. <code>std::vector</code>
 has no own specification of <code>clear()</code> and one aspect of the closed issue
-<a href="lwg-active.html#1102" title="std::vector's reallocation policy still unclear (Status: Open)">1102</a> was to realize just that (indirectly via <code>erase</code>). IMO
+<a href="lwg-active.html#1102" title="std::vector's reallocation policy still unclear (Status: Open)">1102</a><sup><a href="https://cplusplus.github.io/LWG/issue1102" title="Latest snapshot">(i)</a></sup> was to realize just that (indirectly via <code>erase</code>). IMO
 we should now add an extra specification for <code>clear()</code>. Btw.:
 <code>std::vector::erase</code> reads to me that it would invalidate previous
 past-the-end values (and that seems correct in general).
@@ -168,7 +168,7 @@ Rationale added below.
 
 <p><b>Rationale:</b></p>
 <p>
-Solved as proposed by LWG <a href="lwg-defects.html#704" title="MoveAssignable requirement for container value type overly strict (Status: C++11)">704</a>.
+Solved as proposed by LWG <a href="lwg-defects.html#704" title="MoveAssignable requirement for container value type overly strict (Status: C++11)">704</a><sup><a href="https://cplusplus.github.io/LWG/issue704" title="Latest snapshot">(i)</a></sup>.
 </p>
 
 

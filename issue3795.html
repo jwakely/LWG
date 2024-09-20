@@ -87,7 +87,7 @@ It can be found that when <code>*this</code> and <code>rhs</code> is the same ob
 is <code>true</code> before the assignment, the postconditions can't be achieved.
 <p/>
 Mainstream implementations (libc++, libstdc++, msvc stl) currently implement such self-move-assignment as no-op, 
-which doesn't meet the requirements in the <i>Effects:</i> element. As discussed in LWG <a href="lwg-defects.html#3788" title="jthread::operator=(jthread&amp;&amp;) postconditions are unimplementable under self-assignment (Status: C++23)">3788</a>, I think 
+which doesn't meet the requirements in the <i>Effects:</i> element. As discussed in LWG <a href="lwg-defects.html#3788" title="jthread::operator=(jthread&amp;&amp;) postconditions are unimplementable under self-assignment (Status: C++23)">3788</a><sup><a href="https://cplusplus.github.io/LWG/issue3788" title="Latest snapshot">(i)</a></sup>, I think 
 we should say self-move-assignment has no effects for these types.
 </p>
 

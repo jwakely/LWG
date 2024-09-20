@@ -83,7 +83,7 @@ an empty one:</p>
 <p>However, the wording of 24.3.12.3 <a href="https://wg21.link/vector.capacity">[vector.capacity]</a>paragraph 5 prevents
 the capacity of a vector being reduced, following a call to
 reserve(). This invalidates the idiom, as swap() is thus prevented
-from reducing the capacity. The proposed wording for issue <a href="lwg-defects.html#329" title="vector capacity, reserve and reallocation (Status: CD1)">329</a> does not affect this.  Consequently, the example above
+from reducing the capacity. The proposed wording for issue <a href="lwg-defects.html#329" title="vector capacity, reserve and reallocation (Status: CD1)">329</a><sup><a href="https://cplusplus.github.io/LWG/issue329" title="Latest snapshot">(i)</a></sup> does not affect this.  Consequently, the example above
 requires the temporary to be expanded to cater for the contents of
 vec, and the contents be copied across. This is a linear-time
 operation.</p>

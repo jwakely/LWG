@@ -77,12 +77,12 @@ is inconsistent with the resolution of LWG 675. Indeed, we guarantee constant co
 complexity). We also want it to be noexcept, that is more subtle, but again it's at variance with all 
 the containers.
 <p/>
-Also, even if we suppose that LWG <a href="lwg-defects.html#675" title="Move assignment of containers (Status: CD1)">675</a> applies only to the containers proper, I don't think the current 
+Also, even if we suppose that LWG <a href="lwg-defects.html#675" title="Move assignment of containers (Status: CD1)">675</a><sup><a href="https://cplusplus.github.io/LWG/issue675" title="Latest snapshot">(i)</a></sup> applies only to the containers proper, I don't think the current 
 "as if by calling resize(v.size())" is internally consistent with the noexcept requirement.
 <p/>
 So, what do we really want for <code>std::valarray</code>? Shall we maybe just strike or fix the as-if, consider it 
 some sort of pasto from the copy-assignment text, thus keep the noexcept and constant complexity requirements 
-(essentially the whole operation would boild down to a swap of POD data members). Or LWG <a href="lwg-defects.html#675" title="Move assignment of containers (Status: CD1)">675</a> should be 
+(essentially the whole operation would boild down to a swap of POD data members). Or LWG <a href="lwg-defects.html#675" title="Move assignment of containers (Status: CD1)">675</a><sup><a href="https://cplusplus.github.io/LWG/issue675" title="Latest snapshot">(i)</a></sup> should be 
 explicitly extended to <code>std::valarray</code> too? In that case both noexcept and constant complexity 
 would go, I think, and the operation would boil down to the moral equivalent of <code>clear()</code> (which 
 doesn't really exist in this case) + <code>swap</code>?

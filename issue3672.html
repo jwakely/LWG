@@ -74,7 +74,7 @@
 25.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> p5 (5.1) says that <code>common_iterator&lt;T*, S&gt;::operator-&gt;()</code> 
 returns <code>std::get&lt;T*&gt;(v_)</code> which has type <code>T* const&amp;</code>. That means that 
 <code>iterator_traits::pointer</code> is <code>T* const&amp;</code> as well (this was recently clarified by LWG 
-<a href="lwg-defects.html#3660" title="iterator_traits&lt;common_iterator&gt;::pointer should conform to &sect;[iterator.traits] (Status: C++23)">3660</a>). We have an actual pointer here, why are we returning it by reference?
+<a href="lwg-defects.html#3660" title="iterator_traits&lt;common_iterator&gt;::pointer should conform to &sect;[iterator.traits] (Status: C++23)">3660</a><sup><a href="https://cplusplus.github.io/LWG/issue3660" title="Latest snapshot">(i)</a></sup>). We have an actual pointer here, why are we returning it by reference?
 <p/>
 For the three bullet points in 25.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> p5, the second and third return by value 
 anyway, so <code>decltype(auto)</code> is equivalent to <code>auto</code>. For the first bullet, it would make a lot 

@@ -81,7 +81,7 @@ friend constexpr compare_three_way_result_t&lt;W&gt; operator&lt;=&gt;(
   requires totally_ordered&lt;W&gt; &amp;&amp; three_way_comparable&lt;W&gt;;
 </pre></blockquote>
 <p>
-Similar to issue <a href="lwg-defects.html#3347" title="std::pair&lt;T, U&gt; now requires T and U to be less-than-comparable (Status: C++20)">3347</a> and issue <a href="lwg-defects.html#3387" title="&sect;[range.reverse.view] reverse_view&lt;V&gt; unintentionally requires range&lt;const V&gt; (Status: C++20)">3387</a>, this is ill-formed if 
+Similar to issue <a href="lwg-defects.html#3347" title="std::pair&lt;T, U&gt; now requires T and U to be less-than-comparable (Status: C++20)">3347</a><sup><a href="https://cplusplus.github.io/LWG/issue3347" title="Latest snapshot">(i)</a></sup> and issue <a href="lwg-defects.html#3387" title="&sect;[range.reverse.view] reverse_view&lt;V&gt; unintentionally requires range&lt;const V&gt; (Status: C++20)">3387</a><sup><a href="https://cplusplus.github.io/LWG/issue3387" title="Latest snapshot">(i)</a></sup>, this is ill-formed if 
 <code>three_way_comparable&lt;W&gt;</code> is not satisfied, because <code>compare_three_way_result_t&lt;W&gt;</code> 
 is invalid. This declaration is instantiated when the enclosing iterator type is instantiated, making 
 any use of <code>iota_view&lt;W, B&gt;::iterator</code> ill-formed when <code>three_way_comparable&lt;W&gt;</code> 

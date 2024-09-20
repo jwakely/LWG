@@ -64,7 +64,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4132"><a href="lwg-active.html#4132">4132</a>. <i>Throws</i> specifications need to include <code><i>boolean-testable</i></code> operations</h3>
 <p><b>Section:</b> 24.2.7.1 <a href="https://wg21.link/associative.reqmts.general">[associative.reqmts.general]</a>, 24.3.11.5 <a href="https://wg21.link/list.ops">[list.ops]</a>, 24.3.10.6 <a href="https://wg21.link/forward.list.ops">[forward.list.ops]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Daniel Krügler <b>Opened:</b> 2024-08-03 <b>Last modified:</b> 2024-08-04</p>
+ <b>Submitter:</b> Daniel Krügler <b>Opened:</b> 2024-08-03 <b>Last modified:</b> 2024-09-07</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View other</b> <a href="lwg-index-open.html#associative.reqmts.general">active issues</a> in [associative.reqmts.general].</p>
@@ -84,7 +84,7 @@ The expressions <code>*i == value</code> (by [tab:cpp17.equalitycomparable]) and
 (by 27.2 <a href="https://wg21.link/algorithms.requirements">[algorithms.requirements]</a>) both require to have a type that models 
 <code><i>boolean-testable</i></code>, so their actual evaluation potentially requires an additional 
 conversion to <code>bool</code> (The part "<code>!= false</code>" was not guaranteed to realize that as 
-pointed out by LWG <a href="lwg-active.html#4127" title="The Standard Library should not use predicates of the form pred(*i) != false (Status: New)">4127</a> and will therefore be removed by that issue).
+pointed out by LWG <a href="lwg-active.html#4127" title="The Standard Library should not use predicates of the form pred(*i) != false (Status: New)">4127</a><sup><a href="https://cplusplus.github.io/LWG/issue4127" title="Latest snapshot">(i)</a></sup> and will therefore be removed by that issue).
 <p/>
 The <code><i>boolean-testable</i></code> requirements (18.5.2 <a href="https://wg21.link/concept.booleantestable">[concept.booleantestable]</a>) doesn't 
 say anything about potential exceptions thrown by this conversion, so we must assume that this 
@@ -106,8 +106,9 @@ Therefore the wording for the affected <i>Throws</i>: elements somehow needs to 
 involved here without actually restricting existing implementations unnecessarily.
 </p>
 
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
 
-<p id="res-4132"><b>Proposed resolution:</b></p>
 <p>
 This wording is relative to <a href="https://wg21.link/N4986" title=" Working Draft, Programming Languages — C++">N4986</a>.
 </p>
@@ -170,7 +171,7 @@ template&lt;class BinaryPredicate&gt; size_type unique(BinaryPredicate binary_pr
 
 <blockquote class="note">
 <p>
-[<i>Drafting note</i>: The adjustment of p17 is presented as if issue LWG <a href="lwg-active.html#4127" title="The Standard Library should not use predicates of the form pred(*i) != false (Status: New)">4127</a> 
+[<i>Drafting note</i>: The adjustment of p17 is presented as if issue LWG <a href="lwg-active.html#4127" title="The Standard Library should not use predicates of the form pred(*i) != false (Status: New)">4127</a><sup><a href="https://cplusplus.github.io/LWG/issue4127" title="Latest snapshot">(i)</a></sup> 
 proposed wording has already been applied]
 </p>
 </blockquote>
@@ -204,6 +205,155 @@ template&lt;class BinaryPredicate&gt; size_type unique(BinaryPredicate binary_pr
 (18.5.2 <a href="https://wg21.link/concept.booleantestable">[concept.booleantestable]</a>) operation</ins>.
 <p/>
 [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+</ol>
+</blockquote>
+
+<p><i>[2024-09-07; Daniel comments and improves wording]</i></p>
+
+<p>
+During LWG reflector discussion it has been proposed to add similar wording to the 
+throwing prohibition in <i>Cpp17NullablePointer</i> and <code><i>nothrow-sentinel-for</i></code>, too.
+Furthermore, the existing wording changes are becoming now more harmonized in their
+stylistic forms.
+</p>
+
+
+<p id="res-4132"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+
+<ol>
+<li><p>Modify 16.4.4.4 <a href="https://wg21.link/nullablepointer.requirements">[nullablepointer.requirements]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-4- No operation which is part of the <i>Cpp17NullablePointer</i> requirements<ins>, including each 
+of its <code><i>boolean-testable</i></code> (18.5.2 <a href="https://wg21.link/concept.booleantestable">[concept.booleantestable]</a>) operations,</ins> 
+shall exit via an exception.
+</p>
+</blockquote>
+</li>
+
+<li><p>Modify 24.2.7.1 <a href="https://wg21.link/associative.reqmts.general">[associative.reqmts.general]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+a.merge(a2)
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-116- <i>Throws</i>: Nothing unless <ins>an exception is thrown by evaluation of</ins> the comparison 
+object<ins>, including any selected <code><i>boolean-testable</i></code> (18.5.2 <a href="https://wg21.link/concept.booleantestable">[concept.booleantestable]</a>) 
+operations</ins><del>throws</del>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.10.6 <a href="https://wg21.link/forward.list.ops">[forward.list.ops]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+size_type remove(const T&amp; value);
+template&lt;class Predicate&gt; size_type remove_if(Predicate pred);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-15- <i>Throws</i>: Nothing unless an exception is thrown by the equality comparison 
+<ins>(for <code>remove()</code>)</ins> or the predicate <ins>(for <code>remove_if()</code>), 
+including any selected <code><i>boolean-testable</i></code> (18.5.2 <a href="https://wg21.link/concept.booleantestable">[concept.booleantestable]</a>) 
+operations</ins>.
+</p>
+</blockquote>
+<p>
+[&hellip;]
+</p>
+<pre>
+size_type unique();
+template&lt;class BinaryPredicate&gt; size_type unique(BinaryPredicate binary_pred);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-22- <i>Throws</i>: Nothing unless an exception is thrown by <ins>evaluation of</ins> 
+the predicate<ins>, including any selected <code><i>boolean-testable</i></code> 
+(18.5.2 <a href="https://wg21.link/concept.booleantestable">[concept.booleantestable]</a>) operations</ins>.
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 24.3.11.5 <a href="https://wg21.link/list.ops">[list.ops]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note</i>: The adjustment of p17 is presented as if issue LWG <a href="lwg-active.html#4127" title="The Standard Library should not use predicates of the form pred(*i) != false (Status: New)">4127</a><sup><a href="https://cplusplus.github.io/LWG/issue4127" title="Latest snapshot">(i)</a></sup> 
+proposed wording has already been applied]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+size_type remove(const T&amp; value);
+template&lt;class Predicate&gt; size_type remove_if(Predicate pred);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-17- <i>Throws</i>: Nothing unless an exception is thrown by <del><code>*i == value</code> or
+<code>pred(*i)</code></del><ins>the equality comparison (for <code>remove()</code>) or evaluation 
+of the predicate (for <code>remove_if()</code>), including any selected <code><i>boolean-testable</i></code> 
+(18.5.2 <a href="https://wg21.link/concept.booleantestable">[concept.booleantestable]</a>) operations</ins>.
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+<pre>
+size_type unique();
+template&lt;class BinaryPredicate&gt; size_type unique(BinaryPredicate binary_pred);
+</pre>
+<blockquote>
+<p>
+[&hellip;]
+<p/>
+-24- <i>Throws</i>: Nothing unless an exception is thrown by <ins>evaluation of</ins> the 
+predicate<ins>, including any selected <code><i>boolean-testable</i></code> 
+(18.5.2 <a href="https://wg21.link/concept.booleantestable">[concept.booleantestable]</a>) operations</ins>.
+<p/>
+[&hellip;]
+</p>
+</blockquote>
+</blockquote>
+</li>
+
+<li><p>Modify 27.11.2 <a href="https://wg21.link/special.mem.concepts">[special.mem.concepts]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class S, class I&gt;
+concept <i>nothrow-sentinel-for</i> = sentinel_for&lt;S, I&gt;; // <i>exposition only</i>
+</pre>
+<blockquote>
+<p>
+-4- Types <code>S</code> and <code>I</code> model <code><i>nothrow-sentinel-for</i></code> only if no exceptions 
+are thrown from copy construction, move construction, copy assignment, move assignment, or comparisons 
+<ins>, including each of its <code><i>boolean-testable</i></code> (18.5.2 <a href="https://wg21.link/concept.booleantestable">[concept.booleantestable]</a>) 
+operations,</ins> between valid values of type <code>I</code> and <code>S</code>.
+<p/>
+-5- [<i>Note 2</i>: This concept allows some <code>sentinel_for</code> (25.3.4.7 <a href="https://wg21.link/iterator.concept.sentinel">[iterator.concept.sentinel]</a>) 
+operations to throw exceptions. &mdash; <i>end note</i>]
 </p>
 </blockquote>
 </blockquote>

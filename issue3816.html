@@ -78,7 +78,7 @@ This is resolution of <b><a href="https://github.com/cplusplus/nbballot/issues/5
 <p>
 Currently both 24.6.9.1 <a href="https://wg21.link/flat.map.overview">[flat.map.overview]</a> p7 and 24.6.10.1 <a href="https://wg21.link/flat.multimap.overview">[flat.multimap.overview]</a> p7
 claims that <code>flat_(multi)map</code> supports "Any sequence container (24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>) 
-<code>C</code> supporting <i>Cpp17RandomAccessIterator</i>", which arguably includes <code>std::array</code> (see LWG <a href="lwg-active.html#617" title="std::array is a sequence that doesn't satisfy the sequence requirements? (Status: Open)">617</a>).
+<code>C</code> supporting <i>Cpp17RandomAccessIterator</i>", which arguably includes <code>std::array</code> (see LWG <a href="lwg-active.html#617" title="std::array is a sequence that doesn't satisfy the sequence requirements? (Status: Open)">617</a><sup><a href="https://cplusplus.github.io/LWG/issue617" title="Latest snapshot">(i)</a></sup>).
 This is incorrect as <code>std::array</code> does not provide operations required to restored these adaptors invariant, 
 including <code>clear</code>. We should require that <code>C</code> meets sequence container requirements, and we 
 state that fact explicitly in 24.3.8.1 <a href="https://wg21.link/array.overview">[array.overview]</a> p3: "An <code>array</code> meets some of the requirements 

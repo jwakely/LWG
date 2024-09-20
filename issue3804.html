@@ -92,7 +92,7 @@ std::priority_queue pq1 = std::priority_queue(v, std::less(), MyAllocator&lt;int
 std::priority_queue pq2 = std::priority_queue(v.begin(), v.end(), MyAllocator&lt;int&gt;());
 std::priority_queue pq3 = std::priority_queue(v.begin(), v.end(), std::less(), MyAllocator&lt;int&gt;());
 // BEFORE AND AFTER: pq1 compiles successfully
-// BEFORE AND AFTER: pq2 and pq3 also compile successfully thanks to LWG <a href="lwg-defects.html#3506" title="Missing allocator-extended constructors for priority_queue (Status: C++23)">3506</a>
+// BEFORE AND AFTER: pq2 and pq3 also compile successfully thanks to LWG <a href="lwg-defects.html#3506" title="Missing allocator-extended constructors for priority_queue (Status: C++23)">3506</a><sup><a href="https://cplusplus.github.io/LWG/issue3506" title="Latest snapshot">(i)</a></sup>
 </pre></blockquote>
 
 <p><i>[2022-11-04; Reflector poll]</i></p>

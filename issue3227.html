@@ -77,7 +77,7 @@ while invoking <code>std::map::erase</code> when <code>key_type</code> of the ma
 the iterator. In this case both overloads <code>erase(const key_type&amp;)</code> and
 <code>erase(const_iterator)</code> could be chosen.
 <p/>
-The issue LWG <a href="lwg-defects.html#2059" title="C++0x ambiguity problem with map::erase (Status: C++17)">2059</a> was reported and resolved in C++17 by adding an extra overload
+The issue LWG <a href="lwg-defects.html#2059" title="C++0x ambiguity problem with map::erase (Status: C++17)">2059</a><sup><a href="https://cplusplus.github.io/LWG/issue2059" title="Latest snapshot">(i)</a></sup> was reported and resolved in C++17 by adding an extra overload
 for <code>erase</code> in ordered and unordered associative containers which accepts <code>iterator</code>
 as an argument.
 <p/>

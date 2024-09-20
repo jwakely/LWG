@@ -70,7 +70,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#C++23">C++23</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The resolution of LWG issue <a href="lwg-defects.html#3391" title="Problems with counted_iterator/move_iterator::base() const &amp; (Status: C++23)">3391</a> changed the <code>base()</code> function for the 
+The resolution of LWG issue <a href="lwg-defects.html#3391" title="Problems with counted_iterator/move_iterator::base() const &amp; (Status: C++23)">3391</a><sup><a href="https://cplusplus.github.io/LWG/issue3391" title="Latest snapshot">(i)</a></sup> changed the <code>base()</code> function for the 
 <code>counted_iterator</code>/<code>move_iterator</code> to return <code>const &amp;</code>, because the previous 
 specification prevented non-mutating uses of the base iterator (comparing against sentinel) and made 
 <code>take_view</code> unimplementable. However, this change was not applied for all other iterators wrappers, 

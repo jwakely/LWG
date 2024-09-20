@@ -89,7 +89,7 @@ difference type is an integer-class type?
 <p/>
 The proposed resolution makes <code>repeat_view::<i>iterator</i></code> conditionally provide 
 <code>iterator_category</code>, because it explicitly mentions <code><i>IOTA-DIFF-T</i>(<i>index-type</i>)</code> 
-in the definition of <code>difference_type</code>, which makes it consistent with LWG <a href="lwg-defects.html#3670" title="Cpp17InputIterators don't have integer-class difference types (Status: C++23)">3670</a>.
+in the definition of <code>difference_type</code>, which makes it consistent with LWG <a href="lwg-defects.html#3670" title="Cpp17InputIterators don't have integer-class difference types (Status: C++23)">3670</a><sup><a href="https://cplusplus.github.io/LWG/issue3670" title="Latest snapshot">(i)</a></sup>.
 <p/>
 It also removes the <code>reference</code> member type of <code>cartesian_product_view::<i>iterator</i></code>, 
 which prevents <code>iterator_traits&lt;I&gt;::iterator_category</code> from being aliased to its member 
