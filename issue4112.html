@@ -63,14 +63,14 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Ready</a> status.</em></p>
 <h3 id="4112"><a href="lwg-active.html#4112">4112</a>. <code><i>has-arrow</i></code> should required <code>operator-&gt;()</code> to be <code>const</code>-qualified</h3>
-<p><b>Section:</b> 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 25.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-06-22 <b>Last modified:</b> 2024-06-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The helper concept <code><i>has-arrow</i></code> in 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> does not 
+The helper concept <code><i>has-arrow</i></code> in 25.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> does not 
 require that <code>I::operator-&gt;()</code> be <code>const</code>-qualified, which is inconsistent with 
 the constraints on <code>reverse_iterator</code> and <code>common_iterator</code>'s <code>operator-&gt;()</code> 
 as the latter two both require the underlying iterator has <code>const operator-&gt;()</code> member.
@@ -91,7 +91,7 @@ This wording is relative to <a href="https://wg21.link/N4981" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> as indicated:</p>
+<li><p>Modify 25.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> as indicated:</p>
 
 <blockquote>
 <pre>

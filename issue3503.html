@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="3503"><a href="lwg-active.html#3503">3503</a>. <code>chrono::ceil</code> has surprising requirement</h3>
-<p><b>Section:</b> 29.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 30.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2024-09-19</p>
 <p><b>Priority: </b>3
 </p>
@@ -71,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-29.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a> p7 requires that the return value is "The least result <code>t</code>
+30.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a> p7 requires that the return value is "The least result <code>t</code>
 representable in <code>ToDuration</code> for which <code>t &gt;= d</code>".
 <p/>
 This means that <code>chrono::ceil&lt;chrono::microseconds&gt;(chrono::duration&lt;float, milli&gt;(m)).count()</code>
@@ -158,7 +158,7 @@ even if the result is not always the correct mathematical value.
 This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
 </p>
 <ol>
-<li><p>Modify 29.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a> as indicated:</p>
+<li><p>Modify 30.5.8 <a href="https://wg21.link/time.duration.cast">[time.duration.cast]</a> as indicated:</p>
 <blockquote>
 <pre>
 template&lt;class ToDuration, class Rep, class Period&gt;

@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
 <h3 id="3485"><a href="lwg-closed.html#3485">3485</a>. <code>atomic_ref</code> safety should be based on operations that "potentially conflict" rather than lifetime</h3>
-<p><b>Section:</b> 33.5.7 <a href="https://wg21.link/atomics.ref.generic">[atomics.ref.generic]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+<p><b>Section:</b> 32.5.7 <a href="https://wg21.link/atomics.ref.generic">[atomics.ref.generic]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2020-09-12 <b>Last modified:</b> 2024-06-28</p>
 <p><b>Priority: </b>3
 </p>
@@ -93,7 +93,7 @@ int main() {
 }
 </pre></blockquote>
 <p>
-Technically this program has undefined behavior. 33.5.7 <a href="https://wg21.link/atomics.ref.generic">[atomics.ref.generic]</a> p3 says 
+Technically this program has undefined behavior. 32.5.7 <a href="https://wg21.link/atomics.ref.generic">[atomics.ref.generic]</a> p3 says 
 that, during the lifetime of any <code>atomic_ref</code> referring to an object, that the object 
 may only be accessed through the <code>atomic_ref</code> instances. However, in this example the 
 <code>atomic_ref</code> is constructed before the <code>i+=500</code> and is not destroyed before the 

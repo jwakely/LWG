@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
 <h3 id="3727"><a href="lwg-closed.html#3727">3727</a>. <code>reverse_iterator</code>/<code>common_iterator</code>'s <code>operator-&gt;</code> should not require the underlying iterator's <code>operator-&gt;</code> to be a <code>const</code> member function</h3>
-<p><b>Section:</b> 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a>, 25.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+<p><b>Section:</b> 24.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a>, 24.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2022-06-27 <b>Last modified:</b> 2022-11-30</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -84,7 +84,7 @@ because it will be invoked with a non-<code>const</code> returned object anyway.
 I think we should remove this constraint as I don't see the benefit of doing that.
 Constraining iterator's <code>operator-&gt;()</code> to be <code>const</code> and finally invoking non-<code>const</code> 
 overload doesn't feel right to me either. In <code>&lt;ranges&gt;</code>, the exposition-only constraint 
-<code><i>has-arrow</i></code> (26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>) for <code>operator-&gt;()</code> does not 
+<code><i>has-arrow</i></code> (25.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a>) for <code>operator-&gt;()</code> does not 
 require that the underlying iterator's <code>operator-&gt;()</code> to be <code>const</code>, we should make them 
 consistent, and I believe this relaxation of constraints can bring some value.
 <p/>
@@ -114,7 +114,7 @@ This wording is relative to <a href="https://wg21.link/N4910" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 25.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> as indicated:</p>
+<li><p>Modify 24.5.1.6 <a href="https://wg21.link/reverse.iter.elem">[reverse.iter.elem]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -135,7 +135,7 @@ constexpr pointer operator-&gt;() const
 </blockquote>
 </li>
 
-<li><p>Modify 25.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> as indicated:</p>
+<li><p>Modify 24.5.5.4 <a href="https://wg21.link/common.iter.access">[common.iter.access]</a> as indicated:</p>
 
 <blockquote>
 <pre>

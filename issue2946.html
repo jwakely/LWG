@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3 id="2946"><a href="lwg-defects.html#2946">2946</a>. LWG 2758's resolution missed further corrections</h3>
-<p><b>Section:</b> 23.4.3.3 <a href="https://wg21.link/string.cons">[string.cons]</a>, 23.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a>, 23.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a>, 23.4.3.8 <a href="https://wg21.link/string.ops">[string.ops]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 27.4.3.3 <a href="https://wg21.link/string.cons">[string.cons]</a>, 27.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a>, 27.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a>, 27.4.3.8 <a href="https://wg21.link/string.ops">[string.ops]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2017-03-17 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>2
 </p>
@@ -169,7 +169,7 @@ This wording is relative to <a href="https://wg21.link/n4640">N4640</a>.
 </p>
 
 <ol>
-<li><p>Edit 23.4.3 <a href="https://wg21.link/basic.string">[basic.string]</a>, class template <code>basic_string</code> synopsis, as indicated:</p>
+<li><p>Edit 27.4.3 <a href="https://wg21.link/basic.string">[basic.string]</a>, class template <code>basic_string</code> synopsis, as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -244,7 +244,7 @@ int compare(size_type pos1, size_type n1, <del>basic_string_view&lt;charT, trait
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.3 <a href="https://wg21.link/string.cons">[string.cons]</a> as indicated:</p>
+<li><p>Edit 27.4.3.3 <a href="https://wg21.link/string.cons">[string.cons]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -311,7 +311,7 @@ and then c</ins><del>C</del>alls <code>append(sv)</code>.
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a> as indicated:</p>
+<li><p>Edit 27.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -338,7 +338,7 @@ basic_string&amp; append(<del>basic_string_view&lt;charT, traits&gt; sv</del><in
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a> as indicated:</p>
+<li><p>Edit 27.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -365,7 +365,7 @@ basic_string&amp; assign(<del>basic_string_view&lt;charT, traits&gt; sv</del><in
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.7.4 <a href="https://wg21.link/string.insert">[string.insert]</a> as indicated:</p>
+<li><p>Edit 27.4.3.7.4 <a href="https://wg21.link/string.insert">[string.insert]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -392,7 +392,7 @@ basic_string&amp; insert(size_type pos, <del>basic_string_view&lt;charT, traits&
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.7.6 <a href="https://wg21.link/string.replace">[string.replace]</a> as indicated:</p>
+<li><p>Edit 27.4.3.7.6 <a href="https://wg21.link/string.replace">[string.replace]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -443,7 +443,7 @@ and then c</ins><del>C</del>alls <code>replace(i1 - begin(), i2 - i1, sv)</code>
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.8.2 <a href="https://wg21.link/string.find">[string.find]</a> as indicated:</p>
+<li><p>Edit 27.4.3.8.2 <a href="https://wg21.link/string.find">[string.find]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -595,7 +595,7 @@ hold: [&hellip;]
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.8.4 <a href="https://wg21.link/string.compare">[string.compare]</a> as indicated:</p>
+<li><p>Edit 27.4.3.8.4 <a href="https://wg21.link/string.compare">[string.compare]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -675,7 +675,7 @@ This wording is relative to <a href="https://wg21.link/n4656">N4656</a>.
 </p>
 
 <ol>
-<li><p>Edit 23.4.3 <a href="https://wg21.link/basic.string">[basic.string]</a>, class template <code>basic_string</code> synopsis, as indicated:</p>
+<li><p>Edit 27.4.3 <a href="https://wg21.link/basic.string">[basic.string]</a>, class template <code>basic_string</code> synopsis, as indicated:</p>
 <blockquote>
 <pre>
 [&hellip;]
@@ -750,7 +750,7 @@ int compare(size_type pos1, size_type n1, <del>basic_string_view&lt;charT, trait
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.3 <a href="https://wg21.link/string.cons">[string.cons]</a> as indicated:</p>
+<li><p>Edit 27.4.3.3 <a href="https://wg21.link/string.cons">[string.cons]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -817,7 +817,7 @@ and then c</ins><del>C</del>alls <code>append(sv)</code>.
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a> as indicated:</p>
+<li><p>Edit 27.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -844,7 +844,7 @@ basic_string&amp; append(<del>basic_string_view&lt;charT, traits&gt; sv</del><in
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a> as indicated:</p>
+<li><p>Edit 27.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -871,7 +871,7 @@ basic_string&amp; assign(<del>basic_string_view&lt;charT, traits&gt; sv</del><in
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.7.4 <a href="https://wg21.link/string.insert">[string.insert]</a> as indicated:</p>
+<li><p>Edit 27.4.3.7.4 <a href="https://wg21.link/string.insert">[string.insert]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -898,7 +898,7 @@ basic_string&amp; insert(size_type pos, <del>basic_string_view&lt;charT, traits&
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.7.6 <a href="https://wg21.link/string.replace">[string.replace]</a> as indicated:</p>
+<li><p>Edit 27.4.3.7.6 <a href="https://wg21.link/string.replace">[string.replace]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -949,7 +949,7 @@ and then c</ins><del>C</del>alls <code>replace(i1 - begin(), i2 - i1, sv)</code>
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.8.2 <a href="https://wg21.link/string.find">[string.find]</a> as indicated:</p>
+<li><p>Edit 27.4.3.8.2 <a href="https://wg21.link/string.find">[string.find]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>
@@ -1101,7 +1101,7 @@ hold: [&hellip;]
 </blockquote>
 </li>
 
-<li><p>Edit 23.4.3.8.4 <a href="https://wg21.link/string.compare">[string.compare]</a> as indicated:</p>
+<li><p>Edit 27.4.3.8.4 <a href="https://wg21.link/string.compare">[string.compare]</a> as indicated:</p>
 <blockquote>
 <pre>
 <ins>template&lt;class T&gt;</ins>

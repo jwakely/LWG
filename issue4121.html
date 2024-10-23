@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4121"><a href="lwg-active.html#4121">4121</a>. <code>ranges::to</code> constructs associative containers via <code>c.emplace(c.end(), *it)</code></h3>
-<p><b>Section:</b> 26.5.7.1 <a href="https://wg21.link/range.utility.conv.general">[range.utility.conv.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 25.5.7.1 <a href="https://wg21.link/range.utility.conv.general">[range.utility.conv.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-07-16 <b>Last modified:</b> 2024-08-02</p>
 <p><b>Priority: </b>2
 </p>
@@ -72,7 +72,7 @@
 <p>
 When <code>ranges::to</code> constructs an associative container, if there is no range version constructor 
 for <code>C</code> and the input range is not common range, <code>ranges::to</code> will dispatch to the
-bullet 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> (2.1.4), which first default-constructs the container 
+bullet 25.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> (2.1.4), which first default-constructs the container 
 and emplaces the element through <code>c.emplace(c.end(), *it)</code>.
 <p/>
 However, this is not the correct way to call <code>emplace()</code> on an associative container as it does 
@@ -120,7 +120,7 @@ This wording is relative to <a href="https://wg21.link/N4986" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 26.5.7.1 <a href="https://wg21.link/range.utility.conv.general">[range.utility.conv.general]</a> as indicated:</p>
+<li><p>Modify 25.5.7.1 <a href="https://wg21.link/range.utility.conv.general">[range.utility.conv.general]</a> as indicated:</p>
 
 <blockquote>
 <p>

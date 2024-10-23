@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
 <h3 id="3506"><a href="lwg-defects.html#3506">3506</a>. Missing allocator-extended constructors for <code>priority_queue</code></h3>
-<p><b>Section:</b> 24.6.7 <a href="https://wg21.link/priority.queue">[priority.queue]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+<p><b>Section:</b> 23.6.4 <a href="https://wg21.link/priority.queue">[priority.queue]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2020-11-21 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>3
 </p>
@@ -114,15 +114,15 @@ This wording is relative to <a href="https://wg21.link/n4878">N4878</a>.
 </p>
 
 <ol>
-<li><p>Add the following paragraph at the end of 24.6.1 <a href="https://wg21.link/container.adaptors.general">[container.adaptors.general]</a>:</p>
+<li><p>Add the following paragraph at the end of 23.6.1 <a href="https://wg21.link/container.adaptors.general">[container.adaptors.general]</a>:</p>
 <blockquote>
 <p>
 <ins>-6- The exposition-only alias template <i><code>iter-value-type</code></i> defined in
-24.3.1 <a href="https://wg21.link/sequences.general">[sequences.general]</a> may appear in deduction guides for container adaptors.</ins>
+23.3.1 <a href="https://wg21.link/sequences.general">[sequences.general]</a> may appear in deduction guides for container adaptors.</ins>
 </p>
 </blockquote>
 </li>
-<li><p>Modify 24.6.7 <a href="https://wg21.link/priority.queue">[priority.queue]</a>, class template <code>priority_queue</code> synopsis, as indicated:</p>
+<li><p>Modify 23.6.4 <a href="https://wg21.link/priority.queue">[priority.queue]</a>, class template <code>priority_queue</code> synopsis, as indicated:</p>
 <blockquote>
 <pre>
 namespace std {
@@ -197,7 +197,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Add the following paragraphs to 24.6.7.3 <a href="https://wg21.link/priqueue.cons.alloc">[priqueue.cons.alloc]</a>:</p>
+<li><p>Add the following paragraphs to 23.6.4.3 <a href="https://wg21.link/priqueue.cons.alloc">[priqueue.cons.alloc]</a>:</p>
 <blockquote>
 <pre>
 template&lt;class InputIterator, class Alloc&gt;

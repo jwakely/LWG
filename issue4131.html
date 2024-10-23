@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4131"><a href="lwg-active.html#4131">4131</a>. Including <code>&lt;optional&gt;</code> doesn't provide <code>std::begin/end</code></h3>
-<p><b>Section:</b> 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 24.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-08-02 <b>Last modified:</b> 2024-08-21</p>
 <p><b>Priority: </b>3
 </p>
@@ -94,29 +94,29 @@ This wording is relative to <a href="https://wg21.link/N4986" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> as indicated:</p>
+<li><p>Modify 24.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> as indicated:</p>
 
 <blockquote>
 <p>
 -1- In addition to being available via inclusion of the <code>&lt;iterator&gt;</code> header, the function
-templates in 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> are available when any of the following headers are included: 
-<code>&lt;array&gt;</code> (24.3.2 <a href="https://wg21.link/array.syn">[array.syn]</a>), 
-<code>&lt;deque&gt;</code> (24.3.3 <a href="https://wg21.link/deque.syn">[deque.syn]</a>), 
-<code>&lt;flat_map&gt;</code> (24.6.4 <a href="https://wg21.link/flat.map.syn">[flat.map.syn]</a>), 
-<code>&lt;flat_set&gt;</code> (24.6.5 <a href="https://wg21.link/flat.set.syn">[flat.set.syn]</a>), 
-<code>&lt;forward_list&gt;</code> (24.3.4 <a href="https://wg21.link/forward.list.syn">[forward.list.syn]</a>), 
-<code>&lt;inplace_vector&gt;</code> (24.3.7 <a href="https://wg21.link/inplace.vector.syn">[inplace.vector.syn]</a>),
-<code>&lt;list&gt;</code> (24.3.5 <a href="https://wg21.link/list.syn">[list.syn]</a>), 
-<code>&lt;map&gt;</code> (24.4.2 <a href="https://wg21.link/associative.map.syn">[associative.map.syn]</a>), 
+templates in 24.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> are available when any of the following headers are included: 
+<code>&lt;array&gt;</code> (23.3.2 <a href="https://wg21.link/array.syn">[array.syn]</a>), 
+<code>&lt;deque&gt;</code> (23.3.4 <a href="https://wg21.link/deque.syn">[deque.syn]</a>), 
+<code>&lt;flat_map&gt;</code> (23.6.7 <a href="https://wg21.link/flat.map.syn">[flat.map.syn]</a>), 
+<code>&lt;flat_set&gt;</code> (23.6.10 <a href="https://wg21.link/flat.set.syn">[flat.set.syn]</a>), 
+<code>&lt;forward_list&gt;</code> (23.3.6 <a href="https://wg21.link/forward.list.syn">[forward.list.syn]</a>), 
+<code>&lt;inplace_vector&gt;</code> (23.3.13 <a href="https://wg21.link/inplace.vector.syn">[inplace.vector.syn]</a>),
+<code>&lt;list&gt;</code> (23.3.8 <a href="https://wg21.link/list.syn">[list.syn]</a>), 
+<code>&lt;map&gt;</code> (23.4.2 <a href="https://wg21.link/associative.map.syn">[associative.map.syn]</a>), 
 <ins><code>&lt;optional&gt;</code> (22.5.2 <a href="https://wg21.link/optional.syn">[optional.syn]</a>),</ins> 
-<code>&lt;regex&gt;</code> (32.3 <a href="https://wg21.link/re.syn">[re.syn]</a>), 
-<code>&lt;set&gt;</code> (24.4.3 <a href="https://wg21.link/associative.set.syn">[associative.set.syn]</a>), 
-<code>&lt;span&gt;</code> (24.7.2.1 <a href="https://wg21.link/span.syn">[span.syn]</a>), 
-<code>&lt;string&gt;</code> (23.4.2 <a href="https://wg21.link/string.syn">[string.syn]</a>), 
-<code>&lt;string_view&gt;</code> (23.3.2 <a href="https://wg21.link/string.view.synop">[string.view.synop]</a>), 
-<code>&lt;unordered_map&gt;</code> (24.5.2 <a href="https://wg21.link/unord.map.syn">[unord.map.syn]</a>), 
-<code>&lt;unordered_set&gt;</code> (24.5.3 <a href="https://wg21.link/unord.set.syn">[unord.set.syn]</a>), 
-and <code>&lt;vector&gt;</code> (24.3.6 <a href="https://wg21.link/vector.syn">[vector.syn]</a>).
+<code>&lt;regex&gt;</code> (28.6.3 <a href="https://wg21.link/re.syn">[re.syn]</a>), 
+<code>&lt;set&gt;</code> (23.4.5 <a href="https://wg21.link/associative.set.syn">[associative.set.syn]</a>), 
+<code>&lt;span&gt;</code> (23.7.2.1 <a href="https://wg21.link/span.syn">[span.syn]</a>), 
+<code>&lt;string&gt;</code> (27.4.2 <a href="https://wg21.link/string.syn">[string.syn]</a>), 
+<code>&lt;string_view&gt;</code> (27.3.2 <a href="https://wg21.link/string.view.synop">[string.view.synop]</a>), 
+<code>&lt;unordered_map&gt;</code> (23.5.2 <a href="https://wg21.link/unord.map.syn">[unord.map.syn]</a>), 
+<code>&lt;unordered_set&gt;</code> (23.5.5 <a href="https://wg21.link/unord.set.syn">[unord.set.syn]</a>), 
+and <code>&lt;vector&gt;</code> (23.3.10 <a href="https://wg21.link/vector.syn">[vector.syn]</a>).
 </p>
 </blockquote>
 

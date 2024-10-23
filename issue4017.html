@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4017"><a href="lwg-active.html#4017">4017</a>. Behavior of <code>std::views::split</code> on an empty range</h3>
-<p><b>Section:</b> 26.7.17.3 <a href="https://wg21.link/range.split.iterator">[range.split.iterator]</a>, 26.7.16.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 25.7.17.3 <a href="https://wg21.link/range.split.iterator">[range.split.iterator]</a>, 25.7.16.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> David Stone <b>Opened:</b> 2023-11-19 <b>Last modified:</b> 2024-06-24</p>
 <p><b>Priority: </b>3
 </p>
@@ -107,7 +107,7 @@ will split into one range, but an empty sequence will split into zero ranges. Th
 simply an empty range.
 <p/>
 Proposed Resolution: Currently, <code>split_view::iterator</code>'s constructor unconditionally initializes 
-<code><i>trailing_empty_</i></code> to <code>false</code>. Instead, change 26.7.17.3 <a href="https://wg21.link/range.split.iterator">[range.split.iterator]</a>/1 
+<code><i>trailing_empty_</i></code> to <code>false</code>. Instead, change 25.7.17.3 <a href="https://wg21.link/range.split.iterator">[range.split.iterator]</a>/1 
 to initialize <code><i>trailing_empty_</i></code> to <code><i>cur_</i> == <i>next_</i>.begin()</code> (i.e. 
 <code><i>trailing_empty_</i></code> is typically <code>false</code>, but if we're empty on initialization then we 
 have to have a trailing empty range).
@@ -153,7 +153,7 @@ This wording is relative to <a href="https://wg21.link/N4964" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 26.7.17.3 <a href="https://wg21.link/range.split.iterator">[range.split.iterator]</a> as indicated:</p>
+<li><p>Modify 25.7.17.3 <a href="https://wg21.link/range.split.iterator">[range.split.iterator]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -169,7 +169,7 @@ constexpr <i>iterator</i>(split_view&amp; parent, iterator_t&lt;V&gt; current, s
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.16.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a> as indicated:</p>
+<li><p>Modify 25.7.16.3 <a href="https://wg21.link/range.lazy.split.outer">[range.lazy.split.outer]</a> as indicated:</p>
 
 <blockquote>
 <pre>

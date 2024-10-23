@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4137"><a href="lwg-active.html#4137">4137</a>. Fix <i>Mandates</i>, <i>Preconditions</i>, and <i>Complexity</i> elements of [linalg] algorithms</h3>
-<p><b>Section:</b> 28.9.14 <a href="https://wg21.link/linalg.algs.blas2">[linalg.algs.blas2]</a>, 28.9.15 <a href="https://wg21.link/linalg.algs.blas3">[linalg.algs.blas3]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 29.9.14 <a href="https://wg21.link/linalg.algs.blas2">[linalg.algs.blas2]</a>, 29.9.15 <a href="https://wg21.link/linalg.algs.blas3">[linalg.algs.blas3]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Mark Hoemmen <b>Opened:</b> 2024-08-08 <b>Last modified:</b> 2024-08-11</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -83,7 +83,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 28.9.14.1 <a href="https://wg21.link/linalg.algs.blas2.gemv">[linalg.algs.blas2.gemv]</a> as indicated:</p>
+<li><p>Modify 29.9.14.1 <a href="https://wg21.link/linalg.algs.blas2.gemv">[linalg.algs.blas2.gemv]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>
@@ -119,7 +119,7 @@ for those overloads that take a <code>z</code> parameter.</p></li>
 
 </li>
 
-<li><p>Modify 28.9.14.2 <a href="https://wg21.link/linalg.algs.blas2.symv">[linalg.algs.blas2.symv]</a> as indicated:</p>
+<li><p>Modify 29.9.14.2 <a href="https://wg21.link/linalg.algs.blas2.symv">[linalg.algs.blas2.symv]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -150,7 +150,7 @@ for those overloads that take a <code>z</code> parameter.</p></li>
 
 </li>
 
-<li><p>Modify 28.9.14.3 <a href="https://wg21.link/linalg.algs.blas2.hemv">[linalg.algs.blas2.hemv]</a> as indicated:</p>
+<li><p>Modify 29.9.14.3 <a href="https://wg21.link/linalg.algs.blas2.hemv">[linalg.algs.blas2.hemv]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -181,7 +181,7 @@ for those overloads that take a <code>z</code> parameter.</p></li>
 
 </li>
 
-<li><p>Modify 28.9.14.4 <a href="https://wg21.link/linalg.algs.blas2.trmv">[linalg.algs.blas2.trmv]</a> as indicated:</p>
+<li><p>Modify 29.9.14.4 <a href="https://wg21.link/linalg.algs.blas2.trmv">[linalg.algs.blas2.trmv]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>
@@ -189,7 +189,7 @@ for those overloads that take a <code>z</code> parameter.</p></li>
 above matrix-vector multiply sections, perhaps more for consistency with the TRSV section below. 
 They look correct here. The original <i>Complexity</i> elements adjusted below are technically correct, 
 since <math><mi>A</mi></math> is square, but changing this would improve consistency with 
-28.9.14.1 <a href="https://wg21.link/linalg.algs.blas2.gemv">[linalg.algs.blas2.gemv]</a>]
+29.9.14.1 <a href="https://wg21.link/linalg.algs.blas2.gemv">[linalg.algs.blas2.gemv]</a>]
 </p>
 </blockquote>
 
@@ -258,13 +258,13 @@ template&lt;class ExecutionPolicy,
 
 </li>
 
-<li><p>Modify 28.9.15.4 <a href="https://wg21.link/linalg.algs.blas3.rankk">[linalg.algs.blas3.rankk]</a> as indicated:</p>
+<li><p>Modify 29.9.15.4 <a href="https://wg21.link/linalg.algs.blas3.rankk">[linalg.algs.blas3.rankk]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>
 [<i>Drafting note</i>: <a href="https://wg21.link/P3371R0" title=" Fix C++26 by making the symmetric and Hermitian rank-k and rank-2k updates consistent with the BLAS">P3371R0</a>, to be submitted in the August 15 mailing for 
-LEWG review, contains the same wording changes to 28.9.15.4 <a href="https://wg21.link/linalg.algs.blas3.rankk">[linalg.algs.blas3.rankk]</a> 
-and 28.9.15.5 <a href="https://wg21.link/linalg.algs.blas3.rank2k">[linalg.algs.blas3.rank2k]</a> as proposed here, with additional changes 
+LEWG review, contains the same wording changes to 29.9.15.4 <a href="https://wg21.link/linalg.algs.blas3.rankk">[linalg.algs.blas3.rankk]</a> 
+and 29.9.15.5 <a href="https://wg21.link/linalg.algs.blas3.rank2k">[linalg.algs.blas3.rank2k]</a> as proposed here, with additional changes 
 corresponding to that proposal. Please apply this LWG issue's changes first, before P3371 merges]
 </p>
 </blockquote>
@@ -300,7 +300,7 @@ is <code>true</code>.</del></p></li>
 
 </li>
 
-<li><p>Modify 28.9.15.5 <a href="https://wg21.link/linalg.algs.blas3.rank2k">[linalg.algs.blas3.rank2k]</a> as indicated:</p>
+<li><p>Modify 29.9.15.5 <a href="https://wg21.link/linalg.algs.blas3.rank2k">[linalg.algs.blas3.rank2k]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -334,7 +334,7 @@ decltype(A)&gt;(0, 1)</del></code> is <code>true</code>.</p></li>
 
 </li>
 
-<li><p>Modify 28.9.15.6 <a href="https://wg21.link/linalg.algs.blas3.trsm">[linalg.algs.blas3.trsm]</a> as indicated:</p>
+<li><p>Modify 29.9.15.6 <a href="https://wg21.link/linalg.algs.blas3.trsm">[linalg.algs.blas3.trsm]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>
@@ -369,7 +369,7 @@ template&lt;class ExecutionPolicy,
 </li>
 
 
-<li><p>Modify 28.9.15.7 <a href="https://wg21.link/linalg.algs.blas3.inplacetrsm">[linalg.algs.blas3.inplacetrsm]</a> as indicated:</p>
+<li><p>Modify 29.9.15.7 <a href="https://wg21.link/linalg.algs.blas3.inplacetrsm">[linalg.algs.blas3.inplacetrsm]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>

@@ -130,7 +130,7 @@ special condition would also conflict with the more general definition of the <c
 is defined for either lvalues or rvalues of the callable type <code>Fn</code>. In this context I would like to point out that
 "<em>Lvalue-Callable</em>" is not the one and only <em>Callable</em> requirement in the library. Counter examples are
 <code>std::thread</code>, <code>call_once</code>, or <code>async</code>, which depend on "<em>Rvalue-Callable</em>", because they 
-all act on functor rvalues, see e.g. 33.4.3.3 <a href="https://wg21.link/thread.thread.constr">[thread.thread.constr]</a>:
+all act on functor rvalues, see e.g. 32.4.3.3 <a href="https://wg21.link/thread.thread.constr">[thread.thread.constr]</a>:
 </p>
 <blockquote><p>
 [&hellip;] The new thread of execution executes <code><i>INVOKE</i>(<i>DECAY_COPY</i>(std::forward&lt;F&gt;(f)), 

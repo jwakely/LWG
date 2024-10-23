@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3 id="4069"><a href="lwg-active.html#4069">4069</a>. <code>std::atomic&lt;volatile T&gt;</code> should be ill-formed</h3>
-<p><b>Section:</b> 33.5.8 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
+<p><b>Section:</b> 32.5.8 <a href="https://wg21.link/atomics.types.generic">[atomics.types.generic]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-04-19 <b>Last modified:</b> 2024-06-28</p>
 <p><b>Priority: </b>2
 </p>
@@ -84,9 +84,9 @@ and that seems very sensible to me.
 <p>
 Even worse is that <code>std::atomic&lt;volatile int&gt;</code> will not
 select the specialization for <code class='backtick'>int</code>, because that is clearly specified by
-33.5.8.3 <a href="https://wg21.link/atomics.types.int">[atomics.types.int]</a> to only be for cv-unqualified types.
-33.5.8.4 <a href="https://wg21.link/atomics.types.float">[atomics.types.float]</a> also says it's only for cv-unqualified
-floating-point types. And 33.5.8.5 <a href="https://wg21.link/atomics.types.pointer">[atomics.types.pointer]</a> will only
+32.5.8.3 <a href="https://wg21.link/atomics.types.int">[atomics.types.int]</a> to only be for cv-unqualified types.
+32.5.8.4 <a href="https://wg21.link/atomics.types.float">[atomics.types.float]</a> also says it's only for cv-unqualified
+floating-point types. And 32.5.8.5 <a href="https://wg21.link/atomics.types.pointer">[atomics.types.pointer]</a> will only
 match cv-unqualified pointer types.
 This means that even when <code>std::atomic&lt;volatile int&gt;</code>
 compiles (as with MSVC) you can't use members like <code class='backtick'>fetch_add</code> because that

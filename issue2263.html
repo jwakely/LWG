@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++14">C++14</a> status.</em></p>
 <h3 id="2263"><a href="lwg-defects.html#2263">2263</a>. Comparing iterators and allocator pointers with different const-character</h3>
-<p><b>Section:</b> 16.4.4.6 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a>, 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
+<p><b>Section:</b> 16.4.4.6 <a href="https://wg21.link/allocator.requirements">[allocator.requirements]</a>, 23.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
  <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2013-06-25 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>1
 </p>
@@ -94,7 +94,7 @@ in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2011/n3242.pdf">N
 decide for allocator pointers, I expect that we need to restore the  <a href="lwg-defects.html#179" title="Comparison of const_iterators to iterators doesn't work (Status: CD1)">179</a><sup><a href="https://cplusplus.github.io/LWG/issue179" title="Latest snapshot">(i)</a></sup> wording as part of the overall resolution:
 </p>
 
-<p>Reinsert after 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> p6:</p>
+<p>Reinsert after 23.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> p6:</p>
 
 <blockquote>
 <p>
@@ -169,7 +169,7 @@ to the two corresponding objects <code>px1</code> and <code>px2</code> of type <
 <blockquote class="note"><p>
 <em>Drafting note:</em> This wording uses the seemingly complicated route via <code>X::const_pointer</code>, because these are (contrary to
 <code>X::const_void_pointer</code>) random access iterators and we can rely here for dereferenceable values on the fundamental pointee
-equivalence of 25.3.5.5 <a href="https://wg21.link/forward.iterators">[forward.iterators]</a> p6:
+equivalence of 24.3.5.5 <a href="https://wg21.link/forward.iterators">[forward.iterators]</a> p6:
 </p>
 <blockquote><p>
 If <code>a</code> and <code>b</code> are both dereferenceable, then <code>a == b</code> if and only if <code>*a</code> and <code>*b</code> are 
@@ -207,7 +207,7 @@ change in semantics.</ins>
 </p>
 </blockquote>
 </li>
-<li><p>Reinsert after 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> p6:</p>
+<li><p>Reinsert after 23.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> p6:</p>
 
 <blockquote><p>
 -6- <code>begin()</code> returns an iterator referring to the first element in the container. <code>end()</code> returns an iterator which

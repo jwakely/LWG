@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
 <h3 id="760"><a href="lwg-closed.html#760">760</a>. The emplace issue</h3>
-<p><b>Section:</b> 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+<p><b>Section:</b> 23.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Paolo Carlini <b>Opened:</b> 2007-11-11 <b>Last modified:</b> 2017-07-17</p>
 <p><b>Priority: </b>2
 </p>
@@ -74,9 +74,9 @@
 In an <code>emplace</code> member function the function parameter pack may be bound
 to a priori unlimited number of objects: some or all of them can be
 elements of the container itself. Apparently, in order to conform to the
-blanket statement 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>/11, the
+blanket statement 23.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>/11, the
 implementation must check all of them for that possibility. A possible
-solution can involve extending the exception in 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>/12 also to the emplace member. As a
+solution can involve extending the exception in 23.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>/12 also to the emplace member. As a
 side note, the <code>push_back</code> and <code>push_front</code> member
 functions are luckily not affected by this problem, can be efficiently
 implemented anyway.
@@ -128,7 +128,7 @@ LWG believes that <a href="lwg-defects.html#2164" title="What are the semantics 
 
 <p id="res-760"><b>Proposed resolution:</b></p>
 <p>
-Add after 24.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>/12:
+Add after 23.2 <a href="https://wg21.link/container.requirements">[container.requirements]</a>/12:
 </p>
 
 <blockquote>

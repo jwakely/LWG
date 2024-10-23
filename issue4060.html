@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#WP">WP</a> status.</em></p>
 <h3 id="4060"><a href="lwg-defects.html#4060">4060</a>. <code>submdspan</code> preconditions do not forbid creating invalid pointer</h3>
-<p><b>Section:</b> 24.7.3.7.7 <a href="https://wg21.link/mdspan.sub.sub">[mdspan.sub.sub]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
+<p><b>Section:</b> 23.7.3.7.7 <a href="https://wg21.link/mdspan.sub.sub">[mdspan.sub.sub]</a> <b>Status:</b> <a href="lwg-active.html#WP">WP</a>
  <b>Submitter:</b> Mark Hoemmen <b>Opened:</b> 2024-03-26 <b>Last modified:</b> 2024-07-08</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -74,7 +74,7 @@ Oliver Lee and Ryan Wooster pointed out to us that creating a <code>submdspan</c
 <code><i>tuple-like</i></code> or <code>strided_slice</code> slice specifiers at the upper extent can cause 
 the Standard <code>submdspan_mapping</code> overloads to access the input <code>mdspan</code>'s mapping 
 out of bounds.
-This happens in the following line of specification (24.7.3.7.6 <a href="https://wg21.link/mdspan.sub.map">[mdspan.sub.map]</a> p8 in
+This happens in the following line of specification (23.7.3.7.6 <a href="https://wg21.link/mdspan.sub.map">[mdspan.sub.map]</a> p8 in
 <a href="https://wg21.link/N4971" title=" Working Draft, Programming Languages — C++">N4971</a> moved to [mdspan.sub.map.common] p8 <b>after</b> the merge of
 <a href="https://wg21.link/P2642R6" title=" Padded mdspan layouts">P2642R6</a>).
 </p>
@@ -112,7 +112,7 @@ auto C = mdspan{y.data(), extents{3, 3}};
 auto D = submdspan(C, pair{3, 3}, pair{3, 3});
 </pre></blockquote>
 <p>
-A precondition for each slice specifier is (24.7.3.7.5 <a href="https://wg21.link/mdspan.sub.extents">[mdspan.sub.extents]</a>):
+A precondition for each slice specifier is (23.7.3.7.5 <a href="https://wg21.link/mdspan.sub.extents">[mdspan.sub.extents]</a>):
 </p>
 <blockquote><pre>
 0 &le; <i>first_</i>&lt;index_type, <i>k</i>&gt;(slices...) &le; <i>last_</i>&lt;<i>k</i>&gt;(src.extents(), slices...) &le; src.extent(<i>k</i>).
@@ -189,7 +189,7 @@ This wording is relative to <a href="https://wg21.link/N4971" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify the new 24.7.3.7.6.1 <a href="https://wg21.link/mdspan.sub.map.common">[mdspan.sub.map.common]</a> as indicated:</p>
+<li><p>Modify the new 23.7.3.7.6.1 <a href="https://wg21.link/mdspan.sub.map.common">[mdspan.sub.map.common]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -202,7 +202,7 @@ a value of type <code>size_t</code> equal to <ins><code>(*this).required_span_si
 </blockquote>
 </li>
 
-<li><p>Modify 24.7.3.7.7 <a href="https://wg21.link/mdspan.sub.sub">[mdspan.sub.sub]</a> as indicated:</p>
+<li><p>Modify 23.7.3.7.7 <a href="https://wg21.link/mdspan.sub.sub">[mdspan.sub.sub]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>

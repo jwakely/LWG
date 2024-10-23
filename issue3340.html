@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++20">C++20</a> status.</em></p>
 <h3 id="3340"><a href="lwg-defects.html#3340">3340</a>. Formatting functions should throw on argument/format string mismatch in &sect;[format.functions]</h3>
-<p><b>Section:</b> 22.14.5 <a href="https://wg21.link/format.functions">[format.functions]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
+<p><b>Section:</b> 28.5.5 <a href="https://wg21.link/format.functions">[format.functions]</a> <b>Status:</b> <a href="lwg-active.html#C++20">C++20</a>
  <b>Submitter:</b> Great Britain <b>Opened:</b> 2019-11-17 <b>Last modified:</b> 2021-02-25</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -106,7 +106,7 @@ by <b>Option A</b> and <b>Option B</b>, respectively.]
 <p><b>Option A</b> (LWG <a href="lwg-defects.html#3336" title="How does std::vformat handle exception thrown by formatters? (Status: Resolved)">3336</a><sup><a href="https://cplusplus.github.io/LWG/issue3336" title="Latest snapshot">(i)</a></sup> has been accepted)</p>
 
 <ol>
-<li><p>Change 22.14.2.1 <a href="https://wg21.link/format.string.general">[format.string.general]</a> as follows:</p>
+<li><p>Change 28.5.2.1 <a href="https://wg21.link/format.string.general">[format.string.general]</a> as follows:</p>
 
 <blockquote>
 <p>
@@ -129,7 +129,7 @@ referred to by <i>arg-id</i>, the string is not a format string.</ins> [&hellip;
 </blockquote>
 </li>
 
-<li><p>Before 22.14.5 <a href="https://wg21.link/format.functions">[format.functions]</a> insert a new sub-clause as indicated:</p>
+<li><p>Before 28.5.5 <a href="https://wg21.link/format.functions">[format.functions]</a> insert a new sub-clause as indicated:</p>
 
 <blockquote>
 <p>
@@ -144,7 +144,7 @@ Failure to allocate storage is reported by throwing an exception as described in
 </blockquote>
 </li>
 
-<li><p>Modify 22.14.5 <a href="https://wg21.link/format.functions">[format.functions]</a> as indicated:</p>
+<li><p>Modify 28.5.5 <a href="https://wg21.link/format.functions">[format.functions]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -157,7 +157,7 @@ wstring vformat(const locale&amp; loc, wstring_view fmt, wformat_args args);
 <p>
 -6- [&hellip;]
 <p/>
--7- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 22.14.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
+-7- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 28.5.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
 </p>
 </blockquote>
 [&hellip;]
@@ -177,7 +177,7 @@ template&lt;class Out&gt;
 <p>
 [&hellip;]
 <p/>
--15- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 22.14.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
+-15- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 28.5.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
 </p>
 </blockquote>
 [&hellip;]
@@ -201,7 +201,7 @@ template&lt;class Out, class... Args&gt;
 <p>
 [&hellip;]
 <p/>
--21- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 22.14.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
+-21- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 28.5.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
 </p>
 </blockquote>
 [&hellip;]
@@ -219,7 +219,7 @@ template&lt;class... Args&gt;
 <p>
 [&hellip;]
 <p/>
--25- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 22.14.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
+-25- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 28.5.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
 </p>
 </blockquote>
 </blockquote>
@@ -229,7 +229,7 @@ template&lt;class... Args&gt;
 <p><b>Option B</b> (LWG <a href="lwg-defects.html#3336" title="How does std::vformat handle exception thrown by formatters? (Status: Resolved)">3336</a><sup><a href="https://cplusplus.github.io/LWG/issue3336" title="Latest snapshot">(i)</a></sup> has <b>not</b> been accepted)</p>
 
 <ol>
-<li><p>Change 22.14.2.1 <a href="https://wg21.link/format.string.general">[format.string.general]</a> as follows:</p>
+<li><p>Change 28.5.2.1 <a href="https://wg21.link/format.string.general">[format.string.general]</a> as follows:</p>
 
 <blockquote>
 <p>
@@ -252,7 +252,7 @@ referred to by <i>arg-id</i>, the string is not a format string.</ins> [&hellip;
 </blockquote>
 </li>
 
-<li><p>Modify 22.14.5 <a href="https://wg21.link/format.functions">[format.functions]</a> as indicated:</p>
+<li><p>Modify 28.5.5 <a href="https://wg21.link/format.functions">[format.functions]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -347,7 +347,7 @@ wording refinements have been suggested that are integrated below.
 <p>This wording is relative to <a href="https://wg21.link/n4849">N4849</a>.</p>
 
 <ol>
-<li><p>Change 22.14.2.1 <a href="https://wg21.link/format.string.general">[format.string.general]</a> as follows:</p>
+<li><p>Change 28.5.2.1 <a href="https://wg21.link/format.string.general">[format.string.general]</a> as follows:</p>
 
 <blockquote>
 <p>
@@ -370,7 +370,7 @@ by <i>arg-id</i>, the string is not a format string for <code>args</code>.</ins>
 </blockquote>
 </li>
 
-<li><p>Before 22.14.5 <a href="https://wg21.link/format.functions">[format.functions]</a> insert a new sub-clause as indicated:</p>
+<li><p>Before 28.5.5 <a href="https://wg21.link/format.functions">[format.functions]</a> insert a new sub-clause as indicated:</p>
 
 <blockquote>
 <p>
@@ -384,7 +384,7 @@ reported by throwing an exception as described in 16.4.6.13 <a href="https://wg2
 </blockquote>
 </li>
 
-<li><p>Modify 22.14.5 <a href="https://wg21.link/format.functions">[format.functions]</a> as indicated:</p>
+<li><p>Modify 28.5.5 <a href="https://wg21.link/format.functions">[format.functions]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -397,7 +397,7 @@ wstring vformat(const locale&amp; loc, wstring_view fmt, wformat_args args);
 <p>
 -6- [&hellip;]
 <p/>
--7- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 22.14.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
+-7- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 28.5.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
 </p>
 </blockquote>
 [&hellip;]
@@ -417,7 +417,7 @@ template&lt;class Out&gt;
 <p>
 [&hellip;]
 <p/>
--15- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 22.14.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
+-15- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 28.5.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
 </p>
 </blockquote>
 [&hellip;]
@@ -441,7 +441,7 @@ template&lt;class Out, class... Args&gt;
 <p>
 [&hellip;]
 <p/>
--21- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 22.14.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
+-21- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 28.5.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
 </p>
 </blockquote>
 [&hellip;]
@@ -459,7 +459,7 @@ template&lt;class... Args&gt;
 <p>
 [&hellip;]
 <p/>
--25- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 22.14.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
+-25- <i>Throws:</i> <del><code>format_error</code> if <code>fmt</code> is not a format string</del><ins>As specified in 28.5.3 <a href="https://wg21.link/format.err.report">[format.err.report]</a></ins>.
 </p>
 </blockquote>
 </blockquote>

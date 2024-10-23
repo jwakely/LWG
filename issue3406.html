@@ -66,7 +66,7 @@ constraints">
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
 <h3 id="3406"><a href="lwg-defects.html#3406">3406</a>. <code>elements_view::begin()</code> and <code>elements_view::end()</code> have incompatible
 constraints</h3>
-<p><b>Section:</b> 26.7.23.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+<p><b>Section:</b> 25.7.23.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
  <b>Submitter:</b> Patrick Palka <b>Opened:</b> 2020-02-21 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>1
 </p>
@@ -155,7 +155,7 @@ This wording is relative to <a href="https://wg21.link/n4849">N4849</a> after ap
 </p>
 
 <ol>
-<li><p>Modify 26.7.23.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a>, class template <code>elements_view</code> synopsis, as indicated:</p>
+<li><p>Modify 25.7.23.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a>, class template <code>elements_view</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -201,7 +201,7 @@ is probably <code>single_view</code>). That's simply broken; the fix is to const
 the <code>const</code> overload of <code>begin</code> with just <code>range&lt;const V&gt;</code>
 instead of <code><i>simple-view</i>&lt;V&gt;</code>. Notably, this is how many other
 uses of <i><code>simple-view</code></i> work already (see, e.g., <code>take_view</code> in
-26.7.10.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>).
+25.7.10.2 <a href="https://wg21.link/range.take.view">[range.take.view]</a>).
 <p/>
 The previous <i><code>simple-view</code></i> constraint on <code>end</code> served a
 useful purpose (when done correctly): it reduces template instantiations if
@@ -235,7 +235,7 @@ the <code><i>maybe-const</i></code> helper introduced by the P/R of LWG <a href=
 </p>
 
 <ol>
-<li><p>Modify 26.7.23.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a>, class template <code>elements_view</code> synopsis, as indicated:</p>
+<li><p>Modify 25.7.23.2 <a href="https://wg21.link/range.elements.view">[range.elements.view]</a>, class template <code>elements_view</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -273,13 +273,13 @@ namespace std::ranges {
 </blockquote>
 </li>
 
-<li><p>Modify 26.7.23.4 <a href="https://wg21.link/range.elements.sentinel">[range.elements.sentinel]</a> as indicated:</p>
+<li><p>Modify 25.7.23.4 <a href="https://wg21.link/range.elements.sentinel">[range.elements.sentinel]</a> as indicated:</p>
 <blockquote class="note">
 <p>
 [<i>Drafting note</i>: Unlike the current P/R of LWG <a href="lwg-defects.html#3448" title="transform_view's sentinel&lt;false&gt; not comparable with iterator&lt;true&gt; (Status: C++23)">3448</a><sup><a href="https://cplusplus.github.io/LWG/issue3448" title="Latest snapshot">(i)</a></sup>, this P/R also changes
 the return type of <code>operator-</code> to depend on the constness of iterator
 rather than that of the sentinel. This is consistent with
-<code>sized_sentinel_for&lt;S, I&gt;</code> (25.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a>),
+<code>sized_sentinel_for&lt;S, I&gt;</code> (24.3.4.8 <a href="https://wg21.link/iterator.concept.sizedsentinel">[iterator.concept.sizedsentinel]</a>),
 which requires <code>decltype(i - s)</code> to be <code>iter_difference_t&lt;I&gt;</code>.]
 </p>
 </blockquote>

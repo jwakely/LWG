@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="3985"><a href="lwg-active.html#3985">3985</a>. <code>ranges::to</code> should <i>Mandates</i> <code>C</code> not to be view</h3>
-<p><b>Section:</b> 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a>, 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 25.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a>, 25.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-08-25 <b>Last modified:</b> 2023-10-30</p>
 <p><b>Priority: </b>3
 </p>
@@ -110,17 +110,17 @@ This wording is relative to <a href="https://wg21.link/N4958" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> as indicated:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> as indicated:</p>
 
 <blockquote>
 <pre>
 #include &lt;compare&gt;              // <i>see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
 #include &lt;initializer_list&gt;     // <i>see 17.10.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
-#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
+#include &lt;iterator&gt;             // <i>see 24.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
 
 namespace std::ranges {
   [&hellip;]
-  // <i>26.5.7 <a href="https://wg21.link/range.utility.conv">[range.utility.conv]</a>, range conversions</i>
+  // <i>25.5.7 <a href="https://wg21.link/range.utility.conv">[range.utility.conv]</a>, range conversions</i>
   template&lt;class C, input_range R, class... Args&gt; <del>requires (!view&lt;C&gt;)</del>
     constexpr C to(R&amp;&amp; r, Args&amp;&amp;... args);                                          // <i>freestanding</i>
   template&lt;template&lt;class...&gt; class C, input_range R, class... Args&gt;
@@ -136,7 +136,7 @@ namespace std::ranges {
 
 </li>
 
-<li><p>Modify 26.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
+<li><p>Modify 25.5.7.2 <a href="https://wg21.link/range.utility.conv.to">[range.utility.conv.to]</a> as indicated:</p>
 
 <blockquote>
 <pre>template&lt;class C, input_range R, class... Args&gt; <del>requires (!view&lt;C&gt;)</del>
@@ -152,7 +152,7 @@ namespace std::ranges {
 
 </li>
 
-<li><p>Modify 26.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> as indicated:</p>
+<li><p>Modify 25.5.7.3 <a href="https://wg21.link/range.utility.conv.adaptors">[range.utility.conv.adaptors]</a> as indicated:</p>
 
 <blockquote>
 <pre>template&lt;class C, class... Args&gt; <del>requires (!view&lt;C&gt;)</del>

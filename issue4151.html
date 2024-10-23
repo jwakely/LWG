@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4151"><a href="lwg-active.html#4151">4151</a>. Precondition of <code>inplace_vector::swap</code></h3>
-<p><b>Section:</b> 24.3.14.5 <a href="https://wg21.link/inplace.vector.modifiers">[inplace.vector.modifiers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 23.3.14.5 <a href="https://wg21.link/inplace.vector.modifiers">[inplace.vector.modifiers]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2024-09-07 <b>Last modified:</b> 2024-09-18</p>
 <p><b>Priority: </b>2
 </p>
@@ -72,13 +72,13 @@
 <p>
 Right now <code>inplace_vector::swap</code> has only a declaration in the class synopsis; it doesn't
 specify what the behavior of <code>swap</code> for <code>inplace_vector</code>s actually is. So I think
-the behavior ends up being governed by 24.2.2.2 <a href="https://wg21.link/container.reqmts">[container.reqmts]</a>, which are written from
+the behavior ends up being governed by 23.2.2.2 <a href="https://wg21.link/container.reqmts">[container.reqmts]</a>, which are written from
 the point of view of a container that manages an external heap allocation so that swapping
 containers doesn't touch the elements at all, just changes their ownership.
 <p/>
 <code>inplace_vector::swap</code> actually works more like <code>array::swap</code>, which has its own
-specification in 24.3.8.3 <a href="https://wg21.link/array.members">[array.members]</a>, where it is defined in terms of <code>std::swap_ranges</code>.
-The <code>std::swap_ranges</code> algorithm (27.7.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a>) has a precondition! This
+specification in 23.3.3.3 <a href="https://wg21.link/array.members">[array.members]</a>, where it is defined in terms of <code>std::swap_ranges</code>.
+The <code>std::swap_ranges</code> algorithm (26.7.3 <a href="https://wg21.link/alg.swap">[alg.swap]</a>) has a precondition! This
 precondition is missing from <code>inplace_vector::swap</code>.
 <p/>
 That is, I think we currently have no wording that explains why
@@ -112,7 +112,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 24.3.14.5 <a href="https://wg21.link/inplace.vector.modifiers">[inplace.vector.modifiers]</a> as indicated:</p>
+<li><p>Modify 23.3.14.5 <a href="https://wg21.link/inplace.vector.modifiers">[inplace.vector.modifiers]</a> as indicated:</p>
 
 <blockquote class="note">
 <p>

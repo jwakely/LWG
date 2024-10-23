@@ -62,7 +62,7 @@
 </tr>
 <tr>
 <td align="left">Date:</td>
-<td align="left">Revised 2024-09-20 at 12:59:18 UTC
+<td align="left">Revised 2024-10-23 at 18:53:16 UTC
 </td>
 </tr>
 <tr>
@@ -76,8 +76,214 @@
 </table>
 <h2>Ready Issues</h2>
 <hr>
+<h3 id="3216"><a href="#3216">3216</a><sup><a href="https://cplusplus.github.io/LWG/issue3216">(i)</a></sup>. Rebinding the allocator before calling <code>construct</code>/<code>destroy</code> in <code>allocate_shared</code></h3>
+<p><b>Section:</b> 20.3.2.2.7 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Billy O'Neal III <b>Opened:</b> 2019-06-11 <b>Last modified:</b> 2024-10-02</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#util.smartptr.shared.create">active issues</a> in [util.smartptr.shared.create].</p>
+<p><b>View all other</b> <a href="lwg-index.html#util.smartptr.shared.create">issues</a> in [util.smartptr.shared.create].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The new <code>allocate_shared</code> wording says we need to rebind the allocator back to <code>T</code>'s
+type before we can call <code>construct</code> or <code>destroy</code>, but this is suboptimal (might make
+extra unnecessary allocator copies), and is inconsistent with the containers' behavior, which call
+allocator <code>construct</code> on whatever <code>T</code> they want. (For example,
+<code>std::list&lt;T, alloc&lt;T&gt;&gt;</code> rebinds to <code>alloc&lt;_ListNode&lt;T&gt;&gt;</code>,
+but calls <code>construct(T*)</code> without rebinding back)
+<p/>
+It seems like we should be consistent with the containers and not require a rebind here. PR would
+look something like this, relative to N4810; I'm still not super happy with this wording because
+it looks like it might be saying a copy of the allocator must be made we would like to avoid&hellip;
+</p>
+
+<p><i>[2019-07 Issue Prioritization]</i></p>
+
+<p>Priority to 3 after discussion on the reflector.</p>
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>This wording is relative to <a href="https://wg21.link/n4810">N4810</a>.</p>
+
+<ol>
+<li><p>Modify 20.3.2.2.7 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note:</i> The edits to change <code>pv</code> to <code>pu</code> were suggested by Jonathan
+Wakely (thanks!). This wording also has the <code>remove_cv_t</code> fixes specified by LWG <a href="lwg-active.html#3210" title="allocate_shared is inconsistent about removing const from the pointer
+passed to allocator construct and destroy (Status: New)">3210</a><sup><a href="https://cplusplus.github.io/LWG/issue3210" title="Latest snapshot">(i)</a></sup>
+&mdash; if that change is rejected some of those have to be stripped here.]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+template&lt;class T, ...&gt;
+  shared_ptr&lt;T&gt; make_shared(<i>args</i>);
+template&lt;class T, class A, ...&gt;
+  shared_ptr&lt;T&gt; allocate_shared(const A&amp; a, <i>args</i>);
+template&lt;class T, ...&gt;
+  shared_ptr&lt;T&gt; make_shared_default_init(<i>args</i>);
+template&lt;class T, class A, ...&gt;
+  shared_ptr&lt;T&gt; allocate_shared_default_init(const A&amp; a, <i>args</i>);
+</pre>
+<blockquote>
+<p>
+-2- <i>Requires:</i> [&hellip;]
+<p/>
+[&hellip;]
+<p/>
+-7- <i>Remarks:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p>(7.1) &mdash; [&hellip;]</p></li>
+<li><p>[&hellip;]</p></li>
+<li><p>(7.5) &mdash; When a (sub)object of a non-array type <code>U</code> is specified to have an initial
+value of <code>v</code>, or <code>U(l...)</code>, where <code>l...</code> is a list of constructor arguments,
+<code>allocate_shared</code> shall initialize this (sub)object via the expression
+</p>
+<ol style="list-style-type: none">
+<li><p>(7.5.1) &mdash; <code>allocator_traits&lt;A2&gt;::construct(a2, p<del>v</del><ins>u</ins>, v)</code> or</p></li>
+<li><p>(7.5.2) &mdash; <code>allocator_traits&lt;A2&gt;::construct(a2, p<del>v</del><ins>u</ins>, l...)</code></p></li>
+</ol>
+<p>
+respectively, where <code>p<del>v</del><ins>u</ins></code> <ins>is a pointer of type
+<code>remove_cv_t&lt;U&gt;*</code></ins> point<del>s</del><ins>ing</ins> to storage suitable to hold
+an object of type <code><ins>remove_cv_t&lt;</ins>U<ins>&gt;</ins></code> and <code>a2</code> of type
+<code>A2</code> is a <ins>potentially</ins> rebound copy of the allocator <code>a</code>
+passed to <code>allocate_shared</code> <del>such that its <code>value_type</code> is <code>remove_cv_t&lt;U&gt;</code></del>.
+</p>
+</li>
+<li><p>(7.6) &mdash; [&hellip;]</p></li>
+<li><p>(7.7) &mdash; When a (sub)object of non-array type <code>U</code> is specified to have a default
+initial value, <code>allocate_shared</code> <del>shall</del> initialize<ins>s</ins> this (sub)object via
+the expression <code>allocator_traits&lt;A2&gt;::construct(a2, p<del>v</del><ins>u</ins>)</code>, where
+<code>p<del>v</del><ins>u</ins></code> <ins>is a pointer of type <code>remove_cv_t&lt;U&gt;*</code></ins>
+point<del>s</del><ins>ing</ins> to storage suitable to hold an object of type
+<code><ins>remove_cv_t&lt;</ins>U<ins>&gt;</ins></code> and <code>a2</code> of type <code>A2</code> is a
+<ins>potentially</ins> rebound copy of the allocator <code>a</code> passed to <code>allocate_shared</code>
+<del>such that its <code>value_type</code> is <code>remove_cv_t&lt;U&gt;</code></del>.</p></li>
+<li><p>[&hellip;]</p></li>
+<li><p>(7.12) &mdash; When a (sub)object of non-array type <code>U</code> that was initialized by
+<code>allocate_shared</code> is to be destroyed, it is destroyed via the expression
+<code>allocator_traits&lt;A2&gt;::destroy(a2, p<del>v</del><ins>u</ins>)</code> where
+<code>p<del>v</del><ins>u</ins></code> <ins>is a pointer of type <code>remove_cv_t&lt;U&gt;*</code></ins>
+point<del>s</del><ins>ing</ins> to that object of type <code>remove_cv_t&lt;U&gt;</code> and
+<code>a2</code> of type <code>A2</code> is a <ins>potentially</ins> rebound copy of the
+allocator <code>a</code> passed to <code>allocate_shared</code> <del>such that its <code>value_type</code> is
+<code>remove_cv_t&lt;U&gt;</code></del>.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2024-08-23; Jonathan provides updated wording]</i></p>
+
+<p>
+<code class='backtick'>make_shared_default_init</code> and <code class='backtick'>allocate_shared_default_init</code> were renamed
+by <a href="https://wg21.link/P1973R1" title=" Rename _default_init functions (NB Comment DE002)">P1973R1</a> so this needs a rebase.
+The edit to (7.11) is just for consistency, so that <code class='backtick'>pv</code> is always <code class='backtick'>void*</code>
+and <code class='backtick'>pu</code> is <code>remove_cv_t&lt;U&gt;*</code>.
+Accepting this proposed resolution would also resolve issue <a href="lwg-active.html#3210" title="allocate_shared is inconsistent about removing const from the pointer
+passed to allocator construct and destroy (Status: New)">3210</a><sup><a href="https://cplusplus.github.io/LWG/issue3210" title="Latest snapshot">(i)</a></sup>.
+</p>
+
+
+<p><i>[2024-10-02; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-3216"><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.</p>
+
+<ol>
+<li><p>Modify 20.3.2.2.7 <a href="https://wg21.link/util.smartptr.shared.create">[util.smartptr.shared.create]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class T, ...&gt;
+  shared_ptr&lt;T&gt; make_shared(<i>args</i>);
+template&lt;class T, class A, ...&gt;
+  shared_ptr&lt;T&gt; allocate_shared(const A&amp; a, <i>args</i>);
+template&lt;class T, ...&gt;
+  shared_ptr&lt;T&gt; make_shared_for_overwrite(<i>args</i>);
+template&lt;class T, class A, ...&gt;
+  shared_ptr&lt;T&gt; allocate_shared_for_overwrite(const A&amp; a, <i>args</i>);
+</pre>
+<blockquote>
+<p>
+-2- <i>Preconditions:</i> [&hellip;]
+<p/>
+[&hellip;]
+<p/>
+-7- <i>Remarks:</i>
+</p>
+<ol style="list-style-type: none">
+<li><p>(7.1) &mdash; [&hellip;]</p></li>
+<li><p>[&hellip;]</p></li>
+<li><p>(7.5) &mdash; When a (sub)object of a non-array type <code>U</code> is specified to have an initial
+value of <code>v</code>, or <code>U(l...)</code>, where <code>l...</code> is a list of constructor arguments,
+<code>allocate_shared</code> shall initialize this (sub)object via the expression
+</p>
+<ol style="list-style-type: none">
+<li><p>(7.5.1) &mdash; <code>allocator_traits&lt;A2&gt;::construct(a2, p<del>v</del><ins>u</ins>, v)</code> or</p></li>
+<li><p>(7.5.2) &mdash; <code>allocator_traits&lt;A2&gt;::construct(a2, p<del>v</del><ins>u</ins>, l...)</code></p></li>
+</ol>
+<p>
+respectively, where <code>p<del>v</del><ins>u</ins></code> <ins>is a pointer of type
+<code>remove_cv_t&lt;U&gt;*</code></ins> point<del>s</del><ins>ing</ins> to storage suitable to hold
+an object of type <code><ins>remove_cv_t&lt;</ins>U<ins>&gt;</ins></code> and <code>a2</code> of type
+<code>A2</code> is a <ins>potentially</ins> rebound copy of the allocator <code>a</code>
+passed to <code>allocate_shared</code> <del>such that its <code>value_type</code> is <code>remove_cv_t&lt;U&gt;</code></del>.
+</p>
+</li>
+<li><p>(7.6) &mdash; [&hellip;]</p></li>
+<li><p>(7.7) &mdash; When a (sub)object of non-array type <code>U</code> is specified to have a default
+initial value, <code>allocate_shared</code> <del>shall</del> initialize<ins>s</ins> this (sub)object via
+the expression <code>allocator_traits&lt;A2&gt;::construct(a2, p<del>v</del><ins>u</ins>)</code>, where
+<code>p<del>v</del><ins>u</ins></code> <ins>is a pointer of type <code>remove_cv_t&lt;U&gt;*</code></ins>
+point<del>s</del><ins>ing</ins> to storage suitable to hold an object of type
+<code><ins>remove_cv_t&lt;</ins>U<ins>&gt;</ins></code> and <code>a2</code> of type <code>A2</code> is a
+<ins>potentially</ins> rebound copy of the allocator <code>a</code> passed to <code>allocate_shared</code>
+<del>such that its <code>value_type</code> is <code>remove_cv_t&lt;U&gt;</code></del>.</p></li>
+<li><p>[&hellip;]</p></li>
+<li>
+<blockquote class="note"><p>[<i>Drafting note</i>:
+Issue <a href="lwg-active.html#4024" title="Underspecified destruction of objects created in std::make_shared_for_overwrite/std::allocate_shared_for_overwrite (Status: Ready)">4024</a><sup><a href="https://cplusplus.github.io/LWG/issue4024" title="Latest snapshot">(i)</a></sup> will add <code class='backtick'>make_shared_for_overwrite</code>
+and <code class='backtick'>allocate_shared_for_overwrite</code> to (7.11) but that doesn't conflict with this next edit.]
+</p></blockquote>
+<p>(7.11) &mdash; When a (sub)object of non-array type <code>U</code> that was initialized by
+<code>make_shared</code> is to be destroyed, it is destroyed via the expression
+<code>p<del>v</del><ins>u</ins>->~U()</code> where <code>p<del>v</del><ins>u</ins></code>
+points to that object of type <code>U</code>.</p></li>
+<li><p>(7.12) &mdash; When a (sub)object of non-array type <code>U</code> that was initialized by
+<code>allocate_shared</code> is to be destroyed, it is destroyed via the expression
+<code>allocator_traits&lt;A2&gt;::destroy(a2, p<del>v</del><ins>u</ins>)</code> where
+<code>p<del>v</del><ins>u</ins></code> <ins>is a pointer of type <code>remove_cv_t&lt;U&gt;*</code></ins>
+point<del>s</del><ins>ing</ins> to that object of type <code>remove_cv_t&lt;U&gt;</code> and
+<code>a2</code> of type <code>A2</code> is a <ins>potentially</ins> rebound copy of the
+allocator <code>a</code> passed to <code>allocate_shared</code> <del>such that its <code>value_type</code> is
+<code>remove_cv_t&lt;U&gt;</code></del>.</p></li>
+</ol>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+<hr>
 <h3 id="3436"><a href="#3436">3436</a><sup><a href="https://cplusplus.github.io/LWG/issue3436">(i)</a></sup>. <code>std::construct_at</code> should support arrays</h3>
-<p><b>Section:</b> 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 26.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-04-29 <b>Last modified:</b> 2024-06-24</p>
 <p><b>Priority: </b>2
 </p>
@@ -121,7 +327,7 @@ This wording is relative to <a href="https://wg21.link/N4878" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
+<li><p>Modify 26.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -173,7 +379,7 @@ This wording is relative to <a href="https://wg21.link/N4901" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
+<li><p>Modify 26.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -220,7 +426,7 @@ This wording is relative to <a href="https://wg21.link/N4971" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
+<li><p>Modify 26.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -282,7 +488,7 @@ This wording is relative to <a href="https://wg21.link/N4981" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 27.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
+<li><p>Modify 26.11.8 <a href="https://wg21.link/specialized.construct">[specialized.construct]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -543,7 +749,7 @@ template&lt;class U <ins>= remove_cv_t&lt;T&gt;</ins>&gt; constexpr T value_or(U
 
 <hr>
 <h3 id="3899"><a href="#3899">3899</a><sup><a href="https://cplusplus.github.io/LWG/issue3899">(i)</a></sup>. <code>co_yield</code>ing elements of an lvalue <code>generator</code> is unnecessarily inefficient</h3>
-<p><b>Section:</b> 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 25.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2023-03-04 <b>Last modified:</b> 2024-06-28</p>
 <p><b>Priority: </b>3
 </p>
@@ -620,7 +826,7 @@ This wording is relative to <a href="https://wg21.link/N4928" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
+<li><p>Modify 25.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -692,7 +898,7 @@ the <code>await_resume</code> member has no effects.
 <hr>
 <h3 id="3900"><a href="#3900">3900</a><sup><a href="https://cplusplus.github.io/LWG/issue3900">(i)</a></sup>. The <code>allocator_arg_t</code> overloads of <code>generator::promise_type::operator new</code>
 should not be constrained</h3>
-<p><b>Section:</b> 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 25.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Tim Song <b>Opened:</b> 2023-03-04 <b>Last modified:</b> 2024-06-28</p>
 <p><b>Priority: </b>3
 </p>
@@ -736,7 +942,7 @@ This wording is relative to <a href="https://wg21.link/N4928" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
+<li><p>Modify 25.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
 
 <blockquote>
 <blockquote>
@@ -819,7 +1025,7 @@ deallocate this memory block with an allocator equal to <code>b</code>.
 
 <hr>
 <h3 id="3918"><a href="#3918">3918</a><sup><a href="https://cplusplus.github.io/LWG/issue3918">(i)</a></sup>. <code>std::uninitialized_move/_n</code> and guaranteed copy elision</h3>
-<p><b>Section:</b> 27.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 26.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2023-04-04 <b>Last modified:</b> 2024-06-26</p>
 <p><b>Priority: </b>3
 </p>
@@ -853,11 +1059,11 @@ This wording is relative to <a href="https://wg21.link/N4944" title=" Working Dr
 
 <ol>
 <li>
-<p>Modify 27.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> as indicated:</p>
+<p>Modify 26.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> as indicated:</p>
 
 <blockquote>
 <p>
--3- Some algorithms specified in 27.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> make use of the <ins>following</ins> exposition-only 
+-3- Some algorithms specified in 26.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> make use of the <ins>following</ins> exposition-only 
 function<ins>s</ins> <del><code><i>voidify</i></code></del>:
 </p>
 <blockquote><pre>
@@ -878,7 +1084,7 @@ template&lt;class T&gt;
 </li>
 
 <li>
-<p>Modify 27.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated:</p>
+<p>Modify 26.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -945,11 +1151,11 @@ This wording is relative to <a href="https://wg21.link/N4971" title=" Working Dr
 
 <ol>
 <li>
-<p>Modify 27.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> as indicated:</p>
+<p>Modify 26.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> as indicated:</p>
 
 <blockquote>
 <p>
--3- Some algorithms specified in 27.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> make use of the <ins>following</ins> exposition-only 
+-3- Some algorithms specified in 26.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> make use of the <ins>following</ins> exposition-only 
 function<ins>s</ins> <del><code><i>voidify</i></code></del>:
 </p>
 <blockquote><pre>
@@ -970,7 +1176,7 @@ template&lt;class T&gt;
 </li>
 
 <li>
-<p>Modify 27.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated:</p>
+<p>Modify 26.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -1032,11 +1238,11 @@ This wording is relative to <a href="https://wg21.link/N4971" title=" Working Dr
 
 <ol>
 <li>
-<p>Modify 27.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> as indicated:</p>
+<p>Modify 26.11.1 <a href="https://wg21.link/specialized.algorithms.general">[specialized.algorithms.general]</a> as indicated:</p>
 
 <blockquote>
 <p>
--3- Some algorithms specified in 27.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> make use of the <ins>following</ins> exposition-only 
+-3- Some algorithms specified in 26.11 <a href="https://wg21.link/specialized.algorithms">[specialized.algorithms]</a> make use of the <ins>following</ins> exposition-only 
 function<ins>s</ins> <del><code><i>voidify</i></code></del>:
 </p>
 <blockquote><pre>
@@ -1057,7 +1263,7 @@ template&lt;class T&gt;
 </li>
 
 <li>
-<p>Modify 27.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated:</p>
+<p>Modify 26.11.6 <a href="https://wg21.link/uninitialized.move">[uninitialized.move]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -1099,6 +1305,231 @@ return {first, result};
 </blockquote>
 </blockquote>
 </li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4014"><a href="#4014">4014</a><sup><a href="https://cplusplus.github.io/LWG/issue4014">(i)</a></sup>. LWG 3809 changes behavior of some existing <code>std::subtract_with_carry_engine</code> code</h3>
+<p><b>Section:</b> 29.5.4.4 <a href="https://wg21.link/rand.eng.sub">[rand.eng.sub]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Matt Stephanson <b>Opened:</b> 2023-11-15 <b>Last modified:</b> 2024-10-09</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#rand.eng.sub">issues</a> in [rand.eng.sub].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Issue <a href="lwg-defects.html#3809" title="Is std::subtract_with_carry_engine&lt;uint16_t&gt; supposed to work? (Status: WP)">3809</a><sup><a href="https://cplusplus.github.io/LWG/issue3809" title="Latest snapshot">(i)</a></sup> pointed out that <code>subtract_with_carry_engine&lt;T&gt;</code> can be seeded with values
+from a <code>linear_congruential_engine&lt;T, 40014u, 0u, 2147483563u&gt;</code> object, which results in narrowing
+when <code>T</code> is less than 32 bits. Part of the resolution was to modify the LCG seed sequence as follows:
+</p>
+<blockquote>
+<pre>explicit subtract_with_carry_engine(result_type value);</pre>
+<p>-7- <i>Effects</i>:
+Sets the values of
+<math>
+  <mrow>
+    <msub> <mi>X</mi> <mrow> <mo>-</mo> <mi>r</mi> </mrow> </msub>
+    <mo separator="true">,</mo>
+    <mo>&hellip;</mo>
+    <mo separator="true">,</mo>
+    <msub> <mi>X</mi> <mrow> <mo>-</mo> <mn>1</mn> </mrow> </msub>
+  </mrow>
+</math>,
+in that order, as specified below. If
+<math>
+  <mrow>
+    <msub> <mi>X</mi> <mrow> <mo>-</mo> <mn>1</mn> </mrow> </msub>
+  </mrow>
+</math>
+is then <math> <mn>0</mn> </math>,
+sets <math> <mi>c</mi> </math> to <math> <mn>1</mn> </math>;
+otherwise sets <math> <mi>c</mi> </math> to <math> <mn>0</mn> </math>.
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;
+To set the values
+<math> <mrow> <msub> <mi>X</mi> <mi>k</mi> </msub> </mrow> </math>,
+first construct <code>e</code>, a <code>linear_congruential_engine</code> object,
+as if by the following definition:
+</p>
+<blockquote><pre>
+linear_congruential_engine&lt;<del>result_type</del><ins>uint_least32_t</ins>,
+                           40014u,0u,2147483563u&gt; e(value == 0u ? default_seed : value);
+</pre></blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;
+Then, to set each
+<math> <mrow> <msub> <mi>X</mi> <mi>k</mi> </msub> </mrow> </math>,
+obtain new values
+<math>
+  <mrow>
+    <msub> <mi>z</mi> <mn>0</mn> </msub>
+    <mo separator="true">,</mo>
+    <mo>&hellip;</mo>
+    <mo separator="true">,</mo>
+    <msub> <mi>z</mi> <mrow> <mi>n</mi> <mo>-</mo> <mn>1</mn> </mrow> </msub>
+  </mrow>
+</math>
+from
+<math>
+  <mrow>
+    <mi>n</mi> <mo>=</mo>
+    <mo form="prefix" stretchy="false">&#x2308;</mo>
+    <mi>w</mi> <mo lspace="0em" rspace="0em">/</mo> <mn>32</mn>
+    <mo form="postfix" stretchy="false">&#x2309;</mo>
+  </mrow>
+</math>
+successive invocations of <code>e</code>.
+Set
+<math> <mrow> <msub> <mi>X</mi> <mi>k</mi> </msub> </mrow> </math>
+to
+<math>
+  <mrow>
+    <mrow>
+      <mo fence="true" form="prefix">(</mo>
+      <msubsup>
+        <mo movablelimits="false">&sum;</mo>
+        <mrow> <mi>j</mi> <mo>=</mo> <mn>0</mn> </mrow>
+        <mrow> <mi>n</mi> <mo>-</mo> <mn>1</mn> </mrow>
+      </msubsup>
+      <msub> <mi>z</mi> <mi>j</mi> </msub>
+      <mo>&#x2219;</mo>
+      <msup> <mn>2</mn> <mrow> <mn>32</mn> <mi>j</mi> </mrow> </msup>
+      <mo fence="true" form="postfix">)</mo>
+    </mrow>
+    <mo lspace="0.2222em" rspace="0.2222em">mod</mo>
+    <mi>m</mi>
+  </mrow>
+</math>.
+</p>
+</blockquote>
+<p>
+Inside <code>linear_congruential_engine</code>, the seed is reduced modulo 2147483563, so <code>uint_least32_t</code>
+is fine from that point on. This resolution, however, forces <code>value</code>, the user-provided seed, to be
+truncated from <code>result_type</code> to <code>uint_least32_t</code> before the reduction, which generally will
+change the result. It also breaks the existing behavior that two seeds are equivalent if they're in the same
+congruence class modulo the divisor.
+</p>
+
+<p><i>[2024-01-11; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+
+<p><i>[2024-01-11; Jonathan comments]</i></p>
+
+<p>
+More precisely, the resolution forces <code>value</code> to be <i>converted</i>
+to <code>uint_least32_t</code>, which doesn't necessarily truncate, and if it
+does truncate, it doesn't necessarily change the value.
+But it will truncate whenever <code>value_type</code> is wider than
+<code>uint_least32_t</code>,
+e.g. for 32-bit <code>uint_least32_t</code> you get a different result for
+<code>std::ranlux48_base(UINT_MAX + 1LL)()</code>.
+The new proposed resolution below restores the old behaviour for that type.
+</p>
+
+</p>
+
+<p><i>[2024-10-09; LWG telecon: Move to Ready]</i></p>
+
+
+
+
+<p id="res-4014"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4964" title=" Working Draft, Programming Languages — C++">N4964</a> <em>after the wording changes applied</em> by LWG <a href="lwg-defects.html#3809" title="Is std::subtract_with_carry_engine&lt;uint16_t&gt; supposed to work? (Status: WP)">3809</a><sup><a href="https://cplusplus.github.io/LWG/issue3809" title="Latest snapshot">(i)</a></sup>,
+which had been accepted into the working paper during the Kona 2023-11 meeting.
+</p>
+
+<ol>
+
+<li><p>Modify 29.5.4.4 <a href="https://wg21.link/rand.eng.sub">[rand.eng.sub]</a> as indicated:</p>
+
+<blockquote>
+<pre>explicit subtract_with_carry_engine(result_type value);</pre>
+<p>-7- <i>Effects</i>:
+Sets the values of
+<math>
+  <mrow>
+    <msub> <mi>X</mi> <mrow> <mo>-</mo> <mi>r</mi> </mrow> </msub>
+    <mo separator="true">,</mo>
+    <mo>&hellip;</mo>
+    <mo separator="true">,</mo>
+    <msub> <mi>X</mi> <mrow> <mo>-</mo> <mn>1</mn> </mrow> </msub>
+  </mrow>
+</math>,
+in that order, as specified below. If
+<math>
+  <mrow>
+    <msub> <mi>X</mi> <mrow> <mo>-</mo> <mn>1</mn> </mrow> </msub>
+  </mrow>
+</math>
+is then <math> <mn>0</mn> </math>,
+sets <math> <mi>c</mi> </math> to <math> <mn>1</mn> </math>;
+otherwise sets <math> <mi>c</mi> </math> to <math> <mn>0</mn> </math>.
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;
+To set the values
+<math> <mrow> <msub> <mi>X</mi> <mi>k</mi> </msub> </mrow> </math>,
+first construct <code>e</code>, a <code>linear_congruential_engine</code> object,
+as if by the following definition:
+</p>
+<blockquote><pre>
+linear_congruential_engine&lt;uint_least32_t,
+                           40014u,0u,2147483563u&gt; e(value == 0u ? default_seed :
+                           <ins>static_cast&lt;uint_least32_t&gt;(</ins>value<ins> % 2147483563u)</ins>);
+</pre></blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;
+Then, to set each
+<math> <mrow> <msub> <mi>X</mi> <mi>k</mi> </msub> </mrow> </math>,
+obtain new values
+<math>
+  <mrow>
+    <msub> <mi>z</mi> <mn>0</mn> </msub>
+    <mo separator="true">,</mo>
+    <mo>&hellip;</mo>
+    <mo separator="true">,</mo>
+    <msub> <mi>z</mi> <mrow> <mi>n</mi> <mo>-</mo> <mn>1</mn> </mrow> </msub>
+  </mrow>
+</math>
+from
+<math>
+  <mrow>
+    <mi>n</mi> <mo>=</mo>
+    <mo form="prefix" stretchy="false">&#x2308;</mo>
+    <mi>w</mi> <mo lspace="0em" rspace="0em">/</mo> <mn>32</mn>
+    <mo form="postfix" stretchy="false">&#x2309;</mo>
+  </mrow>
+</math>
+successive invocations of <code>e</code>.
+Set
+<math> <mrow> <msub> <mi>X</mi> <mi>k</mi> </msub> </mrow> </math>
+to
+<math>
+  <mrow>
+    <mrow>
+      <mo fence="true" form="prefix">(</mo>
+      <msubsup>
+        <mo movablelimits="false">&sum;</mo>
+        <mrow> <mi>j</mi> <mo>=</mo> <mn>0</mn> </mrow>
+        <mrow> <mi>n</mi> <mo>-</mo> <mn>1</mn> </mrow>
+      </msubsup>
+      <msub> <mi>z</mi> <mi>j</mi> </msub>
+      <mo>&#x2219;</mo>
+      <msup> <mn>2</mn> <mrow> <mn>32</mn> <mi>j</mi> </mrow> </msup>
+      <mo fence="true" form="postfix">)</mo>
+    </mrow>
+    <mo lspace="0.2222em" rspace="0.2222em">mod</mo>
+    <mi>m</mi>
+  </mrow>
+</math>.
+</p>
+</blockquote>
+
+</li>
+
 </ol>
 
 
@@ -1185,7 +1616,7 @@ object of type <code>U</code>.</p></li>
 
 <hr>
 <h3 id="4027"><a href="#4027">4027</a><sup><a href="https://cplusplus.github.io/LWG/issue4027">(i)</a></sup>. <code><i>possibly-const-range</i></code> should prefer returning <code>const R&amp;</code></h3>
-<p><b>Section:</b> 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 25.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2023-12-17 <b>Last modified:</b> 2024-06-28</p>
 <p><b>Priority: </b>2
 </p>
@@ -1262,18 +1693,18 @@ This wording is relative to <a href="https://wg21.link/N4971" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <code>&lt;ranges&gt;</code> synopsis, as indicated:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a>, header <code>&lt;ranges&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 #include &lt;compare&gt;              // <i>see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
 #include &lt;initializer_list&gt;     // <i>see 17.10.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
-#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
+#include &lt;iterator&gt;             // <i>see 24.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
 
 namespace std::ranges {
   [&hellip;]
 
-  // <i>26.7.22 <a href="https://wg21.link/range.as.const">[range.as.const]</a>, as const view</i>
+  // <i>25.7.22 <a href="https://wg21.link/range.as.const">[range.as.const]</a>, as const view</i>
   template&lt;input_range R&gt;
     constexpr auto&amp; <i>possibly-const-range</i>(R&amp; r) noexcept { // <i>exposition only</i>
       if constexpr (<ins>input</ins><del>constant</del>_range&lt;const R&gt;<del> &amp;&amp; !constant_range&lt;R&gt;</del>) {
@@ -1352,7 +1783,7 @@ The very explicit mention of <code>isatty</code> for POSIX platforms has
 confused at least two implementers into thinking that we're supposed to
 use <code>isatty</code>, and supposed to do something differently based
 on what it returns. That seems consistent with the nearly identical wording
-in 22.14.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> paragraph 12, which says
+in 28.5.2.2 <a href="https://wg21.link/format.string.std">[format.string.std]</a> paragraph 12, which says
 "Implementations should use either UTF-8, UTF-16, or UTF-32,
 on platforms <u>capable of displaying Unicode text in a terminal</u>"
 and then has a note explicitly saying this is the case for Windows-based and
@@ -1878,7 +2309,7 @@ per the Unicode Standard, Chapter 3.9
 
 <hr>
 <h3 id="4064"><a href="#4064">4064</a><sup><a href="https://cplusplus.github.io/LWG/issue4064">(i)</a></sup>. Clarify that <code>std::launder</code> is not needed when using the result of <code>std::memcpy</code></h3>
-<p><b>Section:</b> 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 27.5.1 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Jan Schultke <b>Opened:</b> 2024-04-05 <b>Last modified:</b> 2024-06-28</p>
 <p><b>Priority: </b>3
 </p>
@@ -1901,7 +2332,7 @@ The <code>memcpy</code> function returns the value of [the destination operand].
 </p>
 </blockquote>
 <p>
-In conjunction with 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> p3, this presumably means that <code>std::memcpy</code> 
+In conjunction with 27.5.1 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> p3, this presumably means that <code>std::memcpy</code> 
 returns a pointer to the (first) implicitly-created object, and no use of <code>std::launder</code> 
 is necessary.
 <p/>
@@ -1922,7 +2353,7 @@ This wording is relative to <a href="https://wg21.link/N4971" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
+<li><p>Modify 27.5.1 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -1949,7 +2380,7 @@ This wording is relative to <a href="https://wg21.link/N4981" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
+<li><p>Modify 27.5.1 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -2183,7 +2614,7 @@ and its result is convertible to <code class='backtick'>bool</code>.
 
 <hr>
 <h3 id="4084"><a href="#4084">4084</a><sup><a href="https://cplusplus.github.io/LWG/issue4084">(i)</a></sup>. <code>std::fixed</code> ignores <code>std::uppercase</code></h3>
-<p><b>Section:</b> 30.4.3.3.3 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 28.3.4.3.3.3 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-04-30 <b>Last modified:</b> 2024-09-19</p>
 <p><b>Priority: </b>3
 </p>
@@ -2239,7 +2670,7 @@ Set status to Tentatively Ready after eight votes in favour during reflector pol
 This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
 </p>
 <ol>
-<li><p>Modify 30.4.3.3.3 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> as indicated:</p>
+<li><p>Modify 28.3.4.3.3.3 <a href="https://wg21.link/facet.num.put.virtuals">[facet.num.put.virtuals]</a> as indicated:</p>
 
 <blockquote>
 <table style="border: 1px solid">
@@ -2299,15 +2730,233 @@ floatfield == (ios_base::fixed | ios_base::scientific)` &amp;&amp; !uppercase
 
 
 <hr>
+<h3 id="4085"><a href="#4085">4085</a><sup><a href="https://cplusplus.github.io/LWG/issue4085">(i)</a></sup>. <code>ranges::generate_random</code>'s helper lambda should specify the return type</h3>
+<p><b>Section:</b> 26.12.2 <a href="https://wg21.link/alg.rand.generate">[alg.rand.generate]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-04-28 <b>Last modified:</b> 2024-10-09</p>
+<p><b>Priority: </b>2
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#alg.rand.generate">active issues</a> in [alg.rand.generate].</p>
+<p><b>View all other</b> <a href="lwg-index.html#alg.rand.generate">issues</a> in [alg.rand.generate].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The non-specialized case of <code>generate_random(r, g, d)</code> would call
+<code>ranges::generate(r, [&amp;d, &amp;g] { return invoke(d, g); })</code>.
+However, the lambda does not explicitly specify the return type, which leads
+to a hard error when <code>invoke</code> returns a reference to the object that is not copyable or
+<code>R</code> is not the <code>output_range</code> for <code>decay_t&lt;invoke_result_t&lt;D&amp;, G&amp;&gt;&gt;</code>.
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+</p>
+
+<ol>
+<li><p>Modify 26.12.2 <a href="https://wg21.link/alg.rand.generate">[alg.rand.generate]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class R, class G, class D&gt;
+  requires output_range&lt;R, invoke_result_t&lt;D&amp;, G&amp;&gt;&gt; &amp;&amp; invocable&lt;D&amp;, G&amp;&gt; &amp;&amp;
+           uniform_random_bit_generator&lt;remove_cvref_t&lt;G&gt;&gt;
+constexpr borrowed_iterator_t&lt;R&gt; ranges::generate_random(R&amp;&amp; r, G&amp;&amp; g, D&amp;&amp; d);
+</pre>
+<p>-5- <i>Effects</i>:</p>
+<ol style="list-style-type: none">
+<li><p>(5.1) &mdash; [&hellip;]</p></li>
+<li><p>(5.2) &mdash; [&hellip;]</p></li>
+<li><p>(5.3) &mdash; Otherwise, calls:</p>
+<blockquote><pre>
+ranges::generate(std::forward&lt;R&gt;(r), [&amp;d, &amp;g] <ins>-&gt; decltype(auto)</ins> { return invoke(d, g); });
+</pre></blockquote>
+</li>
+</ol>
+<p>-6- <i>Returns</i>: <code>ranges::end(r)</code></p>
+<p>-7- <i>Remarks</i>: The effects of <code>generate_random(r, g, d)</code> shall be equivalent to</p>
+<blockquote><pre>
+ranges::generate(std::forward&lt;R&gt;(r), [&amp;d, &amp;g] <ins>-&gt; decltype(auto)</ins> { return invoke(d, g); })
+</pre></blockquote>
+</blockquote>
+
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2024-05-12, Hewill Kang provides improved wording]</i></p>
+
+
+<p><i>[2024-08-02; Reflector poll]</i></p>
+
+<p>
+Set priority to 2 after reflector poll.
+</p>
+
+<p><i>[2024-10-09; LWG telecon: Move to Ready]</i></p>
+
+
+
+
+<p id="res-4085"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+</p>
+
+<ol>
+<li><p>Modify 29.5.2 <a href="https://wg21.link/rand.synopsis">[rand.synopsis]</a>, header <code>&lt;random&gt;</code> synopsis, as indicated:</p>
+
+<blockquote>
+<pre>
+#include &lt;initializer_list&gt;     // <i>see 17.10.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
+
+namespace std {
+  [&hellip;]
+  namespace ranges {
+    [&hellip;]
+    template&lt;class R, class G, class D&gt;
+      requires output_range&lt;R, invoke_result_t&lt;D&amp;, G&amp;&gt;&gt; &amp;&amp; invocable&lt;D&amp;, G&amp;&gt; &amp;&amp;
+               uniform_random_bit_generator&lt;remove_cvref_t&lt;G&gt;&gt; <ins>&amp;&amp;
+               is_arithmetic_v&lt;invoke_result_t&lt;D&amp;, G&amp;&gt;&gt;</ins>
+    constexpr borrowed_iterator_t&lt;R&gt; generate_random(R&amp;&amp; r, G&amp;&amp; g, D&amp;&amp; d);
+
+    template&lt;class G, class D, output_iterator&lt;invoke_result_t&lt;D&amp;, G&amp;&gt;&gt; O, sentinel_for&lt;O&gt; S&gt;
+      requires invocable&lt;D&amp;, G&amp;&gt; &amp;&amp; uniform_random_bit_generator&lt;remove_cvref_t&lt;G&gt;&gt; <ins>&amp;&amp;
+               is_arithmetic_v&lt;invoke_result_t&lt;D&amp;, G&amp;&gt;&gt;</ins>
+    constexpr O generate_random(O first, S last, G&amp;&amp; g, D&amp;&amp; d);
+  }
+  [&hellip;]
+}
+</pre>
+</blockquote>
+
+</li>
+
+<li><p>Modify 26.12.2 <a href="https://wg21.link/alg.rand.generate">[alg.rand.generate]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class R, class G, class D&gt;
+  requires output_range&lt;R, invoke_result_t&lt;D&amp;, G&amp;&gt;&gt; &amp;&amp; invocable&lt;D&amp;, G&amp;&gt; &amp;&amp;
+           uniform_random_bit_generator&lt;remove_cvref_t&lt;G&gt;&gt; <ins>&amp;&amp;
+           is_arithmetic_v&lt;invoke_result_t&lt;D&amp;, G&amp;&gt;&gt;</ins>
+constexpr borrowed_iterator_t&lt;R&gt; ranges::generate_random(R&amp;&amp; r, G&amp;&amp; g, D&amp;&amp; d);
+</pre>
+<blockquote>
+<p>
+-5- <i>Effects</i>:
+</p>
+[&hellip;]
+</blockquote>
+<pre>
+template&lt;class G, class D, output_iterator&lt;invoke_result_t&lt;D&amp;, G&amp;&gt;&gt; O, sentinel_for&lt;O&gt; S&gt;
+  requires invocable&lt;D&amp;, G&amp;&gt; &amp;&amp; uniform_random_bit_generator&lt;remove_cvref_t&lt;G&gt;&gt; <ins>&amp;&amp;
+           is_arithmetic_v&lt;invoke_result_t&lt;D&amp;, G&amp;&gt;&gt;</ins>
+constexpr O ranges::generate_random(O first, S last, G&amp;&amp; g, D&amp;&amp; d);
+</pre>
+<blockquote>
+<p>
+-8- <i>Effects</i>: Equivalent to:
+</p>
+[&hellip;]
+</blockquote>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="4088"><a href="#4088">4088</a><sup><a href="https://cplusplus.github.io/LWG/issue4088">(i)</a></sup>. <code>println</code> ignores the locale imbued in <code>std::ostream</code></h3>
+<p><b>Section:</b> 31.7.6.3.5 <a href="https://wg21.link/ostream.formatted.print">[ostream.formatted.print]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jens Maurer <b>Opened:</b> 2024-04-30 <b>Last modified:</b> 2024-10-03</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#ostream.formatted.print">active issues</a> in [ostream.formatted.print].</p>
+<p><b>View all other</b> <a href="lwg-index.html#ostream.formatted.print">issues</a> in [ostream.formatted.print].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+31.7.6.3.5 <a href="https://wg21.link/ostream.formatted.print">[ostream.formatted.print]</a> specifies that <code>std::print</code> uses the locale
+imbued in the <code>std::ostream&amp;</code> argument for formatting, by using this equivalence:
+</p>
+<blockquote>
+<pre>
+vformat(os.getloc(), fmt, args);
+</pre>
+</blockquote>
+<p>
+(in the <code>vformat_(non)unicode</code> delegation).
+<p/>
+However, <code>std::println</code> ignores the <code>std::ostream</code>'s locale
+for its locale-dependent formatting:
+</p>
+<blockquote>
+<pre>
+print(os, "{}\n", format(fmt, std::forward&lt;Args&gt;(args)...));
+</pre>
+</blockquote>
+<p>
+This is inconsistent.
+</p>
+
+<p><i>[2024-10-03; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4088"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4981" title=" Working Draft, Programming Languages — C++">N4981</a>.
+</p>
+
+<ol>
+
+<li><p>Modify 31.7.6.3.5 <a href="https://wg21.link/ostream.formatted.print">[ostream.formatted.print]</a> as indicated:</p>
+
+<blockquote>
+<pre>
+template&lt;class... Args&gt;
+  void println(ostream&amp; os, format_string&lt;Args...&gt; fmt, Args&amp;&amp;... args);
+</pre>
+<blockquote>
+<p>
+-2- <i>Effects</i>: Equivalent to:
+</p>
+<blockquote>
+<pre>
+print(os, "{}\n", format(<ins>os.getloc(),</ins> fmt, std::forward&lt;Args&gt;(args)...));
+</pre>
+</blockquote>
+</blockquote>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
 <h3 id="4112"><a href="#4112">4112</a><sup><a href="https://cplusplus.github.io/LWG/issue4112">(i)</a></sup>. <code><i>has-arrow</i></code> should required <code>operator-&gt;()</code> to be <code>const</code>-qualified</h3>
-<p><b>Section:</b> 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 25.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-06-22 <b>Last modified:</b> 2024-06-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-The helper concept <code><i>has-arrow</i></code> in 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> does not 
+The helper concept <code><i>has-arrow</i></code> in 25.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> does not 
 require that <code>I::operator-&gt;()</code> be <code>const</code>-qualified, which is inconsistent with 
 the constraints on <code>reverse_iterator</code> and <code>common_iterator</code>'s <code>operator-&gt;()</code> 
 as the latter two both require the underlying iterator has <code>const operator-&gt;()</code> member.
@@ -2328,7 +2977,7 @@ This wording is relative to <a href="https://wg21.link/N4981" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 26.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> as indicated:</p>
+<li><p>Modify 25.5.2 <a href="https://wg21.link/range.utility.helpers">[range.utility.helpers]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -2447,7 +3096,7 @@ for consistency with the <b>Condition</b> column.]
 
 <hr>
 <h3 id="4119"><a href="#4119">4119</a><sup><a href="https://cplusplus.github.io/LWG/issue4119">(i)</a></sup>. <code>generator::promise_type::yield_value(ranges::elements_of&lt;R, Alloc&gt;)</code>'s nested <code>generator</code> may be ill-formed</h3>
-<p><b>Section:</b> 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 25.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-07-11 <b>Last modified:</b> 2024-08-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -2492,7 +3141,7 @@ Set status to Tentatively Ready after five votes in favour during reflector poll
 This wording is relative to <a href="https://wg21.link/N4986" title=" Working Draft, Programming Languages — C++">N4986</a>.
 </p>
 <ol>
-<li><p>Modify 26.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
+<li><p>Modify 25.8.5 <a href="https://wg21.link/coro.generator.promise">[coro.generator.promise]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -2526,7 +3175,7 @@ return yield_value(ranges::elements_of(nested(
 
 <hr>
 <h3 id="4124"><a href="#4124">4124</a><sup><a href="https://cplusplus.github.io/LWG/issue4124">(i)</a></sup>. Cannot format <code class='backtick'>zoned_time</code> with resolution coarser than seconds</h3>
-<p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 30.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-07-26 <b>Last modified:</b> 2024-08-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -2555,7 +3204,7 @@ That means this is ill-formed, even though the static assert passes:
 Additionally, it's not specified what output you should get for:
 <pre><code><code class='backtick'>std::format("{}", local_time_format(zt.get_local_time()));</code>
 </code></pre>
-29.12 <a href="https://wg21.link/time.format">[time.format]</a> p7 says it's formatted as if by streaming to an
+30.12 <a href="https://wg21.link/time.format">[time.format]</a> p7 says it's formatted as if by streaming to an
 <code class='backtick'>ostringstream</code>,
 but there is no <code>operator&lt;&lt;</code> for <i><code class='backtick'>local-time-format-t</code></i>.
 Presumably it should give the same result as <code>operator&lt;&lt;</code> for 
@@ -2579,7 +3228,7 @@ This wording is relative to <a href="https://wg21.link/N4986" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 29.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
+<li><p>Modify 30.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -2715,7 +3364,7 @@ by <a href="https://wg21.link/P2291R3" title=" Add Constexpr Modifiers to Functi
 
 <hr>
 <h3 id="4134"><a href="#4134">4134</a><sup><a href="https://cplusplus.github.io/LWG/issue4134">(i)</a></sup>. Issue with Philox algorithm specification</h3>
-<p><b>Section:</b> 28.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 29.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Ilya A. Burylov <b>Opened:</b> 2024-08-06 <b>Last modified:</b> 2024-08-21</p>
 <p><b>Priority: </b>1
 </p>
@@ -2781,7 +3430,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 28.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a>, [tab:rand.eng.philox.f] as indicated (This effectively reduces
+<li><p>Modify 29.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a>, [tab:rand.eng.philox.f] as indicated (This effectively reduces
 16 data columns to 4 data columns and 4 data rows to 2 data rows):</p>
 
 <blockquote>
@@ -2894,7 +3543,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 </blockquote>
 </li>
 
-<li><p>Modify 28.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a> as indicated:</p>
+<li><p>Modify 29.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -2929,7 +3578,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 </blockquote>
 </li>
 
-<li><p>Modify 28.5.6 <a href="https://wg21.link/rand.predef">[rand.predef]</a> as indicated:</p>
+<li><p>Modify 29.5.6 <a href="https://wg21.link/rand.predef">[rand.predef]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -2966,7 +3615,7 @@ object of type <code>philox4x64</code> produces the value 3409172418970261260.
 <hr>
 <h3 id="4135"><a href="#4135">4135</a><sup><a href="https://cplusplus.github.io/LWG/issue4135">(i)</a></sup>. The helper lambda of <code>std::erase</code> for <code>list</code> should specify return type as
   <code>bool</code></h3>
-<p><b>Section:</b> 24.3.10.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a>, 24.3.11.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 23.3.7.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a>, 23.3.9.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-08-07 <b>Last modified:</b> 2024-08-21</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -3015,7 +3664,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 24.3.10.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a> as indicated:</p>
+<li><p>Modify 23.3.7.7 <a href="https://wg21.link/forward.list.erasure">[forward.list.erasure]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -3032,7 +3681,7 @@ template&lt;class T, class Allocator, class U = T&gt;
 </blockquote>
 </li>
 
-<li><p>Modify 24.3.11.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a> as indicated:</p>
+<li><p>Modify 23.3.9.6 <a href="https://wg21.link/list.erasure">[list.erasure]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -3057,7 +3706,7 @@ template&lt;class T, class Allocator, class U = T&gt;
 
 <hr>
 <h3 id="4140"><a href="#4140">4140</a><sup><a href="https://cplusplus.github.io/LWG/issue4140">(i)</a></sup>. Useless default constructors for bit reference types</h3>
-<p><b>Section:</b> 22.9.2.1 <a href="https://wg21.link/template.bitset.general">[template.bitset.general]</a>, 24.3.13.1 <a href="https://wg21.link/vector.bool.pspc">[vector.bool.pspc]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 22.9.2.1 <a href="https://wg21.link/template.bitset.general">[template.bitset.general]</a>, 23.3.12.1 <a href="https://wg21.link/vector.bool.pspc">[vector.bool.pspc]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-08-21 <b>Last modified:</b> 2024-09-18</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -3134,7 +3783,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>Modify 24.3.13.1 <a href="https://wg21.link/vector.bool.pspc">[vector.bool.pspc]</a>, <code>vector&lt;bool, Allocator&gt;</code> synopsis, as indicated:</p>
+<li><p>Modify 23.3.12.1 <a href="https://wg21.link/vector.bool.pspc">[vector.bool.pspc]</a>, <code>vector&lt;bool, Allocator&gt;</code> synopsis, as indicated:</p>
 <blockquote>
 <pre>
 namespace std {
@@ -3337,7 +3986,7 @@ Member <i><code>has_val</code></i> indicates whether the
 
 <hr>
 <h3 id="4142"><a href="#4142">4142</a><sup><a href="https://cplusplus.github.io/LWG/issue4142">(i)</a></sup>. <code>format_parse_context::check_dynamic_spec</code> should require at least one type</h3>
-<p><b>Section:</b> 22.14.6.6 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 28.5.6.6 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-08-28 <b>Last modified:</b> 2024-09-18</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -3376,7 +4025,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 22.14.6.6 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> as indicated:</p>
+<li><p>Modify 28.5.6.6 <a href="https://wg21.link/format.parse.ctx">[format.parse.ctx]</a> as indicated:</p>
 
 <pre><code>template&lt;class... Ts&gt;
   constexpr void check_dynamic_spec(size_t id) noexcept;
@@ -3411,7 +4060,7 @@ is one of the types in <code class='backtick'>Ts...</code>.</li>
 
 <hr>
 <h3 id="4147"><a href="#4147">4147</a><sup><a href="https://cplusplus.github.io/LWG/issue4147">(i)</a></sup>. Precondition on <code>inplace_vector::emplace</code></h3>
-<p><b>Section:</b> 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 23.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2024-08-26 <b>Last modified:</b> 2024-09-18</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -3441,7 +4090,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> as indicated:</p>
+<li><p>Modify 23.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> as indicated:</p>
 
 <blockquote><pre>
 a.emplace(p, args)
@@ -3538,6 +4187,392 @@ is <code class='backtick'>false</code>.
 </blockquote>
 </li>
 </ol>
+
+
+
+
+
+<hr>
+<h3 id="4153"><a href="#4153">4153</a><sup><a href="https://cplusplus.github.io/LWG/issue4153">(i)</a></sup>. Fix extra "-1" for <code>philox_engine::max()</code></h3>
+<p><b>Section:</b> 29.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Ruslan Arutyunyan <b>Opened:</b> 2024-09-18 <b>Last modified:</b> 2024-10-02</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#rand.eng.philox">active issues</a> in [rand.eng.philox].</p>
+<p><b>View all other</b> <a href="lwg-index.html#rand.eng.philox">issues</a> in [rand.eng.philox].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+There is a typo in <code class='backtick'>philox_engine</code> wording that makes "-1" two times
+instead of one for <code class='backtick'>max()</code> method.
+The reason for that typo is that the wording was originally inspired by
+<code class='backtick'>mersenne_twister_engine</code> but after getting feedback that what is written in
+the <code class='backtick'>philox_engine</code> synopsis is not C++ code, the authors introduced the
+<i>m</i> variable (as in <code class='backtick'>subtract_with_carry_engine</code>) but forgot to remove
+"-1" in the <i>m</i> definition.
+</p>
+<p>
+Note: after the proposed resolution below is applied the <i>m</i> variable
+could be reused in other places: basically in all places where the <code class='backtick'>mod  2^w</code>
+pattern appears (like <code class='backtick'>subtract_with_carry_engine</code> does).
+The authors don’t think it’s worth changing the rest of the wording to reuse
+the <i>m</i> variable.
+If somebody thinks otherwise, please provide such feedback.
+</p>
+
+<p><i>[2024-10-02; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after six votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4153"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+
+<ol>
+<li><p>Modify 29.5.4.5 <a href="https://wg21.link/rand.eng.philox">[rand.eng.philox]</a> as indicated:</p>
+<blockquote>
+-1-
+A <code class='backtick'>philox_engine</code> random number engine produces unsigned integer random numbers
+in the <del>closed</del> interval [0, <i>m</i><del>]</del><ins>)</ins>,
+where <i>m</i> = 2<sup><i>w</i></sup><del> − 1</del>
+and the template parameter <i>w</i> defines the range of the produced numbers.
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+
+<hr>
+<h3 id="4154"><a href="#4154">4154</a><sup><a href="https://cplusplus.github.io/LWG/issue4154">(i)</a></sup>. The Mandates for <code>std::packaged_task</code>'s constructor from a callable entity should consider decaying</h3>
+<p><b>Section:</b> 32.10.10.2 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-09-18 <b>Last modified:</b> 2024-10-09</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#futures.task.members">active issues</a> in [futures.task.members].</p>
+<p><b>View all other</b> <a href="lwg-index.html#futures.task.members">issues</a> in [futures.task.members].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Currently, 32.10.10.2 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a>/3 states:
+<blockquote>
+<i>Mandates</i>:
+<code>is_invocable_r_v&lt;R, F&amp;, ArgTypes...&gt;</code> is <code class='backtick'>true</code>.
+</blockquote>
+where <code>F&amp;</code> can be a reference to a cv-qualified function object type.
+</p>
+<p>
+However, in mainstream implementations (libc++, libstdc++, and MSVC STL),
+the stored task object always has a cv-unqualified type,
+and thus the cv-qualification is unrecognizable in <code class='backtick'>operator()</code>.
+</p>
+<p>
+Since 22.10.17.3.2 <a href="https://wg21.link/func.wrap.func.con">[func.wrap.func.con]</a> uses a decayed type,
+perhaps we should also so specify for <code class='backtick'>std::packaged_task</code>.
+</p>
+
+<p><i>[2024-10-02; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p>
+"Fix preconditions, <code class='backtick'>f</code> doesn't need to be invocable, we only invoke the copy."
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+<ol>
+<li><p>Modify 32.10.10.2 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> as indicated:</p>
+<blockquote>
+<p>
+-3- <i>Mandates</i>:
+<code>is_invocable_r_v&lt;R, <del>F</del><ins>decay_t&lt;F&gt;</ins>&amp;, ArgTypes...&gt;</code>
+is <code class='backtick'>true</code>.
+</p>
+[...]
+<p>
+-5- <i>Effects</i>:
+Constructs a new <code class='backtick'>packaged_task</code> object with a shared state and initializes
+the object's stored task
+<ins>of type <code>decay_t&lt;F&gt;</code></ins>
+with <code>std::forward&lt;F&gt;(f)</code>.
+</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+
+<p><i>[2024-10-02; Jonathan provides improved wording]</i></p>
+
+<p>Drop preconditions as suggested on reflector.</p>
+
+<p><i>[2024-10-02; LWG telecon]</i></p>
+
+<p>
+Clarify that "of type <code>decay_t&lt;F&gt;</code>"
+is supposed to be specifying the type of the stored task.
+</p>
+
+<p><i>[2024-10-09; LWG telecon: Move to Ready]</i></p>
+
+
+
+
+<p id="res-4154"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+<ol>
+<li><p>Modify 32.10.10.2 <a href="https://wg21.link/futures.task.members">[futures.task.members]</a> as indicated:</p>
+<blockquote>
+<pre><code>template&lt;class F&gt;
+  explicit packaged_task(F&amp;&amp; f);</code></pre>
+<p>
+-2- <i>Constraints</i>:
+<code>remove_cvref_t&lt;F&gt;</code> is not the same type as
+<code>packaged_task&lt;R(ArgTypes...)&gt;</code>.
+</p>
+<p>
+-3- <i>Mandates</i>:
+<code>is_invocable_r_v&lt;R, <del>F</del><ins>decay_t&lt;F&gt;</ins>&amp;, ArgTypes...&gt;</code>
+is <code class='backtick'>true</code>.
+</p>
+<p>
+<del>-4- <i>Preconditions</i>:
+Invoking a copy of <code class='backtick'>f</code> behaves the same as invoking <code class='backtick'>f</code>.
+</del>
+</p>
+<p>
+-5- <i>Effects</i>:
+Constructs a new <code class='backtick'>packaged_task</code> object with
+<ins>a stored task of type <code>decay_t&lt;F&gt;</code> and</ins>
+a shared state
+<ins>. Initializes</ins>
+<del>and initializes</del>
+the object's stored task
+with <code>std::forward&lt;F&gt;(f)</code>.
+</p>
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4157"><a href="#4157">4157</a><sup><a href="https://cplusplus.github.io/LWG/issue4157">(i)</a></sup>. The resolution of LWG3465 was damaged by P2167R3</h3>
+<p><b>Section:</b> 17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-09-18 <b>Last modified:</b> 2024-10-02</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#cmp.alg">active issues</a> in [cmp.alg].</p>
+<p><b>View all other</b> <a href="lwg-index.html#cmp.alg">issues</a> in [cmp.alg].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Tentatively Ready">Tentatively Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+In the resolution of LWG <a href="lwg-defects.html#3465" title="compare_partial_order_fallback requires F &lt; E (Status: C++23)">3465</a><sup><a href="https://cplusplus.github.io/LWG/issue3465" title="Latest snapshot">(i)</a></sup>,
+<code>F &lt; E</code> was required to be well-formed and
+implicitly convertible to <code class='backtick'>bool</code>.
+However, <a href="https://wg21.link/P2167R3" title=" Improved Proposed Wording for LWG 2114 (contextually convertible to bool)">P2167R3</a> replaced the convertibility requirements
+with just "each of <code class='backtick'>decltype(E == F)</code> and <code>decltype(E &lt; F)</code>
+models <i><code class='backtick'>boolean-testable</code></i>",
+which rendered the type of <code>F &lt; E</code> underconstrained.
+</p>
+
+<p><i>[2024-10-02; Reflector poll]</i></p>
+
+<p>
+Set status to Tentatively Ready after seven votes in favour during reflector poll.
+</p>
+
+
+
+<p id="res-4157"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.
+</p>
+<ol>
+<li><p>Modify 17.11.6 <a href="https://wg21.link/cmp.alg">[cmp.alg]</a> as indicated:</p>
+<blockquote>
+(6.3) &mdash;
+Otherwise, if the expressions
+<code>E == F</code>, <code>E &lt; F</code>, and <code>F &lt; E</code>
+are all well-formed and each of <code class='backtick'>decltype(E == F)</code>
+<del>and</del><ins>,</ins>
+<code>decltype(E &lt; F)</code>
+<ins>, and <code>decltype(F &lt; E)</code></ins>
+models <i><code class='backtick'>boolean-testable</code></i>,
+<pre><code>
+  E == F ? partial_ordering::equivalent :
+  E &lt; F  ? partial_ordering::less :
+  F &lt; E  ? partial_ordering::greater :
+           partial_ordering::unordered
+</code></pre>
+except that <code class='backtick'>E</code> and <code class='backtick'>F</code> are evaluated only once.
+</blockquote>
+</li>
+</ol>
+
+
+
+
+
+<hr>
+<h3 id="4164"><a href="#4164">4164</a><sup><a href="https://cplusplus.github.io/LWG/issue4164">(i)</a></sup>. Missing guarantees for <code class='backtick'>forward_list</code> modifiers</h3>
+<p><b>Section:</b> 23.3.7.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-10-05 <b>Last modified:</b> 2024-10-09</p>
+<p><b>Priority: </b>3
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#forward.list.modifiers">issues</a> in [forward.list.modifiers].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#Ready">Ready</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The new <code class='backtick'>std::list</code> members added by <a href="https://wg21.link/P1206R7" title=" Conversions from ranges to containers">P1206R7</a>,
+<code>insert_range(const_iterator, R&amp;&amp;)</code>,
+<code>prepend_range(R&amp;&amp;)</code>, and
+<code>append_range(R&amp;&amp;)</code>,
+have the same exception safety guarantee as
+<code class='backtick'>std::list::insert(const_iterator, InputIterator, InputIterator)</code>, which is:
+<blockquote>
+<i>Remarks</i>:
+Does not affect the validity of iterators and references.
+If an exception is thrown, there are no effects.
+</blockquote>
+</p>
+<p>
+This guarantee was achieved for the new <code class='backtick'>list</code> functions simply by placing
+them in the same set of declarations as the existing <code class='backtick'>insert</code> overloads,
+at the start of 23.3.9.4 <a href="https://wg21.link/list.modifiers">[list.modifiers]</a>.
+</p>
+
+<p>
+However, the new <code class='backtick'>std::forward_list</code> members,
+<code>insert_range_after(const_iterator, R&amp;&amp;)</code> and
+<code>prepend_range(R&amp;&amp;)</code>,
+do not have the same guarantee as <code class='backtick'>forward_list::insert_after</code>.
+This looks like an omission caused by the fact that <code class='backtick'>insert_after</code>'s
+exception safety guarantee is given in a separate paragraph at the start
+of 23.3.7.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a>:
+<blockquote>
+None of the overloads of <code class='backtick'>insert_after</code>
+shall affect the validity of iterators and references,
+and <code class='backtick'>erase_after</code> shall invalidate only iterators and references
+to the erased elements.
+If an exception is thrown during <code class='backtick'>insert_after</code> there shall be no effect.
+</blockquote>
+</p>
+
+<p>
+I think we should give similar guarantees for <code class='backtick'>insert_range_after</code>
+and <code class='backtick'>prepend_range</code>.
+The change might also be appropriate for <code class='backtick'>emplace_after</code> as well.
+A "no effects" guarantee is already given for <code class='backtick'>push_front</code> and <code class='backtick'>emplace_front</code>
+in 23.2.2.2 <a href="https://wg21.link/container.reqmts">[container.reqmts]</a> p66, although that doesn't say anything
+about iterator invalidation so we might want to add that to
+23.3.7.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a> too.
+For the functions that insert a single element, it's trivial to not modify
+the list if allocating a new node of constructing the element throws.
+The strong exception safety guarantee for the multi-element insertion functions
+is easily achieved by inserting into a temporary <code class='backtick'>forward_list</code> first,
+then using <code class='backtick'>splice_after</code> which is non-throwing.
+</p>
+
+
+<p><i>[2024-10-09; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll.
+</p>
+<p>It was suggested to change
+"If an exception is thrown by any of these member functions
+that insert elements there is no effect on the forward_list"
+to simply
+"If an exception is thrown by any of these member functions
+there is no effect on the forward_list"
+</p>
+
+<p><strong>Previous resolution [SUPERSEDED]:</strong></p>
+<blockquote class="note">
+
+<p>This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.</p>
+
+<ol>
+<li>
+<p>Change 23.3.7.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a> as indicated:</p>
+<blockquote>
+None of the <del>overloads of <code class='backtick'>insert_after</code> shall</del>
+<ins>member functions in this subclause that insert elements</ins>
+affect the validity of iterators and references,
+and <code class='backtick'>erase_after</code> <del>shall invalidate</del> <ins>invalidates</ins>
+only iterators and references to the erased elements.
+If an exception is thrown
+<del>during <code class='backtick'>insert_after</code></del>
+<ins>by any of these member functions</ins>
+there <del>shall be</del> <ins>is</ins> no effect
+<ins>on the <code class='backtick'>forward_list</code></ins>.
+</blockquote>
+
+</li>
+</ol>
+
+</blockquote>
+
+<p><i>[2024-10-09; LWG suggested improved wording]</i></p>
+
+<p>
+The proposed resolution potentially mandates a change to <code class='backtick'>resize</code> when
+increasing the size, requiring implementations to "roll back" earlier
+insertions if a later one throws, so that the size is left unchanged.
+It appears that libstdc++ and MSVC already do this, libc++ does not.
+</p>
+
+<p><i>[2024-10-09; LWG telecon: Move to Ready]</i></p>
+
+
+
+
+<p id="res-4164"><b>Proposed resolution:</b></p>
+<p>This wording is relative to <a href="https://wg21.link/N4988" title=" Working Draft, Programming Languages — C++">N4988</a>.</p>
+
+<ol>
+<li>
+<p>Change 23.3.7.5 <a href="https://wg21.link/forward.list.modifiers">[forward.list.modifiers]</a> as indicated:</p>
+<blockquote>
+<del>
+None of the overloads of <code class='backtick'>insert_after</code> shall
+affect the validity of iterators and references,
+and <code class='backtick'>erase_after</code> shall invalidate
+only iterators and references to the erased elements.
+</del>
+<ins>The member functions in this subclause do not
+affect the validity of iterators and references when inserting elements,
+and when erasing elements invalidate iterators and references
+to the erased elements only.
+</ins>
+If an exception is thrown
+<del>during <code class='backtick'>insert_after</code></del>
+<ins>by any of these member functions</ins>
+there <del>shall be</del> <ins>is</ins> no effect
+<ins>on the container</ins>.
+</blockquote>
+
+</li>
+</ol>
+
+
 
 
 

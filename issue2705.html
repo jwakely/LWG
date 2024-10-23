@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="2705"><a href="lwg-active.html#2705">2705</a>. Questionable precondition on Sequence containers <code>a.assign(n, t)</code></h3>
-<p><b>Section:</b> 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 23.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Kazutoshi Satoda <b>Opened:</b> 2016-05-08 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>3
 </p>
@@ -94,7 +94,7 @@ a sequence container operation. I think this is too subtle.
 Should it be like that, really?
 <p/>
 The precondition is in Table 107 "Sequence container requirements" at the next 
-of 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> p3.
+of 23.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a> p3.
 </p>
 <blockquote>
 <p>
@@ -163,7 +163,7 @@ precondition to fill the subtle gap. Users who really needs less memory
 usage can do <code>clear()</code> and <code>insert()</code> by themselves.
 <p/>
 I also found that <code>basic_string::assign(n, c)</code> is safe on this point.
-At 23.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a> p17:
+At 27.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a> p17:
 </p>
 <blockquote>
 <pre>
@@ -217,7 +217,7 @@ This wording is relative to <a href="https://wg21.link/n4582">N4582</a>.
 </p>
 
 <ol>
-<li><p>In 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>, edit Table 107 (Sequence container requirements) as indicated:</p>
+<li><p>In 23.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>, edit Table 107 (Sequence container requirements) as indicated:</p>
 
 <blockquote>
 <table border="1">
@@ -259,7 +259,7 @@ This wording is relative to <a href="https://wg21.link/n4861">N4861</a>.
 </p>
 
 <ol>
-<li><p>In 24.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>, edit Table [tab:container.seq.req] (Sequence container requirements) as indicated:</p>
+<li><p>In 23.2.4 <a href="https://wg21.link/sequence.reqmts">[sequence.reqmts]</a>, edit Table [tab:container.seq.req] (Sequence container requirements) as indicated:</p>
 
 <blockquote>
 <table border="1">

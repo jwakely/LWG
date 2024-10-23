@@ -109,17 +109,17 @@ This wording is relative to <a href="https://wg21.link/N4981" title=" Working Dr
 </blockquote>
 </li>
 
-<li><p>Modify 26.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> as indicated:</p>
+<li><p>Modify 25.2 <a href="https://wg21.link/ranges.syn">[ranges.syn]</a> as indicated:</p>
 
 <blockquote>
 <pre>
 #include &lt;compare&gt;              // <i>see 17.11.1 <a href="https://wg21.link/compare.syn">[compare.syn]</a></i>
 #include &lt;initializer_list&gt;     // <i>see 17.10.2 <a href="https://wg21.link/initializer.list.syn">[initializer.list.syn]</a></i>
-#include &lt;iterator&gt;             // <i>see 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
+#include &lt;iterator&gt;             // <i>see 24.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a></i>
 
 namespace std::ranges {
   [&hellip;]
-  // <i>26.7.18 <a href="https://wg21.link/range.concat">[range.concat]</a>, concat view</i>
+  // <i>25.7.18 <a href="https://wg21.link/range.concat">[range.concat]</a>, concat view</i>
   template&lt;input_range... Views&gt;
     requires <i>see below</i>
   class concat_view;                                                                <ins>// <i>freestanding</i></ins>

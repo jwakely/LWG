@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++17">C++17</a> status.</em></p>
 <h3 id="2758"><a href="lwg-defects.html#2758">2758</a>. <code>std::string{}.assign("ABCDE", 0, 1)</code> is ambiguous</h3>
-<p><b>Section:</b> 23.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
+<p><b>Section:</b> 27.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
  <b>Submitter:</b> Marshall Clow <b>Opened:</b> 2016-07-30 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>1
 </p>
@@ -234,7 +234,7 @@ Ville provides revised wording.
 <p>This wording is relative to N4606.</p>
 
 <ol>
-<li><p>In 23.4.3 <a href="https://wg21.link/basic.string">[basic.string]</a> modify the synopsis for <code>basic_string</code> as follows:</p>
+<li><p>In 27.4.3 <a href="https://wg21.link/basic.string">[basic.string]</a> modify the synopsis for <code>basic_string</code> as follows:</p>
 
 <blockquote>
 <pre>
@@ -272,7 +272,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote>
 <pre>
@@ -298,7 +298,7 @@ and calls <code>append(sv.data() + pos, rlen)</code>.
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote>
 <pre>
@@ -324,7 +324,7 @@ and calls <code>assign(sv.data() + pos, rlen)</code>.
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.7.4 <a href="https://wg21.link/string.insert">[string.insert]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.7.4 <a href="https://wg21.link/string.insert">[string.insert]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote>
 <pre>
@@ -350,7 +350,7 @@ of the string to assign as the smaller of <code>n</code> and <code>sv.size() - p
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.7.6 <a href="https://wg21.link/string.replace">[string.replace]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.7.6 <a href="https://wg21.link/string.replace">[string.replace]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote>
 <pre>
@@ -377,7 +377,7 @@ of the string to be inserted as the smaller of <code>n2</code> and <code>sv.size
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.8.4 <a href="https://wg21.link/string.compare">[string.compare]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.8.4 <a href="https://wg21.link/string.compare">[string.compare]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote>
 <pre>
@@ -411,7 +411,7 @@ int compare(size_type pos1, size_type n1,
 <p>This wording is relative to N4606.</p>
 
 <ol>
-<li><p>In 23.4.3 <a href="https://wg21.link/basic.string">[basic.string]</a> modify the synopsis for <code>basic_string</code> as follows:</p>
+<li><p>In 27.4.3 <a href="https://wg21.link/basic.string">[basic.string]</a> modify the synopsis for <code>basic_string</code> as follows:</p>
 
 <blockquote>
 <pre>
@@ -449,7 +449,7 @@ namespace std {
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.7.2 <a href="https://wg21.link/string.append">[string.append]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote>
 <pre>
@@ -476,7 +476,7 @@ and <code>is_convertible_v&lt;const T&amp;, const charT*&gt;</code> is <code>fal
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.7.3 <a href="https://wg21.link/string.assign">[string.assign]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote>
 <pre>
@@ -503,7 +503,7 @@ and <code>is_convertible_v&lt;const T&amp;, const charT*&gt;</code> is <code>fal
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.7.4 <a href="https://wg21.link/string.insert">[string.insert]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.7.4 <a href="https://wg21.link/string.insert">[string.insert]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote>
 <pre>
@@ -530,7 +530,7 @@ and <code>is_convertible_v&lt;const T&amp;, const charT*&gt;</code> is <code>fal
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.7.6 <a href="https://wg21.link/string.replace">[string.replace]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.7.6 <a href="https://wg21.link/string.replace">[string.replace]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote>
 <pre>
@@ -558,7 +558,7 @@ and <code>is_convertible_v&lt;const T&amp;, const charT*&gt;</code> is <code>fal
 </blockquote>
 </li>
 
-<li><p>In 23.4.3.8.4 <a href="https://wg21.link/string.compare">[string.compare]</a>, modify <code>basic_string_view</code> overload as follows:</p>
+<li><p>In 27.4.3.8.4 <a href="https://wg21.link/string.compare">[string.compare]</a>, modify <code>basic_string_view</code> overload as follows:</p>
 
 <blockquote class="note">
 <p>

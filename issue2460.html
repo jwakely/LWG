@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++17">C++17</a> status.</em></p>
 <h3 id="2460"><a href="lwg-defects.html#2460">2460</a>. LWG issue 2408 and value categories</h3>
-<p><b>Section:</b> 21.3.8.7 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a>, 25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
+<p><b>Section:</b> 21.3.8.7 <a href="https://wg21.link/meta.trans.other">[meta.trans.other]</a>, 24.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
  <b>Submitter:</b> Richard Smith <b>Opened:</b> 2014-11-19 <b>Last modified:</b> 2017-07-30</p>
 <p><b>Priority: </b>2
 </p>
@@ -101,7 +101,7 @@ It also makes <code>common_type</code> underspecified in the case where one of t
 in that case, the resulting type depends on whether the expression is a throw-expression, which is not 
 specified (but used to be).
 <p/>
-Also on the subject of this wording: the changes to 25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> say that 
+Also on the subject of this wording: the changes to 24.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> say that 
 <code>iterator_traits&lt;T&gt;</code> "shall have no members" in some cases. That's wrong. It's a class type; 
 it always has at least a copy constructor, a copy assignment operator, and a destructor. Plus this 
 removes the usual library liberty to add additional members with names that don't collide with normal 
@@ -119,7 +119,7 @@ correctly and regresses key functionality (Status: Resolved)">2465</a><sup><a hr
 
 
 <p id="res-2460"><b>Proposed resolution:</b></p>
-<p>Change 25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> p.2:</p>
+<p>Change 24.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> p.2:</p>
 
 <p>[&hellip;] as publicly accessible members <del>and no other members</del>:</p>
 

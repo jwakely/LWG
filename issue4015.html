@@ -64,7 +64,7 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Open">Open</a> status.</em></p>
 <h3 id="4015"><a href="lwg-active.html#4015">4015</a>. LWG 3973 broke <code>const</code> overloads of <code>std::optional</code> monadic operations</h3>
 <p><b>Section:</b> 22.5.3.8 <a href="https://wg21.link/optional.monadic">[optional.monadic]</a> <b>Status:</b> <a href="lwg-active.html#Open">Open</a>
- <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-11-24 <b>Last modified:</b> 2024-08-22</p>
+ <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2023-11-24 <b>Last modified:</b> 2024-10-02</p>
 <p><b>Priority: </b>1
 </p>
 <p><b>View all issues with</b> <a href="lwg-status.html#Open">Open</a> status.</p>
@@ -77,7 +77,7 @@ The intention was not to change the meaning, just avoid the non-freestanding
 <code>**this</code>.
 However, in the <code>const</code> overloads such as
 <code>and_then(F&amp;&amp;) const</code> the type of <code>value()</code>
-was <code>const T&amp;</code>, but the type of <code>*val</code> is always 
+was <code>const T&amp;</code>, but the type of <code>*val</code> is always
 <code>T&amp;</code>. This implies that the const overloads invoke the callable
 with a non-const argument, which is incorrect (and would be undefined
 behaviour for a <code>const std::optional&lt;T&gt;</code>).
@@ -125,12 +125,12 @@ otherwise no effect.
 The proposed wording is considerably influenced by that of the specification of <code>expected</code>, but
 attempts to reduce the amount of changes to not perfectly mimic it. Although "the contained value" is
 a magic word of power it seemed feasible and simpler to use the new exposition-only member <code><i>val</i></code>
-directly in some (but not all) places, usually involved with initializations. 
+directly in some (but not all) places, usually involved with initializations.
 <p/>
-Furthermore, I have only added "and sets <code><i>has_val</i></code> to <code>true/false</code>" 
-where either the <i>Effects</i> wording says "otherwise no effect" or in other cases if the postconditions 
-did not already say that indirectly. I also added extra mentioning of <code><i>has_val</i></code> changes in tables 
-where different cells had very different effects on that member (unless these cells specify postconditions), 
+Furthermore, I have only added "and sets <code><i>has_val</i></code> to <code>true/false</code>"
+where either the <i>Effects</i> wording says "otherwise no effect" or in other cases if the postconditions
+did not already say that indirectly. I also added extra mentioning of <code><i>has_val</i></code> changes in tables
+where different cells had very different effects on that member (unless these cells specify postconditions),
 to prevent misunderstanding.
 </p>
 
@@ -167,7 +167,7 @@ namespace std {
       T <ins><i>val</i></ins><del>*val</del>; // <i>exposition only</i>
     <ins>};</ins>
   };
-  
+
   [&hellip;]
 }
 </pre>
@@ -178,8 +178,8 @@ namespace std {
 
 <blockquote>
 <p>
--2- <ins>Member <code><i>has_val</i></code> indicates whether an <code>optional&lt;T&gt;</code> object contains a 
-value</ins><del>When an <code>optional&lt;T&gt;</code> object contains a value, member <code>val</code> points to 
+-2- <ins>Member <code><i>has_val</i></code> indicates whether an <code>optional&lt;T&gt;</code> object contains a
+value</ins><del>When an <code>optional&lt;T&gt;</code> object contains a value, member <code>val</code> points to
 the contained value</del>.
 </p>
 </blockquote>
@@ -191,7 +191,7 @@ the contained value</del>.
 <p>
 [<i>Drafting note</i>: Normatively, this subclause doesn't require any changes, but I'm suggesting to replace
 phrases of the form "[&hellip;]initializes the contained value with"] by "[&hellip;]initializes <code><i>val</i></code> with"
-as we do in 22.8.6.2 <a href="https://wg21.link/expected.object.cons">[expected.object.cons]</a>. I intentionally did not add extra 
+as we do in 22.8.6.2 <a href="https://wg21.link/expected.object.cons">[expected.object.cons]</a>. I intentionally did not add extra
 "and sets <code><i>has_val</i></code> to <code>true/false</code>" since those effects are already guaranteed by the postconditions]
 </p>
 </blockquote>
@@ -202,7 +202,7 @@ constexpr optional(const optional&amp; rhs);
 </pre>
 <blockquote>
 <p>
--4- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes 
+-4- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code><del>*</del>rhs<ins>.<i>val</i></ins></code>.
 <p/>
 -5- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
@@ -217,7 +217,7 @@ constexpr optional(optional&amp;&amp; rhs) noexcept(<i>see below</i>);
 <p>
 -8- <i>Constraints</i>: [&hellip;]
 <p/>
--9- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes 
+-9- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code>std::move(<del>*</del>rhs<ins>.<i>val</i></ins>)</code>.
 <code>rhs.has_value()</code> is unchanged.
 <p/>
@@ -233,7 +233,7 @@ template&lt;class... Args&gt; constexpr explicit optional(in_place_t, Args&amp;&
 <p>
 -13- <i>Constraints</i>: [&hellip;]
 <p/>
--14- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+-14- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code>std::forward&lt;Args&gt;(args)...</code>.
 <p/>
 -15- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -249,7 +249,7 @@ template&lt;class U, class... Args&gt;
 <p>
 -18- <i>Constraints</i>: [&hellip;]
 <p/>
--19- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+-19- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code>il, std::forward&lt;Args&gt;(args)...</code>.
 <p/>
 -20- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -264,7 +264,7 @@ template&lt;class U = T&gt; constexpr explicit(<i>see below</i>) optional(U&amp;
 <p>
 -23- <i>Constraints</i>: [&hellip;]
 <p/>
--24- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+-24- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code>std::forward&lt;U&gt;(v)</code>.
 <p/>
 -25- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -279,7 +279,7 @@ template&lt;class U&gt; constexpr explicit(<i>see below</i>) optional(const opti
 <p>
 -28- <i>Constraints</i>: [&hellip;]
 <p/>
--29- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes 
+-29- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code><del>*</del>rhs<ins>.<i>val</i></ins></code>.
 <p/>
 -30- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
@@ -294,8 +294,8 @@ template&lt;class U&gt; constexpr explicit(<i>see below</i>) optional(optional&l
 <p>
 -33- <i>Constraints</i>: [&hellip;]
 <p/>
--34- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes 
-<ins><code><i>val</i></code></ins><del>the contained value</del> with 
+-34- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes
+<ins><code><i>val</i></code></ins><del>the contained value</del> with
 <code>std::move(<del>*</del>rhs<ins>.<i>val</i></ins>)</code>. <code>rhs.has_value()</code> is unchanged.
 <p/>
 -35- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
@@ -314,7 +314,7 @@ constexpr ~optional();
 </pre>
 <blockquote>
 <p>
--1- <i>Effects</i>: If <code>is_trivially_destructible_v&lt;T&gt; != true</code> and <code>*this</code> contains a value, 
+-1- <i>Effects</i>: If <code>is_trivially_destructible_v&lt;T&gt; != true</code> and <code>*this</code> contains a value,
 calls <code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code><ins>.</ins>
 </p>
 </blockquote>
@@ -329,8 +329,8 @@ constexpr optional&lt;T&gt;&amp; operator=(nullopt_t) noexcept;
 </pre>
 <blockquote>
 <p>
--1- <i>Effects</i>: If <code>*this</code> contains a value, calls 
-<code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code> to destroy the contained 
+-1- <i>Effects</i>: If <code>*this</code> contains a value, calls
+<code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code> to destroy the contained
 value <ins>and sets <code><i>has_val</i></code> to <code>false</code></ins>; otherwise no effect.
 <p/>
 -2- <i>Postconditions</i>: <code>*this</code> does not contain a value.
@@ -355,7 +355,7 @@ constexpr optional&lt;T&gt;&amp; operator=(const optional&amp; rhs);
 <tr>
 <td><b><code>rhs</code> contains a value</b></td>
 <td>assigns <code><del>*</del>rhs<ins>.<i>val</i></ins></code> to <ins><code><i>val</i></code></ins><del>the contained value</del></td>
-<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code><del>*</del>rhs<ins>.<i>val</i></ins></code><br/>
 <ins>and sets <code><i>has_val</i></code> to <code>true</code></ins>
 </td>
@@ -368,7 +368,7 @@ with <code><del>*</del>rhs<ins>.<i>val</i></ins></code><br/>
 </td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -5- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
 <p/>
@@ -400,7 +400,7 @@ constexpr optional&lt;T&gt;&amp; operator=(optional&amp;&amp; rhs) noexcept(<i>s
 <tr>
 <td><b><code>rhs</code> contains a value</b></td>
 <td>assigns <code>std::move(<del>*</del>rhs<ins>.<i>val</i></ins>)</code> to <ins><code><i>val</i></code></ins><del>the contained value</del></td>
-<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> with 
+<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> with
 <code>std::move(<del>*</del>rhs<ins>.<i>val</i></ins>)</code> <ins>and sets <code><i>has_val</i></code> to <code>true</code></ins></td>
 </tr>
 
@@ -410,16 +410,16 @@ constexpr optional&lt;T&gt;&amp; operator=(optional&amp;&amp; rhs) noexcept(<i>s
 <code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code><ins>and sets <code><i>has_val</i></code> to <code>false</code></ins></td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -12- <i>Remarks</i>: [&hellip;]
 <p/>
--13- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains 
-unchanged. If an exception is thrown during the call to <code>T</code>'s move constructor, the state 
-of <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception 
-safety guarantee of <code>T</code>'s move constructor. If an exception is thrown during the call to 
-<code>T</code>'s move assignment, the state of <code><del>*</del><ins><i>val</i></ins><del>val</del></code> 
-and <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception 
+-13- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains
+unchanged. If an exception is thrown during the call to <code>T</code>'s move constructor, the state
+of <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception
+safety guarantee of <code>T</code>'s move constructor. If an exception is thrown during the call to
+<code>T</code>'s move assignment, the state of <code><del>*</del><ins><i>val</i></ins><del>val</del></code>
+and <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception
 safety guarantee of <code>T</code>'s move assignment.
 </p>
 </blockquote>
@@ -430,19 +430,19 @@ template&lt;class U = T&gt; constexpr optional&lt;T&gt;&amp; operator=(U&amp;&am
 <p>
 -14- <i>Constraints</i>: [&hellip;]
 <p/>
--15- <i>Effects</i>: If <code>*this</code> contains a value, assigns <code>std::forward&lt;U&gt;(v)</code> 
-to <ins><code><i>val</i></code></ins><del>the contained value</del>; otherwise direct-non-list-initializes 
+-15- <i>Effects</i>: If <code>*this</code> contains a value, assigns <code>std::forward&lt;U&gt;(v)</code>
+to <ins><code><i>val</i></code></ins><del>the contained value</del>; otherwise direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code>std::forward&lt;U&gt;(v)</code>.
 <p/>
 -16- <i>Postconditions</i>: <code>*this</code> contains a value.
 <p/>
 -17- <i>Returns</i>: <code>*this</code>.
 <p/>
--18- <i>Remarks</i>: If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> 
-remains unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of 
-<code>v</code> is determined by the exception safety guarantee of <code>T</code>'s constructor. If an exception 
-is thrown during the call to <code>T</code>'s assignment, the state of <code><ins><i>val</i></ins><del>*val</del></code> 
-and <code>v</code> is determined by the exception safety guarantee of <code>T</code>'s assignment.   
+-18- <i>Remarks</i>: If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code>
+remains unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of
+<code>v</code> is determined by the exception safety guarantee of <code>T</code>'s constructor. If an exception
+is thrown during the call to <code>T</code>'s assignment, the state of <code><ins><i>val</i></ins><del>*val</del></code>
+and <code>v</code> is determined by the exception safety guarantee of <code>T</code>'s assignment.
 </p>
 </blockquote>
 <pre>
@@ -466,28 +466,28 @@ template&lt;class U&gt; constexpr optional&lt;T&gt;&amp; operator=(const optiona
 <tr>
 <td><b><code>rhs</code> contains a value</b></td>
 <td>assigns <code><del>*</del>rhs<ins>.<i>val</i></ins></code> to <ins><code><i>val</i></code></ins><del>the contained value</del></td>
-<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code><del>*</del>rhs<ins>.<i>val</i></ins></code> <ins>and sets <code><i>has_val</i></code> to <code>true</code></ins></td>
 </tr>
 
 <tr>
 <td><b><code>rhs</code> does not contain a value</b></td>
-<td>destroys the contained value by calling<br/> 
+<td>destroys the contained value by calling<br/>
 <code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code> <ins>and sets <code><i>has_val</i></code> to <code>false</code></ins></td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -21- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
 <p/>
 -22- <i>Returns</i>: <code>*this</code>.
 <p/>
--23- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains 
-unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+-23- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains
+unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety
 guarantee of <code>T</code>'s constructor. If an exception is thrown during the call to <code>T</code>'s
-assignment, the state of <code><ins><i>val</i></ins><del>*val</del></code> and 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+assignment, the state of <code><ins><i>val</i></ins><del>*val</del></code> and
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety
 guarantee of <code>T</code>'s assignment.
 </p>
 </blockquote>
@@ -522,18 +522,18 @@ template&lt;class U&gt; constexpr optional&lt;T&gt;&amp; operator=(optional&lt;U
 <code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code> <ins>and sets <code><i>has_val</i></code> to <code>false</code></ins></td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -26- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
 <p/>
 -27- <i>Returns</i>: <code>*this</code>.
 <p/>
--28- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains 
-unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+-28- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains
+unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety
 guarantee of <code>T</code>'s constructor. If an exception is thrown during the call to <code>T</code>'s
-assignment, the state of <code><ins><i>val</i></ins><del>*val</del></code> and 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+assignment, the state of <code><ins><i>val</i></ins><del>*val</del></code> and
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety
 guarantee of <code>T</code>'s assignment.
 </p>
 </blockquote>
@@ -544,7 +544,7 @@ template&lt;class... Args&gt; constexpr T&amp; emplace(Args&amp;&amp;... args);
 <p>
 -29- <i>Mandates</i>: [&hellip;]
 <p/>
--30- <i>Effects</i>: Calls <code>*this = nullopt</code>. Then direct-non-list-initializes 
+-30- <i>Effects</i>: Calls <code>*this = nullopt</code>. Then direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code>std::forward&lt;Args&gt;(args)...</code>.
 <p/>
 -31- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -553,8 +553,8 @@ template&lt;class... Args&gt; constexpr T&amp; emplace(Args&amp;&amp;... args);
 <p/>
 [&hellip;]
 <p/>
--34- <i>Remarks</i>: If an exception is thrown during the call to <code>T</code>'s constructor, <code>*this</code> 
-does not contain a value, and the previous <code><ins><i>val</i></ins><del>*val</del></code> (if any) 
+-34- <i>Remarks</i>: If an exception is thrown during the call to <code>T</code>'s constructor, <code>*this</code>
+does not contain a value, and the previous <code><ins><i>val</i></ins><del>*val</del></code> (if any)
 has been destroyed.
 </p>
 </blockquote>
@@ -565,7 +565,7 @@ template&lt;class U, class... Args&gt; constexpr T&amp; emplace(initializer_list
 <p>
 -35- <i>Constraints</i>: [&hellip;]
 <p/>
--36- <i>Effects</i>: Calls <code>*this = nullopt</code>. Then direct-non-list-initializes 
+-36- <i>Effects</i>: Calls <code>*this = nullopt</code>. Then direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code>il, std::forward&lt;Args&gt;(args)...</code>.
 <p/>
 -37- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -574,8 +574,8 @@ template&lt;class U, class... Args&gt; constexpr T&amp; emplace(initializer_list
 <p/>
 [&hellip;]
 <p/>
--40- <i>Remarks</i>: If an exception is thrown during the call to <code>T</code>'s constructor, <code>*this</code> 
-does not contain a value, and the previous <code><ins><i>val</i></ins><del>*val</del></code> (if any) 
+-40- <i>Remarks</i>: If an exception is thrown during the call to <code>T</code>'s constructor, <code>*this</code>
+does not contain a value, and the previous <code><ins><i>val</i></ins><del>*val</del></code> (if any)
 has been destroyed.
 </p>
 </blockquote>
@@ -622,19 +622,19 @@ postcondition is that <code>*this</code> does not contain a value and <code>rhs<
 contains a value</td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -4- <i>Throws</i>: [&hellip;]
 <p/>
 -5- <i>Remarks</i>: [&hellip;]
 <p/>
--6- If any exception is thrown, the results of the expressions <code>this-&gt;has_value()</code> and 
-<code>rhs.has_value()</code> remain unchanged. If an exception is thrown during the call to function <code>swap</code>, 
-the state of <code><ins><i>val</i></ins><del>*val</del></code> and 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
-guarantee of <code>swap</code> for lvalues of <code>T</code>. If an exception is thrown during the call to 
-<code>T</code>'s move constructor, the state of <code><ins><i>val</i></ins><del>*val</del></code> and 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+-6- If any exception is thrown, the results of the expressions <code>this-&gt;has_value()</code> and
+<code>rhs.has_value()</code> remain unchanged. If an exception is thrown during the call to function <code>swap</code>,
+the state of <code><ins><i>val</i></ins><del>*val</del></code> and
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety
+guarantee of <code>swap</code> for lvalues of <code>T</code>. If an exception is thrown during the call to
+<code>T</code>'s move constructor, the state of <code><ins><i>val</i></ins><del>*val</del></code> and
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety
 guarantee of <code>T</code>'s move constructor.
 <p/>
 </p>
@@ -816,8 +816,8 @@ is well-formed for some invented variable <code>u</code>.
 <p/>
 [&hellip;]
 <p/>
--9- <i>Returns</i>: If <code>*this</code> contains a value, an <code>optional&lt;U&gt;</code> object whose contained value is 
-direct-non-list-initialized with <code>invoke(std::forward&lt;F&gt;(f), <ins><i>val</i></ins><del>*val</del>)</code>; otherwise, 
+-9- <i>Returns</i>: If <code>*this</code> contains a value, an <code>optional&lt;U&gt;</code> object whose contained value is
+direct-non-list-initialized with <code>invoke(std::forward&lt;F&gt;(f), <ins><i>val</i></ins><del>*val</del>)</code>; otherwise,
 <code>optional&lt;U&gt;()</code>.
 </p>
 </blockquote>
@@ -839,8 +839,8 @@ is well-formed for some invented variable <code>u</code>.
 <p/>
 [&hellip;]
 <p/>
--12- <i>Returns</i>: If <code>*this</code> contains a value, an <code>optional&lt;U&gt;</code> object whose contained value is 
-direct-non-list-initialized with <code>invoke(std::forward&lt;F&gt;(f), std::move(<ins><i>val</i></ins><del>*val</del>))</code>; otherwise, 
+-12- <i>Returns</i>: If <code>*this</code> contains a value, an <code>optional&lt;U&gt;</code> object whose contained value is
+direct-non-list-initialized with <code>invoke(std::forward&lt;F&gt;(f), std::move(<ins><i>val</i></ins><del>*val</del>))</code>; otherwise,
 <code>optional&lt;U&gt;()</code>.
 </p>
 </blockquote>
@@ -878,6 +878,15 @@ On the reflector Daniel requested to keep the "additional storage" prohibition,
 so that will be addressed by issue <a href="lwg-active.html#4141" title="Improve prohibitions on &quot;additional storage&quot; (Status: Tentatively Ready)">4141</a><sup><a href="https://cplusplus.github.io/LWG/issue4141" title="Latest snapshot">(i)</a></sup> instead.
 </p>
 
+<p><i>[2024-10-02; Jonathan tweaks proposed resolution]</i></p>
+
+<p>
+On the reflector we decided that the union member should use <code class='backtick'>remove_cv_t</code>,
+as proposed for <code class='backtick'>expected</code> by issue <a href="lwg-active.html#3891" title="LWG 3870 breaks std::expected&lt;cv T, E&gt; (Status: New)">3891</a><sup><a href="https://cplusplus.github.io/LWG/issue3891" title="Latest snapshot">(i)</a></sup>.
+The rest of the proposed resolution is unchanged, so that edit was made
+in-place below, instead of as a new resolution that supersedes the old one.
+</p>
+
 
 
 <p id="res-4015"><b>Proposed resolution:</b></p>
@@ -898,11 +907,12 @@ namespace std {
     using value_type = T;
     [&hellip;]
   private:
+    <del>*val // <i>exposition only</i></del>;
     <ins>union {</ins>
-      T <ins><i>val</i></ins><del>*val</del>; // <i>exposition only</i>
+      <ins>remove_cv_t&lt;T&gt; <i>val</i>; // <i>exposition only</i></ins>
     <ins>};</ins>
   };
-  
+
   [&hellip;]
 }
 </pre>
@@ -959,7 +969,7 @@ constexpr optional(const optional&amp; rhs);
 </pre>
 <blockquote>
 <p>
--4- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes 
+-4- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code><del>*</del>rhs<ins>.<i>val</i></ins></code>.
 <p/>
 -5- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
@@ -974,7 +984,7 @@ constexpr optional(optional&amp;&amp; rhs) noexcept(<i>see below</i>);
 <p>
 -8- <i>Constraints</i>: [&hellip;]
 <p/>
--9- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes 
+-9- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code>std::move(<del>*</del>rhs<ins>.<i>val</i></ins>)</code>.
 <code>rhs.has_value()</code> is unchanged.
 <p/>
@@ -990,7 +1000,7 @@ template&lt;class... Args&gt; constexpr explicit optional(in_place_t, Args&amp;&
 <p>
 -13- <i>Constraints</i>: [&hellip;]
 <p/>
--14- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+-14- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code>std::forward&lt;Args&gt;(args)...</code>.
 <p/>
 -15- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -1006,7 +1016,7 @@ template&lt;class U, class... Args&gt;
 <p>
 -18- <i>Constraints</i>: [&hellip;]
 <p/>
--19- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+-19- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code>il, std::forward&lt;Args&gt;(args)...</code>.
 <p/>
 -20- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -1021,7 +1031,7 @@ template&lt;class U = T&gt; constexpr explicit(<i>see below</i>) optional(U&amp;
 <p>
 -23- <i>Constraints</i>: [&hellip;]
 <p/>
--24- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+-24- <i>Effects</i>: Direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code>std::forward&lt;U&gt;(v)</code>.
 <p/>
 -25- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -1036,7 +1046,7 @@ template&lt;class U&gt; constexpr explicit(<i>see below</i>) optional(const opti
 <p>
 -28- <i>Constraints</i>: [&hellip;]
 <p/>
--29- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes 
+-29- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code><del>*</del>rhs<ins>.<i>val</i></ins></code>.
 <p/>
 -30- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
@@ -1051,8 +1061,8 @@ template&lt;class U&gt; constexpr explicit(<i>see below</i>) optional(optional&l
 <p>
 -33- <i>Constraints</i>: [&hellip;]
 <p/>
--34- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes 
-<ins><code><i>val</i></code></ins><del>the contained value</del> with 
+-34- <i>Effects</i>: If <code>rhs</code> contains a value, direct-non-list-initializes
+<ins><code><i>val</i></code></ins><del>the contained value</del> with
 <code>std::move(<del>*</del>rhs<ins>.<i>val</i></ins>)</code>. <code>rhs.has_value()</code> is unchanged.
 <p/>
 -35- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
@@ -1071,7 +1081,7 @@ constexpr ~optional();
 </pre>
 <blockquote>
 <p>
--1- <i>Effects</i>: If <code>is_trivially_destructible_v&lt;T&gt; != true</code> and <code>*this</code> contains a value, 
+-1- <i>Effects</i>: If <code>is_trivially_destructible_v&lt;T&gt; != true</code> and <code>*this</code> contains a value,
 calls <code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code><ins>.</ins>
 </p>
 </blockquote>
@@ -1086,8 +1096,8 @@ constexpr optional&lt;T&gt;&amp; operator=(nullopt_t) noexcept;
 </pre>
 <blockquote>
 <p>
--1- <i>Effects</i>: If <code>*this</code> contains a value, calls 
-<code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code> to destroy the contained 
+-1- <i>Effects</i>: If <code>*this</code> contains a value, calls
+<code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code> to destroy the contained
 value; otherwise no effect.
 <p/>
 -2- <i>Postconditions</i>: <code>*this</code> does not contain a value.
@@ -1112,7 +1122,7 @@ constexpr optional&lt;T&gt;&amp; operator=(const optional&amp; rhs);
 <tr>
 <td><b><code>rhs</code> contains a value</b></td>
 <td>assigns <code><del>*</del>rhs<ins>.<i>val</i></ins></code> to <ins><code><i>val</i></code></ins><del>the contained value</del></td>
-<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code><del>*</del>rhs<ins>.<i>val</i></ins></code><br/>
 </td>
 </tr>
@@ -1123,7 +1133,7 @@ with <code><del>*</del>rhs<ins>.<i>val</i></ins></code><br/>
 </td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -5- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
 <p/>
@@ -1155,7 +1165,7 @@ constexpr optional&lt;T&gt;&amp; operator=(optional&amp;&amp; rhs) noexcept(<i>s
 <tr>
 <td><b><code>rhs</code> contains a value</b></td>
 <td>assigns <code>std::move(<del>*</del>rhs<ins>.<i>val</i></ins>)</code> to <ins><code><i>val</i></code></ins><del>the contained value</del></td>
-<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> with 
+<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> with
 <code>std::move(<del>*</del>rhs<ins>.<i>val</i></ins>)</code></td>
 </tr>
 
@@ -1165,14 +1175,14 @@ constexpr optional&lt;T&gt;&amp; operator=(optional&amp;&amp; rhs) noexcept(<i>s
 <code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code></td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -12- <i>Remarks</i>: [&hellip;]
 <p/>
--13- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains 
-unchanged. If an exception is thrown during the call to <code>T</code>'s move constructor, the state 
-of <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception 
-safety guarantee of <code>T</code>'s move constructor. If an exception is thrown during the call to 
+-13- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains
+unchanged. If an exception is thrown during the call to <code>T</code>'s move constructor, the state
+of <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception
+safety guarantee of <code>T</code>'s move constructor. If an exception is thrown during the call to
 <code>T</code>'s move assignment, the <ins>states</ins> <del>state</del> of <code><del>*</del><ins><i>val</i></ins><del>val</del></code>
 and <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> <ins>are</ins> <del>is</del> determined by the exception
 safety guarantee of <code>T</code>'s move assignment.
@@ -1185,17 +1195,17 @@ template&lt;class U = T&gt; constexpr optional&lt;T&gt;&amp; operator=(U&amp;&am
 <p>
 -14- <i>Constraints</i>: [&hellip;]
 <p/>
--15- <i>Effects</i>: If <code>*this</code> contains a value, assigns <code>std::forward&lt;U&gt;(v)</code> 
-to <ins><code><i>val</i></code></ins><del>the contained value</del>; otherwise direct-non-list-initializes 
+-15- <i>Effects</i>: If <code>*this</code> contains a value, assigns <code>std::forward&lt;U&gt;(v)</code>
+to <ins><code><i>val</i></code></ins><del>the contained value</del>; otherwise direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code>std::forward&lt;U&gt;(v)</code>.
 <p/>
 -16- <i>Postconditions</i>: <code>*this</code> contains a value.
 <p/>
 -17- <i>Returns</i>: <code>*this</code>.
 <p/>
--18- <i>Remarks</i>: If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> 
-remains unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of 
-<code>v</code> is determined by the exception safety guarantee of <code>T</code>'s constructor. If an exception 
+-18- <i>Remarks</i>: If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code>
+remains unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of
+<code>v</code> is determined by the exception safety guarantee of <code>T</code>'s constructor. If an exception
 is thrown during the call to <code>T</code>'s assignment, the <ins>states</ins> <del>state</del> of <code><ins><i>val</i></ins><del>*val</del></code>
 and <code>v</code> <ins>are</ins> <del>is</del> determined by the exception safety guarantee of <code>T</code>'s assignment.
 </p>
@@ -1221,25 +1231,25 @@ template&lt;class U&gt; constexpr optional&lt;T&gt;&amp; operator=(const optiona
 <tr>
 <td><b><code>rhs</code> contains a value</b></td>
 <td>assigns <code><del>*</del>rhs<ins>.<i>val</i></ins></code> to <ins><code><i>val</i></code></ins><del>the contained value</del></td>
-<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del> 
+<td>direct-non-list-initializes <ins><code><i>val</i></code></ins><del>the contained value</del>
 with <code><del>*</del>rhs<ins>.<i>val</i></ins></code> </td>
 </tr>
 
 <tr>
 <td><b><code>rhs</code> does not contain a value</b></td>
-<td>destroys the contained value by calling<br/> 
+<td>destroys the contained value by calling<br/>
 <code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code> </td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -21- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
 <p/>
 -22- <i>Returns</i>: <code>*this</code>.
 <p/>
--23- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains 
-unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+-23- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains
+unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety
 guarantee of <code>T</code>'s constructor. If an exception is thrown during the call to <code>T</code>'s
 assignment, the <ins>states</ins> <del>state</del> of <code><ins><i>val</i></ins><del>*val</del></code> and
 <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> <ins>are</ins> <del>is</del> determined by the exception safety
@@ -1277,15 +1287,15 @@ template&lt;class U&gt; constexpr optional&lt;T&gt;&amp; operator=(optional&lt;U
 <code><del>val-&gt;</del><ins><i>val</i>.</ins>T::~T()</code> </td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -26- <i>Postconditions</i>: <code>rhs.has_value() == this-&gt;has_value()</code>.
 <p/>
 -27- <i>Returns</i>: <code>*this</code>.
 <p/>
--28- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains 
-unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
+-28- If any exception is thrown, the result of the expression <code>this-&gt;has_value()</code> remains
+unchanged. If an exception is thrown during the call to <code>T</code>'s constructor, the state of
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety
 guarantee of <code>T</code>'s constructor. If an exception is thrown during the call to <code>T</code>'s
 assignment, the <ins>states</ins> <del>state</del> of <code><ins><i>val</i></ins><del>*val</del></code> and
 <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> <ins>are</ins> <del>is</del> determined by the exception safety
@@ -1299,7 +1309,7 @@ template&lt;class... Args&gt; constexpr T&amp; emplace(Args&amp;&amp;... args);
 <p>
 -29- <i>Mandates</i>: [&hellip;]
 <p/>
--30- <i>Effects</i>: Calls <code>*this = nullopt</code>. Then direct-non-list-initializes 
+-30- <i>Effects</i>: Calls <code>*this = nullopt</code>. Then direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code>std::forward&lt;Args&gt;(args)...</code>.
 <p/>
 -31- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -1308,8 +1318,8 @@ template&lt;class... Args&gt; constexpr T&amp; emplace(Args&amp;&amp;... args);
 <p/>
 [&hellip;]
 <p/>
--34- <i>Remarks</i>: If an exception is thrown during the call to <code>T</code>'s constructor, <code>*this</code> 
-does not contain a value, and the previous <code><ins><i>val</i></ins><del>*val</del></code> (if any) 
+-34- <i>Remarks</i>: If an exception is thrown during the call to <code>T</code>'s constructor, <code>*this</code>
+does not contain a value, and the previous <code><ins><i>val</i></ins><del>*val</del></code> (if any)
 has been destroyed.
 </p>
 </blockquote>
@@ -1320,7 +1330,7 @@ template&lt;class U, class... Args&gt; constexpr T&amp; emplace(initializer_list
 <p>
 -35- <i>Constraints</i>: [&hellip;]
 <p/>
--36- <i>Effects</i>: Calls <code>*this = nullopt</code>. Then direct-non-list-initializes 
+-36- <i>Effects</i>: Calls <code>*this = nullopt</code>. Then direct-non-list-initializes
 <ins><code><i>val</i></code></ins><del>the contained value</del> with <code>il, std::forward&lt;Args&gt;(args)...</code>.
 <p/>
 -37- <i>Postconditions</i>: <code>*this</code> contains a value.
@@ -1329,8 +1339,8 @@ template&lt;class U, class... Args&gt; constexpr T&amp; emplace(initializer_list
 <p/>
 [&hellip;]
 <p/>
--40- <i>Remarks</i>: If an exception is thrown during the call to <code>T</code>'s constructor, <code>*this</code> 
-does not contain a value, and the previous <code><ins><i>val</i></ins><del>*val</del></code> (if any) 
+-40- <i>Remarks</i>: If an exception is thrown during the call to <code>T</code>'s constructor, <code>*this</code>
+does not contain a value, and the previous <code><ins><i>val</i></ins><del>*val</del></code> (if any)
 has been destroyed.
 </p>
 </blockquote>
@@ -1377,17 +1387,17 @@ postcondition is that <code>*this</code> does not contain a value and <code>rhs<
 contains a value</td>
 <td>no effect</td>
 </tr>
-</table> 
+</table>
 <p>
 -4- <i>Throws</i>: [&hellip;]
 <p/>
 -5- <i>Remarks</i>: [&hellip;]
 <p/>
--6- If any exception is thrown, the results of the expressions <code>this-&gt;has_value()</code> and 
-<code>rhs.has_value()</code> remain unchanged. If an exception is thrown during the call to function <code>swap</code>, 
-the state of <code><ins><i>val</i></ins><del>*val</del></code> and 
-<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety 
-guarantee of <code>swap</code> for lvalues of <code>T</code>. If an exception is thrown during the call to 
+-6- If any exception is thrown, the results of the expressions <code>this-&gt;has_value()</code> and
+<code>rhs.has_value()</code> remain unchanged. If an exception is thrown during the call to function <code>swap</code>,
+the state of <code><ins><i>val</i></ins><del>*val</del></code> and
+<code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> is determined by the exception safety
+guarantee of <code>swap</code> for lvalues of <code>T</code>. If an exception is thrown during the call to
 <code>T</code>'s move constructor, the <ins>states</ins> <del>state</del> of <code><ins><i>val</i></ins><del>*val</del></code> and
 <code><del>*</del>rhs.<ins><i>val</i></ins><del>val</del></code> <ins>are</ins> <del>is</del> determined by the exception safety
 guarantee of <code>T</code>'s move constructor.
@@ -1571,8 +1581,8 @@ is well-formed for some invented variable <code>u</code>.
 <p/>
 [&hellip;]
 <p/>
--9- <i>Returns</i>: If <code>*this</code> contains a value, an <code>optional&lt;U&gt;</code> object whose contained value is 
-direct-non-list-initialized with <code>invoke(std::forward&lt;F&gt;(f), <ins><i>val</i></ins><del>*val</del>)</code>; otherwise, 
+-9- <i>Returns</i>: If <code>*this</code> contains a value, an <code>optional&lt;U&gt;</code> object whose contained value is
+direct-non-list-initialized with <code>invoke(std::forward&lt;F&gt;(f), <ins><i>val</i></ins><del>*val</del>)</code>; otherwise,
 <code>optional&lt;U&gt;()</code>.
 </p>
 </blockquote>
@@ -1594,8 +1604,8 @@ is well-formed for some invented variable <code>u</code>.
 <p/>
 [&hellip;]
 <p/>
--12- <i>Returns</i>: If <code>*this</code> contains a value, an <code>optional&lt;U&gt;</code> object whose contained value is 
-direct-non-list-initialized with <code>invoke(std::forward&lt;F&gt;(f), std::move(<ins><i>val</i></ins><del>*val</del>))</code>; otherwise, 
+-12- <i>Returns</i>: If <code>*this</code> contains a value, an <code>optional&lt;U&gt;</code> object whose contained value is
+direct-non-list-initialized with <code>invoke(std::forward&lt;F&gt;(f), std::move(<ins><i>val</i></ins><del>*val</del>))</code>; otherwise,
 <code>optional&lt;U&gt;()</code>.
 </p>
 </blockquote>

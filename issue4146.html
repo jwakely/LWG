@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4146"><a href="lwg-active.html#4146">4146</a>. &sect;[format.formatter.spec]/3 unconditionally enables nonlocking for container adaptors</h3>
-<p><b>Section:</b> 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>, 24.6.13 <a href="https://wg21.link/container.adaptors.format">[container.adaptors.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 28.5.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>, 23.6.13 <a href="https://wg21.link/container.adaptors.format">[container.adaptors.format]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Casey Carter <b>Opened:</b> 2024-08-31 <b>Last modified:</b> 2024-09-01</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -72,15 +72,15 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/3 says that the library provides a specialization of 
+28.5.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/3 says that the library provides a specialization of 
 <code class='backtick'>enable_nonlocking_formatter_optimization</code> with value <code class='backtick'>true</code> corresponding to each library-provided 
 specialization of <code class='backtick'>formatter</code>, unless otherwise specified. Although it actually states 
 "for each type <code class='backtick'>T</code>", the intent is that partial specializations are also provided corresponding to 
 library-provided partial specializations of formatter.
 <p/>
-24.6.13 <a href="https://wg21.link/container.adaptors.format">[container.adaptors.format]</a>/1 says the library provides a partial specialization of 
+23.6.13 <a href="https://wg21.link/container.adaptors.format">[container.adaptors.format]</a>/1 says the library provides a partial specialization of 
 <code class='backtick'>formatter</code> for each of the container adaptor templates <code class='backtick'>priority_queue</code>, <code class='backtick'>queue</code>, and <code class='backtick'>stack</code>. 
-Together with 22.14.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/3, that means that e.g. 
+Together with 28.5.6.4 <a href="https://wg21.link/format.formatter.spec">[format.formatter.spec]</a>/3, that means that e.g. 
 <code>enable_nonlocking_formatter_optimization&lt;stack&lt;T&gt;&gt; == true</code>. Formatting a stack of 
 that type will enable the nonlocking optimization even if 
 <code>enable_nonlocking_formatter_optimization&lt;T&gt; == false</code>. To avoid this, the author of <code class='backtick'>T</code> 
@@ -108,7 +108,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 24.6.13 <a href="https://wg21.link/container.adaptors.format">[container.adaptors.format]</a> as indicated:</p>
+<li><p>Modify 23.6.13 <a href="https://wg21.link/container.adaptors.format">[container.adaptors.format]</a> as indicated:</p>
 
 <blockquote>
 <p>

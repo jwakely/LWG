@@ -66,7 +66,7 @@ C++17 output iterators">
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Resolved">Resolved</a> status.</em></p>
 <h3 id="3283"><a href="lwg-defects.html#3283">3283</a>. Types satisfying <code>input_iterator</code> but not <code>equality_comparable</code> look like
 C++17 output iterators</h3>
-<p><b>Section:</b> 25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
+<p><b>Section:</b> 24.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> <b>Status:</b> <a href="lwg-active.html#Resolved">Resolved</a>
  <b>Submitter:</b> Eric Niebler <b>Opened:</b> 2019-09-10 <b>Last modified:</b> 2021-05-18</p>
 <p><b>Priority: </b>2
 </p>
@@ -77,12 +77,12 @@ C++17 output iterators</h3>
 In C++20, if an iterator doesn't define <em>all</em> of the associated iterator types (value,
 category, reference, and difference), the primary <code>std::iterator_traits</code> template picks
 a category based on structural conformance to a set of implementation-defined concepts that
-capture the old iterator requirements tables. (See 25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a>.) In C++17,
+capture the old iterator requirements tables. (See 24.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a>.) In C++17,
 input iterators were required to be equality-comparable with themselves. In C++20 that is not
 the case, so such iterators must not be given <code>intput_iterator_tag</code> as a category.
 They don't, so that's all well and good.
 <p/>
-However, 25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> concludes that, since such an iterator cannot be an
+However, 24.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> concludes that, since such an iterator cannot be an
 input iterator, it must therefor be an <em>output</em> iterator, and it assigns it a category
 of <code>std::output_iterator_tag</code>. It does this even if there is a nested
 <code>iterator_category</code> typedef declaring the iterator to be input. (This will happen
@@ -118,7 +118,7 @@ This fix has been implemented in range-v3.
 <p>This wording is relative to <a href="https://wg21.link/n4830">N4830</a>.</p>
 
 <ol>
-<li><p>Modify 25.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> as indicated:</p>
+<li><p>Modify 24.3.2.3 <a href="https://wg21.link/iterator.traits">[iterator.traits]</a> as indicated:</p>
 
 <blockquote>
 <p>

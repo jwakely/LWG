@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#NAD">NAD</a> status.</em></p>
 <h3 id="4086"><a href="lwg-closed.html#4086">4086</a>. <code>ranges::generate_random_n</code> is missing</h3>
-<p><b>Section:</b> 27.12.2 <a href="https://wg21.link/alg.rand.generate">[alg.rand.generate]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
+<p><b>Section:</b> 26.12.2 <a href="https://wg21.link/alg.rand.generate">[alg.rand.generate]</a> <b>Status:</b> <a href="lwg-active.html#NAD">NAD</a>
  <b>Submitter:</b> Hewill Kang <b>Opened:</b> 2024-04-29 <b>Last modified:</b> 2024-06-24</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -96,7 +96,7 @@ This wording is relative to <a href="https://wg21.link/N4981" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 28.5.2 <a href="https://wg21.link/rand.synopsis">[rand.synopsis]</a>, header <code>&lt;random&gt;</code> synopsis, as indicated:</p>
+<li><p>Modify 29.5.2 <a href="https://wg21.link/rand.synopsis">[rand.synopsis]</a>, header <code>&lt;random&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
@@ -105,7 +105,7 @@ This wording is relative to <a href="https://wg21.link/N4981" title=" Working Dr
 namespace std {
   [&hellip;]
   namespace ranges {
-    // <i>27.12.2 <a href="https://wg21.link/alg.rand.generate">[alg.rand.generate]</a></i>, generate_random
+    // <i>26.12.2 <a href="https://wg21.link/alg.rand.generate">[alg.rand.generate]</a></i>, generate_random
     template&lt;class R, class G&gt;
       requires output_range&lt;R, invoke_result_t&lt;G&amp;&gt;&gt; &amp;&amp;
                uniform_random_bit_generator&lt;remove_cvref_t&lt;G&gt;&gt;
@@ -139,7 +139,7 @@ namespace std {
 
 </li>
 
-<li><p>Modify 27.12.2 <a href="https://wg21.link/alg.rand.generate">[alg.rand.generate]</a> as indicated:</p>
+<li><p>Modify 26.12.2 <a href="https://wg21.link/alg.rand.generate">[alg.rand.generate]</a> as indicated:</p>
 
 <blockquote>
 <pre>

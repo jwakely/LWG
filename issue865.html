@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++11">C++11</a> status.</em></p>
 <h3 id="865"><a href="lwg-defects.html#865">865</a>. More algorithms that throw away information</h3>
-<p><b>Section:</b> 27.7.6 <a href="https://wg21.link/alg.fill">[alg.fill]</a>, 27.7.7 <a href="https://wg21.link/alg.generate">[alg.generate]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
+<p><b>Section:</b> 26.7.6 <a href="https://wg21.link/alg.fill">[alg.fill]</a>, 26.7.7 <a href="https://wg21.link/alg.generate">[alg.generate]</a> <b>Status:</b> <a href="lwg-active.html#C++11">C++11</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2008-07-13 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -88,7 +88,7 @@ void generate_n(OutputIterator first, Size n, Generator gen);</pre></li>
 <p>
 In both cases the minimum requirements on the iterator are
 <code>OutputIterator</code>, which means according to the requirements of
-25.3.5.4 <a href="https://wg21.link/output.iterators">[output.iterators]</a> p. 2 that only single-pass iterations are guaranteed.
+24.3.5.4 <a href="https://wg21.link/output.iterators">[output.iterators]</a> p. 2 that only single-pass iterations are guaranteed.
 So, if users of <code>fill_n</code> and <code>generate_n</code> have <em>only</em> an <code>OutputIterator</code>
 available, they have no chance to continue pushing further values
 into it, which seems to be a severe limitation to me.
@@ -150,8 +150,8 @@ Moved to Ready.
 <ol>
 <li>
 <p>
-Replace the current declaration of <code>fill_n</code> in 27 <a href="https://wg21.link/algorithms">[algorithms]</a>/2, header
-<code>&lt;algorithm&gt;</code> synopsis and in 27.7.6 <a href="https://wg21.link/alg.fill">[alg.fill]</a> by
+Replace the current declaration of <code>fill_n</code> in 26 <a href="https://wg21.link/algorithms">[algorithms]</a>/2, header
+<code>&lt;algorithm&gt;</code> synopsis and in 26.7.6 <a href="https://wg21.link/alg.fill">[alg.fill]</a> by
 </p>
 
 <blockquote><pre>
@@ -171,8 +171,8 @@ returns <code>first</code> for <code>fill_n</code>.</ins>
 
 <li>
 <p>
-Replace the current declaration of <code>generate_n</code> in 27 <a href="https://wg21.link/algorithms">[algorithms]</a>/2,
-header <code>&lt;algorithm&gt;</code> synopsis and in 27.7.7 <a href="https://wg21.link/alg.generate">[alg.generate]</a> by
+Replace the current declaration of <code>generate_n</code> in 26 <a href="https://wg21.link/algorithms">[algorithms]</a>/2,
+header <code>&lt;algorithm&gt;</code> synopsis and in 26.7.7 <a href="https://wg21.link/alg.generate">[alg.generate]</a> by
 </p>
 
 <blockquote><pre>

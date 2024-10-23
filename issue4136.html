@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4136"><a href="lwg-active.html#4136">4136</a>. Specify behavior of [linalg] Hermitian algorithms on diagonal with nonzero imaginary part</h3>
-<p><b>Section:</b> 28.9.3 <a href="https://wg21.link/linalg.general">[linalg.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 29.9.3 <a href="https://wg21.link/linalg.general">[linalg.general]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Mark Hoemmen <b>Opened:</b> 2024-08-09 <b>Last modified:</b> 2024-08-10</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -71,7 +71,7 @@
 <p><b>Discussion:</b></p>
 <p>
 Mathematically, the diagonal elements of a Hermitian matrix must all
-have zero imaginary part (if they are complex numbers). 28.9.3 <a href="https://wg21.link/linalg.general">[linalg.general]</a> 
+have zero imaginary part (if they are complex numbers). 29.9.3 <a href="https://wg21.link/linalg.general">[linalg.general]</a> 
 paragraphs 3 and 4 govern the behavior of [linalg]
 functions that operate on "symmetric," "Hermitian," or "triangular"
 matrices. All such functions only access the specified triangle
@@ -84,13 +84,13 @@ nonzero imaginary part?
 <p/>
 The current wording says that both the operation performed and the
 matrix itself are Hermitian, but does not clarify what happens if the
-latter is not true. For example, 28.9.14.3 <a href="https://wg21.link/linalg.algs.blas2.hemv">[linalg.algs.blas2.hemv]</a> 
+latter is not true. For example, 29.9.14.3 <a href="https://wg21.link/linalg.algs.blas2.hemv">[linalg.algs.blas2.hemv]</a> 
 says that <code>hermitian_matrix_vector_product</code> performs a 
 </p>
 <blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
 <p>
 Hermitian matrix-vector product, taking into account the <code>Triangle</code> 
-parameter that applies to the Hermitian matrix <code>A</code> (28.9.3 <a href="https://wg21.link/linalg.general">[linalg.general]</a>).
+parameter that applies to the Hermitian matrix <code>A</code> (29.9.3 <a href="https://wg21.link/linalg.general">[linalg.general]</a>).
 </p>
 </blockquote>
 <p>
@@ -117,7 +117,7 @@ Thus, we propose to specify this behavior in the wording; we do not think
 this requires LEWG re-review.
 <p/>
 In my view, it's fine to retain the existing wording like that in
-28.9.14.3 <a href="https://wg21.link/linalg.algs.blas2.hemv">[linalg.algs.blas2.hemv]</a>, that refers to a "Hermitian matrix".  
+29.9.14.3 <a href="https://wg21.link/linalg.algs.blas2.hemv">[linalg.algs.blas2.hemv]</a>, that refers to a "Hermitian matrix".  
 The matrix defined by the revised [linalg.general] instructions is
 unambiguously a Hermitian matrix. Just like the "other triangle" of a
 symmetric or triangular matrix does not affect the behavior of
@@ -134,7 +134,7 @@ This wording is relative to <a href="https://wg21.link/N4988" title=" Working Dr
 
 <ol>
 
-<li><p>Modify 28.9.3 <a href="https://wg21.link/linalg.general">[linalg.general]</a> as indicated:</p>
+<li><p>Modify 29.9.3 <a href="https://wg21.link/linalg.general">[linalg.general]</a> as indicated:</p>
 
 <blockquote>
 <p>

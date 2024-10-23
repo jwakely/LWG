@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#SG9">SG9</a> status.</em></p>
 <h3 id="4019"><a href="lwg-active.html#4019">4019</a>. Reversing an infinite range leads to an infinite loop</h3>
-<p><b>Section:</b> 26.7.21 <a href="https://wg21.link/range.reverse">[range.reverse]</a> <b>Status:</b> <a href="lwg-active.html#SG9">SG9</a>
+<p><b>Section:</b> 25.7.21 <a href="https://wg21.link/range.reverse">[range.reverse]</a> <b>Status:</b> <a href="lwg-active.html#SG9">SG9</a>
  <b>Submitter:</b> Barry Revzin <b>Opened:</b> 2023-11-25 <b>Last modified:</b> 2024-06-28</p>
 <p><b>Priority: </b>3
 </p>
@@ -87,7 +87,7 @@ of <code>a</code> and <code>b</code> above compile, attempting to use either in 
 <p/>
 A reddit post suggested disallowing reversing a non-common range but that likely breaks reasonable use-cases. We could at
 the very least recognize ranges whose sentinel is <code>unreachable_t</code> and reject those from consideration. For instance, 
-we could change 25.4.4.4 <a href="https://wg21.link/range.iter.op.next">[range.iter.op.next]</a>/3 to <i>Mandate</i> that <code>S</code> is not <code>unreachable_t</code>.
+we could change 24.4.4.4 <a href="https://wg21.link/range.iter.op.next">[range.iter.op.next]</a>/3 to <i>Mandate</i> that <code>S</code> is not <code>unreachable_t</code>.
 </p>
 
 <p><i>[2024-03-11; Reflector poll]</i></p>

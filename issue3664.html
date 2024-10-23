@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
 <h3 id="3664"><a href="lwg-defects.html#3664">3664</a>. LWG 3392 broke <code>std::ranges::distance(a, a+3)</code></h3>
-<p><b>Section:</b> 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+<p><b>Section:</b> 24.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
  <b>Submitter:</b> Arthur O'Dwyer <b>Opened:</b> 2022-01-23 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>2
 </p>
@@ -142,12 +142,12 @@ and the other isn't.]
 </blockquote>
 
 <ol>
-<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <code>&lt;iterator&gt;</code> synopsis, as indicated:</p>
+<li><p>Modify 24.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <code>&lt;iterator&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 [&hellip;]
-<i>// 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
+<i>// 24.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
 template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sentinel_for&lt;I&gt; S&gt;
   requires (!sized_sentinel_for&lt;S, I&gt;)
   constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
@@ -158,7 +158,7 @@ template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sized_sentine
 </blockquote>
 </li>
 
-<li><p>Modify 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
+<li><p>Modify 24.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -211,12 +211,12 @@ in all cases, and it saves us from having to use an <code>if constexpr (is_array
 </blockquote>
 
 <ol>
-<li><p>Modify 25.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <code>&lt;iterator&gt;</code> synopsis, as indicated:</p>
+<li><p>Modify 24.2 <a href="https://wg21.link/iterator.synopsis">[iterator.synopsis]</a>, header <code>&lt;iterator&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 [&hellip;]
-<i>// 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
+<i>// 24.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a>, ranges::distance</i>
 template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sentinel_for&lt;I&gt; S&gt;
   requires (!sized_sentinel_for&lt;S, I&gt;)
   constexpr iter_difference_t&lt;I&gt; distance(I first, S last);
@@ -227,7 +227,7 @@ template&lt;<ins>class</ins><del>input_or_output_iterator</del> I, sized_sentine
 </blockquote>
 </li>
 
-<li><p>Modify 25.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
+<li><p>Modify 24.4.4.3 <a href="https://wg21.link/range.iter.op.distance">[range.iter.op.distance]</a> as indicated:</p>
 
 <blockquote>
 <pre>

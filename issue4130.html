@@ -64,21 +64,28 @@
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="4130"><a href="lwg-active.html#4130">4130</a>. Preconditions for <code>std::launder</code> might be overly strict</h3>
 <p><b>Section:</b> 17.6.5 <a href="https://wg21.link/ptr.launder">[ptr.launder]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
- <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-07-30 <b>Last modified:</b> 2024-08-03</p>
-<p><b>Priority: </b>Not Prioritized
+ <b>Submitter:</b> Jiang An <b>Opened:</b> 2024-07-30 <b>Last modified:</b> 2024-10-02</p>
+<p><b>Priority: </b>3
 </p>
 <p><b>View all other</b> <a href="lwg-index.html#ptr.launder">issues</a> in [ptr.launder].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-From issue <a href="https://github.com/cplusplus/draft/issues/4553">cplusplus/draft#4553</a> 
+From issue <a href="https://github.com/cplusplus/draft/issues/4553">cplusplus/draft#4553</a>
 which is considered non-editorial.
 <p/>
-Currently, <code>std::launder</code> has a precondition that the pointed to object must be within 
-its lifetime. However, per the example added by <a href="https://wg21.link/P0593R6" title=" Implicit creation of objects for low-level object manipulation">P0593R6</a>, it's probably intended 
-that the result of <code>std::launder</code> should be allowed to point to an array element 
+Currently, <code>std::launder</code> has a precondition that the pointed to object must be within
+its lifetime. However, per the example added by <a href="https://wg21.link/P0593R6" title=" Implicit creation of objects for low-level object manipulation">P0593R6</a>, it's probably intended
+that the result of <code>std::launder</code> should be allowed to point to an array element
 subobject whose lifetime has not started yet.
 </p>
+
+<p><i>[2024-10-02; Reflector poll]</i></p>
+
+<p>
+Set priority to 3 after reflector poll. Needs review by Core.
+</p>
+
 
 
 <p id="res-4130"><b>Proposed resolution:</b></p>
@@ -97,12 +104,12 @@ template&lt;class T&gt; [[nodiscard]] constexpr T* launder(T* p) noexcept;
 <p>
 -1- <i>Mandates</i>: <code>!is_function_v&lt;T&gt; &amp;&amp; !is_void_v&lt;T&gt;</code> is <code>true</code>.
 <p/>
--2- <i>Preconditions</i>: <code>p</code> represents the address <i>A</i> of a byte in memory. 
-An object <i>X</i> <del>that is within its lifetime (6.7.3 <a href="https://wg21.link/basic.life">[basic.life]</a>) and</del> 
-whose type is similar (7.3.6 <a href="https://wg21.link/conv.qual">[conv.qual]</a>) to <code>T</code> is located at the address 
-<i>A</i><ins>, and is either within its lifetime (6.7.3 <a href="https://wg21.link/basic.life">[basic.life]</a>) or is an array 
-element subobject whose containing array object is within its lifetime</ins>. All bytes of storage 
-that would be reachable through (6.8.4 <a href="https://wg21.link/basic.compound">[basic.compound]</a>) the result are reachable through 
+-2- <i>Preconditions</i>: <code>p</code> represents the address <i>A</i> of a byte in memory.
+An object <i>X</i> <del>that is within its lifetime (6.7.3 <a href="https://wg21.link/basic.life">[basic.life]</a>) and</del>
+whose type is similar (7.3.6 <a href="https://wg21.link/conv.qual">[conv.qual]</a>) to <code>T</code> is located at the address
+<i>A</i><ins>, and is either within its lifetime (6.7.3 <a href="https://wg21.link/basic.life">[basic.life]</a>) or is an array
+element subobject whose containing array object is within its lifetime</ins>. All bytes of storage
+that would be reachable through (6.8.4 <a href="https://wg21.link/basic.compound">[basic.compound]</a>) the result are reachable through
 <code>p</code>.
 <p/>
 -3- <i>Returns</i>: A value of type <code>T*</code> that points to <i>X</i>.

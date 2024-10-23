@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Ready</a> status.</em></p>
 <h3 id="4064"><a href="lwg-active.html#4064">4064</a>. Clarify that <code>std::launder</code> is not needed when using the result of <code>std::memcpy</code></h3>
-<p><b>Section:</b> 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
+<p><b>Section:</b> 27.5.1 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Ready</a>
  <b>Submitter:</b> Jan Schultke <b>Opened:</b> 2024-04-05 <b>Last modified:</b> 2024-06-28</p>
 <p><b>Priority: </b>3
 </p>
@@ -86,7 +86,7 @@ The <code>memcpy</code> function returns the value of [the destination operand].
 </p>
 </blockquote>
 <p>
-In conjunction with 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> p3, this presumably means that <code>std::memcpy</code> 
+In conjunction with 27.5.1 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> p3, this presumably means that <code>std::memcpy</code> 
 returns a pointer to the (first) implicitly-created object, and no use of <code>std::launder</code> 
 is necessary.
 <p/>
@@ -107,7 +107,7 @@ This wording is relative to <a href="https://wg21.link/N4971" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
+<li><p>Modify 27.5.1 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
 
 <blockquote>
 <p>
@@ -134,7 +134,7 @@ This wording is relative to <a href="https://wg21.link/N4981" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 23.5.3 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
+<li><p>Modify 27.5.1 <a href="https://wg21.link/cstring.syn">[cstring.syn]</a> as indicated:</p>
 
 <blockquote>
 <p>

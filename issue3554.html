@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++23">C++23</a> status.</em></p>
 <h3 id="3554"><a href="lwg-defects.html#3554">3554</a>. <code>chrono::parse</code> needs <code>const charT*</code> and <code>basic_string_view&lt;charT&gt;</code> overloads</h3>
-<p><b>Section:</b> 29.13 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
+<p><b>Section:</b> 30.13 <a href="https://wg21.link/time.parse">[time.parse]</a> <b>Status:</b> <a href="lwg-active.html#C++23">C++23</a>
  <b>Submitter:</b> Howard Hinnant <b>Opened:</b> 2021-05-22 <b>Last modified:</b> 2023-11-22</p>
 <p><b>Priority: </b>2
 </p>
@@ -97,13 +97,13 @@ This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
 </p>
 
 <ol>
-<li><p>Modify 29.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <code>&lt;chrono&gt;</code> synopsis, as indicated:</p>
+<li><p>Modify 30.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <code>&lt;chrono&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 [&hellip;]
 namespace chrono {
-  <i>// 29.13 <a href="https://wg21.link/time.parse">[time.parse]</a>, parsing</i>
+  <i>// 30.13 <a href="https://wg21.link/time.parse">[time.parse]</a>, parsing</i>
   <ins>template&lt;class charT, class Parsable&gt;
     <i>unspecified</i>
       parse(const charT* fmt, Parsable&amp; tp);
@@ -166,7 +166,7 @@ namespace chrono {
 </blockquote>
 </li>
 
-<li><p>Modify 29.13 <a href="https://wg21.link/time.parse">[time.parse]</a> as indicated:</p>
+<li><p>Modify 30.13 <a href="https://wg21.link/time.parse">[time.parse]</a> as indicated:</p>
 
 <blockquote>
 <pre>
@@ -379,13 +379,13 @@ This wording is relative to <a href="https://wg21.link/n4885">N4885</a>.
 </p>
 
 <ol>
-<li><p>Modify 29.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <code>&lt;chrono&gt;</code> synopsis, as indicated:</p>
+<li><p>Modify 30.2 <a href="https://wg21.link/time.syn">[time.syn]</a>, header <code>&lt;chrono&gt;</code> synopsis, as indicated:</p>
 
 <blockquote>
 <pre>
 [&hellip;]
 namespace chrono {
-  <i>// 29.13 <a href="https://wg21.link/time.parse">[time.parse]</a>, parsing</i>
+  <i>// 30.13 <a href="https://wg21.link/time.parse">[time.parse]</a>, parsing</i>
   <ins>template&lt;class charT, class Parsable&gt;
     <i>unspecified</i>
       parse(const charT* fmt, Parsable&amp; tp);</ins>
@@ -430,7 +430,7 @@ namespace chrono {
 </blockquote>
 </li>
 
-<li><p>Modify 29.13 <a href="https://wg21.link/time.parse">[time.parse]</a> as indicated:</p>
+<li><p>Modify 30.13 <a href="https://wg21.link/time.parse">[time.parse]</a> as indicated:</p>
 <p>
 -1- Each <code>parse</code> overload specified in this subclause calls
 <code>from_­stream</code> unqualified, so as to enable argument dependent lookup

@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="3504"><a href="lwg-active.html#3504">3504</a>. <code>condition_variable::wait_for</code> is overspecified</h3>
-<p><b>Section:</b> 33.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 32.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2020-11-18 <b>Last modified:</b> 2024-06-18</p>
 <p><b>Priority: </b>3
 </p>
@@ -71,7 +71,7 @@
 <p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
 <p><b>Discussion:</b></p>
 <p>
-33.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> p24 says:
+32.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> p24 says:
 </p>
 <blockquote><p>
 <i>Effects:</i> Equivalent to: <code>return wait_until(lock, chrono::steady_clock::now() + rel_time);</code>
@@ -118,11 +118,11 @@ This wording is relative to <a href="https://wg21.link/N4981" title=" Working Dr
 </p>
 <ol>
 <li>
-<p>Modify 33.7.1 <a href="https://wg21.link/thread.condition.general">[thread.condition.general]</a> as indicated,
+<p>Modify 32.7.1 <a href="https://wg21.link/thread.condition.general">[thread.condition.general]</a> as indicated,
 adding a new paragraph to the end:</p>
 <blockquote>
 <ins>-6-
-The definitions in 33.7 <a href="https://wg21.link/thread.condition">[thread.condition]</a> make use of the
+The definitions in 32.7 <a href="https://wg21.link/thread.condition">[thread.condition]</a> make use of the
 following exposition-only function:
 </ins>
 <blockquote>
@@ -136,7 +136,7 @@ following exposition-only function:
 </li>
 
 <li>
-<p>Modify 33.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> as indicated:</p>
+<p>Modify 32.7.4 <a href="https://wg21.link/thread.condition.condvar">[thread.condition.condvar]</a> as indicated:</p>
 <blockquote>
 <pre><code>
 template&lt;class Rep, class Period&gt;
@@ -177,7 +177,7 @@ There is no blocking if <code class='backtick'>pred()</code> is initially <code 
 </li>
 
 <li>
-<p>Modify 33.7.5.2 <a href="https://wg21.link/thread.condvarany.wait">[thread.condvarany.wait]</a> as indicated:</p>
+<p>Modify 32.7.5.2 <a href="https://wg21.link/thread.condvarany.wait">[thread.condvarany.wait]</a> as indicated:</p>
 <blockquote>
 <pre><code>
 template&lt;class Lock, class Rep, class Period&gt;

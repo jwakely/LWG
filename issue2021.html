@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++14">C++14</a> status.</em></p>
 <h3 id="2021"><a href="lwg-defects.html#2021">2021</a>. Further incorrect usages of <code>result_of</code></h3>
-<p><b>Section:</b> 22.10.15.4 <a href="https://wg21.link/func.bind.bind">[func.bind.bind]</a>, 33.10.1 <a href="https://wg21.link/futures.overview">[futures.overview]</a>, 33.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
+<p><b>Section:</b> 22.10.15.4 <a href="https://wg21.link/func.bind.bind">[func.bind.bind]</a>, 32.10.1 <a href="https://wg21.link/futures.overview">[futures.overview]</a>, 32.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> <b>Status:</b> <a href="lwg-active.html#C++14">C++14</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2010-12-07 <b>Last modified:</b> 2016-01-28</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -112,20 +112,20 @@ future&lt;typename result_of&lt;F(Args...)&gt;::type&gt;
 async(F&amp;&amp; f, Args&amp;&amp;... args);
 </pre></blockquote><p>
 This usage has the some same problems as we have found in <code>reference_wrapper</code> (<a href="lwg-defects.html#2017" title="std::reference_wrapper makes incorrect usage of std::result_of (Status: C++11)">2017</a><sup><a href="https://cplusplus.github.io/LWG/issue2017" title="Latest snapshot">(i)</a></sup>) and more: According to
-the specification in 33.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> the effective result type is that of the call of
+the specification in 32.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> the effective result type is that of the call of
 </p><blockquote><pre>
 INVOKE(decay_copy(std::forward&lt;F&gt;(f)), decay_copy(std::forward&lt;Args&gt;(args))...)
 </pre></blockquote><p>
 First, <code>decay_copy</code> potentially modifies the effective types to <code>decay&lt;F&gt;::type</code> and <code>decay&lt;Args&gt;::type...</code>.
 Second, the current specification is not really clear, what the value category of callable type or the arguments shall be: According
-to the second bullet of 33.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> p. 3:
+to the second bullet of 32.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> p. 3:
 </p>
 <blockquote><p>
 Invocation of the deferred function evaluates <code>INVOKE(g, xyz)</code> where <code>g</code> is the stored value of 
 <code>decay_copy(std::forward&lt;F&gt;(f))</code> and <code>xyz</code> is the stored copy of 
 <code>decay_copy(std::forward&lt;Args&gt;(args))...</code>.
 </p></blockquote><p>
-This seems to imply that lvalues are provided in contrast to the direct call expression of 33.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> p. 2
+This seems to imply that lvalues are provided in contrast to the direct call expression of 32.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> p. 2
 which implies rvalues instead. The specification needs to be clarified.
 </p>
 </li>
@@ -223,13 +223,13 @@ is <code>T&amp;</code>;</li>
 
 <li>
 <p>
-This resolution assumes that the wording of 33.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> is intended to provide rvalues
+This resolution assumes that the wording of 32.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> is intended to provide rvalues
 as arguments of <code>INVOKE</code>.
 </p>
 
 <p>
-Change the function signatures in header <code>&lt;future&gt;</code> synopsis 33.10.1 <a href="https://wg21.link/futures.overview">[futures.overview]</a> p. 1
-and in 33.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> p. 1 as indicated:
+Change the function signatures in header <code>&lt;future&gt;</code> synopsis 32.10.1 <a href="https://wg21.link/futures.overview">[futures.overview]</a> p. 1
+and in 32.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> p. 1 as indicated:
 </p>
 
 <blockquote><pre>
@@ -243,7 +243,7 @@ async(launch policy, F&amp;&amp; f, Args&amp;&amp;... args);
 </li>
 
 <li>
-<p>Change 33.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> as indicated: (Remark: There is also a tiny editorial correction 
+<p>Change 32.10.9 <a href="https://wg21.link/futures.async">[futures.async]</a> as indicated: (Remark: There is also a tiny editorial correction 
 in p. 4 that completes one <code>::</code> scope specifier)
 </p>
 

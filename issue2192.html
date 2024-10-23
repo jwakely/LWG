@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#C++17">C++17</a> status.</em></p>
 <h3 id="2192"><a href="lwg-defects.html#2192">2192</a>. Validity and return type of <code>std::abs(0u)</code> is unclear</h3>
-<p><b>Section:</b> 28.7 <a href="https://wg21.link/c.math">[c.math]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
+<p><b>Section:</b> 29.7 <a href="https://wg21.link/c.math">[c.math]</a> <b>Status:</b> <a href="lwg-active.html#C++17">C++17</a>
  <b>Submitter:</b> Daniel Kr&uuml;gler <b>Opened:</b> 2012-10-02 <b>Last modified:</b> 2017-07-30</p>
 <p><b>Priority: </b>2
 </p>
@@ -97,7 +97,7 @@ int main() {
 because none of the <code>std::abs()</code> overloads is a best match.
 </p>
 <p>
-In C++11 the additional "sufficient overload" rule from 28.7 <a href="https://wg21.link/c.math">[c.math]</a> p11 (see also LWG
+In C++11 the additional "sufficient overload" rule from 29.7 <a href="https://wg21.link/c.math">[c.math]</a> p11 (see also LWG
 <a href="lwg-defects.html#2086" title="Overly generic type support for math functions (Status: C++14)">2086</a><sup><a href="https://cplusplus.github.io/LWG/issue2086" title="Latest snapshot">(i)</a></sup>) can be read to be applicable to the <code>std::abs()</code> overloads as well, which
 can lead to the following possible conclusions:
 <p/>
@@ -115,7 +115,7 @@ int main() {
 </pre></blockquote>
 <p>
 is required to be well-formed, because of sub-bullet 2 ("[..] or an integer type [..]") of 
-28.7 <a href="https://wg21.link/c.math">[c.math]</a> p11 (Note that the current resolution of LWG <a href="lwg-defects.html#2086" title="Overly generic type support for math functions (Status: C++14)">2086</a><sup><a href="https://cplusplus.github.io/LWG/issue2086" title="Latest snapshot">(i)</a></sup> doesn't
+29.7 <a href="https://wg21.link/c.math">[c.math]</a> p11 (Note that the current resolution of LWG <a href="lwg-defects.html#2086" title="Overly generic type support for math functions (Status: C++14)">2086</a><sup><a href="https://cplusplus.github.io/LWG/issue2086" title="Latest snapshot">(i)</a></sup> doesn't
 fix this problem).
 </p>
 </li>
@@ -130,7 +130,7 @@ might be ill-formed because of two conflicting requirements for the return type 
 <p>
 It seems to me that at least the second outcome is not intended, personally I think that both
 are unfortunate: In contrast to all other floating-point functions explicitly listed in sub-clause 
-28.7 <a href="https://wg21.link/c.math">[c.math]</a>, the <code>abs</code> overloads have a special and well-defined meaning for 
+29.7 <a href="https://wg21.link/c.math">[c.math]</a>, the <code>abs</code> overloads have a special and well-defined meaning for 
 signed integers and thus have explicit overloads returning a signed integral type. I also believe that 
 there is no problem accepting that <code>std::fabs(0u)</code> is well-defined with return type <code>double</code>, 
 because the leading 'f' clearly signals that we have a floating point function here. But the expected 
@@ -240,7 +240,7 @@ Conclusion: Merge the resolution into a single issue.
 <p>This wording is relative to N3376.</p>
 
 <ol>
-<li><p>Change 28.7 <a href="https://wg21.link/c.math">[c.math]</a> p11 as indicated:</p>
+<li><p>Change 29.7 <a href="https://wg21.link/c.math">[c.math]</a> p11 as indicated:</p>
 <blockquote><p>
 -11- Moreover<ins>, except for the <code>abs</code> functions</ins>, there shall be additional overloads sufficient to ensure:
 <p/>
@@ -279,7 +279,7 @@ two paragraphs are taken verbatim from the P/R of LWG <a href="lwg-defects.html#
 <p>This wording is relative to N4527.</p>
 
 <ol>
-<li><p>Insert the following new paragraphs after 28.7 <a href="https://wg21.link/c.math">[c.math]</a> p7:</p>
+<li><p>Insert the following new paragraphs after 29.7 <a href="https://wg21.link/c.math">[c.math]</a> p7:</p>
 <blockquote>
 <p>
 -6- In addition to the <code>int</code> versions of certain math functions in <code>&lt;cstdlib&gt;</code>, C++ adds <code>long</code> 

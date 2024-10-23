@@ -63,7 +63,7 @@
 <hr>
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#Ready">Tentatively Ready</a> status.</em></p>
 <h3 id="4124"><a href="lwg-active.html#4124">4124</a>. Cannot format <code class='backtick'>zoned_time</code> with resolution coarser than seconds</h3>
-<p><b>Section:</b> 29.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
+<p><b>Section:</b> 30.12 <a href="https://wg21.link/time.format">[time.format]</a> <b>Status:</b> <a href="lwg-active.html#Ready">Tentatively Ready</a>
  <b>Submitter:</b> Jonathan Wakely <b>Opened:</b> 2024-07-26 <b>Last modified:</b> 2024-08-02</p>
 <p><b>Priority: </b>Not Prioritized
 </p>
@@ -92,7 +92,7 @@ That means this is ill-formed, even though the static assert passes:
 Additionally, it's not specified what output you should get for:
 <pre><code><code class='backtick'>std::format("{}", local_time_format(zt.get_local_time()));</code>
 </code></pre>
-29.12 <a href="https://wg21.link/time.format">[time.format]</a> p7 says it's formatted as if by streaming to an
+30.12 <a href="https://wg21.link/time.format">[time.format]</a> p7 says it's formatted as if by streaming to an
 <code class='backtick'>ostringstream</code>,
 but there is no <code>operator&lt;&lt;</code> for <i><code class='backtick'>local-time-format-t</code></i>.
 Presumably it should give the same result as <code>operator&lt;&lt;</code> for 
@@ -116,7 +116,7 @@ This wording is relative to <a href="https://wg21.link/N4986" title=" Working Dr
 </p>
 
 <ol>
-<li><p>Modify 29.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
+<li><p>Modify 30.12 <a href="https://wg21.link/time.format">[time.format]</a> as indicated:</p>
 
 <blockquote>
 <pre>

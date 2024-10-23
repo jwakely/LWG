@@ -66,7 +66,7 @@ initializer_list">
 <p><em>This page is a snapshot from the LWG issues list, see the <a href="lwg-active.html">Library Active Issues List</a> for more information and the meaning of <a href="lwg-active.html#New">New</a> status.</em></p>
 <h3 id="3537"><a href="lwg-active.html#3537">3537</a>. &sect;[iterator.range] Missing <code>noexcept</code> for <code>std::rbegin</code>/<code>rend</code> for arrays and 
 <code>initializer_list</code></h3>
-<p><b>Section:</b> 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+<p><b>Section:</b> 24.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
  <b>Submitter:</b> Jiang An <b>Opened:</b> 2021-03-21 <b>Last modified:</b> 2021-04-20</p>
 <p><b>Priority: </b>3
 </p>
@@ -79,7 +79,7 @@ Overloads for <code>std::rbegin</code>/<code>rend</code> for built-in arrays and
 no preconditions and never throw exceptions, thus should be <code>noexcept</code>. LWG <a href="lwg-defects.html#2280" title="begin/end for arrays should be constexpr and noexcept (Status: C++14)">2280</a><sup><a href="https://cplusplus.github.io/LWG/issue2280" title="Latest snapshot">(i)</a></sup> 
 addressed a similar issue for <code>std::begin/end</code>.
 <p/>
-Suggestion: change these declarations in 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> (p10, 11, 12, 13) as indicated:
+Suggestion: change these declarations in 24.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> (p10, 11, 12, 13) as indicated:
 </p>
 <blockquote>
 <pre>
@@ -94,10 +94,10 @@ template&lt;class E&gt; constexpr reverse_iterator&lt;const E*&gt; rend(initiali
 </blockquote>
 <p>
 If this change is accepted, we may also specify <em>conditional</em> <code>noexcept</code> for <code>std::crbegin/crend</code> 
-(in 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> p14, 15), by adding <code>noexcept(noexcept(std::rbegin/crend(c)))</code>, like in 
+(in 24.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> p14, 15), by adding <code>noexcept(noexcept(std::rbegin/crend(c)))</code>, like in 
 LWG <a href="lwg-defects.html#2280" title="begin/end for arrays should be constexpr and noexcept (Status: C++14)">2280</a><sup><a href="https://cplusplus.github.io/LWG/issue2280" title="Latest snapshot">(i)</a></sup>.
 <p/>
-Conditional noexcept for other functions in 25.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> (p2, 3, 7, 8, 16, 18, 20 22) may also be 
+Conditional noexcept for other functions in 24.7 <a href="https://wg21.link/iterator.range">[iterator.range]</a> (p2, 3, 7, 8, 16, 18, 20 22) may also be 
 added for consistency.
 </p>
 
