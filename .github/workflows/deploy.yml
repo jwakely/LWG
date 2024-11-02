@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - name: Use cached git repo
-      # Try to use a cached copy of the repository to avoid cloning it again
-      # and then regenerating the meta-data/dates file from scratch (slow!)
+      # Try to use a cached copy of the repository to avoid cloning it again,
+      # as cloning the full history (needed for timestamps) takes two minutes.
       id: cache-repo
       uses: actions/cache@v4
       with:
@@ -50,10 +50,15 @@ jobs:
     - name: Update issue timestamps
       run: make dates
 
+    - name: Build programs
+      run: make pgms -j 4
+
     - name: Generate HTML lists
       run: make lists
 
-    # We need a fresh repo that has valid credentials to push to gh-pages.
+    # The cached repo might have a stale API token that can't push changes.
+    # Clone a fresh repo that has valid credentials to push to gh-pages.
+    # The default fetch-depth:1 is OK for this step.
     - name: Clone repo again in order to push
       uses: actions/checkout@v4
       with:
@@ -74,7 +79,7 @@ jobs:
         # This only compares the staged changes, so ignores new timestamps
         # in the lwg-*.html files. The commit -a will pick those up though.
         printf '\nChecking HTML issues for changes ...\n'
-        if git diff --cached --exit-code ; then
+        if git diff --cached --exit-code --name-status ; then
           echo 'No changes, not publishing new lists.'
         else
           printf '\nCommitting the changes above:\n'
