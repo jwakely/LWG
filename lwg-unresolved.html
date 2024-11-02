@@ -54,7 +54,7 @@
 </style>
 </head>
 <body>
-<p>Revised 2024-10-23 at 18:53:16 UTC
+<p>Revised 2024-11-02 at 11:01:17 UTC
 </p><h2>Unresolved Issues</h2>
 <hr>
 <h3 id="423"><a href="#423">423</a><sup><a href="https://cplusplus.github.io/LWG/issue423">(i)</a></sup>. Effects of negative <code>streamsize</code> in iostreams</h3>
@@ -30410,6 +30410,7 @@ into each <i>Throws:</i> element, but perhaps something more specific is necessa
  <b>Submitter:</b> Alisdair Meredith <b>Opened:</b> 2020-03-19 <b>Last modified:</b> 2020-09-06</p>
 <p><b>Priority: </b>3
 </p>
+<p><b>View other</b> <a href="lwg-index-open.html#atomics.types.operations">active issues</a> in [atomics.types.operations].</p>
 <p><b>View all other</b> <a href="lwg-index.html#atomics.types.operations">issues</a> in [atomics.types.operations].</p>
 <p><b>View all issues with</b> <a href="lwg-status.html#SG1">SG1</a> status.</p>
 <p><b>Discussion:</b></p>
@@ -63797,6 +63798,263 @@ and twice as many applications of the projection<del>, if any</del>.
 -24- <i>Remarks</i>: An invocation may explicitly specify an argument
 for the template parameter <code>T</code>
 of the overloads in namespace <code>std</code>.</p>
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3 id="4168"><a href="#4168">4168</a><sup><a href="https://cplusplus.github.io/LWG/issue4168">(i)</a></sup>. <code class='backtick'>std::start_lifetime_as</code> inadvertently has undefined behavior due to use of <code class='backtick'>std::bit_cast</code></h3>
+<p><b>Section:</b> 20.2.6 <a href="https://wg21.link/obj.lifetime">[obj.lifetime]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Jan Schultke <b>Opened:</b> 2024-10-23 <b>Last modified:</b> 2024-10-31</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+Consider the motivating example from 
+<a href="https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p2590r2.pdf">P2590R2: Explicit lifetime management</a>:
+</p>
+<blockquote style="border-left: 3px solid #ccc;padding-left: 15px;">
+<pre>
+struct X { int a, b; };
+
+X* make_x() {
+  X* p = std::start_lifetime_as&lt;X&gt;(myMalloc(sizeof(struct X));
+  p-&gt;a = 1;
+  p-&gt;b = 2;
+  return p;
+}
+</pre>
+</blockquote>
+<p>
+Assuming that <code class='backtick'>myMalloc</code> does not initialize the bytes of storage, this example has undefined behavior because 
+the value of the resulting object of trivially copyable type <code class='backtick'>X</code> is determined as if by calling 
+<code>std::bit_cast&lt;X&gt;(a)</code> for the implicitly-created object <code class='backtick'>a</code> of type <code class='backtick'>X</code> 
+(20.2.6 <a href="https://wg21.link/obj.lifetime">[obj.lifetime]</a> paragraph 3), whose object representation is filled with indeterminate bytes 
+obtained from <code class='backtick'>myMalloc</code>. Such a call to <code class='backtick'>std::bit_cast</code> has undefined behavior because <code class='backtick'>std::bit_cast</code> 
+does not tolerate the creation of an <code class='backtick'>int</code> where bits in the value representation are indeterminate 
+(22.11.3 <a href="https://wg21.link/bit.cast">[bit.cast]</a> paragraph 2), and such an <code class='backtick'>int</code> is the smallest enclosing object of some of the 
+indeterminate bits.
+</p>
+
+
+<p id="res-4168"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4993">N4993</a>.
+</p>
+
+<ol>
+<li><p>Modify 20.2.6 <a href="https://wg21.link/obj.lifetime">[obj.lifetime]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note</i>: The proposed resolution does not alter the behavior for erroneous bits. Therefore, 
+a call to <code>std::start_lifetime_as</code> may have erroneous behavior when used on storage with indeterminate 
+bits, despite not accessing that storage. An alternative resolution would be to produce objects whose value 
+is erroneous.]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+template&lt;class T&gt;
+  T* start_lifetime_as(void* p) noexcept;
+template&lt;class T&gt;
+  const T* start_lifetime_as(const void* p) noexcept;
+template&lt;class T&gt;
+  volatile T* start_lifetime_as(volatile void* p) noexcept;
+template&lt;class T&gt;
+  const volatile T* start_lifetime_as(const volatile void* p) noexcept;
+</pre>
+<blockquote>
+<p>
+-1- <i>Mandates</i>: [&hellip;]
+<p/>
+-2- <i>Preconditions</i>: [&hellip;]
+<p/>
+-3- <i>Effects</i>: Implicitly creates objects (6.7.2 <a href="https://wg21.link/intro.object">[intro.object]</a>) within the denoted region 
+consisting of an object <code><i>a</i></code> of type <code class='backtick'>T</code> whose address is <code class='backtick'>p</code>, and objects nested within 
+<code><i>a</i></code>, as follows: The object representation of <code><i>a</i></code> is the contents of the 
+storage prior to the call to <code class='backtick'>start_lifetime_as</code>. The value of each created object <code><i>o</i></code> 
+of trivially copyable type (6.8.1 <a href="https://wg21.link/basic.types.general">[basic.types.general]</a>) <code class='backtick'>U</code> is determined in the same manner 
+as for a call to <code>bit_cast&lt;U&gt;(E)</code> (22.11.3 <a href="https://wg21.link/bit.cast">[bit.cast]</a>), where <code class='backtick'>E</code> is an lvalue of 
+type <code class='backtick'>U</code> denoting <code><i>o</i></code>, except that the storage is not accessed <ins>and that 
+for each indeterminate bit <code><i>b</i></code> in the value representation of the result, the smallest 
+object containing that bit <code><i>b</i></code> has indeterminate value where the behavior would otherwise 
+be undefined</ins>. The value of any other created object is unspecified.
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3 id="4169"><a href="#4169">4169</a><sup><a href="https://cplusplus.github.io/LWG/issue4169">(i)</a></sup>. <code>std::atomic&lt;T&gt;</code>'s default constructor should be constrained</h3>
+<p><b>Section:</b> 32.5.8.2 <a href="https://wg21.link/atomics.types.operations">[atomics.types.operations]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Giuseppe D'Angelo <b>Opened:</b> 2024-10-15 <b>Last modified:</b> 2024-10-31</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View other</b> <a href="lwg-index-open.html#atomics.types.operations">active issues</a> in [atomics.types.operations].</p>
+<p><b>View all other</b> <a href="lwg-index.html#atomics.types.operations">issues</a> in [atomics.types.operations].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The current wording for <code class='backtick'>std::atomic</code>'s default constructor in
+32.5.8.2 <a href="https://wg21.link/atomics.types.operations">[atomics.types.operations]</a> specifies:
+</p>
+<blockquote>
+<pre>
+constexpr atomic() noexcept(is_nothrow_default_constructible_v&lt;T&gt;);
+</pre>
+<blockquote>
+<p>
+<i>Mandates</i>: <code>is_default_constructible_v&lt;T&gt;</code> is <code>true</code>.
+</p>
+</blockquote>
+</blockquote>
+<p>
+This wording has been added by <a href="https://wg21.link/P0883R2" title=" Fixing Atomic Initialization">P0883R2</a> for C++20, which changed
+<code class='backtick'>std::atomic</code>'s default constructor to always value-initialize. Before,
+the behavior of this constructor was not well specified (this was LWG
+issue <a href="lwg-defects.html#2334" title="atomic's default constructor requires &quot;uninitialized&quot; state even for types with non-trivial default-constructor (Status: Resolved)">2334</a><sup><a href="https://cplusplus.github.io/LWG/issue2334" title="Latest snapshot">(i)</a></sup>).
+<p/>
+The usage of a <i>Mandates</i> element in the specification has as a
+consequence that <code>std::atomic&lt;T&gt;</code> is always default constructible, even
+when <code>T</code> is not. For instance:
+</p>
+<blockquote>
+<pre>
+// not default constructible:
+struct NDC { NDC(int) {} };
+
+static_assert(std::is_default_constructible&lt;std::atomic&lt;NDC&gt;&gt;); // OK
+</pre>
+</blockquote>
+<p>
+The above check is OK as per language rules, but this is user-hostile:
+actually using <code>std::atomic&lt;NDC&gt;</code>'s default constructor results in an
+error, despite the detection saying otherwise.
+<p/>
+Given that <code>std::atomic&lt;T&gt;</code> already requires <code>T</code> to be complete anyhow
+(32.5.8.1 <a href="https://wg21.link/atomics.types.generic.general">[atomics.types.generic.general]</a> checks for various type properties
+which require completeness) it would be more appropriate to use a
+constraint instead, so that <code>std::atomic&lt;T&gt;</code> is default constructible if
+and only if <code>T</code> also is.
+</p>
+
+
+<p id="res-4169"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4993">N4993</a>.
+</p>
+
+<ol>
+<li><p>Modify 32.5.8.2 <a href="https://wg21.link/atomics.types.operations">[atomics.types.operations]</a> as indicated:</p>
+
+<blockquote class="note">
+<p>
+[<i>Drafting note</i>: There is implementation divergence at the moment; libstdc++ already
+implements the proposed resolution and has done so for a while.]
+</p>
+</blockquote>
+
+<blockquote>
+<pre>
+constexpr atomic() noexcept(is_nothrow_default_constructible_v&lt;T&gt;);
+</pre>
+<blockquote>
+<p>
+-1- <i><ins>Constraints</ins><del>Mandates</del></i>: <code>is_default_constructible_v&lt;T&gt;</code> is <code>true</code>.
+<p/>
+-2- <i>Effects</i>: [&hellip;]
+</p>
+</blockquote>
+</blockquote>
+
+</li>
+</ol>
+
+
+
+
+<hr>
+<h3 id="4170"><a href="#4170">4170</a><sup><a href="https://cplusplus.github.io/LWG/issue4170">(i)</a></sup>. <code class='backtick'>contiguous_iterator</code> should require <code class='backtick'>to_address(I{})</code></h3>
+<p><b>Section:</b> 24.3.4.14 <a href="https://wg21.link/iterator.concept.contiguous">[iterator.concept.contiguous]</a> <b>Status:</b> <a href="lwg-active.html#New">New</a>
+ <b>Submitter:</b> Casey Carter <b>Opened:</b> 2024-11-01 <b>Last modified:</b> 2024-11-01</p>
+<p><b>Priority: </b>Not Prioritized
+</p>
+<p><b>View all other</b> <a href="lwg-index.html#iterator.concept.contiguous">issues</a> in [iterator.concept.contiguous].</p>
+<p><b>View all issues with</b> <a href="lwg-status.html#New">New</a> status.</p>
+<p><b>Discussion:</b></p>
+<p>
+The design intent of the <code class='backtick'>contiguous_iterator</code> concept is that iterators can be converted
+to pointers denoting the same sequence of elements. This enables a common range <code class='backtick'>[i, j)</code>
+or counted range <code class='backtick'>i + [0, n)</code> to be processed with extremely efficient low-level C
+or assembly code that operates on <code class='backtick'>[to_address(i), to_address(j))</code> (respectively
+<code class='backtick'>to_address(i) + [0, n)</code>).
+</p><p>
+A value-initialized iterator <code class='backtick'>I{}</code> can be used to denote the empty ranges <code class='backtick'>[I{}, I{})</code>
+and <code class='backtick'>I{} + [0, 0)</code>. While the existing semantic requirements of <code class='backtick'>contiguous_iterator</code> enable us
+to convert both dereferenceable and past-the-end iterators with <code class='backtick'>to_address</code>, converting
+ranges involving value-initialized iterators to pointer ranges additionally needs
+<code class='backtick'>to_address(I{})</code> to be well-defined. Note that <code class='backtick'>to_address</code> is already implicitly
+equality-preserving for <code class='backtick'>contiguous_iterator</code> arguments. Given this additional requirement
+<code class='backtick'>to_address(I{}) == to_address(I{})</code> and <code class='backtick'>to_address(I{}) == to_address(I{)) + 0</code>
+both hold, so the two types of empty ranges involving value-initialized iterators convert
+to empty pointer ranges as desired.
+</p>
+
+
+<p id="res-4170"><b>Proposed resolution:</b></p>
+<p>
+This wording is relative to <a href="https://wg21.link/N4993">N4993</a>.
+</p>
+
+<ol>
+<li><p>Modify 24.3.4.14 <a href="https://wg21.link/iterator.concept.contiguous">[iterator.concept.contiguous]</a> as indicated:</p>
+
+<blockquote>
+<p>
+-1- The <code class='backtick'>contiguous_iterator</code> concept provides a guarantee that the denoted elements are stored contiguously
+in memory.
+</p>
+<blockquote>
+<pre>
+template&lt;class I&gt;
+  concept contiguous_iterator =
+    random_access_iterator&lt;I&gt; &amp;&amp;
+    derived_from&lt;<i>ITER_CONCEPT</i>(I), contiguous_iterator_tag&gt; &amp;&amp;
+    is_lvalue_reference_v&lt;iter_reference_t&lt;I&gt;&gt; &amp;&amp;
+    same_as&lt;iter_value_t&lt;I&gt;, remove_cvref_t&lt;iter_reference_t&lt;I&gt;&gt;&gt; &amp;&amp;
+    requires(const I&amp; i) {
+      { to_address(i) } -&gt; same_as&lt;add_pointer_t&lt;iter_reference_t&lt;I&gt;&gt;&gt;;
+    };
+</pre>
+</blockquote>
+<p>
+-2- Let <code class='backtick'>a</code> and <code class='backtick'>b</code> be dereferenceable iterators and <code class='backtick'>c</code> be a non-dereferenceable iterator of type
+<code class='backtick'>I</code> such that <code class='backtick'>b</code> is reachable from <code class='backtick'>a</code> and <code class='backtick'>c</code> is reachable from <code class='backtick'>b</code>, and let <code class='backtick'>D</code> be
+<code>iter_difference_t&lt;I&gt;</code>. The type <code class='backtick'>I</code> models <code class='backtick'>contiguous_iterator</code> only if
+</p>
+
+<ol style="list-style-type: none">
+<li><p>(2.1) &mdash; <code class='backtick'>to_address(a) == addressof(*a)</code>,</p></li>
+<li><p>(2.2) &mdash; <code class='backtick'>to_address(b) == to_address(a) + D(b - a)</code>,</p></li>
+<li><p>(2.3) &mdash; <code class='backtick'>to_address(c) == to_address(a) + D(c - a)</code>,</p></li>
+<li><p><ins>(2.?) &mdash; <code class='backtick'>to_address(I{})</code> is well-defined,</ins></p></li>
+<li><p>(2.4) &mdash; <code class='backtick'>ranges::iter_move(a)</code> has the same type, value category, and effects as
+<code class='backtick'>std::move(*a)</code>, and</p></li>
+<li><p>(2.5) &mdash; if <code class='backtick'>ranges::iter_swap(a, b)</code> is well-formed, it has effects equivalent to
+<code class='backtick'>ranges::swap(*a, *b)</code>.</p></li>
+</ol>
+</blockquote>
+
 </li>
 </ol>
 
