@@ -138,7 +138,7 @@ new-papers:
 	rm -f meta-data/index.json meta-data/paper_titles.txt
 	$(MAKE) meta-data/paper_titles.txt
 
-# If curl is not installed then create an empty meta-data/paper_titles.txt
+# If curl is not installed then create an empty meta-data/index.json
 meta-data/index.json:
 	$(call optcmd,curl) https://wg21.link/index.json > $@
 
