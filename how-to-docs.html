@@ -8,25 +8,27 @@
 
 <body>
 
-<p>Revised: 
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%d %B %Y" startspan -->24 March 2023<!--webbot bot="Timestamp" endspan i-checksum="39626" --></p>
+<p>Revised:
+2 November 2024</p>
 
 <h1>How To Instructions</h1>
-<p>These instruction assume you going to keep the issues lists source files in a directory named &quot;issues&quot;, 
-and the issues lists generated HTML files in a directory named &quot;issues-gh-pages&quot;.</p>
-<blockquote>
-<p>Keeping the source files and generated HTML files in separate directories 
-falls out from the GitHub automatic web page approach: files in a branch named &quot;gh-pages&quot; 
-are automatically published by GitHub as web pages.</p>
-</blockquote>
+<p>These instructions assume you keep the issues lists source files in a directory named <code>issues</code>.
+Each issue is stored in an XML file.
+The code in <code>src</code> generates the HTML issues lists from the XML sources.
+When changes to the XML files are pushed to the GitHub repository an automated
+<a href="https://docs.github.com/en/actions">GitHub Actions</a> workflow
+generates new HTML files and commits them to the <code>gh-pages</code> branch.
+The content of the <code>gh-pages</code> branch is automatically deployed
+to <a href="https://cplusplus.github.io/LWG/">https://cplusplus.github.io/LWG/</a>.
+</p>
 
 <h2>Prerequisites</h2>
 <ul>
   <li>Git</li>
   <li>A C++17 compiler. Clang 9 works. GCC 8.x works for unix-like systems, but GCC 9.3 is recommended (because its <code>std::filesystem</code> supports Windows, and no additional <code>-lstdc++fs</code> linker option is needed).</li>
-  <li>Windows is a prerequisite to use the Windows <code>.bat</code> scripts, or
-  a POSIX environment is a prerequisite to use the equivalent <code>.sh</code>
-  scripts.</li>
+  <li>Windows is a prerequisite to use the Windows <code>.bat</code> scripts;
+  a POSIX environment is a prerequisite to use the equivalent <code>make</code>
+  commands.</li>
 </ul>
 
 <h2>Initial setup</h2>
@@ -34,49 +36,57 @@ are automatically published by GitHub as web pages.</p>
 <blockquote>
 <pre>cd path-to-where-you-want-to-keep-this-stuff
 git clone git@github.com:cplusplus/LWG.git issues
-git clone -b gh-pages git@github.com:cplusplus/LWG.git issues-gh-pages
-cd issues
-mkdir mailing</pre>
+</pre>
 </blockquote>
-<p>Using recent versions of Git the second <code>git clone</code> command
-can be replaced by adding a new "worktree" that shares the repository metadata
-with the initial clone:</p>
-<blockquote><pre>
-git -C issues worktree add -b gh-pages ../issues-gh-pages origin/gh-pages
-</pre></blockquote>
-<p>This has the advantage of only cloning the repo once,
-which saves time, bandwidth and disk space.</p>
+<p>
+The commands shown below assume you are in the <code>issues</code> directory
+that contains the git repository cloned by the command above.
+</p>
+<p>
+The repository contains a <code>Makefile</code> that has recipes for
+building the software (<code>make pgms</code>),
+updating the meta-data (<code>make new-papers</code> etc.),
+and regenerating the HTML lists (<code>make lists</code>).
+</p>
 
-
-<h2>Build issues software</h2>
-<p>Do this after the initial setup, and then again whenever the source 
-code (in <code>issues/src</code>) changes.</p>
+<h2>Working with the issues lists on Windows</h2>
+<p>
+If you can't use <code>make</code> then the steps are a little more manual:
+</p>
 <blockquote>
-  <pre>cd issues
-bin\build_pgms</pre>
-</blockquote>
+<pre>cd issues
+mkdir mailing
+bin\build_pgms
+bin\build_lists
+</pre></blockquote>
+<p>
+You will need to re-run <code>bin\build_pgms</code>
+whenever the source code (in <code>issues/src</code>) changes.
+(This isn't needed when using <code>make</code> because the makefile
+will automatically do <code>make pgms</code> as a prerequisite of
+<code>make lists</code>.)
+</p>
 
 <h2>Add or change issues</h2>
 <p>There is one source file per issue, in <code>issues/xml</code>. The file
-<code>issues/xml/lwg-template.xml</code> can be used as a template to start a 
-new issue. Use any text editor to edit the files.</p>
+<code>issues/xml/lwg-template.xml</code> is a template for a
+new issue.</p>
 <p>Commit files locally as you update them:</p>
 <blockquote>
-  <pre>cd issues\xml
-edit-as-needed
-git commit -a -m&quot;your commit message here&quot;</pre>
+  <pre><em># edit the XML files or add new XML files</em>
+<em># ...</em>
+<em># stage the edited XML files (and any new ones) to be committed:</em>
+git add xml/issues*.xml
+git commit -m "your commit message here"</pre>
 </blockquote>
-<p>Verify your changes had the desired effect by regenerating the 
-issues lists and inspecting your changes:</p>
-<blockquote>
-  <pre>cd issues
-bin\build_lists</pre>
-</blockquote>
-<p>Once you are happy with your changes, push them up to the GitHub 
+<p>Verify your changes had the desired effect by regenerating the
+issues lists and inspecting your changes, by running
+<code>make lists</code> (or <code>bin\build_lists</code> on Windows).
+</p>
+<p>Once you are happy with your changes, push them up to the GitHub
 public repository:</p>
 <blockquote>
-  <pre>cd issues
-git push</pre>
+  <pre>git push</pre>
 </blockquote>
 <p>New versions of the issues lists will be automatically published online.</p>
 
@@ -155,7 +165,8 @@ reference to ease the burden on incoming chairs.</p>
     <ol>
     <li>The revision history (this should be done first)
         <ol>
-        <li>Run <code>bin/lists revision history</code> to print the new revision history.</li>
+        <li>Run <code>make history</code> (or equivalently, <code>bin/lists revision history</code>)
+            to print the new revision history.</li>
         <li>Paste the new revision under the <code>&lt;revision_history&gt;</code> tag</li>
         </ol>
     </li>
