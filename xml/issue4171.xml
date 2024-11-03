@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<!DOCTYPE issue SYSTEM "lwg-issue.dtd">
+
+<issue num="4171" status="New">
+<title>P2609R3 breaks code that uses `views::zip` and <tt>get&lt;T&gt;</tt></title>
+<section><sref ref="[indirectcallable.indirectinvocable]"/></section>
+<submitter>S. B. Tam</submitter>
+<date>01 Nov 2024</date>
+<priority>99</priority>
+
+<discussion>
+<p>
+The following use of `std::ranges::for_each` is valid before <paper num="P2609R3"/> and invalid after that.
+</p>
+<blockquote><pre>
+#include &lt;algorithm&gt;
+#include &lt;ranges&gt;
+#include &lt;tuple&gt;
+using namespace std::ranges;
+
+void f() {
+  int a[1];
+  auto fun = [](auto t) {
+    [[maybe_unused]] auto x = std::get&lt;int&amp;&gt;(t);
+  };
+  for_each(views::zip(a), fun);
+}
+</pre></blockquote>
+<p>
+The reason is that, <paper num="P2609R3"/> requires `fun` to be `invocable` with <tt>iter_value_t&lt;I&gt;&amp;</tt>, 
+which is <tt>tuple&lt;int&gt;&amp;</tt> when `I` is `zip_view`'s iterator, and <tt>tuple&lt;int&gt;&amp;</tt> 
+doesn't support <tt>std::get&lt;int&amp;&gt;(t)</tt> because there isn't a <tt>int&amp;</tt> member.
+<p/>
+P2609R3 argues that "The actual consequence on user code seems small", but I believe that this code pattern is 
+common enough, and it hurts if we cannot use <tt>get&lt;int&amp;&gt;(t)</tt> in the lambda body.
+<p/>
+Note that `for_each` doesn't actually call `fun` with <tt>iter_value_t&lt;I&gt;</tt>, as can be seen by adding 
+an explicit return type to `fun`.
+<p/>
+Did LWG foresee this impact of <paper num="P2609R3"/>? Could P2609R3 be reverted to unbreak this code pattern?
+</p>
+</discussion>
+
+<resolution>
+</resolution>
+</issue>
