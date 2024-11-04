@@ -16,7 +16,7 @@ void replace_all_irefs(std::vector<lwg::issue> const & issues, std::string & s) 
    // Format of an issue reference: <iref ref="ISS"/>
    // Format of anchor: <a href="lwg-INDEX.html#ISS">ISS</a>
 
-   for (auto i = s.find("<iref ref=\""); i != std::string::npos; i = s.find("<iref ref=\"") ) {
+   for (auto i = s.find("<iref ref=\""); i != std::string::npos; i = s.find("<iref ref=\"")) {
       auto j = s.find('>', i);
       if (j == std::string::npos) {
          throw std::runtime_error{"missing '>' after iref"};

@@ -97,7 +97,7 @@ auto lwg::operator << (std::ostream& os, section_num const & sn) -> std::ostream
 //   if (!sn.prefix.empty()) { os << sn.prefix << " "; }
 
    bool use_period{false};
-   for (auto sub : sn.num ) {
+   for (auto sub : sn.num) {
       if (std::exchange(use_period, true)) {
          os << '.';
       }

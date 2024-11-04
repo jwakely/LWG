@@ -153,7 +153,7 @@ auto major_section(lwg::section_num const & sn) -> std::string {
    return out.str();
 }
 
-void print_date(std::ostream & out, gregorian::date const & mod_date ) {
+void print_date(std::ostream & out, gregorian::date const & mod_date) {
    out << mod_date.year() << '-';
    if (mod_date.month() < 10) { out << '0'; }
    out << mod_date.month() << '-';
@@ -162,9 +162,9 @@ void print_date(std::ostream & out, gregorian::date const & mod_date ) {
 }
 
 template<typename Container>
-void print_list(std::ostream & out, Container const & source, char const * separator ) {
+void print_list(std::ostream & out, Container const & source, char const * separator) {
    char const * sep{""};
-   for( auto const & x : source ) {
+   for (auto const & x : source) {
       out << sep << x;
       sep = separator;
    }
@@ -412,7 +412,7 @@ void print_issues(std::ostream & out, std::vector<lwg::issue> const & issues, lw
    issue_set_by_status    const  issues_by_status{ issues.begin(), issues.end() };
 
    issue_set_by_first_tag active_issues;
-   for (auto const & elem : issues ) {
+   for (auto const & elem : issues) {
       if (lwg::is_active(elem.stat)) {
          active_issues.insert(elem);
       }
@@ -430,7 +430,7 @@ void print_resolutions(std::ostream & out, std::vector<lwg::issue> const & issue
    // This construction calls out for filter-iterators
 //   std::multiset<lwg::issue, order_by_first_tag> pending_issues;
    std::vector<lwg::issue> pending_issues;
-   for (auto const & elem : issues ) {
+   for (auto const & elem : issues) {
       if (predicate(elem)) {
          pending_issues.emplace_back(elem);
       }
@@ -822,7 +822,7 @@ void report_generator::make_sort_by_section(std::vector<issue>& issues, fs::path
    }
    stable_sort(b, e, order_by_section{section_db});
    std::set<issue, order_by_major_section> mjr_section_open{order_by_major_section{section_db}};
-   for (auto const & elem : issues ) {
+   for (auto const & elem : issues) {
       if (is_active_not_ready(elem.stat)) {
          mjr_section_open.insert(elem);
       }
@@ -891,7 +891,7 @@ void report_generator::make_individual_issues(std::vector<issue> const & issues,
    issue_set_by_status    const  issues_by_status{ issues.begin(), issues.end() };
 
    issue_set_by_first_tag active_issues;
-   for (auto const & elem : issues ) {
+   for (auto const & elem : issues) {
       if (lwg::is_active(elem.stat)) {
          active_issues.insert(elem);
       }

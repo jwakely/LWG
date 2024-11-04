@@ -529,7 +529,7 @@ struct list_issues {
 
 auto operator<<( std::ostream & out, list_issues const & x) -> std::ostream & {
    auto list_separator = "";
-   for (auto number : x.issues ) {
+   for (auto number : x.issues) {
       out << list_separator << "<iref ref=\"" << number << "\"/>";
       list_separator = ", ";
    }
@@ -565,14 +565,14 @@ auto operator<<( std::ostream & out, discover_new_issues const & x) -> std::ostr
    };
 
    std::map<std::string, std::vector<int>, status_order> added_issues;
-   for (auto const & i : new_issues ) {
+   for (auto const & i : new_issues) {
       auto j = std::lower_bound(old_issues.cbegin(), old_issues.cend(), std::get<0>(i), find_num{});
       if(j == old_issues.end() or std::get<0>(*j) != std::get<0>(i)) {
          added_issues[std::get<1>(i)].push_back(std::get<0>(i));
       }
    }
 
-   for (auto const & i : added_issues ) {
+   for (auto const & i : added_issues) {
       auto const item_count = std::get<1>(i).size();
       if(1 == item_count) {
          out << "<li>Added the following " << std::get<0>(i) << " issue: <iref ref=\"" << std::get<1>(i).front() << "\"/>.</li>\n";
@@ -612,14 +612,14 @@ auto operator << (std::ostream & out, discover_changed_issues x) -> std::ostream
    };
 
    std::map<std::tuple<std::string, std::string>, std::vector<int>, status_transition_order> changed_issues;
-   for (auto const & i : new_issues ) {
+   for (auto const & i : new_issues) {
       auto j = std::lower_bound(old_issues.begin(), old_issues.end(), std::get<0>(i), find_num{});
       if (j != old_issues.end()  and  std::get<0>(i) == std::get<0>(*j)  and  std::get<1>(*j) != std::get<1>(i)) {
          changed_issues[std::tuple<std::string, std::string>{std::get<1>(*j), std::get<1>(i)}].push_back(std::get<0>(i));
       }
    }
 
-   for (auto const & i : changed_issues ) {
+   for (auto const & i : changed_issues) {
       auto const item_count = std::get<1>(i).size();
       if(1 == item_count) {
          out << "<li>Changed the following issue to " << std::get<1>(std::get<0>(i))
@@ -749,7 +749,7 @@ int main(int argc, char* argv[]) {
       auto metadata = lwg::metadata::read_from_path(path);
 #if defined (DEBUG_LOGGING)
       // dump the contents of the section index
-      for (auto const & elem : metadata.section_db ) {
+      for (auto const & elem : metadata.section_db) {
          std::string temp = elem.first;
          temp.erase(temp.end()-1);
          temp.erase(temp.begin());

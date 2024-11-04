@@ -15,7 +15,7 @@ namespace fs = std::filesystem;
 
 // DEBUG VISUALIZATION TOOL ONLY
 void display_issues(std::vector<std::pair<int, std::string> > const & issues) {
-   for( auto const & x : issues ) {
+   for( auto const & x : issues) {
       std::cout << x.first << "\t" << x.second << '\n';
    }
    std::cout << '\n';
@@ -35,7 +35,7 @@ auto remove_pending(std::string stat) -> std::string {
 
 auto remove_tentatively(std::string stat) -> std::string {
     typedef std::string::size_type size_type;
-    if( 0 == stat.find("Tentatively") ) {
+    if( 0 == stat.find("Tentatively")) {
         stat.erase(size_type{0}, size_type{12});
     }
     return stat;
@@ -48,7 +48,7 @@ auto remove_qualifier(std::string const & stat) -> std::string {
 
 
 auto find_file(std::string const & status) -> std::string {
-    if( 0 == status.find("Tentatively") ) {
+    if( 0 == status.find("Tentatively")) {
         return "lwg-active.html";
     }
 
@@ -150,7 +150,7 @@ struct list_issues {
 
 auto operator<<( std::ostream & out, list_issues const & x) -> std::ostream & {
    auto list_separator = "";
-   for (auto number : x.issues ) {
+   for (auto number : x.issues) {
       out << list_separator << "<iref ref=\"" << number << "\"/>";
       list_separator = ", ";
    }
@@ -176,14 +176,14 @@ auto operator<<( std::ostream & out, discover_new_issues const & x) -> std::ostr
    std::vector<std::pair<int, std::string> > const & new_issues = x.new_issues;
 
    std::map<std::string, std::vector<int> > added_issues;
-   for( auto const & i : new_issues ) {
+   for( auto const & i : new_issues) {
       auto j = std::lower_bound(old_issues.cbegin(), old_issues.cend(), i.first, find_num{});
       if(j == old_issues.end()) {
          added_issues[i.second].push_back(i.first);
       }
    }
 
-   for( auto const & i : added_issues ) {
+   for( auto const & i : added_issues) {
       auto const item_count = i.second.size();
       if(1 == item_count) {
          out << "<li>Added the following " << i.first << " issue: <iref ref=\"" << i.second.front() << "\"/>.</li>\n";
@@ -221,14 +221,14 @@ auto operator<<( std::ostream & out, discover_changed_issues x) -> std::ostream 
    std::vector<std::pair<int, std::string> > const & new_issues = x.new_issues;
 
    std::map<std::pair<std::string, std::string>, std::vector<int>, reverse_pair> changed_issues;
-   for (auto const & i : new_issues ) {
+   for (auto const & i : new_issues) {
       auto j = std::lower_bound(old_issues.begin(), old_issues.end(), i.first, find_num{});
       if (j != old_issues.end()  and  i.first == j->first  and  j->second != i.second) {
          changed_issues[make_pair(j->second, i.second)].push_back(i.first);
       }
    }
 
-   for (auto const & i : changed_issues ) {
+   for (auto const & i : changed_issues) {
       auto const item_count = i.second.size();
       if(1 == item_count) {
          out << "<li>Changed the following issue from " << i.first.first << " to " << i.first.second
