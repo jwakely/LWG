@@ -177,12 +177,31 @@ auto lwg::format_section_tag_as_link(section_map & section_db, section_tag const
    std::ostringstream o;
    const auto& num = section_db[tag];
    o << num << ' ';
-   if(num.num.empty() || num.num.front() == 99 || !tag.prefix.empty()) {
+   std::string url;
+   if  (!tag.prefix.empty()) {
+      std::string_view fund_ts = "fund.ts";
+      if (tag.prefix.compare(0, fund_ts.size(), fund_ts) == 0) {
+         std::string_view version = tag.prefix;
+         version.remove_prefix(fund_ts.size());
+         if (version.empty())
+            version = "v1";
+         else // Should be in the form "fund.ts.v2"
+            version.remove_prefix(1);
+         assert(version.size() == 2 && version[0] == 'v');
+         url = "https://cplusplus.github.io/fundamentals-ts/";
+         url += version;
+         url += ".html#";
+         url += tag.name;
+      }
+   }
+   else if (!num.num.empty() && num.num.front() != 99) {
+      url = "https://wg21.link/" + tag.name;
+   }
+
+   if (url.empty())
       o << tag;
-   }
-   else {
-      o << "<a href=\"https://wg21.link/" << tag.name << "\">[" << tag.name << "]</a>";
-   }
+   else
+      o << "<a href=\"" << url << "\">" << tag << "</a>";
    return o.str();
 }
 
