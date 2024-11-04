@@ -23,6 +23,7 @@ jobs:
     - name: Compile binary programs
       run: make pgms
 
+    # This avoids fetching the full git history, because it's slow.
     - name: Extract issue timestamps from published files
       run: |
         git fetch --depth=1 origin gh-pages
@@ -52,3 +53,4 @@ jobs:
         name: pull-${{ github.event.number }}-html
         path: html/issue*.html
         retention-days: 7
+        if-no-files-found: ignore
