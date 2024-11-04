@@ -44,13 +44,13 @@ auto utc_timestamp() -> std::tm const & {
 }
 
 // global data - would like to do something about that.
-static std::string const build_timestamp{format_time("Revised %Y-%m-%d at %H:%M:%S UTC\n", utc_timestamp())};
+std::string const build_timestamp{format_time("Revised %Y-%m-%d at %H:%M:%S UTC\n", utc_timestamp())};
 
-static std::string const maintainer_email{"lwgchair@gmail.com"};
+std::string const maintainer_email{"lwgchair@gmail.com"};
 
-static std::string const maintainer_name{"Jonathan Wakely"};
+std::string const maintainer_name{"Jonathan Wakely"};
 
-static std::string const is14882_docno{"ISO/IEC IS 14882:2024(E)"};
+std::string const is14882_docno{"ISO/IEC IS 14882:2024(E)"};
 
 struct order_by_first_tag {
    bool operator()(lwg::issue const & x, lwg::issue const & y) const noexcept {

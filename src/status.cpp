@@ -10,9 +10,9 @@
 #include <algorithm>
 
 namespace {
-static constexpr char const * LWG_ACTIVE {"lwg-active.html" };
-static constexpr char const * LWG_CLOSED {"lwg-closed.html" };
-static constexpr char const * LWG_DEFECTS{"lwg-defects.html"};
+constexpr char const * LWG_ACTIVE {"lwg-active.html" };
+constexpr char const * LWG_CLOSED {"lwg-closed.html" };
+constexpr char const * LWG_DEFECTS{"lwg-defects.html"};
 }
 
 auto lwg::filename_for_status(std::string_view stat) -> std::string_view {
