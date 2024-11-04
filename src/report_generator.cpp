@@ -11,7 +11,6 @@
 #include <algorithm>
 #include <cassert>
 #include <fstream>
-#include <functional>  // reference_wrapper
 #include <memory>
 #include <sstream>
 #include <stdexcept>
@@ -70,13 +69,13 @@ struct order_by_major_section {
    auto operator()(lwg::issue const & x, lwg::issue const & y) const -> bool {
       assert(!x.tags.empty());
       assert(!y.tags.empty());
-      lwg::section_num const & xn = section_db.get()[x.tags[0]];
-      lwg::section_num const & yn = section_db.get()[y.tags[0]];
+      lwg::section_num const & xn = section_db[x.tags[0]];
+      lwg::section_num const & yn = section_db[y.tags[0]];
       return std::tie(xn.prefix, xn.num[0]) < std::tie(yn.prefix, yn.num[0]);
    }
 
 private:
-   std::reference_wrapper<lwg::section_map> section_db;
+   lwg::section_map& section_db;
 };
 
 struct order_by_section {
@@ -91,11 +90,11 @@ struct order_by_section {
       // This sorts by the section number (e.g. 23.5.1) then by the section stable tag.
       // This is not redundant, because for e.g. Arrays TS the entire paper has section num 99,
       // so including the tag orders [arrays.ts::dynarray] before [arrays.ts::dynarray.cons].
-      return std::tie(section_db.get()[x.tags.front()], x.tags.front()) < std::tie(section_db.get()[y.tags.front()], y.tags.front());
+      return std::tie(section_db[x.tags.front()], x.tags.front()) < std::tie(section_db[y.tags.front()], y.tags.front());
    }
 
 private:
-   std::reference_wrapper<lwg::section_map> section_db;
+   lwg::section_map& section_db;
 };
 
 struct order_by_status {
@@ -121,13 +120,13 @@ struct order_by_priority {
       assert(!x.tags.empty());
       assert(!y.tags.empty());
       auto tie = [this](auto& i) {
-         return std::tie(i.priority, section_db.get()[i.tags.front()], i.num);
+         return std::tie(i.priority, section_db[i.tags.front()], i.num);
       };
       return tie(x) < tie(y);
    }
 
 private:
-   std::reference_wrapper<lwg::section_map> section_db;
+   lwg::section_map& section_db;
 };
 
 // Replace spaces to make a string usable as an 'id' attribute,
