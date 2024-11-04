@@ -1,6 +1,7 @@
 # The binaries that we want to build
 PGMS := bin/lists bin/section_data bin/toc_diff bin/list_issues bin/set_status
 CXXFLAGS := -std=c++17 -Wall -g -O2 -D_GLIBCXX_ASSERTIONS
+CPPFLAGS := -MMD
 
 # Running 'make debug' is equivalent to 'make DEBUG=1'
 ifeq "$(MAKECMDGOALS)" "debug"
@@ -10,7 +11,7 @@ endif
 # Running 'make DEBUG=blah' rebuilds all binaries with debug settings
 ifdef DEBUG
 debug: pgms
-CPPFLAGS := -DDEBUG_SUPPORT -D_GLIBCXX_DEBUG
+CPPFLAGS += -DDEBUG_SUPPORT -D_GLIBCXX_DEBUG
 CXXFLAGS += -O0
 ifdef LOGGING
 CPPFLAGS += -DDEBUG_LOGGING
@@ -32,6 +33,8 @@ all: pgms
 
 pgms: $(PGMS)
 
+-include src/*.d
+
 bin/lists: src/date.o src/issues.o src/status.o src/sections.o src/mailing_info.o src/report_generator.o src/lists.o src/metadata.o
 
 bin/section_data: src/section_data.o
@@ -46,7 +49,7 @@ $(PGMS):
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 clean:
-	rm -f $(PGMS) src/*.o
+	rm -f $(PGMS) src/*.o src/*.d
 
 # Remove everything.
 # Caution: Regenerating meta-data/dates will take about 30 minutes.
