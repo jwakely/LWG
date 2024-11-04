@@ -483,7 +483,7 @@ R"(<table>
       out << "C++ Standard Library Closed Issues List (Revision ";
    }
    out << lwg_issues_xml.get_revision() << ")</h1>\n";
-   out << "<p>" << build_timestamp << "</p>";
+   out << "<p>" << build_timestamp << " </p>\n";
 }
 
 } // close unnamed namespace
