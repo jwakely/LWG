@@ -153,3 +153,24 @@ meta-data/paper_titles.txt: | meta-data/index.json
 .PRECIOUS: meta-data/paper_titles.txt
 
 .PHONY: dates new-papers
+
+.PHONY: check-source-changes
+
+check-source-changes:
+	@rm -rf mailing.check-old mailing.check-new
+	@echo Building lists at HEAD
+	@$(MAKE) clean
+	@$(MAKE) lists
+	@sed -i 's/Revised ....-..-.. at ..:..:.. UTC/Revised .../' mailing/*.html
+	@mv mailing mailing.check-new
+	@git checkout origin/master -- src
+	@echo Building lists with code from `git rev-parse origin/master`
+	$(MAKE) clean
+	$(MAKE) lists
+	@git checkout HEAD -- src
+	@sed -i 's/Revised ....-..-.. at ..:..:.. UTC/Revised .../' mailing/*.html
+	@mv mailing mailing.check-old
+	diff -u -r --color=always mailing.check-old mailing.check-new
+	@rm -r mailing.check-old mailing.check-new
+	@echo No changes to HTML files
+
