@@ -88,6 +88,9 @@ struct order_by_section {
    auto operator()(lwg::issue const & x, lwg::issue const & y) const -> bool {
       assert(!x.tags.empty());
       assert(!y.tags.empty());
+      // This sorts by the section number (e.g. 23.5.1) then by the section stable tag.
+      // This is not redundant, because for e.g. Arrays TS the entire paper has section num 99,
+      // so including the tag orders [arrays.ts::dynarray] before [arrays.ts::dynarray.cons].
       return std::tie(section_db.get()[x.tags.front()], x.tags.front()) < std::tie(section_db.get()[y.tags.front()], y.tags.front());
    }
 
