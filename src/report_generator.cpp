@@ -117,9 +117,10 @@ struct order_by_priority {
    auto operator()(lwg::issue const & x, lwg::issue const & y) const -> bool {
       assert(!x.tags.empty());
       assert(!y.tags.empty());
-      return x.priority == y.priority
-           ? section_db.get()[x.tags.front()] < section_db.get()[y.tags.front()]
-           : x.priority < y.priority;
+      auto tie = [this](auto& i) {
+         return std::tie(i.priority, section_db.get()[i.tags.front()], i.num);
+      };
+      return tie(x) < tie(y);
    }
 
 private:
