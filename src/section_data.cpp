@@ -132,7 +132,7 @@ int main (int argc, char** argv)
     if(argc > 1)
         prefix = std::string(argv[1]);
 
-    std::vector<std::pair<section_num, section_tag> > v;
+    std::vector<std::pair<section_num, section_tag>> v;
     while (std::cin)
     {
         section_tag t;
@@ -150,14 +150,15 @@ int main (int argc, char** argv)
         t = replace_all(t, "<", "&lt;");
         t = replace_all(t, ">", "&gt;");
         t = '[' + t + ']';
-        v.push_back(std::make_pair(n, t));
+        v.push_back({n, t});
     }
     std::sort(v.begin(), v.end());
-    for (std::vector<std::pair<section_num, section_tag> >::const_iterator i = v.begin(), e = v.end(); i != e; ++i)
+    const std::string_view indent = "    ";
+    for (auto& e : v)
     {
-        const int indent = 4*(i->first.num.size()-1);
-        for (int k = 0; k < indent; ++k)
-            std::cout << ' ';
-        std::cout << i->first << ' ' << i->second << '\n';
+        const int depth = e.first.num.size() - 1;
+        for (int k=0; k < depth; ++k)
+            std::cout << indent;
+        std::cout << e.first << ' ' << e.second << '\n';
     }
 }
