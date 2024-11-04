@@ -51,7 +51,7 @@ static std::string const maintainer_email{"lwgchair@gmail.com"};
 
 static std::string const maintainer_name{"Jonathan Wakely"};
 
-static std::string const is14882_docno{"ISO/IEC IS 14882:2020(E)"};
+static std::string const is14882_docno{"ISO/IEC IS 14882:2024(E)"};
 
 struct order_by_first_tag {
    bool operator()(lwg::issue const & x, lwg::issue const & y) const noexcept {
